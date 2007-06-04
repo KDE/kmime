@@ -18,8 +18,8 @@
   Boston, MA 02110-1301, USA.
 */
 
-#ifndef KMIME_H
-#define KMIME_H
+#ifndef KMIME_EXPORT_H
+#define KMIME_EXPORT_H
 
 #include <kdemacros.h>
 
