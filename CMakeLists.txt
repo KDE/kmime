@@ -18,10 +18,10 @@ include(KDEFrameworkCompilerSettings)
 
 
 set(KF5_VERSION "5.5.0")
-set(KMIMELIB_VERSION "4.79.0")
+set(KMIME_LIB_VERSION "4.79.0")
 set(QT_REQUIRED_VERSION "5.2.0")
 
-ecm_setup_version(${KMIMELIB_VERSION} VARIABLE_PREFIX KMIME
+ecm_setup_version(${KMIME_LIB_VERSION} VARIABLE_PREFIX KMIME
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kmime_version.h"
                         PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF5MimeConfigVersion.cmake"
                         SOVERSION 5
