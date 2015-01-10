@@ -41,7 +41,7 @@ add_subdirectory(autotests)
 add_subdirectory(tests)
 
 ########### CMake Config Files ###########
-set(CMAKECONFIG_INSTALL_DIR "${CMAKECONFIG_INSTALL_PREFIX}/KF5Mime")
+set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF5Mime")
 
 ecm_configure_package_config_file(
   "${KMime_SOURCE_DIR}/KF5MimeConfig.cmake.in"
@@ -64,7 +64,7 @@ install(EXPORT KF5MimeTargets
 
 install(FILES
    ${KMime_BINARY_DIR}/kmime_version.h
-   DESTINATION ${KF5_INCLUDE_INSTALL_DIR}
+   DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}
    COMPONENT Devel
 )
 
