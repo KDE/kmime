@@ -486,7 +486,7 @@ bool MailboxList::parse(const char *&scursor, const char *const send,
     // sender := "Sender:" mailbox CRLF
 
     // parse an address-list:
-    QList<Types::Address> maybeAddressList;
+    QVector<Types::Address> maybeAddressList;
     if (!parseAddressList(scursor, send, maybeAddressList, isCRLF)) {
         return false;
     }
@@ -494,7 +494,7 @@ bool MailboxList::parse(const char *&scursor, const char *const send,
     d->mailboxList.clear();
 
     // extract the mailboxes and complain if there are groups:
-    QList<Types::Address>::Iterator it;
+    QVector<Types::Address>::Iterator it;
     for (it = maybeAddressList.begin(); it != maybeAddressList.end() ; ++it) {
         if (!(*it).displayName.isEmpty()) {
             KMIME_WARN << "mailbox groups in header disallowing them! Name: \""
@@ -649,7 +649,7 @@ bool AddressList::parse(const char *&scursor, const char *const send,
                         bool isCRLF)
 {
     Q_D(AddressList);
-    QList<Types::Address> maybeAddressList;
+    QVector<Types::Address> maybeAddressList;
     if (!parseAddressList(scursor, send, maybeAddressList, isCRLF)) {
         return false;
     }

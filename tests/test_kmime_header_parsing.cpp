@@ -4,7 +4,7 @@
 
 #include <QtCore/QFile>
 #include <QtCore/QByteArray>
-#include <QtCore/QList>
+#include <QtCore/QVector>
 //#include <QtCore/QString>
 
 //#include <stdio.h>
@@ -326,7 +326,7 @@ int main(int argc, char *argv[])
              << "result.displayName:\n" << result.displayName
              << endl;
         int i = 0;
-        for (QList<KMime::Types::Mailbox>::ConstIterator
+        for (QVector<KMime::Types::Mailbox>::ConstIterator
                 it = result.mailboxList.constBegin();
                 it != result.mailboxList.constEnd() ; ++it, ++i) {
             cout << "result.mailboxList[" << i << "].displayName:\n"
@@ -347,7 +347,7 @@ int main(int argc, char *argv[])
              << "result.displayName:\n"
              << endl;
         int i = 0;
-        for (QList<KMime::Types::Mailbox>::ConstIterator
+        for (QVector<KMime::Types::Mailbox>::ConstIterator
                 it = result.mailboxList.constBegin();
                 it != result.mailboxList.constEnd() ; ++it, ++i) {
             cout << "result.mailboxList[" << i << "].displayName:\n"
@@ -362,18 +362,18 @@ int main(int argc, char *argv[])
     break;
     case 15: {
         // address-list
-        QList<KMime::Types::Address> result;
+        QVector<KMime::Types::Address> result;
         bool ok = parseAddressList(iit, iend, result, withCRLF);
 
         cout << (ok ? "OK" : "BAD") << endl;
         int j = 0;
-        for (QList<KMime::Types::Address>::ConstIterator
+        for (QVector<KMime::Types::Address>::ConstIterator
                 jt = result.constBegin() ; jt != result.constEnd() ; ++jt, ++j) {
             cout << "result[" << j << "].displayName:\n"
                  << (*jt).displayName
                  << endl;
             int i = 0;
-            for (QList<KMime::Types::Mailbox>::ConstIterator
+            for (QVector<KMime::Types::Mailbox>::ConstIterator
                     it = (*jt).mailboxList.begin();
                     it != (*jt).mailboxList.end() ; ++it, ++i) {
                 cout << "result[" << j << "].mailboxList[" << i << "].displayName:\n"
