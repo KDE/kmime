@@ -25,7 +25,6 @@
 
 #include <QtCore/QString>
 #include <QtCore/QPair>
-#include <QtCore/QList>
 #include <QtCore/QVector>
 
 #include <qdatetime.h>
