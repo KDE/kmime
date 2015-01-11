@@ -26,6 +26,7 @@
 #include <QtCore/QString>
 #include <QtCore/QPair>
 #include <QtCore/QList>
+#include <QtCore/QVector>
 
 #include <qdatetime.h>
 
@@ -63,7 +64,7 @@ struct KMIME_EXPORT AddrSpec {
     QString localPart;
     QString domain;
 };
-typedef QList<AddrSpec> AddrSpecList;
+typedef QVector<AddrSpec> AddrSpecList;
 
 /**
   Represents an (email address, display name) pair according RFC 2822,
@@ -72,7 +73,7 @@ typedef QList<AddrSpec> AddrSpecList;
 class KMIME_EXPORT Mailbox
 {
 public:
-    typedef QList<Mailbox> List;
+    typedef QVector<Mailbox> List;
 
     /**
       Returns a string representation of the email address, without
@@ -171,13 +172,13 @@ private:
     AddrSpec mAddrSpec;
 };
 
-typedef QList<Mailbox> MailboxList;
+typedef QVector<Mailbox> MailboxList;
 
 struct KMIME_EXPORT Address {
     QString displayName;
     MailboxList mailboxList;
 };
-typedef QList<Address> AddressList;
+typedef QVector<Address> AddressList;
 
 } // namespace KMime::Types
 
@@ -397,6 +398,10 @@ KMIME_EXPORT void extractHeaderAndBody(const QByteArray &content,
 } // namespace HeaderParsing
 
 } // namespace KMime
+
+Q_DECLARE_TYPEINFO(KMime::Types::Mailbox, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO(KMime::Types::Address, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO(KMime::Types::AddrSpec, Q_MOVABLE_TYPE);
 
 #endif // __KMIME_HEADER_PARSING_H__
 

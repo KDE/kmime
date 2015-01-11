@@ -4,7 +4,7 @@
 
 #include <QtCore/QFile>
 #include <QtCore/QByteArray>
-#include <QtCore/QList>
+#include <QtCore/QVector>
 //#include <QtCore/QString>
 
 //#include <stdio.h>
@@ -326,15 +326,14 @@ int main(int argc, char *argv[])
              << "result.displayName:\n" << result.displayName
              << endl;
         int i = 0;
-        for (QList<KMime::Types::Mailbox>::ConstIterator
-                it = result.mailboxList.constBegin();
-                it != result.mailboxList.constEnd() ; ++it, ++i) {
+        foreach (auto it, result.mailboxList) {
             cout << "result.mailboxList[" << i << "].displayName:\n"
-                 << (*it).name() << endl
+                 << (it).name() << endl
                  << "result.mailboxList[" << i << "].addrSpec.localPart:\n"
-                 << (*it).addrSpec().localPart << endl
+                 << (it).addrSpec().localPart << endl
                  << "result.mailboxList[" << i << "].addrSpec.domain:\n"
-                 << (*it).addrSpec().domain << endl;
+                 << (it).addrSpec().domain << endl;
+            ++i;
         }
     }
     break;
@@ -347,43 +346,41 @@ int main(int argc, char *argv[])
              << "result.displayName:\n"
              << endl;
         int i = 0;
-        for (QList<KMime::Types::Mailbox>::ConstIterator
-                it = result.mailboxList.constBegin();
-                it != result.mailboxList.constEnd() ; ++it, ++i) {
+        foreach (auto it, result.mailboxList) {
             cout << "result.mailboxList[" << i << "].displayName:\n"
-                 << (*it).name() << endl
+                 << (it).name() << endl
                  << "result.mailboxList[" << i << "].addrSpec.localPart:\n"
-                 << (*it).addrSpec().localPart << endl
+                 << (it).addrSpec().localPart << endl
                  << "result.mailboxList[" << i << "].addrSpec.domain:\n"
-                 << (*it).addrSpec().domain
+                 << (it).addrSpec().domain
                  << endl;
+            ++i;
         }
     }
     break;
     case 15: {
         // address-list
-        QList<KMime::Types::Address> result;
+        KMime::Types::AddressList result;
         bool ok = parseAddressList(iit, iend, result, withCRLF);
 
         cout << (ok ? "OK" : "BAD") << endl;
         int j = 0;
-        for (QList<KMime::Types::Address>::ConstIterator
-                jt = result.constBegin() ; jt != result.constEnd() ; ++jt, ++j) {
+        foreach (auto jt, result) {
             cout << "result[" << j << "].displayName:\n"
-                 << (*jt).displayName
+                 << (jt).displayName
                  << endl;
             int i = 0;
-            for (QList<KMime::Types::Mailbox>::ConstIterator
-                    it = (*jt).mailboxList.begin();
-                    it != (*jt).mailboxList.end() ; ++it, ++i) {
+            foreach ( auto it, (jt).mailboxList) {
                 cout << "result[" << j << "].mailboxList[" << i << "].displayName:\n"
-                     << (*it).name() << endl
+                     << (it).name() << endl
                      << "result[" << j << "].mailboxList[" << i << "].addrSpec.localPart:\n"
-                     << (*it).addrSpec().localPart << endl
+                     << (it).addrSpec().localPart << endl
                      << "result[" << j << "].mailboxList[" << i << "].addrSpec.domain:\n"
-                     << (*it).addrSpec().domain
+                     << (it).addrSpec().domain
                      << endl;
+                ++i;
             }
+            ++j;
         }
     }
     break;

@@ -57,7 +57,7 @@ kmime_mk_empty_private(Address, Structured)
 class MailboxListPrivate : public AddressPrivate
 {
 public:
-    QList<Types::Mailbox> mailboxList;
+    QVector<Types::Mailbox> mailboxList;
 };
 
 kmime_mk_empty_private(SingleMailbox, MailboxList)
@@ -65,13 +65,13 @@ kmime_mk_empty_private(SingleMailbox, MailboxList)
 class AddressListPrivate : public AddressPrivate
 {
 public:
-    QList<Types::Address> addressList;
+    KMime::Types::AddressList addressList;
 };
 
 class IdentPrivate : public AddressPrivate
 {
 public:
-    QList<Types::AddrSpec> msgIdList;
+    KMime::Types::AddrSpecList msgIdList;
     mutable QByteArray cachedIdentifier;
 };
 
