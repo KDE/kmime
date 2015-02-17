@@ -525,6 +525,23 @@ Content::List Content::contents() const
     return d_ptr->contents();
 }
 
+void Content::replaceContent(Content *oldContent, Content *newContent)
+{
+    Q_D( Content );
+    if ( d->multipartContents.isEmpty() || !d->multipartContents.contains( oldContent ) ) {
+      return;
+    }
+
+    d->multipartContents.removeAll( oldContent );
+    delete oldContent;
+    d->multipartContents.append( newContent );
+    if( newContent->parent() != this ) {
+      // If the content was part of something else, this will remove it from there.
+      newContent->setParent( this );
+    }
+}
+
+
 void Content::addContent(Content *c, bool prepend)
 {
     Q_D(Content);

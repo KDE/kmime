@@ -617,6 +617,7 @@ public:
     // KDE5: Do not convert single-part->multipart automatically.
     void addContent(Content *content, bool prepend = false);
 
+    void replaceContent(Content *oldContent, Content *newContent);
     /**
       Removes the given sub-Content. If only one sub-Content is left, the
       current Content object is converted into a single-part Content.
