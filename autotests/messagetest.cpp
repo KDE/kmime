@@ -323,7 +323,8 @@ void MessageTest::testUtf16()
         "Content-Transfer-Encoding: base64\n"
         "To: =?ISO-8859-1?Q?Fr=C3=A4nz_T=C3=B6ster?= <test@test.de>\n"
         "\n"
-        "//5UAGgAaQBzACAAaQBzACAAVQBUAEYALQAxADYAIABUAGUAeAB0AC4ACgAKAAoACg==\n";
+        "//5UAGgAaQBzACAAaQBzACAAVQBUAEYALQAxADYAIABUAGUAeAB0AC4ACgAKAAo=\n"
+        "\n";
 
     QCOMPARE(msg.encodedContent().data(), newData.data());
 }
@@ -461,7 +462,8 @@ void MessageTest::testBug223509()
     QCOMPARE(msg->subject()->as7BitString().data(), "Subject: Blub");
     QCOMPARE(msg->contents().size(), 0);
     QCOMPARE(msg->contentTransferEncoding()->encoding(), KMime::Headers::CEbinary);
-    QCOMPARE(msg->decodedText().toLatin1().data(), "Bla Bla Bla\n");
+    QCOMPARE(msg->decodedText().toLatin1().data(), "Bla Bla Bla");
+    QCOMPARE(msg->encodedBody().data(), "Bla Bla Bla\n");
 
     // encodedContent() was crashing in this bug because of an invalid assert
     QVERIFY(!msg->encodedContent().isEmpty());
@@ -474,8 +476,7 @@ void MessageTest::testBug223509()
     QCOMPARE(msg2.contents().size(), 0);
     QCOMPARE(msg2.contentTransferEncoding()->encoding(), KMime::Headers::CEbinary);
 
-    QEXPECT_FAIL("", "KMime adds an additional newline", Continue);
-    QCOMPARE(msg2.decodedText().toLatin1().data(), "Bla Bla Bla\n");
+    QCOMPARE(msg2.decodedText().toLatin1().data(), "Bla Bla Bla");
     QCOMPARE(msg2.decodedText(true, true /* remove newlines at end */).toLatin1().data(),
              "Bla Bla Bla");
 }
@@ -596,6 +597,25 @@ void MessageTest::testEncryptedMails()
     QVERIFY(KMime::isInvitation(msg.get()) == false);
     QVERIFY(KMime::isSigned(msg.get()) == false);
 }
+
+void MessageTest::testReturnSameMail()
+{
+    KMime::Message::Ptr msg = readAndParseMail(QLatin1String("dontchangemail.mbox"));
+    QFile file(QLatin1String(TEST_DATA_DIR) + QLatin1String("/mails/dontchangemail.mbox"));
+    const bool ok = file.open(QIODevice::ReadOnly);
+    if (!ok) {
+        qWarning() << file.fileName() << "not found";
+    }
+    Q_ASSERT(ok);
+    QByteArray fileContent = file.readAll();
+    QCOMPARE(msg->encodedContent(), fileContent);
+    QCOMPARE(msg->decodedText(), QLatin1String(""));
+    KMime::Message msg2;
+    msg2.setContent(msg->encodedContent());
+    msg2.parse();
+    QCOMPARE(msg2.encodedContent(), fileContent);
+}
+
 
 KMime::Message::Ptr MessageTest::readAndParseMail(const QString &mailFile) const
 {

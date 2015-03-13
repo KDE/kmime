@@ -426,7 +426,6 @@ void ContentTest::testMultipartMixed()
         "MIME-Version: 1.0\n"
         "Content-Type: multipart/mixed; boundary=\"simple boundary\"\n"
         "\n"
-        "\n"
         "--simple boundary\n"
         "\n"
         "This is implicitly typed plain US-ASCII text.\n"
@@ -603,7 +602,7 @@ void ContentTest::testParsingUuencoded()
     QVERIFY(!c->contentType()->isText());
     QCOMPARE(c->contentType()->name(), imageName);
     // The uuencoded content as been recoded as base64
-    QCOMPARE(c->encodedContent(), imageBase64);
+    QCOMPARE(c->encodedContent().data(), imageBase64.data());
 
     delete msg;
 }
