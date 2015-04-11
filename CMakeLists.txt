@@ -20,6 +20,7 @@ include(KDEFrameworkCompilerSettings)
 set(KF5_VERSION "5.9.0")
 set(KMIME_LIB_VERSION "4.82.0")
 set(QT_REQUIRED_VERSION "5.2.0")
+set(BOOST_MIN_VERSION "1.49")
 
 ecm_setup_version(${KMIME_LIB_VERSION} VARIABLE_PREFIX KMIME
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kmime_version.h"
@@ -31,6 +32,7 @@ ecm_setup_version(${KMIME_LIB_VERSION} VARIABLE_PREFIX KMIME
 find_package(KF5KDELibs4Support ${KF5_VERSION} CONFIG REQUIRED)
 find_package(KF5I18n ${KF5_VERSION} CONFIG REQUIRED)
 find_package(KF5Codecs ${KF5_VERSION} CONFIG REQUIRED)
+find_package(Boost ${BOOST_MIN_VERSION} REQUIRED)
 add_definitions(-DTRANSLATION_DOMAIN=\"libkmime5\")
 add_definitions("-DQT_NO_CAST_FROM_ASCII -DQT_NO_CAST_TO_ASCII")
 
@@ -44,28 +46,28 @@ add_subdirectory(tests)
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF5Mime")
 
 ecm_configure_package_config_file(
-  "${KMime_SOURCE_DIR}/KF5MimeConfig.cmake.in"
-  "${KMime_BINARY_DIR}/KF5MimeConfig.cmake"
-  INSTALL_DESTINATION  ${CMAKECONFIG_INSTALL_DIR}
-)
+    "${KMime_SOURCE_DIR}/KF5MimeConfig.cmake.in"
+    "${KMime_BINARY_DIR}/KF5MimeConfig.cmake"
+    INSTALL_DESTINATION  ${CMAKECONFIG_INSTALL_DIR}
+    )
 
 install(FILES
-  "${KMime_BINARY_DIR}/KF5MimeConfig.cmake"
-  "${KMime_BINARY_DIR}/KF5MimeConfigVersion.cmake"
-  DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
-  COMPONENT Devel
-)
+    "${KMime_BINARY_DIR}/KF5MimeConfig.cmake"
+    "${KMime_BINARY_DIR}/KF5MimeConfigVersion.cmake"
+    DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
+    COMPONENT Devel
+    )
 
 install(EXPORT KF5MimeTargets
-        DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
-        FILE KF5MimeTargets.cmake
-        NAMESPACE KF5::
-)
+    DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
+    FILE KF5MimeTargets.cmake
+    NAMESPACE KF5::
+    )
 
 install(FILES
-   ${KMime_BINARY_DIR}/kmime_version.h
-   DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}
-   COMPONENT Devel
-)
+    ${KMime_BINARY_DIR}/kmime_version.h
+    DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}
+    COMPONENT Devel
+    )
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
