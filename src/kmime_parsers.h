@@ -69,7 +69,7 @@ class NonMimeParser
 {
 public:
     explicit NonMimeParser(const QByteArray &src);
-    virtual ~NonMimeParser() {}
+    virtual ~NonMimeParser();
     virtual bool parse() = 0;
     bool isPartial()
     {
