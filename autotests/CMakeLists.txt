@@ -31,4 +31,5 @@ add_kmime_test(
   #headerfactorytest
   rfc2231test
   sizetest
+  parsedatetimetest
 )
