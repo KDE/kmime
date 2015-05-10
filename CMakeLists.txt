@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8.12)
 project(KMime)
 
 # ECM setup
-find_package(ECM 5.9.0 CONFIG REQUIRED)
+find_package(ECM 5.10.0 CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${KMime_SOURCE_DIR}/cmake ${ECM_MODULE_PATH})
 
 include(GenerateExportHeader)
@@ -17,7 +17,7 @@ include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings)
 
 
-set(KF5_VERSION "5.9.0")
+set(KF5_VERSION "5.10.0")
 set(KMIME_LIB_VERSION "4.82.0")
 set(QT_REQUIRED_VERSION "5.2.0")
 set(BOOST_MIN_VERSION "1.49")
