@@ -84,7 +84,7 @@ Content *Message::mainBodyPart(const QByteArray &type)
         // multipart/alternative
         if (contentType->subType() == "alternative") {
             if (type.isEmpty()) {
-                return c->contents().first();
+                return c->contents().at(0);
             }
             foreach (Content *c1, c->contents()) {
                 if (c1->contentType()->mimeType() == type) {
@@ -94,7 +94,7 @@ Content *Message::mainBodyPart(const QByteArray &type)
             return 0;
         }
 
-        c = c->contents().first();
+        c = c->contents().at(0);
     }
 
     return 0;
