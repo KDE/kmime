@@ -31,7 +31,6 @@
 
 #include <config-kmime.h>
 // #include <kdefakes.h> // for strcasestr
-#include <KLocale>
 
 #include <klocalizedstring.h>
 #include <kcharsets.h>
@@ -278,7 +277,7 @@ QByteArray encodeRFC2047String(const QString &src, const QByteArray &charset,
     QByteArray usedCS;
     if (!ok) {
         //no codec available => try local8Bit and hope the best ;-)
-        usedCS = KLocale::global()->encoding();
+        usedCS = QTextCodec::codecForLocale()->name();
         codec = KCharsets::charsets()->codecForName(QString::fromLatin1(usedCS), ok);
     } else {
         Q_ASSERT(codec);
