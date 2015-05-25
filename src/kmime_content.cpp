@@ -1061,6 +1061,7 @@ bool ContentPrivate::parseUuencoded()
         q->contentTransferEncoding()->setEncoding(Headers::CE7Bit);
     } else {
         // This is a complete message, so treat it as "multipart/mixed".
+        const auto prevBody = body;
         body.clear();
         ct->setMimeType("multipart/mixed");
         ct->setBoundary(multiPartBoundary());
@@ -1086,7 +1087,8 @@ bool ContentPrivate::parseUuencoded()
             c->contentTransferEncoding()->setDecoded(false);
             c->contentDisposition()->setDisposition(Headers::CDattachment);
             c->contentDisposition()->setFilename(QLatin1String(uup.filenames().at(i)));
-            c->setBody(uup.binaryParts().at(i));
+            // uup.binaryParts().at(i) does no longer have the uuencode header, which makes KCodecs fail since 5c66308c4786ef7fbf77b0e306e73f7d4ac3431b
+            c->setBody(prevBody);
             c->changeEncoding(Headers::CEbase64);   // Convert to base64.
             multipartContents.append(c);
         }
