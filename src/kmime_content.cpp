@@ -663,7 +663,6 @@ void Content::changeEncoding(Headers::contentEncoding e)
         // This is non-textual content.  Re-encode it.
         if (e == Headers::CEbase64) {
             d_ptr->body = KCodecs::base64Encode(decodedContent(), true);
-            d_ptr->body.append("\n");
             enc->setEncoding(e);
             enc->setDecoded(false);
         } else {
