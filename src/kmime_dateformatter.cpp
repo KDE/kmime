@@ -40,7 +40,6 @@
 #include <QtCore/QTextStream>
 
 #include <klocalizedstring.h>
-#include <KLocale>
 
 using namespace KMime;
 
@@ -246,16 +245,15 @@ QString DateFormatter::localized(time_t t, bool shortFormat, const QString &lang
 {
     QDateTime tmp;
     QString ret;
-    KLocale *locale = KLocale::global();
+    auto locale = QLocale::system();
 
     tmp.setTime_t(t);
 
     if (!lang.isEmpty()) {
-        locale = new KLocale(lang, lang, 0);
-        ret = locale->formatDateTime(tmp, (shortFormat ? KLocale::ShortDate : KLocale::LongDate));
-        delete locale;
+        locale = QLocale(lang);
+        ret = locale.toString(tmp, (shortFormat ? QLocale::ShortFormat : QLocale::LongFormat));
     } else {
-        ret = locale->formatDateTime(tmp, (shortFormat ? KLocale::ShortDate : KLocale::LongDate));
+        ret = locale.toString(tmp, (shortFormat ? QLocale::ShortFormat : QLocale::LongFormat));
     }
 
     return ret;

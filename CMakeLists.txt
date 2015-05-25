@@ -29,7 +29,6 @@ ecm_setup_version(${KMIME_LIB_VERSION} VARIABLE_PREFIX KMIME
 )
 
 ########### Find packages ###########
-find_package(KF5KDELibs4Support ${KF5_VERSION} CONFIG REQUIRED)
 find_package(KF5I18n ${KF5_VERSION} CONFIG REQUIRED)
 find_package(KF5Codecs ${KF5_VERSION} CONFIG REQUIRED)
 find_package(Boost ${BOOST_MIN_VERSION} REQUIRED)

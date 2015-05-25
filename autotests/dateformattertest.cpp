@@ -46,6 +46,14 @@ private Q_SLOTS:
         QVERIFY(f.dateString(dt).startsWith(QLocale::c().toString(dt, QLatin1String("dddd"))));
     }
 
+    void testLocalizedFormat()
+    {
+        DateFormatter f(DateFormatter::Localized);
+
+        auto dt = QDateTime(QDate(2015, 5, 26), QTime(12, 34, 56));
+        QCOMPARE(f.dateString(dt, QLatin1String("de")), QString::fromLatin1("26.05.15 12:34"));
+    }
+
 };
 
 QTEST_MAIN(DateFormatterTest)

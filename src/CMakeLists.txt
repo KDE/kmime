@@ -37,7 +37,6 @@ PUBLIC
 PRIVATE
     KF5::I18n
     KF5::Codecs
-    KF5::KDELibs4Support
 )
 
 set_target_properties(KF5Mime PROPERTIES
