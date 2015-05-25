@@ -273,14 +273,6 @@ protected:
     */
     QByteArray zone(time_t t) const;
 
-    /**
-      Converts QDateTime @p dt to a time_t value.
-
-      @param dt is the QDateTime to be converted.
-      @return the time_t equivalent of the specified QDateTime.
-    */
-    time_t qdateToTimeT(const QDateTime &dt) const;
-
 private:
     //@cond PRIVATE
     FormatType          mFormat;

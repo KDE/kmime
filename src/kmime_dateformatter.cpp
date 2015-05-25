@@ -95,7 +95,7 @@ QString DateFormatter::dateString(time_t t , const QString &lang ,
 QString DateFormatter::dateString(const QDateTime &dt, const QString &lang,
                                   bool shortFormat, bool includeSecs) const
 {
-    return dateString(qdateToTimeT(dt), lang, shortFormat, includeSecs);
+    return dateString(dt.toLocalTime().toTime_t(), lang, shortFormat, includeSecs);
 }
 
 QString DateFormatter::rfc2822(time_t t) const
@@ -201,19 +201,6 @@ QByteArray DateFormatter::zone(time_t t) const
     //old code: ret.sprintf( "%c%.2d%.2d", (neg) ? '-' : '+', hours, mins );
 
     return ret;
-}
-
-time_t DateFormatter::qdateToTimeT(const QDateTime &dt) const
-{
-    QDateTime epoch(QDate(1970, 1, 1), QTime(00, 00, 00));
-    time_t t;
-    time(&t);
-
-    QDateTime d1 = QDateTime::fromString(QLatin1String(asctime(gmtime(&t))));
-    QDateTime d2 = QDateTime::fromString(QLatin1String(asctime(localtime(&t))));
-    time_t drf = epoch.secsTo(dt) - d1.secsTo(d2);
-
-    return drf;
 }
 
 QString DateFormatter::fancy(time_t t) const
