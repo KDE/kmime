@@ -66,15 +66,14 @@ void DateFormatter::setFormat(FormatType ftype)
     mFormat = ftype;
 }
 
-QString DateFormatter::dateString(time_t t , const QString &lang ,
-                                  bool shortFormat, bool includeSecs) const
+QString DateFormatter::dateString(time_t t, const QString &lang, bool shortFormat) const
 {
     switch (mFormat) {
     case Fancy:
         return fancy(t);
         break;
     case Localized:
-        return localized(t, shortFormat, includeSecs, lang);
+        return localized(t, shortFormat, lang);
         break;
     case CTime:
         return cTime(t);
@@ -92,10 +91,9 @@ QString DateFormatter::dateString(time_t t , const QString &lang ,
     return QString();
 }
 
-QString DateFormatter::dateString(const QDateTime &dt, const QString &lang,
-                                  bool shortFormat, bool includeSecs) const
+QString DateFormatter::dateString(const QDateTime &dt, const QString &lang, bool shortFormat) const
 {
-    return dateString(dt.toLocalTime().toTime_t(), lang, shortFormat, includeSecs);
+    return dateString(dt.toLocalTime().toTime_t(), lang, shortFormat);
 }
 
 QString DateFormatter::rfc2822(time_t t) const
@@ -244,8 +242,7 @@ QString DateFormatter::fancy(time_t t) const
     return locale.toString(old, QLocale::ShortFormat);
 }
 
-QString DateFormatter::localized(time_t t, bool shortFormat, bool includeSecs,
-                                 const QString &lang) const
+QString DateFormatter::localized(time_t t, bool shortFormat, const QString &lang) const
 {
     QDateTime tmp;
     QString ret;
@@ -255,10 +252,10 @@ QString DateFormatter::localized(time_t t, bool shortFormat, bool includeSecs,
 
     if (!lang.isEmpty()) {
         locale = new KLocale(lang, lang, 0);
-        ret = locale->formatDateTime(tmp, (shortFormat ? KLocale::ShortDate : KLocale::LongDate), includeSecs);
+        ret = locale->formatDateTime(tmp, (shortFormat ? KLocale::ShortDate : KLocale::LongDate));
         delete locale;
     } else {
-        ret = locale->formatDateTime(tmp, (shortFormat ? KLocale::ShortDate : KLocale::LongDate), includeSecs);
+        ret = locale->formatDateTime(tmp, (shortFormat ? KLocale::ShortDate : KLocale::LongDate));
     }
 
     return ret;
@@ -282,24 +279,22 @@ void DateFormatter::reset()
 }
 
 QString DateFormatter::formatDate(FormatType ftype, time_t t,
-                                  const QString &data, bool shortFormat,
-                                  bool includeSecs)
+                                  const QString &data, bool shortFormat)
 {
     DateFormatter f(ftype);
     if (ftype == Custom) {
         f.setCustomFormat(data);
     }
-    return f.dateString(t, data, shortFormat, includeSecs);
+    return f.dateString(t, data, shortFormat);
 }
 
-QString DateFormatter::formatCurrentDate(FormatType ftype, const QString &data,
-        bool shortFormat, bool includeSecs)
+QString DateFormatter::formatCurrentDate(FormatType ftype, const QString &data, bool shortFormat)
 {
     DateFormatter f(ftype);
     if (ftype == Custom) {
         f.setCustomFormat(data);
     }
-    return f.dateString(time(0), data, shortFormat, includeSecs);
+    return f.dateString(time(0), data, shortFormat);
 }
 
 bool DateFormatter::isDaylight()

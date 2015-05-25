@@ -118,13 +118,11 @@ public:
       @param lang is the language, only used if #FormatType is #Localized.
       @param shortFormat if true, create the short version of the date string,
       only used if #FormatType is #Localized.
-      @param includeSecs if true, include the seconds field in the date string,
-      only used if #FormatType is #Localized.
 
       @return a QString containing the formatted date.
     */
     QString dateString(time_t t, const QString &lang = QString(),
-                       bool shortFormat = true, bool includeSecs = false) const;
+                       bool shortFormat = true) const;
 
     /**
       Constructs a formatted date string from QDateTime @p dtime.
@@ -133,13 +131,11 @@ public:
       @param lang is the language, only used if #FormatType is #Localized.
       @param shortFormat if true, create the short version of the date string,
       only used if #FormatType is #Localized.
-      @param includeSecs if true, include the seconds field in the date string,
-      only used if #FormatType is #Localized.
 
       @return a QString containing the formatted date.
     */
     QString dateString(const QDateTime &dtime, const QString &lang = QString(),
-                       bool shortFormat = true, bool includeSecs = false) const;
+                       bool shortFormat = true) const;
 
     /**
       Sets the custom format for date to string conversions to @p format.
@@ -177,15 +173,12 @@ public:
       or language when #FormatType is #Localized.
       @param shortFormat if true, create the short version of the date string,
       only used if #FormatType is #Localized.
-      @param includeSecs if true, include the seconds field in the date string,
-      only used if #FormatType is #Localized.
 
       @return a QString containing the formatted date.
     */
     static QString formatDate(DateFormatter::FormatType ftype, time_t t,
                               const QString &data = QString(),
-                              bool shortFormat = true,
-                              bool includeSecs = false);
+                              bool shortFormat = true);
 
     /**
       Convenience function, same as formatDate() but returns the current time
@@ -196,15 +189,12 @@ public:
       or language when #FormatType is #Localized.
       @param shortFormat if true, create the short version of the date string,
       only used if #FormatType is #Localized.
-      @param includeSecs if true, include the seconds field in the date string,
-      only used if #FormatType is #Localized.
 
       @return a QString containing the formatted date.
     */
     static QString formatCurrentDate(DateFormatter::FormatType ftype,
                                      const QString &data = QString(),
-                                     bool shortFormat = true,
-                                     bool includeSecs = false);
+                                     bool shortFormat = true);
 
     /**
       Returns true if the current time is on daylight savings time; else false.
@@ -226,11 +216,9 @@ protected:
 
       @param t is the time_t to use for formatting.
       @param shortFormat if true, create the short version of the date string.
-      @param includeSecs if true, include the seconds field in the date string.
       @param lang is a QString containing the language to use.
     */
     QString localized(time_t t, bool shortFormat = true,
-                      bool includeSecs = false,
                       const QString &lang = QString()) const;
 
     /**
