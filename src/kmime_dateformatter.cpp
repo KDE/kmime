@@ -39,7 +39,6 @@
 
 #include <QtCore/QTextStream>
 
-#include <KCalendarSystem>
 #include <klocalizedstring.h>
 #include <KLocale>
 
@@ -219,7 +218,7 @@ time_t DateFormatter::qdateToTimeT(const QDateTime &dt) const
 
 QString DateFormatter::fancy(time_t t) const
 {
-    KLocale *locale = KLocale::global();
+    auto locale = QLocale::system();
 
     if (t <= 0) {
         return i18nc("invalid time specified", "unknown");
@@ -239,23 +238,23 @@ QString DateFormatter::fancy(time_t t) const
         if (diff < 7 * 24 * 60 * 60) {
             if (diff < 24 * 60 * 60) {
                 return i18n("Today %1",
-                            locale->formatTime(old.time(), true));
+                            locale.toString(old.time(), QLocale::ShortFormat));
             }
             if (diff < 2 * 24 * 60 * 60) {
                 return i18n("Yesterday %1",
-                            locale->formatTime(old.time(), true));
+                            locale.toString(old.time(), QLocale::ShortFormat));
             }
             for (int i = 3; i < 8; i++) {
                 if (diff < i * 24 * 60 * 60) {
                     return i18nc("1. weekday, 2. time", "%1 %2" ,
-                                 locale->calendar()->weekDayName(old.date()) ,
-                                 locale->formatTime(old.time(), true));
+                                 locale.toString(old.date(), QLatin1String("dddd")),
+                                 locale.toString(old.time(), QLocale::ShortFormat));
                 }
             }
         }
     }
 
-    return locale->formatDateTime(old);
+    return locale.toString(old, QLocale::ShortFormat);
 }
 
 QString DateFormatter::localized(time_t t, bool shortFormat, bool includeSecs,
