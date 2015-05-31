@@ -492,6 +492,7 @@ bool MailboxList::parse(const char *&scursor, const char *const send,
     }
 
     d->mailboxList.clear();
+    d->mailboxList.reserve(maybeAddressList.count());
 
     // extract the mailboxes and complain if there are groups:
     foreach ( auto it, maybeAddressList) {
@@ -637,6 +638,7 @@ Types::Mailbox::List AddressList::mailboxes() const
 {
     Types::Mailbox::List rv;
     foreach (const Types::Address &addr, d_func()->addressList) {
+        rv.reserve(rv.count() + addr.mailboxList.count());
         foreach (const Types::Mailbox &mbox, addr.mailboxList) {
             rv.append(mbox);
         }
