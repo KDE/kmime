@@ -638,7 +638,6 @@ Types::Mailbox::List AddressList::mailboxes() const
 {
     Types::Mailbox::List rv;
     foreach (const Types::Address &addr, d_func()->addressList) {
-        rv.reserve(rv.count() + addr.mailboxList.count());
         foreach (const Types::Mailbox &mbox, addr.mailboxList) {
             rv.append(mbox);
         }
