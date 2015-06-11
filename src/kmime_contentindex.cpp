@@ -91,6 +91,7 @@ void KMime::ContentIndex::push(unsigned int index)
 QString KMime::ContentIndex::toString() const
 {
     QStringList l;
+    l.reserve(d->index.count());
     foreach (unsigned int i, d->index) {
         l.append(QString::number(i));
     }

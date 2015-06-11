@@ -448,6 +448,7 @@ void MailboxList::addAddress(const QByteArray &address,
 QList< QByteArray > MailboxList::addresses() const
 {
     QList<QByteArray> rv;
+    rv.reserve(d_func()->mailboxList.count());
     foreach (const Types::Mailbox &mbox, d_func()->mailboxList) {
         rv.append(mbox.address());
     }
@@ -457,6 +458,7 @@ QList< QByteArray > MailboxList::addresses() const
 QStringList MailboxList::displayNames() const
 {
     QStringList rv;
+    rv.reserve(d_func()->mailboxList.count());
     foreach (const Types::Mailbox &mbox, d_func()->mailboxList) {
         rv.append(mbox.name());
     }
@@ -466,6 +468,7 @@ QStringList MailboxList::displayNames() const
 QStringList MailboxList::prettyAddresses() const
 {
     QStringList rv;
+    rv.reserve(d_func()->mailboxList.count());
     foreach (const Types::Mailbox &mbox, d_func()->mailboxList) {
         rv.append(mbox.prettyAddress());
     }
