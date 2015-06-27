@@ -328,8 +328,6 @@ class KMIME_EXPORT Structured : public Base
 {
 public:
     explicit Structured(Content *p = 0);
-    Structured(Content *p, const QByteArray &s);
-    Structured(Content *p, const QString &s, const QByteArray &cs);
     ~Structured();
 
     virtual void from7BitString(const QByteArray &s);

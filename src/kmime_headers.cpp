@@ -301,16 +301,6 @@ Structured::Structured(Content *p) : Base(new StructuredPrivate, p)
 {
 }
 
-Structured::Structured(Content *p, const QByteArray &s) : Base(new StructuredPrivate, p)
-{
-    from7BitString(s);
-}
-
-Structured::Structured(Content *p, const QString &s, const QByteArray &cs) : Base(new StructuredPrivate, p)
-{
-    fromUnicodeString(s, cs);
-}
-
 kmime_mk_dptr_ctor(Structured, Base)
 
 Structured::~Structured()
