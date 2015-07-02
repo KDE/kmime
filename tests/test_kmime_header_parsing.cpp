@@ -326,7 +326,7 @@ int main(int argc, char *argv[])
              << "result.displayName:\n" << result.displayName
              << endl;
         int i = 0;
-        foreach (auto it, result.mailboxList) {
+        foreach (const auto &it, result.mailboxList) {
             cout << "result.mailboxList[" << i << "].displayName:\n"
                  << (it).name() << endl
                  << "result.mailboxList[" << i << "].addrSpec.localPart:\n"
@@ -346,7 +346,7 @@ int main(int argc, char *argv[])
              << "result.displayName:\n"
              << endl;
         int i = 0;
-        foreach (auto it, result.mailboxList) {
+        foreach (const auto &it, result.mailboxList) {
             cout << "result.mailboxList[" << i << "].displayName:\n"
                  << (it).name() << endl
                  << "result.mailboxList[" << i << "].addrSpec.localPart:\n"
@@ -370,7 +370,7 @@ int main(int argc, char *argv[])
                  << (jt).displayName
                  << endl;
             int i = 0;
-            foreach ( auto it, (jt).mailboxList) {
+            foreach (const auto &it, (jt).mailboxList) {
                 cout << "result[" << j << "].mailboxList[" << i << "].displayName:\n"
                      << (it).name() << endl
                      << "result[" << j << "].mailboxList[" << i << "].addrSpec.localPart:\n"
