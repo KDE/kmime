@@ -56,7 +56,7 @@ template <typename T>
 class HeaderMaker : public HeaderMakerBase
 {
 public:
-    virtual Headers::Base *create() const
+    Headers::Base *create() const Q_DECL_OVERRIDE
     {
         return new T;
     }

@@ -121,7 +121,7 @@ class UUEncoded : public NonMimeParser
 public:
     UUEncoded(const QByteArray &src, const QByteArray &subject);
 
-    virtual bool parse();
+    bool parse() Q_DECL_OVERRIDE;
 
 protected:
     QByteArray s_ubject;
@@ -136,7 +136,7 @@ class YENCEncoded : public NonMimeParser
 public:
     explicit YENCEncoded(const QByteArray &src);
 
-    virtual bool parse();
+    bool parse() Q_DECL_OVERRIDE;
     QList<QByteArray> binaryParts()
     {
         return b_ins;
