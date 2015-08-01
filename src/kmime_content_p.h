@@ -51,9 +51,9 @@ public:
         multipartContents.clear();
     }
 
-    bool parseUuencoded();
-    bool parseYenc();
-    bool parseMultipart();
+    bool parseUuencoded(Content *q);
+    bool parseYenc(Content *q);
+    bool parseMultipart(Content *q);
     void clearBodyMessage();
 
     // This one returns the normal multipartContents for multipart contents, but returns
