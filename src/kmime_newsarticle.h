@@ -50,63 +50,44 @@ public:
     */
     ~NewsArticle();
 
-    /* reimpl */
-    virtual void parse();
-
-    /* reimpl */
-    virtual void clear();
-
-    /* reimpl */
-    virtual KMIME_DEPRECATED KMime::Headers::Base *getHeaderByType(const char *type);
-
-    /* reimpl */
-    virtual KMime::Headers::Base *headerByType(const char *type);
-
-    /* reimpl */
-    virtual void setHeader(KMime::Headers::Base *h);
-
-    /* reimpl */
-    virtual bool removeHeader(const char *type);
-
     /**
       Returns the Control header.
       @param create If true, create the header if it doesn't exist yet.
     */
-    virtual KMime::Headers::Control *control(bool create = true);
+    KMime::Headers::Control *control(bool create = true);
 
     /**
       Returns the Supersedes header.
       @param create If true, create the header if it doesn't exist yet.
     */
-    virtual KMime::Headers::Supersedes *supersedes(bool create = true);
+    KMime::Headers::Supersedes *supersedes(bool create = true);
 
     /**
       Returns the Mail-Copies-To header.
       @param create If true, create the header if it doesn't exist yet.
     */
-    virtual KMime::Headers::MailCopiesTo *mailCopiesTo(bool create = true);
+    KMime::Headers::MailCopiesTo *mailCopiesTo(bool create = true);
 
     /**
       Returns the Newsgroups header.
       @param create If true, create the header if it doesn't exist yet.
     */
-    virtual KMime::Headers::Newsgroups *newsgroups(bool create = true);
+    KMime::Headers::Newsgroups *newsgroups(bool create = true);
 
     /**
       Returns the Follow-Up-To header.
       @param create If true, create the header if it doesn't exist yet.
     */
-    virtual KMime::Headers::FollowUpTo *followUpTo(bool create = true);
+    KMime::Headers::FollowUpTo *followUpTo(bool create = true);
 
     /**
       Returns the Lines header.
       @param create If true, create the header if it doesn't exist yet.
     */
-    virtual KMime::Headers::Lines *lines(bool create = true);
+    KMime::Headers::Lines *lines(bool create = true);
 
 protected:
-    /* reimpl */
-    virtual QByteArray assembleHeaders();
+    QByteArray assembleHeaders() Q_DECL_OVERRIDE;
 
 private:
     Q_DECLARE_PRIVATE(NewsArticle)

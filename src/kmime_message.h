@@ -102,87 +102,83 @@ public:
     */
     ~Message();
 
-    // KDE5: Why are these virtual?
     /**
       Returns the Message-ID header.
       @param create If true, create the header if it doesn't exist yet.
     */
-    virtual KMime::Headers::MessageID *messageID(bool create = true);
+    KMime::Headers::MessageID *messageID(bool create = true);
 
     /**
       Returns the Subject header.
       @param create If true, create the header if it doesn't exist yet.
     */
-    virtual KMime::Headers::Subject *subject(bool create = true);
+    KMime::Headers::Subject *subject(bool create = true);
 
     /**
       Returns the Date header.
       @param create If true, create the header if it doesn't exist yet.
     */
-    virtual KMime::Headers::Date *date(bool create = true);
+    KMime::Headers::Date *date(bool create = true);
 
     /**
       Returns the From header.
       @param create If true, create the header if it doesn't exist yet.
     */
-    virtual KMime::Headers::From *from(bool create = true);
+    KMime::Headers::From *from(bool create = true);
 
     /**
       Returns the Organization header.
       @param create If true, create the header if it doesn't exist yet.
     */
-    virtual KMime::Headers::Organization *organization(bool create = true);
+    KMime::Headers::Organization *organization(bool create = true);
 
     /**
       Returns the Reply-To header.
       @param create If true, create the header if it doesn't exist yet.
     */
-    virtual KMime::Headers::ReplyTo *replyTo(bool create = true);
+    KMime::Headers::ReplyTo *replyTo(bool create = true);
 
     /**
       Returns the To header.
       @param create If true, create the header if it doesn't exist yet.
     */
-    virtual KMime::Headers::To *to(bool create = true);
+    KMime::Headers::To *to(bool create = true);
 
     /**
       Returns the Cc header.
       @param create If true, create the header if it doesn't exist yet.
     */
-    virtual KMime::Headers::Cc *cc(bool create = true);
+    KMime::Headers::Cc *cc(bool create = true);
 
     /**
       Returns the Bcc header.
       @param create If true, create the header if it doesn't exist yet.
     */
-    virtual KMime::Headers::Bcc *bcc(bool create = true);
+    KMime::Headers::Bcc *bcc(bool create = true);
 
     /**
       Returns the References header.
       @param create If true, create the header if it doesn't exist yet.
     */
-    virtual KMime::Headers::References *references(bool create = true);
+    KMime::Headers::References *references(bool create = true);
 
     /**
       Returns the User-Agent header.
       @param create If true, create the header if it doesn't exist yet.
     */
-    virtual KMime::Headers::UserAgent *userAgent(bool create = true);
+    KMime::Headers::UserAgent *userAgent(bool create = true);
 
     /**
       Returns the In-Reply-To header.
       @param create If true, create the header if it doesn't exist yet.
     */
-    virtual KMime::Headers::InReplyTo *inReplyTo(bool create = true);
+    KMime::Headers::InReplyTo *inReplyTo(bool create = true);
 
     /**
       Returns the Sender header.
       @param create If true, create the header if it doesn't exist yet.
     */
-    virtual KMime::Headers::Sender *sender(bool create = true);
-
-    /* reimpl */
-    virtual bool isTopLevel() const;
+    KMime::Headers::Sender *sender(bool create = true);
 
     /**
       Returns the first main body part of a given type, taking multipart/mixed
@@ -201,8 +197,7 @@ public:
     static QString mimeType();
 
 protected:
-    /* reimpl */
-    virtual QByteArray assembleHeaders();
+    QByteArray assembleHeaders() Q_DECL_OVERRIDE;
 
     // @cond PRIVATE
     explicit Message(MessagePrivate *d);

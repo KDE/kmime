@@ -49,12 +49,6 @@ NewsArticle::~NewsArticle()
 {
 }
 
-void NewsArticle::parse()
-{
-    // KDE5: remove this virtual reimplementation.
-    Message::parse();
-}
-
 QByteArray NewsArticle::assembleHeaders()
 {
     // Create the mandatory Lines: field.
@@ -62,36 +56,6 @@ QByteArray NewsArticle::assembleHeaders()
 
     // Assemble all header fields.
     return Message::assembleHeaders();
-}
-
-void NewsArticle::clear()
-{
-    // KDE5: remove this virtual reimplementation.
-    Message::clear();
-}
-
-Headers::Base *NewsArticle::getHeaderByType(const char *type)
-{
-    // KDE5: remove this virtual reimplementation.
-    return headerByType(type);
-}
-
-Headers::Base *NewsArticle::headerByType(const char *type)
-{
-    // KDE5: remove this virtual reimplementation.
-    return Message::headerByType(type);
-}
-
-void NewsArticle::setHeader(Headers::Base *h)
-{
-    // KDE5: remove this virtual reimplementation.
-    Message::setHeader(h);
-}
-
-bool NewsArticle::removeHeader(const char *type)
-{
-    // KDE5: remove this virtual reimplementation.
-    return Message::removeHeader(type);
 }
 
 // @cond PRIVATE

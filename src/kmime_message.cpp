@@ -58,11 +58,6 @@ QByteArray Message::assembleHeaders()
     return Content::assembleHeaders();
 }
 
-bool Message::isTopLevel() const
-{
-    return Content::isTopLevel();
-}
-
 Content *Message::mainBodyPart(const QByteArray &type)
 {
     KMime::Content *c = this;

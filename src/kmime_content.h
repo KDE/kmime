@@ -249,8 +249,7 @@ public:
     /**
       Clears the content, deleting all headers and sub-Contents.
     */
-    // KDE5: make non-virtual.
-    virtual void clear();
+    void clear();
 
     /**
       Removes all sub-Contents from this content.  Deletes them if @p del is true.
@@ -285,40 +284,12 @@ public:
     void setHead(const QByteArray &head);
 
     /**
-      Extracts and removes the next header from @p head.
-      The caller is responsible for deleting the returned header.
-
-      @deprecated Use KMime::HeaderParsing::extractFirstHeader().
-      @param head is a QByteArray containing the header data.
-    */
-    KMIME_DEPRECATED Headers::Generic *getNextHeader(QByteArray &head);
-
-    /**
-      Extracts and removes the next header from @p head.
-      The caller is responsible for deleting the returned header.
-      @since 4.2
-      @deprecated Use KMime::HeaderParsing::extractFirstHeader().
-      @param head is a QByteArray containing the header data.
-    */
-    // KDE5: Remove this. This method has nothing to do with *this object.
-    KMIME_DEPRECATED Headers::Generic *nextHeader(QByteArray &head);
-
-    /**
-      Tries to find a @p type header in the Content and returns it.
-      @param type the header type to find
-      @deprecated Use headerByType( const char * )
-    */
-    // KDE5: Make non-virtual.
-    KMIME_DEPRECATED virtual Headers::Base *getHeaderByType(const char *type);
-
-    /**
       Returns the first header of type @p type, if it exists.  Otherwise returns 0.
       Note that the returned header may be empty.
       @param type the header type to find
       @since 4.2
     */
-    // KDE5: Make non-virtual.
-    virtual Headers::Base *headerByType(const char *type);
+    Headers::Base *headerByType(const char *type);
 
     /**
       Returns the first header of type T, if it exists.
@@ -694,7 +665,7 @@ public:
 
       @see forceDefaultCharset().
     */
-    virtual void setForceDefaultCharset(bool b);
+    void setForceDefaultCharset(bool b);
 
     /**
       Returns the Content specified by the given index.
@@ -717,7 +688,7 @@ public:
       a Message or NewsArticle. However, a node can be a Message without being a top-level node when
       it is an encapsulated message.
     */
-    virtual bool isTopLevel() const;
+    bool isTopLevel() const;
 
     /**
      * Sets a new parent to the Content and add to its contents list. If it already had a parent, it is removed from the
