@@ -32,16 +32,10 @@ namespace KMime
 
 class NewsArticlePrivate : public MessagePrivate
 {
-public:
-    NewsArticlePrivate(NewsArticle *q) : MessagePrivate(q)
-    {
-    }
-
-    Q_DECLARE_PUBLIC(NewsArticle)
 };
 
 NewsArticle::NewsArticle()
-    : Message(new NewsArticlePrivate(this))
+    : Message(new NewsArticlePrivate)
 {
 }
 

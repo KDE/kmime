@@ -29,12 +29,6 @@ namespace KMime
 
 class MessagePrivate : public ContentPrivate
 {
-public:
-    explicit MessagePrivate(Message *q) : ContentPrivate(q)
-    {
-    }
-
-    Q_DECLARE_PUBLIC(Message)
 };
 
 }

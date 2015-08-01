@@ -36,9 +36,8 @@ namespace KMime
 class ContentPrivate
 {
 public:
-    explicit ContentPrivate(Content *q) :
+    explicit ContentPrivate() :
         parent(0),
-        q_ptr(q),
         forceDefaultCS(false),
         frozen(false)
     {
@@ -71,9 +70,6 @@ public:
 
     Content::List multipartContents;
     MessagePtr bodyAsMessage;
-
-    Content *q_ptr;
-    Q_DECLARE_PUBLIC(Content)
 
     bool forceDefaultCS : 1;
     bool frozen : 1;

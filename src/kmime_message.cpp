@@ -31,7 +31,7 @@ namespace KMime
 {
 
 Message::Message()
-    : Content(new MessagePrivate(this))
+    : Content(new MessagePrivate)
 {
 }
 
