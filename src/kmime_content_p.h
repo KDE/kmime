@@ -54,7 +54,6 @@ public:
     bool parseUuencoded();
     bool parseYenc();
     bool parseMultipart();
-    Headers::Generic *nextHeader(QByteArray &head);
     void clearBodyMessage();
 
     // This one returns the normal multipartContents for multipart contents, but returns

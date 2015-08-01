@@ -685,18 +685,6 @@ void Content::toStream(QTextStream &ts, bool scrambleFromLines)
     ts << ret;
 }
 
-Headers::Generic *ContentPrivate::nextHeader(QByteArray &_head)
-{
-    Headers::Base *header = HeaderParsing::extractFirstHeader(_head);
-    if (!header) {
-        return 0;
-    }
-    // Convert it from the real class to Generic.
-    Headers::Generic *ret = new Headers::Generic(header->type(), q_ptr);
-    ret->from7BitString(header->as7BitString());
-    return ret;
-}
-
 Headers::Base *Content::headerByType(const char *type)
 {
     Q_ASSERT(type  && *type);
