@@ -118,24 +118,11 @@ public:
     typedef QList<KMime::Content *> List;
 
     /**
-      Creates an empty Content object.
-    */
-    Content();
-
-    /**
       Creates an empty Content object with a specified parent.
       @param parent the parent Content object
       @since 4.3
     */
-    explicit Content(Content *parent);   // KDE5: Merge with the above.
-
-    /**
-      Creates a Content object containing the given raw data.
-
-      @param head is a QByteArray containing the header data.
-      @param body is a QByteArray containing the body data.
-    */
-    Content(const QByteArray &head, const QByteArray &body);
+    explicit Content(Content *parent = Q_NULLPTR);
 
     /**
       Creates a Content object containing the given raw data.
@@ -145,8 +132,7 @@ public:
       @param parent the parent Content object
       @since 4.3
     */
-    // KDE5: Merge with the above.
-    Content(const QByteArray &head, const QByteArray &body, Content *parent);
+    explicit Content(const QByteArray &head, const QByteArray &body, Content *parent = Q_NULLPTR);
 
     /**
       Destroys this Content object.

@@ -56,22 +56,10 @@ using namespace KMime;
 namespace KMime
 {
 
-Content::Content()
-    : d_ptr(new ContentPrivate)
-{
-}
-
 Content::Content(Content *parent)
     : d_ptr(new ContentPrivate)
 {
     d_ptr->parent = parent;
-}
-
-Content::Content(const QByteArray &h, const QByteArray &b)
-    : d_ptr(new ContentPrivate)
-{
-    d_ptr->head = h;
-    d_ptr->body = b;
 }
 
 Content::Content(const QByteArray &h, const QByteArray &b, Content *parent)
