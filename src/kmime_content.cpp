@@ -700,14 +700,13 @@ Headers::Base *Content::headerByType(const char *type) const
     return 0; // Not found.
 }
 
-Headers::Base::List Content::headersByType(const char *type)
+QVector<Headers::Base*> Content::headersByType(const char *type) const
 {
     Q_ASSERT(type && *type);
-    Q_D(Content);
 
-    Headers::Base::List result;
+    QVector<Headers::Base*> result;
 
-    foreach (Headers::Base *h, d->headers) {
+    foreach (Headers::Base *h, d_ptr->headers) {
         if (h->is(type)) {
             result << h;
         }

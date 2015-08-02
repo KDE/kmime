@@ -310,7 +310,7 @@ public:
       @param type the header type to find
       @since 4.2
     */
-    virtual QList<Headers::Base *> headersByType(const char *type);
+    QVector<Headers::Base*> headersByType(const char *type) const;
 
     /**
       Sets the specified header to this Content.

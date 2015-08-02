@@ -346,7 +346,7 @@ void ContentTest::testMultipleHeaderExtraction()
     //  QCOMPARE( msg->encodedContent(), data );
     msg->parse();
 
-    QList<KMime::Headers::Base *> result = msg->headersByType("Received");
+    auto result = msg->headersByType("Received");
     QCOMPARE(result.count(), 3);
     QCOMPARE(result[0]->asUnicodeString(),  QString::fromLatin1("from ktown.kde.org ([192.168.100.1])"));
     QCOMPARE(result[1]->asUnicodeString(),  QString::fromLatin1("from dev1.kde.org ([192.168.100.2]) by ktown.kde.org ([192.168.100.1])"));
