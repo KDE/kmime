@@ -196,13 +196,6 @@ void ContentTest::testSetContent()
     QCOMPARE(c->head(), QByteArray("head1\nhead2\n"));
     QCOMPARE(c->body(), QByteArray("body1\n\nbody2\n"));
 
-    QList<QByteArray> list;
-    list << "head1" << "head2" << "" << "body1" << "" << "body2";
-    c->setContent(list);
-    QVERIFY(c->hasContent());
-    QCOMPARE(c->head(), QByteArray("head1\nhead2\n"));
-    QCOMPARE(c->body(), QByteArray("body1\n\nbody2\n"));     // ### the final \n is questionable
-
     // empty content
     c->setContent(QByteArray());
     QVERIFY(!c->hasContent());
@@ -215,22 +208,8 @@ void ContentTest::testSetContent()
     QVERIFY(c->head().isEmpty());
     QCOMPARE(c->body(), QByteArray("body1\n\nbody2\n"));
 
-    list.clear();
-    list << "" << "body1" << "" << "body2";
-    c->setContent(list);
-    QVERIFY(c->hasContent());
-    QVERIFY(c->head().isEmpty());
-    QCOMPARE(c->body(), QByteArray("body1\n\nbody2\n"));
-
     // empty body
     c->setContent("head1\nhead2\n\n");
-    QVERIFY(c->hasContent());
-    QCOMPARE(c->head(), QByteArray("head1\nhead2\n"));
-    QVERIFY(c->body().isEmpty());
-
-    list.clear();
-    list << "head1" << "head2" << "";
-    c->setContent(list);
     QVERIFY(c->hasContent());
     QCOMPARE(c->head(), QByteArray("head1\nhead2\n"));
     QVERIFY(c->body().isEmpty());

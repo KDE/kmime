@@ -53,7 +53,6 @@ TODO: possible glossary terms:
 #include "kmime_util.h"
 #include "kmime_headers.h"
 
-#include <QtCore/QTextStream>
 #include <QtCore/QByteArray>
 #include <QtCore/QList>
 
@@ -158,18 +157,6 @@ public:
       Returns true if this Content object is not empty.
     */
     bool hasContent() const;
-
-    /**
-      Sets the Content to the given raw data, containing the Content head and
-      body separated by two linefeeds.
-
-      This method operates on the string representation of the Content. Call
-      parse() if you want to access individual headers, sub-Contents or the
-      encapsulated message.
-
-      @param l is a list of the raw Content data, split by lines.
-    */
-    void setContent(const QList<QByteArray> &l);
 
     /**
       Sets the Content to the given raw data, containing the Content head and
@@ -613,15 +600,6 @@ public:
     */
     void changeEncoding(Headers::contentEncoding e);
 
-    /**
-      Saves the encoded Content to the given textstream
-
-      @param ts is the stream where the Content should be written to.
-      @param scrambleFromLines: If true, replace "\nFrom " with "\n>From "
-      in the stream. This is needed to avoid problem with mbox-files
-    */
-    void toStream(QTextStream &ts, bool scrambleFromLines = false);
-
     // NOTE: The charset methods below are accessed by the headers which
     // have this Content as a parent.
 
@@ -752,47 +730,19 @@ protected:
     virtual QByteArray assembleHeaders();
 
     /**
-      Returns the raw string representing the header of type @p name.
-      @param name the header type to find
-      @deprecated Use KMime::extractHeader() directly instead.
-    */
-    KMIME_DEPRECATED QByteArray rawHeader(const char *name) const;
-
-    /**
-      Returns a list of raw strings representing all header of type @p name.
-      @deprecated Use KMime::extractHeaders() directly instead.
-    */
-    KMIME_DEPRECATED QList<QByteArray> rawHeaders(const char *name) const;
-
-    /**
       Returns whether this object holds text content.
     */
     // KDE5: Not needed outside. Move to Private class.
     bool decodeText();
 
-    /**
-      Returns the first header of type T, if it exists.
-      @deprecated Use header() instead.
-    */
-    template <class T> KMIME_DEPRECATED T *headerInstance(T *ptr, bool create);
-
     //@cond PRIVATE
     ContentPrivate *d_ptr;
-    explicit Content(ContentPrivate *d);
     //@endcond
 
 private:
     Q_DECLARE_PRIVATE(Content)
     Q_DISABLE_COPY(Content)
 };
-
-// some compilers (for instance Compaq C++) need template inline functions
-// here rather than in the *.cpp file
-
-template <class T> T *Content::headerInstance(T* /*ptr*/, bool create)
-{
-    return header<T>(create);
-}
 
 template <typename T> T *Content::header(bool create)
 {

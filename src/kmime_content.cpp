@@ -49,7 +49,6 @@
 #include <qdebug.h>
 
 #include <QtCore/QTextCodec>
-#include <QtCore/QTextStream>
 #include <QtCore/QByteArray>
 
 using namespace KMime;
@@ -83,11 +82,6 @@ Content::Content(const QByteArray &h, const QByteArray &b, Content *parent)
     d_ptr->parent = parent;
 }
 
-Content::Content(ContentPrivate *d)
-    : d_ptr(d)
-{
-}
-
 Content::~Content()
 {
     Q_D(Content);
@@ -100,35 +94,6 @@ Content::~Content()
 bool Content::hasContent() const
 {
     return !d_ptr->head.isEmpty() || !d_ptr->body.isEmpty() || !d_ptr->contents().isEmpty();
-}
-
-void Content::setContent(const QList<QByteArray> &l)
-{
-    Q_D(Content);
-    //qDebug("Content::setContent( const QList<QByteArray> &l ) : start");
-    d->head.clear();
-    d->body.clear();
-
-    //usage of textstreams is much faster than simply appending the strings
-    QTextStream hts(&(d->head), QIODevice::WriteOnly);
-    QTextStream bts(&(d->body), QIODevice::WriteOnly);
-    hts.setCodec("ISO 8859-1");
-    bts.setCodec("ISO 8859-1");
-
-    bool isHead = true;
-    foreach (const QByteArray &line, l) {
-        if (isHead && line.isEmpty()) {
-            isHead = false;
-            continue;
-        }
-        if (isHead) {
-            hts << line << "\n";
-        } else {
-            bts << line << "\n";
-        }
-    }
-
-    //qDebug("Content::setContent( const QList<QByteArray> & l ) : finished");
 }
 
 void Content::setContent(const QByteArray &s)
@@ -674,19 +639,6 @@ void Content::changeEncoding(Headers::contentEncoding e)
     }
 }
 
-void Content::toStream(QTextStream &ts, bool scrambleFromLines)
-{
-    QByteArray ret = encodedContent(false);
-
-    if (scrambleFromLines) {
-        // FIXME Why are only From lines with a preceding empty line considered?
-        //       And, of course, all lines starting with >*From have to be escaped
-        //       because otherwise the transformation is not revertable.
-        ret.replace("\n\nFrom ", "\n\n>From ");
-    }
-    ts << ret;
-}
-
 Headers::Base *Content::headerByType(const char *type) const
 {
     Q_ASSERT(type  && *type);
@@ -804,16 +756,6 @@ int Content::lineCount() const
     }
 
     return ret;
-}
-
-QByteArray Content::rawHeader(const char *name) const
-{
-    return KMime::extractHeader(d_ptr->head, name);
-}
-
-QList<QByteArray> Content::rawHeaders(const char *name) const
-{
-    return KMime::extractHeaders(d_ptr->head, name);
 }
 
 bool Content::decodeText()
