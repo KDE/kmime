@@ -60,7 +60,7 @@ public:
     // This one returns the normal multipartContents for multipart contents, but returns
     // a list with just bodyAsMessage in it for contents that are encapsulated messages.
     // That makes it possible to handle encapsulated messages in a transparent way.
-    Content::List contents() const;
+    QVector<Content*> contents() const;
 
     QByteArray head;
     QByteArray body;
@@ -70,7 +70,7 @@ public:
     QByteArray epilogue;
     Content *parent;
 
-    Content::List multipartContents;
+    QVector<Content*> multipartContents;
     MessagePtr bodyAsMessage;
 
     QVector<Headers::Base*> headers;

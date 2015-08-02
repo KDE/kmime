@@ -424,7 +424,7 @@ void ContentTest::testMultipartMixed()
     msg->parse();
     QVERIFY(msg->contentType()->isMultipart());
 
-    Content::List list = msg->contents();
+    auto list = msg->contents();
     QCOMPARE(list.count(), 2);
     Content *c = list.takeFirst();
     QCOMPARE(c->body(), part1);
@@ -564,7 +564,7 @@ void ContentTest::testParsingUuencoded()
     Message *msg = new Message();
     msg->setContent(uuencodedMsg);
     msg->parse();
-    Content::List contents = msg->contents();
+    auto contents = msg->contents();
 
     // text + image
     QCOMPARE(contents.size(), 2);

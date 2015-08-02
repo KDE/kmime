@@ -54,7 +54,7 @@ TODO: possible glossary terms:
 #include "kmime_headers.h"
 
 #include <QtCore/QByteArray>
-#include <QtCore/QList>
+#include <QtCore/QVector>
 
 #include <boost/shared_ptr.hpp>
 
@@ -115,7 +115,7 @@ public:
     /**
       Describes a list of Content objects.
     */
-    typedef QList<KMime::Content *> List;
+    typedef QVector<KMime::Content *> List;
 
     /**
       Creates an empty Content object with a specified parent.
@@ -530,14 +530,14 @@ public:
 
       @param incAlternatives If true, include multipart/alternative parts.
     */
-    List attachments(bool incAlternatives = false);
+    QVector<Content*> attachments(bool incAlternatives = false);
 
     /**
      * For multipart contents, this will return a list of all multipart child contents.
      * For contents that are of mimetype message/rfc822, this will return a list with one entry,
      * and that entry is the encapsulated message, as it would be returned by bodyAsMessage().
      */
-    List contents() const;
+    QVector<Content*> contents() const;
 
     /**
       Adds a new sub-Content. If the sub-Content is already part of another

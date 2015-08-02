@@ -457,9 +457,9 @@ Content *Content::textContent()
     return ret;
 }
 
-Content::List Content::attachments(bool incAlternatives)
+QVector<Content*> Content::attachments(bool incAlternatives)
 {
-    List attachments;
+    QVector<Content*> attachments;
     if (d_ptr->contents().isEmpty()) {
         attachments.append(this);
     } else {
@@ -482,7 +482,7 @@ Content::List Content::attachments(bool incAlternatives)
     return attachments;
 }
 
-Content::List Content::contents() const
+QVector<Content*> Content::contents() const
 {
     return d_ptr->contents();
 }
@@ -938,11 +938,11 @@ void ContentPrivate::clearBodyMessage()
     bodyAsMessage.reset();
 }
 
-Content::List ContentPrivate::contents() const
+QVector<Content*> ContentPrivate::contents() const
 {
     Q_ASSERT(multipartContents.isEmpty() || !bodyAsMessage);
     if (bodyAsMessage) {
-        return Content::List() << bodyAsMessage.get();
+        return QVector<Content*>() << bodyAsMessage.get();
     } else {
         return multipartContents;
     }

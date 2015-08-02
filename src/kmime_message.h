@@ -83,11 +83,6 @@ class KMIME_EXPORT Message : public Content
 {
 public:
     /**
-      A list of messages.
-    */
-    typedef QList<KMime::Message *> List;
-
-    /**
       A shared pointer to a message object.
     */
     typedef boost::shared_ptr<Message> Ptr;
