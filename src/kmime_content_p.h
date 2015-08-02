@@ -73,7 +73,7 @@ public:
     Content::List multipartContents;
     MessagePtr bodyAsMessage;
 
-    Headers::Base::List headers;
+    QVector<Headers::Base*> headers;
 
     bool forceDefaultCS : 1;
     bool frozen : 1;

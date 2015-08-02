@@ -2266,9 +2266,9 @@ void extractHeaderAndBody(const QByteArray &content, QByteArray &header, QByteAr
     }
 }
 
-Headers::Base::List parseHeaders(const QByteArray &head)
+QVector<Headers::Base*> parseHeaders(const QByteArray &head)
 {
-    Headers::Base::List ret;
+    QVector<Headers::Base*> ret;
     Headers::Base *h;
 
     QByteArray copy = head;

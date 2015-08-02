@@ -519,8 +519,7 @@ void Content::addContent(Content *c, bool prepend)
         // Move the MIME headers to the newly created sub-Content.
         // NOTE: The other headers (RFC5322 headers like From:, To:, as well as X-headers
         // are not moved to the subcontent; they remain with the top-level content.
-        for (Headers::Base::List::iterator it = d->headers.begin();
-                it != d->headers.end();) {
+        for (auto it = d->headers.begin(); it != d->headers.end();) {
             if ((*it)->isMimeHeader()) {
                 // Add to new content.
                 main->setHeader(*it);
@@ -681,8 +680,7 @@ void Content::prependHeader(Headers::Base *h)
 bool Content::removeHeader(const char *type)
 {
     Q_D(Content);
-    for (Headers::Base::List::iterator it = d->headers.begin();
-            it != d->headers.end(); ++it)
+    for (auto it = d->headers.begin(); it != d->headers.end(); ++it)
         if ((*it)->is(type)) {
             delete(*it);
             d->headers.erase(it);

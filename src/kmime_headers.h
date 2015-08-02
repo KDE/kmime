@@ -123,9 +123,9 @@ class KMIME_EXPORT Base
 {
 public:
     /**
-      A list of headers.
+      A vector of headers.
     */
-    typedef QList<KMime::Headers::Base *> List;
+    typedef QVector<KMime::Headers::Base *> List;
 
     /**
       Creates an empty header with a parent-content.

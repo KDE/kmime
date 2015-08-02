@@ -19,7 +19,7 @@
 #ifndef KMIME_HEADER_PARSING_P_H
 #define KMIME_HEADER_PARSING_P_H
 
-#include <QList>
+#include <QVector>
 
 class QByteArray;
 
@@ -33,7 +33,7 @@ class Base;
 namespace HeaderParsing
 {
 
-QList<KMime::Headers::Base *> parseHeaders(const QByteArray &head);
+QVector<KMime::Headers::Base *> parseHeaders(const QByteArray &head);
 
 }
 
