@@ -779,13 +779,6 @@ protected:
     */
     template <class T> KMIME_DEPRECATED T *headerInstance(T *ptr, bool create);
 
-    /**
-      The list of headers in this Content.
-      Do not use this directly.
-    */
-    // KDE5: Not needed outside. Move to Private class.
-    Headers::Base::List h_eaders;
-
     //@cond PRIVATE
     ContentPrivate *d_ptr;
     explicit Content(ContentPrivate *d);

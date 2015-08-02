@@ -71,6 +71,8 @@ public:
     Content::List multipartContents;
     MessagePtr bodyAsMessage;
 
+    Headers::Base::List headers;
+
     bool forceDefaultCS : 1;
     bool frozen : 1;
 };

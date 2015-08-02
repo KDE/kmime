@@ -90,8 +90,9 @@ Content::Content(ContentPrivate *d)
 
 Content::~Content()
 {
-    qDeleteAll(h_eaders);
-    h_eaders.clear();
+    Q_D(Content);
+    qDeleteAll(d->headers);
+    d->headers.clear();
     delete d_ptr;
     d_ptr = 0;
 }
@@ -184,10 +185,10 @@ void Content::parse()
     Q_D(Content);
 
     // Clean up old headers and parse them again.
-    qDeleteAll(h_eaders);
-    h_eaders.clear();
-    h_eaders = HeaderParsing::parseHeaders(d->head);
-    foreach (Headers::Base *h, h_eaders) {
+    qDeleteAll(d->headers);
+    d->headers.clear();
+    d->headers = HeaderParsing::parseHeaders(d->head);
+    foreach (Headers::Base *h, d->headers) {
         h->setParent(this);
     }
 
@@ -264,8 +265,9 @@ void Content::assemble()
 
 QByteArray Content::assembleHeaders()
 {
+    Q_D(Content);
     QByteArray newHead;
-    foreach (const Headers::Base *h, h_eaders) {
+    foreach (const Headers::Base *h, d->headers) {
         if (!h->isEmpty()) {
             newHead += h->as7BitString() + '\n';
         }
@@ -277,8 +279,8 @@ QByteArray Content::assembleHeaders()
 void Content::clear()
 {
     Q_D(Content);
-    qDeleteAll(h_eaders);
-    h_eaders.clear();
+    qDeleteAll(d->headers);
+    d->headers.clear();
     clearContents();
     d->head.clear();
     d->body.clear();
@@ -562,13 +564,13 @@ void Content::addContent(Content *c, bool prepend)
         // Move the MIME headers to the newly created sub-Content.
         // NOTE: The other headers (RFC5322 headers like From:, To:, as well as X-headers
         // are not moved to the subcontent; they remain with the top-level content.
-        for (Headers::Base::List::iterator it = h_eaders.begin();
-                it != h_eaders.end();) {
+        for (Headers::Base::List::iterator it = d->headers.begin();
+                it != d->headers.end();) {
             if ((*it)->isMimeHeader()) {
                 // Add to new content.
                 main->setHeader(*it);
                 // Remove from this content.
-                it = h_eaders.erase(it);
+                it = d->headers.erase(it);
             } else {
                 ++it;
             }
@@ -629,10 +631,10 @@ void Content::removeContent(Content *c, bool del)
 
         // Move all headers from the old subcontent to ourselves.
         // NOTE: This also sets the new Content-Type.
-        foreach (Headers::Base *h, main->h_eaders) {
+        foreach (Headers::Base *h, main->d_ptr->headers) {
             setHeader(h);   // Will remove the old one if present.
         }
-        main->h_eaders.clear();
+        main->d_ptr->headers.clear();
 
         // Move the body.
         d->body = main->body();
@@ -688,8 +690,9 @@ void Content::toStream(QTextStream &ts, bool scrambleFromLines)
 Headers::Base *Content::headerByType(const char *type)
 {
     Q_ASSERT(type  && *type);
+    Q_D(Content);
 
-    foreach (Headers::Base *h, h_eaders) {
+    foreach (Headers::Base *h, d->headers) {
         if (h->is(type)) {
             return h; // Found.
         }
@@ -701,10 +704,11 @@ Headers::Base *Content::headerByType(const char *type)
 Headers::Base::List Content::headersByType(const char *type)
 {
     Q_ASSERT(type && *type);
+    Q_D(Content);
 
     Headers::Base::List result;
 
-    foreach (Headers::Base *h, h_eaders) {
+    foreach (Headers::Base *h, d->headers) {
         if (h->is(type)) {
             result << h;
         }
@@ -722,23 +726,26 @@ void Content::setHeader(Headers::Base *h)
 
 void Content::appendHeader(Headers::Base *h)
 {
-    h_eaders.append(h);
+    Q_D(Content);
+    d->headers.append(h);
     h->setParent(this);
 }
 
 void Content::prependHeader(Headers::Base *h)
 {
-    h_eaders.prepend(h);
+    Q_D(Content);
+    d->headers.prepend(h);
     h->setParent(this);
 }
 
 bool Content::removeHeader(const char *type)
 {
-    for (Headers::Base::List::iterator it = h_eaders.begin();
-            it != h_eaders.end(); ++it)
+    Q_D(Content);
+    for (Headers::Base::List::iterator it = d->headers.begin();
+            it != d->headers.end(); ++it)
         if ((*it)->is(type)) {
             delete(*it);
-            h_eaders.erase(it);
+            d->headers.erase(it);
             return true;
         }
 
