@@ -111,7 +111,7 @@ bool MultiPart::parse()
 //=============================================================================
 
 NonMimeParser::NonMimeParser(const QByteArray &src) :
-    s_rc(src), p_artNr(-1), t_otalNr(-1)
+    m_src(src), m_partNr(-1), m_totalNr(-1)
 {
 }
 
@@ -168,7 +168,7 @@ QByteArray NonMimeParser::guessMimeType(const QByteArray &fileName)
 //==============================================================================
 
 UUEncoded::UUEncoded(const QByteArray &src, const QByteArray &subject) :
-    NonMimeParser(src), s_ubject(subject)
+    NonMimeParser(src), m_subject(subject)
 {}
 
 bool UUEncoded::parse()
@@ -181,11 +181,11 @@ bool UUEncoded::parse()
         bool containsBegin = false, containsEnd = false;
         QByteArray tmp, fileName;
 
-        if ((beginPos = QString::fromLatin1(s_rc).indexOf(QRegExp(QLatin1String("begin [0-9][0-9][0-9]")),
+        if ((beginPos = QString::fromLatin1(m_src).indexOf(QRegExp(QLatin1String("begin [0-9][0-9][0-9]")),
                         currentPos)) > -1 &&
-                (beginPos == 0 || s_rc.at(beginPos - 1) == '\n')) {
+                (beginPos == 0 || m_src.at(beginPos - 1) == '\n')) {
             containsBegin = true;
-            uuStart = s_rc.indexOf('\n', beginPos);
+            uuStart = m_src.indexOf('\n', beginPos);
             if (uuStart == -1) {  //no more line breaks found, we give up
                 success = false;
                 break;
@@ -196,8 +196,8 @@ bool UUEncoded::parse()
             beginPos = currentPos;
         }
 
-        if ((endPos = s_rc.indexOf("\nend", (uuStart > 0) ? uuStart - 1 : 0)) == -1) {
-            endPos = s_rc.length(); //no end found
+        if ((endPos = m_src.indexOf("\nend", (uuStart > 0) ? uuStart - 1 : 0)) == -1) {
+            endPos = m_src.length(); //no end found
         } else {
             containsEnd = true;
         }
@@ -207,9 +207,9 @@ bool UUEncoded::parse()
             //printf("beginPos=%d , uuStart=%d , endPos=%d\n", beginPos, uuStart, endPos);
             //all lines in a uuencoded text start with 'M'
             for (int idx = uuStart; idx < endPos; idx++) {
-                if (s_rc[idx] == '\n') {
+                if (m_src[idx] == '\n') {
                     lineCount++;
-                    if (idx + 1 < endPos && s_rc[idx + 1] == 'M') {
+                    if (idx + 1 < endPos && m_src[idx + 1] == 'M') {
                         idx++;
                         MCount++;
                     }
@@ -224,16 +224,16 @@ bool UUEncoded::parse()
                 break; //too many "non-M-Lines" found, we give up
             }
 
-            if ((!containsBegin || !containsEnd) && !s_ubject.isNull()) {
+            if ((!containsBegin || !containsEnd) && !m_subject.isNull()) {
                 // message may be split up => parse subject
                 QRegExp rx(QLatin1String("[0-9]+/[0-9]+"));
-                pos = rx.indexIn(QLatin1String(s_ubject), 0);
+                pos = rx.indexIn(QLatin1String(m_subject), 0);
                 len = rx.matchedLength();
                 if (pos != -1) {
-                    tmp = s_ubject.mid(pos, len);
+                    tmp = m_subject.mid(pos, len);
                     pos = tmp.indexOf('/');
-                    p_artNr = tmp.left(pos).toInt();
-                    t_otalNr = tmp.right(tmp.length() - pos - 1).toInt();
+                    m_partNr = tmp.left(pos).toInt();
+                    m_totalNr = tmp.right(tmp.length() - pos - 1).toInt();
                 } else {
                     success = false;
                     break; //no "part-numbers" found in the subject, we give up
@@ -242,22 +242,22 @@ bool UUEncoded::parse()
 
             //everything before "begin" is text
             if (beginPos > 0) {
-                t_ext.append(s_rc.mid(currentPos, beginPos - currentPos));
+                m_text.append(m_src.mid(currentPos, beginPos - currentPos));
             }
 
             if (containsBegin) {
                 //everything between "begin ### " and the next LF is considered as the filename
-                fileName = s_rc.mid(beginPos + 10, uuStart - beginPos - 11);
+                fileName = m_src.mid(beginPos + 10, uuStart - beginPos - 11);
             } else {
                 fileName = "";
             }
-            f_ilenames.append(fileName);
+            m_filenames.append(fileName);
             //everything beetween "begin" and "end" is uuencoded
-            b_ins.append(s_rc.mid(uuStart, endPos - uuStart + 1));
-            m_imeTypes.append(guessMimeType(fileName));
+            m_bins.append(m_src.mid(uuStart, endPos - uuStart + 1));
+            m_mimeTypes.append(guessMimeType(fileName));
             firstIteration = false;
 
-            int next = s_rc.indexOf('\n', endPos + 1);
+            int next = m_src.indexOf('\n', endPos + 1);
             if (next == -1) {   //no more line breaks found, we give up
                 success = false;
                 break;
@@ -272,9 +272,9 @@ bool UUEncoded::parse()
     }
 
     // append trailing text part of the article
-    t_ext.append(s_rc.right(s_rc.length() - currentPos));
+    m_text.append(m_src.right(m_src.length() - currentPos));
 
-    return ((b_ins.count() > 0) || isPartial());
+    return ((m_bins.count() > 0) || isPartial());
 }
 
 //==============================================================================
@@ -326,17 +326,17 @@ bool YENCEncoded::parse()
         bool containsPart = false;
         QByteArray fileName, mimeType;
 
-        if ((beginPos = s_rc.indexOf("=ybegin ", currentPos)) > -1 &&
-                (beginPos == 0 || s_rc.at(beginPos - 1) == '\n')) {
-            yencStart = s_rc.indexOf('\n', beginPos);
+        if ((beginPos = m_src.indexOf("=ybegin ", currentPos)) > -1 &&
+                (beginPos == 0 || m_src.at(beginPos - 1) == '\n')) {
+            yencStart = m_src.indexOf('\n', beginPos);
             if (yencStart == -1) {   // no more line breaks found, give up
                 success = false;
                 break;
             } else {
                 yencStart++;
-                if (s_rc.indexOf("=ypart", yencStart) == yencStart) {
+                if (m_src.indexOf("=ypart", yencStart) == yencStart) {
                     containsPart = true;
-                    yencStart = s_rc.indexOf('\n', yencStart);
+                    yencStart = m_src.indexOf('\n', yencStart);
                     if (yencStart == -1) {
                         success = false;
                         break;
@@ -347,7 +347,7 @@ bool YENCEncoded::parse()
             // Try to identify yenc meta data
 
             // Filenames can contain any embedded chars until end of line
-            QByteArray meta = s_rc.mid(beginPos, yencStart - beginPos);
+            QByteArray meta = m_src.mid(beginPos, yencStart - beginPos);
             int namePos = meta.indexOf("name=");
             if (namePos == -1) {
                 success = false;
@@ -377,7 +377,7 @@ bool YENCEncoded::parse()
 
             int partBegin, partEnd;
             if (containsPart) {
-                if (!yencMeta(meta, "part", &p_artNr)) {
+                if (!yencMeta(meta, "part", &m_partNr)) {
                     success = false;
                     break;
                 }
@@ -386,11 +386,11 @@ bool YENCEncoded::parse()
                     success = false;
                     break;
                 }
-                if (!yencMeta(meta, "total", &t_otalNr)) {
-                    t_otalNr = p_artNr + 1;
+                if (!yencMeta(meta, "total", &m_totalNr)) {
+                    m_totalNr = m_partNr + 1;
                 }
                 if (yencSize == partEnd - partBegin + 1) {
-                    t_otalNr = 1;
+                    m_totalNr = 1;
                 } else {
                     yencSize = partEnd - partBegin + 1;
                 }
@@ -399,14 +399,14 @@ bool YENCEncoded::parse()
             // We have a valid yenc header; now we extract the binary data
             int totalSize = 0;
             int pos = yencStart;
-            int len = s_rc.length();
+            int len = m_src.length();
             bool lineStart = true;
             int lineLength = 0;
             bool containsEnd = false;
             QByteArray binary;
             binary.resize(yencSize);
             while (pos < len) {
-                int ch = s_rc.at(pos);
+                int ch = m_src.at(pos);
                 if (ch < 0) {
                     ch += 256;
                 }
@@ -422,7 +422,7 @@ bool YENCEncoded::parse()
                 } else {
                     if (ch == '=') {
                         if (pos + 1 < len) {
-                            ch = s_rc.at(pos + 1);
+                            ch = m_src.at(pos + 1);
                             if (lineStart && ch == 'y') {
                                 containsEnd = true;
                                 break;
@@ -466,12 +466,12 @@ bool YENCEncoded::parse()
             }
 
             // pos now points to =yend; get end data
-            eolPos = s_rc.indexOf('\n', pos);
+            eolPos = m_src.indexOf('\n', pos);
             if (eolPos == -1) {
                 success = false;
                 break;
             }
-            meta = s_rc.mid(pos, eolPos - pos);
+            meta = m_src.mid(pos, eolPos - pos);
             if (!yencMeta(meta, "size", &totalSize)) {
                 success = false;
                 break;
@@ -481,13 +481,13 @@ bool YENCEncoded::parse()
                 break;
             }
 
-            f_ilenames.append(fileName);
-            m_imeTypes.append(guessMimeType(fileName));
-            b_ins.append(binary);
+            m_filenames.append(fileName);
+            m_mimeTypes.append(guessMimeType(fileName));
+            m_bins.append(binary);
 
             //everything before "begin" is text
             if (beginPos > 0) {
-                t_ext.append(s_rc.mid(currentPos, beginPos - currentPos));
+                m_text.append(m_src.mid(currentPos, beginPos - currentPos));
             }
             currentPos = eolPos + 1;
 
@@ -497,9 +497,9 @@ bool YENCEncoded::parse()
     }
 
     // append trailing text part of the article
-    t_ext.append(s_rc.right(s_rc.length() - currentPos));
+    m_text.append(m_src.right(m_src.length() - currentPos));
 
-    return b_ins.count() > 0;
+    return m_bins.count() > 0;
 }
 
 } // namespace Parser

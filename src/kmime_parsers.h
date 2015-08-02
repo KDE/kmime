@@ -23,8 +23,7 @@
 #ifndef __KMIME_PARSERS__
 #define __KMIME_PARSERS__
 
-#include<QByteArray>
-#include<QList>
+#include <QByteArray>
 #include <QVector>
 
 namespace KMime
@@ -72,45 +71,45 @@ public:
     explicit NonMimeParser(const QByteArray &src);
     virtual ~NonMimeParser();
     virtual bool parse() = 0;
-    bool isPartial()
+    bool isPartial() const
     {
-        return (p_artNr > -1 && t_otalNr > -1 && t_otalNr != 1);
+        return (m_partNr > -1 && m_totalNr > -1 && m_totalNr != 1);
     }
-    int partialNumber()
+    int partialNumber() const
     {
-        return p_artNr;
+        return m_partNr;
     }
-    int partialCount()
+    int partialCount() const
     {
-        return t_otalNr;
+        return m_totalNr;
     }
-    bool hasTextPart()
+    bool hasTextPart() const
     {
-        return (t_ext.length() > 1);
+        return (m_text.length() > 1);
     }
-    QByteArray textPart()
+    QByteArray textPart() const
     {
-        return t_ext;
+        return m_text;
     }
-    QList<QByteArray> binaryParts()
+    QVector<QByteArray> binaryParts() const
     {
-        return b_ins;
+        return m_bins;
     }
-    QList<QByteArray> filenames()
+    QVector<QByteArray> filenames() const
     {
-        return f_ilenames;
+        return m_filenames;
     }
-    QList<QByteArray> mimeTypes()
+    QVector<QByteArray> mimeTypes() const
     {
-        return m_imeTypes;
+        return m_mimeTypes;
     }
 
 protected:
     static QByteArray guessMimeType(const QByteArray &fileName);
 
-    QByteArray s_rc, t_ext;
-    QList<QByteArray> b_ins, f_ilenames, m_imeTypes;
-    int p_artNr, t_otalNr;
+    QByteArray m_src, m_text;
+    QVector<QByteArray> m_bins, m_filenames, m_mimeTypes;
+    int m_partNr, m_totalNr;
 };
 
 /** Helper-class: tries to extract the data from a possibly
@@ -124,8 +123,8 @@ public:
 
     bool parse() Q_DECL_OVERRIDE;
 
-protected:
-    QByteArray s_ubject;
+private:
+    QByteArray m_subject;
 };
 
 /** Helper-class: tries to extract the data from a possibly
@@ -138,13 +137,13 @@ public:
     explicit YENCEncoded(const QByteArray &src);
 
     bool parse() Q_DECL_OVERRIDE;
-    QList<QByteArray> binaryParts()
+    QVector<QByteArray> binaryParts() const
     {
-        return b_ins;
+        return m_bins;
     }
 
-protected:
-    QList<QByteArray> b_ins;
+private:
+    QVector<QByteArray> m_bins;
     static bool yencMeta(QByteArray &src, const QByteArray &name, int *value);
 };
 
