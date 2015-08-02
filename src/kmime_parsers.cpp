@@ -34,21 +34,21 @@ namespace Parser
 
 MultiPart::MultiPart(const QByteArray &src, const QByteArray &boundary)
 {
-    s_rc = src;
-    b_oundary = boundary;
+    m_src = src;
+    m_boundary = boundary;
 }
 
 bool MultiPart::parse()
 {
-    QByteArray b = "--" + b_oundary, part;
+    QByteArray b = "--" + m_boundary, part;
     int pos1 = 0, pos2 = 0, blen = b.length();
 
-    p_arts.clear();
+    m_parts.clear();
 
     //find the first valid boundary
     while (1) {
-        if ((pos1 = s_rc.indexOf(b, pos1)) == -1 || pos1 == 0 ||
-                s_rc[pos1 - 1] == '\n') { //valid boundary found or no boundary at all
+        if ((pos1 = m_src.indexOf(b, pos1)) == -1 || pos1 == 0 ||
+                m_src[pos1 - 1] == '\n') { //valid boundary found or no boundary at all
             break;
         }
         pos1 += blen; //boundary found but not valid => skip it;
@@ -56,45 +56,45 @@ bool MultiPart::parse()
 
     if (pos1 > -1) {
         pos1 += blen;
-        if (s_rc[pos1] == '-' && s_rc[pos1 + 1] == '-') {
+        if (m_src[pos1] == '-' && m_src[pos1 + 1] == '-') {
             // the only valid boundary is the end-boundary
             // this message is *really* broken
             pos1 = -1; //we give up
         } else if ((pos1 - blen) > 1) {     //preamble present
-            p_reamble = s_rc.left(pos1 - blen - 1);
+            m_preamble = m_src.left(pos1 - blen - 1);
         }
     }
 
     while (pos1 > -1 && pos2 > -1) {
 
         //skip the rest of the line for the first boundary - the message-part starts here
-        if ((pos1 = s_rc.indexOf('\n', pos1)) > -1) {
+        if ((pos1 = m_src.indexOf('\n', pos1)) > -1) {
             //now search the next linebreak
             //now find the next valid boundary
             pos2 = ++pos1; //pos1 and pos2 point now to the beginning of the next line after the boundary
             while (1) {
-                if ((pos2 = s_rc.indexOf(b, pos2)) == -1 ||
-                        s_rc[pos2 - 1] == '\n') { //valid boundary or no more boundaries found
+                if ((pos2 = m_src.indexOf(b, pos2)) == -1 ||
+                        m_src[pos2 - 1] == '\n') { //valid boundary or no more boundaries found
                     break;
                 }
                 pos2 += blen; //boundary is invalid => skip it;
             }
 
             if (pos2 == -1) {   // no more boundaries found
-                part = s_rc.mid(pos1, s_rc.length() - pos1);   //take the rest of the string
-                p_arts.append(part);
+                part = m_src.mid(pos1, m_src.length() - pos1);   //take the rest of the string
+                m_parts.append(part);
                 pos1 = -1;
                 pos2 = -1; //break;
             } else {
-                part = s_rc.mid(pos1, pos2 - pos1 - 1);   // pos2 - 1 (\n) is part of the boundary (see RFC 2046, section 5.1.1)
-                p_arts.append(part);
+                part = m_src.mid(pos1, pos2 - pos1 - 1);   // pos2 - 1 (\n) is part of the boundary (see RFC 2046, section 5.1.1)
+                m_parts.append(part);
                 pos2 += blen; //pos2 points now to the first character after the boundary
-                if (s_rc[pos2] == '-' && s_rc[pos2 + 1] == '-') { //end-boundary
+                if (m_src[pos2] == '-' && m_src[pos2 + 1] == '-') { //end-boundary
                     pos1 = pos2 + 2; //pos1 points now to the character directly after the end-boundary
 
-                    if ((pos1 = s_rc.indexOf('\n', pos1)) > -1) {       //skip the rest of this line
+                    if ((pos1 = m_src.indexOf('\n', pos1)) > -1) {       //skip the rest of this line
                         //everything after the end-boundary is considered as the epilouge
-                        e_pilouge = s_rc.mid(pos1 + 1, s_rc.length() - pos1 - 1);
+                        m_epilouge = m_src.mid(pos1 + 1, m_src.length() - pos1 - 1);
                     }
                     pos1 = -1;
                     pos2 = -1; //break
@@ -105,7 +105,7 @@ bool MultiPart::parse()
         }
     }
 
-    return !p_arts.isEmpty();
+    return !m_parts.isEmpty();
 }
 
 //=============================================================================

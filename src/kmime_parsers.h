@@ -25,6 +25,7 @@
 
 #include<QByteArray>
 #include<QList>
+#include <QVector>
 
 namespace KMime
 {
@@ -43,22 +44,22 @@ public:
     ~MultiPart() {}
 
     bool parse();
-    QList<QByteArray> parts()
+    QVector<QByteArray> parts() const
     {
-        return p_arts;
+        return m_parts;
     }
-    QByteArray preamble()
+    QByteArray preamble() const
     {
-        return p_reamble;
+        return m_preamble;
     }
-    QByteArray epilouge()
+    QByteArray epilouge() const
     {
-        return e_pilouge;
+        return m_epilouge;
     }
 
-protected:
-    QByteArray s_rc, b_oundary, p_reamble, e_pilouge;
-    QList<QByteArray> p_arts;
+private:
+    QByteArray m_src, m_boundary, m_preamble, m_epilouge;
+    QVector<QByteArray> m_parts;
 };
 
 /** Helper-class: abstract base class of all parsers for
