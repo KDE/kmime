@@ -311,7 +311,9 @@ QByteArray Content::encodedBody()
             if (enc->encoding() == Headers::CEquPr) {
                 e += KCodecs::quotedPrintableEncode(d->body, false);
             } else {
-                e += KCodecs::base64Encode(d->body, true);
+                QByteArray encoded;
+                KCodecs::base64Encode(d->body, encoded, true);
+                e += encoded;
                 e += '\n';
             }
         } else {
@@ -629,7 +631,7 @@ void Content::changeEncoding(Headers::contentEncoding e)
     } else {
         // This is non-textual content.  Re-encode it.
         if (e == Headers::CEbase64) {
-            d_ptr->body = KCodecs::base64Encode(decodedContent(), true);
+            KCodecs::base64Encode(decodedContent(), d_ptr->body, true);
             enc->setEncoding(e);
             enc->setDecoded(false);
         } else {
