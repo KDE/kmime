@@ -45,13 +45,10 @@
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>
-#include <QtCore/QRegExp>
 #include <QtCore/QDateTime>
 #include <QtCore/QMap>
 #include <QtCore/QList>
 #include <QtCore/QByteArray>
-
-#include <qdatetime.h>
 
 namespace KMime
 {
