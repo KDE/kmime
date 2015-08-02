@@ -398,7 +398,7 @@ QByteArray Content::decodedContent()
 
 QString Content::decodedText(bool trimText, bool removeTrailingNewlines)
 {
-    if (!decodeText()) {   //this is not a text content !!
+    if (!d_ptr->decodeText(this)) {   //this is not a text content !!
         return QString();
     }
 
@@ -624,7 +624,7 @@ void Content::changeEncoding(Headers::contentEncoding e)
         return;
     }
 
-    if (decodeText()) {
+    if (d_ptr->decodeText(this)) {
         // This is textual content.  Textual content is stored decoded.
         Q_ASSERT(enc->isDecoded());
         enc->setEncoding(e);
@@ -760,12 +760,11 @@ int Content::lineCount() const
     return ret;
 }
 
-bool Content::decodeText()
+bool ContentPrivate::decodeText(Content *q)
 {
-    Q_D(Content);
-    Headers::ContentTransferEncoding *enc = contentTransferEncoding();
+    Headers::ContentTransferEncoding *enc = q->contentTransferEncoding();
 
-    if (!contentType()->isText()) {
+    if (!q->contentType()->isText()) {
         return false; //non textual data cannot be decoded here => use decodedContent() instead
     }
     if (enc->isDecoded()) {
@@ -774,21 +773,21 @@ bool Content::decodeText()
 
     switch (enc->encoding()) {
     case Headers::CEbase64 :
-        d->body = KCodecs::base64Decode(d->body);
+        body = KCodecs::base64Decode(body);
         break;
     case Headers::CEquPr :
-        d->body = KCodecs::quotedPrintableDecode(d->body);
+        body = KCodecs::quotedPrintableDecode(body);
         break;
     case Headers::CEuuenc :
-        d->body = KCodecs::uudecode(d->body);
+        body = KCodecs::uudecode(body);
         break;
     case Headers::CEbinary :
         // nothing to decode
     default :
         break;
     }
-    if (!d->body.endsWith("\n")) {
-        d->body.append("\n");
+    if (!body.endsWith("\n")) {
+        body.append("\n");
     }
     enc->setDecoded(true);
     return true;

@@ -729,12 +729,6 @@ protected:
     */
     virtual QByteArray assembleHeaders();
 
-    /**
-      Returns whether this object holds text content.
-    */
-    // KDE5: Not needed outside. Move to Private class.
-    bool decodeText();
-
     //@cond PRIVATE
     ContentPrivate *d_ptr;
     //@endcond
