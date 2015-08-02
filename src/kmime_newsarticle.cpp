@@ -22,7 +22,6 @@
 */
 
 #include "kmime_newsarticle.h"
-#include "kmime_message_p.h"
 #include "kmime_util_p.h"
 
 using namespace KMime;
@@ -30,12 +29,7 @@ using namespace KMime;
 namespace KMime
 {
 
-class NewsArticlePrivate : public MessagePrivate
-{
-};
-
-NewsArticle::NewsArticle()
-    : Message(new NewsArticlePrivate)
+NewsArticle::NewsArticle() : Message()
 {
 }
 

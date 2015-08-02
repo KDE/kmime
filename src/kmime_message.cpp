@@ -22,7 +22,6 @@
 */
 
 #include "kmime_message.h"
-#include "kmime_message_p.h"
 #include "kmime_util_p.h"
 
 using namespace KMime;
@@ -30,13 +29,7 @@ using namespace KMime;
 namespace KMime
 {
 
-Message::Message()
-    : Content(new MessagePrivate)
-{
-}
-
-Message::Message(MessagePrivate *d)
-    : Content(d)
+Message::Message() : Content()
 {
 }
 

@@ -44,7 +44,7 @@ public:
         defaultCS = KMime::cachedCharset("ISO-8859-1");
     }
 
-    virtual ~ContentPrivate()
+    ~ContentPrivate()
     {
         qDeleteAll(multipartContents);
         multipartContents.clear();

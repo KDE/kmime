@@ -18,7 +18,7 @@
 */
 
 #include "kmime_message.h"
-#include "kmime_message_p.h"
+#include "kmime_content_p.h"
 #include "kmime_headers_p.h"
 
 #include <qtest.h>
@@ -41,11 +41,9 @@ private Q_SLOTS:
         qDebug() << sizeof(Content);
         QVERIFY(sizeof(Content) <= 24);
         qDebug() << sizeof(ContentPrivate);
-        QVERIFY(sizeof(ContentPrivate) <= 96);
+        QVERIFY(sizeof(ContentPrivate) <= 88);
         qDebug() << sizeof(Message);
         QCOMPARE(sizeof(Message), sizeof(Content));
-        qDebug() << sizeof(MessagePrivate);
-        QCOMPARE(sizeof(MessagePrivate), sizeof(ContentPrivate));
     }
 
     void testHeaders()

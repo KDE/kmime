@@ -199,10 +199,6 @@ public:
 protected:
     QByteArray assembleHeaders() Q_DECL_OVERRIDE;
 
-    // @cond PRIVATE
-    explicit Message(MessagePrivate *d);
-    // @endcond
-
 private:
     Q_DECLARE_PRIVATE(Message)
 

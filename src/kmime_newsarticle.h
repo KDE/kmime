@@ -30,8 +30,6 @@
 namespace KMime
 {
 
-class NewsArticlePrivate;
-
 class KMIME_EXPORT NewsArticle : public Message
 {
 public:
@@ -88,10 +86,6 @@ public:
 
 protected:
     QByteArray assembleHeaders() Q_DECL_OVERRIDE;
-
-private:
-    Q_DECLARE_PRIVATE(NewsArticle)
-
 }; // class NewsArticle
 
 } // namespace KMime
