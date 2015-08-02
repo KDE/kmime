@@ -289,7 +289,7 @@ public:
       @param type the header type to find
       @since 4.2
     */
-    Headers::Base *headerByType(const char *type);
+    Headers::Base *headerByType(const char *type) const;
 
     /**
       Returns the first header of type T, if it exists.
@@ -355,8 +355,7 @@ public:
       @param type The type of the header to look for.
     */
     // TODO probably provide hasHeader<T>() too.
-    // TODO: KDE5: make const
-    bool hasHeader(const char *type);
+    bool hasHeader(const char *type) const;
 
     /**
       Returns the Content-Type header.

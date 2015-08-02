@@ -687,12 +687,11 @@ void Content::toStream(QTextStream &ts, bool scrambleFromLines)
     ts << ret;
 }
 
-Headers::Base *Content::headerByType(const char *type)
+Headers::Base *Content::headerByType(const char *type) const
 {
     Q_ASSERT(type  && *type);
-    Q_D(Content);
 
-    foreach (Headers::Base *h, d->headers) {
+    foreach (Headers::Base *h, d_ptr->headers) {
         if (h->is(type)) {
             return h; // Found.
         }
@@ -752,7 +751,7 @@ bool Content::removeHeader(const char *type)
     return false;
 }
 
-bool Content::hasHeader(const char *type)
+bool Content::hasHeader(const char* type) const
 {
     return headerByType(type) != 0;
 }
