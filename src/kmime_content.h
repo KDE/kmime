@@ -191,7 +191,7 @@ public:
      *       Also, all old sub-contents will be deleted, so any old Content pointer will become
      *       invalid.
      */
-    virtual void parse();
+    void parse();
 
     /**
       Returns whether this Content is frozen.
@@ -231,7 +231,7 @@ public:
       signature verification, so you should *ONLY* call assemble() when you
       have actually modified the content.
     */
-    virtual void assemble();
+    void assemble();
 
     /**
       Clears the content, deleting all headers and sub-Contents.
