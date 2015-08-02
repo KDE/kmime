@@ -323,8 +323,7 @@ public:
       @see removeHeader()
       @since 4.4
     */
-    // KDE5: make non-virtual.
-    virtual void setHeader(Headers::Base *h);
+    void setHeader(Headers::Base *h);
 
     /**
       Appends the specified header to the headers of this Content.
@@ -347,8 +346,7 @@ public:
       @return true if a header was found and removed.
     */
     // TODO probably provide removeHeader<T>() too.
-    // KDE5: make non-virtual.
-    virtual bool removeHeader(const char *type);
+    bool removeHeader(const char *type);
 
     /**
       @return true if this Content has a header of type @p type.
