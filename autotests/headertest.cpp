@@ -56,7 +56,7 @@ void HeaderTest::testIdentHeader()
     h = new Headers::Generics::Ident();
     h->from7BitString(QByteArray("<1234@local.machine.example> <3456@example.net>"));
     QCOMPARE(h->identifiers().count(), 2);
-    QList<QByteArray> ids = h->identifiers();
+    auto ids = h->identifiers();
     QCOMPARE(ids.takeFirst(), QByteArray("1234@local.machine.example"));
     QCOMPARE(ids.first(), QByteArray("3456@example.net"));
     delete h;
@@ -230,7 +230,7 @@ void HeaderTest::testAddressListHeader()
     // there is an wrong ' ' after the name, but since the header is completely
     // broken we can be happy it parses at all...
     QCOMPARE(names.takeFirst(), QLatin1String("Int\\\\\\\\\\'l Lotto Commission. "));
-    QList<QByteArray> addrs = h->addresses();
+    auto addrs = h->addresses();
     QCOMPARE(addrs.takeFirst(), QByteArray("Vice@censored.serverkompetenz.net"));
     QCOMPARE(addrs.takeFirst(), QByteArray("President@mail2.censored.net"));
     QCOMPARE(addrs.takeFirst(), QByteArray("censored@yahoo.fr"));
@@ -843,7 +843,7 @@ void HeaderTest::testNewsgroupsHeader()
     QVERIFY(h->as7BitString().isEmpty());
 
     // set newsgroups
-    QList<QByteArray> groups;
+    QVector<QByteArray> groups;
     groups << "gmane.comp.kde.devel.core" << "gmane.comp.kde.devel.buildsystem";
     h->setGroups(groups);
     QVERIFY(!h->isEmpty());

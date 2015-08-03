@@ -47,7 +47,7 @@
 #include <QtCore/QStringList>
 #include <QtCore/QDateTime>
 #include <QtCore/QMap>
-#include <QtCore/QList>
+#include <QtCore/QVector>
 #include <QtCore/QByteArray>
 
 namespace KMime
@@ -411,7 +411,7 @@ public:
     /**
       Returns a list of all addresses in this header, regardless of groups.
     */
-    QList<QByteArray> addresses() const;
+    QVector<QByteArray> addresses() const;
 
     /**
       Returns a list of all display names associated with the addresses in
@@ -501,7 +501,7 @@ public:
     /**
       Returns a list of all addresses in this header, regardless of groups.
     */
-    QList<QByteArray> addresses() const;
+    QVector<QByteArray> addresses() const;
 
     /**
       Returns a list of all display names associated with the addresses in this header.
@@ -552,7 +552,7 @@ public:
       - Identifiers are not enclosed in angle-brackets.
       - Identifiers are listed in the same order as in the header.
     */
-    QList<QByteArray> identifiers() const;
+    QVector<QByteArray> identifiers() const;
 
     /**
       Appends a new identifier to this header.
@@ -1393,12 +1393,12 @@ public:
     /**
       Returns the list of newsgroups.
     */
-    QList<QByteArray> groups() const;
+    QVector<QByteArray> groups() const;
 
     /**
       Sets the newsgroup list.
     */
-    void setGroups(const QList<QByteArray> &groups);
+    void setGroups(const QVector<QByteArray> &groups);
 
     /**
       Returns true if this message has been cross-posted, i.e. if it has been

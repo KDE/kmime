@@ -435,9 +435,9 @@ void MailboxList::addAddress(const QByteArray &address,
     }
 }
 
-QList< QByteArray > MailboxList::addresses() const
+QVector<QByteArray> MailboxList::addresses() const
 {
-    QList<QByteArray> rv;
+    QVector<QByteArray> rv;
     rv.reserve(d_func()->mailboxList.count());
     foreach (const Types::Mailbox &mbox, d_func()->mailboxList) {
         rv.append(mbox.address());
@@ -594,9 +594,9 @@ void AddressList::addAddress(const QByteArray &address,
     }
 }
 
-QList< QByteArray > AddressList::addresses() const
+QVector<QByteArray> AddressList::addresses() const
 {
-    QList<QByteArray> rv;
+    QVector<QByteArray> rv;
     foreach (const Types::Address &addr, d_func()->addressList) {
         foreach (const Types::Mailbox &mbox, addr.mailboxList) {
             rv.append(mbox.address());
@@ -1046,9 +1046,9 @@ bool Ident::parse(const char *&scursor, const char *const send, bool isCRLF)
     return true;
 }
 
-QList<QByteArray> Ident::identifiers() const
+QVector<QByteArray> Ident::identifiers() const
 {
-    QList<QByteArray> rv;
+    QVector<QByteArray> rv;
     foreach (const Types::AddrSpec &addr, d_func()->msgIdList) {
         if (!addr.isEmpty()) {
             const QString asString = addr.asString();
@@ -1582,11 +1582,11 @@ bool Newsgroups::isEmpty() const {
     return d_func()->groups.isEmpty();
 }
 
-QList<QByteArray> Newsgroups::groups() const {
+QVector<QByteArray> Newsgroups::groups() const {
     return d_func()->groups;
 }
 
-void Newsgroups::setGroups(const QList<QByteArray> &groups) {
+void Newsgroups::setGroups(const QVector<QByteArray> &groups) {
     Q_D(Newsgroups);
     d->groups = groups;
 }

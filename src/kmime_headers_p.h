@@ -164,7 +164,7 @@ public:
 class NewsgroupsPrivate : public Generics::StructuredPrivate
 {
 public:
-    QList<QByteArray> groups;
+    QVector<QByteArray> groups;
 };
 
 class LinesPrivate : public Generics::StructuredPrivate
