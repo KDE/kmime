@@ -277,8 +277,7 @@ public:
     void from7BitString(const QByteArray &s) Q_DECL_OVERRIDE;
     QByteArray as7BitString(bool withHeaderType = true) const Q_DECL_OVERRIDE;
 
-    virtual void fromUnicodeString(const QString &s,
-                                   const QByteArray &b) Q_DECL_OVERRIDE;
+    void fromUnicodeString(const QString &s, const QByteArray &b) Q_DECL_OVERRIDE;
     QString asUnicodeString() const Q_DECL_OVERRIDE;
 
     void clear() Q_DECL_OVERRIDE;
