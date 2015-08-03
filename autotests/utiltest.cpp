@@ -193,5 +193,5 @@ void UtilTest::testIsSigned()
     KMime::Message::Ptr msg(new KMime::Message);
     msg->setContent(input);
     msg->parse();
-    QCOMPARE(isSigned(msg.get()), hasSignature);
+    QCOMPARE(isSigned(msg.data()), hasSignature);
 }

@@ -28,11 +28,7 @@
 #include "kmime_headers.h"
 
 #include <QtCore/QMetaType>
-
-namespace boost
-{
-template <typename T> class shared_ptr;
-}
+#include <QtCore/QSharedPointer>
 
 namespace KMime
 {
@@ -85,7 +81,7 @@ public:
     /**
       A shared pointer to a message object.
     */
-    typedef boost::shared_ptr<Message> Ptr;
+    typedef QSharedPointer<Message> Ptr;
 
     /**
       Creates an empty Message.

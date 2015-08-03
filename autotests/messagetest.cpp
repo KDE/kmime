@@ -506,7 +506,7 @@ void MessageTest::testEncapsulatedMessages()
     QVERIFY(messageContent->body().isEmpty());
     QCOMPARE(messageContent->contents().count(), 1);
     QVERIFY(messageContent->bodyIsMessage());
-    QVERIFY(messageContent->bodyAsMessage().get());
+    QVERIFY(messageContent->bodyAsMessage().data());
     QVERIFY(!messageContent->isTopLevel());
     QCOMPARE(messageContent->index().toString().toLatin1().data(), "2");
 
@@ -518,11 +518,11 @@ void MessageTest::testEncapsulatedMessages()
     QCOMPARE(encapsulated->subject()->as7BitString(false).data(), "Foo");
     QCOMPARE(encapsulated->decodedText(false, false),
              QLatin1String("This is the encapsulated message body."));
-    QCOMPARE(encapsulated.get(), messageContent->bodyAsMessage().get());
-    QCOMPARE(encapsulated.get(), messageContent->contents().first());
+    QCOMPARE(encapsulated.data(), messageContent->bodyAsMessage().data());
+    QCOMPARE(encapsulated.data(), messageContent->contents().first());
     QCOMPARE(encapsulated->parent(), messageContent);
     QVERIFY(!encapsulated->isTopLevel());
-    QCOMPARE(encapsulated->topLevel(), msg.get());
+    QCOMPARE(encapsulated->topLevel(), msg.data());
     QCOMPARE(encapsulated->index().toString().toLatin1().data(), "2.1");
 
     // Now test some misc functions
@@ -551,7 +551,7 @@ void MessageTest::testEncapsulatedMessages()
     QCOMPARE(msg->contents().size(), 2);
     messageContent = msg->contents().at(1);
     QCOMPARE(messageContent->contentType()->mimeType().data(), "message/rfc822");
-    QVERIFY(encapsulated.get() == messageContent->bodyAsMessage().get());
+    QVERIFY(encapsulated.data() == messageContent->bodyAsMessage().data());
 
     // Setting a new body and then parsing it should discard the encapsulated message
     messageContent->contentType()->setMimeType("text/plain");
@@ -593,9 +593,9 @@ void MessageTest::testEncryptedMails()
 {
     KMime::Message::Ptr msg = readAndParseMail(QLatin1String("x-pkcs7.mbox"));
     QVERIFY(msg->attachments().count() == 1);
-    QVERIFY(KMime::isEncrypted(msg.get()) == true);
-    QVERIFY(KMime::isInvitation(msg.get()) == false);
-    QVERIFY(KMime::isSigned(msg.get()) == false);
+    QVERIFY(KMime::isEncrypted(msg.data()) == true);
+    QVERIFY(KMime::isInvitation(msg.data()) == false);
+    QVERIFY(KMime::isSigned(msg.data()) == false);
 }
 
 void MessageTest::testReturnSameMail()

@@ -55,8 +55,8 @@ TODO: possible glossary terms:
 
 #include <QtCore/QByteArray>
 #include <QtCore/QVector>
+#include <QtCore/QSharedPointer>
 
-#include <boost/shared_ptr.hpp>
 
 namespace KMime
 {
@@ -705,7 +705,7 @@ public:
      * @since 4.5
      */
     //AK_REVIEW: move to MessageViewer/ObjectTreeParser
-    boost::shared_ptr<Message> bodyAsMessage() const;
+    QSharedPointer<Message> bodyAsMessage() const;
 
 protected:
     /**

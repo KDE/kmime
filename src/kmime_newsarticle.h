@@ -27,6 +27,8 @@
 #include "kmime_message.h"
 #include <supertrait.h>
 
+#include <QSharedPointer>
+
 namespace KMime
 {
 
@@ -36,7 +38,7 @@ public:
     /**
       A shared pointer to a news article.
     */
-    typedef boost::shared_ptr<NewsArticle> Ptr;
+    typedef QSharedPointer<NewsArticle> Ptr;
 
     /**
       Creates a NewsArticle object.

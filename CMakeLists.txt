@@ -18,9 +18,8 @@ include(KDEFrameworkCompilerSettings)
 
 
 set(KF5_VERSION "5.12.0")
-set(KMIME_LIB_VERSION "4.82.0")
+set(KMIME_LIB_VERSION "4.83.0")
 set(QT_REQUIRED_VERSION "5.2.0")
-set(BOOST_MIN_VERSION "1.49")
 
 ecm_setup_version(${KMIME_LIB_VERSION} VARIABLE_PREFIX KMIME
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kmime_version.h"
@@ -31,7 +30,6 @@ ecm_setup_version(${KMIME_LIB_VERSION} VARIABLE_PREFIX KMIME
 ########### Find packages ###########
 find_package(KF5I18n ${KF5_VERSION} CONFIG REQUIRED)
 find_package(KF5Codecs ${KF5_VERSION} CONFIG REQUIRED)
-find_package(Boost ${BOOST_MIN_VERSION} REQUIRED)
 add_definitions(-DTRANSLATION_DOMAIN=\"libkmime5\")
 add_definitions("-DQT_NO_CAST_FROM_ASCII -DQT_NO_CAST_TO_ASCII")
 

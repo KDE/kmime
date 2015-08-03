@@ -942,7 +942,7 @@ QVector<Content*> ContentPrivate::contents() const
 {
     Q_ASSERT(multipartContents.isEmpty() || !bodyAsMessage);
     if (bodyAsMessage) {
-        return QVector<Content*>() << bodyAsMessage.get();
+        return QVector<Content*>() << bodyAsMessage.data();
     } else {
         return multipartContents;
     }

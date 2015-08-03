@@ -22,12 +22,12 @@
 
 //@cond PRIVATE
 
-#include <boost/shared_ptr.hpp>
+#include <QSharedPointer>
 
 namespace KMime
 {
 class Message;
-typedef boost::shared_ptr<Message> MessagePtr;
+typedef QSharedPointer<Message> MessagePtr;
 }
 
 namespace KMime
