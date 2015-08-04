@@ -383,8 +383,6 @@ QByteArray encodeRFC2047String(const QString &src, const QByteArray &charset,
 QByteArray encodeRFC2047Sentence(const QString &src, const QByteArray &charset)
 {
     QByteArray result;
-    QList<QChar> splitChars;
-    splitChars << QLatin1Char(',') << QLatin1Char('\"') << QLatin1Char(';') << QLatin1Char('\\');
     const QChar *ch = src.constData();
     const int length = src.length();
     int pos = 0;
