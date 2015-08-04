@@ -67,8 +67,7 @@ KMIME_EXPORT extern QString nameForEncoding(KMime::Headers::contentEncoding enc)
   @param data the data to check encodings for
   @ since 4.4
 */
-KMIME_EXPORT QList<KMime::Headers::contentEncoding> encodingsForData(
-    const QByteArray &data);
+KMIME_EXPORT QVector<KMime::Headers::contentEncoding> encodingsForData(const QByteArray &data);
 //@cond PRIVATE
 extern const uchar specialsMap[16];
 extern const uchar tSpecialsMap[16];

@@ -36,7 +36,7 @@
 #include <kcharsets.h>
 #include <qdebug.h>
 
-#include <QtCore/QList>
+#include <QtCore/QVector>
 #include <QtCore/QString>
 #include <QtCore/QTextCodec>
 
@@ -50,8 +50,8 @@ using namespace KMime;
 namespace KMime
 {
 
-QList<QByteArray> c_harsetCache;
-QList<QByteArray> l_anguageCache;
+QVector<QByteArray> c_harsetCache;
+QVector<QByteArray> l_anguageCache;
 QString f_allbackCharEnc;
 bool u_seOutlookEncoding = false;
 
@@ -105,9 +105,9 @@ QString nameForEncoding(Headers::contentEncoding enc)
     }
 }
 
-QList<Headers::contentEncoding> encodingsForData(const QByteArray &data)
+QVector<Headers::contentEncoding> encodingsForData(const QByteArray &data)
 {
-    QList<Headers::contentEncoding> allowed;
+    QVector<Headers::contentEncoding> allowed;
     CharFreq cf(data);
 
     switch (cf.type()) {
