@@ -231,7 +231,7 @@ QString DateFormatter::fancy(time_t t) const
             for (int i = 3; i < 8; i++) {
                 if (diff < i * 24 * 60 * 60) {
                     return i18nc("1. weekday, 2. time", "%1 %2" ,
-                                 locale.toString(old.date(), QLatin1String("dddd")),
+                                 locale.dayName(old.date().dayOfWeek(), QLocale::LongFormat),
                                  locale.toString(old.time(), QLocale::ShortFormat));
                 }
             }
