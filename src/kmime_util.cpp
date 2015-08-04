@@ -727,43 +727,6 @@ QByteArray extractHeader(const QByteArray &src, const QByteArray &name)
     return result;
 }
 
-QList<QByteArray> extractHeaders(const QByteArray &src, const QByteArray &name)
-{
-    int begin, end;
-    bool folded;
-    QList<QByteArray> result;
-    QByteArray copySrc(src);
-
-    if (indexOfHeader(copySrc, name, end, begin, &folded) < 0) {
-        return result;
-    }
-
-    while (begin >= 0) {
-        if (!folded) {
-            result.append(copySrc.mid(begin, end - begin));
-        } else {
-            QByteArray hdrValue = copySrc.mid(begin, end - begin);
-            result.append(unfoldHeader(hdrValue));
-        }
-
-        // get the next one, a tiny bit ugly, but we don't want the previous to be found again...
-        copySrc = copySrc.mid(end);
-        if (indexOfHeader(copySrc, name, end, begin, &folded) < 0) {
-            break;
-        }
-    }
-    return result;
-}
-
-void removeHeader(QByteArray &header, const QByteArray &name)
-{
-    int begin, end, dummy;
-    begin = indexOfHeader(header, name, end, dummy);
-    if (begin >= 0) {
-        header.remove(begin, end - begin + 1);
-    }
-}
-
 QByteArray CRLFtoLF(const QByteArray &s)
 {
     QByteArray ret = s;
