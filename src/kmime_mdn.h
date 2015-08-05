@@ -48,7 +48,7 @@
 
 #include "kmime_export.h"
 #include <QtCore/QString>
-#include <QtCore/QList>
+#include <QtCore/QVector>
 
 class QByteArray;
 
@@ -184,12 +184,12 @@ KMIME_EXPORT extern QByteArray dispositionNotificationBodyContent(
     DispositionType disposition,
     ActionMode actionMode,
     SendingMode sendingMode,
-    const QList<DispositionModifier> &dispositionModifers = QList<DispositionModifier>(),
+    const QVector<DispositionModifier> &dispositionModifers = QVector<DispositionModifier>(),
     const QString &special = QString());
 
 KMIME_EXPORT extern QString descriptionFor(
     DispositionType d,
-    const QList<DispositionModifier> &m = QList<DispositionModifier>());
+    const QVector<DispositionModifier> &m = QVector<DispositionModifier>());
 
 } // namespace MDN
 

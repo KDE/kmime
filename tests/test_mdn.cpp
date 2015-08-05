@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     ActionMode actionMode = ManualAction;
     SendingMode sendingMode = SentManually;
     DispositionType dispositionType = Displayed;
-    QList<DispositionModifier> dispositionModifiers;
+    QVector<DispositionModifier> dispositionModifiers;
     QString special;
 
     while (true) {

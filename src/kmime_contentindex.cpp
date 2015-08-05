@@ -32,6 +32,7 @@
 #include <QHash>
 #include <QSharedData>
 #include <QtCore/QStringList>
+#include <QVector>
 
 using namespace KMime;
 
@@ -44,7 +45,7 @@ public:
         index = other.index;
     }
 
-    QList<unsigned int> index;
+    QVector<unsigned int> index;
 };
 
 KMime::ContentIndex::ContentIndex() : d(new Private)

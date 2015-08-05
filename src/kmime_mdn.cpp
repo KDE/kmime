@@ -39,7 +39,6 @@
 #include <qdebug.h>
 
 #include <QtCore/QByteArray>
-#include <QtCore/QList>
 
 #include <unistd.h> // gethostname
 
@@ -183,7 +182,7 @@ static const char *stringFor(SendingMode s)
 }
 
 static QByteArray dispositionField(DispositionType d, ActionMode a, SendingMode s,
-                                   const QList<DispositionModifier> &m)
+                                   const QVector<DispositionModifier> &m)
 {
 
     // mandatory parts: Disposition: foo/baz; bar
@@ -196,7 +195,7 @@ static QByteArray dispositionField(DispositionType d, ActionMode a, SendingMode 
 
     // optional parts: Disposition: foo/baz; bar/mod1,mod2,mod3
     bool first = true;
-    for (QList<DispositionModifier>::const_iterator mt = m.begin();
+    for (QVector<DispositionModifier>::const_iterator mt = m.begin();
             mt != m.end() ; ++mt) {
         if (first) {
             result += '/';
@@ -255,7 +254,7 @@ QByteArray dispositionNotificationBodyContent(const QString &r,
         DispositionType d,
         ActionMode a,
         SendingMode s,
-        const QList<DispositionModifier> &m,
+        const QVector<DispositionModifier> &m,
         const QString &special)
 {
     // in Perl: chomp(special)
@@ -286,7 +285,7 @@ QByteArray dispositionNotificationBodyContent(const QString &r,
 }
 
 QString descriptionFor(DispositionType d,
-                       const QList<DispositionModifier> &)
+                       const QVector<DispositionModifier> &)
 {
     for (int i = 0 ; i < numDispositionTypes ; ++i) {
         if (dispositionTypes[i].dispositionType == d) {
