@@ -26,10 +26,9 @@ class HeaderFactoryTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
-    void initTestCase();
     void testBuiltInHeaders();
-    void testCustomHeaders();
-    void testErrors();
+//     void testCustomHeaders();
+//     void testErrors();
 
     // TODO test how unregistered headers are handled by Content.
 };

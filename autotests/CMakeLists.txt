@@ -28,7 +28,7 @@ add_kmime_test(
   headertest
   contenttest
   messagetest
-  #headerfactorytest
+  headerfactorytest
   rfc2231test
   sizetest
   parsedatetimetest

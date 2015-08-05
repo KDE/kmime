@@ -55,17 +55,12 @@ template <typename T>
 bool isHeaderRegistered()
 {
     T dummy;
-    Base *h = HeaderFactory::self()->createHeader(dummy.type());
+    Base *h = Headers::createHeader(dummy.type());
     if (h) {
         delete h;
         return true;
     }
     return false;
-}
-
-void HeaderFactoryTest::initTestCase()
-{
-    HeaderFactory::self();
 }
 
 void HeaderFactoryTest::testBuiltInHeaders()
@@ -118,6 +113,7 @@ void HeaderFactoryTest::testBuiltInHeaders()
     QVERIFY(isHeaderRegistered<UserAgent>());
 }
 
+#if 0
 void HeaderFactoryTest::testCustomHeaders()
 {
     MyXHeader dummy;
@@ -162,4 +158,4 @@ void HeaderFactoryTest::testErrors()
     bool ret = HeaderFactory::self()->registerHeader<MyXHeader>();
     QVERIFY(ret == false);
 }
-
+#endif
