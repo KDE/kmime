@@ -1777,7 +1777,7 @@ bool parseParameterList(const char *&scursor, const char *const send,
     return parseParameterListWithCharset(scursor, send, result, charset, isCRLF);
 }
 
-static const char *const stdDayNames[] = {
+static const char stdDayNames[][4] = {
     "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
 };
 static const int stdDayNamesLen = sizeof stdDayNames / sizeof *stdDayNames;
@@ -1800,7 +1800,7 @@ static bool parseDayName(const char *&scursor, const char *const send)
     return false;
 }
 
-static const char *const stdMonthNames[] = {
+static const char stdMonthNames[][4] = {
     "Jan", "Feb", "Mar", "Apr", "May", "Jun",
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 };
@@ -1827,7 +1827,7 @@ static bool parseMonthName(const char *&scursor, const char *const send,
 }
 
 static const struct {
-    const char *tzName;
+    const char tzName[5];
     long int secsEastOfGMT;
 } timeZones[] = {
     // rfc 822 timezones:
