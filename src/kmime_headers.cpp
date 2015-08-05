@@ -57,21 +57,6 @@
 #include <assert.h>
 #include <ctype.h>
 
-template <typename T>
-bool registerHeaderHelper()
-{
-    const T dummy;
-    if (QByteArray(dummy.type()).isEmpty()) {
-        // This is a generic header.
-        return false;
-    }
-    return KMime::HeaderFactory::self()->registerHeader<T>();
-}
-
-// macro to register a header with HeaderFactory
-#define kmime_register_header( subclass )                             \
-    namespace { const bool dummyForRegistering##subclass = registerHeaderHelper<subclass>(); }
-
 // macro to generate a default constructor implementation
 #define kmime_mk_trivial_ctor( subclass, baseclass )                  \
     subclass::subclass( Content *parent ) : baseclass( parent )           \
@@ -90,9 +75,8 @@ bool registerHeaderHelper()
         fromUnicodeString( s, charset );                                    \
     }                                                                     \
     \
-    subclass::~subclass() {}                                              \
-    \
-    kmime_register_header( subclass )
+    subclass::~subclass() {}
+
 // end kmime_mk_trivial_ctor
 
 #define kmime_mk_trivial_ctor_with_dptr( subclass, baseclass ) \
@@ -112,9 +96,8 @@ bool registerHeaderHelper()
         fromUnicodeString( s, charset );                                    \
     }                                                                     \
     \
-    subclass::~subclass() {}                                              \
-    \
-    kmime_register_header( subclass )
+    subclass::~subclass() {}
+
 // end kmime_mk_trivial_ctor_with_dptr
 
 #define kmime_mk_trivial_ctor_with_name( subclass, baseclass, name )  \
@@ -2193,7 +2176,7 @@ bool Subject::isReply() const {
 }
 
 Base *createHeader(const QByteArray & type) {
-    return HeaderFactory::self()->createHeader(type);
+    return HeaderFactory::createHeader(type);
 }
 
 //@cond PRIVATE

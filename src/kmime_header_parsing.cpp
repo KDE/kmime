@@ -2227,7 +2227,7 @@ Headers::Base *extractFirstHeader(QByteArray &head)
         }
         // We might get an invalid mail without a field name, don't crash on that.
         if (!rawType.isEmpty()) {
-            header = HeaderFactory::self()->createHeader(rawType);
+            header = HeaderFactory::createHeader(rawType);
         }
         if (!header) {
             //qWarning() << "Returning Generic header of type" << rawType;

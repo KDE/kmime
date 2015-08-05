@@ -33,24 +33,6 @@ using namespace KMime::Headers;
 
 QTEST_MAIN(HeaderFactoryTest)
 
-// This cannot be defined in a function, because the template code
-// in HeaderFactory::registerHeader() needs it.
-class MyXHeader : public ContentType
-{
-public:
-    const char *type() const
-    {
-        return "X-My-Content-Type";
-    }
-
-    virtual Base *clone() const
-    {
-        MyXHeader *ret = new MyXHeader;
-        ret->from7BitString(as7BitString(false));
-        return ret;
-    }
-};
-
 template <typename T>
 bool isHeaderRegistered()
 {
@@ -112,50 +94,3 @@ void HeaderFactoryTest::testBuiltInHeaders()
     QVERIFY(isHeaderRegistered<Lines>());
     QVERIFY(isHeaderRegistered<UserAgent>());
 }
-
-#if 0
-void HeaderFactoryTest::testCustomHeaders()
-{
-    MyXHeader dummy;
-
-    // Before registration:
-    {
-        Base *bh = HeaderFactory::self()->createHeader(dummy.type());
-        QVERIFY(bh == 0);
-    }
-
-    // Register:
-    {
-        bool ret = HeaderFactory::self()->registerHeader<MyXHeader>();
-        QVERIFY(ret == true);
-    }
-
-    // After registration:
-    {
-        Base *bh = HeaderFactory::self()->createHeader(dummy.type());
-        MyXHeader *h = dynamic_cast<MyXHeader *>(bh);
-        QVERIFY(h);
-    }
-
-    // Should be case-insensitive.
-    {
-        Base *bh = HeaderFactory::self()->createHeader("x-mY-CoNtEnT-tYpE");
-        MyXHeader *h = dynamic_cast<MyXHeader *>(bh);
-        QVERIFY(h);
-    }
-}
-
-void HeaderFactoryTest::testErrors()
-{
-    // Cannot register a generic (empty-type()) header:
-    {
-        bool ret = HeaderFactory::self()->registerHeader<Generic>();
-        QVERIFY(ret == false);
-    }
-
-    // Repeated registration should fail.
-    MyXHeader dummy;
-    bool ret = HeaderFactory::self()->registerHeader<MyXHeader>();
-    QVERIFY(ret == false);
-}
-#endif

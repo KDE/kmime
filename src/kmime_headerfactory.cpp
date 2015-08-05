@@ -34,80 +34,89 @@
 #include "kmime_headerfactory_p.h"
 #include "kmime_headers.h"
 
-#include <QHash>
-
-#include <QDebug>
-
 using namespace KMime;
+using namespace KMime::Headers;
 
-/**
- * @internal
- * Private class that helps to provide binary compatibility between releases.
- */
-class KMime::HeaderFactoryPrivate
-{
-public:
-    HeaderFactoryPrivate();
-    ~HeaderFactoryPrivate();
-
-    HeaderFactory *const instance;
-    QHash<QByteArray, HeaderMakerBase *> headerMakers; // Type->obj mapping; with lower-case type.
-};
-
-Q_GLOBAL_STATIC(HeaderFactoryPrivate, sInstance)
-
-HeaderFactoryPrivate::HeaderFactoryPrivate()
-    : instance(new HeaderFactory(this))
-{
-}
-
-HeaderFactoryPrivate::~HeaderFactoryPrivate()
-{
-    qDeleteAll(headerMakers);
-    delete instance;
-}
-
-HeaderFactory *HeaderFactory::self()
-{
-    return sInstance->instance;
-}
+#define mk_header(hdr) \
+    if (qstricmp(type.constData(), hdr ::staticType()) == 0) \
+        return new hdr
 
 Headers::Base *HeaderFactory::createHeader(const QByteArray &type)
 {
     Q_ASSERT(!type.isEmpty());
-    const HeaderMakerBase *maker = d->headerMakers.value(type.toLower());
-    if (maker) {
-        return maker->create();
-    } else {
-        //qCritical() << "Unknown header type" << type;
-        //return new Headers::Generic;
-        return 0;
+    switch (type.at(0)) {
+        case 'b':
+        case 'B':
+            mk_header(Bcc);
+            break;
+        case 'c':
+        case 'C':
+            mk_header(Cc);
+            mk_header(ContentDescription);
+            mk_header(ContentDisposition);
+            mk_header(ContentID);
+            mk_header(ContentLocation);
+            mk_header(ContentTransferEncoding);
+            mk_header(ContentType);
+            mk_header(Control);
+            break;
+        case 'd':
+        case 'D':
+            mk_header(Date);
+            break;
+        case 'f':
+        case 'F':
+            mk_header(FollowUpTo);
+            mk_header(From);
+            break;
+        case 'i':
+        case 'I':
+            mk_header(InReplyTo);
+            break;
+        case 'k':
+        case 'K':
+            mk_header(Keywords);
+            break;
+        case 'l':
+        case 'L':
+            mk_header(Lines);
+            break;
+        case 'm':
+        case 'M':
+            mk_header(MailCopiesTo);
+            mk_header(MessageID);
+            mk_header(MIMEVersion);
+            break;
+        case 'n':
+        case 'N':
+            mk_header(Newsgroups);
+            break;
+        case 'o':
+        case 'O':
+            mk_header(Organization);
+            break;
+        case 'r':
+        case 'R':
+            mk_header(References);
+            mk_header(ReplyTo);
+            mk_header(ReturnPath);
+            break;
+        case 's':
+        case 'S':
+            mk_header(Sender);
+            mk_header(Subject);
+            mk_header(Supersedes);
+            break;
+        case 't':
+        case 'T':
+            mk_header(To);
+            break;
+        case 'u':
+        case 'U':
+            mk_header(UserAgent);
+            break;
     }
+    return 0;
 }
 
-HeaderFactory::HeaderFactory(HeaderFactoryPrivate *dd)
-    : d(dd)
-{
-}
-
-HeaderFactory::~HeaderFactory()
-{
-}
-
-bool HeaderFactory::registerHeaderMaker(const QByteArray &type, HeaderMakerBase *maker)
-{
-    if (type.isEmpty()) {
-        // This is probably a generic (but not abstract) header,
-        // like Address or MailboxList.  We cannot register those.
-        qWarning() << "Tried to register header with empty type.";
-        return false;
-    }
-    const QByteArray ltype = type.toLower();
-    if (d->headerMakers.contains(ltype)) {
-        qWarning() << "Header of type" << type << "already registered.";
-        // TODO should we make this an error?
-        return false;
-    }
-    d->headerMakers.insert(ltype, maker);
-    return true;
-}
+#undef mk_header

@@ -35,7 +35,7 @@
 
 #include "kmime_export.h"
 
-#include <QtCore/QByteArray>
+class QByteArray;
 
 namespace KMime
 {
@@ -45,52 +45,10 @@ namespace Headers
 class Base;
 }
 
-class HeaderMakerBase
+namespace HeaderFactory
 {
-public:
-    virtual ~HeaderMakerBase() {}
-    virtual Headers::Base *create() const = 0;
-};
-
-template <typename T>
-class HeaderMaker : public HeaderMakerBase
-{
-public:
-    Headers::Base *create() const Q_DECL_OVERRIDE
-    {
-        return new T;
-    }
-};
-
-class HeaderFactoryPrivate;
-
-/**
-  docu TODO
-*/
-class HeaderFactory
-{
-public:
-    static HeaderFactory *self();
-
-    template<typename T> inline bool registerHeader()
-    {
-        T dummy;
-        return registerHeaderMaker(QByteArray(dummy.type()), new HeaderMaker<T>());
-    }
-
     Headers::Base *createHeader(const QByteArray &type);
-
-private:
-    explicit HeaderFactory(HeaderFactoryPrivate *dd);
-    HeaderFactory(const HeaderFactory &other);   // undefined
-    HeaderFactory &operator=(const HeaderFactory &other);   // undefined
-    ~HeaderFactory();
-
-    bool registerHeaderMaker(const QByteArray &type, HeaderMakerBase *maker);
-
-    friend class HeaderFactoryPrivate;
-    HeaderFactoryPrivate *const d;
-};
+}
 
 } // namespace KMime
 
