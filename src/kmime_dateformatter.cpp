@@ -148,7 +148,7 @@ QByteArray DateFormatter::zone(time_t t) const
 #if defined(HAVE_TIMEZONE)
 
     //hmm, could make hours & mins static
-    int secs = abs(timezone);
+    int secs = std::abs(timezone);
     int neg  = (timezone > 0) ? 1 : 0;
     int hours = secs / 3600;
     int mins  = (secs - hours * 3600) / 60;
