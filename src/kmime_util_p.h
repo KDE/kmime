@@ -51,6 +51,16 @@ extern int indexOfHeader(const QByteArray &src, const QByteArray &name, int &end
  */
 extern QByteArray encodeRFC2047Sentence(const QString &src, const QByteArray &charset);
 
+/**
+ *  Uses current time, pid and random numbers to construct a string
+ *  that aims to be unique on a per-host basis (ie. for the local
+ *  part of a message-id or for multipart boundaries.
+ *
+ *  @return the unique string.
+ *  @see multiPartBoundary
+ */
+extern QByteArray uniqueString();
+
 }
 
 // @endcond

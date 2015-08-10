@@ -217,16 +217,6 @@ KMIME_EXPORT extern QString decodeRFC2231String(const QByteArray &src);
 KMIME_EXPORT extern QByteArray encodeRFC2231String(const QString &src, const QByteArray &charset);
 
 /**
-  Uses current time, pid and random numbers to construct a string
-  that aims to be unique on a per-host basis (ie. for the local
-  part of a message-id or for multipart boundaries.
-
-  @return the unique string.
-  @see multiPartBoundary
-*/
-KMIME_EXPORT extern QByteArray uniqueString();
-
-/**
   Constructs a random string (sans leading/trailing "--") that can
   be used as a multipart delimiter (ie. as @p boundary parameter
   to a multipart/... content-type).
