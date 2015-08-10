@@ -271,11 +271,6 @@ QString DateFormatter::isoDate(time_t t) const
     return QLatin1String(cstr);
 }
 
-void DateFormatter::reset()
-{
-    mTodayOneSecondBeforeMidnight = 0;
-}
-
 QString DateFormatter::formatDate(FormatType ftype, time_t t,
                                   const QString &data, bool shortFormat)
 {
