@@ -94,8 +94,6 @@ enum contentDisposition {
 #define kmime_mk_trivial_ctor( subclass )                               \
     public:                                                               \
     explicit subclass( Content *parent = 0 );                           \
-    subclass( Content *parent, const QByteArray &s );                   \
-    subclass( Content *parent, const QString &s, const QByteArray &charset ); \
     ~subclass();
 
 #define kmime_mk_dptr_ctor( subclass ) \
@@ -270,8 +268,6 @@ class KMIME_EXPORT Unstructured : public Base
     //@endcond
 public:
     explicit Unstructured(Content *p = 0);
-    Unstructured(Content *p, const QByteArray &s);
-    Unstructured(Content *p, const QString &s, const QByteArray &cs);
     ~Unstructured();
 
     void from7BitString(const QByteArray &s) Q_DECL_OVERRIDE;
@@ -359,8 +355,6 @@ class KMIME_EXPORT Address : public Structured
 {
 public:
     explicit Address(Content *p = 0);
-    Address(Content *p, const QByteArray &s);
-    Address(Content *p, const QString &s, const QByteArray &cs);
     ~Address();
 protected:
     //@cond PRIVATE

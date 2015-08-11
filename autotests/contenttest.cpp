@@ -446,7 +446,9 @@ void ContentTest::testMultipartMixed()
     msg->date()->from7BitString("Sun, 21 Mar 1993 23:56:48 -0800 (PST)");
     msg->subject()->from7BitString("Sample message");
     // HACK to make MIME-Version appear before Content-Type, as in the expected message.
-    msg->setHeader(new Headers::MIMEVersion(msg, "1.234"));
+    auto header = new Headers::MIMEVersion(msg);
+    header->from7BitString("1.234");
+    msg->setHeader(header);
     msg->setBody(part1);
     c = new Content();
     c->setBody(part2);

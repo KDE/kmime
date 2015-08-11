@@ -237,14 +237,16 @@ void HeaderTest::testAddressListHeader()
     delete h;
 
     // based on bug #102010, a display name containing '<'
-    h = new Headers::Generics::AddressList(0, QByteArray("\"|<onrad\" <censored@censored.dy>"));
+    h = new Headers::Generics::AddressList();
+    h->from7BitString("\"|<onrad\" <censored@censored.dy>");
     QCOMPARE(h->addresses().count(), 1);
     QCOMPARE(h->addresses().first(), QByteArray("censored@censored.dy"));
     QCOMPARE(h->displayNames().first(), QLatin1String("|<onrad"));
     QCOMPARE(h->as7BitString(false), QByteArray("\"|<onrad\" <censored@censored.dy>"));
 
     // based on bug #93790 (legacy display name with nested comments)
-    h = new Headers::Generics::AddressList(0, QByteArray("first.name@domain.tld (first name (nickname))"));
+    h = new Headers::Generics::AddressList();
+    h->from7BitString("first.name@domain.tld (first name (nickname))");
     QCOMPARE(h->displayNames().count(), 1);
     QCOMPARE(h->displayNames().first(), QLatin1String("first name (nickname)"));
     QCOMPARE(h->as7BitString(false), QByteArray("\"first name (nickname)\" <first.name@domain.tld>"));
@@ -259,13 +261,15 @@ void HeaderTest::testAddressListHeader()
     delete h;
 
     // corner case of almost-rfc2047 encoded string in quoted string but not
-    h = new Headers::Generics::AddressList(0, QByteArray("\"Some =Use ?r\" <user@example.com>"));
+    h = new Headers::Generics::AddressList();
+    h->from7BitString("\"Some =Use ?r\" <user@example.com>");
     QCOMPARE(h->mailboxes().count(), 1);
     QCOMPARE(h->as7BitString(false), QByteArray("\"Some =Use ?r\" <user@example.com>"));
     delete h;
 
     // corner case of almost-rfc2047 encoded string in quoted string but not
-    h = new Headers::Generics::AddressList(0, QByteArray("\"Some ?=U=?se =?r\" <user@example.com>"));
+    h = new Headers::Generics::AddressList();
+    h->from7BitString("\"Some ?=U=?se =?r\" <user@example.com>");
     QCOMPARE(h->mailboxes().count(), 1);
     QCOMPARE(h->as7BitString(false), QByteArray("\"Some ?=U=?se =?r\" <user@example.com>"));
     delete h;
@@ -420,38 +424,44 @@ void HeaderTest::testMailCopiesToHeader()
     delete h;
 
     // parse copy to poster
-    h = new MailCopiesTo(0, "always");
+    h = new MailCopiesTo;
+    h->from7BitString("always");
     QVERIFY(h->addresses().isEmpty());
     QVERIFY(!h->isEmpty());
     QVERIFY(h->alwaysCopy());
     delete h;
 
-    h = new MailCopiesTo(0, "poster");
+    h = new MailCopiesTo;
+    h->from7BitString("poster");
     QVERIFY(h->addresses().isEmpty());
     QVERIFY(!h->isEmpty());
     QVERIFY(h->alwaysCopy());
     delete h;
 
     // parse never copy
-    h = new MailCopiesTo(0, "never");
+    h = new MailCopiesTo;
+    h->from7BitString("never");
     QVERIFY(h->addresses().isEmpty());
     QVERIFY(!h->isEmpty());
     QVERIFY(h->neverCopy());
     delete h;
 
-    h = new MailCopiesTo(0, "nobody");
+    h = new MailCopiesTo;
+    h->from7BitString("nobody");
     QVERIFY(h->addresses().isEmpty());
     QVERIFY(!h->isEmpty());
     QVERIFY(h->neverCopy());
     delete h;
 
     // parsing is case-insensitive
-    h = new MailCopiesTo(0, "AlWays");
+    h = new MailCopiesTo;
+    h->from7BitString("AlWays");
     QVERIFY(h->alwaysCopy());
     delete h;
 
     // parse address
-    h = new MailCopiesTo(0, "vkrause@kde.org");
+    h = new MailCopiesTo;
+    h->from7BitString("vkrause@kde.org");
     QVERIFY(!h->addresses().isEmpty());
     QVERIFY(h->alwaysCopy());
     QVERIFY(!h->neverCopy());
@@ -483,7 +493,8 @@ void HeaderTest::testParametrizedHeader()
     delete h;
 
     // parse a parameter list
-    h = new Parametrized(0, "filename=genome.jpeg;\n modification-date=\"Wed, 12 Feb 1997 16:29:51 -0500\"");
+    h = new Parametrized;
+    h->from7BitString("filename=genome.jpeg;\n modification-date=\"Wed, 12 Feb 1997 16:29:51 -0500\"");
     QCOMPARE(h->parameter(QLatin1String("filename")), QLatin1String("genome.jpeg"));
     QCOMPARE(h->parameter(QLatin1String("modification-date")), QLatin1String("Wed, 12 Feb 1997 16:29:51 -0500"));
     QCOMPARE(h->as7BitString(false), QByteArray("filename=\"genome.jpeg\"; modification-date=\"Wed, 12 Feb 1997 16:29:51 -0500\""));
@@ -517,14 +528,16 @@ void HeaderTest::testContentDispositionHeader()
     delete h;
 
     // parse parameter-less header
-    h = new ContentDisposition(0, "inline");
+    h = new ContentDisposition;
+    h->from7BitString("inline");
     QCOMPARE(h->disposition(), CDinline);
     QVERIFY(h->filename().isEmpty());
     QCOMPARE(h->as7BitString(true), QByteArray("Content-Disposition: inline"));
     delete h;
 
     // parse header with parameter
-    h = new ContentDisposition(0, "attachment; filename=genome.jpeg;\n modification-date=\"Wed, 12 Feb 1997 16:29:51 -0500\";");
+    h = new ContentDisposition;
+    h->from7BitString("attachment; filename=genome.jpeg;\n modification-date=\"Wed, 12 Feb 1997 16:29:51 -0500\";");
     QCOMPARE(h->disposition(), CDattachment);
     QCOMPARE(h->filename(), QLatin1String("genome.jpeg"));
     delete h;
@@ -569,26 +582,30 @@ void HeaderTest::testContentTypeHeader()
     delete h;
 
     // parse a complete header
-    h = new ContentType(0, "text/plain; charset=us-ascii (Plain text)");
+    h = new ContentType;
+    h->from7BitString("text/plain; charset=us-ascii (Plain text)");
     QVERIFY(h->isPlainText());
     QCOMPARE(h->charset(), QByteArray("us-ascii"));
     delete h;
 
     // bug #136631 (name with rfc 2231 style parameter wrapping)
-    h = new ContentType(0, "text/plain;\n name*0=\"PIN_Brief_box1@xx.xxx.censored_Konfigkarte.confi\";\n name*1=\"guration.txt\"");
+    h = new ContentType;
+    h->from7BitString("text/plain;\n name*0=\"PIN_Brief_box1@xx.xxx.censored_Konfigkarte.confi\";\n name*1=\"guration.txt\"");
     QVERIFY(h->isPlainText());
     QCOMPARE(h->name(), QLatin1String("PIN_Brief_box1@xx.xxx.censored_Konfigkarte.configuration.txt"));
     delete h;
 
     // bug #197958 (name of Content-Type sent by Mozilla Thunderbird are not parsed -- test case generated with v2.0.0.22)
-    h = new ContentType(0, "text/plain;\n name=\"=?ISO-8859-1?Q?lor=E9m_ipsum=2Etxt?=\"");
+    h = new ContentType;
+    h->from7BitString("text/plain;\n name=\"=?ISO-8859-1?Q?lor=E9m_ipsum=2Etxt?=\"");
     QCOMPARE(h->name(), QString::fromUtf8("lorém ipsum.txt"));
     delete h;
 
     // bug #197958 (name of Content-Type sent by Mozilla Thunderbird are not parsed -- test case generated with v2.0.0.22)
     // But with unquoted string
     QEXPECT_FAIL("", "Unqouted rfc2047 strings are not supported as of now", Continue);
-    h = new ContentType(0, "text/plain;\n name==?ISO-8859-1?Q?lor=E9m_ipsum=2Etxt?=");
+    h = new ContentType;
+    h->from7BitString("text/plain;\n name==?ISO-8859-1?Q?lor=E9m_ipsum=2Etxt?=");
     QCOMPARE(h->name(), QString::fromUtf8("lorém ipsum.txt"));
     delete h;
 
@@ -627,7 +644,8 @@ void HeaderTest::testTokenHeader()
     delete h;
 
     // parse a header
-    h = new Token(0, "value (comment)");
+    h = new Token;
+    h->from7BitString("value (comment)");
     QCOMPARE(h->token(), QByteArray("value"));
     QCOMPARE(h->as7BitString(false), QByteArray("value"));
     delete h;
@@ -652,7 +670,8 @@ void HeaderTest::testContentTransferEncoding()
     delete h;
 
     // parse a header
-    h = new ContentTransferEncoding(0, "(comment) base64");
+    h = new ContentTransferEncoding;
+    h->from7BitString("(comment) base64");
     QCOMPARE(h->encoding(), CEbase64);
     QCOMPARE(h->as7BitString(false), QByteArray("base64"));
     delete h;
@@ -668,7 +687,8 @@ void HeaderTest::testPhraseListHeader()
     delete h;
 
     // parse a simple phrase list
-    h = new PhraseList(0, "foo,\n bar");
+    h = new PhraseList;
+    h->from7BitString("foo,\n bar");
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->phrases().count(), 2);
     QStringList phrases = h->phrases();
@@ -727,7 +747,8 @@ void HeaderTest::testDateHeader()
     delete h;
 
     // white spaces and comment (from RFC 2822, Appendix A.5)
-    h = new Date(0, "Thu,\n  13\n    Feb\n  1969\n  23:32\n  -0330 (Newfoundland Time)");
+    h = new Date;
+    h->from7BitString("Thu,\n  13\n    Feb\n  1969\n  23:32\n  -0330 (Newfoundland Time)");
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->dateTime().date(), QDate(1969, 2, 13));
     QCOMPARE(h->dateTime().time(), QTime(23, 32));
@@ -736,7 +757,8 @@ void HeaderTest::testDateHeader()
     delete h;
 
     // obsolete date format (from RFC 2822, Appendix A.6.2)
-    h = new Date(0, "21 Nov 97 09:55:06 GMT");
+    h = new Date;
+    h->from7BitString("21 Nov 97 09:55:06 GMT");
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->dateTime().date(), QDate(1997, 11, 21));
     QCOMPARE(h->dateTime().time(), QTime(9, 55, 6));
@@ -744,7 +766,8 @@ void HeaderTest::testDateHeader()
     delete h;
 
     // obsolete whitespaces and commnets (from RFC 2822, Appendix A.6.3)
-    h = new Date(0, "Fri, 21 Nov 1997 09(comment):   55  :  06 -0600");
+    h = new Date;
+    h->from7BitString("Fri, 21 Nov 1997 09(comment):   55  :  06 -0600");
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->dateTime().date(), QDate(1997, 11, 21));
     QCOMPARE(h->dateTime().time(), QTime(9, 55, 6));
@@ -752,7 +775,8 @@ void HeaderTest::testDateHeader()
     delete h;
 
     // Make sure uppercase OCT is parsed correctly - bug 150620
-    h = new Date(0, "08 OCT 08 16:54:05 +0000");
+    h = new Date;
+    h->from7BitString("08 OCT 08 16:54:05 +0000");
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->dateTime().date(), QDate(2008, 10, 8));
     QCOMPARE(h->dateTime().time(), QTime(16, 54, 05));
@@ -760,7 +784,8 @@ void HeaderTest::testDateHeader()
     delete h;
 
     // Test for bug 111633, year < 1970
-    h = new Date(0, "Mon, 27 Aug 1956 21:31:46 +0200");
+    h = new Date;
+    h->from7BitString("Mon, 27 Aug 1956 21:31:46 +0200");
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->dateTime().date(), QDate(1956, 8, 27));
     QCOMPARE(h->dateTime().time(), QTime(21, 31, 46));
@@ -768,7 +793,8 @@ void HeaderTest::testDateHeader()
     delete h;
 
     // Test for bug 207766
-    h = new Date(0, "Fri, 18 Sep 2009 04:44:55 -0400");
+    h = new Date;
+    h->from7BitString("Fri, 18 Sep 2009 04:44:55 -0400");
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->dateTime().date(), QDate(2009, 9, 18));
     QCOMPARE(h->dateTime().time(), QTime(4, 44, 55));
@@ -776,7 +802,8 @@ void HeaderTest::testDateHeader()
     delete h;
 
     // Test for bug 260761
-    h = new Date(0, "Sat, 18 Dec 2010 14:01:21 \"GMT\"");
+    h = new Date;
+    h->from7BitString("Sat, 18 Dec 2010 14:01:21 \"GMT\"");
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->dateTime().date(), QDate(2010, 12, 18));
     QCOMPARE(h->dateTime().time(), QTime(14, 1, 21));
@@ -784,14 +811,16 @@ void HeaderTest::testDateHeader()
     delete h;
 
     // old asctime()-like formatted date; regression to KDE3; see bug 117848
-    h = new Date(0, "Thu Mar 30 18:36:28 CEST 2006");
+    h = new Date;
+    h->from7BitString("Thu Mar 30 18:36:28 CEST 2006");
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->dateTime().date(), QDate(2006, 3, 30));
     QCOMPARE(h->dateTime().time(), QTime(18, 36, 28));
     QCOMPARE(h->dateTime().utcOffset(), 2 * 3600);
     delete h;
 
-    h = new Date(0, "Thu Mar 30 18:36:28 2006");
+    h = new Date;
+    h->from7BitString("Thu Mar 30 18:36:28 2006");
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->dateTime().date(), QDate(2006, 3, 30));
     QCOMPARE(h->dateTime().time(), QTime(18, 36, 28));
@@ -799,7 +828,8 @@ void HeaderTest::testDateHeader()
     delete h;
 
     // regression to KDE3; see bug 54098
-    h = new Date(0, "Tue, Feb 04, 2003 00:01:20 +0000");
+    h = new Date;
+    h->from7BitString("Tue, Feb 04, 2003 00:01:20 +0000");
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->dateTime().date(), QDate(2003, 2, 4));
     QCOMPARE(h->dateTime().time(), QTime(0, 1, 20));
@@ -827,7 +857,8 @@ void HeaderTest::testLinesHeader()
     delete h;
 
     // parse header with comment
-    h = new Lines(0, "(this is a comment) 10 (and yet another comment)");
+    h = new Lines;
+    h->from7BitString("(this is a comment) 10 (and yet another comment)");
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->numberOfLines(), 10);
     delete h;
@@ -855,7 +886,8 @@ void HeaderTest::testNewsgroupsHeader()
     delete h;
 
     // parse a header
-    h = new Newsgroups(0, "gmane.comp.kde.devel.core,gmane.comp.kde.devel.buildsystem");
+    h = new Newsgroups;
+    h->from7BitString("gmane.comp.kde.devel.core,gmane.comp.kde.devel.buildsystem");
     groups = h->groups();
     QCOMPARE(groups.count(), 2);
     QCOMPARE(groups.takeFirst(), QByteArray("gmane.comp.kde.devel.core"));
@@ -893,7 +925,8 @@ void HeaderTest::testControlHeader()
     delete h;
 
     // parse a control header
-    h = new Control(0, "cancel <foo@bar>");
+    h = new Control;
+    h->from7BitString("cancel <foo@bar>");
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->parameter(), QByteArray("<foo@bar>"));
     QVERIFY(h->isCancel());

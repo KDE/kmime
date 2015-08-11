@@ -64,17 +64,6 @@
         clear();                                                            \
     }                                                                     \
     \
-    subclass::subclass( Content *parent, const QByteArray &s ) : baseclass( parent ) \
-    {                                                                     \
-        from7BitString( s );                                                \
-    }                                                                     \
-    \
-    subclass::subclass( Content *parent, const QString &s, const QByteArray &charset ) : \
-        baseclass( parent )                                                 \
-    {                                                                     \
-        fromUnicodeString( s, charset );                                    \
-    }                                                                     \
-    \
     subclass::~subclass() {}
 
 // end kmime_mk_trivial_ctor
@@ -83,17 +72,6 @@
     subclass::subclass( Content *parent ) : baseclass( new subclass##Private, parent ) \
     {                                                                     \
         clear();                                                            \
-    }                                                                     \
-    \
-    subclass::subclass( Content *parent, const QByteArray &s ) : baseclass( new subclass##Private, parent ) \
-    {                                                                     \
-        from7BitString( s );                                                \
-    }                                                                     \
-    \
-    subclass::subclass( Content *parent, const QString &s, const QByteArray &charset ) : \
-        baseclass( new subclass##Private, parent )                          \
-    {                                                                     \
-        fromUnicodeString( s, charset );                                    \
     }                                                                     \
     \
     subclass::~subclass() {}
@@ -221,16 +199,6 @@ Unstructured::Unstructured(Content *p) : Base(new UnstructuredPrivate, p)
 {
 }
 
-Unstructured::Unstructured(Content *p, const QByteArray &s) : Base(new UnstructuredPrivate, p)
-{
-    from7BitString(s);
-}
-
-Unstructured::Unstructured(Content *p, const QString &s, const QByteArray &cs) : Base(new UnstructuredPrivate, p)
-{
-    fromUnicodeString(s, cs);
-}
-
 Unstructured::~Unstructured()
 {
 }
@@ -318,16 +286,6 @@ void Structured::fromUnicodeString(const QString &s, const QByteArray &b)
 
 Address::Address(Content *p) : Structured(new AddressPrivate, p)
 {
-}
-
-Address::Address(Content *p, const QByteArray &s) : Structured(new AddressPrivate, p)
-{
-    from7BitString(s);
-}
-
-Address::Address(Content *p, const QString &s, const QByteArray &cs) : Structured(new AddressPrivate, p)
-{
-    fromUnicodeString(s, cs);
 }
 
 kmime_mk_dptr_ctor(Address, Structured)
