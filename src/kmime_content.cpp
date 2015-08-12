@@ -141,9 +141,6 @@ void Content::parse()
     qDeleteAll(d->headers);
     d->headers.clear();
     d->headers = HeaderParsing::parseHeaders(d->head);
-    foreach (Headers::Base *h, d->headers) {
-        h->setParent(this);
-    }
 
     // If we are frozen, save the body as-is. This is done because parsing
     // changes the content (it loses preambles and epilogues, converts uuencode->mime, etc.)
@@ -667,14 +664,12 @@ void Content::appendHeader(Headers::Base *h)
 {
     Q_D(Content);
     d->headers.append(h);
-    h->setParent(this);
 }
 
 void Content::prependHeader(Headers::Base *h)
 {
     Q_D(Content);
     d->headers.prepend(h);
-    h->setParent(this);
 }
 
 bool Content::removeHeader(const char *type)

@@ -698,7 +698,7 @@ template <typename T> T *Content::header(bool create)
         // Make sure the header is actually of the right type.
         Q_ASSERT(dynamic_cast<T *>(h));
     } else if (create) {
-        h = new T(this);
+        h = new T;
         setHeader(h);
     }
     return static_cast<T *>(h);

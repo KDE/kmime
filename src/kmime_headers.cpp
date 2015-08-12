@@ -59,7 +59,7 @@
 
 // macro to generate a default constructor implementation
 #define kmime_mk_trivial_ctor( subclass, baseclass )                  \
-    subclass::subclass( Content *parent ) : baseclass( parent )           \
+    subclass::subclass() : baseclass()           \
     {                                                                     \
         clear();                                                            \
     }                                                                     \
@@ -69,7 +69,7 @@
 // end kmime_mk_trivial_ctor
 
 #define kmime_mk_trivial_ctor_with_dptr( subclass, baseclass ) \
-    subclass::subclass( Content *parent ) : baseclass( new subclass##Private, parent ) \
+    subclass::subclass() : baseclass( new subclass##Private ) \
     {                                                                     \
         clear();                                                            \
     }                                                                     \
@@ -93,7 +93,7 @@
     const char *subclass::staticType() { return #name; }
 
 #define kmime_mk_dptr_ctor( subclass, baseclass ) \
-    subclass::subclass( subclass##Private *d, KMime::Content *parent ) : baseclass( d, parent ) {}
+    subclass::subclass( subclass##Private *d ) : baseclass( d ) {}
 
 using namespace KMime;
 using namespace KMime::Headers;
@@ -105,34 +105,21 @@ namespace KMime
 namespace Headers
 {
 //-----<Base>----------------------------------
-Base::Base(KMime::Content *parent) :
-    d_ptr(new BasePrivate)
+Base::Base() : d_ptr(new BasePrivate)
 {
     Q_D(Base);
-    d->parent = parent;
 }
 
-Base::Base(BasePrivate *dd, KMime::Content *parent) :
+Base::Base(BasePrivate *dd) :
     d_ptr(dd)
 {
     Q_D(Base);
-    d->parent = parent;
 }
 
 Base::~Base()
 {
     delete d_ptr;
     d_ptr = 0;
-}
-
-KMime::Content *Base::parent() const
-{
-    return d_ptr->parent;
-}
-
-void Base::setParent(KMime::Content *parent)
-{
-    d_ptr->parent = parent;
 }
 
 QByteArray Base::rfc2047Charset() const
@@ -180,7 +167,7 @@ namespace Generics
 kmime_mk_dptr_ctor(Unstructured, Base)
 //@endcond
 
-Unstructured::Unstructured(Content *p) : Base(new UnstructuredPrivate, p)
+Unstructured::Unstructured() : Base(new UnstructuredPrivate)
 {
 }
 
@@ -233,7 +220,7 @@ bool Unstructured::isEmpty() const
 
 //-----<Structured>-------------------------
 
-Structured::Structured(Content *p) : Base(new StructuredPrivate, p)
+Structured::Structured() : Base(new StructuredPrivate)
 {
 }
 
@@ -269,7 +256,7 @@ void Structured::fromUnicodeString(const QString &s, const QByteArray &b)
 
 //-----<Address>-------------------------
 
-Address::Address(Content *p) : Structured(new AddressPrivate, p)
+Address::Address() : Structured(new AddressPrivate)
 {
 }
 
@@ -1151,12 +1138,6 @@ Generic::Generic() : Generics::Unstructured(new GenericPrivate)
 }
 
 Generic::Generic(const char *t) : Generics::Unstructured(new GenericPrivate)
-{
-    setType(t);
-}
-
-Generic::Generic(const char *t, Content *p)
-    : Generics::Unstructured(new GenericPrivate, p)
 {
     setType(t);
 }

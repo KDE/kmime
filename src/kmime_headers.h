@@ -93,12 +93,12 @@ enum contentDisposition {
 // internal macro to generate default constructors
 #define kmime_mk_trivial_ctor( subclass )                               \
     public:                                                               \
-    explicit subclass( Content *parent = 0 );                           \
+    subclass();                           \
     ~subclass();
 
 #define kmime_mk_dptr_ctor( subclass ) \
     protected: \
-    explicit subclass( subclass##Private *d, KMime::Content *parent = 0 );
+    explicit subclass( subclass##Private *d );
 
 #define kmime_mk_trivial_ctor_with_name( subclass )     \
     kmime_mk_trivial_ctor( subclass )                     \
@@ -123,24 +123,14 @@ public:
     typedef QVector<KMime::Headers::Base *> List;
 
     /**
-      Creates an empty header with a parent-content.
+      Creates an empty header.
     */
-    explicit Base(KMime::Content *parent = 0);
+    Base();
 
     /**
       Destructor.
     */
     virtual ~Base();
-
-    /**
-      Returns the parent of this header.
-    */
-    KMime::Content *parent() const;
-
-    /**
-      Sets the parent for this header to @p parent.
-    */
-    void setParent(KMime::Content *parent);
 
     /**
       Parses the given string. Take care of RFC2047-encoded strings.
@@ -252,7 +242,7 @@ class KMIME_EXPORT Unstructured : public Base
     kmime_mk_dptr_ctor(Unstructured)
     //@endcond
 public:
-    explicit Unstructured(Content *p = 0);
+    Unstructured();
     ~Unstructured();
 
     void from7BitString(const QByteArray &s) Q_DECL_OVERRIDE;
@@ -304,7 +294,7 @@ class StructuredPrivate;
 class KMIME_EXPORT Structured : public Base
 {
 public:
-    explicit Structured(Content *p = 0);
+    Structured();
     ~Structured();
 
     void from7BitString(const QByteArray &s) Q_DECL_OVERRIDE;
@@ -339,7 +329,7 @@ class AddressPrivate;
 class KMIME_EXPORT Address : public Structured
 {
 public:
-    explicit Address(Content *p = 0);
+    Address();
     ~Address();
 protected:
     //@cond PRIVATE
@@ -1208,7 +1198,6 @@ class KMIME_EXPORT Generic : public Generics::Unstructured
 public:
     Generic();
     Generic(const char *t);
-    Generic(const char *t, Content *p);
     ~Generic();
 
     void clear() Q_DECL_OVERRIDE;

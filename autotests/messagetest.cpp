@@ -306,7 +306,7 @@ void MessageTest::testUtf16()
     QCOMPARE(msg.decodedText(false, true), QLatin1String("This is UTF-16 Text."));
 
     // Add a new To header, for testings
-    KMime::Headers::To *to = new KMime::Headers::To(&msg);
+    KMime::Headers::To *to = new KMime::Headers::To;
     KMime::Types::Mailbox address;
     address.setAddress("test@test.de");
     address.setName(QLatin1String("Fränz Töster"));

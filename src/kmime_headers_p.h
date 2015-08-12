@@ -34,11 +34,10 @@ namespace Headers
 class BasePrivate
 {
 public:
-    BasePrivate() : parent(0) {}
+    BasePrivate() {}
 
     virtual ~BasePrivate() {}
 
-    KMime::Content *parent;
     QByteArray encCS;
 };
 
