@@ -40,7 +40,6 @@ public:
         parent(0),
         frozen(false)
     {
-        defaultCS = KMime::cachedCharset("ISO-8859-1");
     }
 
     ~ContentPrivate()
@@ -64,7 +63,6 @@ public:
     QByteArray head;
     QByteArray body;
     QByteArray frozenBody;
-    QByteArray defaultCS;
     QByteArray preamble;
     QByteArray epilogue;
     Content *parent;

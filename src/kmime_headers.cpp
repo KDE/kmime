@@ -138,7 +138,7 @@ void Base::setParent(KMime::Content *parent)
 QByteArray Base::rfc2047Charset() const
 {
     if (d_ptr->encCS.isEmpty()) {
-        return defaultCharset();
+        return Content::defaultCharset();
     } else {
         return d_ptr->encCS;
     }
@@ -147,11 +147,6 @@ QByteArray Base::rfc2047Charset() const
 void Base::setRFC2047Charset(const QByteArray &cs)
 {
     d_ptr->encCS = cachedCharset(cs);
-}
-
-QByteArray Base::defaultCharset() const
-{
-    return (parent() != 0 ? parent()->defaultCharset() : "ISO-8859-1");
 }
 
 const char *Base::type() const
@@ -196,7 +191,7 @@ Unstructured::~Unstructured()
 void Unstructured::from7BitString(const QByteArray &s)
 {
     Q_D(Unstructured);
-    d->decoded = decodeRFC2047String(s, d->encCS, defaultCharset());
+    d->decoded = decodeRFC2047String(s, d->encCS, Content::defaultCharset());
 }
 
 QByteArray Unstructured::as7BitString(bool withHeaderType) const
@@ -252,7 +247,7 @@ void Structured::from7BitString(const QByteArray &s)
 {
     Q_D(Structured);
     if (d->encCS.isEmpty()) {
-        d->encCS = defaultCharset();
+        d->encCS = Content::defaultCharset();
     }
     const char *cursor = s.constData();
     parse(cursor, cursor + s.length());
@@ -1715,7 +1710,7 @@ QByteArray ContentType::charset() const {
     QByteArray ret = parameter(QLatin1String("charset")).toLatin1();
     if (ret.isEmpty()) {
         //return the default-charset if necessary
-        ret = defaultCharset();
+        ret = Content::defaultCharset();
     }
     return ret;
 }

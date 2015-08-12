@@ -779,22 +779,9 @@ bool ContentPrivate::decodeText(Content *q)
     return true;
 }
 
-QByteArray Content::defaultCharset() const
+QByteArray Content::defaultCharset()
 {
-    return d_ptr->defaultCS;
-}
-
-void Content::setDefaultCharset(const QByteArray &cs)
-{
-    d_ptr->defaultCS = KMime::cachedCharset(cs);
-
-    foreach (Content *c, d_ptr->contents()) {
-        c->setDefaultCharset(cs);
-    }
-
-    // reparse the part and its sub-parts in order
-    // to clear cached header values
-    parse();
+    return KMime::cachedCharset("ISO-8859-1");
 }
 
 Content *KMime::Content::content(const ContentIndex &index) const

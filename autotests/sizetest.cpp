@@ -41,7 +41,7 @@ private Q_SLOTS:
         qDebug() << sizeof(Content);
         QVERIFY(sizeof(Content) <= 16);
         qDebug() << sizeof(ContentPrivate);
-        QVERIFY(sizeof(ContentPrivate) <= 96);
+        QVERIFY(sizeof(ContentPrivate) <= 88);
         qDebug() << sizeof(Message);
         QCOMPARE(sizeof(Message), sizeof(Content));
     }

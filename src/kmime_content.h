@@ -586,28 +586,14 @@ public:
     */
     void changeEncoding(Headers::contentEncoding e);
 
-    // NOTE: The charset methods below are accessed by the headers which
-    // have this Content as a parent.
-
     /**
       Returns the charset that is used to decode RFC2047 strings in all headers and to decode
       the body if the charset is not declared explictly.
       It is also used as the charset when encoding RFC2047 strings in headers.
-
-      @see setDefaultCharset()
     */
     // TODO: Split this up into a charset for encoding and one for decoding, and make the one for
     //       encoding UTF-8 by default.
-    QByteArray defaultCharset() const;
-
-    /**
-      Sets the default charset.
-
-      @param cs is a QByteArray containing the new default charset.
-
-      @see defaultCharset().
-    */
-    void setDefaultCharset(const QByteArray &cs);
+    static QByteArray defaultCharset();
 
     /**
       Returns the Content specified by the given index.

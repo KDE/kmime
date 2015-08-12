@@ -166,11 +166,6 @@ public:
     void setRFC2047Charset(const QByteArray &cs);
 
     /**
-      Returns the default charset.
-    */
-    QByteArray defaultCharset() const;
-
-    /**
       Parses the given string and set the charset.
       @param s The header data as unicode string.
       @param b The charset preferred for encoding.
