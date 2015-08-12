@@ -1176,20 +1176,6 @@ Generic::Generic(const char *t, Content *p)
     setType(t);
 }
 
-Generic::Generic(const char *t, Content *p, const QByteArray &s)
-    : Generics::Unstructured(new GenericPrivate, p)
-{
-    from7BitString(s);
-    setType(t);
-}
-
-Generic::Generic(const char *t, Content *p, const QString &s, const QByteArray &cs)
-    : Generics::Unstructured(new GenericPrivate, p)
-{
-    fromUnicodeString(s, cs);
-    setType(t);
-}
-
 Generic::~Generic()
 {
 }

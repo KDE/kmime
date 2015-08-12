@@ -90,8 +90,10 @@ void ContentTest::testHeaderAppendPrepend()
     Content *c = new Content;
     QByteArray d1("Resent-From: test1@example.com");
     QByteArray d2("Resent-From: test2@example.com");
-    Headers::Generic *h1 = new Headers::Generic("Resent-From", 0, "test1@example.com");
-    Headers::Generic *h2 = new Headers::Generic("Resent-From", 0, "test2@example.com");
+    Headers::Generic *h1 = new Headers::Generic("Resent-From", 0);
+    h1->from7BitString("test1@example.com");
+    Headers::Generic *h2 = new Headers::Generic("Resent-From", 0);
+    h2->from7BitString("test2@example.com");
     c->appendHeader(h1);
     c->appendHeader(h2);
     c->assemble();
@@ -99,7 +101,8 @@ void ContentTest::testHeaderAppendPrepend()
     QCOMPARE(c->head(), head);
 
     QByteArray d3("Resent-From: test3@example.com");
-    Headers::Generic *h3 = new Headers::Generic("Resent-From", 0, "test3@example.com");
+    Headers::Generic *h3 = new Headers::Generic("Resent-From", 0);
+    h3->from7BitString("test3@example.com");
     c->prependHeader(h3);
     c->assemble();
     head.prepend(d3 + '\n');

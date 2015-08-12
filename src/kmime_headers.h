@@ -1224,8 +1224,6 @@ public:
     Generic();
     Generic(const char *t);
     Generic(const char *t, Content *p);
-    Generic(const char *t, Content *p, const QByteArray &s);
-    Generic(const char *t, Content *p, const QString &s, const QByteArray &cs);
     ~Generic();
 
     void clear() Q_DECL_OVERRIDE;
