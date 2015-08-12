@@ -63,7 +63,6 @@ ecm_generate_headers(KMime_CamelCase_HEADERS
 
 install(FILES
          ${KMime_BINARY_DIR}/src/kmime_export.h
-         kmime_charfreq.h
          kmime_content.h
          kmime_contentindex.h
          kmime_header_parsing.h
