@@ -189,11 +189,6 @@ public:
                                      const QString &data = QString(),
                                      bool shortFormat = true);
 
-    /**
-      Returns true if the current time is on daylight savings time; else false.
-    */
-    static bool isDaylight();
-
 protected:
     /**
       Returns a QString containing the specified time_t @p t formatted
@@ -259,7 +254,6 @@ private:
     FormatType          mFormat;
     mutable time_t      mTodayOneSecondBeforeMidnight;
     QString             mCustomFormat;
-    static int          mDaylight;
     //@endcond
 };
 

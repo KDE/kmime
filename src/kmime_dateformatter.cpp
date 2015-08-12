@@ -43,9 +43,6 @@
 
 using namespace KMime;
 
-//@cond PRIVATE
-int DateFormatter::mDaylight = -1;
-//@endcond
 DateFormatter::DateFormatter(FormatType ftype)
     : mFormat(ftype), mTodayOneSecondBeforeMidnight(0)
 {
@@ -155,14 +152,11 @@ QByteArray DateFormatter::zone(time_t t) const
 
     // adjust to daylight
     if (local->tm_isdst > 0) {
-        mDaylight = 1;
         if (neg) {
             --hours;
         } else {
             ++hours;
         }
-    } else {
-        mDaylight = 0;
     }
 
 #elif defined(HAVE_TM_GMTOFF)
@@ -171,12 +165,6 @@ QByteArray DateFormatter::zone(time_t t) const
     int neg  = (local->tm_gmtoff < 0) ? 1 : 0;
     int hours = secs / 3600;
     int mins  = (secs - hours * 3600) / 60;
-
-    if (local->tm_isdst > 0) {
-        mDaylight = 1;
-    } else {
-        mDaylight = 0;
-    }
 
 #else
 
@@ -187,7 +175,6 @@ QByteArray DateFormatter::zone(time_t t) const
     secs = abs(secs);
     int hours = secs / 3600;
     int mins  = (secs - hours * 3600) / 60;
-    // daylight should be already taken care of here
 
 #endif /* HAVE_TIMEZONE */
 
@@ -288,23 +275,4 @@ QString DateFormatter::formatCurrentDate(FormatType ftype, const QString &data, 
         f.setCustomFormat(data);
     }
     return f.dateString(time(0), data, shortFormat);
-}
-
-bool DateFormatter::isDaylight()
-{
-    if (mDaylight == -1) {
-        time_t ntime = time(0);
-        struct tm *local = localtime(&ntime);
-        if (local->tm_isdst > 0) {
-            mDaylight = 1;
-            return true;
-        } else {
-            mDaylight = 0;
-            return false;
-        }
-    } else if (mDaylight != 0) {
-        return true;
-    } else {
-        return false;
-    }
 }
