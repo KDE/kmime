@@ -38,7 +38,6 @@ class ContentPrivate
 public:
     explicit ContentPrivate() :
         parent(0),
-        forceDefaultCS(false),
         frozen(false)
     {
         defaultCS = KMime::cachedCharset("ISO-8859-1");
@@ -75,7 +74,6 @@ public:
 
     QVector<Headers::Base*> headers;
 
-    bool forceDefaultCS : 1;
     bool frozen : 1;
 };
 

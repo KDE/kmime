@@ -137,7 +137,7 @@ void Base::setParent(KMime::Content *parent)
 
 QByteArray Base::rfc2047Charset() const
 {
-    if (d_ptr->encCS.isEmpty() || forceDefaultCharset()) {
+    if (d_ptr->encCS.isEmpty()) {
         return defaultCharset();
     } else {
         return d_ptr->encCS;
@@ -147,11 +147,6 @@ QByteArray Base::rfc2047Charset() const
 void Base::setRFC2047Charset(const QByteArray &cs)
 {
     d_ptr->encCS = cachedCharset(cs);
-}
-
-bool Base::forceDefaultCharset() const
-{
-    return (parent() != 0 ? parent()->forceDefaultCharset() : false);
 }
 
 QByteArray Base::defaultCharset() const
@@ -201,7 +196,7 @@ Unstructured::~Unstructured()
 void Unstructured::from7BitString(const QByteArray &s)
 {
     Q_D(Unstructured);
-    d->decoded = decodeRFC2047String(s, d->encCS, defaultCharset(), forceDefaultCharset());
+    d->decoded = decodeRFC2047String(s, d->encCS, defaultCharset());
 }
 
 QByteArray Unstructured::as7BitString(bool withHeaderType) const
@@ -1718,7 +1713,7 @@ bool ContentType::isPartial() const {
 
 QByteArray ContentType::charset() const {
     QByteArray ret = parameter(QLatin1String("charset")).toLatin1();
-    if (ret.isEmpty() || forceDefaultCharset()) {
+    if (ret.isEmpty()) {
         //return the default-charset if necessary
         ret = defaultCharset();
     }

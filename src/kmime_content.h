@@ -610,25 +610,6 @@ public:
     void setDefaultCharset(const QByteArray &cs);
 
     /**
-      Use the default charset even if a different charset is
-      declared in the article.
-
-      @see setForceDefaultCharset().
-    */
-    bool forceDefaultCharset() const;
-
-    /**
-      Enables/disables the force mode, housekeeping.
-      works correctly only when the article is completely empty or
-      completely loaded.
-
-      @param b If true, force the default charset to be used.
-
-      @see forceDefaultCharset().
-    */
-    void setForceDefaultCharset(bool b);
-
-    /**
       Returns the Content specified by the given index.
       If the index does not point to a Content, 0 is returned. If the index
       is invalid (empty), this Content is returned.

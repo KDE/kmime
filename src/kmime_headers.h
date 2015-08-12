@@ -171,11 +171,6 @@ public:
     QByteArray defaultCharset() const;
 
     /**
-      Returns if the default charset is mandatory.
-    */
-    bool forceDefaultCharset() const;
-
-    /**
       Parses the given string and set the charset.
       @param s The header data as unicode string.
       @param b The charset preferred for encoding.

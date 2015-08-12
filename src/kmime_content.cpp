@@ -797,24 +797,6 @@ void Content::setDefaultCharset(const QByteArray &cs)
     parse();
 }
 
-bool Content::forceDefaultCharset() const
-{
-    return d_ptr->forceDefaultCS;
-}
-
-void Content::setForceDefaultCharset(bool b)
-{
-    d_ptr->forceDefaultCS = b;
-
-    foreach (Content *c, d_ptr->contents()) {
-        c->setForceDefaultCharset(b);
-    }
-
-    // reparse the part and its sub-parts in order
-    // to clear cached header values
-    parse();
-}
-
 Content *KMime::Content::content(const ContentIndex &index) const
 {
     if (!index.isValid()) {
