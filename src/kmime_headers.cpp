@@ -174,11 +174,6 @@ bool Base::isMimeHeader() const
     return qstrnicmp(type(), "Content-", 8) == 0;
 }
 
-bool Base::isXHeader() const
-{
-    return qstrncmp(type(), "X-", 2) == 0;
-}
-
 QByteArray Base::typeIntro() const
 {
     return QByteArray(type()) + ": ";

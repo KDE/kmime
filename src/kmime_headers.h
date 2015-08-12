@@ -216,11 +216,6 @@ public:
     */
     bool isMimeHeader() const;
 
-    /**
-      Checks if this header is a X-Header.
-    */
-    bool isXHeader() const;
-
 protected:
     /**
       Helper method, returns the header prefix including ":".
