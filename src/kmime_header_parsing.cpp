@@ -1883,7 +1883,7 @@ static bool parseAlphaNumericTimeZone(const char *&scursor,
                                       bool &timeZoneKnown)
 {
     // allow the timezone to be wrapped in quotes; bug 260761
-    if (*scursor == '"') {
+    if (scursor < send && *scursor == '"') {
         scursor++;
 
         if (scursor == send) {
@@ -1902,7 +1902,7 @@ static bool parseAlphaNumericTimeZone(const char *&scursor,
             secsEastOfGMT = timeZones[i].secsEastOfGMT;
             timeZoneKnown = true;
 
-            if (*scursor == '"') {
+            if (scursor < send && *scursor == '"') {
                 scursor++;
             }
 
