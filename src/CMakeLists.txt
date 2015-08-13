@@ -20,7 +20,7 @@ set(kmime_LIB_SRCS
    kmime_message.cpp
    kmime_newsarticle.cpp
    kmime_dateformatter.cpp
-   kautodeletehash.cpp)
+)
 
 add_library(KF5Mime ${kmime_LIB_SRCS})
 
