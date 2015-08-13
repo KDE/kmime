@@ -306,13 +306,6 @@ public:
     void appendHeader(Headers::Base *h);
 
     /**
-      Prepends the specified header to the headers of this Content.
-      @param h The header to prepend.
-      @since 4.4
-    */
-    void prependHeader(Headers::Base *h);
-
-    /**
       Searches for the first header of type @p type, and deletes it, removing
       it from this Content.
       @param type The type of the header to look for.

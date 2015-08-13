@@ -85,7 +85,7 @@ void ContentTest::testHeaderAddRemove()
     QVERIFY(!c->contentDescription(false));
 }
 
-void ContentTest::testHeaderAppendPrepend()
+void ContentTest::testHeaderAppend()
 {
     Content *c = new Content;
     QByteArray d1("Resent-From: test1@example.com");
@@ -103,9 +103,9 @@ void ContentTest::testHeaderAppendPrepend()
     QByteArray d3("Resent-From: test3@example.com");
     Headers::Generic *h3 = new Headers::Generic("Resent-From");
     h3->from7BitString("test3@example.com");
-    c->prependHeader(h3);
+    c->appendHeader(h3);
     c->assemble();
-    head.prepend(d3 + '\n');
+    head.append(d3 + '\n');
     QCOMPARE(c->head(), head);
 }
 

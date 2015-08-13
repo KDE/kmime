@@ -666,12 +666,6 @@ void Content::appendHeader(Headers::Base *h)
     d->headers.append(h);
 }
 
-void Content::prependHeader(Headers::Base *h)
-{
-    Q_D(Content);
-    d->headers.prepend(h);
-}
-
 bool Content::removeHeader(const char *type)
 {
     Q_D(Content);

@@ -27,7 +27,7 @@ class ContentTest : public QObject
 private Q_SLOTS:
     void testGetHeaderInstance();
     void testHeaderAddRemove();
-    void testHeaderAppendPrepend();
+    void testHeaderAppend();
     void testImplicitMultipartGeneration();
     void testExplicitMultipartGeneration();
     void testSetContent();
