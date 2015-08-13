@@ -36,6 +36,7 @@ void ContentTest::testGetHeaderInstance()
     QCOMPARE(myfrom->type(), "From");
     Headers::Base *mybase = myfrom;
     QCOMPARE(mybase->type(), "From");
+    delete myfrom;
 
     // getHeaderInstance() is protected, so we need to test it via KMime::Message
     Message *c = new Message();
@@ -83,6 +84,8 @@ void ContentTest::testHeaderAddRemove()
     c->assemble();
     QVERIFY(c->head().isEmpty());
     QVERIFY(!c->contentDescription(false));
+
+    delete c;
 }
 
 void ContentTest::testHeaderAppend()
@@ -107,6 +110,7 @@ void ContentTest::testHeaderAppend()
     c->assemble();
     head.append(d3 + '\n');
     QCOMPARE(c->head(), head);
+    delete c;
 }
 
 void ContentTest::testImplicitMultipartGeneration()
@@ -216,6 +220,8 @@ void ContentTest::testSetContent()
     QVERIFY(c->hasContent());
     QCOMPARE(c->head(), QByteArray("head1\nhead2\n"));
     QVERIFY(c->body().isEmpty());
+
+    delete c;
 }
 
 void ContentTest::testEncodedContent()
@@ -307,6 +313,7 @@ void ContentTest::testDecodedContent()
     QVERIFY(c->decodedContent() == QByteArray());
     c->setBody(" ");
     QVERIFY(c->decodedContent() == QByteArray(" "));
+    delete c;
 }
 
 void ContentTest::testMultipleHeaderExtraction()
@@ -333,6 +340,7 @@ void ContentTest::testMultipleHeaderExtraction()
     QCOMPARE(result[0]->asUnicodeString(),  QString::fromLatin1("from ktown.kde.org ([192.168.100.1])"));
     QCOMPARE(result[1]->asUnicodeString(),  QString::fromLatin1("from dev1.kde.org ([192.168.100.2]) by ktown.kde.org ([192.168.100.1])"));
     QCOMPARE(result[2]->asUnicodeString(),  QString::fromLatin1("from dev2.kde.org ([192.168.100.3]) by ktown.kde.org ([192.168.100.1])"));
+    delete msg;
 }
 
 void ContentTest::testMultipartMixed()
@@ -472,6 +480,7 @@ void ContentTest::testMultipartMixed()
     //qDebug() << "expected assembled content" << assembled;
     //qDebug() << "actual encoded content" << encc;
     QCOMPARE(msg->encodedContent(), assembled);
+    delete msg;
 }
 
 void ContentTest::testParsingUuencoded()
@@ -668,6 +677,10 @@ void ContentTest::testParent()
     QCOMPARE(msg->contents().at(0)->parent(), msg);
     QCOMPARE(msg->contents().at(1)->parent(), msg);
     delete msg;
+
+    delete c1;
+    delete c2;
+    delete c5;
 }
 
 void ContentTest::testFreezing()
@@ -717,5 +730,6 @@ void ContentTest::testFreezing()
     // Calling assemble() should not alter the data.
     msg->assemble();
     QCOMPARE(msg->encodedContent(), data);
+    delete msg;
 }
 

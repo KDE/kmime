@@ -243,6 +243,7 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->addresses().first(), QByteArray("censored@censored.dy"));
     QCOMPARE(h->displayNames().first(), QLatin1String("|<onrad"));
     QCOMPARE(h->as7BitString(false), QByteArray("\"|<onrad\" <censored@censored.dy>"));
+    delete h;
 
     // based on bug #93790 (legacy display name with nested comments)
     h = new Headers::Generics::AddressList();

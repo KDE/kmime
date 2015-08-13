@@ -79,6 +79,10 @@ void MessageTest::testMainBodyPart()
     QCOMPARE(msg3->mainBodyPart(), html);
     QCOMPARE(msg3->mainBodyPart("text/plain"), text);
     QCOMPARE(msg3->mainBodyPart("text/html"), html);
+
+    delete msg2;
+    delete msg3;
+    delete attach;
 }
 
 void MessageTest::testBrunosMultiAssembleBug()
