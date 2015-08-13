@@ -62,14 +62,6 @@ Content::Content(Content *parent)
     d_ptr->parent = parent;
 }
 
-Content::Content(const QByteArray &h, const QByteArray &b, Content *parent)
-    : d_ptr(new ContentPrivate)
-{
-    d_ptr->head = h;
-    d_ptr->body = b;
-    d_ptr->parent = parent;
-}
-
 Content::~Content()
 {
     Q_D(Content);

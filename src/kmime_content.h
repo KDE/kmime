@@ -125,16 +125,6 @@ public:
     explicit Content(Content *parent = Q_NULLPTR);
 
     /**
-      Creates a Content object containing the given raw data.
-
-      @param head is a QByteArray containing the header data.
-      @param body is a QByteArray containing the body data.
-      @param parent the parent Content object
-      @since 4.3
-    */
-    explicit Content(const QByteArray &head, const QByteArray &body, Content *parent = Q_NULLPTR);
-
-    /**
       Destroys this Content object.
     */
     virtual ~Content();
