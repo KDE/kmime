@@ -111,13 +111,11 @@ namespace Headers
 //-----<Base>----------------------------------
 Base::Base() : d_ptr(new BasePrivate)
 {
-    Q_D(Base);
 }
 
 Base::Base(BasePrivate *dd) :
     d_ptr(dd)
 {
-    Q_D(Base);
 }
 
 Base::~Base()
