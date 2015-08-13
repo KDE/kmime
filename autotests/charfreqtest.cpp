@@ -22,7 +22,7 @@
 
 #include <QDebug>
 
-#include <kmime_charfreq.h>
+#include <../src/kmime_charfreq.cpp>
 using namespace KMime;
 
 QTEST_MAIN(CharFreqTest)

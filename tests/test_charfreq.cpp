@@ -1,7 +1,7 @@
 // test program for KMime::CharFreq.
 // compile with g++ -I$QTDIR/include -L$QTDIR/lib -lqt(-mt) -o test_charfreq test_charfreq.cpp
 
-#include "kmime_charfreq.h"
+#include "../src/kmime_charfreq.cpp"
 
 #include <iostream>
 

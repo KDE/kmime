@@ -58,7 +58,6 @@
 #define __KMIME_CHARFREQ_H__
 
 #include <QtCore/QByteArray>
-#include "kmime_export.h"
 #undef None
 
 namespace KMime
@@ -76,7 +75,7 @@ namespace KMime
   - @ref Seven-Bit-Binary
   - @ref Seven-Bit-Text
 */
-class KMIME_EXPORT CharFreq
+class CharFreq
 {
 public:
     /**
