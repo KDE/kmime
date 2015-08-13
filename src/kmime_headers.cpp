@@ -2081,10 +2081,6 @@ bool ContentDisposition::parse(const char  *&scursor, const char *const send,
 kmime_mk_trivial_ctor_with_name(Subject, Generics::Unstructured, Subject)
 //@endcond
 
-bool Subject::isReply() const {
-    return asUnicodeString().indexOf(QLatin1String("Re:"), 0, Qt::CaseInsensitive) == 0;
-}
-
 Base *createHeader(const QByteArray & type) {
     return HeaderFactory::createHeader(type);
 }

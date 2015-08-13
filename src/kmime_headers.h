@@ -1222,8 +1222,6 @@ class KMIME_EXPORT Subject : public Generics::Unstructured
     //@cond PRIVATE
     kmime_mk_trivial_ctor_with_name(Subject)
     //@endcond
-public:
-    bool isReply() const;
 };
 
 /**
