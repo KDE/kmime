@@ -80,29 +80,29 @@ private Q_SLOTS:
 
     void testHeadersPrivate()
     {
-        VERIFYSIZE(BasePrivate, 16);
-        VERIFYSIZE(UnstructuredPrivate, 24);
+        VERIFYSIZE(BasePrivate, 8);
+        VERIFYSIZE(UnstructuredPrivate, 16);
         VERIFYSIZE(StructuredPrivate, sizeof(BasePrivate));     // empty
         VERIFYSIZE(AddressPrivate, sizeof(StructuredPrivate));
-        VERIFYSIZE(MailboxListPrivate, 24);
+        VERIFYSIZE(MailboxListPrivate, 16);
         VERIFYSIZE(SingleMailboxPrivate, sizeof(MailboxListPrivate));
-        VERIFYSIZE(AddressListPrivate, 24);
-        VERIFYSIZE(IdentPrivate, 40);
+        VERIFYSIZE(AddressListPrivate, 16);
+        VERIFYSIZE(IdentPrivate, 32);
         VERIFYSIZE(SingleIdentPrivate, sizeof(IdentPrivate));
-        VERIFYSIZE(TokenPrivate, 24);
-        VERIFYSIZE(PhraseListPrivate, 24);
-        VERIFYSIZE(DotAtomPrivate, 24);
-        VERIFYSIZE(ParametrizedPrivate, 24);
-        VERIFYSIZE(ReturnPathPrivate, 40);
-        VERIFYSIZE(MailCopiesToPrivate, 32);
-        VERIFYSIZE(ContentTransferEncodingPrivate, 32);
-        VERIFYSIZE(ContentIDPrivate, 32);
-        VERIFYSIZE(ContentTypePrivate, 40);
-        VERIFYSIZE(GenericPrivate, 32);
-        VERIFYSIZE(ControlPrivate, 32);
-        VERIFYSIZE(DatePrivate, 24);
-        VERIFYSIZE(NewsgroupsPrivate, 24);
-        VERIFYSIZE(LinesPrivate, 24);
+        VERIFYSIZE(TokenPrivate, 16);
+        VERIFYSIZE(PhraseListPrivate, 16);
+        VERIFYSIZE(DotAtomPrivate, 16);
+        VERIFYSIZE(ParametrizedPrivate, 16);
+        VERIFYSIZE(ReturnPathPrivate, 32);
+        VERIFYSIZE(MailCopiesToPrivate, 24);
+        VERIFYSIZE(ContentTransferEncodingPrivate, 24);
+        VERIFYSIZE(ContentIDPrivate, 24);
+        VERIFYSIZE(ContentTypePrivate, 32);
+        VERIFYSIZE(GenericPrivate, 24);
+        VERIFYSIZE(ControlPrivate, 24);
+        VERIFYSIZE(DatePrivate, 16);
+        VERIFYSIZE(NewsgroupsPrivate, 16);
+        VERIFYSIZE(LinesPrivate, 16);
     }
 };
 

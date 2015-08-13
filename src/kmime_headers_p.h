@@ -31,13 +31,14 @@ namespace KMime
 namespace Headers
 {
 
+// Note that this entire class hierarchy has no virtual dtor, in order to not
+// have a second set of vtables, as this is a rather high-volume class.
+// This means it's not enough to just delete d_ptr in the base class, but
+// we need to delete it with the exact sub-class it was created.
+
 class BasePrivate
 {
 public:
-    BasePrivate() {}
-
-    virtual ~BasePrivate() {}
-
     QByteArray encCS;
 };
 
