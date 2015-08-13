@@ -86,5 +86,6 @@ void ContentIndexTest::testContent()
     QCOMPARE(c121->index(), ContentIndex(QLatin1String("3.2")));
 
     QCOMPARE(c1->indexForContent((Content *)0), ContentIndex());
+    delete c1;
 }
 
