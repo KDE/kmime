@@ -181,7 +181,7 @@ bool UUEncoded::parse()
         bool containsBegin = false, containsEnd = false;
         QByteArray tmp, fileName;
 
-        if ((beginPos = QString::fromLatin1(m_src).indexOf(QRegExp(QLatin1String("begin [0-9][0-9][0-9]")),
+        if ((beginPos = QString::fromLatin1(m_src).indexOf(QRegExp(QStringLiteral("begin [0-9][0-9][0-9]")),
                         currentPos)) > -1 &&
                 (beginPos == 0 || m_src.at(beginPos - 1) == '\n')) {
             containsBegin = true;
@@ -226,7 +226,7 @@ bool UUEncoded::parse()
 
             if ((!containsBegin || !containsEnd) && !m_subject.isNull()) {
                 // message may be split up => parse subject
-                QRegExp rx(QLatin1String("[0-9]+/[0-9]+"));
+                QRegExp rx(QStringLiteral("[0-9]+/[0-9]+"));
                 pos = rx.indexIn(QLatin1String(m_subject), 0);
                 len = rx.matchedLength();
                 if (pos != -1) {

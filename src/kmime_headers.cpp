@@ -326,7 +326,7 @@ void MailboxList::fromUnicodeString(const QString &s, const QByteArray &b)
 
 QString MailboxList::asUnicodeString() const
 {
-    return prettyAddresses().join(QLatin1String(", "));
+    return prettyAddresses().join(QStringLiteral(", "));
 }
 
 void MailboxList::clear()
@@ -481,7 +481,7 @@ void AddressList::fromUnicodeString(const QString &s, const QByteArray &b)
 
 QString AddressList::asUnicodeString() const
 {
-    return prettyAddresses().join(QLatin1String(", "));
+    return prettyAddresses().join(QStringLiteral(", "));
 }
 
 void AddressList::clear()
@@ -672,7 +672,7 @@ QByteArray PhraseList::as7BitString(bool withHeaderType) const
 
 QString PhraseList::asUnicodeString() const
 {
-    return d_func()->phraseList.join(QLatin1String(", "));
+    return d_func()->phraseList.join(QStringLiteral(", "));
 }
 
 void PhraseList::clear()
@@ -1314,10 +1314,10 @@ QString MailCopiesTo::asUnicodeString() const
         return AddressList::asUnicodeString();
     }
     if (d_func()->alwaysCopy) {
-        return QLatin1String("poster");
+        return QStringLiteral("poster");
     }
     if (d_func()->neverCopy) {
-        return QLatin1String("nobody");
+        return QStringLiteral("nobody");
     }
     return QString();
 }
@@ -1699,7 +1699,7 @@ bool ContentType::isPartial() const {
 }
 
 QByteArray ContentType::charset() const {
-    QByteArray ret = parameter(QLatin1String("charset")).toLatin1();
+    QByteArray ret = parameter(QStringLiteral("charset")).toLatin1();
     if (ret.isEmpty()) {
         //return the default-charset if necessary
         ret = Content::defaultCharset();
@@ -1708,37 +1708,37 @@ QByteArray ContentType::charset() const {
 }
 
 void ContentType::setCharset(const QByteArray & s) {
-    setParameter(QLatin1String("charset"), QString::fromLatin1(s));
+    setParameter(QStringLiteral("charset"), QString::fromLatin1(s));
 }
 
 QByteArray ContentType::boundary() const {
-    return parameter(QLatin1String("boundary")).toLatin1();
+    return parameter(QStringLiteral("boundary")).toLatin1();
 }
 
 void ContentType::setBoundary(const QByteArray & s) {
-    setParameter(QLatin1String("boundary"), QString::fromLatin1(s));
+    setParameter(QStringLiteral("boundary"), QString::fromLatin1(s));
 }
 
 QString ContentType::name() const {
-    return parameter(QLatin1String("name"));
+    return parameter(QStringLiteral("name"));
 }
 
 void ContentType::setName(const QString & s, const QByteArray & cs) {
     Q_D(ContentType);
     d->encCS = cs;
-    setParameter(QLatin1String("name"), s);
+    setParameter(QStringLiteral("name"), s);
 }
 
 QByteArray ContentType::id() const {
-    return parameter(QLatin1String("id")).toLatin1();
+    return parameter(QStringLiteral("id")).toLatin1();
 }
 
 void ContentType::setId(const QByteArray & s) {
-    setParameter(QLatin1String("id"), QString::fromLatin1(s));
+    setParameter(QStringLiteral("id"), QString::fromLatin1(s));
 }
 
 int ContentType::partialNumber() const {
-    QByteArray p = parameter(QLatin1String("number")).toLatin1();
+    QByteArray p = parameter(QStringLiteral("number")).toLatin1();
     if (!p.isEmpty()) {
         return p.toInt();
     } else {
@@ -1747,7 +1747,7 @@ int ContentType::partialNumber() const {
 }
 
 int ContentType::partialCount() const {
-    QByteArray p = parameter(QLatin1String("total")).toLatin1();
+    QByteArray p = parameter(QStringLiteral("total")).toLatin1();
     if (!p.isEmpty()) {
         return p.toInt();
     } else {
@@ -1765,8 +1765,8 @@ void ContentType::setCategory(contentCategory c) {
 }
 
 void ContentType::setPartialParams(int total, int number) {
-    setParameter(QLatin1String("number"), QString::number(number));
-    setParameter(QLatin1String("total"), QString::number(total));
+    setParameter(QStringLiteral("number"), QString::number(number));
+    setParameter(QStringLiteral("total"), QString::number(total));
 }
 
 bool ContentType::parse(const char *&scursor, const char *const send,
@@ -2039,11 +2039,11 @@ void ContentDisposition::setDisposition(contentDisposition disp) {
 }
 
 QString KMime::Headers::ContentDisposition::filename() const {
-    return parameter(QLatin1String("filename"));
+    return parameter(QStringLiteral("filename"));
 }
 
 void ContentDisposition::setFilename(const QString & filename) {
-    setParameter(QLatin1String("filename"), filename);
+    setParameter(QStringLiteral("filename"), filename);
 }
 
 bool ContentDisposition::parse(const char  *&scursor, const char *const send,

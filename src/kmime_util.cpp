@@ -786,7 +786,7 @@ void addQuotes_impl(StringType &str, bool forceQuotes)
     bool needsQuotes = false;
     for (int i = 0; i < str.length(); i++) {
         const CharType cur = str.at(i);
-        if (QString(ToString(str)).contains(QRegExp(QLatin1String("\"|\\\\|=|\\]|\\[|:|;|,|\\.|,|@|<|>|\\)|\\(")))) {
+        if (QString(ToString(str)).contains(QRegExp(QStringLiteral("\"|\\\\|=|\\]|\\[|:|;|,|\\.|,|@|<|>|\\)|\\(")))) {
             needsQuotes = true;
         }
         if (cur == CharConverterType('\\') || cur == CharConverterType('\"')) {

@@ -99,7 +99,7 @@ QString DateFormatter::rfc2822(time_t t) const
 
     tmp.setTime_t(t);
 
-    ret = tmp.toString(QLatin1String("ddd, dd MMM yyyy hh:mm:ss "));
+    ret = tmp.toString(QStringLiteral("ddd, dd MMM yyyy hh:mm:ss "));
     ret += QLatin1String(zone(t));
 
     return ret;
