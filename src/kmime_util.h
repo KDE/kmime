@@ -194,7 +194,7 @@ KMIME_EXPORT extern QByteArray unfoldHeader(const QByteArray &header);
   @param name the name of the header to search for.
 
   @return the first instance of the header @p name in @p src
-          or a null QCString if no such header was found.
+          or a null QByteArray if no such header was found.
 */
 KMIME_EXPORT extern QByteArray extractHeader(const QByteArray &src,
         const QByteArray &name);
@@ -223,7 +223,7 @@ KMIME_EXPORT extern QByteArray CRLFtoLF(const QByteArray &s);
   @param s source string containing CRLF's
 
   @return the string with CRLF's substitued for LF's
-  @see CRLFtoLF(const QCString&) LFtoCRLF
+  @see CRLFtoLF(const QByteArray&) LFtoCRLF
 */
 KMIME_EXPORT extern QByteArray CRLFtoLF(const char *s);
 
@@ -238,7 +238,7 @@ KMIME_EXPORT extern QByteArray CRLFtoLF(const char *s);
   @param s source string containing CRLF's
 
   @return the string with CRLF's substitued for LF's
-  @see CRLFtoLF(const QCString&) LFtoCRLF
+  @see CRLFtoLF(const QByteArray&) LFtoCRLF
 */
 KMIME_EXPORT extern QByteArray LFtoCRLF(const QByteArray &s);
 
