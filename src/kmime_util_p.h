@@ -28,6 +28,13 @@ namespace KMime
 {
 
 /**
+ *  Consult the charset cache. Only used for reducing mem usage by
+ *  keeping strings in a common repository.
+ *  @param name
+ */
+extern QByteArray cachedCharset(const QByteArray &name);
+
+/**
   Finds the header end in @p src. Aligns the @p dataBegin if needed.
   @param dataBegin beginning of the data part of the header
   @param folded true if the headder is folded into multiple lines
