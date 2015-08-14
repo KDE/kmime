@@ -51,7 +51,6 @@ namespace KMime
 {
 
 QVector<QByteArray> c_harsetCache;
-QVector<QByteArray> l_anguageCache;
 QString f_allbackCharEnc;
 bool u_seOutlookEncoding = false;
 
@@ -66,19 +65,6 @@ QByteArray cachedCharset(const QByteArray &name)
     c_harsetCache.append(name.toUpper());
     //qDebug() << "KNMimeBase::cachedCharset() number of cs" << c_harsetCache.count();
     return c_harsetCache.last();
-}
-
-QByteArray cachedLanguage(const QByteArray &name)
-{
-    foreach (const QByteArray &language, l_anguageCache) {
-        if (qstricmp(name.data(), language.data()) == 0) {
-            return language;
-        }
-    }
-
-    l_anguageCache.append(name.toUpper());
-    //qDebug() << "KNMimeBase::cachedCharset() number of cs" << c_harsetCache.count();
-    return l_anguageCache.last();
 }
 
 bool isUsAscii(const QString &s)

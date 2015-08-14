@@ -41,13 +41,6 @@ class Message;
 KMIME_EXPORT extern QByteArray cachedCharset(const QByteArray &name);
 
 /**
-  Consult the language cache. Only used for reducing mem usage by
-  keeping strings in a common repository.
-  @param name
-*/
-KMIME_EXPORT extern QByteArray cachedLanguage(const QByteArray &name);
-
-/**
   Checks whether @p s contains any non-us-ascii characters.
   @param s
 */
