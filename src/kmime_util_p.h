@@ -68,6 +68,39 @@ extern QByteArray encodeRFC2047Sentence(const QString &src, const QByteArray &ch
  */
 extern QByteArray uniqueString();
 
+//@cond PRIVATE
+extern const uchar specialsMap[16];
+extern const uchar tSpecialsMap[16];
+extern const uchar aTextMap[16];
+extern const uchar tTextMap[16];
+extern const uchar eTextMap[16];
+
+inline bool isOfSet(const uchar map[16], unsigned char ch)
+{
+    return (ch < 128) && (map[ ch / 8 ] & 0x80 >> ch % 8);
+}
+inline bool isSpecial(char ch)
+{
+    return isOfSet(specialsMap, ch);
+}
+inline bool isTSpecial(char ch)
+{
+    return isOfSet(tSpecialsMap, ch);
+}
+inline bool isAText(char ch)
+{
+    return isOfSet(aTextMap, ch);
+}
+inline bool isTText(char ch)
+{
+    return isOfSet(tTextMap, ch);
+}
+inline bool isEText(char ch)
+{
+    return isOfSet(eTextMap, ch);
+}
+//@endcond
+
 }
 
 // @endcond
