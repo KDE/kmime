@@ -29,6 +29,7 @@ private Q_SLOTS:
     void testToString();
     void testFromString();
     void testContent();
+    void testNavigation();
 };
 
 #endif

@@ -89,6 +89,11 @@ void KMime::ContentIndex::push(unsigned int index)
     d->index.prepend(index);
 }
 
+unsigned int ContentIndex::up()
+{
+    return d->index.takeLast();
+}
+
 QString KMime::ContentIndex::toString() const
 {
     QStringList l;

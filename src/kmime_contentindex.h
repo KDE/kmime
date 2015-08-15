@@ -85,7 +85,7 @@ public:
       Removes and returns the top-most index. Used to recursively
       descend into the message part hierarchy.
 
-      @see push().
+      @see push(), up().
     */
     unsigned int pop();
 
@@ -95,9 +95,17 @@ public:
 
       @param index is the top-most content index part.
 
-      @see pop().
+      @see pop(), up().
     */
     void push(unsigned int index);
+
+    /**
+      Removes and returns the bottom-most index. Used to navigate to
+      the parent part.
+
+      @see push(), pop().
+    */
+    unsigned int up();
 
     /**
       Returns a string representation of this content index according

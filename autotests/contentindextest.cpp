@@ -89,3 +89,16 @@ void ContentIndexTest::testContent()
     delete c1;
 }
 
+void ContentIndexTest::testNavigation()
+{
+    ContentIndex ci;
+    QCOMPARE(ci.toString(), QString());
+    ci.push(1);
+    ci.push(2);
+    ci.push(3);
+    QCOMPARE(ci.toString(), QLatin1String("3.2.1"));
+    QCOMPARE(ci.pop(), 3u);
+    QCOMPARE(ci.up(), 1u);
+    QCOMPARE(ci.toString(), QLatin1String("2"));
+}
+
