@@ -56,6 +56,7 @@ TODO: possible glossary terms:
 #include <QtCore/QByteArray>
 #include <QtCore/QVector>
 #include <QtCore/QSharedPointer>
+#include <QtCore/QMetaType>
 
 
 namespace KMime
@@ -688,5 +689,7 @@ template <typename T> T *Content::header(bool create)
 }
 
 } // namespace KMime
+
+Q_DECLARE_METATYPE(KMime::Content*)
 
 #endif // __KMIME_CONTENT_H__

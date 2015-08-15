@@ -49,6 +49,7 @@
 #include <QtCore/QMap>
 #include <QtCore/QVector>
 #include <QtCore/QByteArray>
+#include <QtCore/QMetaType>
 
 namespace KMime
 {
@@ -1443,5 +1444,9 @@ KMIME_EXPORT Base *createHeader(const QByteArray &type);
 #undef kmime_mk_trivial_ctor
 #undef kmime_mk_dptr_ctor
 #undef kmime_mk_trivial_ctor_with_name
+
+Q_DECLARE_METATYPE(KMime::Headers::To*)
+Q_DECLARE_METATYPE(KMime::Headers::Cc*)
+Q_DECLARE_METATYPE(KMime::Headers::Bcc*)
 
 #endif // __KMIME_HEADERS_H__

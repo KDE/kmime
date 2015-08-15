@@ -38,6 +38,7 @@
 
 #include <QtCore/QSharedDataPointer>
 #include <QtCore/QString>
+#include <QtCore/QMetaType>
 
 namespace KMime
 {
@@ -142,5 +143,7 @@ private:
 }  //namespace KMime
 
 KMIME_EXPORT uint qHash(const KMime::ContentIndex &);
+
+Q_DECLARE_METATYPE(KMime::ContentIndex)
 
 #endif
