@@ -195,3 +195,38 @@ void UtilTest::testIsSigned()
     msg->parse();
     QCOMPARE(isSigned(msg.data()), hasSignature);
 }
+
+void UtilTest::testIsCryptoPart_data()
+{
+    QTest::addColumn<QByteArray>("mimeType");
+    QTest::addColumn<QString>("fileName");
+    QTest::addColumn<bool>("isCrypto");
+
+    QTest::newRow("pgp-encrypted") << QByteArray("application/pgp-encrypted") << QString() << true;
+    QTest::newRow("pgp-encrypted upper case") << QByteArray("APPLICATION/PGP-ENCRYPTED") << QString() << true;
+    QTest::newRow("pgp-signature") << QByteArray("application/pgp-signature") << QString() << true;
+    QTest::newRow("pkcs7-mime") << QByteArray("application/pkcs7-mime") << QString() << true;
+    QTest::newRow("pkcs7-signature") << QByteArray("application/pkcs7-signature") << QString() << true;
+    QTest::newRow("x-pkcs7-signature") << QByteArray("application/x-pkcs7-signature") << QString() << true;
+    QTest::newRow("msg.asc") << QByteArray("application/octet-stream") << QStringLiteral("msg.asc") << true;
+    QTest::newRow("msg.asc upper case") << QByteArray("application/octet-stream") << QStringLiteral("MSG.ASC") << true;
+    QTest::newRow("encrypted.asc") << QByteArray("application/octet-stream") << QStringLiteral("encrypted.asc") << true;
+    QTest::newRow("octet-stream") << QByteArray("application/octet-stream") << QStringLiteral("bla.foo") << false;
+    QTest::newRow("wrong mimetype") << QByteArray("application/foo") << QString() << false;
+    QTest::newRow("text") << QByteArray("text/plain") << QString() << false;
+    QTest::newRow("encrypted.asc wrong type") << QByteArray("application/foo") << QStringLiteral("encrypted.asc") << false;
+    QTest::newRow("msc.asc wrong type") << QByteArray("application/foo") << QStringLiteral("msc.asc") << false;
+}
+
+void UtilTest::testIsCryptoPart()
+{
+    QFETCH(QByteArray, mimeType);
+    QFETCH(QString, fileName);
+    QFETCH(bool, isCrypto);
+
+    KMime::Content c;
+    c.contentType()->setMimeType(mimeType);
+    c.contentDisposition()->setFilename(fileName);
+
+    QCOMPARE(KMime::isCryptoPart(&c), isCrypto);
+}

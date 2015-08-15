@@ -33,6 +33,8 @@ private Q_SLOTS:
     void testAddQuotes_data();
     void testIsSigned_data();
     void testIsSigned();
+    void testIsCryptoPart_data();
+    void testIsCryptoPart();
 };
 
 #endif

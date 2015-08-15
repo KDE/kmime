@@ -362,6 +362,12 @@ KMIME_EXPORT bool isSigned(Message *message);
 KMIME_EXPORT bool isEncrypted(Message *message);
 
 /**
+ * Determines if the MIME part @p content is a crypto part.
+ * This is, is either an encrypted part or a signature part.
+ */
+KMIME_EXPORT bool isCryptoPart(Content *content);
+
+/**
  * Returns whether or not the given MIME @p content is an invitation
  * message of the iTIP protocol.
  *

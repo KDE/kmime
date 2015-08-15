@@ -857,28 +857,32 @@ QString removeBidiControlChars(const QString &input)
     return result;
 }
 
-static bool isCryptoPart(Content *content)
+bool isCryptoPart(Content *content)
 {
-    if (!content->contentType(false)) {
+    auto ct = content->contentType(false);
+    if (!ct || !ct->isMediatype("application")) {
         return false;
     }
 
-    if (content->contentType()->subType().toLower() == "octet-stream" &&
-            !content->contentDisposition(false)) {
-        return false;
+    const QByteArray lowerSubType = ct->subType().toLower();
+    if (lowerSubType == "pgp-encrypted" ||
+        lowerSubType == "pgp-signature" ||
+        lowerSubType == "pkcs7-mime" ||
+        lowerSubType == "x-pkcs7-mime" ||
+        lowerSubType == "pkcs7-signature" ||
+        lowerSubType == "x-pkcs7-signature") {
+        return true;
     }
 
-    const Headers::ContentType *contentType = content->contentType();
-    const QByteArray lowerSubType = contentType->subType().toLower();
-    return (contentType->mediaType().toLower() == "application" &&
-            (lowerSubType == "pgp-encrypted" ||
-             lowerSubType == "pgp-signature" ||
-             lowerSubType == "pkcs7-mime" ||
-             lowerSubType == "x-pkcs7-mime" ||
-             lowerSubType == "pkcs7-signature" ||
-             lowerSubType == "x-pkcs7-signature" ||
-             (lowerSubType == "octet-stream" &&
-              content->contentDisposition()->filename().toLower() == QLatin1String("msg.asc"))));
+    if (lowerSubType == "octet-stream") {
+        auto cd = content->contentDisposition(false);
+        if (!cd)
+            return false;
+        const auto fileName = cd->filename().toLower();
+        return fileName == QLatin1String("msg.asc") || fileName == QLatin1String("encrypted.asc");
+    }
+
+    return false;
 }
 
 bool hasAttachment(Content *content)
