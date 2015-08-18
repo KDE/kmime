@@ -29,7 +29,7 @@ generate_export_header(KF5Mime BASE_NAME KMime)
 add_library(KF5::Mime ALIAS KF5Mime)
 
 target_include_directories(KF5Mime INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KMime>")
-target_include_directories(KF5Mime PUBLIC "$<BUILD_INTERFACE:${KMime_SOURCE_DIR}/src;${KMime_BINARY_DIR}/src>")
+target_include_directories(KF5Mime PUBLIC "$<BUILD_INTERFACE:${KMime_SOURCE_DIR}/src;${KMime_BINARY_DIR}/src;${KMime_BINARY_DIR}>")
 
 target_link_libraries(KF5Mime
 PUBLIC
