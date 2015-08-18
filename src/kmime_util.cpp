@@ -81,13 +81,13 @@ bool isUsAscii(const QString &s)
 QString nameForEncoding(Headers::contentEncoding enc)
 {
     switch (enc) {
-    case Headers::CE7Bit: return QString::fromLatin1("7bit");
-    case Headers::CE8Bit: return QString::fromLatin1("8bit");
-    case Headers::CEquPr: return QString::fromLatin1("quoted-printable");
-    case Headers::CEbase64: return QString::fromLatin1("base64");
-    case Headers::CEuuenc: return QString::fromLatin1("uuencode");
-    case Headers::CEbinary: return QString::fromLatin1("binary");
-    default: return QString::fromLatin1("unknown");
+    case Headers::CE7Bit: return QStringLiteral("7bit");
+    case Headers::CE8Bit: return QStringLiteral("8bit");
+    case Headers::CEquPr: return QStringLiteral("quoted-printable");
+    case Headers::CEbase64: return QStringLiteral("base64");
+    case Headers::CEuuenc: return QStringLiteral("uuencode");
+    case Headers::CEbinary: return QStringLiteral("binary");
+    default: return QStringLiteral("unknown");
     }
 }
 
