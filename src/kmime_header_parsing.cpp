@@ -2214,14 +2214,18 @@ Headers::Base *extractFirstHeader(QByteArray &head)
     const int endOfFieldHeader = startOfFieldBody;
 
     if (startOfFieldBody > -1) {      //there is another header
+        // Split the original data
+        head[startOfFieldBody] = '\0';
+        // rawType references the actual data from 'head'
+        QByteArray rawType = QByteArray::fromRawData(head.constData(), startOfFieldBody);
+
         startOfFieldBody++; //skip the ':'
         if (head[startOfFieldBody] == ' ') {   // skip the space after the ':', if there
             startOfFieldBody++;
         }
         endOfFieldBody = findHeaderLineEnd(head, startOfFieldBody, &folded);
-
-        QByteArray rawType = head.left(endOfFieldHeader);
-        QByteArray rawFieldBody = head.mid(startOfFieldBody, endOfFieldBody - startOfFieldBody);
+        // rawFieldBody references actual data from 'heaed'
+        QByteArray rawFieldBody = QByteArray::fromRawData(head.constData() + startOfFieldBody, endOfFieldBody - startOfFieldBody);
         if (folded) {
             rawFieldBody = unfoldHeader(rawFieldBody);
         }

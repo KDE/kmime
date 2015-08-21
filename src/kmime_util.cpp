@@ -583,7 +583,7 @@ QByteArray unfoldHeader(const QByteArray &header)
             }
         }
 
-        result += header.mid(pos, foldBegin - pos);
+        result.append(header.constData() + pos, foldBegin - pos);
         if (foldEnd < header.length() - 1) {
             result += ' ';
         }
@@ -591,7 +591,7 @@ QByteArray unfoldHeader(const QByteArray &header)
     }
     const int len = header.length();
     if (len > pos) {
-        result += header.mid(pos, len - pos);
+        result.append(header.constData() + pos, len - pos);
     }
     return result;
 }
