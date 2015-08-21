@@ -51,7 +51,6 @@ namespace KMime
 {
 
 QVector<QByteArray> c_harsetCache;
-QString f_allbackCharEnc;
 bool u_seOutlookEncoding = false;
 
 QByteArray cachedCharset(const QByteArray &name)
@@ -163,16 +162,6 @@ const uchar eTextMap[16] = {
     0x7F, 0xFF, 0xFF, 0xE0,
     0x7F, 0xFF, 0xFF, 0xE0
 };
-
-void setFallbackCharEncoding(const QString &fallbackCharEnc)
-{
-    f_allbackCharEnc = fallbackCharEnc;
-}
-
-QString fallbackCharEncoding()
-{
-    return f_allbackCharEnc;
-}
 
 void setUseOutlookAttachmentEncoding(bool violateStandard)
 {

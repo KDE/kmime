@@ -56,27 +56,6 @@ KMIME_EXPORT extern QString nameForEncoding(KMime::Headers::contentEncoding enc)
 KMIME_EXPORT QVector<KMime::Headers::contentEncoding> encodingsForData(const QByteArray &data);
 
 /**
-  * Set the fallback charset to use when decoding RFC2047-encoded headers.
-  *  If decoding according to the RFC fails, then the fallback encoding is
-  *  used instead.
-  *
-  * @param fallbackCharEnc Name of fallback character encoding to use.
-  *
-  * @since 4.5
-  */
-KMIME_EXPORT extern void setFallbackCharEncoding(const QString &fallbackCharEnc);
-
-/**
-  * Retrieve the set fallback charset if there is one set.
-  *
-  * @return The name of the fallback encoding, if one was set, otherwise
-  *           an empty QString.
-  *
-  * @since 4.5
-  */
-KMIME_EXPORT extern QString fallbackCharEncoding();
-
-/**
   * Set whether or not to use outlook compatible attachment filename encoding. Outlook
   *  fails to properly adhere to the RFC2322 standard for parametrized header fields, and
   *  instead is only able to read and write attachment filenames encoded in RFC2047-style.
