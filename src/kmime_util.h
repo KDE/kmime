@@ -93,29 +93,6 @@ KMIME_EXPORT extern void setUseOutlookAttachmentEncoding(bool violateStandard);
  * Retrieve whether or not to use outlook compatible encodings for attachments.
  */
 KMIME_EXPORT extern bool useOutlookAttachmentEncoding();
-/**
-  Decodes string @p src according to RFC2047,i.e., the construct
-   =?charset?[qb]?encoded?=
-
-  @param src       source string.
-  @param usedCS    the detected charset is returned here
-  @param defaultCS the charset to use in case the detected
-                   one isn't known to us.
-  @param forceCS   force the use of the default charset.
-
-  @return the decoded string.
-*/
-KMIME_EXPORT extern QString decodeRFC2047String(
-    const QByteArray &src, QByteArray &usedCS, const QByteArray &defaultCS = QByteArray(),
-    bool forceCS = false);
-
-/** Decode string @p src according to RFC2047 (ie. the
-    =?charset?[qb]?encoded?= construct).
-
-    @param src       source string.
-    @return the decoded string.
-*/
-KMIME_EXPORT extern QString decodeRFC2047String(const QByteArray &src);
 
 /**
   Encodes string @p src according to RFC2047 using charset @p charset.

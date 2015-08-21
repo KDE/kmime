@@ -48,11 +48,12 @@
 #include "kmime_warning.h"
 
 
+#include <kcharsets.h>
+#include <KCodecs>
+
 #include <QtCore/QTextCodec>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
-
-#include <kcharsets.h>
 
 #include <assert.h>
 #include <ctype.h>
@@ -183,7 +184,7 @@ Unstructured::~Unstructured()
 void Unstructured::from7BitString(const QByteArray &s)
 {
     Q_D(Unstructured);
-    d->decoded = decodeRFC2047String(s, d->encCS, Content::defaultCharset());
+    d->decoded = KCodecs::decodeRFC2047String(s, &d->encCS, Content::defaultCharset());
 }
 
 QByteArray Unstructured::as7BitString(bool withHeaderType) const

@@ -162,7 +162,7 @@ void Mailbox::setNameFrom7Bit(const QByteArray &name,
                               const QByteArray &defaultCharset)
 {
     QByteArray cs;
-    setName(decodeRFC2047String(name, cs, defaultCharset, false));
+    setName(KCodecs::decodeRFC2047String(name, &cs, defaultCharset));
 }
 
 bool Mailbox::hasAddress() const
@@ -1719,7 +1719,7 @@ bool parseParameterListWithCharset(const char *&scursor,
                                        false, /* isn't continuation */
                                        value, (*it).qpair, charset);
                 } else if (encodingMode == RFC2047) {
-                    value += decodeRFC2047String((*it).qstring.toLatin1(), charset);
+                    value += KCodecs::decodeRFC2047String((*it).qstring.toLatin1(), &charset);
                 }
             } else {
                 // not encoded.
