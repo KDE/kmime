@@ -30,9 +30,8 @@ QTEST_MAIN(RFC2231Test)
 void RFC2231Test::testRFC2231decode()
 {
     QByteArray encCharset;
-    qDebug() << KMime::decodeRFC2231String(QByteArray(), encCharset, "utf-8", false);
 
-/// empty
+    // empty
     QCOMPARE(KMime::decodeRFC2231String(QByteArray(), encCharset, "utf-8", false), QString());
     // identity
     QCOMPARE(KMime::decodeRFC2231String("bla", encCharset, "utf-8", false), QLatin1String("bla"));
@@ -56,44 +55,23 @@ void RFC2231Test::testRFC2231decode()
     QCOMPARE(KMime::decodeRFC2231String("ISO-8859-1'Andr%E9s Ot%F3n", encCharset, "utf-8", false),
              QString::fromUtf8("Andrés Otón"));
     QCOMPARE(encCharset, QByteArray("ISO-8859-1"));
-    /*
-     * QCOMPARE( KMime::decodeRFC2231String( "iso-8859-2''Rafa%B3 Rzepecki", encCharset, "utf-8", false ),
-                QString::fromUtf8( "RafaÅ Rzepecki" ) );
-      QCOMPARE( encCharset, QByteArray( "ISO-8859-2" ) );
-      QCOMPARE( KMime::decodeRFC2231String( "iso-8859-9''S%2E%C7a%F0lar Onur", encCharset, "utf-8", false ),
-                QString::fromUtf8( "S.ÃaÄlar Onur" ) );
-      QCOMPARE( encCharset, QByteArray( "ISO-8859-9" ) );
-      QCOMPARE( KMime::decodeRFC2231String( "Rafael =?iso-8859-15?q?Rodr=EDguez?=", encCharset, "utf-8", false ),
-                QString::fromUtf8( "Rafael RodrÃ­guez" ) );
-      QCOMPARE( encCharset, QByteArray( "ISO-8859-15" ) );
 
-      // wrong charset + charset overwrite
-      QCOMPARE( KMime::decodeRFC2231String( "=?iso-8859-1?q?Ingo=20Kl=C3=B6cker?=", encCharset, "utf-8", true ),
-                QString::fromUtf8( "Ingo KlÃ¶cker" ) );
+    QCOMPARE(KMime::decodeRFC2231String( "iso-8859-2''Rafa%B3 Rzepecki", encCharset, "utf-8", false),
+             QString::fromUtf8( "Rafał Rzepecki" ));
+    QCOMPARE(encCharset, QByteArray( "ISO-8859-2" ));
+    QCOMPARE(KMime::decodeRFC2231String( "iso-8859-9''S%2E%C7a%F0lar Onur", encCharset, "utf-8", false),
+             QString::fromUtf8( "S.Çağlar Onur" ));
+    QCOMPARE(encCharset, QByteArray( "ISO-8859-9" ));
+    QCOMPARE(KMime::decodeRFC2231String( "iso-8859-15''Rafael Rodr%EDguez", encCharset, "utf-8", false),
+             QString::fromUtf8( "Rafael Rodríguez" ));
+    QCOMPARE(encCharset, QByteArray( "ISO-8859-15" ));
 
-      // language parameter according to RFC 2231, section 5
-      QCOMPARE( decodeRFC2231String( "From: =?US-ASCII*EN?Q?Keith_Moore?= <moore@cs.utk.edu>", encCharset ),
-                QString::fromUtf8( "From: Keith Moore <moore@cs.utk.edu>" ) );
-      QCOMPARE( encCharset, QByteArray( "US-ASCII" ) );
+    // wrong charset + charset overwrite
+    QCOMPARE(KMime::decodeRFC2231String( "iso8859-1''Ingo%20Kl%C3%B6cker", encCharset, "utf-8", true),
+             QString::fromUtf8( "Ingo Klöcker" ));
 
-      // broken qp endoding (using lowercase)
-      QCOMPARE( decodeRFC2231String( "Subject: =?iso-8859-1?Q?Belangrijk=3a=20Verhuizing=20FTP=20server?=", encCharset ),
-                QString::fromUtf8( "Subject: Belangrijk: Verhuizing FTP server" ) );
-      QCOMPARE( encCharset, QByteArray( "ISO-8859-1" ) );
-
-      // mixed charsets, based on bug 125542 but pasted from above instead since I'm unable to enter those asian symbols
-      QCOMPARE( decodeRFC2231String( "Subject: =?utf-8?q?Ingo=20Kl=C3=B6cker?= unencoded words =?iso-8859-9?Q?S=2E=C7a=F0lar?=", encCharset ),
-                QString::fromUtf8( "Subject: Ingo KlÃ¶cker unencoded words S.ÃaÄlar" ) );
-      QCOMPARE( encCharset, QByteArray( "ISO-8859-9" ) );
-
-      // illegal characters which are already encoded in the given encoding but are not ASCII (bug 206417)
-      QCOMPARE( decodeRFC2231String( "Subject: =?utf-8?Q?Ð¿ÐžÑ¿ÐžÐ»Ð»,=20=D0=B4=D0=BE=D0=B1=D1=80=D1=8B=D0=B9=20=D0=B4=D0=B5=D0=BD=D1=8C?=", encCharset ),
-                QString::fromUtf8( "Subject: Ð¿ÐžÑ¿ÐžÐ»Ð», ÐŽÐŸÐ±ÑÑÐ¹ ÐŽÐµÐœÑ" ) );
-      QCOMPARE( decodeRFC2231String( "Subject: =?iso-8859-1?Q?ÖÄÜöäü?=" ),
-                QString::fromLatin1( "Subject: ÖÄÜöäü" ) );
-
-      // Small data
-      QCOMPARE( decodeRFC2231String( "=?iso-8859-1?Q?c?=", encCharset ), QString::fromUtf8("c") ); */
+    // Small data
+    QCOMPARE(decodeRFC2231String( "iso-8859-1''c", encCharset ), QString::fromUtf8("c") );
 }
 
 void RFC2231Test::testInvalidDecode()
