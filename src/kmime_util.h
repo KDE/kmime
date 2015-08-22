@@ -74,30 +74,6 @@ KMIME_EXPORT extern void setUseOutlookAttachmentEncoding(bool violateStandard);
 KMIME_EXPORT extern bool useOutlookAttachmentEncoding();
 
 /**
-  Decodes string @p src according to RFC2231
-
-  @param src       source string.
-  @param usedCs    the detected charset is returned here
-  @param defaultCS the charset to use in case the detected
-                   one isn't known to us.
-  @param forceCS   force the use of the default charset.
-
-  @return the decoded string.
-*/
-KMIME_EXPORT extern QString decodeRFC2231String(
-    const QByteArray &src, QByteArray &usedCS, const QByteArray &defaultCS = QByteArray(),
-    bool forceCS = false);
-
-/**
-  Encodes string @p src according to RFC2231 using charset @p charset.
-
-  @param src           source string.
-  @param charset       charset to use.
-  @return the encoded string.
-*/
-KMIME_EXPORT extern QByteArray encodeRFC2231String(const QString &src, const QByteArray &charset);
-
-/**
   Constructs a random string (sans leading/trailing "--") that can
   be used as a multipart delimiter (ie. as @p boundary parameter
   to a multipart/... content-type).

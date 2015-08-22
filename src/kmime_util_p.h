@@ -52,34 +52,6 @@ extern int findHeaderLineEnd(const QByteArray &src, int &dataBegin, bool *folded
 extern int indexOfHeader(const QByteArray &src, const QByteArray &name, int &end, int &dataBegin, bool *folded = 0);
 
 /**
-  Encodes string @p src according to RFC2047 using charset @p charset.
-
-  This function also makes commas, quotes and other characters part of the encoded name, for example
-  the string "Jöhn Döe" <john@example.com"> would be encoded as <encoded word for "Jöhn Döe"> <john@example.com>,
-  i.e. the opening and closing quote mark would be part of the encoded word.
-  Therefore don't use this function for input strings that contain semantically meaningful characters,
-  like the quoting marks in this example.
-
-  @param src           source string.
-  @param charset       charset to use. If it can't encode the string, UTF-8 will be used instead.
-  @param addressHeader if this flag is true, all special chars
-                       like <,>,[,],... will be encoded, too.
-  @param allow8bitHeaders if this flag is true, 8Bit headers are allowed.
-
-  @return the encoded string.
-*/
-KMIME_EXPORT extern QByteArray encodeRFC2047String(
-    const QString &src, const QByteArray &charset, bool addressHeader = false,
-    bool allow8bitHeaders = false);
-
-/**
- * Same as encodeRFC2047String(), but with a crucial difference: Instead of encoding the complete
- * string as a single encoded word, the string will be split up at control characters, and only parts of
- * the sentence that really need to be encoded will be encoded.
- */
-extern QByteArray encodeRFC2047Sentence(const QString &src, const QByteArray &charset);
-
-/**
  *  Uses current time, pid and random numbers to construct a string
  *  that aims to be unique on a per-host basis (ie. for the local
  *  part of a message-id or for multipart boundaries.

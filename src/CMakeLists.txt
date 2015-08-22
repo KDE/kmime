@@ -20,6 +20,7 @@ set(kmime_LIB_SRCS
    kmime_message.cpp
    kmime_newsarticle.cpp
    kmime_dateformatter.cpp
+   kmime_codecs.cpp
 )
 
 add_library(KF5Mime ${kmime_LIB_SRCS})
