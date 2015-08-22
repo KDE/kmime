@@ -140,9 +140,9 @@ private:
     //@endcond
 };
 
-}  //namespace KMime
-
 KMIME_EXPORT uint qHash(const KMime::ContentIndex &);
+
+}  //namespace KMime
 
 Q_DECLARE_METATYPE(KMime::ContentIndex)
 

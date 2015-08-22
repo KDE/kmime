@@ -122,7 +122,7 @@ ContentIndex &ContentIndex::operator =(const ContentIndex &other)
     return *this;
 }
 
-uint qHash(const KMime::ContentIndex &index)
+uint KMime::qHash(const KMime::ContentIndex &index)
 {
     return qHash(index.toString());
 }
