@@ -328,7 +328,13 @@ void MailboxList::fromUnicodeString(const QString &s, const QByteArray &b)
 
 QString MailboxList::asUnicodeString() const
 {
-    return prettyAddresses().join(QStringLiteral(", "));
+    Q_D(const MailboxList);
+    QStringList rv;
+    rv.reserve(d->mailboxList.count());
+    foreach (const Types::Mailbox &mbox, d->mailboxList) {
+        rv.append(mbox.prettyAddress());
+    }
+    return rv.join(QStringLiteral(", "));
 }
 
 void MailboxList::clear()
@@ -393,16 +399,6 @@ QString MailboxList::displayString() const
             return QString::fromLatin1(mbox.address());
     }
     return displayNames().join(QStringLiteral(", "));
-}
-
-QStringList MailboxList::prettyAddresses() const
-{
-    QStringList rv;
-    rv.reserve(d_func()->mailboxList.count());
-    foreach (const Types::Mailbox &mbox, d_func()->mailboxList) {
-        rv.append(mbox.prettyAddress());
-    }
-    return rv;
 }
 
 Types::Mailbox::List MailboxList::mailboxes() const
@@ -500,7 +496,15 @@ void AddressList::fromUnicodeString(const QString &s, const QByteArray &b)
 
 QString AddressList::asUnicodeString() const
 {
-    return prettyAddresses().join(QStringLiteral(", "));
+    Q_D(const AddressList);
+    QStringList rv;
+    foreach (const Types::Address &addr, d->addressList) {
+        rv.reserve(rv.size() + addr.mailboxList.size());
+        foreach (const Types::Mailbox &mbox, addr.mailboxList) {
+            rv.append(mbox.prettyAddress());
+        }
+    }
+    return rv.join(QStringLiteral(", "));
 }
 
 void AddressList::clear()
@@ -564,17 +568,6 @@ QString AddressList::displayString() const
 {
     // optimize for single entry and avoid creation of the QStringList in that case?
     return displayNames().join(QStringLiteral(", "));
-}
-
-QStringList AddressList::prettyAddresses() const
-{
-    QStringList rv;
-    foreach (const Types::Address &addr, d_func()->addressList) {
-        foreach (const Types::Mailbox &mbox, addr.mailboxList) {
-            rv.append(mbox.prettyAddress());
-        }
-    }
-    return rv;
 }
 
 Types::Mailbox::List AddressList::mailboxes() const

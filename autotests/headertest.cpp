@@ -101,8 +101,7 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->displayNames().count(), 1);
     QCOMPARE(h->displayNames().first(), QLatin1String("joe@where.test"));
     QCOMPARE(h->displayString(), QLatin1String("joe@where.test"));
-    QCOMPARE(h->prettyAddresses().count(), 1);
-    QCOMPARE(h->prettyAddresses().first(), QLatin1String("joe@where.test"));
+    QCOMPARE(h->asUnicodeString(), QLatin1String("joe@where.test"));
 
     // clearing a header
     h->clear();
@@ -116,7 +115,7 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->addresses().first(), QByteArray("pete@silly.example"));
     QCOMPARE(h->displayNames().first(), QLatin1String("Pete"));
     QCOMPARE(h->displayString(), QLatin1String("Pete"));
-    QCOMPARE(h->prettyAddresses().first(), QLatin1String("Pete <pete@silly.example>"));
+    QCOMPARE(h->asUnicodeString(), QLatin1String("Pete <pete@silly.example>"));
     QCOMPARE(h->as7BitString(false), QByteArray("Pete <pete@silly.example>"));
     delete h;
 
@@ -126,7 +125,7 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->addresses().count(), 1);
     QCOMPARE(h->addresses().first(), QByteArray("jdoe@machine.example"));
     QCOMPARE(h->displayNames().first(), QLatin1String("John Doe"));
-    QCOMPARE(h->prettyAddresses().first(), QLatin1String("John Doe <jdoe@machine.example>"));
+    QCOMPARE(h->asUnicodeString(), QLatin1String("John Doe <jdoe@machine.example>"));
     delete h;
 
     // parsing and re-assembling list of diffrent addresses
@@ -286,8 +285,7 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->addresses().first(), QByteArray("joe@where.test."));
     QCOMPARE(h->displayNames().count(), 1);
     QCOMPARE(h->displayNames().first(), QLatin1String("joe@where.test."));
-    QCOMPARE(h->prettyAddresses().count(), 1);
-    QCOMPARE(h->prettyAddresses().first(), QLatin1String("joe@where.test."));
+    QCOMPARE(h->asUnicodeString(), QLatin1String("joe@where.test."));
     delete h;
 
     h = new Headers::Generics::AddressList();
@@ -316,15 +314,14 @@ void HeaderTest::testMailboxListHeader()
     QCOMPARE(h->displayNames().count(), 1);
     QCOMPARE(h->displayNames().first(), QLatin1String("joe_smith@where.test"));
     QCOMPARE(h->displayString(), QLatin1String("joe_smith@where.test"));
-    QCOMPARE(h->prettyAddresses().count(), 1);
-    QCOMPARE(h->prettyAddresses().first(), QLatin1String("joe_smith@where.test"));
+    QCOMPARE(h->asUnicodeString(), QLatin1String("joe_smith@where.test"));
 
     // https://bugzilla.novell.com/show_bug.cgi?id=421057 (but apparently this was not the cause of the bug)
     h->from7BitString("fr...@ce.sco (Francesco)");
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->mailboxes().count(), 1);
     QCOMPARE(h->displayString(), QLatin1String("Francesco"));
-    QCOMPARE(h->prettyAddresses().first(), QLatin1String("Francesco <fr...@ce.sco>"));
+    QCOMPARE(h->asUnicodeString(), QLatin1String("Francesco <fr...@ce.sco>"));
 
     delete h;
 }
@@ -342,8 +339,7 @@ void HeaderTest::testSingleMailboxHeader()
     QCOMPARE(h->addresses().first(), QByteArray("joe_smith@where.test"));
     QCOMPARE(h->displayNames().count(), 1);
     QCOMPARE(h->displayNames().first(), QLatin1String("joe_smith@where.test"));
-    QCOMPARE(h->prettyAddresses().count(), 1);
-    QCOMPARE(h->prettyAddresses().first(), QLatin1String("joe_smith@where.test"));
+    QCOMPARE(h->asUnicodeString(), QLatin1String("joe_smith@where.test"));
 
     // parse single simple address with display name
     h->from7BitString("John Smith <joe_smith@where.test>");
@@ -352,8 +348,7 @@ void HeaderTest::testSingleMailboxHeader()
     QCOMPARE(h->addresses().first(), QByteArray("joe_smith@where.test"));
     QCOMPARE(h->displayNames().count(), 1);
     QCOMPARE(h->displayNames().first(), QLatin1String("John Smith"));
-    QCOMPARE(h->prettyAddresses().count(), 1);
-    QCOMPARE(h->prettyAddresses().first(), QLatin1String("John Smith <joe_smith@where.test>"));
+    QCOMPARE(h->asUnicodeString(), QLatin1String("John Smith <joe_smith@where.test>"));
     QCOMPARE(h->mailboxes().first().prettyAddress(Types::Mailbox::QuoteAlways),
              QLatin1String("\"John Smith\" <joe_smith@where.test>"));
 

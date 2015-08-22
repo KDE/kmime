@@ -397,14 +397,6 @@ public:
     QString displayString() const;
 
     /**
-      Returns a list of assembled display name / address strings of the
-      following form: "Display Name &lt;address&gt;". These are unicode
-      strings without any transport encoding, ie. they are only suitable
-      for displaying.
-    */
-    QStringList prettyAddresses() const;
-
-    /**
       Returns a list of mailboxes listed in this header.
     */
     Types::Mailbox::List mailboxes() const;
@@ -491,13 +483,6 @@ public:
       @since 5.14
     */
     QString displayString() const;
-
-    /**
-      Returns a list of assembled display name / address strings of the following form:
-      "Display Name &lt;address&gt;". These are unicode strings without any transport
-      encoding, ie. they are only suitable for displaying.
-    */
-    QStringList prettyAddresses() const;
 
     /**
       Returns a list of mailboxes listed in this header.
