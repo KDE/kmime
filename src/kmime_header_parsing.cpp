@@ -1382,10 +1382,6 @@ bool parseAddressList(const char *&scursor, const char *const send,
     return true;
 }
 
-static QString asterisk = QString::fromLatin1("*0*", 1);
-static QString asteriskZero = QString::fromLatin1("*0*", 2);
-//static QString asteriskZeroAsterisk = QString::fromLatin1( "*0*", 3 );
-
 // FIXME: Get rid of the very ugly "QStringOrQPair" thing. At this level, we are supposed to work
 //        on byte arrays, not strings! The result parameter should be a simple
 //        QPair<QByteArray,QByteArray>, which is the attribute name and the value.
@@ -1426,7 +1422,7 @@ bool parseParameter(const char *&scursor, const char *const send,
     eatCFWS(scursor, send, isCRLF);
     if (scursor == send) {
         // don't choke on attribute=, meaning the value was omitted:
-        if (maybeAttribute.endsWith(asterisk)) {
+        if (maybeAttribute.endsWith(QLatin1Char('*'))) {
             KMIME_WARN << "attribute ends with \"*\", but value is empty!"
                        "Chopping away \"*\".";
             maybeAttribute.truncate(maybeAttribute.length() - 1);
@@ -1444,7 +1440,7 @@ bool parseParameter(const char *&scursor, const char *const send,
     if (*scursor == '"') {
         // value is a quoted-string:
         scursor++;
-        if (maybeAttribute.endsWith(asterisk)) {
+        if (maybeAttribute.endsWith(QLatin1Char('*'))) {
             // attributes ending with "*" designate extended-parameters,
             // which cannot have quoted-strings as values. So we remove the
             // trailing "*" to not confuse upper layers.
@@ -1696,7 +1692,7 @@ bool parseParameterListWithCharset(const char *&scursor,
             EncodingMode encodingMode = NoEncoding;
 
             // is the value rfc2331-encoded?
-            if (attribute.endsWith(asterisk)) {
+            if (attribute.endsWith(QLatin1Char('*'))) {
                 attribute.truncate(attribute.length() - 1);
                 mode |= Encoded;
                 encodingMode = RFC2231;
@@ -1707,7 +1703,7 @@ bool parseParameterListWithCharset(const char *&scursor,
                 encodingMode = RFC2047;
             }
             // is the value continued?
-            if (attribute.endsWith(asteriskZero)) {
+            if (attribute.endsWith(QLatin1String("*0"))) {
                 attribute.truncate(attribute.length() - 2);
                 mode |= Continued;
             }
@@ -1747,7 +1743,7 @@ bool parseParameterListWithCharset(const char *&scursor,
             //
 
             // ignore the section and trust QMap to have sorted the keys:
-            if (it.key().endsWith(asterisk)) {
+            if (it.key().endsWith(QLatin1Char('*'))) {
                 // encoded
                 decodeRFC2231Value(rfc2231Codec, textcodec,
                                    true, /* is continuation */
