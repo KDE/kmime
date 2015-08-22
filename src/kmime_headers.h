@@ -390,6 +390,13 @@ public:
     QStringList displayNames() const;
 
     /**
+      Returns a single string for user-facing display of this mailbox list.
+      This is equivalent to displayNames().join(", ").
+      @since 5.14
+    */
+    QString displayString() const;
+
+    /**
       Returns a list of assembled display name / address strings of the
       following form: "Display Name &lt;address&gt;". These are unicode
       strings without any transport encoding, ie. they are only suitable
@@ -477,6 +484,13 @@ public:
       The address is added for addresses that don't have a display name.
     */
     QStringList displayNames() const;
+
+    /**
+      Returns a single string for user-facing display of this address list.
+      This is equivalent to displayNames().join(", ").
+      @since 5.14
+    */
+    QString displayString() const;
 
     /**
       Returns a list of assembled display name / address strings of the following form:

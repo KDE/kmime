@@ -382,6 +382,19 @@ QStringList MailboxList::displayNames() const
     return rv;
 }
 
+QString MailboxList::displayString() const
+{
+    Q_D(const MailboxList);
+    if (d->mailboxList.size() == 1) { // fast-path to avoid temporary QStringList in the common case of just one From address
+        const auto& mbox = d->mailboxList.at(0);
+        if (mbox.hasName())
+            return mbox.name();
+        else
+            return QString::fromLatin1(mbox.address());
+    }
+    return displayNames().join(QStringLiteral(", "));
+}
+
 QStringList MailboxList::prettyAddresses() const
 {
     QStringList rv;
@@ -545,6 +558,12 @@ QStringList AddressList::displayNames() const
         }
     }
     return rv;
+}
+
+QString AddressList::displayString() const
+{
+    // optimize for single entry and avoid creation of the QStringList in that case?
+    return displayNames().join(QStringLiteral(", "));
 }
 
 QStringList AddressList::prettyAddresses() const

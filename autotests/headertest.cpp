@@ -100,6 +100,7 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->addresses().first(), QByteArray("joe@where.test"));
     QCOMPARE(h->displayNames().count(), 1);
     QCOMPARE(h->displayNames().first(), QLatin1String("joe@where.test"));
+    QCOMPARE(h->displayString(), QLatin1String("joe@where.test"));
     QCOMPARE(h->prettyAddresses().count(), 1);
     QCOMPARE(h->prettyAddresses().first(), QLatin1String("joe@where.test"));
 
@@ -114,6 +115,7 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->addresses().count(), 1);
     QCOMPARE(h->addresses().first(), QByteArray("pete@silly.example"));
     QCOMPARE(h->displayNames().first(), QLatin1String("Pete"));
+    QCOMPARE(h->displayString(), QLatin1String("Pete"));
     QCOMPARE(h->prettyAddresses().first(), QLatin1String("Pete <pete@silly.example>"));
     QCOMPARE(h->as7BitString(false), QByteArray("Pete <pete@silly.example>"));
     delete h;
@@ -135,6 +137,7 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(names.takeFirst(), QLatin1String("Mary Smith"));
     QCOMPARE(names.takeFirst(), QLatin1String("jdoe@example.org"));
     QCOMPARE(names.takeFirst(), QLatin1String("Who?"));
+    QCOMPARE(h->displayString(), QLatin1String("Mary Smith, jdoe@example.org, Who?"));
     QCOMPARE(h->as7BitString(false), QByteArray("Mary Smith <mary@x.test>, jdoe@example.org, Who? <one@y.test>"));
     delete h;
 
@@ -312,6 +315,7 @@ void HeaderTest::testMailboxListHeader()
     QCOMPARE(h->addresses().first(), QByteArray("joe_smith@where.test"));
     QCOMPARE(h->displayNames().count(), 1);
     QCOMPARE(h->displayNames().first(), QLatin1String("joe_smith@where.test"));
+    QCOMPARE(h->displayString(), QLatin1String("joe_smith@where.test"));
     QCOMPARE(h->prettyAddresses().count(), 1);
     QCOMPARE(h->prettyAddresses().first(), QLatin1String("joe_smith@where.test"));
 
@@ -319,6 +323,7 @@ void HeaderTest::testMailboxListHeader()
     h->from7BitString("fr...@ce.sco (Francesco)");
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->mailboxes().count(), 1);
+    QCOMPARE(h->displayString(), QLatin1String("Francesco"));
     QCOMPARE(h->prettyAddresses().first(), QLatin1String("Francesco <fr...@ce.sco>"));
 
     delete h;
