@@ -436,12 +436,6 @@ QString decodeRFC2231String(const QByteArray &str, QByteArray &usedCS, const QBy
     return charsetcodec->toUnicode(st);
 }
 
-QString decodeRFC2231String(const QByteArray &src)
-{
-    QByteArray usedCS;
-    return decodeRFC2231String(src, usedCS, "utf-8", false);
-}
-
 QByteArray uniqueString()
 {
     static const char chars[] = "0123456789abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";

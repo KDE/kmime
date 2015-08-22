@@ -88,14 +88,6 @@ KMIME_EXPORT extern QString decodeRFC2231String(
     const QByteArray &src, QByteArray &usedCS, const QByteArray &defaultCS = QByteArray(),
     bool forceCS = false);
 
-/** Decode string @p src according to RFC2231 (ie. the
-    charset'lang'encoded construct).
-
-    @param src       source string.
-    @return the decoded string.
-*/
-KMIME_EXPORT extern QString decodeRFC2231String(const QByteArray &src);
-
 /**
   Encodes string @p src according to RFC2231 using charset @p charset.
 
