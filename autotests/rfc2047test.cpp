@@ -22,6 +22,7 @@
 
 #include <KCodecs>
 #include <kmime_util.h>
+#include <kmime_util_p.h>
 using namespace KMime;
 
 QTEST_MAIN(RFC2047Test)

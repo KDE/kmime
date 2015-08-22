@@ -34,6 +34,7 @@
 #include "kmime_mdn.h"
 #include "kmime_version.h"
 #include "kmime_util.h"
+#include "kmime_util_p.h"
 
 #include <klocalizedstring.h>
 #include <qdebug.h>

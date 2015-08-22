@@ -74,27 +74,6 @@ KMIME_EXPORT extern void setUseOutlookAttachmentEncoding(bool violateStandard);
 KMIME_EXPORT extern bool useOutlookAttachmentEncoding();
 
 /**
-  Encodes string @p src according to RFC2047 using charset @p charset.
-
-  This function also makes commas, quotes and other characters part of the encoded name, for example
-  the string "Jöhn Döe" <john@example.com"> would be encoded as <encoded word for "Jöhn Döe"> <john@example.com>,
-  i.e. the opening and closing quote mark would be part of the encoded word.
-  Therefore don't use this function for input strings that contain semantically meaningful characters,
-  like the quoting marks in this example.
-
-  @param src           source string.
-  @param charset       charset to use. If it can't encode the string, UTF-8 will be used instead.
-  @param addressHeader if this flag is true, all special chars
-                       like <,>,[,],... will be encoded, too.
-  @param allow8bitHeaders if this flag is true, 8Bit headers are allowed.
-
-  @return the encoded string.
-*/
-KMIME_EXPORT extern QByteArray encodeRFC2047String(
-    const QString &src, const QByteArray &charset, bool addressHeader = false,
-    bool allow8bitHeaders = false);
-
-/**
   Decodes string @p src according to RFC2231
 
   @param src       source string.

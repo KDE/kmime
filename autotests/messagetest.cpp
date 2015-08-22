@@ -21,6 +21,7 @@
 #include <qtest.h>
 #include <qdebug.h>
 #include <QFile>
+#include <kmime_util_p.h>
 
 using namespace KMime;
 

@@ -21,6 +21,7 @@
 #include "rfc2231test.h"
 
 #include <kmime_util.h>
+#include <kmime_util_p.h>
 #include <QDebug>
 using namespace KMime;
 
