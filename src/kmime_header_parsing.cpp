@@ -2211,7 +2211,6 @@ Headers::Base *extractFirstHeader(QByteArray &head)
     Headers::Base *header = 0;
 
     int startOfFieldBody = head.indexOf(':');
-    const int endOfFieldHeader = startOfFieldBody;
 
     if (startOfFieldBody > -1) {      //there is another header
         // Split the original data
