@@ -370,10 +370,14 @@ QVector<QByteArray> MailboxList::addresses() const
 
 QStringList MailboxList::displayNames() const
 {
+    Q_D(const MailboxList);
     QStringList rv;
-    rv.reserve(d_func()->mailboxList.count());
-    foreach (const Types::Mailbox &mbox, d_func()->mailboxList) {
-        rv.append(mbox.name());
+    rv.reserve(d->mailboxList.count());
+    foreach (const Types::Mailbox &mbox, d->mailboxList) {
+        if (mbox.hasName())
+            rv.append(mbox.name());
+        else
+            rv.append(QString::fromLatin1(mbox.address()));
     }
     return rv;
 }
@@ -530,10 +534,14 @@ QVector<QByteArray> AddressList::addresses() const
 
 QStringList AddressList::displayNames() const
 {
+    Q_D(const AddressList);
     QStringList rv;
-    foreach (const Types::Address &addr, d_func()->addressList) {
+    foreach (const Types::Address &addr, d->addressList) {
         foreach (const Types::Mailbox &mbox, addr.mailboxList) {
-            rv.append(mbox.name());
+            if (mbox.hasName())
+                rv.append(mbox.name());
+            else
+                rv.append(QString::fromLatin1(mbox.address()));
         }
     }
     return rv;

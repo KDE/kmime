@@ -99,7 +99,7 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->addresses().count(), 1);
     QCOMPARE(h->addresses().first(), QByteArray("joe@where.test"));
     QCOMPARE(h->displayNames().count(), 1);
-    QCOMPARE(h->displayNames().first(), QString());
+    QCOMPARE(h->displayNames().first(), QLatin1String("joe@where.test"));
     QCOMPARE(h->prettyAddresses().count(), 1);
     QCOMPARE(h->prettyAddresses().first(), QLatin1String("joe@where.test"));
 
@@ -133,7 +133,7 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->addresses().count(), 3);
     QStringList names = h->displayNames();
     QCOMPARE(names.takeFirst(), QLatin1String("Mary Smith"));
-    QCOMPARE(names.takeFirst(), QString());
+    QCOMPARE(names.takeFirst(), QLatin1String("jdoe@example.org"));
     QCOMPARE(names.takeFirst(), QLatin1String("Who?"));
     QCOMPARE(h->as7BitString(false), QByteArray("Mary Smith <mary@x.test>, jdoe@example.org, Who? <one@y.test>"));
     delete h;
@@ -144,7 +144,7 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->addresses().count(), 3);
     names = h->displayNames();
     QCOMPARE(names.takeFirst(), QLatin1String("Joe Q. Public"));
-    QCOMPARE(names.takeFirst(), QString());
+    QCOMPARE(names.takeFirst(), QLatin1String("boss@nil.test"));
     QCOMPARE(names.takeFirst(), QLatin1String("Giant; \"Big\" Box"));
     QCOMPARE(h->as7BitString(false), QByteArray("\"Joe Q. Public\" <john.q.public@example.com>, boss@nil.test, \"Giant; \\\"Big\\\" Box\" <sysservices@example.net>"));
     delete h;
@@ -196,7 +196,7 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->addresses().count(), 3);
     names = h->displayNames();
     QCOMPARE(names.takeFirst(), QLatin1String("Chris Jones"));
-    QCOMPARE(names.takeFirst(), QString());
+    QCOMPARE(names.takeFirst(), QLatin1String("joe@where.test"));
     QCOMPARE(names.takeFirst(), QLatin1String("John"));
     QCOMPARE(h->as7BitString(false), QByteArray("Chris Jones <c@a.test>, joe@where.test, John <jdoe@one.test>"));
     delete h;
@@ -225,8 +225,8 @@ void HeaderTest::testAddressListHeader()
     h->from7BitString("Vice@censored.serverkompetenz.net,\n    President@mail2.censored.net;\"Int\\\\\\\\\\\\\\\\\\\\'l\" Lotto Commission. <censored@yahoo.fr>");
     QCOMPARE(h->addresses().count(), 3);
     names = h->displayNames();
-    QCOMPARE(names.takeFirst(), QString());
-    QCOMPARE(names.takeFirst(), QString());
+    QCOMPARE(names.takeFirst(), QLatin1String("Vice@censored.serverkompetenz.net"));
+    QCOMPARE(names.takeFirst(), QLatin1String("President@mail2.censored.net"));
     // there is an wrong ' ' after the name, but since the header is completely
     // broken we can be happy it parses at all...
     QCOMPARE(names.takeFirst(), QLatin1String("Int\\\\\\\\\\'l Lotto Commission. "));
@@ -282,7 +282,7 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->addresses().count(), 1);
     QCOMPARE(h->addresses().first(), QByteArray("joe@where.test."));
     QCOMPARE(h->displayNames().count(), 1);
-    QCOMPARE(h->displayNames().first(), QString());
+    QCOMPARE(h->displayNames().first(), QLatin1String("joe@where.test."));
     QCOMPARE(h->prettyAddresses().count(), 1);
     QCOMPARE(h->prettyAddresses().first(), QLatin1String("joe@where.test."));
     delete h;
@@ -292,7 +292,7 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->addresses().count(), 3);
     names = h->displayNames();
     QCOMPARE(names.takeFirst(), QLatin1String("Mary Smith"));
-    QCOMPARE(names.takeFirst(), QString());
+    QCOMPARE(names.takeFirst(), QLatin1String("jdoe@example.org."));
     QCOMPARE(names.takeFirst(), QLatin1String("Who?"));
     QCOMPARE(h->as7BitString(false), QByteArray("Mary Smith <mary@x.test>, jdoe@example.org., Who? <one@y.test>"));
     delete h;
@@ -311,7 +311,7 @@ void HeaderTest::testMailboxListHeader()
     QCOMPARE(h->addresses().count(), 1);
     QCOMPARE(h->addresses().first(), QByteArray("joe_smith@where.test"));
     QCOMPARE(h->displayNames().count(), 1);
-    QCOMPARE(h->displayNames().first(), QString());
+    QCOMPARE(h->displayNames().first(), QLatin1String("joe_smith@where.test"));
     QCOMPARE(h->prettyAddresses().count(), 1);
     QCOMPARE(h->prettyAddresses().first(), QLatin1String("joe_smith@where.test"));
 
@@ -336,7 +336,7 @@ void HeaderTest::testSingleMailboxHeader()
     QCOMPARE(h->addresses().count(), 1);
     QCOMPARE(h->addresses().first(), QByteArray("joe_smith@where.test"));
     QCOMPARE(h->displayNames().count(), 1);
-    QCOMPARE(h->displayNames().first(), QString());
+    QCOMPARE(h->displayNames().first(), QLatin1String("joe_smith@where.test"));
     QCOMPARE(h->prettyAddresses().count(), 1);
     QCOMPARE(h->prettyAddresses().first(), QLatin1String("joe_smith@where.test"));
 

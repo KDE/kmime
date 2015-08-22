@@ -384,7 +384,7 @@ public:
 
     /**
       Returns a list of all display names associated with the addresses in
-      this header. An empty entry is added for addresses that do not have
+      this header. The address is added for addresses that do not have
       a display name.
     */
     QStringList displayNames() const;
@@ -474,7 +474,7 @@ public:
 
     /**
       Returns a list of all display names associated with the addresses in this header.
-      An empty entry is added for addresses that don't have a display name.
+      The address is added for addresses that don't have a display name.
     */
     QStringList displayNames() const;
 
