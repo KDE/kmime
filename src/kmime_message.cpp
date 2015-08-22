@@ -90,8 +90,7 @@ Content *Message::mainBodyPart(const QByteArray &type)
 
 QString Message::mimeType()
 {
-    static const QString &message_rfc822 = QStringLiteral("message/rfc822");
-    return message_rfc822;
+    return QStringLiteral("message/rfc822");
 }
 
 // @cond PRIVATE
