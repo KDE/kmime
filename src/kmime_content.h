@@ -683,7 +683,7 @@ template <typename T> T *Content::header(bool create)
         Q_ASSERT(dynamic_cast<T *>(h));
     } else if (create) {
         h = new T;
-        setHeader(h);
+        appendHeader(h); // we already know the header doesn't exist yet
     }
     return static_cast<T *>(h);
 }
