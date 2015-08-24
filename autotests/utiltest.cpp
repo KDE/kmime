@@ -230,3 +230,39 @@ void UtilTest::testIsCryptoPart()
 
     QCOMPARE(KMime::isCryptoPart(&c), isCrypto);
 }
+
+void UtilTest::testIsAttachment_data()
+{
+    QTest::addColumn<QByteArray>("mimeType");
+    QTest::addColumn<QString>("name");
+    QTest::addColumn<QString>("fileName");
+    QTest::addColumn<bool>("isAtt");
+
+    QTest::newRow("text part") << QByteArray("text/plain") << QString() << QString() << false;
+    QTest::newRow("text part w/ CT name") << QByteArray("text/plain") << QStringLiteral("file.txt") << QString() << true;
+    QTest::newRow("text part w/ CD name") << QByteArray("text/plain") << QString() << QStringLiteral("file.txt") << true;
+
+    // multipart is never an attachment, even with a CD name
+    QTest::newRow("multipart/mixed") << QByteArray("multipart/mixed") << QString() << QStringLiteral("file.txt") << false;
+
+    // emails are always attachments, even without CT/CD names
+    QTest::newRow("message/rfc822") <<  QByteArray("message/rfc822") << QString() << QString() << false;
+
+    QTest::newRow("crypto part") << QByteArray("application/octet-stream") << QString() << QStringLiteral("msg.asc") << false;
+}
+
+void UtilTest::testIsAttachment()
+{
+    QFETCH(QByteArray, mimeType);
+    QFETCH(QString, name);
+    QFETCH(QString, fileName);
+    QFETCH(bool, isAtt);
+
+    KMime::Content c;
+    c.contentType()->setMimeType(mimeType);
+    c.contentType()->setName(name, "utf-8");
+    if (!fileName.isEmpty())
+        c.contentDisposition()->setFilename(fileName);
+    QEXPECT_FAIL("multipart/mixed", "not supported yet", Continue);
+    QCOMPARE(KMime::hasAttachment(&c), isAtt);
+}
