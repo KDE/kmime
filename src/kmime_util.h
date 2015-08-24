@@ -234,9 +234,17 @@ KMIME_EXPORT QString balanceBidiState(const QString &input);
 KMIME_EXPORT QString removeBidiControlChars(const QString &input);
 
 /**
+ * Returns whether or not the given MIME node is an attachment part.
+ * @param content the MIME node to parse
+ * @see hasAttachment()
+ */
+KMIME_EXPORT bool isAttachment(Content *content);
+
+/**
  * Returns whether or not the given MIME node contains an attachment part. This function will
  *  recursively parse the MIME tree looking for a suitable attachment and return true if one is found.
  * @param content the MIME node to parse
+ * @see isAttachment()
  */
 KMIME_EXPORT bool hasAttachment(Content *content);
 

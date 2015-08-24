@@ -517,7 +517,7 @@ bool isCryptoPart(Content *content)
     return false;
 }
 
-bool hasAttachment(Content *content)
+bool isAttachment(Content* content)
 {
     if (!content) {
         return false;
@@ -539,6 +539,17 @@ bool hasAttachment(Content *content)
     if (!emptyFilename && !isCryptoPart(content)) {
         return true;
     }
+
+    return false;
+}
+
+bool hasAttachment(Content *content)
+{
+    if (!content)
+        return false;
+
+    if (isAttachment(content))
+        return true;
 
     // Ok, content itself is not an attachment. now we deal with multiparts
     if (content->contentType()->isMultipart()) {

@@ -264,5 +264,7 @@ void UtilTest::testIsAttachment()
     if (!fileName.isEmpty())
         c.contentDisposition()->setFilename(fileName);
     QEXPECT_FAIL("multipart/mixed", "not supported yet", Continue);
+    QCOMPARE(KMime::isAttachment(&c), isAtt);
+    QEXPECT_FAIL("multipart/mixed", "not supported yet", Continue);
     QCOMPARE(KMime::hasAttachment(&c), isAtt);
 }
