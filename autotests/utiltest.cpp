@@ -258,13 +258,41 @@ void UtilTest::testIsAttachment()
     QFETCH(QString, fileName);
     QFETCH(bool, isAtt);
 
-    KMime::Content c;
-    c.contentType()->setMimeType(mimeType);
-    c.contentType()->setName(name, "utf-8");
+    auto root = new KMime::Message;
+    auto c = new KMime::Content;
+    root->addContent(c);
+    c->contentType()->setMimeType(mimeType);
+    c->contentType()->setName(name, "utf-8");
     if (!fileName.isEmpty())
-        c.contentDisposition()->setFilename(fileName);
+        c->contentDisposition()->setFilename(fileName);
     QEXPECT_FAIL("multipart/mixed", "not supported yet", Continue);
-    QCOMPARE(KMime::isAttachment(&c), isAtt);
+    QCOMPARE(KMime::isAttachment(c), isAtt);
     QEXPECT_FAIL("multipart/mixed", "not supported yet", Continue);
-    QCOMPARE(KMime::hasAttachment(&c), isAtt);
+    QCOMPARE(KMime::hasAttachment(root), isAtt);
+
+    delete root;
+}
+
+void UtilTest::testHasAttachment()
+{
+    // multipart/related is not an attachment
+    auto root = new KMime::Message;
+    root->contentType()->setMimeType("multipart/related");
+
+    auto c1 = new KMime::Content;
+    c1->contentType()->setMimeType("text/plain");
+    root->addContent(c1);
+
+    auto c2 = new KMime::Content;
+    c2->contentType()->setMimeType("image/jpeg");
+    c2->contentDisposition()->setFilename(QStringLiteral("image.jpg"));
+    root->addContent(c2);
+
+    QEXPECT_FAIL("", "still broken", Continue);
+    QCOMPARE(KMime::hasAttachment(root), false);
+
+    // just to make sure this actually works for non multipart/related
+    QCOMPARE(KMime::isAttachment(c2), true);
+    root->contentType()->setMimeType("multipart/mixed");
+    QCOMPARE(KMime::hasAttachment(root), true);
 }
