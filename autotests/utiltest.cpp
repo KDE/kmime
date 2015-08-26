@@ -238,16 +238,19 @@ void UtilTest::testIsAttachment_data()
     QTest::addColumn<QString>("fileName");
     QTest::addColumn<bool>("isAtt");
 
+    QTest::newRow("empty") << QByteArray() << QString() << QString() << false;
     QTest::newRow("text part") << QByteArray("text/plain") << QString() << QString() << false;
     QTest::newRow("text part w/ CT name") << QByteArray("text/plain") << QStringLiteral("file.txt") << QString() << true;
     QTest::newRow("text part w/ CD name") << QByteArray("text/plain") << QString() << QStringLiteral("file.txt") << true;
 
     // multipart is never an attachment, even with a CD name
     QTest::newRow("multipart/mixed") << QByteArray("multipart/mixed") << QString() << QStringLiteral("file.txt") << false;
+    QTest::newRow("multipart/mixed upper") << QByteArray("MULTIPART/MIXED") << QString() << QStringLiteral("file.txt") << false;
 
     // emails are always attachments, even without CT/CD names
-    QTest::newRow("message/rfc822") <<  QByteArray("message/rfc822") << QString() << QString() << false;
+    QTest::newRow("message/rfc822") <<  QByteArray("message/rfc822") << QString() << QString() << true;
 
+    // crypto nodes, even when looking like attachments, are not attachments
     QTest::newRow("crypto part") << QByteArray("application/octet-stream") << QString() << QStringLiteral("msg.asc") << false;
 }
 
@@ -261,16 +264,34 @@ void UtilTest::testIsAttachment()
     auto root = new KMime::Message;
     auto c = new KMime::Content;
     root->addContent(c);
-    c->contentType()->setMimeType(mimeType);
-    c->contentType()->setName(name, "utf-8");
+    if (!mimeType.isEmpty())
+        c->contentType()->setMimeType(mimeType);
+    if (!name.isEmpty())
+        c->contentType()->setName(name, "utf-8");
     if (!fileName.isEmpty())
         c->contentDisposition()->setFilename(fileName);
     QEXPECT_FAIL("multipart/mixed", "not supported yet", Continue);
+    QEXPECT_FAIL("message/rfc822", "not supported yet", Continue);
     QCOMPARE(KMime::isAttachment(c), isAtt);
     QEXPECT_FAIL("multipart/mixed", "not supported yet", Continue);
+    QEXPECT_FAIL("message/rfc822", "not supported yet", Continue);
     QCOMPARE(KMime::hasAttachment(root), isAtt);
 
     delete root;
+}
+
+// stuff not covered above
+void UtilTest::testIsAttachmentSpecial()
+{
+    // don't crash on invalid input
+    QCOMPARE(KMime::isAttachment(Q_NULLPTR), false);
+    QCOMPARE(KMime::hasAttachment(Q_NULLPTR), false);
+
+    // disposition type "attachment" is a clear indicator...
+    KMime::Content c;
+    c.contentDisposition()->setDisposition(Headers::CDattachment);
+    QEXPECT_FAIL("", "not implemented yet", Continue);
+    QCOMPARE(KMime::isAttachment(&c), true);
 }
 
 void UtilTest::testHasAttachment()
@@ -295,4 +316,32 @@ void UtilTest::testHasAttachment()
     QCOMPARE(KMime::isAttachment(c2), true);
     root->contentType()->setMimeType("multipart/mixed");
     QCOMPARE(KMime::hasAttachment(root), true);
+    delete root;
+
+    // multipart/alternative is also not an attachment
+    root = new KMime::Message;
+    root->contentType()->setMimeType("multipart/alternative");
+
+    c1 = new KMime::Content;
+    c1->contentType()->setMimeType("text/plain");
+    root->addContent(c1);
+
+    c2 = new KMime::Content;
+    c2->contentType()->setMimeType("text/html");
+    root->addContent(c2);
+
+    QCOMPARE(KMime::hasAttachment(root), false);
+    delete root;
+
+    // the main part of multipart/mixed is not an attachment, even if it looks like one
+    root = new KMime::Message;
+    c1 = new KMime::Content;
+    c1->contentType()->setMimeType("text/plain");
+    c1->contentType()->setName(QStringLiteral("file.txt"), "utf-8");
+    root->addContent(c1);
+    QCOMPARE(KMime::isAttachment(c1), true);
+    QEXPECT_FAIL("", "not implemented yet", Continue);
+    QCOMPARE(KMime::hasAttachment(root), false);
+
+    delete root;
 }

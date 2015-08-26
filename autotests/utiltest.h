@@ -37,6 +37,7 @@ private Q_SLOTS:
     void testIsCryptoPart();
     void testIsAttachment_data();
     void testIsAttachment();
+    void testIsAttachmentSpecial();
     void testHasAttachment();
 };
 
