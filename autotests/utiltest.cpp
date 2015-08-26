@@ -270,11 +270,7 @@ void UtilTest::testIsAttachment()
         c->contentType()->setName(name, "utf-8");
     if (!fileName.isEmpty())
         c->contentDisposition()->setFilename(fileName);
-    QEXPECT_FAIL("multipart/mixed", "not supported yet", Continue);
-    QEXPECT_FAIL("message/rfc822", "not supported yet", Continue);
     QCOMPARE(KMime::isAttachment(c), isAtt);
-    QEXPECT_FAIL("multipart/mixed", "not supported yet", Continue);
-    QEXPECT_FAIL("message/rfc822", "not supported yet", Continue);
     QCOMPARE(KMime::hasAttachment(root), isAtt);
 
     delete root;

@@ -1029,6 +1029,11 @@ public:
     bool isSubtype(const char *subtype) const;
 
     /**
+      Tests if the mime type is @p mimeType.
+    */
+    bool isMimeType(const char *mimeType) const;
+
+    /**
       Returns true if the associated MIME entity is a text.
     */
     bool isText() const;

@@ -523,15 +523,24 @@ bool isAttachment(Content* content)
         return false;
     }
 
+    const auto contentType = content->contentType(false);
+    // multipart/* is never an attachment itself, message/rfc822 always is
+    if (contentType) {
+        if (contentType->isMultipart())
+            return false;
+        if (contentType->isMimeType("message/rfc822"))
+            return true;
+    }
+
+    const auto contentDisposition = content->contentDisposition(false);
     bool emptyFilename = true;
-    if (content->contentDisposition(false) &&
-            !content->contentDisposition()->filename().isEmpty()) {
+
+    // content type or content disposition having a file name set looks like an attachment
+    if (contentDisposition && !contentDisposition->filename().isEmpty()) {
         emptyFilename = false;
     }
 
-    if (emptyFilename &&
-            content->contentType(false) &&
-            !content->contentType()->name().isEmpty()) {
+    if (emptyFilename && contentType && !contentType->name().isEmpty()) {
         emptyFilename = false;
     }
 

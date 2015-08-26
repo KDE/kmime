@@ -1700,6 +1700,12 @@ bool ContentType::isSubtype(const char *subtype) const {
             d->mimeType.size() == pos + len + 1;
 }
 
+bool ContentType::isMimeType(const char* mimeType) const
+{
+    Q_D(const ContentType);
+    return qstricmp(d->mimeType.constData(), mimeType) == 0;
+}
+
 bool ContentType::isText() const {
     return (isMediatype("text") || isEmpty());
 }
