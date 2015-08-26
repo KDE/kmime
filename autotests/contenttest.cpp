@@ -86,6 +86,15 @@ void ContentTest::testHeaderAddRemove()
     QVERIFY(!c->contentDescription(false));
 
     delete c;
+
+    // test template versions
+    Content c2;
+    QVERIFY(!c2.hasHeader(KMime::Headers::Lines::staticType()));
+    QVERIFY(!c2.header<KMime::Headers::Lines>(false));
+    QVERIFY(c2.header<KMime::Headers::Lines>(true));
+    QVERIFY(c2.hasHeader(KMime::Headers::Lines::staticType()));
+    c2.removeHeader<KMime::Headers::Lines>();
+    QVERIFY(!c2.hasHeader(KMime::Headers::Lines::staticType()));
 }
 
 void ContentTest::testHeaderAppend()

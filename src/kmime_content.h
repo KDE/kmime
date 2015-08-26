@@ -302,8 +302,16 @@ public:
       @param type The type of the header to look for.
       @return true if a header was found and removed.
     */
-    // TODO probably provide removeHeader<T>() too.
     bool removeHeader(const char *type);
+
+    /**
+      Searches for the first header of type @p T, and deletes it, removing
+      it from this Content.
+      @tparam T The type of the header to look for.
+      @return true if a header was found and removed.
+    */
+    template <typename T> bool removeHeader();
+
 
     /**
       @return true if this Content has a header of type @p type.
@@ -686,6 +694,11 @@ template <typename T> T *Content::header(bool create)
         appendHeader(h); // we already know the header doesn't exist yet
     }
     return static_cast<T *>(h);
+}
+
+template <typename T> bool Content::removeHeader()
+{
+    return removeHeader(T::staticType());
 }
 
 } // namespace KMime
