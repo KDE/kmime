@@ -579,6 +579,25 @@ bool hasAttachment(Content *content)
     return false;
 }
 
+QVector<Content*> attachments(Content* content)
+{
+    QVector<Content*> result;
+
+    if (!content)
+        return result;
+
+    if (content->contentType()->isMultipart()) {
+        Q_FOREACH (Content *child, content->contents()) {
+            if (isAttachment(child))
+                result.push_back(child);
+            else
+                result += attachments(child);
+        }
+    }
+
+    return result;
+}
+
 bool hasInvitation(Content *content)
 {
     if (!content) {

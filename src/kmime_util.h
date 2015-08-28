@@ -23,10 +23,12 @@
 #ifndef __KMIME_UTIL_H__
 #define __KMIME_UTIL_H__
 
-#include <QtCore/QString>
 #include "kmime_export.h"
 #include "kmime_headers.h"
 #include "kmime_content.h"
+
+#include <QtCore/QString>
+#include <QtCore/QVector>
 
 namespace KMime
 {
@@ -247,6 +249,13 @@ KMIME_EXPORT bool isAttachment(Content *content);
  * @see isAttachment()
  */
 KMIME_EXPORT bool hasAttachment(Content *content);
+
+/**
+ * Returns all attachments below @p content, recursively.
+ * @param content the MIME top-level node containing the attachments.
+ * @see isAttachment(), hasAttachment()
+ */
+KMIME_EXPORT QVector<Content*> attachments(Content *content);
 
 /**
  * Returns whether or not the given MIME node contains an invitation part. This function will

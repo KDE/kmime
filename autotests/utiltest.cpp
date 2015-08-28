@@ -273,6 +273,14 @@ void UtilTest::testIsAttachment()
     QCOMPARE(KMime::isAttachment(c), isAtt);
     QCOMPARE(KMime::hasAttachment(root), isAtt);
 
+    if (isAtt) {
+        QCOMPARE(KMime::attachments(root).size(), 1);
+        QCOMPARE(KMime::attachments(root).at(0), c);
+    } else {
+        QVERIFY(KMime::attachments(root).isEmpty());
+    }
+    QVERIFY(KMime::attachments(c).isEmpty());
+
     delete root;
 }
 
@@ -307,11 +315,15 @@ void UtilTest::testHasAttachment()
 
     QEXPECT_FAIL("", "still broken", Continue);
     QCOMPARE(KMime::hasAttachment(root), false);
+    QEXPECT_FAIL("", "still broken", Continue);
+    QCOMPARE(KMime::attachments(root).size(), 0);
 
     // just to make sure this actually works for non multipart/related
     QCOMPARE(KMime::isAttachment(c2), true);
     root->contentType()->setMimeType("multipart/mixed");
     QCOMPARE(KMime::hasAttachment(root), true);
+    QCOMPARE(KMime::attachments(root).size(), 1);
+    QCOMPARE(KMime::attachments(root).at(0), c2);
     delete root;
 
     // multipart/alternative is also not an attachment
@@ -327,6 +339,7 @@ void UtilTest::testHasAttachment()
     root->addContent(c2);
 
     QCOMPARE(KMime::hasAttachment(root), false);
+    QCOMPARE(KMime::attachments(root).size(), 0);
     delete root;
 
     // the main part of multipart/mixed is not an attachment, even if it looks like one
@@ -338,6 +351,7 @@ void UtilTest::testHasAttachment()
     QCOMPARE(KMime::isAttachment(c1), true);
     QEXPECT_FAIL("", "not implemented yet", Continue);
     QCOMPARE(KMime::hasAttachment(root), false);
-
+    QEXPECT_FAIL("", "not implemented yet", Continue);
+    QCOMPARE(KMime::attachments(root).size(), 0);
     delete root;
 }
