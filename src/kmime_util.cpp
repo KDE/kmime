@@ -556,6 +556,9 @@ bool isAttachment(Content* content)
     if (!emptyFilename && !isCryptoPart(content)) {
         return true;
     }
+    // "attachment" content disposition is otherwise a good indicator though
+    if (contentDisposition && contentDisposition->disposition() == Headers::CDattachment)
+        return true;
 
     return false;
 }

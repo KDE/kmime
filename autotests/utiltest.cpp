@@ -294,7 +294,6 @@ void UtilTest::testIsAttachmentSpecial()
     // disposition type "attachment" is a clear indicator...
     KMime::Content c;
     c.contentDisposition()->setDisposition(Headers::CDattachment);
-    QEXPECT_FAIL("", "not implemented yet", Continue);
     QCOMPARE(KMime::isAttachment(&c), true);
 }
 
