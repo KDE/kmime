@@ -307,7 +307,7 @@ int indexOfHeader(const QByteArray &src, const QByteArray &name, int &end, int &
     if (begin > -1) {       //there is a header with the given name
         dataBegin = begin + name.length() + 1; //skip the name
         // skip the usual space after the colon
-        if (src.at(dataBegin) == ' ') {
+        if (dataBegin < src.length() && src.at(dataBegin) == ' ') {
             ++dataBegin;
         }
         end = findHeaderLineEnd(src, dataBegin, folded);

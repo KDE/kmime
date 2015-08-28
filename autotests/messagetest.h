@@ -46,6 +46,7 @@ private Q_SLOTS:
     void testOutlookAttachmentNaming();
     void testEncryptedMails();
     void testReturnSameMail();
+    void testEmptySubject();
 
 private:
     KMime::Message::Ptr readAndParseMail(const QString &mailFile) const;

@@ -621,6 +621,13 @@ void MessageTest::testReturnSameMail()
     QCOMPARE(msg2.encodedContent(), fileContent);
 }
 
+void MessageTest::testEmptySubject()
+{
+    auto msg = readAndParseMail(QLatin1String("empty-subject.mbox"));
+    QVERIFY(msg); // was crashing for Andre
+    QVERIFY(msg->hasHeader("Subject"));
+    QVERIFY(msg->subject()->asUnicodeString().isEmpty());
+}
 
 KMime::Message::Ptr MessageTest::readAndParseMail(const QString &mailFile) const
 {
