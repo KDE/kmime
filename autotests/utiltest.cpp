@@ -312,9 +312,7 @@ void UtilTest::testHasAttachment()
     c2->contentDisposition()->setFilename(QStringLiteral("image.jpg"));
     root->addContent(c2);
 
-    QEXPECT_FAIL("", "still broken", Continue);
     QCOMPARE(KMime::hasAttachment(root), false);
-    QEXPECT_FAIL("", "still broken", Continue);
     QCOMPARE(KMime::attachments(root).size(), 0);
 
     // just to make sure this actually works for non multipart/related

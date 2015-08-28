@@ -572,7 +572,8 @@ bool hasAttachment(Content *content)
         return true;
 
     // Ok, content itself is not an attachment. now we deal with multiparts
-    if (content->contentType()->isMultipart()) {
+    auto ct = content->contentType(false);
+    if (ct && ct->isMultipart() && !ct->isSubtype("related") && !ct->isSubtype("alternative")) {
         Q_FOREACH (Content *child, content->contents()) {
             if (hasAttachment(child)) {
                 return true;
@@ -589,7 +590,8 @@ QVector<Content*> attachments(Content* content)
     if (!content)
         return result;
 
-    if (content->contentType()->isMultipart()) {
+    auto ct = content->contentType(false);
+    if (ct && ct->isMultipart() && !ct->isSubtype("related") && !ct->isSubtype("alternative")) {
         Q_FOREACH (Content *child, content->contents()) {
             if (isAttachment(child))
                 result.push_back(child);
