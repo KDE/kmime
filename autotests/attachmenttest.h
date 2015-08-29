@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2006 Volker Krause <vkrause@kde.org>
+    Copyright (c) 2006-2015 Volker Krause <vkrause@kde.org>
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -21,20 +21,14 @@
 
 #include <QtCore/QObject>
 
-class UtilTest : public QObject
+class AttachmentTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
-    void testUnfoldHeader();
-    void testExtractHeader();
-    void testBalanceBidiState();
-    void testBalanceBidiState_data();
-    void testAddQuotes();
-    void testAddQuotes_data();
-    void testIsSigned_data();
-    void testIsSigned();
-    void testIsCryptoPart_data();
-    void testIsCryptoPart();
+    void testIsAttachment_data();
+    void testIsAttachment();
+    void testIsAttachmentSpecial();
+    void testHasAttachment();
 };
 
 #endif

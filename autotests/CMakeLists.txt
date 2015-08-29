@@ -33,4 +33,5 @@ add_kmime_test(
   sizetest
   parsedatetimetest
   dateformattertest
+  attachmenttest
 )
