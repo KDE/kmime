@@ -518,11 +518,12 @@ public:
     Content *textContent();
 
     /**
-      Returns a list of attachments.
-
-      @param incAlternatives If true, include multipart/alternative parts.
-    */
-    QVector<Content*> attachments(bool incAlternatives = false);
+     * Returns all attachments below this node, recursively.
+     * This does not include crypto parts, nodes of alternative or related multipart nodes, or
+     * the primary body part (see textContent()).
+     * @see KMime::isAttachment(), KMime::hasAttachment()
+     */
+    QVector<Content*> attachments();
 
     /**
      * For multipart contents, this will return a list of all multipart child contents.

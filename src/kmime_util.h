@@ -251,13 +251,6 @@ KMIME_EXPORT bool isAttachment(Content *content);
 KMIME_EXPORT bool hasAttachment(Content *content);
 
 /**
- * Returns all attachments below @p content, recursively.
- * @param content the MIME top-level node containing the attachments.
- * @see isAttachment(), hasAttachment()
- */
-KMIME_EXPORT QVector<Content*> attachments(Content *content);
-
-/**
  * Returns whether or not the given MIME node contains an invitation part. This function will
  *  recursively parse the MIME tree looking for a suitable invitation and return true if one is found.
  * @param content the MIME node to parse

@@ -73,12 +73,12 @@ void AttachmentTest::testIsAttachment()
     QCOMPARE(KMime::hasAttachment(root), isAtt);
 
     if (isAtt) {
-        QCOMPARE(KMime::attachments(root).size(), 1);
-        QCOMPARE(KMime::attachments(root).at(0), c);
+        QCOMPARE(root->attachments().size(), 1);
+        QCOMPARE(root->attachments().at(0), c);
     } else {
-        QVERIFY(KMime::attachments(root).isEmpty());
+        QVERIFY(root->attachments().isEmpty());
     }
-    QVERIFY(KMime::attachments(c).isEmpty());
+    QVERIFY(c->attachments().isEmpty());
 
     delete root;
 }
@@ -112,14 +112,14 @@ void AttachmentTest::testHasAttachment()
     root->addContent(c2);
 
     QCOMPARE(KMime::hasAttachment(root), false);
-    QCOMPARE(KMime::attachments(root).size(), 0);
+    QCOMPARE(root->attachments().size(), 0);
 
     // just to make sure this actually works for non multipart/related
     QCOMPARE(KMime::isAttachment(c2), true);
     root->contentType()->setMimeType("multipart/mixed");
     QCOMPARE(KMime::hasAttachment(root), true);
-    QCOMPARE(KMime::attachments(root).size(), 1);
-    QCOMPARE(KMime::attachments(root).at(0), c2);
+    QCOMPARE(root->attachments().size(), 1);
+    QCOMPARE(root->attachments().at(0), c2);
     delete root;
 
     // multipart/alternative is also not an attachment
@@ -135,7 +135,7 @@ void AttachmentTest::testHasAttachment()
     root->addContent(c2);
 
     QCOMPARE(KMime::hasAttachment(root), false);
-    QCOMPARE(KMime::attachments(root).size(), 0);
+    QCOMPARE(root->attachments().size(), 0);
     delete root;
 
     // the main part of multipart/mixed is not an attachment, even if it looks like one
@@ -143,11 +143,10 @@ void AttachmentTest::testHasAttachment()
     c1 = new KMime::Content;
     c1->contentType()->setMimeType("text/plain");
     c1->contentType()->setName(QStringLiteral("file.txt"), "utf-8");
-    root->addContent(c1);
+    root->addContent(c1, true);
     QCOMPARE(KMime::isAttachment(c1), true);
     QEXPECT_FAIL("", "not implemented yet", Continue);
     QCOMPARE(KMime::hasAttachment(root), false);
-    QEXPECT_FAIL("", "not implemented yet", Continue);
-    QCOMPARE(KMime::attachments(root).size(), 0);
+    QCOMPARE(root->attachments().size(), 0);
     delete root;
 }

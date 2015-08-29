@@ -583,26 +583,6 @@ bool hasAttachment(Content *content)
     return false;
 }
 
-QVector<Content*> attachments(Content* content)
-{
-    QVector<Content*> result;
-
-    if (!content)
-        return result;
-
-    auto ct = content->contentType(false);
-    if (ct && ct->isMultipart() && !ct->isSubtype("related") && !ct->isSubtype("alternative")) {
-        Q_FOREACH (Content *child, content->contents()) {
-            if (isAttachment(child))
-                result.push_back(child);
-            else
-                result += attachments(child);
-        }
-    }
-
-    return result;
-}
-
 bool hasInvitation(Content *content)
 {
     if (!content) {

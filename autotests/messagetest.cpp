@@ -597,7 +597,8 @@ void MessageTest::testOutlookAttachmentNaming()
 void MessageTest::testEncryptedMails()
 {
     KMime::Message::Ptr msg = readAndParseMail(QLatin1String("x-pkcs7.mbox"));
-    QVERIFY(msg->attachments().count() == 1);
+    QVERIFY(msg->contents().size() == 0);
+    QVERIFY(msg->attachments().count() == 0);
     QVERIFY(KMime::isEncrypted(msg.data()) == true);
     QVERIFY(KMime::isInvitation(msg.data()) == false);
     QVERIFY(KMime::isSigned(msg.data()) == false);

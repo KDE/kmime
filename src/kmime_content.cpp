@@ -446,29 +446,27 @@ Content *Content::textContent()
     return ret;
 }
 
-QVector<Content*> Content::attachments(bool incAlternatives)
+QVector<Content*> Content::attachments()
 {
-    QVector<Content*> attachments;
-    if (d_ptr->contents().isEmpty()) {
-        attachments.append(this);
-    } else {
-        foreach (Content *c, d_ptr->contents()) {
-            if (!incAlternatives &&
-                    c->contentType()->category() == Headers::CCalternativePart) {
-                continue;
-            } else {
-                attachments += c->attachments(incAlternatives);
-            }
+    QVector<Content*> result;
+
+    auto ct = contentType(false);
+    if (ct && ct->isMultipart() && !ct->isSubtype("related") && !ct->isSubtype("alternative")) {
+        Q_FOREACH (Content *child, contents()) {
+            if (isAttachment(child))
+                result.push_back(child);
+            else
+                result += child->attachments();
         }
     }
 
     if (isTopLevel()) {
         Content *text = textContent();
-        if (text) {
-            attachments.removeAll(text);
-        }
+        if (text)
+            result.removeAll(text);
     }
-    return attachments;
+
+    return result;
 }
 
 QVector<Content*> Content::contents() const
