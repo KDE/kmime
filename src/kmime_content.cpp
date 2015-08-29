@@ -460,12 +460,6 @@ QVector<Content*> Content::attachments()
         }
     }
 
-    if (isTopLevel()) {
-        Content *text = textContent();
-        if (text)
-            result.removeAll(text);
-    }
-
     return result;
 }
 

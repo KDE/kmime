@@ -29,6 +29,7 @@ private Q_SLOTS:
     void testIsAttachment();
     void testIsAttachmentSpecial();
     void testHasAttachment();
+    void testNestedMultipart();
 };
 
 #endif

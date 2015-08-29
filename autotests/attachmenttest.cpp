@@ -144,9 +144,35 @@ void AttachmentTest::testHasAttachment()
     c1->contentType()->setMimeType("text/plain");
     c1->contentType()->setName(QStringLiteral("file.txt"), "utf-8");
     root->addContent(c1, true);
-    QCOMPARE(KMime::isAttachment(c1), true);
-    QEXPECT_FAIL("", "not implemented yet", Continue);
+    QCOMPARE(KMime::isAttachment(c1), false);
+    QCOMPARE(KMime::hasAttachment(c1), false);
     QCOMPARE(KMime::hasAttachment(root), false);
     QCOMPARE(root->attachments().size(), 0);
+    delete root;
+}
+
+void AttachmentTest::testNestedMultipart()
+{
+    auto root = new KMime::Message;
+    auto sig = new KMime::Content;
+    sig->contentType()->setMimeType("application/pgp-signature");
+    sig->contentType()->setName(QStringLiteral("signature.asc"), "utf-8");
+    root->addContent(sig);
+    root->contentType()->setMimeType("multipart/signed");
+
+    auto mixed = root->contents().at(0);
+
+    auto att = new KMime::Content;
+    att->contentType()->setMimeType("image/jpeg");
+    att->contentType()->setName(QStringLiteral("attachment.jpg"), "utf-8");
+    mixed->addContent(att);
+
+    mixed->contentType("multipart/mixed");
+
+    QVERIFY(KMime::hasAttachment(root));
+    QVERIFY(KMime::hasAttachment(mixed));
+    QCOMPARE(root->attachments().size(), 1);
+    QCOMPARE(root->attachments().at(0), att);
+
     delete root;
 }

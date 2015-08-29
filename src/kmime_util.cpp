@@ -540,6 +540,13 @@ bool isAttachment(Content* content)
             return true;
     }
 
+    // the main body part is not an attachment
+    if (content->parent()) {
+        const auto top = content->topLevel();
+        if (content == top->textContent())
+            return false;
+    }
+
     const auto contentDisposition = content->contentDisposition(false);
     bool emptyFilename = true;
 
