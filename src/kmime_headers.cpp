@@ -63,7 +63,6 @@
 #define kmime_mk_trivial_ctor( subclass, baseclass )                  \
     subclass::subclass() : baseclass()           \
     {                                                                     \
-        clear();                                                            \
     }                                                                     \
     \
     subclass::~subclass() {}
@@ -73,7 +72,6 @@
 #define kmime_mk_trivial_ctor_with_dptr( subclass, baseclass ) \
     subclass::subclass() : baseclass( new subclass##Private ) \
     {                                                                     \
-        clear();                                                            \
     }                                                                     \
     \
     subclass::~subclass() { \

@@ -112,6 +112,11 @@ public:
 class MailCopiesToPrivate : public Generics::AddressListPrivate
 {
 public:
+    MailCopiesToPrivate() :
+        Generics::AddressListPrivate(),
+        alwaysCopy(false),
+        neverCopy(false)
+    {}
     bool alwaysCopy;
     bool neverCopy;
 };
@@ -119,6 +124,11 @@ public:
 class ContentTransferEncodingPrivate : public Generics::TokenPrivate
 {
 public:
+    ContentTransferEncodingPrivate() :
+        Generics::TokenPrivate(),
+        cte(CE7Bit),
+        decoded(true)
+    {}
     contentEncoding cte;
     bool decoded;
 };
@@ -126,6 +136,10 @@ public:
 class ContentTypePrivate : public Generics::ParametrizedPrivate
 {
 public:
+    ContentTypePrivate() :
+        Generics::ParametrizedPrivate(),
+        category(CCsingle)
+    {}
     QByteArray mimeType;
     contentCategory category;
 };
@@ -133,13 +147,20 @@ public:
 class ContentDispositionPrivate : public Generics::ParametrizedPrivate
 {
 public:
+    ContentDispositionPrivate() :
+        Generics::ParametrizedPrivate(),
+        disposition(CDInvalid)
+    {}
     contentDisposition disposition;
 };
 
 class GenericPrivate : public Generics::UnstructuredPrivate
 {
 public:
-    GenericPrivate() : type(0) {}
+    GenericPrivate() :
+        Generics::UnstructuredPrivate(),
+        type(0)
+    {}
     ~GenericPrivate()
     {
         delete[] type;
@@ -170,6 +191,10 @@ public:
 class LinesPrivate : public Generics::StructuredPrivate
 {
 public:
+    LinesPrivate() :
+        Generics::StructuredPrivate(),
+        lines(-1)
+    {}
     int lines;
 };
 
