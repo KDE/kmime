@@ -30,6 +30,7 @@ private Q_SLOTS:
     void testIsAttachmentSpecial();
     void testHasAttachment();
     void testNestedMultipart();
+    void testEncrypted();
 };
 
 #endif

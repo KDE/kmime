@@ -547,22 +547,21 @@ bool isAttachment(Content* content)
             return false;
     }
 
-    const auto contentDisposition = content->contentDisposition(false);
-    bool emptyFilename = true;
+    // ignore crypto parts
+    if (isCryptoPart(content))
+        return false;
+
 
     // content type or content disposition having a file name set looks like an attachment
+    const auto contentDisposition = content->contentDisposition(false);
     if (contentDisposition && !contentDisposition->filename().isEmpty()) {
-        emptyFilename = false;
-    }
-
-    if (emptyFilename && contentType && !contentType->name().isEmpty()) {
-        emptyFilename = false;
-    }
-
-    // ignore crypto parts
-    if (!emptyFilename && !isCryptoPart(content)) {
         return true;
     }
+
+    if (contentType && !contentType->name().isEmpty()) {
+        return true;
+    }
+
     // "attachment" content disposition is otherwise a good indicator though
     if (contentDisposition && contentDisposition->disposition() == Headers::CDattachment)
         return true;

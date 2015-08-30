@@ -176,3 +176,36 @@ void AttachmentTest::testNestedMultipart()
 
     delete root;
 }
+
+void AttachmentTest::testEncrypted()
+{
+    auto root = new KMime::Message;
+    root->setContent(
+        "From: firstname.lastname@example.com\n"
+        "To: test@kolab.org\n"
+        "Subject: OpenPGP encrypted with 2 text attachments\n"
+        "Date: Sun, 30 Aug 2015 12:05:17 +0200\n"
+        "Message-ID: <1505824.VT0nqpAGu0@vkpc5>\n"
+        "MIME-Version: 1.0\n"
+        "Content-Type: multipart/encrypted; boundary=\"nextPart3335835.KxmPgziKxd\"; protocol=\"application/pgp-encrypted\"\n"
+        "\n"
+        "--nextPart3335835.KxmPgziKxd\n"
+        "Content-Type: application/pgp-encrypted\n"
+        "Content-Disposition: attachment\n"
+        "Content-Transfer-Encoding: 7Bit\n"
+        "\n"
+        "Version: 1\n"
+        "--nextPart3335835.KxmPgziKxd\n"
+        "Content-Type: application/octet-stream\n"
+        "Content-Disposition: inline; filename=\"msg.asc\"\n"
+        "Content-Transfer-Encoding: 7Bit\n"
+        "\n"
+        "-----BEGIN PGP MESSAGE-----\n"
+        "-----END PGP MESSAGE-----\n"
+        "\n"
+        "--nextPart3335835.KxmPgziKxd--\n"
+    );
+    root->parse();
+    QCOMPARE(hasAttachment(root), false);
+    delete root;
+}
