@@ -46,7 +46,9 @@ class MessagePrivate;
  * ct->setMimeType( "multipart/mixed" );
  * ct->setBoundary( multiPartBoundary() );
  * ct->setCategory( Headers::CCcontainer );
- * m->contentTransferEncoding()->clear();
+ * Headers::ContentTransferEncoding *cte = m->contentTransferEncoding();
+ * cte->setEncoding(Headers::CE7Bit);
+ * cte->setDecoded(true);
  *
  * // Set the headers.
  * m->from()->fromUnicodeString( "some@mailaddy.com", "utf-8" );

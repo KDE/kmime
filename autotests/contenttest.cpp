@@ -424,6 +424,7 @@ void ContentTest::testMultipartMixed()
         "Subject: Sample message\n"
         "MIME-Version: 1.0\n"
         "Content-Type: multipart/mixed; boundary=\"simple boundary\"\n"
+        "Content-Transfer-Encoding: 7Bit\n"
         "\n"
         "--simple boundary\n"
         "\n"

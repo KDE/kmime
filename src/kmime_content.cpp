@@ -526,7 +526,9 @@ void Content::addContent(Content *c, bool prepend)
         ct->setMimeType("multipart/mixed");
         ct->setBoundary(multiPartBoundary());
         ct->setCategory(Headers::CCcontainer);
-        contentTransferEncoding()->clear();  // 7Bit, decoded.
+        auto cte = contentTransferEncoding();
+        cte->setEncoding(Headers::CE7Bit);
+        cte->setDecoded(true);
     }
 
     // Add the new content.
@@ -914,7 +916,9 @@ bool ContentPrivate::parseUuencoded(Content *q)
         ct->setMimeType("multipart/mixed");
         ct->setBoundary(multiPartBoundary());
         ct->setCategory(Headers::CCcontainer);
-        q->contentTransferEncoding()->clear(); // 7Bit, decoded.
+        auto cte = q->contentTransferEncoding();
+        cte->setEncoding(Headers::CE7Bit);
+        cte->setDecoded(true);
 
         // Add the plain text part first.
         Q_ASSERT(multipartContents.count() == 0);
@@ -968,7 +972,9 @@ bool ContentPrivate::parseYenc(Content *q)
         ct->setMimeType("multipart/mixed");
         ct->setBoundary(multiPartBoundary());
         ct->setCategory(Headers::CCcontainer);
-        q->contentTransferEncoding()->clear(); // 7Bit, decoded.
+        auto cte = q->contentTransferEncoding();
+        cte->setEncoding(Headers::CE7Bit);
+        cte->setDecoded(true);
 
         // Add the plain text part first.
         Q_ASSERT(multipartContents.count() == 0);
