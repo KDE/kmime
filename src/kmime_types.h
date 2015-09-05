@@ -145,6 +145,20 @@ public:
     */
     QByteArray as7BitString(const QByteArray &encCharset) const;
 
+    /**
+     * Returns a list of mailboxes from an unicode string.
+     *
+     * @since 5.14
+     */
+    static QVector<Mailbox> listFromUnicodeString(const QString &s);
+
+    /**
+     * Returns a list of mailboxes from an encoded 7bit string.
+     *
+     * @since 5.14
+     */
+    static QVector<Mailbox> listFrom7BitString(const QByteArray &s);
+
 private:
     QString mDisplayName;
     AddrSpec mAddrSpec;

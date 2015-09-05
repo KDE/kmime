@@ -214,6 +214,27 @@ QByteArray KMime::Types::Mailbox::as7BitString(const QByteArray &encCharset) con
     return rv;
 }
 
+QVector<KMime::Types::Mailbox> KMime::Types::Mailbox::listFromUnicodeString(const QString &s)
+{
+    return listFrom7BitString(encodeRFC2047Sentence(s, "utf-8"));
+}
+
+QVector<KMime::Types::Mailbox> KMime::Types::Mailbox::listFrom7BitString(const QByteArray& s)
+{
+    QVector<KMime::Types::Mailbox> res;
+    QVector<KMime::Types::Address> maybeAddressList;
+    const char *scursor = s.constData();
+    if (!HeaderParsing::parseAddressList(scursor, scursor + s.size(), maybeAddressList)) {
+        return res;
+    }
+
+    res.reserve(maybeAddressList.size());
+    foreach (const auto &it, maybeAddressList) {
+        res += (it).mailboxList;
+    }
+    return res;
+}
+
 } // namespace Types
 
 } // namespace KMime
