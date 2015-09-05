@@ -12,6 +12,7 @@ set(KMime_HEADERS
   Message
   NewsArticle
   Util
+  Types
 )
 
 install(FILES

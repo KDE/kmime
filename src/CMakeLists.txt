@@ -21,6 +21,7 @@ set(kmime_LIB_SRCS
    kmime_newsarticle.cpp
    kmime_dateformatter.cpp
    kmime_codecs.cpp
+   kmime_types.cpp
 )
 
 add_library(KF5Mime ${kmime_LIB_SRCS})
@@ -73,6 +74,7 @@ install(FILES
          kmime_newsarticle.h
          kmime_dateformatter.h
          kmime_util.h
+         kmime_types.h
          DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}/KMime/kmime COMPONENT Devel
 )
 
