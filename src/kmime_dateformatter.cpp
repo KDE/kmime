@@ -43,28 +43,45 @@
 
 using namespace KMime;
 
-DateFormatter::DateFormatter(FormatType ftype)
-    : mFormat(ftype), mTodayOneSecondBeforeMidnight(0)
+namespace KMime {
+
+class DateFormatterPrivate {
+public:
+    DateFormatterPrivate() :
+        mTodayOneSecondBeforeMidnight(0)
+    {}
+
+    DateFormatter::FormatType mFormat;
+    time_t mTodayOneSecondBeforeMidnight;
+    QString mCustomFormat;
+};
+
+}
+
+DateFormatter::DateFormatter(FormatType ftype) :
+    d(new DateFormatterPrivate)
 {
+    d->mFormat = ftype;
 }
 
 DateFormatter::~DateFormatter()
 {
+    delete d;
 }
 
 DateFormatter::FormatType DateFormatter::format() const
 {
-    return mFormat;
+    return d->mFormat;
 }
 
 void DateFormatter::setFormat(FormatType ftype)
 {
-    mFormat = ftype;
+    d->mFormat = ftype;
 }
 
 QString DateFormatter::dateString(time_t t, const QString &lang, bool shortFormat) const
 {
-    switch (mFormat) {
+    switch (d->mFormat) {
     case Fancy:
         return fancy(t);
         break;
@@ -107,33 +124,33 @@ QString DateFormatter::rfc2822(time_t t) const
 
 QString DateFormatter::custom(time_t t) const
 {
-    if (mCustomFormat.isEmpty()) {
+    if (d->mCustomFormat.isEmpty()) {
         return QString();
     }
 
-    int z = mCustomFormat.indexOf(QLatin1Char('Z'));
-    QDateTime d;
-    QString ret = mCustomFormat;
+    int z = d->mCustomFormat.indexOf(QLatin1Char('Z'));
+    QDateTime dt;
+    QString ret = d->mCustomFormat;
 
-    d.setTime_t(t);
+    dt.setTime_t(t);
     if (z != -1) {
         ret.replace(z, 1, QLatin1String(zone(t)));
     }
 
-    ret = d.toString(ret);
+    ret = dt.toString(ret);
 
     return ret;
 }
 
 void DateFormatter::setCustomFormat(const QString &format)
 {
-    mCustomFormat = format;
-    mFormat = Custom;
+    d->mCustomFormat = format;
+    d->mFormat = Custom;
 }
 
 QString DateFormatter::customFormat() const
 {
-    return mCustomFormat;
+    return d->mCustomFormat;
 }
 
 QByteArray DateFormatter::zone(time_t t) const
@@ -195,17 +212,17 @@ QString DateFormatter::fancy(time_t t) const
         return i18nc("invalid time specified", "unknown");
     }
 
-    if (mTodayOneSecondBeforeMidnight < time(0)) {
+    if (d->mTodayOneSecondBeforeMidnight < time(0)) {
         // determine time_t value of today 23:59:59
         const QDateTime today(QDate::currentDate(), QTime(23, 59, 59));
-        mTodayOneSecondBeforeMidnight = today.toTime_t();
+        d->mTodayOneSecondBeforeMidnight = today.toTime_t();
     }
 
     QDateTime old;
     old.setTime_t(t);
 
-    if (mTodayOneSecondBeforeMidnight >= t) {
-        const time_t diff = mTodayOneSecondBeforeMidnight - t;
+    if (d->mTodayOneSecondBeforeMidnight >= t) {
+        const time_t diff = d->mTodayOneSecondBeforeMidnight - t;
         if (diff < 7 * 24 * 60 * 60) {
             if (diff < 24 * 60 * 60) {
                 return i18n("Today %1",

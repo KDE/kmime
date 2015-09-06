@@ -54,6 +54,7 @@
 
 namespace KMime
 {
+class DateFormatterPrivate;
 
 /**
   @brief
@@ -251,9 +252,7 @@ protected:
 
 private:
     //@cond PRIVATE
-    FormatType          mFormat;
-    mutable time_t      mTodayOneSecondBeforeMidnight;
-    QString             mCustomFormat;
+    DateFormatterPrivate *const d;
     //@endcond
 };
 
