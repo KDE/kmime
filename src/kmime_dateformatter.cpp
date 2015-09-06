@@ -51,6 +51,64 @@ public:
         mTodayOneSecondBeforeMidnight(0)
     {}
 
+    /**
+      Returns a QString containing the specified time_t @p t formatted
+      using the #Fancy #FormatType.
+
+      @param t is the time_t to use for formatting.
+    */
+    QString fancy(time_t t);
+
+    /**
+      Returns a QString containing the specified time_t @p t formatted
+      using the #Localized #FormatType.
+
+      @param t is the time_t to use for formatting.
+      @param shortFormat if true, create the short version of the date string.
+      @param lang is a QString containing the language to use.
+    */
+    static QString localized(time_t t, bool shortFormat = true, const QString &lang = QString());
+
+    /**
+      Returns a QString containing the specified time_t @p t formatted
+      with the ctime() function.
+
+      @param t is the time_t to use for formatting.
+    */
+    static QString cTime(time_t t);
+
+    /**
+      Returns a QString containing the specified time_t @p t in the
+      "%Y-%m-%d %H:%M:%S" #Iso #FormatType.
+
+      @param t is the time_t to use for formatting.
+    */
+    static QString isoDate(time_t t);
+
+    /**
+      Returns a QString containing the specified time_t @p t in the
+      #Rfc #FormatType.
+
+      @param t is the time_t to use for formatting.
+    */
+    static QString rfc2822(time_t t);
+
+    /**
+      Returns a QString containing the specified time_t @p t formatted
+      with a previously specified custom format.
+
+      @param t time used for formatting
+    */
+    QString custom(time_t t) const;
+
+    /**
+      Returns a QString that identifies the timezone (eg."-0500")
+      of the specified time_t @p t.
+
+      @param t time to compute timezone from.
+    */
+    static QByteArray zone(time_t t);
+
     DateFormatter::FormatType mFormat;
     time_t mTodayOneSecondBeforeMidnight;
     QString mCustomFormat;
@@ -83,22 +141,22 @@ QString DateFormatter::dateString(time_t t, const QString &lang, bool shortForma
 {
     switch (d->mFormat) {
     case Fancy:
-        return fancy(t);
+        return d->fancy(t);
         break;
     case Localized:
-        return localized(t, shortFormat, lang);
+        return d->localized(t, shortFormat, lang);
         break;
     case CTime:
-        return cTime(t);
+        return d->cTime(t);
         break;
     case Iso:
-        return isoDate(t);
+        return d->isoDate(t);
         break;
     case Rfc:
-        return rfc2822(t);
+        return d->rfc2822(t);
         break;
     case Custom:
-        return custom(t);
+        return d->custom(t);
         break;
     }
     return QString();
@@ -109,7 +167,7 @@ QString DateFormatter::dateString(const QDateTime &dt, const QString &lang, bool
     return dateString(dt.toLocalTime().toTime_t(), lang, shortFormat);
 }
 
-QString DateFormatter::rfc2822(time_t t) const
+QString DateFormatterPrivate::rfc2822(time_t t)
 {
     QDateTime tmp;
     QString ret;
@@ -122,15 +180,15 @@ QString DateFormatter::rfc2822(time_t t) const
     return ret;
 }
 
-QString DateFormatter::custom(time_t t) const
+QString DateFormatterPrivate::custom(time_t t) const
 {
-    if (d->mCustomFormat.isEmpty()) {
+    if (mCustomFormat.isEmpty()) {
         return QString();
     }
 
-    int z = d->mCustomFormat.indexOf(QLatin1Char('Z'));
+    int z = mCustomFormat.indexOf(QLatin1Char('Z'));
     QDateTime dt;
-    QString ret = d->mCustomFormat;
+    QString ret = mCustomFormat;
 
     dt.setTime_t(t);
     if (z != -1) {
@@ -153,7 +211,7 @@ QString DateFormatter::customFormat() const
     return d->mCustomFormat;
 }
 
-QByteArray DateFormatter::zone(time_t t) const
+QByteArray DateFormatterPrivate::zone(time_t t)
 {
 #if defined(HAVE_TIMEZONE) || defined(HAVE_TM_GMTOFF)
     struct tm *local = localtime(&t);
@@ -204,7 +262,7 @@ QByteArray DateFormatter::zone(time_t t) const
     return ret;
 }
 
-QString DateFormatter::fancy(time_t t) const
+QString DateFormatterPrivate::fancy(time_t t)
 {
     auto locale = QLocale::system();
 
@@ -212,17 +270,17 @@ QString DateFormatter::fancy(time_t t) const
         return i18nc("invalid time specified", "unknown");
     }
 
-    if (d->mTodayOneSecondBeforeMidnight < time(0)) {
+    if (mTodayOneSecondBeforeMidnight < time(0)) {
         // determine time_t value of today 23:59:59
         const QDateTime today(QDate::currentDate(), QTime(23, 59, 59));
-        d->mTodayOneSecondBeforeMidnight = today.toTime_t();
+        mTodayOneSecondBeforeMidnight = today.toTime_t();
     }
 
     QDateTime old;
     old.setTime_t(t);
 
-    if (d->mTodayOneSecondBeforeMidnight >= t) {
-        const time_t diff = d->mTodayOneSecondBeforeMidnight - t;
+    if (mTodayOneSecondBeforeMidnight >= t) {
+        const time_t diff = mTodayOneSecondBeforeMidnight - t;
         if (diff < 7 * 24 * 60 * 60) {
             if (diff < 24 * 60 * 60) {
                 return i18n("Today %1",
@@ -245,7 +303,7 @@ QString DateFormatter::fancy(time_t t) const
     return locale.toString(old, QLocale::ShortFormat);
 }
 
-QString DateFormatter::localized(time_t t, bool shortFormat, const QString &lang) const
+QString DateFormatterPrivate::localized(time_t t, bool shortFormat, const QString &lang)
 {
     QDateTime tmp;
     QString ret;
@@ -263,12 +321,12 @@ QString DateFormatter::localized(time_t t, bool shortFormat, const QString &lang
     return ret;
 }
 
-QString DateFormatter::cTime(time_t t) const
+QString DateFormatterPrivate::cTime(time_t t)
 {
     return QString::fromLatin1(ctime(&t)).trimmed();
 }
 
-QString DateFormatter::isoDate(time_t t) const
+QString DateFormatterPrivate::isoDate(time_t t)
 {
     char cstr[64];
     strftime(cstr, 63, "%Y-%m-%d %H:%M:%S", localtime(&t));

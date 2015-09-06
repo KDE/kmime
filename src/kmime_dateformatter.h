@@ -190,66 +190,6 @@ public:
                                      const QString &data = QString(),
                                      bool shortFormat = true);
 
-protected:
-    /**
-      Returns a QString containing the specified time_t @p t formatted
-      using the #Fancy #FormatType.
-
-      @param t is the time_t to use for formatting.
-    */
-    QString fancy(time_t t) const ;
-
-    /**
-      Returns a QString containing the specified time_t @p t formatted
-      using the #Localized #FormatType.
-
-      @param t is the time_t to use for formatting.
-      @param shortFormat if true, create the short version of the date string.
-      @param lang is a QString containing the language to use.
-    */
-    QString localized(time_t t, bool shortFormat = true,
-                      const QString &lang = QString()) const;
-
-    /**
-      Returns a QString containing the specified time_t @p t formatted
-      with the ctime() function.
-
-      @param t is the time_t to use for formatting.
-    */
-    QString cTime(time_t t) const;
-
-    /**
-      Returns a QString containing the specified time_t @p t in the
-      "%Y-%m-%d %H:%M:%S" #Iso #FormatType.
-
-      @param t is the time_t to use for formatting.
-    */
-    QString isoDate(time_t t) const;
-
-    /**
-      Returns a QString containing the specified time_t @p t in the
-      #Rfc #FormatType.
-
-      @param t is the time_t to use for formatting.
-    */
-    QString rfc2822(time_t t) const;
-
-    /**
-      Returns a QString containing the specified time_t @p t formatted
-      with a previously specified custom format.
-
-      @param t time used for formatting
-    */
-    QString custom(time_t t) const;
-
-    /**
-      Returns a QString that identifies the timezone (eg."-0500")
-      of the specified time_t @p t.
-
-      @param t time to compute timezone from.
-    */
-    QByteArray zone(time_t t) const;
-
 private:
     //@cond PRIVATE
     DateFormatterPrivate *const d;
