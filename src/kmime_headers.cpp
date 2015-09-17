@@ -327,16 +327,7 @@ void MailboxList::fromUnicodeString(const QString &s, const QByteArray &b)
 QString MailboxList::asUnicodeString() const
 {
     Q_D(const MailboxList);
-
-    if (d->mailboxList.size() == 1) // QStringList free fast-path for the common case
-        return d->mailboxList.at(0).prettyAddress();
-
-    QStringList rv;
-    rv.reserve(d->mailboxList.count());
-    foreach (const Types::Mailbox &mbox, d->mailboxList) {
-        rv.append(mbox.prettyAddress());
-    }
-    return rv.join(QStringLiteral(", "));
+    return Mailbox::listToUnicodeString(d->mailboxList);
 }
 
 void MailboxList::clear()

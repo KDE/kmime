@@ -30,6 +30,7 @@
 #include <KCodecs>
 
 #include <QDebug>
+#include <QStringList>
 #include <QUrl>
 
 namespace KMime
@@ -233,6 +234,19 @@ QVector<KMime::Types::Mailbox> KMime::Types::Mailbox::listFrom7BitString(const Q
         res += (it).mailboxList;
     }
     return res;
+}
+
+QString Mailbox::listToUnicodeString(const QVector<Mailbox>& mailboxes)
+{
+    if (mailboxes.size() == 1) // QStringList free fast-path for the common case
+        return mailboxes.at(0).prettyAddress();
+
+    QStringList rv;
+    rv.reserve(mailboxes.count());
+    foreach (const Types::Mailbox &mbox, mailboxes) {
+        rv.append(mbox.prettyAddress());
+    }
+    return rv.join(QStringLiteral(", "));
 }
 
 } // namespace Types

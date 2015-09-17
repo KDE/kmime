@@ -159,6 +159,13 @@ public:
      */
     static QVector<Mailbox> listFrom7BitString(const QByteArray &s);
 
+    /**
+     * Returns a unicode string representing the given list of mailboxes.
+     *
+     * @since 5.15
+     */
+    static QString listToUnicodeString(const QVector<Mailbox> &mailboxes);
+
 private:
     QString mDisplayName;
     AddrSpec mAddrSpec;

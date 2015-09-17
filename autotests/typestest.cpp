@@ -48,6 +48,20 @@ private Q_SLOTS:
         QCOMPARE(list.at(1).address(), QByteArray("name2@example.local"));
     }
 
+    void testListToString()
+    {
+        QVector<Types::Mailbox> mboxes;
+        QCOMPARE(Types::Mailbox::listToUnicodeString(mboxes), QString());
+
+        Types::Mailbox mbox;
+        mbox.setAddress("name@example.local");
+        mboxes.push_back(mbox);
+        QCOMPARE(Types::Mailbox::listToUnicodeString(mboxes), QStringLiteral("name@example.local"));
+
+        mbox.setName(QStringLiteral("First Last"));
+        mboxes.push_back(mbox);
+        QCOMPARE(Types::Mailbox::listToUnicodeString(mboxes), QStringLiteral("name@example.local, First Last <name@example.local>"));
+    }
 };
 
 QTEST_MAIN(TypesTest)
