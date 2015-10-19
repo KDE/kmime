@@ -768,7 +768,7 @@ Content *KMime::Content::content(const ContentIndex &index) const
     ContentIndex idx = index;
     unsigned int i = idx.pop() - 1; // one-based -> zero-based index
     if (i < (unsigned int)d_ptr->contents().size()) {
-        return d_ptr->contents()[i]->content(idx);
+        return d_ptr->contents().at(i)->content(idx);
     } else {
         return 0;
     }
@@ -784,7 +784,7 @@ ContentIndex KMime::Content::indexForContent(Content *content) const
     }
     // not found, we need to search recursively
     for (int i = 0; i < d_ptr->contents().size(); ++i) {
-        ContentIndex ci = d_ptr->contents()[i]->indexForContent(content);
+        ContentIndex ci = d_ptr->contents().at(i)->indexForContent(content);
         if (ci.isValid()) {
             // found it
             ci.push(i + 1);   // zero-based -> one-based index
