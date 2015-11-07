@@ -40,7 +40,6 @@ class MultiPart
 {
 public:
     MultiPart(const QByteArray &src, const QByteArray &boundary);
-    ~MultiPart() {}
 
     bool parse();
     QVector<QByteArray> parts() const
