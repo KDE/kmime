@@ -192,6 +192,7 @@ public:
 
 private:
     //@cond PRIVATE
+    Q_DISABLE_COPY(DateFormatter)
     DateFormatterPrivate *const d;
     //@endcond
 };
