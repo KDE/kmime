@@ -417,7 +417,7 @@ bool MailboxList::parse(const char *&scursor, const char *const send,
     d->mailboxList.reserve(maybeAddressList.count());
 
     // extract the mailboxes and complain if there are groups:
-    foreach ( auto it, maybeAddressList) {
+    foreach (const auto &it, maybeAddressList) {
         if (!(it).displayName.isEmpty()) {
             KMIME_WARN << "mailbox groups in header disallowing them! Name: \""
                        << (it).displayName << "\"" << endl;
