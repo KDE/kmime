@@ -39,7 +39,7 @@ void RFC2047Test::testRFC2047encode()
              "=?utf-8?q?Ingo=20Kl=C3=B6cker?= <kloecker@kde.org>");
 
     // Fallback to UTF-8 for encoding since the given charset can't encode the string
-    const QString input = QString::fromUtf8("æſðđŋħł");
+    const QString input = QStringLiteral("æſðđŋħł");
     const QByteArray result = KMime::encodeRFC2047String(input, "latin1");
     QCOMPARE(KCodecs::decodeRFC2047String(QString::fromUtf8(result)), input);
     QVERIFY(result.contains("utf-8"));

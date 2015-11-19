@@ -43,15 +43,15 @@ void ContentIndexTest::testFromString()
     ContentIndex ci1;
     QVERIFY(!ci1.isValid());
 
-    ContentIndex ci2(QLatin1String("1.2.bla"));
+    ContentIndex ci2(QStringLiteral("1.2.bla"));
     QVERIFY(!ci2.isValid());
 
-    ContentIndex ci3(QLatin1String("1"));
+    ContentIndex ci3(QStringLiteral("1"));
     QVERIFY(ci3.isValid());
     QCOMPARE(ci3.pop(), 1u);
     QVERIFY(!ci3.isValid());
 
-    ContentIndex ci4(QLatin1String("3.2"));
+    ContentIndex ci4(QStringLiteral("3.2"));
     QVERIFY(ci4.isValid());
     QCOMPARE(ci4.pop(), 3u);
     QCOMPARE(ci4.pop(), 2u);

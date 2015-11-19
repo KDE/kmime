@@ -27,10 +27,10 @@ main()
     if (HeaderParsing::parseDateTime(str, str + rfcd.length(), dt)) {
         qDebug() << " ntime =" << (ntime) << " dt =" << (dt.toTime_t());
         qdt.setTime_t(dt.toTime_t());
-        qDebug() << " qq =" << qdt.toString(QLatin1String("ddd, dd MMM yyyy hh:mm:ss"));
+        qDebug() << " qq =" << qdt.toString(QStringLiteral("ddd, dd MMM yyyy hh:mm:ss"));
         qDebug() << " rfc2822 :" << t.formatDate(DateFormatter::Rfc, dt.toTime_t());
     }
-    QString ddd = QLatin1String("Mon, 05 Aug 2002 01:57:51 -0700");
+    QString ddd = QStringLiteral("Mon, 05 Aug 2002 01:57:51 -0700");
     ba = ddd.toLatin1();
     str = ba.constData();
     if (HeaderParsing::parseDateTime(str, str + ddd.length(), dt)) {
@@ -38,7 +38,7 @@ main()
         qDebug() << " rfc2822 :" << t.formatDate(DateFormatter::Rfc, dt.toTime_t());
     }
 
-    t.setCustomFormat(QLatin1String("MMMM dddd yyyy Z"));
+    t.setCustomFormat(QStringLiteral("MMMM dddd yyyy Z"));
     qDebug() << "tCustom : \t" << t.dateString(ntime);
 
     ntime -= (24 * 3600 + 1);
@@ -53,7 +53,7 @@ main()
     qDebug() << "tIso   : \t" << t.dateString(ntime);
     t.setFormat(DateFormatter::Rfc);
     qDebug() << "trfc2822 : \t" << t.dateString(ntime);
-    t.setCustomFormat(QLatin1String("MMMM dddd Z yyyy"));
+    t.setCustomFormat(QStringLiteral("MMMM dddd Z yyyy"));
     qDebug() << "tCustom : \t" << t.dateString(ntime);
 
     t.setFormat(DateFormatter::Fancy);
@@ -68,7 +68,7 @@ main()
     qDebug() << "tIso   : \t" << t.dateString(ntime);
     t.setFormat(DateFormatter::Rfc);
     qDebug() << "trfc2822 : \t" << t.dateString(ntime);
-    t.setCustomFormat(QLatin1String("MMMM Z dddd yyyy"));
+    t.setCustomFormat(QStringLiteral("MMMM Z dddd yyyy"));
     qDebug() << "tCustom : \t" << t.dateString(ntime);
 
     qDebug() << "Static functions (dates like in the last test):";
@@ -78,7 +78,7 @@ main()
     qDebug() << "tIso   : \t" << DateFormatter::formatDate(DateFormatter::Iso, ntime);
     qDebug() << "trfc2822 : \t" << DateFormatter::formatDate(DateFormatter::Rfc, ntime);
     qDebug() << "tCustom : \t" << DateFormatter::formatDate(DateFormatter::Custom, ntime,
-             QLatin1String("Z MMMM dddd yyyy"));
+             QStringLiteral("Z MMMM dddd yyyy"));
     t.setFormat(DateFormatter::Fancy);
     qDebug() << "QDateTime taking: (dates as in first test)";
     qDebug() << "tFancy : \t" << t.dateString((QDateTime::currentDateTime()));
@@ -90,6 +90,6 @@ main()
     qDebug() << "tIso   : \t" << t.dateString(QDateTime::currentDateTime());
     t.setFormat(DateFormatter::Rfc);
     qDebug() << "tIso   : \t" << t.dateString(QDateTime::currentDateTime());
-    t.setCustomFormat(QLatin1String("MMMM d dddd yyyy Z"));
+    t.setCustomFormat(QStringLiteral("MMMM d dddd yyyy Z"));
     qDebug() << "tCustom : \t" << t.dateString(QDateTime::currentDateTime());
 }
