@@ -326,7 +326,7 @@ void MessageTest::testUtf16()
         "MIME-Version: 1.0\n"
         "Content-Type: text/plain; charset=\"utf-16\"\n"
         "Content-Transfer-Encoding: base64\n"
-        "To: =?ISO-8859-1?Q?Fr=C3=A4nz_T=C3=B6ster?= <test@test.de>\n"
+        "To: =?ISO-8859-1?Q?Fr=E4nz_T=F6ster?= <test@test.de>\n"
         "\n"
         "//5UAGgAaQBzACAAaQBzACAAVQBUAEYALQAxADYAIABUAGUAeAB0AC4ACgAKAAo=\n"
         "\n";
