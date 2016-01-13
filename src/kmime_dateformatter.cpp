@@ -35,7 +35,7 @@
 
 #include <config-kmime.h>
 
-#include <stdlib.h> // for abs()
+#include <cmath> // for abs()
 
 #include <QtCore/QTextStream>
 
