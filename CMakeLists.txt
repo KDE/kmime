@@ -18,7 +18,7 @@ include(KDEFrameworkCompilerSettings)
 
 
 set(KF5_VERSION "5.17.0")
-set(KMIME_LIB_VERSION "5.0.40")
+set(KMIME_LIB_VERSION "5.1.40")
 set(QT_REQUIRED_VERSION "5.2.0")
 
 ecm_setup_version(${KMIME_LIB_VERSION} VARIABLE_PREFIX KMIME
