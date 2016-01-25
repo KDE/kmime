@@ -41,7 +41,11 @@
 
 #include <QtCore/QByteArray>
 
-#include <unistd.h> // gethostname
+#ifdef Q_OS_WIN // gethostname
+# include <winsock2.h>
+#else
+# include <unistd.h>
+#endif
 
 namespace KMime
 {

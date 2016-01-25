@@ -33,12 +33,17 @@ add_library(KF5::Mime ALIAS KF5Mime)
 target_include_directories(KF5Mime INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KMime>")
 target_include_directories(KF5Mime PUBLIC "$<BUILD_INTERFACE:${KMime_SOURCE_DIR}/src;${KMime_BINARY_DIR}/src;${KMime_BINARY_DIR}>")
 
+if (WIN32)
+    set(_kmime_extra_libs ws2_32)
+endif()
+
 target_link_libraries(KF5Mime
 PUBLIC
     Qt5::Core
 PRIVATE
     KF5::I18n
     KF5::Codecs
+    ${_kmime_extra_libs}
 )
 
 set_target_properties(KF5Mime PROPERTIES
