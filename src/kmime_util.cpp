@@ -285,6 +285,21 @@ int findHeaderLineEnd(const QByteArray &src, int &dataBegin, bool *folded)
     return end;
 }
 
+#ifndef HAVE_STRCASESTR
+static const char *strcasestr(const char *haystack, const char *needle)
+{
+    /* Copied from libreplace as part of qtwebengine 5.5.1 */
+    const char *s;
+    size_t nlen = strlen(needle);
+    for (s = haystack; *s; s++) {
+        if (toupper(*needle) == toupper(*s) && strncasecmp(s, needle, nlen) == 0) {
+            return (char *)((uintptr_t)s);
+        }
+    }
+    return NULL;
+}
+#endif
+
 int indexOfHeader(const QByteArray &src, const QByteArray &name, int &end, int &dataBegin, bool *folded)
 {
     QByteArray n = name;
