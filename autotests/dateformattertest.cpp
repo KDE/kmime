@@ -37,10 +37,10 @@ private Q_SLOTS:
 
         auto dt = QDateTime::currentDateTime();
         dt.setTime(QTime(12, 34, 56));
-        QCOMPARE(f.dateString(dt), QString::fromLatin1("Today 12:34 PM"));
+        QCOMPARE(f.dateString(dt), QString::fromLatin1("Today 12:34:56"));
 
         dt.setDate(dt.date().addDays(-1));
-        QCOMPARE(f.dateString(dt), QString::fromLatin1("Yesterday 12:34 PM"));
+        QCOMPARE(f.dateString(dt), QString::fromLatin1("Yesterday 12:34:56"));
 
         dt.setDate(dt.date().addDays(-1));
         QVERIFY(f.dateString(dt).startsWith(QLocale::c().toString(dt, QLatin1String("dddd"))));
