@@ -16,9 +16,9 @@ include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 
-
+set(PIM_VERSION "5.2.40")
 set(KF5_VERSION "5.19.0")
-set(KMIME_LIB_VERSION "5.2.40")
+set(KMIME_LIB_VERSION ${PIM_VERSION})
 set(QT_REQUIRED_VERSION "5.2.0")
 
 ecm_setup_version(${KMIME_LIB_VERSION} VARIABLE_PREFIX KMIME
