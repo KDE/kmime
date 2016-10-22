@@ -136,7 +136,7 @@ void Mailbox::setAddress(const QByteArray &addr)
                                        cursor + addr.length(), mAddrSpec)) {
         if (!HeaderParsing::parseAddrSpec(cursor, cursor + addr.length(),
                                           mAddrSpec)) {
-            qWarning() << "Invalid address";
+            qWarning() << "Mailbox: Invalid address";
             return;
         }
     }

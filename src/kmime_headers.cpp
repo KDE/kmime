@@ -283,7 +283,7 @@ static bool stringToMailbox(const QByteArray &address,
     const char *cursor = address.constData();
     if (!parseAngleAddr(cursor, cursor + address.length(), addrSpec)) {
         if (!parseAddrSpec(cursor, cursor + address.length(), addrSpec)) {
-            qWarning() << "Invalid address";
+            qWarning() << "stringToMailbox: Invalid address";
             return false;
         }
     }
