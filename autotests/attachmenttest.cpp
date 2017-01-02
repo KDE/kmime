@@ -87,8 +87,8 @@ void AttachmentTest::testIsAttachment()
 void AttachmentTest::testIsAttachmentSpecial()
 {
     // don't crash on invalid input
-    QCOMPARE(KMime::isAttachment(Q_NULLPTR), false);
-    QCOMPARE(KMime::hasAttachment(Q_NULLPTR), false);
+    QCOMPARE(KMime::isAttachment(nullptr), false);
+    QCOMPARE(KMime::hasAttachment(nullptr), false);
 
     // disposition type "attachment" is a clear indicator...
     KMime::Content c;

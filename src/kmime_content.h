@@ -123,7 +123,7 @@ public:
       @param parent the parent Content object
       @since 4.3
     */
-    explicit Content(Content *parent = Q_NULLPTR);
+    explicit Content(Content *parent = nullptr);
 
     /**
       Destroys this Content object.
