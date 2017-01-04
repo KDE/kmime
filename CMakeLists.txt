@@ -10,7 +10,7 @@ set(CMAKE_MODULE_PATH ${KMime_SOURCE_DIR}/cmake ${ECM_MODULE_PATH})
 
 include(GenerateExportHeader)
 include(ECMGeneratePriFile)
-include(ECMPackageConfigHelpers)
+include(CMakePackageConfigHelpers)
 include(ECMGenerateHeaders)
 include(ECMSetupVersion)
 include(FeatureSummary)
@@ -47,7 +47,7 @@ endif()
 ########### CMake Config Files ###########
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF5Mime")
 
-ecm_configure_package_config_file(
+configure_package_config_file(
     "${KMime_SOURCE_DIR}/KF5MimeConfig.cmake.in"
     "${KMime_BINARY_DIR}/KF5MimeConfig.cmake"
     INSTALL_DESTINATION  ${CMAKECONFIG_INSTALL_DIR}
