@@ -121,7 +121,7 @@ Base::Base(BasePrivate *dd) :
 Base::~Base()
 {
     delete d_ptr;
-    d_ptr = 0;
+    d_ptr = nullptr;
 }
 
 QByteArray Base::rfc2047Charset() const
@@ -177,7 +177,7 @@ Unstructured::~Unstructured()
 {
     Q_D(Unstructured);
     delete d;
-    d_ptr = 0;
+    d_ptr = nullptr;
 }
 
 void Unstructured::from7BitString(const QByteArray &s)
@@ -235,7 +235,7 @@ Structured::~Structured()
 {
     Q_D(Structured);
     delete d;
-    d_ptr = 0;
+    d_ptr = nullptr;
 }
 
 void Structured::from7BitString(const QByteArray &s)
@@ -1169,20 +1169,20 @@ Generic::~Generic()
 {
     Q_D(Generic);
     delete d;
-    d_ptr = 0;
+    d_ptr = nullptr;
 }
 
 void Generic::clear()
 {
     Q_D(Generic);
     delete[] d->type;
-    d->type = 0;
+    d->type = nullptr;
     Unstructured::clear();
 }
 
 bool Generic::isEmpty() const
 {
-    return d_func()->type == 0 || Unstructured::isEmpty();
+    return d_func()->type == nullptr || Unstructured::isEmpty();
 }
 
 const char *Generic::type() const
@@ -1200,7 +1200,7 @@ void Generic::setType(const char *type)
         d->type = new char[strlen(type) + 1];
         strcpy(d->type, type);
     } else {
-        d->type = 0;
+        d->type = nullptr;
     }
 }
 
@@ -1947,7 +1947,7 @@ static const encTableType encTable[] = {
     { "base64", CEbase64 },
     { "x-uuencode", CEuuenc },
     { "binary", CEbinary },
-    { 0, 0}
+    { nullptr, 0}
 };
 
 void ContentTransferEncoding::clear() {
@@ -1965,7 +1965,7 @@ void ContentTransferEncoding::setEncoding(contentEncoding e) {
     Q_D(ContentTransferEncoding);
     d->cte = e;
 
-    for (int i = 0; encTable[i].s != 0; ++i) {
+    for (int i = 0; encTable[i].s != nullptr; ++i) {
         if (d->cte == encTable[i].e) {
             setToken(encTable[i].s);
             break;
@@ -1996,7 +1996,7 @@ bool ContentTransferEncoding::parse(const char  *&scursor,
     }
 
     // TODO: error handling in case of an unknown encoding?
-    for (int i = 0; encTable[i].s != 0; ++i) {
+    for (int i = 0; encTable[i].s != nullptr; ++i) {
         if (qstricmp(token().constData(), encTable[i].s) == 0) {
             d->cte = (contentEncoding)encTable[i].e;
             break;

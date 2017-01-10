@@ -80,7 +80,7 @@ QByteArray encodeRFC2047String(const QString &src, const QByteArray &charset,
 
         // encode escape character, for japanese encodings...
         if (((signed char)encoded8Bit[i] < 0) || (encoded8Bit[i] == '\033') ||
-                (addressHeader && (strchr("\"()<>@,.;:\\[]=", encoded8Bit[i]) != 0))) {
+                (addressHeader && (strchr("\"()<>@,.;:\\[]=", encoded8Bit[i]) != nullptr))) {
             end = start;   // non us-ascii char found, now we determine where to stop encoding
             nonAscii = true;
             break;
@@ -95,7 +95,7 @@ QByteArray encodeRFC2047String(const QString &src, const QByteArray &charset,
 
         for (int x = end; x < encoded8Bit.length(); x++) {
             if (((signed char)encoded8Bit[x] < 0) || (encoded8Bit[x] == '\033') ||
-                    (addressHeader && (strchr(reservedCharacters, encoded8Bit[x]) != 0))) {
+                    (addressHeader && (strchr(reservedCharacters, encoded8Bit[x]) != nullptr))) {
                 end = x;     // we found another non-ascii word
 
                 while ((end < encoded8Bit.length()) && (encoded8Bit[end] != ' ')) {
@@ -162,7 +162,7 @@ QByteArray encodeRFC2047Sentence(const QString &src, const QByteArray &charset)
     while (pos < length) {
         //qDebug() << "Pos:" << pos << "Result:" << result << "Char:" << ch->toLatin1();
         const bool isAscii = ch->unicode() < 127;
-        const bool isReserved = (strchr(reservedCharacters, ch->toLatin1()) != 0);
+        const bool isReserved = (strchr(reservedCharacters, ch->toLatin1()) != nullptr);
         if (isAscii && isReserved) {
             const int wordSize = pos - wordStart;
             if (wordSize > 0) {

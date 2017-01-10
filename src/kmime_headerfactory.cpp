@@ -116,7 +116,7 @@ Headers::Base *HeaderFactory::createHeader(const QByteArray &type)
             mk_header(UserAgent);
             break;
     }
-    return 0;
+    return nullptr;
 }
 
 #undef mk_header

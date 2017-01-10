@@ -38,13 +38,13 @@ void MessageTest::testMainBodyPart()
 
     // empty message
     QCOMPARE(msg->mainBodyPart(), msg);
-    QCOMPARE(msg->mainBodyPart("text/plain"), (Content *)0);
+    QCOMPARE(msg->mainBodyPart("text/plain"), (Content *)nullptr);
 
     // non-multipart
     msg->contentType()->setMimeType("text/html");
 
     QCOMPARE(msg->mainBodyPart(), msg);
-    QCOMPARE(msg->mainBodyPart("text/plain"), (Content *)0);
+    QCOMPARE(msg->mainBodyPart("text/plain"), (Content *)nullptr);
     QCOMPARE(msg->mainBodyPart("text/html"), msg);
 
     // multipart/mixed
@@ -54,7 +54,7 @@ void MessageTest::testMainBodyPart()
 
     QCOMPARE(msg2->mainBodyPart(), text);
     QCOMPARE(msg2->mainBodyPart("text/plain"), text);
-    QCOMPARE(msg2->mainBodyPart("text/html"), (Content *)0);
+    QCOMPARE(msg2->mainBodyPart("text/html"), (Content *)nullptr);
 
     // Careful with removing content here.  If we remove one of the two contents
     // (by adding it to another message), the multipart will automatically be

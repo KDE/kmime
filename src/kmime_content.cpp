@@ -68,7 +68,7 @@ Content::~Content()
     qDeleteAll(d->headers);
     d->headers.clear();
     delete d_ptr;
-    d_ptr = 0;
+    d_ptr = nullptr;
 }
 
 bool Content::hasContent() const
@@ -382,7 +382,7 @@ QString Content::decodedText(bool trimText, bool removeTrailingNewlines)
     bool ok = true;
     QTextCodec *codec =
         KCharsets::charsets()->codecForName(QLatin1String(contentType()->charset()), ok);
-    if (!ok  || codec == NULL) {   // no suitable codec found => try local settings and hope the best ;-)
+    if (!ok  || codec == nullptr) {   // no suitable codec found => try local settings and hope the best ;-)
         codec = QTextCodec::codecForLocale();
         QByteArray chset = codec->name();
         contentType()->setCharset(chset);
@@ -431,14 +431,14 @@ void Content::fromUnicodeString(const QString &s)
 
 Content *Content::textContent()
 {
-    Content *ret = 0;
+    Content *ret = nullptr;
 
     //return the first content with mimetype=text/*
     if (contentType()->isText()) {
         ret = this;
     } else {
         foreach (Content *c, d_ptr->contents()) {
-            if ((ret = c->textContent()) != 0) {
+            if ((ret = c->textContent()) != nullptr) {
                 break;
             }
         }
@@ -559,7 +559,7 @@ void Content::removeContent(Content *c, bool del)
     if (del) {
         delete c;
     } else {
-        c->d_ptr->parent = 0;
+        c->d_ptr->parent = nullptr;
     }
 
     // If only one content is left, turn this content into a single-part.
@@ -621,7 +621,7 @@ Headers::Base *Content::headerByType(const char *type) const
         }
     }
 
-    return 0; // Not found.
+    return nullptr; // Not found.
 }
 
 QVector<Headers::Base*> Content::headersByType(const char *type) const
@@ -668,7 +668,7 @@ bool Content::removeHeader(const char *type)
 
 bool Content::hasHeader(const char* type) const
 {
-    return headerByType(type) != 0;
+    return headerByType(type) != nullptr;
 }
 
 int Content::size()
@@ -770,7 +770,7 @@ Content *KMime::Content::content(const ContentIndex &index) const
     if (i < (unsigned int)d_ptr->contents().size()) {
         return d_ptr->contents().at(i)->content(idx);
     } else {
-        return 0;
+        return nullptr;
     }
 }
 
@@ -796,7 +796,7 @@ ContentIndex KMime::Content::indexForContent(Content *content) const
 
 bool Content::isTopLevel() const
 {
-    return d_ptr->parent == 0;
+    return d_ptr->parent == nullptr;
 }
 
 void Content::setParent(Content *parent)

@@ -1021,7 +1021,7 @@ void HeaderTest::testBug271192()
     QCOMPARE(h->displayNames().size(), 1);
     QCOMPARE(h->displayNames().first().toUtf8(), displayName.remove(QLatin1String("\\")).toUtf8());
     delete h;
-    h = 0;
+    h = nullptr;
 
     Headers::Generics::MailboxList *h2 = new Headers::Generics::MailboxList();
     h2->fromUnicodeString(mailbox + QLatin1String(",") + mailbox, "utf-8");
@@ -1029,7 +1029,7 @@ void HeaderTest::testBug271192()
     QCOMPARE(h2->displayNames()[0].toUtf8(), displayName.remove(QLatin1String("\\")).toUtf8());
     QCOMPARE(h2->displayNames()[1].toUtf8(), displayName.remove(QLatin1String("\\")).toUtf8());
     delete h2;
-    h2 = 0;
+    h2 = nullptr;
 }
 
 void HeaderTest::testBug271192_data()

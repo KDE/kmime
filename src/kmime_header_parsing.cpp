@@ -76,14 +76,14 @@ bool parseEncodedWord(const char *&scursor, const char *const send,
     // remember start of charset (ie. just after the initial "=?") and
     // language (just after the first '*') fields:
     const char *charsetStart = scursor;
-    const char *languageStart = 0;
+    const char *languageStart = nullptr;
 
     // find delimiting '?' (and the '*' separating charset and language
     // tags, if any):
     for (; scursor != send ; scursor++) {
         if (*scursor == '?') {
             break;
-        } else if (*scursor == '*' && languageStart == 0) {
+        } else if (*scursor == '*' && languageStart == nullptr) {
             languageStart = scursor + 1;
         }
     }
@@ -187,7 +187,7 @@ bool parseEncodedWord(const char *&scursor, const char *const send,
 
     // try if there's a (text)codec for the charset found:
     bool matchOK = false;
-    QTextCodec *textCodec = 0;
+    QTextCodec *textCodec = nullptr;
     if (forceCS || maybeCharset.isEmpty()) {
         textCodec = KCharsets::charsets()->codecForName(QLatin1String(defaultCS), matchOK);
         usedCS = cachedCharset(defaultCS);
@@ -469,7 +469,7 @@ bool parseComment(const char *&scursor, const char *const send,
                   QString &result, bool isCRLF, bool reallySave)
 {
     int commentNestingDepth = 1;
-    const char *afterLastClosingParenPos = 0;
+    const char *afterLastClosingParenPos = nullptr;
     QString maybeCmnt;
     const char *oldscursor = scursor;
 
@@ -532,7 +532,7 @@ bool parsePhrase(const char *&scursor, const char *const send,
 
     QString tmp;
     QByteArray lang, charset;
-    const char *successfullyParsed = 0;
+    const char *successfullyParsed = nullptr;
     // only used by the encoded-word branch
     const char *oldscursor;
     // used to suppress whitespace between adjacent encoded-words
@@ -1414,7 +1414,7 @@ static void decodeRFC2231Value(KCodecs::Codec *&rfc2231Codec,
         bool matchOK = false;
         textcodec = KCharsets::charsets()->codecForName(QLatin1String(charset), matchOK);
         if (!matchOK) {
-            textcodec = 0;
+            textcodec = nullptr;
             KMIME_WARN_UNKNOWN(Charset, charset);
         }
     }
@@ -1478,8 +1478,8 @@ bool parseParameterListWithCharset(const char *&scursor,
     // NOTE: this code assumes that what QMapIterator delivers is sorted
     // by the key!
 
-    KCodecs::Codec *rfc2231Codec = 0;
-    QTextCodec *textcodec = 0;
+    KCodecs::Codec *rfc2231Codec = nullptr;
+    QTextCodec *textcodec = nullptr;
     QString attribute;
     QString value;
     enum Mode {
@@ -1707,7 +1707,7 @@ static bool parseAlphaNumericTimeZone(const char *&scursor,
         }
     }
 
-    QPair<const char *, int> maybeTimeZone(0, 0);
+    QPair<const char *, int> maybeTimeZone(nullptr, 0);
     if (!parseToken(scursor, send, maybeTimeZone, false /*no 8bit*/)) {
         return false;
     }
@@ -2024,7 +2024,7 @@ Headers::Base *extractFirstHeader(QByteArray &head)
 {
     int endOfFieldBody = 0;
     bool folded = false;
-    Headers::Base *header = 0;
+    Headers::Base *header = nullptr;
 
     int startOfFieldBody = head.indexOf(':');
 

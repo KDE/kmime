@@ -158,7 +158,7 @@ QByteArray uniqueString()
     unsigned int timeval;
 
     p[10] = '\0';
-    now = time(0);
+    now = time(nullptr);
     ran = 1 + (int)(1000.0 * rand() / (RAND_MAX + 1.0));
     timeval = (now / ran) + getpid();
 

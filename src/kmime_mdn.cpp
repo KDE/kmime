@@ -106,7 +106,7 @@ static const char *stringFor(DispositionType d)
             return dispositionTypes[i].string;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 //
@@ -133,7 +133,7 @@ static const char *stringFor(DispositionModifier m)
             return dispositionModifiers[i].string;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 //
@@ -158,7 +158,7 @@ static const char *stringFor(ActionMode a)
             return actionModes[i].string;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 //
@@ -183,7 +183,7 @@ static const char *stringFor(SendingMode s)
             return sendingModes[i].string;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 static QByteArray dispositionField(DispositionType d, ActionMode a, SendingMode s,

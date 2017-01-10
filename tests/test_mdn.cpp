@@ -14,7 +14,7 @@ using std::endl;
 #define _GNU_SOURCE 1
 #include <getopt.h>
 
-void usage(const char *msg = 0)
+void usage(const char *msg = nullptr)
 {
     if (msg) {
         cerr << msg << endl;
@@ -40,14 +40,14 @@ int main(int argc, char *argv[])
     while (true) {
         int option_index = 0;
         static const struct option long_options[] = {
-            { "action-mode", 1, 0, 'a' },
-            { "disposition-type", 1, 0, 'd' },
-            { "final-recipient", 1, 0, 'f' },
-            { "original-message-id", 1, 0, 'i' },
-            { "disposition-modifiers", 1, 0, 'm' },
-            { "original-recipient", 1, 0, 'o' },
-            { "sending-mode", 1, 0, 's' },
-            { 0, 0, 0, 0 }
+            { "action-mode", 1, nullptr, 'a' },
+            { "disposition-type", 1, nullptr, 'd' },
+            { "final-recipient", 1, nullptr, 'f' },
+            { "original-message-id", 1, nullptr, 'i' },
+            { "disposition-modifiers", 1, nullptr, 'm' },
+            { "original-recipient", 1, nullptr, 'o' },
+            { "sending-mode", 1, nullptr, 's' },
+            { nullptr, 0, nullptr, 0 }
         };
 
         int c = getopt_long(argc, argv, "a:d:f:i:m:o:s:",

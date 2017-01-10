@@ -42,7 +42,7 @@ static const char *tokenTypes[] = {
 };
 static const int tokenTypesLen = sizeof tokenTypes / sizeof * tokenTypes;
 
-void usage(const char *msg = 0)
+void usage(const char *msg = nullptr)
 {
     if (msg && *msg) {
         cerr << msg << endl;
@@ -82,17 +82,17 @@ int main(int argc, char *argv[])
     // process options:
     //
     enum { None, Token, HeaderField, Header } action = None;
-    const char *argument = 0;
+    const char *argument = nullptr;
     bool withCRLF = false;
     while (true) {
         int option_index = 0;
         static const struct option long_options[] = {
             // actions:
-            { "token", 1, 0, 't' },
-            { "headerfield", 1, 0, 'f' },
-            { "header", 0, 0, 'h' },
-            { "crlf", 0, 0, 'c' },
-            { 0, 0, 0, 0 }
+            { "token", 1, nullptr, 't' },
+            { "headerfield", 1, nullptr, 'f' },
+            { "header", 0, nullptr, 'h' },
+            { "crlf", 0, nullptr, 'c' },
+            { nullptr, 0, nullptr, 0 }
         };
 
         int c = getopt_long(argc, argv, "cf:ht:", long_options, &option_index);

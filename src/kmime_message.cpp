@@ -61,12 +61,12 @@ Content *Message::mainBodyPart(const QByteArray &type)
             if (contentType->mimeType() == type || type.isEmpty()) {
                 return c;
             }
-            return 0;
+            return nullptr;
         }
 
         // empty multipart
         if (c->contents().count() == 0) {
-            return 0;
+            return nullptr;
         }
 
         // multipart/alternative
@@ -79,13 +79,13 @@ Content *Message::mainBodyPart(const QByteArray &type)
                     return c1;
                 }
             }
-            return 0;
+            return nullptr;
         }
 
         c = c->contents().at(0);
     }
 
-    return 0;
+    return nullptr;
 }
 
 QString Message::mimeType()

@@ -270,7 +270,7 @@ QString DateFormatterPrivate::fancy(time_t t)
         return i18nc("invalid time specified", "unknown");
     }
 
-    if (mTodayOneSecondBeforeMidnight < time(0)) {
+    if (mTodayOneSecondBeforeMidnight < time(nullptr)) {
         // determine time_t value of today 23:59:59
         const QDateTime today(QDate::currentDate(), QTime(23, 59, 59));
         mTodayOneSecondBeforeMidnight = today.toTime_t();
@@ -349,5 +349,5 @@ QString DateFormatter::formatCurrentDate(FormatType ftype, const QString &data, 
     if (ftype == Custom) {
         f.setCustomFormat(data);
     }
-    return f.dateString(time(0), data, shortFormat);
+    return f.dateString(time(nullptr), data, shortFormat);
 }

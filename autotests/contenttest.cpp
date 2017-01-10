@@ -593,7 +593,7 @@ void ContentTest::testParsingUuencoded()
     // text + image
     QCOMPARE(contents.size(), 2);
 
-    Content *c = 0;
+    Content *c = nullptr;
 
     // Check the first text part
     c = contents.at(0);
@@ -631,7 +631,7 @@ void ContentTest::testParent()
     c5->contentType()->from7BitString("multipart/mixed");
 
     //c2 doesn't have a parent yet
-    QCOMPARE(c2->parent(), (Content *)(0L));
+    QCOMPARE(c2->parent(), (Content *)nullptr);
 
     c1->addContent(c2);
     c1->addContent(c3);
@@ -643,7 +643,7 @@ void ContentTest::testParent()
 
     //test removal
     c1->removeContent(c2, false);
-    QCOMPARE(c2->parent(), (Content *)(0L));
+    QCOMPARE(c2->parent(), (Content *)nullptr);
     QCOMPARE(c1->contents().at(0), c3);
 
 //check if the content is moved correctly to another parent
@@ -683,7 +683,7 @@ void ContentTest::testParent()
     Message *msg = new Message();
     msg->setContent(data);
     msg->parse();
-    QCOMPARE(msg->parent(), (Content *)(0L));
+    QCOMPARE(msg->parent(), (Content *)nullptr);
     QCOMPARE(msg->contents().at(0)->parent(), msg);
     QCOMPARE(msg->contents().at(1)->parent(), msg);
     delete msg;

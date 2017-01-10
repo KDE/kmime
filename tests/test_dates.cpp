@@ -8,7 +8,7 @@ main()
 {
     DateFormatter t;
 
-    time_t ntime = time(0);
+    time_t ntime = time(nullptr);
     qDebug() << "Time now:";
     qDebug() << "tFancy : \t" << t.dateString(ntime);
     t.setFormat(DateFormatter::Localized);
