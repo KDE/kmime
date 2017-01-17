@@ -164,11 +164,6 @@ bool Mailbox::hasName() const
     return !mDisplayName.isEmpty();
 }
 
-QString Mailbox::prettyAddress() const
-{
-    return prettyAddress(QuoteNever);
-}
-
 QString Mailbox::prettyAddress(Quoting quoting) const
 {
     if (!hasName()) {

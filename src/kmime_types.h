@@ -98,13 +98,6 @@ public:
     bool hasName() const;
 
     /**
-      Returns a assembled display name / address string of the following form:
-      "Display Name &lt;address&gt;". These are unicode strings without any
-      transport encoding, ie. they are only suitable for displaying.
-    */
-    QString prettyAddress() const;
-
-    /**
      * Describes how display names should be quoted
      * @since 4.5
      */
@@ -123,10 +116,7 @@ public:
      * @param quoting describes how the display name should be quoted
      * @since 4.5
      */
-    // TODO: KDE5: BIC: remove other prettyAddress() overload, and make it None the default
-    //                  parameter here
-    //AK_REVIEW: replace by 'QString quotedAddress() const'
-    QString prettyAddress(Quoting quoting) const;
+    QString prettyAddress(Quoting quoting = QuoteNever) const;
 
     /**
       Parses the given unicode string.
