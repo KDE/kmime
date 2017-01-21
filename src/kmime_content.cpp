@@ -757,7 +757,7 @@ bool ContentPrivate::decodeText(Content *q)
 
 QByteArray Content::defaultCharset()
 {
-    return KMime::cachedCharset("ISO-8859-1");
+    return KMime::cachedCharset(QByteArrayLiteral("ISO-8859-1"));
 }
 
 Content *KMime::Content::content(const ContentIndex &index) const
