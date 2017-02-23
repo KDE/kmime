@@ -65,7 +65,7 @@ Content *Message::mainBodyPart(const QByteArray &type)
         }
 
         // empty multipart
-        if (c->contents().count() == 0) {
+        if (c->contents().isEmpty()) {
             return nullptr;
         }
 

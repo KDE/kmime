@@ -921,7 +921,7 @@ bool ContentPrivate::parseUuencoded(Content *q)
         cte->setDecoded(true);
 
         // Add the plain text part first.
-        Q_ASSERT(multipartContents.count() == 0);
+        Q_ASSERT(multipartContents.isEmpty());
         {
             Content *c = new Content(q);
             c->contentType()->setMimeType("text/plain");
@@ -977,7 +977,7 @@ bool ContentPrivate::parseYenc(Content *q)
         cte->setDecoded(true);
 
         // Add the plain text part first.
-        Q_ASSERT(multipartContents.count() == 0);
+        Q_ASSERT(multipartContents.isEmpty());
         {
             Content *c = new Content(q);
             c->contentType()->setMimeType("text/plain");
