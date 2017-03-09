@@ -101,7 +101,7 @@ QString KMime::ContentIndex::toString() const
     foreach (unsigned int i, d->index) {
         l.append(QString::number(i));
     }
-    return l.join(QStringLiteral("."));
+    return l.join(QLatin1Char('.'));
 }
 
 bool KMime::ContentIndex::operator ==(const ContentIndex &index) const
