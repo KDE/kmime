@@ -405,7 +405,11 @@ QString Content::decodedText(bool trimText, bool removeTrailingNewlines)
         }
         s.truncate(i + 1);
     } else {
+#if QT_VERSION < QT_VERSION_CHECK(5,9,0)
         if (s.right(1) == QLatin1String("\n")) {
+#else
+        if (s.right(1) == QLatin1Char('\n')) {
+#endif
             s.truncate(s.length() - 1);   // remove trailing new-line
         }
     }
