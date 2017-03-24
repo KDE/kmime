@@ -10,7 +10,7 @@ release: false
 libraries:
  - qmake: KMime
    cmake: "KF5::Mime"
-cmakename: KF5Mime
+   cmakename: KF5Mime
 
 public_lib: true
 group: kdepim
