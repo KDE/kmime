@@ -1038,18 +1038,18 @@ void HeaderTest::testBug271192_data()
     QTest::addColumn<bool>("quote");
 
     QTest::newRow("Plain") << QString::fromUtf8("John Doe") << false;
-    QTest::newRow("Firstname 1") << QString::fromUtf8("Marc-André Lastname") << false;
-    QTest::newRow("Firstname 2") << QString::fromUtf8("Интернет-компания Lastname") << false;
+    QTest::newRow("Firstname_1") << QString::fromUtf8("Marc-André Lastname") << false;
+    QTest::newRow("Firstname_2") << QString::fromUtf8("Интернет-компания Lastname") << false;
     QTest::newRow("Lastname") << QString::fromUtf8("Tobias König") << false;
-    QTest::newRow("Firstname + Lastname") << QString::fromUtf8("Интернет-компания König") << false;
+    QTest::newRow("Firstname_Lastname") << QString::fromUtf8("Интернет-компания König") << false;
     QTest::newRow("Quotemarks") << QString::fromUtf8("John \\\"Rocky\\\" Doe") << true;
-    QTest::newRow("Quotemarks") << QString::fromUtf8("Jöhn \\\"Röcky\\\" Döe") << true;
+    QTest::newRow("Quotemarks_nonascii") << QString::fromUtf8("Jöhn \\\"Röcky\\\" Döe") << true;
 
-    QTest::newRow("Plain") << QString::fromUtf8("John Doe") << true;
-    QTest::newRow("Firstname 1") << QString::fromUtf8("Marc-André Lastname") << true;
-    QTest::newRow("Firstname 2") << QString::fromUtf8("Интернет-компания Lastname") << true;
-    QTest::newRow("Lastname") << QString::fromUtf8("Tobias König") << true;
-    QTest::newRow("Firstname + Lastname") << QString::fromUtf8("Интернет-компания König") << true;
-    QTest::newRow("LastName, Firstname") << QString::fromUtf8("König, Интернет-компания") << true;
+    QTest::newRow("quote_Plain") << QString::fromUtf8("John Doe") << true;
+    QTest::newRow("quote_Firstname_1") << QString::fromUtf8("Marc-André Lastname") << true;
+    QTest::newRow("quote_Firstname_2") << QString::fromUtf8("Интернет-компания Lastname") << true;
+    QTest::newRow("quote_Lastname") << QString::fromUtf8("Tobias König") << true;
+    QTest::newRow("quote_Firstname_Lastname") << QString::fromUtf8("Интернет-компания König") << true;
+    QTest::newRow("quote_LastName_comma_Firstname") << QString::fromUtf8("König, Интернет-компания") << true;
 }
 
