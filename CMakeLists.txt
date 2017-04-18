@@ -21,7 +21,7 @@ include(ECMCoverageOption)
 
 
 set(KMIME_LIB_VERSION ${PIM_VERSION})
-set(QT_REQUIRED_VERSION "5.6.0")
+set(QT_REQUIRED_VERSION "5.7.0")
 
 ecm_setup_version(PROJECT VARIABLE_PREFIX KMIME
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kmime_version.h"
