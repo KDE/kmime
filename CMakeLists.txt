@@ -22,6 +22,7 @@ include(ECMCoverageOption)
 
 set(KMIME_LIB_VERSION ${PIM_VERSION})
 set(QT_REQUIRED_VERSION "5.7.0")
+find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED Core)
 
 ecm_setup_version(PROJECT VARIABLE_PREFIX KMIME
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kmime_version.h"
