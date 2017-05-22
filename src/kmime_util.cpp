@@ -295,6 +295,9 @@ int findHeaderLineEnd(const QByteArray &src, int &dataBegin, bool *folded)
 }
 
 #ifndef HAVE_STRCASESTR
+#ifdef WIN32
+#define strncasecmp _strnicmp
+#endif
 static const char *strcasestr(const char *haystack, const char *needle)
 {
     /* Copied from libreplace as part of qtwebengine 5.5.1 */
