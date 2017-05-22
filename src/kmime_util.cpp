@@ -43,7 +43,11 @@
 #include <ctype.h>
 #include <time.h>
 #include <stdlib.h>
+#ifdef WIN32
+#include <process.h>
+#else
 #include <unistd.h>
+#endif
 
 using namespace KMime;
 
@@ -160,7 +164,12 @@ QByteArray uniqueString()
     p[10] = '\0';
     now = time(nullptr);
     ran = 1 + (int)(1000.0 * rand() / (RAND_MAX + 1.0));
-    timeval = (now / ran) + getpid();
+    timeval = (now / ran)
+        #ifdef WIN32
+            + _getpid();
+        #else
+            + getpid();
+        #endif
 
     for (int i = 0; i < 10; i++) {
         pos = (int)(61.0 * rand() / (RAND_MAX + 1.0));

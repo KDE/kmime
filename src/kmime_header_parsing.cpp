@@ -251,7 +251,7 @@ bool parseAtom(const char*&scursor, const char *const send,
     QPair<const char *, int> maybeResult;
 
     if (parseAtom(scursor, send, maybeResult, allow8Bit)) {
-        result += QString::fromLatin1(maybeResult.first, maybeResult.second);
+        result = QString::fromLatin1(maybeResult.first, maybeResult.second);
         return true;
     }
 
@@ -294,7 +294,7 @@ bool parseToken(const char*&scursor, const char *const send,
     QPair<const char *, int> maybeResult;
 
     if (parseToken(scursor, send, maybeResult, allow8Bit)) {
-        result += QString::fromLatin1(maybeResult.first, maybeResult.second);
+        result = QString::fromLatin1(maybeResult.first, maybeResult.second);
         return true;
     }
 
