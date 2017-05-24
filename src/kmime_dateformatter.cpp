@@ -35,8 +35,6 @@
 
 #include <config-kmime.h>
 
-#include <cmath> // for abs()
-
 #include <QtCore/QTextStream>
 
 #include <klocalizedstring.h>
@@ -220,7 +218,7 @@ QByteArray DateFormatterPrivate::zone(time_t t)
 #if defined(HAVE_TIMEZONE)
 
     //hmm, could make hours & mins static
-    int secs = std::abs(timezone);
+    int secs = qAbs(timezone);
     int neg  = (timezone > 0) ? 1 : 0;
     int hours = secs / 3600;
     int mins  = (secs - hours * 3600) / 60;
@@ -236,7 +234,7 @@ QByteArray DateFormatterPrivate::zone(time_t t)
 
 #elif defined(HAVE_TM_GMTOFF)
 
-    int secs = abs(local->tm_gmtoff);
+    int secs = qAbs(local->tm_gmtoff);
     int neg  = (local->tm_gmtoff < 0) ? 1 : 0;
     int hours = secs / 3600;
     int mins  = (secs - hours * 3600) / 60;
@@ -247,7 +245,7 @@ QByteArray DateFormatterPrivate::zone(time_t t)
     QDateTime d2 = QDateTime::fromString(QString::fromLatin1(asctime(localtime(&t))));
     int secs = d1.secsTo(d2);
     int neg = (secs < 0) ? 1 : 0;
-    secs = abs(secs);
+    secs = qAbs(secs);
     int hours = secs / 3600;
     int mins  = (secs - hours * 3600) / 60;
 
