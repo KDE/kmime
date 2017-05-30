@@ -743,3 +743,40 @@ void ContentTest::testFreezing()
     delete msg;
 }
 
+
+void ContentTest::testContentTypeMimetype()
+{
+    //TODO improve test
+    QByteArray data =
+        "From: Nathaniel Borenstein <nsb@bellcore.com>\n"
+        "To: Ned Freed <ned@innosoft.com>\n"
+        "Date: Sun, 21 Mar 1993 23:56:48 -0800 (PST)\n"
+        "Subject: Sample message\n"
+        "MIME-Version: 1.0\n"
+        "Content-type: multipart/mixed; boundary=\"simple boundary\"\n"
+        "\n"
+        "This is the preamble.  It is to be ignored, though it\n"
+        "is a handy place for composition agents to include an\n"
+        "explanatory note to non-MIME conformant readers.\n"
+        "\n"
+        "--simple boundary\n"
+        "\n"
+        "This is implicitly typed plain US-ASCII text.\n"
+        "It does NOT end with a linebreak.\n"
+        "--simple boundary\n"
+        "Content-type: text/plain; charset=us-ascii\n"
+        "\n"
+        "This is explicitly typed plain US-ASCII text.\n"
+        "It DOES end with a linebreak.\n"
+        "\n"
+        "--simple boundary--\n"
+        "\n"
+        "This is the epilogue.  It is also to be ignored.\n";
+
+    // test parsing
+    Message *msg = new Message();
+    msg->setContent(data);
+    msg->parse();
+    QVERIFY(msg->contentType()->isMultipart());
+    QCOMPARE(msg->contentType(false)->mimeType(), QByteArrayLiteral("multipart/mixed"));
+}

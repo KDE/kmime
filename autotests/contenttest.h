@@ -44,6 +44,7 @@ private Q_SLOTS:
     // TODO: grab samples from http://www.yenc.org/develop.htm and make a Yenc test
     void testParent();
     void testFreezing();
+    void testContentTypeMimetype();
 };
 
 #endif
