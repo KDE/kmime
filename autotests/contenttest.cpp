@@ -743,10 +743,10 @@ void ContentTest::testFreezing()
     delete msg;
 }
 
-
-void ContentTest::testContentTypeMimetype()
+void ContentTest::testContentTypeMimetype_data()
 {
-    //TODO improve test
+    QTest::addColumn<QByteArray>("data");
+    QTest::addColumn<QByteArray>("mimetype");
     QByteArray data =
         "From: Nathaniel Borenstein <nsb@bellcore.com>\n"
         "To: Ned Freed <ned@innosoft.com>\n"
@@ -773,10 +773,19 @@ void ContentTest::testContentTypeMimetype()
         "\n"
         "This is the epilogue.  It is also to be ignored.\n";
 
+    QTest::newRow("multipart") << data << QByteArrayLiteral("multipart/mixed");
+
+}
+
+
+void ContentTest::testContentTypeMimetype()
+{
+    QFETCH(QByteArray, data);
+    QFETCH(QByteArray, mimetype);
+
     // test parsing
     Message *msg = new Message();
     msg->setContent(data);
     msg->parse();
-    QVERIFY(msg->contentType()->isMultipart());
-    QCOMPARE(msg->contentType(false)->mimeType(), QByteArrayLiteral("multipart/mixed"));
+    QCOMPARE(msg->contentType(false)->mimeType(), mimetype);
 }
