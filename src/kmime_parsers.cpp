@@ -120,6 +120,7 @@ NonMimeParser::~NonMimeParser() {}
 /**
  * try to guess the mimetype from the file-extension
  */
+
 QByteArray NonMimeParser::guessMimeType(const QByteArray &fileName)
 {
     QByteArray tmp, mimeType;
@@ -274,7 +275,7 @@ bool UUEncoded::parse()
     // append trailing text part of the article
     m_text.append(m_src.right(m_src.length() - currentPos));
 
-    return ((m_bins.count() > 0) || isPartial());
+    return ((!m_bins.isEmpty()) || isPartial());
 }
 
 //==============================================================================
@@ -320,11 +321,10 @@ bool YENCEncoded::parse()
 {
     int currentPos = 0;
     bool success = true;
-
     while (success) {
         int beginPos = currentPos, yencStart = currentPos;
         bool containsPart = false;
-        QByteArray fileName, mimeType;
+        QByteArray fileName;
 
         if ((beginPos = m_src.indexOf("=ybegin ", currentPos)) > -1 &&
                 (beginPos == 0 || m_src.at(beginPos - 1) == '\n')) {
@@ -499,7 +499,7 @@ bool YENCEncoded::parse()
     // append trailing text part of the article
     m_text.append(m_src.right(m_src.length() - currentPos));
 
-    return m_bins.count() > 0;
+    return !m_bins.isEmpty();
 }
 
 } // namespace Parser

@@ -136,13 +136,8 @@ public:
     explicit YENCEncoded(const QByteArray &src);
 
     bool parse() Q_DECL_OVERRIDE;
-    QVector<QByteArray> binaryParts() const
-    {
-        return m_bins;
-    }
 
 private:
-    QVector<QByteArray> m_bins;
     static bool yencMeta(QByteArray &src, const QByteArray &name, int *value);
 };
 
