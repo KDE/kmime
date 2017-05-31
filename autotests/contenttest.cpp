@@ -787,6 +787,21 @@ void ContentTest::testContentTypeMimetype_data()
             "Git commit 5410a2b3b6eef29ba32d0ac5e363fd38a56f535b by Montel Laurent.\n"
             "Committed on 30/05/2017 at 19:25.\n";
     QTest::newRow("text/plain") << data << QByteArrayLiteral("text/plain");
+
+    data =
+            "From: Montel Laurent <null@kde.org>\n"
+            "To: kde-commits@kde.org\n"
+            "Content-Type: %22%22%22%22%22%22%22%22%22%22%22%22%22%22%22%22=?windows-1252?q?ap%22/pdf;\n"
+            "name=\"file.pdf\"\n"
+            "MIME-Version: 1.0\n"
+            "Content-Transfer-Encoding: quoted-printable\n"
+            "Subject: [libksieve] src/ksieveui: coding style\n"
+            "Date: Tue, 30 May 2017 19:25:59 +0000\n"
+            "\n"
+            "Git commit 5410a2b3b6eef29ba32d0ac5e363fd38a56f535b by Montel Laurent.\n"
+            "Committed on 30/05/2017 at 19:25.\n";
+    QTest::newRow("broken") << data << QByteArrayLiteral("text/plain");
+
 }
 
 
@@ -799,5 +814,6 @@ void ContentTest::testContentTypeMimetype()
     Message *msg = new Message();
     msg->setContent(data);
     msg->parse();
+    QEXPECT_FAIL("broken", "Problem with content type", Continue);
     QCOMPARE(msg->contentType(false)->mimeType(), mimetype);
 }
