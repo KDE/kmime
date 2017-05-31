@@ -747,6 +747,8 @@ void ContentTest::testContentTypeMimetype_data()
 {
     QTest::addColumn<QByteArray>("data");
     QTest::addColumn<QByteArray>("mimetype");
+    QTest::addColumn<int>("contentCount");
+    QTest::addColumn<QList<QByteArray> >("contentMimeType");
     QByteArray data =
         "From: Nathaniel Borenstein <nsb@bellcore.com>\n"
         "To: Ned Freed <ned@innosoft.com>\n"
@@ -773,7 +775,8 @@ void ContentTest::testContentTypeMimetype_data()
         "\n"
         "This is the epilogue.  It is also to be ignored.\n";
 
-    QTest::newRow("multipart") << data << QByteArrayLiteral("multipart/mixed");
+    QList<QByteArray> contentMimes = { "", "text/plain"};
+    QTest::newRow("multipart") << data << QByteArrayLiteral("multipart/mixed") << 2 << contentMimes;
 
     data =
             "From: Montel Laurent <null@kde.org>\n"
@@ -786,7 +789,7 @@ void ContentTest::testContentTypeMimetype_data()
             "\n"
             "Git commit 5410a2b3b6eef29ba32d0ac5e363fd38a56f535b by Montel Laurent.\n"
             "Committed on 30/05/2017 at 19:25.\n";
-    QTest::newRow("text/plain") << data << QByteArrayLiteral("text/plain");
+    QTest::newRow("text/plain") << data << QByteArrayLiteral("text/plain") << 0 << QList<QByteArray>();
 
     data =
             "From: Montel Laurent <null@kde.org>\n"
@@ -800,7 +803,7 @@ void ContentTest::testContentTypeMimetype_data()
             "\n"
             "Git commit 5410a2b3b6eef29ba32d0ac5e363fd38a56f535b by Montel Laurent.\n"
             "Committed on 30/05/2017 at 19:25.\n";
-    QTest::newRow("broken") << data << QByteArrayLiteral("text/plain");
+    QTest::newRow("broken") << data << QByteArrayLiteral("text/plain") << 0 << QList<QByteArray>();
 
     data =
             "From: Montel Laurent <null@kde.org>\n"
@@ -814,8 +817,58 @@ void ContentTest::testContentTypeMimetype_data()
             "\n"
             "Git commit 5410a2b3b6eef29ba32d0ac5e363fd38a56f535b by Montel Laurent.\n"
             "Committed on 30/05/2017 at 19:25.\n";
-    QTest::newRow("not broken") << data << QByteArrayLiteral("application/pdf");
+    QTest::newRow("not broken") << data << QByteArrayLiteral("application/pdf") << 0 << QList<QByteArray>();
 
+    data =
+            "From kde@kde.org Fri Jan 29 19:19:26 2010\n"
+            "Return-Path: <kde@kde.org>\n"
+            "Delivered-To: kde@kde.org\n"
+            "Received: from localhost (localhost [127.0.0.1])\n"
+            "        by mail.kde.org (Postfix) with ESMTP id 8A6FF2B23D\n"
+            "        for <kde@kde.org>; Fri, 29 Jan 2010 19:19:27 +0100 (CET)\n"
+            "From: KDE <kde@kde.org>\n"
+            "To: kde@kde.org\n"
+            "Subject: Attachment test Outlook\n"
+            "Date: Fri, 29 Jan 2010 19:19:26 +0100\n"
+            "User-Agent: KMail/1.13.0 (Linux/2.6.32-gentoo-r1; KDE/4.3.95; x86_64; ; )\n"
+            "MIME-Version: 1.0\n"
+            "Content-Type: Multipart/Mixed;\n"
+            "  boundary=\"Boundary-00=_uayYLfn6pjD7iFW\"\n"
+            "Message-Id: <201001291919.26518.kde@kde.org>\n"
+            "X-Length: 10467\n"
+            "X-UID: 17\n"
+            "\n"
+            "--Boundary-00=_uayYLfn6pjD7iFW\n"
+            "Content-Type: Text/Plain;\n"
+            "  charset=\"us-ascii\"\n"
+            "Content-Transfer-Encoding: 7bit\n"
+            "\n"
+            "Attachment test Outlook\n"
+            "\n"
+            "--Boundary-00=_uayYLfn6pjD7iFW\n"
+            "Content-Type: text/x-patch;\n"
+            "  charset=\"UTF-8\";\n"
+            "  name*=UTF-8''%C3%A5%2Ediff\n"
+            "Content-Transfer-Encoding: 7bit\n"
+            "Content-Disposition: attachment;\n"
+            "  filename=\"=?iso-8859-1?q?=E5=2Ediff?=\"\n"
+            "\n"
+            "Index: kmime/kmime_headers_p.h\n"
+            "===================================================================\n"
+            "--- kmime/kmime_headers_p.h     (revision 1068282)\n"
+            "+++ kmime/kmime_headers_p.h     (working copy)\n"
+            "@@ -170,6 +170,7 @@\n"
+            "     int lines;\n"
+            " };\n"
+            "\n"
+            "+kmime_mk_empty_private( ContentID, Generics::SingleIdent )\n"
+            " }\n"
+            "\n"
+            " }\n"
+            "\n"
+            "--Boundary-00=_uayYLfn6pjD7iFW--";
+    contentMimes = { "text/plain", "text/x-patch"};
+    QTest::newRow("example1") << data << QByteArrayLiteral("multipart/mixed") << 2 << contentMimes;
 }
 
 
@@ -823,6 +876,8 @@ void ContentTest::testContentTypeMimetype()
 {
     QFETCH(QByteArray, data);
     QFETCH(QByteArray, mimetype);
+    QFETCH(int, contentCount);
+    QFETCH(QList<QByteArray> , contentMimeType);
 
     // test parsing
     Message *msg = new Message();
@@ -830,4 +885,10 @@ void ContentTest::testContentTypeMimetype()
     msg->parse();
     QEXPECT_FAIL("broken", "Problem with content type", Continue);
     QCOMPARE(msg->contentType(false)->mimeType(), mimetype);
+    QCOMPARE(msg->contents().count(), contentCount);
+    for (int i = 0; i < msg->contents().count(); ++i) {
+        QVERIFY(msg->contents().at(i)->contentType(false));
+        QCOMPARE(contentMimeType.count(), contentCount);
+        QCOMPARE(msg->contents().at(i)->contentType(false)->mimeType(), contentMimeType.at(i));
+    }
 }
