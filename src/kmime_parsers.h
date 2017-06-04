@@ -120,7 +120,7 @@ class UUEncoded : public NonMimeParser
 public:
     UUEncoded(const QByteArray &src, const QByteArray &subject);
 
-    bool parse() Q_DECL_OVERRIDE;
+    bool parse() override;
 
 private:
     QByteArray m_subject;
@@ -135,7 +135,7 @@ class YENCEncoded : public NonMimeParser
 public:
     explicit YENCEncoded(const QByteArray &src);
 
-    bool parse() Q_DECL_OVERRIDE;
+    bool parse() override;
 
 private:
     static bool yencMeta(QByteArray &src, const QByteArray &name, int *value);

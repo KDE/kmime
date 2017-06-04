@@ -103,7 +103,7 @@ enum contentDisposition {
 
 #define kmime_mk_trivial_ctor_with_name( subclass )     \
     kmime_mk_trivial_ctor( subclass )                     \
-    const char *type() const Q_DECL_OVERRIDE;                           \
+    const char *type() const override;                           \
     static const char *staticType();
 //@endcond
 
@@ -246,15 +246,15 @@ public:
     Unstructured();
     ~Unstructured();
 
-    void from7BitString(const QByteArray &s) Q_DECL_OVERRIDE;
-    QByteArray as7BitString(bool withHeaderType = true) const Q_DECL_OVERRIDE;
+    void from7BitString(const QByteArray &s) override;
+    QByteArray as7BitString(bool withHeaderType = true) const override;
 
-    void fromUnicodeString(const QString &s, const QByteArray &b) Q_DECL_OVERRIDE;
-    QString asUnicodeString() const Q_DECL_OVERRIDE;
+    void fromUnicodeString(const QString &s, const QByteArray &b) override;
+    QString asUnicodeString() const override;
 
-    void clear() Q_DECL_OVERRIDE;
+    void clear() override;
 
-    bool isEmpty() const Q_DECL_OVERRIDE;
+    bool isEmpty() const override;
 
 private:
     Q_DECLARE_PRIVATE(Unstructured)
@@ -298,9 +298,9 @@ public:
     Structured();
     ~Structured();
 
-    void from7BitString(const QByteArray &s) Q_DECL_OVERRIDE;
-    QString asUnicodeString() const Q_DECL_OVERRIDE;
-    void fromUnicodeString(const QString &s, const QByteArray &b) Q_DECL_OVERRIDE;
+    void from7BitString(const QByteArray &s) override;
+    QString asUnicodeString() const override;
+    void fromUnicodeString(const QString &s, const QByteArray &b) override;
 
 protected:
     /**
@@ -355,12 +355,12 @@ class KMIME_EXPORT MailboxList : public Address
     kmime_mk_dptr_ctor(MailboxList)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const Q_DECL_OVERRIDE;
-    void fromUnicodeString(const QString &s, const QByteArray &b) Q_DECL_OVERRIDE;
-    QString asUnicodeString() const Q_DECL_OVERRIDE;
+    QByteArray as7BitString(bool withHeaderType = true) const override;
+    void fromUnicodeString(const QString &s, const QByteArray &b) override;
+    QString asUnicodeString() const override;
 
-    void clear() Q_DECL_OVERRIDE;
-    bool isEmpty() const Q_DECL_OVERRIDE;
+    void clear() override;
+    bool isEmpty() const override;
 
     /**
       Adds an address to this header.
@@ -402,7 +402,7 @@ public:
     Types::Mailbox::List mailboxes() const;
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) Q_DECL_OVERRIDE;
+    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
 
 private:
     Q_DECLARE_PRIVATE(MailboxList)
@@ -420,7 +420,7 @@ class KMIME_EXPORT SingleMailbox : public MailboxList
     kmime_mk_trivial_ctor(SingleMailbox)
     //@endcond
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) Q_DECL_OVERRIDE;
+    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
 private:
     Q_DECLARE_PRIVATE(SingleMailbox)
 };
@@ -445,12 +445,12 @@ class KMIME_EXPORT AddressList : public Address
     kmime_mk_dptr_ctor(AddressList)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const Q_DECL_OVERRIDE;
-    void fromUnicodeString(const QString &s, const QByteArray &b) Q_DECL_OVERRIDE;
-    QString asUnicodeString() const Q_DECL_OVERRIDE;
+    QByteArray as7BitString(bool withHeaderType = true) const override;
+    void fromUnicodeString(const QString &s, const QByteArray &b) override;
+    QString asUnicodeString() const override;
 
-    void clear() Q_DECL_OVERRIDE;
-    bool isEmpty() const Q_DECL_OVERRIDE;
+    void clear() override;
+    bool isEmpty() const override;
 
     /**
       Adds an address to this header.
@@ -490,7 +490,7 @@ public:
     Types::Mailbox::List mailboxes() const;
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) Q_DECL_OVERRIDE;
+    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
 
 private:
     Q_DECLARE_PRIVATE(AddressList)
@@ -510,9 +510,9 @@ class KMIME_EXPORT Ident : public Address
     kmime_mk_dptr_ctor(Ident)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const Q_DECL_OVERRIDE;
-    void clear() Q_DECL_OVERRIDE;
-    bool isEmpty() const Q_DECL_OVERRIDE;
+    QByteArray as7BitString(bool withHeaderType = true) const override;
+    void clear() override;
+    bool isEmpty() const override;
 
     /**
       Returns the list of identifiers contained in this header.
@@ -529,7 +529,7 @@ public:
     void appendIdentifier(const QByteArray &id);
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) Q_DECL_OVERRIDE;
+    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
 
 private:
     Q_DECLARE_PRIVATE(Ident)
@@ -562,7 +562,7 @@ public:
     void setIdentifier(const QByteArray &id);
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) Q_DECL_OVERRIDE;
+    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
 
 private:
     Q_DECLARE_PRIVATE(SingleIdent)
@@ -580,9 +580,9 @@ class KMIME_EXPORT Token : public Structured
     kmime_mk_dptr_ctor(Token)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const Q_DECL_OVERRIDE;
-    void clear() Q_DECL_OVERRIDE;
-    bool isEmpty() const Q_DECL_OVERRIDE;
+    QByteArray as7BitString(bool withHeaderType = true) const override;
+    void clear() override;
+    bool isEmpty() const override;
 
     /**
       Returns the token.
@@ -595,7 +595,7 @@ public:
     void setToken(const QByteArray &t);
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) Q_DECL_OVERRIDE;
+    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
 
 private:
     Q_DECLARE_PRIVATE(Token)
@@ -612,10 +612,10 @@ class KMIME_EXPORT PhraseList : public Structured
     kmime_mk_trivial_ctor(PhraseList)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const Q_DECL_OVERRIDE;
-    QString asUnicodeString() const Q_DECL_OVERRIDE;
-    void clear() Q_DECL_OVERRIDE;
-    bool isEmpty() const Q_DECL_OVERRIDE;
+    QByteArray as7BitString(bool withHeaderType = true) const override;
+    QString asUnicodeString() const override;
+    void clear() override;
+    bool isEmpty() const override;
 
     /**
       Returns the list of phrases contained in this header.
@@ -623,7 +623,7 @@ public:
     QStringList phrases() const;
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) Q_DECL_OVERRIDE;
+    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
 
 private:
     Q_DECLARE_PRIVATE(PhraseList)
@@ -640,13 +640,13 @@ class KMIME_EXPORT DotAtom : public Structured
     kmime_mk_trivial_ctor(DotAtom)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const Q_DECL_OVERRIDE;
-    QString asUnicodeString() const Q_DECL_OVERRIDE;
-    void clear() Q_DECL_OVERRIDE;
-    bool isEmpty() const Q_DECL_OVERRIDE;
+    QByteArray as7BitString(bool withHeaderType = true) const override;
+    QString asUnicodeString() const override;
+    void clear() override;
+    bool isEmpty() const override;
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) Q_DECL_OVERRIDE;
+    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
 
 private:
     Q_DECLARE_PRIVATE(DotAtom)
@@ -664,10 +664,10 @@ class KMIME_EXPORT Parametrized : public Structured
     kmime_mk_dptr_ctor(Parametrized)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const Q_DECL_OVERRIDE;
+    QByteArray as7BitString(bool withHeaderType = true) const override;
 
-    bool isEmpty() const Q_DECL_OVERRIDE;
-    void clear() Q_DECL_OVERRIDE;
+    bool isEmpty() const override;
+    void clear() override;
 
     //FIXME: Shouldn't the parameter keys be QByteArray and not QStrings? Only the values can be
     //       non-ascii!
@@ -693,7 +693,7 @@ public:
     void setParameter(const QString &key, const QString &value);
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) Q_DECL_OVERRIDE;
+    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
 
 private:
     Q_DECLARE_PRIVATE(Parametrized)
@@ -720,12 +720,12 @@ class KMIME_EXPORT ReturnPath : public Generics::Address
     kmime_mk_trivial_ctor_with_name(ReturnPath)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const Q_DECL_OVERRIDE;
-    void clear() Q_DECL_OVERRIDE;
-    bool isEmpty() const Q_DECL_OVERRIDE;
+    QByteArray as7BitString(bool withHeaderType = true) const override;
+    void clear() override;
+    bool isEmpty() const override;
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) Q_DECL_OVERRIDE;
+    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
 
 private:
     Q_DECLARE_PRIVATE(ReturnPath)
@@ -807,11 +807,11 @@ class KMIME_EXPORT MailCopiesTo : public Generics::AddressList
     kmime_mk_trivial_ctor_with_name(MailCopiesTo)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const Q_DECL_OVERRIDE;
-    QString asUnicodeString() const Q_DECL_OVERRIDE;
+    QByteArray as7BitString(bool withHeaderType = true) const override;
+    QString asUnicodeString() const override;
 
-    void clear() Q_DECL_OVERRIDE;
-    bool isEmpty() const Q_DECL_OVERRIDE;
+    void clear() override;
+    bool isEmpty() const override;
 
     /**
       Returns true if a mail copy was explicitly requested.
@@ -834,7 +834,7 @@ public:
     void setNeverCopy();
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) Q_DECL_OVERRIDE;
+    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
 
 private:
     Q_DECLARE_PRIVATE(MailCopiesTo)
@@ -853,7 +853,7 @@ class KMIME_EXPORT ContentTransferEncoding : public Generics::Token
     kmime_mk_trivial_ctor_with_name(ContentTransferEncoding)
     //@endcond
 public:
-    void clear() Q_DECL_OVERRIDE;
+    void clear() override;
 
     /**
       Returns the encoding specified in this header.
@@ -885,7 +885,7 @@ public:
     bool needToEncode() const;
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) Q_DECL_OVERRIDE;
+    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
 
 private:
     Q_DECLARE_PRIVATE(ContentTransferEncoding)
@@ -946,7 +946,7 @@ class KMIME_EXPORT ContentID : public Generics::SingleIdent
     //@endcond
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) Q_DECL_OVERRIDE;
+    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
 private:
     Q_DECLARE_PRIVATE(ContentID)
 };
@@ -992,9 +992,9 @@ class KMIME_EXPORT ContentType : public Generics::Parametrized
     kmime_mk_trivial_ctor_with_name(ContentType)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const Q_DECL_OVERRIDE;
-    void clear() Q_DECL_OVERRIDE;
-    bool isEmpty() const Q_DECL_OVERRIDE;
+    QByteArray as7BitString(bool withHeaderType = true) const override;
+    void clear() override;
+    bool isEmpty() const override;
 
     /**
       Returns the mimetype.
@@ -1129,7 +1129,7 @@ public:
     void setCategory(contentCategory c);
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) Q_DECL_OVERRIDE;
+    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
 
 private:
     Q_DECLARE_PRIVATE(ContentType)
@@ -1148,9 +1148,9 @@ class KMIME_EXPORT ContentDisposition : public Generics::Parametrized
     kmime_mk_trivial_ctor_with_name(ContentDisposition)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const Q_DECL_OVERRIDE;
-    bool isEmpty() const Q_DECL_OVERRIDE;
-    void clear() Q_DECL_OVERRIDE;
+    QByteArray as7BitString(bool withHeaderType = true) const override;
+    bool isEmpty() const override;
+    void clear() override;
 
     /**
       Returns the content disposition.
@@ -1179,7 +1179,7 @@ public:
     void setFilename(const QString &filename);
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) Q_DECL_OVERRIDE;
+    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
 
 private:
     Q_DECLARE_PRIVATE(ContentDisposition)
@@ -1205,11 +1205,11 @@ public:
     Generic(const char *t);
     ~Generic();
 
-    void clear() Q_DECL_OVERRIDE;
+    void clear() override;
 
-    bool isEmpty() const Q_DECL_OVERRIDE;
+    bool isEmpty() const override;
 
-    const char *type() const Q_DECL_OVERRIDE;
+    const char *type() const override;
 
     void setType(const char *type);
 
@@ -1267,9 +1267,9 @@ class KMIME_EXPORT Control : public Generics::Structured
     kmime_mk_trivial_ctor_with_name(Control)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const Q_DECL_OVERRIDE;
-    void clear() Q_DECL_OVERRIDE;
-    bool isEmpty() const Q_DECL_OVERRIDE;
+    QByteArray as7BitString(bool withHeaderType = true) const override;
+    void clear() override;
+    bool isEmpty() const override;
 
     /**
       Returns the control message type.
@@ -1294,7 +1294,7 @@ public:
     void setCancel(const QByteArray &msgid);
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) Q_DECL_OVERRIDE;
+    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
 
 private:
     Q_DECLARE_PRIVATE(Control)
@@ -1313,9 +1313,9 @@ class KMIME_EXPORT Date : public Generics::Structured
     kmime_mk_trivial_ctor_with_name(Date)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const Q_DECL_OVERRIDE;
-    void clear() Q_DECL_OVERRIDE;
-    bool isEmpty() const Q_DECL_OVERRIDE;
+    QByteArray as7BitString(bool withHeaderType = true) const override;
+    void clear() override;
+    bool isEmpty() const override;
 
     /**
       Returns the date contained in this header.
@@ -1333,7 +1333,7 @@ public:
     int ageInDays() const;
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) Q_DECL_OVERRIDE;
+    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
 
 private:
     Q_DECLARE_PRIVATE(Date)
@@ -1352,11 +1352,11 @@ class KMIME_EXPORT Newsgroups : public Generics::Structured
     kmime_mk_trivial_ctor_with_name(Newsgroups)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const Q_DECL_OVERRIDE;
-    void fromUnicodeString(const QString &s, const QByteArray &b) Q_DECL_OVERRIDE;
-    QString asUnicodeString() const Q_DECL_OVERRIDE;
-    void clear() Q_DECL_OVERRIDE;
-    bool isEmpty() const Q_DECL_OVERRIDE;
+    QByteArray as7BitString(bool withHeaderType = true) const override;
+    void fromUnicodeString(const QString &s, const QByteArray &b) override;
+    QString asUnicodeString() const override;
+    void clear() override;
+    bool isEmpty() const override;
 
     /**
       Returns the list of newsgroups.
@@ -1375,7 +1375,7 @@ public:
     bool isCrossposted() const;
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) Q_DECL_OVERRIDE;
+    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
 
 private:
     Q_DECLARE_PRIVATE(Newsgroups)
@@ -1406,10 +1406,10 @@ class KMIME_EXPORT Lines : public Generics::Structured
     kmime_mk_trivial_ctor_with_name(Lines)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const Q_DECL_OVERRIDE;
-    QString asUnicodeString() const Q_DECL_OVERRIDE;
-    void clear() Q_DECL_OVERRIDE;
-    bool isEmpty() const Q_DECL_OVERRIDE;
+    QByteArray as7BitString(bool withHeaderType = true) const override;
+    QString asUnicodeString() const override;
+    void clear() override;
+    bool isEmpty() const override;
 
     /**
       Returns the number of lines, undefined if isEmpty() returns true.
@@ -1422,7 +1422,7 @@ public:
     void setNumberOfLines(int lines);
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) Q_DECL_OVERRIDE;
+    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
 
 private:
     Q_DECLARE_PRIVATE(Lines)

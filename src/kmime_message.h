@@ -190,7 +190,7 @@ public:
     static QString mimeType();
 
 protected:
-    QByteArray assembleHeaders() Q_DECL_OVERRIDE;
+    QByteArray assembleHeaders() override;
 
 private:
     Q_DECLARE_PRIVATE(Message)

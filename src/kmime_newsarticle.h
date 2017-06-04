@@ -87,7 +87,7 @@ public:
     KMime::Headers::Lines *lines(bool create = true);
 
 protected:
-    QByteArray assembleHeaders() Q_DECL_OVERRIDE;
+    QByteArray assembleHeaders() override;
 }; // class NewsArticle
 
 } // namespace KMime
