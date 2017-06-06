@@ -43,13 +43,13 @@
 #include "kmime_export.h"
 #include "kmime_header_parsing.h"
 
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtCore/QDateTime>
-#include <QtCore/QMap>
-#include <QtCore/QVector>
-#include <QtCore/QByteArray>
-#include <QtCore/QMetaType>
+#include <QString>
+#include <QStringList>
+#include <QDateTime>
+#include <QMap>
+#include <QVector>
+#include <QByteArray>
+#include <QMetaType>
 
 namespace KMime
 {

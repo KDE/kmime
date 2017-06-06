@@ -31,7 +31,7 @@
 
 #include <QHash>
 #include <QSharedData>
-#include <QtCore/QStringList>
+#include <QStringList>
 #include <QVector>
 
 using namespace KMime;

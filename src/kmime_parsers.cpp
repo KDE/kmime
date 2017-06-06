@@ -22,8 +22,8 @@
 */
 #include "kmime_parsers.h"
 
-#include <QtCore/QRegExp>
-#include <QtCore/QByteArray>
+#include <QRegExp>
+#include <QByteArray>
 
 using namespace KMime::Parser;
 

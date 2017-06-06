@@ -27,8 +27,8 @@
 #include "kmime_headers.h"
 #include "kmime_content.h"
 
-#include <QtCore/QString>
-#include <QtCore/QVector>
+#include <QString>
+#include <QVector>
 
 namespace KMime
 {

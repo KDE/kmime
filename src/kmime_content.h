@@ -53,10 +53,10 @@ TODO: possible glossary terms:
 #include "kmime_util.h"
 #include "kmime_headers.h"
 
-#include <QtCore/QByteArray>
-#include <QtCore/QVector>
-#include <QtCore/QSharedPointer>
-#include <QtCore/QMetaType>
+#include <QByteArray>
+#include <QVector>
+#include <QSharedPointer>
+#include <QMetaType>
 
 
 namespace KMime

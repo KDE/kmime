@@ -26,9 +26,9 @@
 #include "kmime_export.h"
 #include "kmime_types.h"
 
-#include <QtCore/QString>
-#include <QtCore/QPair>
-#include <QtCore/QVector>
+#include <QString>
+#include <QPair>
+#include <QVector>
 
 #include <qdatetime.h>
 

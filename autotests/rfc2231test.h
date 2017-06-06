@@ -19,7 +19,7 @@
 #ifndef RFC2231TEST_H
 #define RFC2231TEST_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class RFC2231Test : public QObject
 {

@@ -19,7 +19,7 @@
 #ifndef UTIL_TEST_H
 #define UTIL_TEST_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class AttachmentTest : public QObject
 {

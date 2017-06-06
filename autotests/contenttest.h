@@ -19,7 +19,7 @@
 #ifndef CONTENT_TEST_H
 #define CONTENT_TEST_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class ContentTest : public QObject
 {

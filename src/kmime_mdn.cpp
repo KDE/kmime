@@ -39,7 +39,7 @@
 #include <klocalizedstring.h>
 #include <qdebug.h>
 
-#include <QtCore/QByteArray>
+#include <QByteArray>
 
 #ifdef Q_OS_WIN // gethostname
 # include <winsock2.h>

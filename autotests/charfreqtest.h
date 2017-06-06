@@ -19,7 +19,7 @@
 #ifndef CHARSET_TEST_H
 #define CHARSET_TEST_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class CharFreqTest : public QObject
 {

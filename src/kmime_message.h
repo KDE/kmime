@@ -27,8 +27,8 @@
 #include "kmime_content.h"
 #include "kmime_headers.h"
 
-#include <QtCore/QMetaType>
-#include <QtCore/QSharedPointer>
+#include <QMetaType>
+#include <QSharedPointer>
 
 namespace KMime
 {

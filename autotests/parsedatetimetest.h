@@ -20,7 +20,7 @@
 #ifndef PARSEDATETIMETEST_H
 #define PARSEDATETIMETEST_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class ParseDateTimeTest : public QObject
 {

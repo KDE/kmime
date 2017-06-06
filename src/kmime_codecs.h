@@ -23,8 +23,8 @@
 #ifndef __KMIME_CODECS_H__
 #define __KMIME_CODECS_H__
 
-#include <QtCore/QByteArray>
-#include <QtCore/QString>
+#include <QByteArray>
+#include <QString>
 
 namespace KMime
 {

@@ -34,10 +34,10 @@
 
 #include <KCodecs/KCodecs>
 
-#include <QtCore/QTextCodec>
-#include <QtCore/QMap>
-#include <QtCore/QStringList>
-#include <QtCore/QUrl>
+#include <QTextCodec>
+#include <QMap>
+#include <QStringList>
+#include <QUrl>
 
 #include <ctype.h> // for isdigit
 #include <cassert>

@@ -36,9 +36,9 @@
 
 #include "kmime_export.h"
 
-#include <QtCore/QSharedDataPointer>
-#include <QtCore/QString>
-#include <QtCore/QMetaType>
+#include <QSharedDataPointer>
+#include <QString>
+#include <QMetaType>
 
 namespace KMime
 {

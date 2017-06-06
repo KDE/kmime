@@ -20,7 +20,7 @@
 #ifndef HEADERTEST_H
 #define HEADERTEST_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class HeaderTest : public QObject
 {

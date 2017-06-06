@@ -35,7 +35,7 @@
 
 #include <config-kmime.h>
 
-#include <QtCore/QTextStream>
+#include <QTextStream>
 
 #include <klocalizedstring.h>
 

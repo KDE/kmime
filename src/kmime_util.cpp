@@ -37,9 +37,9 @@
 #include <qdebug.h>
 #include <QCoreApplication>
 
-#include <QtCore/QVector>
-#include <QtCore/QString>
-#include <QtCore/QTextCodec>
+#include <QVector>
+#include <QString>
+#include <QTextCodec>
 
 #include <ctype.h>
 #include <time.h>

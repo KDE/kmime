@@ -48,8 +48,8 @@
 #include <klocalizedstring.h>
 #include <qdebug.h>
 
-#include <QtCore/QTextCodec>
-#include <QtCore/QByteArray>
+#include <QTextCodec>
+#include <QByteArray>
 
 using namespace KMime;
 

@@ -48,8 +48,8 @@
 #define __KMIME_DATEFORMATTER_H__
 
 #include <time.h>
-#include <QtCore/QDateTime>
-#include <QtCore/QString>
+#include <QDateTime>
+#include <QString>
 #include "kmime_export.h"
 
 namespace KMime

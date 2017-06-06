@@ -52,9 +52,9 @@
 #include <kcharsets.h>
 #include <KCodecs>
 
-#include <QtCore/QTextCodec>
-#include <QtCore/QString>
-#include <QtCore/QStringList>
+#include <QTextCodec>
+#include <QString>
+#include <QStringList>
 
 #include <assert.h>
 #include <ctype.h>

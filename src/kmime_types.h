@@ -23,8 +23,8 @@
 #ifndef __KMIME_TYPES_H__
 #define __KMIME_TYPES_H__
 
-#include <QtCore/QString>
-#include <QtCore/QVector>
+#include <QString>
+#include <QVector>
 
 #include "kmime_export.h"
 

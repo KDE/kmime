@@ -20,7 +20,7 @@
 #ifndef CONTENTINDEXTEXT_H
 #define CONTENTINDEXTEXT_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class ContentIndexTest : public QObject
 {

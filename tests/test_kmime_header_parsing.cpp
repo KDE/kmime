@@ -2,10 +2,10 @@
 #include "kmime_headers.h"
 #include "kmime_header_parsing.h"
 
-#include <QtCore/QFile>
-#include <QtCore/QByteArray>
-#include <QtCore/QVector>
-//#include <QtCore/QString>
+#include <QFile>
+#include <QByteArray>
+#include <QVector>
+//#include <QString>
 
 //#include <stdio.h>
 #include <iostream>
