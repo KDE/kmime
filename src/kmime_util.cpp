@@ -363,7 +363,7 @@ QByteArray extractHeader(const QByteArray &src, const QByteArray &name)
 
 QByteArray CRLFtoLF(const QByteArray &s)
 {
-    if (s.indexOf("\r\n") == -1) {
+    if (!s.contains("\r\n")) {
         return s;
     }
 
@@ -380,7 +380,7 @@ QByteArray CRLFtoLF(const char *s)
 
 QByteArray LFtoCRLF(const QByteArray &s)
 {
-    if (s.indexOf("\r\n") > -1) {
+    if (s.contains("\r\n")) {
         return s;
     }
 
