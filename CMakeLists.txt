@@ -36,6 +36,7 @@ find_package(KF5Codecs ${KF5_VERSION} CONFIG REQUIRED)
 add_definitions(-DTRANSLATION_DOMAIN=\"libkmime5\")
 add_definitions("-DQT_NO_CAST_FROM_ASCII -DQT_NO_CAST_TO_ASCII")
 add_definitions(-DQT_NO_NARROWING_CONVERSIONS_IN_CONNECT)
+add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
 
 ########### Targets ###########
 add_subdirectory(src)
