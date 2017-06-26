@@ -328,7 +328,7 @@ QByteArray Content::decodedContent()
     Headers::ContentTransferEncoding *ec = contentTransferEncoding();
     bool removeTrailingNewline = false;
 
-    if (d_ptr->body.length() == 0) {
+    if (d_ptr->body.isEmpty()) {
         return ret;
     }
 
