@@ -615,6 +615,11 @@ void Content::changeEncoding(Headers::contentEncoding e)
     }
 }
 
+QVector<Headers::Base*> Content::headers() const
+{
+    return d_ptr->headers;
+}
+
 Headers::Base *Content::headerByType(const char *type) const
 {
     Q_ASSERT(type  && *type);

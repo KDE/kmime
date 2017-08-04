@@ -248,6 +248,12 @@ public:
     void setHead(const QByteArray &head);
 
     /**
+     * Returns all headers.
+     * @since 5.7
+     */
+    QVector<Headers::Base*> headers() const;
+
+    /**
       Returns the first header of type @p type, if it exists.  Otherwise returns 0.
       Note that the returned header may be empty.
       @param type the header type to find
