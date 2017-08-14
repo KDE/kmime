@@ -451,9 +451,7 @@ bool parseGenericQuotedString(const char *&scursor, const char *const send,
                 scursor = oldscursor;
             }
             // fall through
-#if QT_VERSION >= QT_VERSION_CHECK(5,8,0)
-        Q_FALLTHROUGH();
-#endif
+            Q_FALLTHROUGH();
         }
         default:
             KMIME_WARN_IF_8BIT(ch);
@@ -637,10 +635,8 @@ bool parsePhrase(const char *&scursor, const char *const send,
                 // parse as atom:
                 scursor = oldscursor;
             }
-#if QT_VERSION >= QT_VERSION_CHECK(5,8,0)
-        Q_FALLTHROUGH();
-#endif
-        // fall though...
+            Q_FALLTHROUGH();
+            // fall though...
 
         default: //atom
             tmp.clear();
