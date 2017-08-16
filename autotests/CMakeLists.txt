@@ -9,7 +9,7 @@ kde_enable_exceptions()
 macro(ADD_KMIME_TEST)
   foreach(_testName ${ARGN})
     add_executable(${_testName} ${_testName}.cpp)
-    add_test(kmime-${_testName} ${_testName})
+    add_test(NAME kmime-${_testName} COMMAND ${_testName})
     target_link_libraries(${_testName}
       KF5Mime
       Qt5::Test
