@@ -37,7 +37,6 @@ class ContentPrivate
 {
 public:
     explicit ContentPrivate() :
-        parent(0),
         frozen(false)
     {
     }
@@ -65,7 +64,7 @@ public:
     QByteArray frozenBody;
     QByteArray preamble;
     QByteArray epilogue;
-    Content *parent;
+    Content *parent = nullptr;
 
     QVector<Content*> multipartContents;
     MessagePtr bodyAsMessage;

@@ -158,15 +158,14 @@ class GenericPrivate : public Generics::UnstructuredPrivate
 {
 public:
     GenericPrivate() :
-        Generics::UnstructuredPrivate(),
-        type(0)
+        Generics::UnstructuredPrivate()
     {}
     ~GenericPrivate()
     {
         delete[] type;
     }
 
-    char *type;
+    char *type = nullptr;
 };
 
 class ControlPrivate : public Generics::StructuredPrivate
