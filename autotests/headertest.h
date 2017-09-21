@@ -48,6 +48,7 @@ private Q_SLOTS:
     void testInvalidQEncoding_data();
     void testBug271192();
     void testBug271192_data();
+    void testMissingQuotes();
 
     // makes sure we don't accidently have an abstract header class that's not
     // meant to be abstract

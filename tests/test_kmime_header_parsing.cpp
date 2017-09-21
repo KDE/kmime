@@ -184,7 +184,7 @@ int main(int argc, char *argv[])
     case 2: {
         // token
         QString result = QStringLiteral("with 8bit: ");
-        bool ok = parseToken(iit, iend, result, true);
+        bool ok = parseToken(iit, iend, result, ParseTokenAllow8Bit);
 
         cout << (ok ? "OK" : "BAD") << endl
              << "result:\n" << result
@@ -192,10 +192,10 @@ int main(int argc, char *argv[])
 
         result = QStringLiteral("without 8bit: ");
 #ifdef COMPILE_FAIL
-        ok = parseToken(indata.begin(), iend, result, false);
+        ok = parseToken(indata.begin(), iend, result, ParseTokenNoFlag);
 #else
         iit = indata.begin();
-        ok = parseToken(iit, iend, result, false);
+        ok = parseToken(iit, iend, result, ParseTokenNoFlag);
 #endif
 
         cout << (ok ? "OK" : "BAD") << endl

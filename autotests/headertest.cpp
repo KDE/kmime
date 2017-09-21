@@ -1006,6 +1006,19 @@ void HeaderTest::testInvalidQEncoding()
     QVERIFY(!parseEncodedWord(start, end, result, language, usedCS));
 }
 
+void HeaderTest::testMissingQuotes()
+{
+    QByteArray str = "multipart/signed; boundary=nextPart22807781.u8zn2zYrSU; micalg=pgp-sha1; protocol=application/pgp-signature";
+
+    Headers::ContentType ct;
+    ct.from7BitString(str);
+    QCOMPARE(ct.mimeType(), QByteArray{ "multipart/signed" });
+    QCOMPARE(ct.boundary(), QByteArray{ "nextPart22807781.u8zn2zYrSU" });
+    QCOMPARE(ct.parameter(QStringLiteral("micalg")), QStringLiteral("pgp-sha1"));
+    QCOMPARE(ct.parameter(QStringLiteral("protocol")), QStringLiteral("application/pgp-signature"));
+
+}
+
 void HeaderTest::testBug271192()
 {
     QFETCH(QString, displayName);

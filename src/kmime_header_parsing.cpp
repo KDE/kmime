@@ -289,11 +289,11 @@ bool parseAtom(const char*&scursor, const char *const send,
 // FIXME: Remove this and the other parseToken() method. add a new one where "result" is a
 //        QByteArray.
 bool parseToken(const char*&scursor, const char *const send,
-                QString &result, bool allow8Bit)
+                QString &result, ParseTokenFlags flags)
 {
     QPair<const char *, int> maybeResult;
 
-    if (parseToken(scursor, send, maybeResult, allow8Bit)) {
+    if (parseToken(scursor, send, maybeResult, flags)) {
         result = QString::fromLatin1(maybeResult.first, maybeResult.second);
         return true;
     }
@@ -302,7 +302,7 @@ bool parseToken(const char*&scursor, const char *const send,
 }
 
 bool parseToken(const char*&scursor, const char *const send,
-                QPair<const char *, int> &result, bool allow8Bit)
+                QPair<const char *, int> &result, ParseTokenFlags flags)
 {
     bool success = false;
     const char *start = scursor;
@@ -312,9 +312,11 @@ bool parseToken(const char*&scursor, const char *const send,
         if (ch > 0 && isTText(ch)) {
             // TText: OK
             success = true;
-        } else if (allow8Bit && ch < 0) {
+        } else if ((flags & ParseTokenAllow8Bit) && ch < 0) {
             // 8bit char: not OK, but be tolerant.
             KMIME_WARN_8BIT(ch);
+            success = true;
+        } else if ((flags & ParseTokenRelaxedTText) && ch == '/') {
             success = true;
         } else {
             // CTL or tspecial - marking the end of the atom:
@@ -1229,7 +1231,7 @@ bool parseParameter(const char *&scursor, const char *const send,
     //
     // FIXME: maybeAttribute should be a QByteArray
     QString maybeAttribute;
-    if (!parseToken(scursor, send, maybeAttribute, false /* no 8bit */)) {
+    if (!parseToken(scursor, send, maybeAttribute, ParseTokenNoFlag)) {
         return false;
     }
 
@@ -1277,7 +1279,7 @@ bool parseParameter(const char *&scursor, const char *const send,
         }
     } else {
         // value is a token:
-        if (!parseToken(scursor, send, maybeValue.qpair, false /* no 8bit */)) {
+        if (!parseToken(scursor, send, maybeValue.qpair, ParseTokenRelaxedTText)) {
             scursor = oldscursor;
             result = qMakePair(maybeAttribute.toLower(), QStringOrQPair());
             return false; // this case needs further processing by upper layers!!
@@ -1710,7 +1712,7 @@ static bool parseAlphaNumericTimeZone(const char *&scursor,
     }
 
     QPair<const char *, int> maybeTimeZone(nullptr, 0);
-    if (!parseToken(scursor, send, maybeTimeZone, false /*no 8bit*/)) {
+    if (!parseToken(scursor, send, maybeTimeZone, ParseTokenNoFlag)) {
         return false;
     }
     for (int i = 0 ; i < timeZonesLen ; ++i) {

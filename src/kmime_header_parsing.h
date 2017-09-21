@@ -29,6 +29,7 @@
 #include <QString>
 #include <QPair>
 #include <QVector>
+#include <QFlags>
 
 #include <qdatetime.h>
 
@@ -97,12 +98,19 @@ KMIME_EXPORT bool parseAtom(const char *&scursor, const char *const send,
 
 /** You may or may not have already started parsing into the
     token. This function will go on where you left off. */
+enum ParseTokenFlag {
+    ParseTokenNoFlag = 0,
+    ParseTokenAllow8Bit = 1,
+    ParseTokenRelaxedTText = 2
+};
+Q_DECLARE_FLAGS(ParseTokenFlags, ParseTokenFlag)
+
 KMIME_EXPORT bool parseToken(const char *&scursor, const char *const send,
-                             QString &result, bool allow8Bit = false);
+                             QString &result, ParseTokenFlags flags = ParseTokenNoFlag);
 
 KMIME_EXPORT bool parseToken(const char *&scursor, const char *const send,
                              QPair<const char *, int> &result,
-                             bool allow8Bit = false);
+                             ParseTokenFlags flags = ParseTokenNoFlag);
 
 /** @p scursor must be positioned after the opening openChar. */
 KMIME_EXPORT bool parseGenericQuotedString(const char *&scursor,
@@ -274,6 +282,8 @@ KMIME_EXPORT void extractHeaderAndBody(const QByteArray &content,
 } // namespace HeaderParsing
 
 } // namespace KMime
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(KMime::HeaderParsing::ParseTokenFlags)
 
 #endif // __KMIME_HEADER_PARSING_H__
 

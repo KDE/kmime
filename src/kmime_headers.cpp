@@ -640,7 +640,7 @@ bool Token::parse(const char *&scursor, const char *const send, bool isCRLF)
     }
 
     QPair<const char *, int> maybeToken;
-    if (!parseToken(scursor, send, maybeToken, false /* no 8bit chars */)) {
+    if (!parseToken(scursor, send, maybeToken, ParseTokenNoFlag)) {
         return false;
     }
     d->token = QByteArray(maybeToken.first, maybeToken.second);
@@ -1794,7 +1794,6 @@ bool ContentType::parse(const char *&scursor, const char *const send,
                         bool isCRLF) {
     Q_D(ContentType);
     // content-type: type "/" subtype *(";" parameter)
-
     clear();
     eatCFWS(scursor, send, isCRLF);
     if (scursor == send) {
@@ -1803,7 +1802,7 @@ bool ContentType::parse(const char *&scursor, const char *const send,
 
     // type
     QPair<const char *, int> maybeMimeType;
-    if (!parseToken(scursor, send, maybeMimeType, false /* no 8Bit */)) {
+    if (!parseToken(scursor, send, maybeMimeType, ParseTokenNoFlag)) {
         return false;
     }
 
@@ -1819,7 +1818,7 @@ bool ContentType::parse(const char *&scursor, const char *const send,
     }
 
     QPair<const char *, int> maybeSubType;
-    if (!parseToken(scursor, send, maybeSubType, false /* no 8bit */)) {
+    if (!parseToken(scursor, send, maybeSubType, ParseTokenNoFlag)) {
         return false;
     }
 
@@ -2080,7 +2079,7 @@ bool ContentDisposition::parse(const char  *&scursor, const char *const send,
     }
 
     QPair<const char *, int> maybeToken;
-    if (!parseToken(scursor, send, maybeToken, false /* no 8Bit */)) {
+    if (!parseToken(scursor, send, maybeToken, ParseTokenNoFlag)) {
         return false;
     }
 
