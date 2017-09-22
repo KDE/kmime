@@ -996,6 +996,13 @@ QVector<QByteArray> Ident::identifiers() const
     return rv;
 }
 
+void Ident::fromIdent(const Ident* ident)
+{
+    d_func()->encCS = ident->d_func()->encCS;
+    d_func()->msgIdList = ident->d_func()->msgIdList;
+    d_func()->cachedIdentifier = ident->d_func()->cachedIdentifier;
+}
+
 void Ident::appendIdentifier(const QByteArray &id)
 {
     Q_D(Ident);

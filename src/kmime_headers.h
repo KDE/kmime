@@ -515,6 +515,11 @@ public:
     bool isEmpty() const override;
 
     /**
+      Initialize this identifier Copy the data from
+     */
+    void fromIdent(const Ident* ident);
+
+    /**
       Returns the list of identifiers contained in this header.
       Note:
       - Identifiers are not enclosed in angle-brackets.
