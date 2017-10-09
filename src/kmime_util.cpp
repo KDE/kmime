@@ -154,7 +154,7 @@ QByteArray uniqueString()
     static const char chars[] = "0123456789abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     time_t now;
     char p[11];
-    int pos, ran;
+    int ran;
     unsigned int timeval;
 
     p[10] = '\0';
@@ -163,7 +163,7 @@ QByteArray uniqueString()
     timeval = (now / ran) + QCoreApplication::applicationPid();
 
     for (int i = 0; i < 10; i++) {
-        pos = (int)(61.0 * rand() / (RAND_MAX + 1.0));
+        int pos = (int)(61.0 * rand() / (RAND_MAX + 1.0));
         //qDebug() << pos;
         p[i] = chars[pos];
     }

@@ -348,7 +348,6 @@ bool parseGenericQuotedString(const char *&scursor, const char *const send,
                               QString &result, bool isCRLF,
                               const char openChar, const char closeChar)
 {
-    char ch;
     // We are in a quoted-string or domain-literal or comment and the
     // cursor points to the first char after the openChar.
     // We will apply unfolding and quoted-pair removal.
@@ -358,7 +357,7 @@ bool parseGenericQuotedString(const char *&scursor, const char *const send,
     assert(*(scursor - 1) == openChar || *(scursor - 1) == closeChar);
 
     while (scursor != send) {
-        ch = *scursor++;
+        char ch = *scursor++;
 
         if (ch == closeChar || ch == openChar) {
             // end of quoted-string or another opening char:
@@ -2026,7 +2025,6 @@ bool parseDateTime(const char *&scursor, const char *const send,
 
 Headers::Base *extractFirstHeader(QByteArray &head)
 {
-    int endOfFieldBody = 0;
     bool folded = false;
     Headers::Base *header = nullptr;
 
@@ -2042,7 +2040,7 @@ Headers::Base *extractFirstHeader(QByteArray &head)
         if (head[startOfFieldBody] == ' ') {   // skip the space after the ':', if there
             startOfFieldBody++;
         }
-        endOfFieldBody = findHeaderLineEnd(head, startOfFieldBody, &folded);
+        int endOfFieldBody = findHeaderLineEnd(head, startOfFieldBody, &folded);
         // rawFieldBody references actual data from 'heaed'
         QByteArray rawFieldBody = QByteArray::fromRawData(head.constData() + startOfFieldBody, endOfFieldBody - startOfFieldBody);
         if (folded) {

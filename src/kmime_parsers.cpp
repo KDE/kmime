@@ -124,10 +124,9 @@ NonMimeParser::~NonMimeParser() {}
 QByteArray NonMimeParser::guessMimeType(const QByteArray &fileName)
 {
     QByteArray tmp, mimeType;
-    int pos;
 
     if (!fileName.isEmpty()) {
-        pos = fileName.lastIndexOf('.');
+        int pos = fileName.lastIndexOf('.');
         if (pos++ != -1) {
             tmp = fileName.mid(pos, fileName.length() - pos).toUpper();
             if (tmp == "JPG" || tmp == "JPEG") {
