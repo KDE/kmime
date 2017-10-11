@@ -98,8 +98,10 @@ QVector<Headers::contentEncoding> encodingsForData(const QByteArray &data)
     switch (cf.type()) {
     case CharFreq::SevenBitText:
         allowed << Headers::CE7Bit;
+        Q_FALLTHROUGH();
     case CharFreq::EightBitText:
         allowed << Headers::CE8Bit;
+        Q_FALLTHROUGH();
     case CharFreq::SevenBitData:
         if (cf.printableRatio() > 5.0 / 6.0) {
             // let n the length of data and p the number of printable chars.
