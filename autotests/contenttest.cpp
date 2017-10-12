@@ -263,7 +263,7 @@ void ContentTest::testEncodedContent()
     msg->parse();
 
     // Test that multiple calls do not corrupt anything.
-    QByteArray encc = msg->encodedContent();
+    //QByteArray encc = msg->encodedContent();
     //qDebug() << "original data" << data;
     //qDebug() << "encodedContent" << encc;
     QCOMPARE(msg->encodedContent(), data);
@@ -486,7 +486,7 @@ void ContentTest::testMultipartMixed()
     QCOMPARE(c->body(), part2);
 
     msg->assemble();
-    QByteArray encc = msg->encodedContent();
+    //QByteArray encc = msg->encodedContent();
     //qDebug() << "expected assembled content" << assembled;
     //qDebug() << "actual encoded content" << encc;
     QCOMPARE(msg->encodedContent(), assembled);

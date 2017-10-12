@@ -283,7 +283,6 @@ QString decodeRFC2231String(const QByteArray &str, QByteArray &usedCS, const QBy
         p++;
     }
     qDebug() << "Got pre-decoded:" << st;
-    QString result;
     const QTextCodec *charsetcodec = KCharsets::charsets()->codecForName(QString::fromLatin1(charset));
     if (!charsetcodec || forceCS) {
         charsetcodec = KCharsets::charsets()->codecForName(QString::fromLatin1(defaultCS));
