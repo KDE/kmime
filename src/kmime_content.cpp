@@ -1038,8 +1038,8 @@ bool ContentPrivate::parseMultipart(Content *q)
     // Create a sub-Content for every part.
     Q_ASSERT(multipartContents.isEmpty());
     body.clear();
-    auto parts = mpp.parts();
-    foreach (const QByteArray &part, mpp.parts()) {
+    const auto parts = mpp.parts();
+    foreach (const QByteArray &part, parts) {
         Content *c = new Content(q);
         c->setContent(part);
         c->setFrozen(frozen);
