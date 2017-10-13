@@ -1207,7 +1207,7 @@ class KMIME_EXPORT Generic : public Generics::Unstructured
 {
 public:
     Generic();
-    Generic(const char *t);
+    Generic(const char *t, int len = -1);
     ~Generic();
 
     void clear() override;
@@ -1216,7 +1216,7 @@ public:
 
     const char *type() const override;
 
-    void setType(const char *type);
+    void setType(const char *type, int len = -1);
 
 private:
     Q_DECLARE_PRIVATE(Generic)

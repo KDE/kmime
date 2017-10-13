@@ -1167,9 +1167,9 @@ Generic::Generic() : Generics::Unstructured(new GenericPrivate)
 {
 }
 
-Generic::Generic(const char *t) : Generics::Unstructured(new GenericPrivate)
+Generic::Generic(const char *t, int len) : Generics::Unstructured(new GenericPrivate)
 {
-    setType(t);
+    setType(t, len);
 }
 
 Generic::~Generic()
@@ -1197,15 +1197,16 @@ const char *Generic::type() const
     return d_func()->type;
 }
 
-void Generic::setType(const char *type)
+void Generic::setType(const char *type, int len)
 {
     Q_D(Generic);
     if (d->type) {
         delete[] d->type;
     }
     if (type) {
-        d->type = new char[strlen(type) + 1];
-        strcpy(d->type, type);
+        const int l = (len < 0 ? strlen(type) : len) + 1;
+        d->type = new char[l];
+        qstrncpy(d->type, type, l);
     } else {
         d->type = nullptr;
     }
