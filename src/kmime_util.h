@@ -89,7 +89,9 @@ KMIME_EXPORT extern QByteArray multiPartBoundary();
   Unfolds the given header if necessary.
   @param header The header to unfold.
 */
+
 KMIME_EXPORT extern QByteArray unfoldHeader(const QByteArray &header);
+KMIME_EXPORT extern QByteArray unfoldHeader(const char *header, size_t headerSize);
 
 /**
   Tries to extract the header with name @p name from the string

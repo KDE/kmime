@@ -183,35 +183,37 @@ QByteArray multiPartBoundary()
     return "nextPart" + uniqueString();
 }
 
-QByteArray unfoldHeader(const QByteArray &header)
+QByteArray unfoldHeader(const char *header, size_t headerSize)
 {
     QByteArray result;
-    if (header.isEmpty()) {
+    if (headerSize == 0) {
         return result;
     }
-    // unfolding skips characters so result will be at worst header.size() long
-    result.reserve(header.size());
 
-    int pos = 0, foldBegin = 0, foldMid = 0, foldEnd = 0;
-    while ((foldMid = header.indexOf('\n', pos)) >= 0) {
+    // unfolding skips characters so result will be at worst headerSize long
+    result.reserve(headerSize);
+
+    const char *end = header + headerSize;
+    const char *pos = header, *foldBegin = nullptr, *foldMid = nullptr, *foldEnd = nullptr;
+    while ((foldMid = strchr(pos, '\n')) && foldMid < end) {
         foldBegin = foldEnd = foldMid;
         // find the first space before the line-break
-        while (foldBegin > 0) {
-            if (!QChar::fromLatin1(header[foldBegin - 1]).isSpace()) {
+        while (foldBegin) {
+            if (!QChar::isSpace(*(foldBegin - 1))) {
                 break;
             }
             --foldBegin;
         }
         // find the first non-space after the line-break
-        while (foldEnd <= header.length() - 1) {
-            if (QChar::fromLatin1(header[foldEnd]).isSpace()) {
+        while (foldEnd <= end - 1) {
+            if (QChar::isSpace(*foldEnd)) {
                 ++foldEnd;
-            } else if (foldEnd > 0 && header[foldEnd - 1] == '\n' &&
-                       header[foldEnd] == '=' && foldEnd + 2 < header.length() &&
-                       ((header[foldEnd + 1] == '0' &&
-                         header[foldEnd + 2] == '9') ||
-                        (header[foldEnd + 1] == '2' &&
-                         header[foldEnd + 2] == '0'))) {
+            } else if (foldEnd && *(foldEnd - 1) == '\n' &&
+                       *foldEnd == '=' && foldEnd + 2 < (header + headerSize - 1) &&
+                       ((*(foldEnd + 1) == '0' &&
+                         *(foldEnd + 2) == '9') ||
+                        (*(foldEnd + 1) == '2' &&
+                         *(foldEnd + 2) == '0'))) {
                 // bug #86302: malformed header continuation starting with =09/=20
                 foldEnd += 3;
             } else {
@@ -219,17 +221,21 @@ QByteArray unfoldHeader(const QByteArray &header)
             }
         }
 
-        result.append(header.constData() + pos, foldBegin - pos);
-        if (foldEnd < header.length() - 1) {
+        result.append(pos, foldBegin - pos);
+        if (foldEnd < end - 1) {
             result += ' ';
         }
         pos = foldEnd;
     }
-    const int len = header.length();
-    if (len > pos) {
-        result.append(header.constData() + pos, len - pos);
+    if (end > pos) {
+        result.append(pos, end - pos);
     }
     return result;
+}
+
+QByteArray unfoldHeader(const QByteArray &header)
+{
+    return unfoldHeader(header.constData(), header.size());
 }
 
 int findHeaderLineEnd(const QByteArray &src, int &dataBegin, bool *folded)
@@ -357,8 +363,7 @@ QByteArray extractHeader(const QByteArray &src, const QByteArray &name)
             result = src.mid(begin, end - begin);
         } else {
             if (end > begin) {
-                QByteArray hdrValue = src.mid(begin, end - begin);
-                result = unfoldHeader(hdrValue);
+                result = unfoldHeader(src.constData() + begin, end - begin);
             }
         }
     }

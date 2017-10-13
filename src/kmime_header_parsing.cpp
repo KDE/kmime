@@ -2034,7 +2034,8 @@ Headers::Base *extractHeader(const QByteArray &head, const int headerStart, int 
         return nullptr;
     }
 
-    const QByteArray rawType = QByteArray::fromRawData(head.constData() + headerStart, startOfFieldBody - headerStart);
+    const char *rawType = head.constData() + headerStart;
+    const size_t rawTypeLen = startOfFieldBody - headerStart;
 
     startOfFieldBody++; //skip the ':'
     if (startOfFieldBody < head.size() - 1 &&  head[startOfFieldBody] == ' ') { // skip the space after the ':', if there's any
@@ -2043,21 +2044,21 @@ Headers::Base *extractHeader(const QByteArray &head, const int headerStart, int 
 
     bool folded = false;
     endOfFieldBody = findHeaderLineEnd(head, startOfFieldBody, &folded);
-    // rawFieldBody references actual data from 'head'
-    QByteArray rawFieldBody = QByteArray::fromRawData(head.constData() + startOfFieldBody, endOfFieldBody - startOfFieldBody);
-    if (folded) {
-        rawFieldBody = unfoldHeader(rawFieldBody);
-    }
 
     // We might get an invalid mail without a field name, don't crash on that.
-    if (!rawType.isEmpty()) {
-        header = HeaderFactory::createHeader(rawType);
+    if (rawTypeLen > 0) {
+        header = HeaderFactory::createHeader(rawType, rawTypeLen);
     }
     if (!header) {
         //qWarning() << "Returning Generic header of type" << rawType;
-        header = new Headers::Generic(rawType.constData(), rawType.size());
+        header = new Headers::Generic(rawType, rawTypeLen);
     }
-    header->from7BitString(rawFieldBody);
+    if (folded) {
+        const auto unfoldedBody = unfoldHeader(head.constData() + startOfFieldBody, endOfFieldBody - startOfFieldBody);
+        header->from7BitString(unfoldedBody);
+    } else {
+        header->from7BitString(head.constData() + startOfFieldBody, endOfFieldBody - startOfFieldBody);
+    }
 
     return header;
 }

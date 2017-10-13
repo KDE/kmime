@@ -35,7 +35,7 @@
 
 #include "kmime_export.h"
 
-class QByteArray;
+#include <QByteArray>
 
 namespace KMime
 {
@@ -47,7 +47,12 @@ class Base;
 
 namespace HeaderFactory
 {
-    Headers::Base *createHeader(const QByteArray &type);
+    Headers::Base *createHeader(const char *type, size_t typeLen);
+    inline Headers::Base *createHeader(const QByteArray &type)
+    {
+        return createHeader(type.constData(), type.size());
+    }
+
 }
 
 } // namespace KMime

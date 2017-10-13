@@ -124,6 +124,11 @@ Base::~Base()
     d_ptr = nullptr;
 }
 
+void Base::from7BitString(const char *s, size_t len)
+{
+    from7BitString(QByteArray::fromRawData(s, len));
+}
+
 QByteArray Base::rfc2047Charset() const
 {
     if (d_ptr->encCS.isEmpty()) {
@@ -238,14 +243,19 @@ Structured::~Structured()
     d_ptr = nullptr;
 }
 
-void Structured::from7BitString(const QByteArray &s)
+
+void Structured::from7BitString(const char *s, size_t len)
 {
     Q_D(Structured);
     if (d->encCS.isEmpty()) {
         d->encCS = Content::defaultCharset();
     }
-    const char *cursor = s.constData();
-    parse(cursor, cursor + s.length());
+    parse(s, s + len);
+}
+
+void Structured::from7BitString(const QByteArray &s)
+{
+    from7BitString(s.constData(), s.length());
 }
 
 QString Structured::asUnicodeString() const

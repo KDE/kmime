@@ -137,6 +137,7 @@ public:
       Parses the given string. Take care of RFC2047-encoded strings.
       @param s The encoded header data.
     */
+    virtual void from7BitString(const char *s, size_t len);
     virtual void from7BitString(const QByteArray &s) = 0;
 
     /**
@@ -246,6 +247,7 @@ public:
     Unstructured();
     ~Unstructured();
 
+    using Base::from7BitString;
     void from7BitString(const QByteArray &s) override;
     QByteArray as7BitString(bool withHeaderType = true) const override;
 
@@ -298,6 +300,7 @@ public:
     Structured();
     ~Structured();
 
+    void from7BitString(const char *s, size_t len) override;
     void from7BitString(const QByteArray &s) override;
     QString asUnicodeString() const override;
     void fromUnicodeString(const QString &s, const QByteArray &b) override;

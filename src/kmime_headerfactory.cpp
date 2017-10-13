@@ -38,13 +38,13 @@ using namespace KMime;
 using namespace KMime::Headers;
 
 #define mk_header(hdr) \
-    if (qstrnicmp(type.constData(), hdr ::staticType(), type.size()) == 0) \
+    if (qstrnicmp(type, hdr ::staticType(), typeLen) == 0) \
         return new hdr
 
-Headers::Base *HeaderFactory::createHeader(const QByteArray &type)
+Headers::Base *HeaderFactory::createHeader(const char *type, size_t typeLen)
 {
-    Q_ASSERT(!type.isEmpty());
-    switch (type.at(0)) {
+    Q_ASSERT(type && *type);
+    switch (*type) {
         case 'b':
         case 'B':
             mk_header(Bcc);
