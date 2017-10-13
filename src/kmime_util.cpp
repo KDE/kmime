@@ -189,6 +189,8 @@ QByteArray unfoldHeader(const QByteArray &header)
     if (header.isEmpty()) {
         return result;
     }
+    // unfolding skips characters so result will be at worst header.size() long
+    result.reserve(header.size());
 
     int pos = 0, foldBegin = 0, foldMid = 0, foldEnd = 0;
     while ((foldMid = header.indexOf('\n', pos)) >= 0) {
