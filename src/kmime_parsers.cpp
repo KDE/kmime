@@ -22,7 +22,7 @@
 */
 #include "kmime_parsers.h"
 
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QByteArray>
 
 using namespace KMime::Parser;
@@ -176,13 +176,16 @@ bool UUEncoded::parse()
     int currentPos = 0;
     bool success = true, firstIteration = true;
 
+    const auto srcStr = QString::fromLatin1(m_src);
+    const QRegularExpression beginRegex(QStringLiteral("begin [0-9][0-9][0-9]"));
+    const QRegularExpression subjectRegex(QStringLiteral("[0-9]+/[0-9]+"));
+
     while (success) {
         int beginPos = currentPos, uuStart = currentPos, endPos = 0, lineCount = 0, MCount = 0, pos = 0, len = 0;
         bool containsBegin = false, containsEnd = false;
         QByteArray tmp, fileName;
 
-        if ((beginPos = QString::fromLatin1(m_src).indexOf(QRegExp(QStringLiteral("begin [0-9][0-9][0-9]")),
-                        currentPos)) > -1 &&
+        if ((beginPos = srcStr.indexOf(beginRegex, currentPos)) > -1 &&
                 (beginPos == 0 || m_src.at(beginPos - 1) == '\n')) {
             containsBegin = true;
             uuStart = m_src.indexOf('\n', beginPos);
@@ -226,9 +229,9 @@ bool UUEncoded::parse()
 
             if ((!containsBegin || !containsEnd) && !m_subject.isNull()) {
                 // message may be split up => parse subject
-                QRegExp rx(QStringLiteral("[0-9]+/[0-9]+"));
-                pos = rx.indexIn(QLatin1String(m_subject), 0);
-                len = rx.matchedLength();
+                const auto match = subjectRegex.match(QLatin1String(m_subject));
+                pos = match.capturedStart(0);
+                len = match.capturedLength(0);
                 if (pos != -1) {
                     tmp = m_subject.mid(pos, len);
                     pos = tmp.indexOf('/');
