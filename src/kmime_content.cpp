@@ -456,7 +456,9 @@ QVector<Content*> Content::attachments()
 
     auto ct = contentType(false);
     if (ct && ct->isMultipart() && !ct->isSubtype("related") && !ct->isSubtype("alternative")) {
-        Q_FOREACH (Content *child, contents()) {
+        const QVector<Content*> contentsList = contents();
+        result.reserve(contentsList.count());
+        Q_FOREACH (Content *child, contentsList) {
             if (isAttachment(child))
                 result.push_back(child);
             else
