@@ -1021,7 +1021,7 @@ public:
     QByteArray subType() const;
 
     /**
-      Sets the mimetype and clears already existing parameters.
+      Sets the mimetype.
       @param mimeType The new mimetype.
     */
     void setMimeType(const QByteArray &mimeType);

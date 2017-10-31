@@ -1680,7 +1680,6 @@ QByteArray ContentType::subType() const {
 void ContentType::setMimeType(const QByteArray & mimeType) {
     Q_D(ContentType);
     d->mimeType = mimeType;
-    Parametrized::clear();
 
     if (isMultipart()) {
         d->category = CCcontainer;
