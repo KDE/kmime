@@ -40,7 +40,8 @@ MultiPart::MultiPart(const QByteArray &src, const QByteArray &boundary)
 
 bool MultiPart::parse()
 {
-    QByteArray b = "--" + m_boundary, part;
+    QByteArray b = "--" + m_boundary;
+    QByteArray part;
     int pos1 = 0, pos2 = 0, blen = b.length();
 
     m_parts.clear();
@@ -130,36 +131,36 @@ QByteArray NonMimeParser::guessMimeType(const QByteArray &fileName)
         if (pos++ != -1) {
             tmp = fileName.mid(pos, fileName.length() - pos).toUpper();
             if (tmp == "JPG" || tmp == "JPEG") {
-                mimeType = "image/jpeg";
+                mimeType = QByteArrayLiteral("image/jpeg");
             } else if (tmp == "GIF") {
-                mimeType = "image/gif";
+                mimeType = QByteArrayLiteral("image/gif");
             } else if (tmp == "PNG") {
-                mimeType = "image/png";
+                mimeType = QByteArrayLiteral("image/png");
             } else if (tmp == "TIFF" || tmp == "TIF") {
-                mimeType = "image/tiff";
+                mimeType = QByteArrayLiteral("image/tiff");
             } else if (tmp == "XPM") {
-                mimeType = "image/x-xpixmap";
+                mimeType = QByteArrayLiteral("image/x-xpixmap");
             } else if (tmp == "XBM") {
-                mimeType = "image/x-xbitmap";
+                mimeType = QByteArrayLiteral("image/x-xbitmap");
             } else if (tmp == "BMP") {
-                mimeType = "image/bmp";
+                mimeType = QByteArrayLiteral("image/bmp");
             } else if (tmp == "TXT" ||
                        tmp == "ASC" ||
                        tmp == "H" ||
                        tmp == "C" ||
                        tmp == "CC" ||
                        tmp == "CPP") {
-                mimeType = "text/plain";
+                mimeType = QByteArrayLiteral("text/plain");
             } else if (tmp == "HTML" || tmp == "HTM") {
-                mimeType = "text/html";
+                mimeType = QByteArrayLiteral("text/html");
             } else {
-                mimeType = "application/octet-stream";
+                mimeType = QByteArrayLiteral("application/octet-stream");
             }
         } else {
-            mimeType = "application/octet-stream";
+            mimeType = QByteArrayLiteral("application/octet-stream");
         }
     } else {
-        mimeType = "application/octet-stream";
+        mimeType = QByteArrayLiteral("application/octet-stream");
     }
 
     return mimeType;
