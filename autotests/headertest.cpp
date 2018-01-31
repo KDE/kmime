@@ -836,6 +836,16 @@ void HeaderTest::testDateHeader()
     QCOMPARE(h->dateTime().time(), QTime(0, 1, 20));
     QCOMPARE(h->dateTime().utcOffset(), 0);
     delete h;
+
+    // date in a DST change to the future so in a time that doesn't exist
+    // unless you take the timezone into account
+    h = new Date;
+    h->from7BitString("Sun, 31 Mar 2013 02:29:44 -0500");
+    QVERIFY(!h->isEmpty());
+    QCOMPARE(h->dateTime().date(), QDate(2013, 3, 31));
+    QCOMPARE(h->dateTime().time(), QTime(2, 29, 44));
+    QCOMPARE(h->dateTime().utcOffset(), -18000);
+    delete h;
 }
 
 void HeaderTest::testLinesHeader()
