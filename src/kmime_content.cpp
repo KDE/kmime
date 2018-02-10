@@ -778,7 +778,7 @@ Content *KMime::Content::content(const ContentIndex &index) const
     }
     ContentIndex idx = index;
     unsigned int i = idx.pop() - 1; // one-based -> zero-based index
-    if (i < (unsigned int)d_ptr->contents().size()) {
+    if (i < static_cast<unsigned int>(d_ptr->contents().size())) {
         return d_ptr->contents().at(i)->content(idx);
     } else {
         return nullptr;

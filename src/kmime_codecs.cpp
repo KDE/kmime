@@ -72,8 +72,8 @@ QByteArray encodeRFC2047String(const QString &src, const QByteArray &charset,
         return encoded8Bit;
     }
 
-    uint encoded8BitLength = encoded8Bit.length();
-    for (unsigned int i = 0; i < encoded8BitLength; i++) {
+    int encoded8BitLength = encoded8Bit.length();
+    for (int i = 0; i < encoded8BitLength; i++) {
         if (encoded8Bit[i] == ' ') {   // encoding starts at word boundaries
             start = i + 1;
         }
@@ -263,7 +263,7 @@ QString decodeRFC2231String(const QByteArray &str, QByteArray &usedCS, const QBy
 
     char ch, ch2;
     p = 0;
-    while (p < (int)st.length()) {
+    while (p < st.length()) {
         if (st.at(p) == 37) {
             // Only try to decode the percent-encoded character if the percent sign
             // is really followed by two other characters, see testcase at bug 163024

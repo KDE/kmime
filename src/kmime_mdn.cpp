@@ -298,7 +298,7 @@ QString descriptionFor(DispositionType d,
         }
     }
     qWarning() << "KMime::MDN::descriptionFor(): No such disposition type:"
-               << (int)d;
+               << static_cast<int>(d);
     return QString();
 }
 

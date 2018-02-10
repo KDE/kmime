@@ -140,22 +140,16 @@ QString DateFormatter::dateString(time_t t, const QString &lang, bool shortForma
     switch (d->mFormat) {
     case Fancy:
         return d->fancy(t);
-        break;
     case Localized:
         return d->localized(t, shortFormat, lang);
-        break;
     case CTime:
         return d->cTime(t);
-        break;
     case Iso:
         return d->isoDate(t);
-        break;
     case Rfc:
         return d->rfc2822(t);
-        break;
     case Custom:
         return d->custom(t);
-        break;
     }
     return QString();
 }
