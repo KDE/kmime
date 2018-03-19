@@ -1886,7 +1886,6 @@ bool parseDateTime(const char *&scursor, const char *const send,
     //                "Jul" / "Aug" / "Sep" / "Oct" / "Nov" / "Dec"
 
     result = QDateTime();
-    QDateTime maybeDateTime;
 
     eatCFWS(scursor, send, isCRLF);
     if (scursor == send) {
@@ -2008,14 +2007,14 @@ bool parseDateTime(const char *&scursor, const char *const send,
         return false; // rfc2822, 3.3
     }
 
-    maybeDateTime.setDate(QDate(maybeYear, maybeMonth, maybeDay));
-    maybeDateTime.setTime(QTime(maybeHour, maybeMinute, maybeSecond));
+    const QDate maybeDate = QDate(maybeYear, maybeMonth, maybeDay);
+    const QTime maybeTime = QTime(maybeHour, maybeMinute, maybeSecond);
 
-    if (!maybeDateTime.isValid()) {
+    if (!maybeDate.isValid() || !maybeTime.isValid()) {
         return false;
     }
 
-    result = QDateTime(maybeDateTime.date(), maybeDateTime.time(), Qt::OffsetFromUTC, secsEastOfGMT);
+    result = QDateTime(maybeDate, maybeTime, Qt::OffsetFromUTC, secsEastOfGMT);
     //result = QDateTime( maybeDateTime, QDateTime::Spec( QDateTime::OffsetFromUTC, secsEastOfGMT ) );
     if (!result.isValid()) {
         return false;
