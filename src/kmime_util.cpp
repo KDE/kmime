@@ -389,7 +389,14 @@ QByteArray CRLFtoLF(const char *s)
 
 QByteArray LFtoCRLF(const QByteArray &s)
 {
-    if (s.contains("\r\n")) {
+    const int firstNewline = s.indexOf('\n');
+    if (firstNewline == -1) {
+        return s;
+    }
+    if (firstNewline > 0 && s.at(firstNewline - 1) == '\r') {
+        // We found \r\n already, don't change anything
+        // This check assumes that input is consistent in terms of newlines,
+        // but so did if (s.contains("\r\n")), too.
         return s;
     }
 

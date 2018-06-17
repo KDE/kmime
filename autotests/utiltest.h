@@ -35,6 +35,9 @@ private Q_SLOTS:
     void testIsSigned();
     void testIsCryptoPart_data();
     void testIsCryptoPart();
+    void testLFCRLF_data();
+    void testLFCRLF();
+    void testLFCRLF_performance();
 };
 
 #endif

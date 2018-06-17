@@ -231,3 +231,55 @@ void UtilTest::testIsCryptoPart()
     QCOMPARE(KMime::isCryptoPart(&c), isCrypto);
 }
 
+void UtilTest::testLFCRLF_data()
+{
+    QTest::addColumn<QByteArray>("input");
+    QTest::addColumn<QByteArray>("expected");
+    QTest::addColumn<QByteArray>("convertedBack");
+
+    const QByteArray noNewline("no newline character");
+    QTest::newRow("none") << noNewline << noNewline << noNewline;
+    QTest::newRow("alone") << QByteArray("\n") << QByteArray("\r\n") << QByteArray("\n");
+    QTest::newRow("CRLF") << QByteArray("\r\n") << QByteArray("\r\n") << QByteArray("\n");
+    QTest::newRow("single_first") << QByteArray("\nfoo") << QByteArray("\r\nfoo") << QByteArray("\nfoo");
+    QTest::newRow("single_last") << QByteArray("foo\n") << QByteArray("foo\r\n") << QByteArray("foo\n");
+    QTest::newRow("single_two_lines") << QByteArray("foo\nbar") << QByteArray("foo\r\nbar") << QByteArray("foo\nbar");
+    QTest::newRow("two_lines") << QByteArray("foo\nbar\n") << QByteArray("foo\r\nbar\r\n") << QByteArray("foo\nbar\n");
+    QTest::newRow("already_CRLF") << QByteArray("foo\r\nbar\r\n") << QByteArray("foo\r\nbar\r\n") << QByteArray("foo\nbar\n");
+    QTest::newRow("mixed_CRLF_LF_unchanged") << QByteArray("foo\r\nbar\n") << QByteArray("foo\r\nbar\n") << QByteArray("foo\nbar\n");
+    // out of scope QTest::newRow("mixed_LF_CRLF_unchanged") << QByteArray("foo\nbar\r\n") << QByteArray("foo\nbar\r\n") << QByteArray("foo\nbar\n");
+}
+
+void UtilTest::testLFCRLF()
+{
+    QFETCH(QByteArray, input);
+    QFETCH(QByteArray, expected);
+    QFETCH(QByteArray, convertedBack);
+
+    const QByteArray output = KMime::LFtoCRLF(input);
+    QCOMPARE(output, expected);
+    const QByteArray output2 = KMime::LFtoCRLF(input.constData()); // test the const char* overload
+    QCOMPARE(output2, expected);
+
+    const QByteArray back = KMime::CRLFtoLF(output);
+    QCOMPARE(back, convertedBack);
+}
+
+void UtilTest::testLFCRLF_performance()
+{
+    const QByteArray line = "This is one line\n";
+    const int count = 1000;
+    QByteArray input;
+    input.reserve(line.size() * count);
+    for (int i = 0 ; i < count; ++i) {
+        input += line;
+    }
+
+    QByteArray output;
+    QBENCHMARK {
+        output = KMime::LFtoCRLF(input);
+    }
+    QByteArray expected = input;
+    expected.replace('\n', "\r\n");
+    QCOMPARE(output, expected);
+}
