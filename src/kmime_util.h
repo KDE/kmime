@@ -55,7 +55,7 @@ KMIME_EXPORT extern QString nameForEncoding(KMime::Headers::contentEncoding enc)
   @param data the data to check encodings for
   @ since 4.4
 */
-KMIME_EXPORT QVector<KMime::Headers::contentEncoding> encodingsForData(const QByteArray &data);
+Q_REQUIRED_RESULT KMIME_EXPORT QVector<KMime::Headers::contentEncoding> encodingsForData(const QByteArray &data);
 
 /**
   * Set whether or not to use outlook compatible attachment filename encoding. Outlook

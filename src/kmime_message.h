@@ -93,7 +93,7 @@ public:
     /**
       Destroys this Message.
     */
-    ~Message();
+    ~Message() override;
 
     /**
       Returns the Message-ID header.

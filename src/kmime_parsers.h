@@ -41,16 +41,16 @@ class MultiPart
 public:
     MultiPart(const QByteArray &src, const QByteArray &boundary);
 
-    bool parse();
-    QVector<QByteArray> parts() const
+    Q_REQUIRED_RESULT bool parse();
+    Q_REQUIRED_RESULT QVector<QByteArray> parts() const
     {
         return m_parts;
     }
-    QByteArray preamble() const
+    Q_REQUIRED_RESULT QByteArray preamble() const
     {
         return m_preamble;
     }
-    QByteArray epilouge() const
+    Q_REQUIRED_RESULT QByteArray epilouge() const
     {
         return m_epilouge;
     }
@@ -70,35 +70,35 @@ public:
     explicit NonMimeParser(const QByteArray &src);
     virtual ~NonMimeParser();
     virtual bool parse() = 0;
-    bool isPartial() const
+    Q_REQUIRED_RESULT bool isPartial() const
     {
         return (m_partNr > -1 && m_totalNr > -1 && m_totalNr != 1);
     }
-    int partialNumber() const
+    Q_REQUIRED_RESULT int partialNumber() const
     {
         return m_partNr;
     }
-    int partialCount() const
+    Q_REQUIRED_RESULT int partialCount() const
     {
         return m_totalNr;
     }
-    bool hasTextPart() const
+    Q_REQUIRED_RESULT bool hasTextPart() const
     {
         return (m_text.length() > 1);
     }
-    QByteArray textPart() const
+    Q_REQUIRED_RESULT QByteArray textPart() const
     {
         return m_text;
     }
-    QVector<QByteArray> binaryParts() const
+    Q_REQUIRED_RESULT QVector<QByteArray> binaryParts() const
     {
         return m_bins;
     }
-    QVector<QByteArray> filenames() const
+    Q_REQUIRED_RESULT QVector<QByteArray> filenames() const
     {
         return m_filenames;
     }
-    QVector<QByteArray> mimeTypes() const
+    Q_REQUIRED_RESULT QVector<QByteArray> mimeTypes() const
     {
         return m_mimeTypes;
     }
@@ -120,7 +120,7 @@ class UUEncoded : public NonMimeParser
 public:
     UUEncoded(const QByteArray &src, const QByteArray &subject);
 
-    bool parse() override;
+    Q_REQUIRED_RESULT bool parse() override;
 
 private:
     QByteArray m_subject;
@@ -135,7 +135,7 @@ class YENCEncoded : public NonMimeParser
 public:
     explicit YENCEncoded(const QByteArray &src);
 
-    bool parse() override;
+    Q_REQUIRED_RESULT bool parse() override;
 
 private:
     static bool yencMeta(QByteArray &src, const QByteArray &name, int *value);

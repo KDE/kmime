@@ -144,12 +144,12 @@ public:
       Returns the encoded header.
       @param withHeaderType Specifies whether the header-type should be included.
     */
-    virtual QByteArray as7BitString(bool withHeaderType = true) const = 0;
+    Q_REQUIRED_RESULT virtual QByteArray as7BitString(bool withHeaderType = true) const = 0;
 
     /**
       Returns the charset that is used for RFC2047-encoding.
     */
-    QByteArray rfc2047Charset() const;
+    Q_REQUIRED_RESULT QByteArray rfc2047Charset() const;
 
     /**
       Sets the charset for RFC2047-encoding.
@@ -191,12 +191,12 @@ public:
     /**
       Checks if this header is of type @p t.
     */
-    bool is(const char *t) const;
+    Q_REQUIRED_RESULT bool is(const char *t) const;
 
     /**
       Checks if this header is a MIME header.
     */
-    bool isMimeHeader() const;
+    Q_REQUIRED_RESULT bool isMimeHeader() const;
 
 protected:
     /**

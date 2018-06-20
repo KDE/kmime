@@ -133,7 +133,7 @@ public:
     /**
       Returns true if this Content object is not empty.
     */
-    bool hasContent() const;
+    Q_REQUIRED_RESULT bool hasContent() const;
 
     /**
       Sets the Content to the given raw data, containing the Content head and
@@ -179,7 +179,7 @@ public:
       @since 4.4.
       @see setFrozen().
     */
-    bool isFrozen() const;
+    Q_REQUIRED_RESULT bool isFrozen() const;
 
     /**
       Freezes this Content if @p frozen is true; otherwise unfreezes it.
@@ -233,7 +233,7 @@ public:
 
       @see setHead().
     */
-    QByteArray head() const;
+    Q_REQUIRED_RESULT QByteArray head() const;
 
     /**
       Sets the Content header raw data.
@@ -251,7 +251,7 @@ public:
      * Returns all headers.
      * @since 5.7
      */
-    QVector<Headers::Base*> headers() const;
+    Q_REQUIRED_RESULT QVector<Headers::Base*> headers() const;
 
     /**
       Returns the first header of type @p type, if it exists.  Otherwise returns 0.
@@ -280,7 +280,7 @@ public:
       @param type the header type to find
       @since 4.2
     */
-    QVector<Headers::Base*> headersByType(const char *type) const;
+    Q_REQUIRED_RESULT QVector<Headers::Base*> headersByType(const char *type) const;
 
     /**
       Sets the specified header to this Content.
@@ -308,7 +308,7 @@ public:
       @param type The type of the header to look for.
       @return true if a header was found and removed.
     */
-    bool removeHeader(const char *type);
+    Q_REQUIRED_RESULT bool removeHeader(const char *type);
 
     /**
       Searches for the first header of type @p T, and deletes it, removing
@@ -324,7 +324,7 @@ public:
       @param type The type of the header to look for.
     */
     // TODO probably provide hasHeader<T>() too.
-    bool hasHeader(const char *type) const;
+    Q_REQUIRED_RESULT bool hasHeader(const char *type) const;
 
     /**
       Returns the Content-Type header.
@@ -374,17 +374,17 @@ public:
       (If the encoding is quoted-printable, this is only an approximate size.)
       This will return 0 for multipart contents or for encapsulated messages.
     */
-    int size();
+    Q_REQUIRED_RESULT int size();
 
     /**
       Returns the size of this Content and all sub-Contents.
     */
-    int storageSize() const;
+    Q_REQUIRED_RESULT int storageSize() const;
 
     /**
       Line count of this Content and all sub-Contents.
     */
-    int lineCount() const;
+    Q_REQUIRED_RESULT int lineCount() const;
 
     /**
       Returns the Content body raw data.
@@ -394,7 +394,7 @@ public:
 
       @see setBody().
     */
-    QByteArray body() const;
+    Q_REQUIRED_RESULT QByteArray body() const;
 
     /**
       Sets the Content body raw data.
@@ -415,7 +415,7 @@ public:
 
       @since 4.9
      */
-    QByteArray preamble() const;
+    Q_REQUIRED_RESULT QByteArray preamble() const;
 
     /**
       Sets the MIME preamble.
@@ -435,7 +435,7 @@ public:
 
       @since 4.9
      */
-    QByteArray epilogue() const;
+    Q_REQUIRED_RESULT QByteArray epilogue() const;
 
     /**
       Sets the MIME preamble.
@@ -461,7 +461,7 @@ public:
 
       @param useCrLf If true, use @ref CRLF instead of @ref LF for linefeeds.
     */
-    QByteArray encodedContent(bool useCrLf = false);
+    Q_REQUIRED_RESULT QByteArray encodedContent(bool useCrLf = false);
 
     /**
      * Like encodedContent(), with the difference that only the body will be returned, i.e. the
@@ -469,7 +469,7 @@ public:
      *
      * @since 4.6
      */
-    QByteArray encodedBody();
+    Q_REQUIRED_RESULT QByteArray encodedBody();
 
     /**
      * Returns the decoded Content body.
@@ -480,7 +480,7 @@ public:
     // TODO: KDE5: BIC: Rename this to decodedBody(), since only the body is returned.
     // In contrast, setContent() sets the head and the body!
     // Also, try to make this const.
-    QByteArray decodedContent();
+    Q_REQUIRED_RESULT QByteArray decodedContent();
 
     /**
       Returns the decoded text. Additional to decodedContent(), this also
@@ -497,7 +497,7 @@ public:
     */
     // TODO: KDE5: BIC: Convert to enums. Also, what if trimText = true but removeTrailingNewlines
     //                  is false?
-    QString decodedText(bool trimText = false,
+    Q_REQUIRED_RESULT QString decodedText(bool trimText = false,
                         bool removeTrailingNewlines = false);
 
     /**
@@ -529,14 +529,14 @@ public:
      * the primary body part (see textContent()).
      * @see KMime::isAttachment(), KMime::hasAttachment()
      */
-    QVector<Content*> attachments();
+    Q_REQUIRED_RESULT QVector<Content*> attachments();
 
     /**
      * For multipart contents, this will return a list of all multipart child contents.
      * For contents that are of mimetype message/rfc822, this will return a list with one entry,
      * and that entry is the encapsulated message, as it would be returned by bodyAsMessage().
      */
-    QVector<Content*> contents() const;
+    Q_REQUIRED_RESULT QVector<Content*> contents() const;
 
     /**
       Adds a new sub-Content. If the sub-Content is already part of another
@@ -608,14 +608,14 @@ public:
       if the Content is not found within the hierarchy.
       @param content the Content object to search.
     */
-    ContentIndex indexForContent(Content *content) const;
+    Q_REQUIRED_RESULT ContentIndex indexForContent(Content *content) const;
 
     /**
       Returns true if this is the top-level node in the MIME tree. The top-level node is always
       a Message or NewsArticle. However, a node can be a Message without being a top-level node when
       it is an encapsulated message.
     */
-    bool isTopLevel() const;
+    Q_REQUIRED_RESULT bool isTopLevel() const;
 
     /**
      * Sets a new parent to the Content and add to its contents list. If it already had a parent, it is removed from the
@@ -641,7 +641,7 @@ public:
      * Returns the index of this Content based on the topLevel() object.
      * @since 4.3
      */
-    ContentIndex index() const;
+    Q_REQUIRED_RESULT ContentIndex index() const;
 
     /**
      * @return true if this content is an encapsulated message, i.e. if it has the mimetype
@@ -650,7 +650,7 @@ public:
      * @since 4.5
      */
     //AK_REVIEW: move to MessageViewer/ObjectTreeParser
-    bool bodyIsMessage() const;
+    Q_REQUIRED_RESULT bool bodyIsMessage() const;
 
     /**
      * If this content is an encapsulated message, in which case bodyIsMessage() will return
@@ -671,7 +671,7 @@ public:
      * @since 4.5
      */
     //AK_REVIEW: move to MessageViewer/ObjectTreeParser
-    QSharedPointer<Message> bodyAsMessage() const;
+    Q_REQUIRED_RESULT QSharedPointer<Message> bodyAsMessage() const;
 
 protected:
     /**

@@ -57,14 +57,14 @@ public:
       Returns a string representation of the email address, without
       the angle brackets.
     */
-    QByteArray address() const;
+    Q_REQUIRED_RESULT QByteArray address() const;
 
-    AddrSpec addrSpec() const;
+    Q_REQUIRED_RESULT AddrSpec addrSpec() const;
 
     /**
       Returns the display name.
     */
-    QString name() const;
+    Q_REQUIRED_RESULT QString name() const;
 
     /**
       Sets the email address.
@@ -90,12 +90,12 @@ public:
     /**
       Returns true if this mailbox has an address.
     */
-    bool hasAddress() const;
+    Q_REQUIRED_RESULT bool hasAddress() const;
 
     /**
       Returns true if this mailbox has a display name.
     */
-    bool hasName() const;
+    Q_REQUIRED_RESULT bool hasName() const;
 
     /**
      * Describes how display names should be quoted
@@ -116,7 +116,7 @@ public:
      * @param quoting describes how the display name should be quoted
      * @since 4.5
      */
-    QString prettyAddress(Quoting quoting = QuoteNever) const;
+    Q_REQUIRED_RESULT QString prettyAddress(Quoting quoting = QuoteNever) const;
 
     /**
       Parses the given unicode string.
@@ -133,28 +133,28 @@ public:
 
       @param encCharset The charset used for encoding.
     */
-    QByteArray as7BitString(const QByteArray &encCharset) const;
+    Q_REQUIRED_RESULT QByteArray as7BitString(const QByteArray &encCharset) const;
 
     /**
      * Returns a list of mailboxes from an unicode string.
      *
      * @since 5.14
      */
-    static QVector<Mailbox> listFromUnicodeString(const QString &s);
+    Q_REQUIRED_RESULT static QVector<Mailbox> listFromUnicodeString(const QString &s);
 
     /**
      * Returns a list of mailboxes from an encoded 7bit string.
      *
      * @since 5.14
      */
-    static QVector<Mailbox> listFrom7BitString(const QByteArray &s);
+    Q_REQUIRED_RESULT static QVector<Mailbox> listFrom7BitString(const QByteArray &s);
 
     /**
      * Returns a unicode string representing the given list of mailboxes.
      *
      * @since 5.15
      */
-    static QString listToUnicodeString(const QVector<Mailbox> &mailboxes);
+    Q_REQUIRED_RESULT static QString listToUnicodeString(const QVector<Mailbox> &mailboxes);
 
 private:
     QString mDisplayName;

@@ -33,7 +33,7 @@ class Base;
 namespace HeaderParsing
 {
 
-QVector<KMime::Headers::Base *> parseHeaders(const QByteArray &head);
+Q_REQUIRED_RESULT QVector<KMime::Headers::Base *> parseHeaders(const QByteArray &head);
 
 }
 

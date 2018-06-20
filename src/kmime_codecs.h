@@ -46,14 +46,14 @@ namespace KMime
 
   @return the encoded string.
 */
-QByteArray encodeRFC2047String(const QString &src, const QByteArray &charset, bool addressHeader = false, bool allow8bitHeaders = false);
+Q_REQUIRED_RESULT QByteArray encodeRFC2047String(const QString &src, const QByteArray &charset, bool addressHeader = false, bool allow8bitHeaders = false);
 
 /**
  * Same as encodeRFC2047String(), but with a crucial difference: Instead of encoding the complete
  * string as a single encoded word, the string will be split up at control characters, and only parts of
  * the sentence that really need to be encoded will be encoded.
  */
-QByteArray encodeRFC2047Sentence(const QString &src, const QByteArray &charset);
+Q_REQUIRED_RESULT QByteArray encodeRFC2047Sentence(const QString &src, const QByteArray &charset);
 
 /**
   Decodes string @p src according to RFC2231
@@ -66,7 +66,7 @@ QByteArray encodeRFC2047Sentence(const QString &src, const QByteArray &charset);
 
   @return the decoded string.
 */
-QString decodeRFC2231String(const QByteArray &src, QByteArray &usedCS, const QByteArray &defaultCS = QByteArray(), bool forceCS = false);
+Q_REQUIRED_RESULT QString decodeRFC2231String(const QByteArray &src, QByteArray &usedCS, const QByteArray &defaultCS = QByteArray(), bool forceCS = false);
 
 /**
   Encodes string @p src according to RFC2231 using charset @p charset.
@@ -75,7 +75,7 @@ QString decodeRFC2231String(const QByteArray &src, QByteArray &usedCS, const QBy
   @param charset       charset to use.
   @return the encoded string.
 */
-QByteArray encodeRFC2231String(const QString &src, const QByteArray &charset);
+Q_REQUIRED_RESULT QByteArray encodeRFC2231String(const QString &src, const QByteArray &charset);
 
 } // namespace KMime
 

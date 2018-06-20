@@ -110,50 +110,50 @@ public:
     /**
       Returns the data #Type as derived from the class heuristics.
     */
-    Type type() const;
+    Q_REQUIRED_RESULT Type type() const;
 
     /**
       Returns true if the data #Type is EightBitData; false otherwise.
     */
-    bool isEightBitData() const;
+    Q_REQUIRED_RESULT bool isEightBitData() const;
 
     /**
       Returns true if the data #Type is EightBitText; false otherwise.
     */
-    bool isEightBitText() const;
+    Q_REQUIRED_RESULT bool isEightBitText() const;
 
     /**
       Returns true if the data #Type is SevenBitData; false otherwise.
     */
-    bool isSevenBitData() const;
+    Q_REQUIRED_RESULT bool isSevenBitData() const;
 
     /**
       Returns true if the data #Type is SevenBitText; false otherwise.
     */
-    bool isSevenBitText() const;
+    Q_REQUIRED_RESULT bool isSevenBitText() const;
 
     /**
       Returns true if the data contains trailing whitespace. i.e.,
       if any line ends with space (' ') or tab ('\\t').
     */
-    bool hasTrailingWhitespace() const;
+    Q_REQUIRED_RESULT bool hasTrailingWhitespace() const;
 
     /**
       Returns true if the data contains a line that starts with "From ".
     */
-    bool hasLeadingFrom() const;
+    Q_REQUIRED_RESULT bool hasLeadingFrom() const;
 
     /**
       Returns the percentage of printable characters in the data.
       The result is undefined if the number of data characters is zero.
     */
-    float printableRatio() const;
+    Q_REQUIRED_RESULT float printableRatio() const;
 
     /**
       Returns the percentage of control code characters (CTLs) in the data.
       The result is undefined if the number of data characters is zero.
     */
-    float controlCodesRatio() const;
+    Q_REQUIRED_RESULT float controlCodesRatio() const;
 
 private:
     //@cond PRIVATE

@@ -77,7 +77,7 @@ namespace HeaderParsing
 
   @return true if the input string was successfully decode; false otherwise.
 */
-KMIME_EXPORT bool parseEncodedWord(const char *&scursor,
+Q_REQUIRED_RESULT KMIME_EXPORT bool parseEncodedWord(const char *&scursor,
                                    const char *const send,
                                    QString &result, QByteArray &language,
                                    QByteArray &usedCS, const QByteArray &defaultCS = QByteArray(),
@@ -89,10 +89,10 @@ KMIME_EXPORT bool parseEncodedWord(const char *&scursor,
 
 /** You may or may not have already started parsing into the
     atom. This function will go on where you left off. */
-KMIME_EXPORT bool parseAtom(const char *&scursor, const char *const send,
+Q_REQUIRED_RESULT KMIME_EXPORT bool parseAtom(const char *&scursor, const char *const send,
                             QString &result, bool allow8Bit = false);
 
-KMIME_EXPORT bool parseAtom(const char *&scursor, const char *const send,
+Q_REQUIRED_RESULT KMIME_EXPORT bool parseAtom(const char *&scursor, const char *const send,
                             QPair<const char *, int> &result,
                             bool allow8Bit = false);
 
@@ -105,22 +105,22 @@ enum ParseTokenFlag {
 };
 Q_DECLARE_FLAGS(ParseTokenFlags, ParseTokenFlag)
 
-KMIME_EXPORT bool parseToken(const char *&scursor, const char *const send,
+Q_REQUIRED_RESULT KMIME_EXPORT bool parseToken(const char *&scursor, const char *const send,
                              QString &result, ParseTokenFlags flags = ParseTokenNoFlag);
 
-KMIME_EXPORT bool parseToken(const char *&scursor, const char *const send,
+Q_REQUIRED_RESULT KMIME_EXPORT bool parseToken(const char *&scursor, const char *const send,
                              QPair<const char *, int> &result,
                              ParseTokenFlags flags = ParseTokenNoFlag);
 
 /** @p scursor must be positioned after the opening openChar. */
-KMIME_EXPORT bool parseGenericQuotedString(const char *&scursor,
+Q_REQUIRED_RESULT KMIME_EXPORT bool parseGenericQuotedString(const char *&scursor,
         const char *const send,
         QString &result, bool isCRLF,
         const char openChar = '"',
         const char closeChar = '"');
 
 /** @p scursor must be positioned right after the opening '(' */
-KMIME_EXPORT bool parseComment(const char *&scursor, const char *const send,
+Q_REQUIRED_RESULT KMIME_EXPORT bool parseComment(const char *&scursor, const char *const send,
                                QString &result, bool isCRLF = false,
                                bool reallySave = true);
 
@@ -139,7 +139,7 @@ KMIME_EXPORT bool parseComment(const char *&scursor, const char *const send,
 
   @return true if the input phrase was successfully parsed; false otherwise.
 */
-KMIME_EXPORT bool parsePhrase(const char *&scursor, const char *const send,
+Q_REQUIRED_RESULT KMIME_EXPORT bool parsePhrase(const char *&scursor, const char *const send,
                               QString &result, bool isCRLF = false);
 
 /**
@@ -154,7 +154,7 @@ KMIME_EXPORT bool parsePhrase(const char *&scursor, const char *const send,
 
   @return true if the input phrase was successfully parsed; false otherwise.
 */
-KMIME_EXPORT bool parseDotAtom(const char *&scursor, const char *const send,
+Q_REQUIRED_RESULT KMIME_EXPORT bool parseDotAtom(const char *&scursor, const char *const send,
                                QString &result, bool isCRLF = false);
 
 /**
@@ -174,17 +174,17 @@ KMIME_EXPORT bool parseDotAtom(const char *&scursor, const char *const send,
 KMIME_EXPORT void eatCFWS(const char *&scursor, const char *const send,
                           bool isCRLF);
 
-KMIME_EXPORT bool parseDomain(const char *&scursor, const char *const send,
+Q_REQUIRED_RESULT KMIME_EXPORT bool parseDomain(const char *&scursor, const char *const send,
                               QString &result, bool isCRLF = false);
 
-KMIME_EXPORT bool parseObsRoute(const char *&scursor, const char *const send,
+Q_REQUIRED_RESULT KMIME_EXPORT bool parseObsRoute(const char *&scursor, const char *const send,
                                 QStringList &result, bool isCRLF = false,
                                 bool save = false);
 
-KMIME_EXPORT bool parseAddrSpec(const char *&scursor, const char *const send,
+Q_REQUIRED_RESULT KMIME_EXPORT bool parseAddrSpec(const char *&scursor, const char *const send,
                                 Types::AddrSpec &result, bool isCRLF = false);
 
-KMIME_EXPORT bool parseAngleAddr(const char *&scursor, const char *const send,
+Q_REQUIRED_RESULT KMIME_EXPORT bool parseAngleAddr(const char *&scursor, const char *const send,
                                  Types::AddrSpec &result, bool isCRLF = false);
 
 /**
@@ -203,30 +203,30 @@ KMIME_EXPORT bool parseAngleAddr(const char *&scursor, const char *const send,
   @param result the parsing result
   @param isCRLF true if input string is terminated with a CRLF.
 */
-KMIME_EXPORT bool parseMailbox(const char *&scursor, const char *const send,
+Q_REQUIRED_RESULT KMIME_EXPORT bool parseMailbox(const char *&scursor, const char *const send,
                                Types::Mailbox &result, bool isCRLF = false);
 
-KMIME_EXPORT bool parseGroup(const char *&scursor, const char *const send,
+Q_REQUIRED_RESULT KMIME_EXPORT bool parseGroup(const char *&scursor, const char *const send,
                              Types::Address &result, bool isCRLF = false);
 
-KMIME_EXPORT bool parseAddress(const char *&scursor, const char *const send,
+Q_REQUIRED_RESULT KMIME_EXPORT bool parseAddress(const char *&scursor, const char *const send,
                                Types::Address &result, bool isCRLF = false);
 
-KMIME_EXPORT bool parseAddressList(const char *&scursor,
+Q_REQUIRED_RESULT KMIME_EXPORT bool parseAddressList(const char *&scursor,
                                    const char *const send,
                                    Types::AddressList &result,
                                    bool isCRLF = false);
 
-KMIME_EXPORT bool parseParameter(const char *&scursor, const char *const send,
+Q_REQUIRED_RESULT KMIME_EXPORT bool parseParameter(const char *&scursor, const char *const send,
                                  QPair<QString, Types::QStringOrQPair> &result,
                                  bool isCRLF = false);
 
-KMIME_EXPORT bool parseParameterList(const char *&scursor,
+Q_REQUIRED_RESULT KMIME_EXPORT bool parseParameterList(const char *&scursor,
                                      const char *const send,
                                      QMap<QString, QString> &result,
                                      bool isCRLF = false);
 
-KMIME_EXPORT bool parseRawParameterList(const char *&scursor,
+Q_REQUIRED_RESULT KMIME_EXPORT bool parseRawParameterList(const char *&scursor,
                                         const char *const send,
                                         QMap<QString, Types::QStringOrQPair> &result,
                                         bool isCRLF = false);
@@ -236,7 +236,7 @@ KMIME_EXPORT bool parseRawParameterList(const char *&scursor,
  *
  * @since 4.5
  */
-KMIME_EXPORT bool parseParameterListWithCharset(const char *&scursor,
+Q_REQUIRED_RESULT KMIME_EXPORT bool parseParameterListWithCharset(const char *&scursor,
         const char *const send,
         QMap<QString, QString> &result,
         QByteArray &charset, bool isCRLF = false);
@@ -248,14 +248,14 @@ KMIME_EXPORT bool parseParameterListWithCharset(const char *&scursor,
   @param result the parsing result
   @returns The number of parsed digits (don't confuse with @p result!)
 */
-KMIME_EXPORT int parseDigits(const char *&scursor, const char *const send, int &result);
+Q_REQUIRED_RESULT KMIME_EXPORT int parseDigits(const char *&scursor, const char *const send, int &result);
 
-KMIME_EXPORT bool parseTime(const char *&scursor, const char *const send,
+Q_REQUIRED_RESULT KMIME_EXPORT bool parseTime(const char *&scursor, const char *const send,
                             int &hour, int &min, int &sec,
                             long int &secsEastOfGMT,
                             bool &timeZoneKnown, bool isCRLF = false);
 
-KMIME_EXPORT bool parseDateTime(const char *&scursor, const char *const send,
+Q_REQUIRED_RESULT KMIME_EXPORT bool parseDateTime(const char *&scursor, const char *const send,
                                 QDateTime &result, bool isCRLF = false);
 
 /**
@@ -264,7 +264,7 @@ KMIME_EXPORT bool parseDateTime(const char *&scursor, const char *const send,
  *
  * @since 4.4
  */
-KMIME_EXPORT KMime::Headers::Base *extractFirstHeader(QByteArray &head);
+Q_REQUIRED_RESULT KMIME_EXPORT KMime::Headers::Base *extractFirstHeader(QByteArray &head);
 
 /**
  * Extract the header header and the body from a complete content.
