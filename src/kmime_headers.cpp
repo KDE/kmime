@@ -77,7 +77,7 @@
     subclass::~subclass() { \
         Q_D(subclass); \
         delete d; \
-        d_ptr = 0; \
+        d_ptr = nullptr; \
     }
 
 // end kmime_mk_trivial_ctor_with_dptr

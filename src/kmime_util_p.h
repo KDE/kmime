@@ -40,7 +40,7 @@ extern QByteArray cachedCharset(const QByteArray &name);
   @param folded true if the headder is folded into multiple lines
   @returns the end index of the header, -1 if the @p dataBegin was -1.
 */
-extern int findHeaderLineEnd(const QByteArray &src, int &dataBegin, bool *folded = 0);
+extern int findHeaderLineEnd(const QByteArray &src, int &dataBegin, bool *folded = nullptr);
 
 /**
   Finds the first header of type @p name in @p src.
@@ -49,7 +49,7 @@ extern int findHeaderLineEnd(const QByteArray &src, int &dataBegin, bool *folded
   @param folded true if the headder is folded into multiple lines
   @returns the begin index of the header, -1 if not found.
 */
-extern int indexOfHeader(const QByteArray &src, const QByteArray &name, int &end, int &dataBegin, bool *folded = 0);
+extern int indexOfHeader(const QByteArray &src, const QByteArray &name, int &end, int &dataBegin, bool *folded = nullptr);
 
 /**
  *  Uses current time, pid and random numbers to construct a string
