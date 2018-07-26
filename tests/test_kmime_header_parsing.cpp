@@ -463,8 +463,8 @@ int main(int argc, char *argv[])
 
         cout << (ok ? "OK" : "BAD") << endl
              << "result.time (in local timezone): " << ctime(&timet)
-             << "result.secsEastOfGMT: " << result.utcOffset()
-             << " (" << result.utcOffset() / 60 << "mins)"
+             << "result.secsEastOfGMT: " << result.offsetFromUtc()
+             << " (" << result.offsetFromUtc() / 60 << "mins)"
              << endl;
     }
     break;

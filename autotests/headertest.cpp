@@ -739,7 +739,7 @@ void HeaderTest::testDateHeader()
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->dateTime().date(), QDate(1997, 11, 21));
     QCOMPARE(h->dateTime().time(), QTime(9, 55, 6));
-    QCOMPARE(h->dateTime().utcOffset(), -6 * 3600);
+    QCOMPARE(h->dateTime().offsetFromUtc(), -6 * 3600);
     QCOMPARE(h->as7BitString(), QByteArray("Date: Fri, 21 Nov 1997 09:55:06 -0600"));
 
     // clear it again
@@ -753,7 +753,7 @@ void HeaderTest::testDateHeader()
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->dateTime().date(), QDate(1969, 2, 13));
     QCOMPARE(h->dateTime().time(), QTime(23, 32));
-    QCOMPARE(h->dateTime().utcOffset(), -12600);
+    QCOMPARE(h->dateTime().offsetFromUtc(), -12600);
     QCOMPARE(h->as7BitString(false), QByteArray("Thu, 13 Feb 1969 23:32:00 -0330"));
     delete h;
 
@@ -763,7 +763,7 @@ void HeaderTest::testDateHeader()
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->dateTime().date(), QDate(1997, 11, 21));
     QCOMPARE(h->dateTime().time(), QTime(9, 55, 6));
-    QCOMPARE(h->dateTime().utcOffset(), 0);
+    QCOMPARE(h->dateTime().offsetFromUtc(), 0);
     delete h;
 
     // obsolete whitespaces and commnets (from RFC 2822, Appendix A.6.3)
@@ -772,7 +772,7 @@ void HeaderTest::testDateHeader()
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->dateTime().date(), QDate(1997, 11, 21));
     QCOMPARE(h->dateTime().time(), QTime(9, 55, 6));
-    QCOMPARE(h->dateTime().utcOffset(), -6 * 3600);
+    QCOMPARE(h->dateTime().offsetFromUtc(), -6 * 3600);
     delete h;
 
     // Make sure uppercase OCT is parsed correctly - bug 150620
@@ -781,7 +781,7 @@ void HeaderTest::testDateHeader()
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->dateTime().date(), QDate(2008, 10, 8));
     QCOMPARE(h->dateTime().time(), QTime(16, 54, 05));
-    QCOMPARE(h->dateTime().utcOffset(), 0);
+    QCOMPARE(h->dateTime().offsetFromUtc(), 0);
     delete h;
 
     // Test for bug 111633, year < 1970
@@ -790,7 +790,7 @@ void HeaderTest::testDateHeader()
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->dateTime().date(), QDate(1956, 8, 27));
     QCOMPARE(h->dateTime().time(), QTime(21, 31, 46));
-    QCOMPARE(h->dateTime().utcOffset(), +2 * 3600);
+    QCOMPARE(h->dateTime().offsetFromUtc(), +2 * 3600);
     delete h;
 
     // Test for bug 207766
@@ -799,7 +799,7 @@ void HeaderTest::testDateHeader()
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->dateTime().date(), QDate(2009, 9, 18));
     QCOMPARE(h->dateTime().time(), QTime(4, 44, 55));
-    QCOMPARE(h->dateTime().utcOffset(), -4 * 3600);
+    QCOMPARE(h->dateTime().offsetFromUtc(), -4 * 3600);
     delete h;
 
     // Test for bug 260761
@@ -808,7 +808,7 @@ void HeaderTest::testDateHeader()
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->dateTime().date(), QDate(2010, 12, 18));
     QCOMPARE(h->dateTime().time(), QTime(14, 1, 21));
-    QCOMPARE(h->dateTime().utcOffset(), 0);
+    QCOMPARE(h->dateTime().offsetFromUtc(), 0);
     delete h;
 
     // old asctime()-like formatted date; regression to KDE3; see bug 117848
@@ -817,7 +817,7 @@ void HeaderTest::testDateHeader()
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->dateTime().date(), QDate(2006, 3, 30));
     QCOMPARE(h->dateTime().time(), QTime(18, 36, 28));
-    QCOMPARE(h->dateTime().utcOffset(), 2 * 3600);
+    QCOMPARE(h->dateTime().offsetFromUtc(), 2 * 3600);
     delete h;
 
     h = new Date;
@@ -825,7 +825,7 @@ void HeaderTest::testDateHeader()
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->dateTime().date(), QDate(2006, 3, 30));
     QCOMPARE(h->dateTime().time(), QTime(18, 36, 28));
-    QCOMPARE(h->dateTime().utcOffset(), 0);
+    QCOMPARE(h->dateTime().offsetFromUtc(), 0);
     delete h;
 
     // regression to KDE3; see bug 54098
@@ -834,7 +834,7 @@ void HeaderTest::testDateHeader()
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->dateTime().date(), QDate(2003, 2, 4));
     QCOMPARE(h->dateTime().time(), QTime(0, 1, 20));
-    QCOMPARE(h->dateTime().utcOffset(), 0);
+    QCOMPARE(h->dateTime().offsetFromUtc(), 0);
     delete h;
 
     // date in a DST change to the future so in a time that doesn't exist
@@ -844,7 +844,7 @@ void HeaderTest::testDateHeader()
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->dateTime().date(), QDate(2013, 3, 31));
     QCOMPARE(h->dateTime().time(), QTime(2, 29, 44));
-    QCOMPARE(h->dateTime().utcOffset(), -18000);
+    QCOMPARE(h->dateTime().offsetFromUtc(), -18000);
     delete h;
 }
 
