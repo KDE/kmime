@@ -18,7 +18,7 @@ include(FeatureSummary)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
-include(ECMCoverageOption)
+
 
 
 set(KMIME_LIB_VERSION ${PIM_VERSION})
