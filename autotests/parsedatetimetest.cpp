@@ -73,8 +73,8 @@ void ParseDateTimeTest::testParseDateTime()
     const char *scursor = input.constData();
     const char *send = input.constData() + input.length();
 
-    KMime::HeaderParsing::parseDateTime(scursor, send, result, false);
-
+    const bool success = KMime::HeaderParsing::parseDateTime(scursor, send, result, false);
+    QCOMPARE(success, !result.isNull());
     QCOMPARE(result, expResult);
 }
 
