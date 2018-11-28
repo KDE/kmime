@@ -52,7 +52,7 @@ namespace Types
 // byte array or a string.
 // In most places where this is used, it should simply be replaced by QByteArray
 struct KMIME_EXPORT QStringOrQPair {
-    QStringOrQPair() : qstring(), qpair(0, 0) {}
+    QStringOrQPair() : qstring(), qpair(nullptr, 0) {}
     QString qstring;
     QPair<const char *, int> qpair;
 };
