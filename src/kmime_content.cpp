@@ -342,7 +342,7 @@ QByteArray Content::decodedContent()
             KCodecs::Codec *codec = KCodecs::Codec::codecForName("base64");
             Q_ASSERT(codec);
             ret.resize(codec->maxDecodedSizeFor(d_ptr->body.size()));
-            KCodecs::Decoder *decoder = codec->makeDecoder();
+            QScopedPointer<KCodecs::Decoder> decoder(codec->makeDecoder());
             QByteArray::const_iterator inputIt = d_ptr->body.constBegin();
             QByteArray::iterator resultIt = ret.begin();
             decoder->decode(inputIt, d_ptr->body.constEnd(), resultIt, ret.end());
