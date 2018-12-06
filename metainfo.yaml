@@ -14,5 +14,3 @@ libraries:
 
 public_lib: true
 group: kdepim
-platforms:
-    - name: Linux
