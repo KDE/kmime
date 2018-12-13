@@ -25,7 +25,7 @@
 
 #include "kmime_export.h"
 #include "kmime_message.h"
-#include <supertrait.h>
+//#include <supertrait.h>
 
 #include <QSharedPointer>
 
@@ -92,12 +92,12 @@ protected:
 
 } // namespace KMime
 
-//@cond PRIVATE
-// super class trait specialization
-namespace Akonadi
-{
-template <> struct SuperClass<KMime::NewsArticle> : public SuperClassTrait<KMime::Message> {};
-}
+////@cond PRIVATE
+//// super class trait specialization
+//namespace Akonadi
+//{
+//template <> struct SuperClass<KMime::NewsArticle> : public SuperClassTrait<KMime::Message> {};
+//}
 //@endcond
 
 #endif // __KMIME_NEWSARTICLE_H__
