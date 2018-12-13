@@ -48,7 +48,7 @@ public:
     /**
       Destroys this NewsArticle.
     */
-    ~NewsArticle();
+    ~NewsArticle() override;
 
     /**
       Returns the Control header.
