@@ -4,9 +4,9 @@ set(PIM_VERSION "5.10.40")
 project(KMime VERSION ${PIM_VERSION})
 
 # ECM setup
-set(KF5_VERSION "5.53.0")
+set(KF5_MIN_VERSION "5.53.0")
 
-find_package(ECM ${KF5_VERSION} CONFIG REQUIRED)
+find_package(ECM ${KF5_MIN_VERSION} CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${KMime_SOURCE_DIR}/cmake ${ECM_MODULE_PATH})
 
 include(GenerateExportHeader)
@@ -32,8 +32,8 @@ ecm_setup_version(PROJECT VARIABLE_PREFIX KMIME
 )
 
 ########### Find packages ###########
-find_package(KF5I18n ${KF5_VERSION} CONFIG REQUIRED)
-find_package(KF5Codecs ${KF5_VERSION} CONFIG REQUIRED)
+find_package(KF5I18n ${KF5_MIN_VERSION} CONFIG REQUIRED)
+find_package(KF5Codecs ${KF5_MIN_VERSION} CONFIG REQUIRED)
 add_definitions(-DTRANSLATION_DOMAIN=\"libkmime5\")
 
 #add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x060000)
