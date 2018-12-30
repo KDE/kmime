@@ -1,7 +1,6 @@
 # The KMime headers names are prepended with kmime_ to avoid name clashes.
 # We can't use ecm_generate_headers if the CamelCase header doesn't match the filename
 set(KMime_HEADERS
-  Codecs
   Content
   ContentIndex
   DateFormatter
