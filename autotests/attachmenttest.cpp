@@ -167,7 +167,7 @@ void AttachmentTest::testNestedMultipart()
     att->contentType()->setName(QStringLiteral("attachment.jpg"), "utf-8");
     mixed->addContent(att);
 
-    mixed->contentType("multipart/mixed");
+    mixed->contentType()->setMimeType("multipart/mixed");
 
     QVERIFY(KMime::hasAttachment(root));
     QVERIFY(KMime::hasAttachment(mixed));
