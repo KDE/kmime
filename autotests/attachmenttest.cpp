@@ -209,3 +209,93 @@ void AttachmentTest::testEncrypted()
     QCOMPARE(hasAttachment(root), false);
     delete root;
 }
+
+void AttachmentTest::testAttachment1()
+{
+    auto root = new KMime::Message;
+    root->setContent("From: Sender <sender@test.org>\n"
+                     "To: Receiver <receiver@test.org>\n"
+                     "Subject: Test\n"
+                     "Date: Thu, 19 Jul 2018 10:30:06 +0200\n"
+                     "MIME-Version: 1.0\n"
+                     "Content-Type: multipart/mixed; boundary=\"nextPart5103690.GVhdRC0Mqz\"\n"
+                     "Content-Transfer-Encoding: 7Bit\n"
+                     "\n"
+                     "This is a multi-part message in MIME format.\n"
+                     "\n"
+                     "--nextPart5103690.GVhdRC0Mqz\n"
+                     "Content-Transfer-Encoding: 7Bit\n"
+                     "Content-Type: text/plain; charset=\"us-ascii\"\n"
+                     "\n"
+                     "Foo\n"
+                     "\n"
+                     "--nextPart5103690.GVhdRC0Mqz\n"
+                     "Content-Disposition: attachment; filename=\"Screenshot_20180719_102529.png\"\n"
+                     "Content-Transfer-Encoding: base64\n"
+                     "Content-Type: image/png; name=\"Screenshot_20180719_102529.png\"\n"
+                     "\n"
+                     "ddd\n"
+                     "\n"
+                     "--nextPart5103690.GVhdRC0Mqz\n"
+                     "Content-Disposition: attachment; filename=\"Screenshot_20180719_102550.png\"\n"
+                     "Content-Transfer-Encoding: base64\n"
+                     "Content-Type: image/png; name=\"Screenshot_20180719_102550.png\"\n"
+                     "\n"
+                     "zzzz\n"
+                     "\n"
+                     "--nextPart5103690.GVhdRC0Mqz--\n");
+
+        root->parse();
+        QCOMPARE(hasAttachment(root), true);
+        delete root;
+}
+
+void AttachmentTest::testAttachment2()
+{
+    auto root = new KMime::Message;
+    root->setContent("From: Sender <sender@test.org>\n"
+                     "Content-Type: multipart/alternative; boundary=\"Apple-Mail=_627B41D2-E6ED-4B17-8F96-6CD63EC055AE\"\n"
+                     "MIME-Version: 1.0\n"
+                     "Subject: Test\n"
+                     "Date: Tue, 11 Dec 2018 10:44:41 +0000\n"
+                     "To: Receiver <receiver@test.org>\n"
+                     "\n"
+                     "\n"
+                     "\n"
+                     "--Apple-Mail=_627B41D2-E6ED-4B17-8F96-6CD63EC055AE\n"
+                     "Content-Transfer-Encoding: quoted-printable\n"
+                     "Content-Type: text/plain; charset=\"us-ascii\"\n"
+                     "\n"
+                     "Text blabla\n"
+                     "\n"
+                     "--Apple-Mail=_627B41D2-E6ED-4B17-8F96-6CD63EC055AE\n"
+                     "Content-Type: multipart/mixed; boundary=\"Apple-Mail=_5FDAE280-1EA6-4604-9F81-BBB9B9137CE1\"\n"
+                     "\n"
+                     "\n"
+                     "--Apple-Mail=_5FDAE280-1EA6-4604-9F81-BBB9B9137CE1\n"
+                     "Content-Transfer-Encoding: 7bit\n"
+                     "Content-Type: text/html; charset=\"us-ascii\"\n"
+                     "\n"
+                     "<html><head><body>foo</body></html>\n"
+                     "--Apple-Mail=_5FDAE280-1EA6-4604-9F81-BBB9B9137CE1\n"
+                     "Content-Disposition: inline; filename=\"bla.pdf\"\n"
+                     "Content-Type: application/pdf; name=\"bla.pdf\"; x-unix-mode=\"0644\"\n"
+                     "Content-Transfer-Encoding: base64\n"
+                     "\n"
+                     "bla\n"
+                     "\n"
+                     "--Apple-Mail=_5FDAE280-1EA6-4604-9F81-BBB9B9137CE1\n"
+                     "Content-Transfer-Encoding: quoted-printable\n"
+                     "Content-Type: text/html; charset=\"us-ascii\"\n"
+                     "\n"
+                     "<html><body>foo html</body></html>=\n"
+                     "\n"
+                     "--Apple-Mail=_5FDAE280-1EA6-4604-9F81-BBB9B9137CE1--\n"
+                     "\n"
+                     "--Apple-Mail=_627B41D2-E6ED-4B17-8F96-6CD63EC055AE--\n");
+
+        root->parse();
+        //Fix show has attachment
+        //QCOMPARE(hasAttachment(root), true);
+        delete root;
+}
