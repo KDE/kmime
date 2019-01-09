@@ -613,7 +613,7 @@ bool hasAttachment(Content *content)
 
     // Ok, content itself is not an attachment. now we deal with multiparts
     auto ct = content->contentType(false);
-    if (ct && ct->isMultipart() && !ct->isSubtype("related") && !ct->isSubtype("alternative")) {
+    if (ct && ct->isMultipart() && !ct->isSubtype("related")) {// && !ct->isSubtype("alternative")) {
         Q_FOREACH (Content *child, content->contents()) {
             if (hasAttachment(child)) {
                 return true;
