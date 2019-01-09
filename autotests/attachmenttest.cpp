@@ -296,6 +296,6 @@ void AttachmentTest::testAttachment2()
 
         root->parse();
         //Fix show has attachment
-        //QCOMPARE(hasAttachment(root), true);
+        QCOMPARE(hasAttachment(root), true);
         delete root;
 }
