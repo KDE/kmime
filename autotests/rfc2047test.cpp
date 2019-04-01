@@ -16,7 +16,7 @@
     Boston, MA 02110-1301, USA.
 */
 
-#include <qtest.h>
+#include <QTest>
 
 #include "rfc2047test.h"
 

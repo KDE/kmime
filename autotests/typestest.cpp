@@ -19,7 +19,7 @@
 
 #include "kmime_types.h"
 
-#include <qtest.h>
+#include <QTest>
 #include <QObject>
 #include <QDebug>
 

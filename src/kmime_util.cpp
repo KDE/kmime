@@ -34,7 +34,7 @@
 
 #include <klocalizedstring.h>
 #include <kcharsets.h>
-#include <qdebug.h>
+#include <QDebug>
 #include <QCoreApplication>
 
 #include <QVector>

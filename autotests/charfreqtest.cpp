@@ -18,7 +18,7 @@
 */
 
 #include "charfreqtest.h"
-#include <qtest.h>
+#include <QTest>
 
 #include <QDebug>
 

@@ -37,7 +37,7 @@
 #include "kmime_codecs.h"
 
 #include <klocalizedstring.h>
-#include <qdebug.h>
+#include <QDebug>
 
 #include <QByteArray>
 

@@ -18,8 +18,8 @@
 */
 
 #include "messagetest.h"
-#include <qtest.h>
-#include <qdebug.h>
+#include <QTest>
+#include <QDebug>
 #include <QFile>
 #include <kmime_codecs.cpp>
 

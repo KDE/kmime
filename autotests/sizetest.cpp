@@ -21,7 +21,7 @@
 #include "kmime_content_p.h"
 #include "kmime_headers_p.h"
 
-#include <qtest.h>
+#include <QTest>
 #include <QObject>
 #include <QDebug>
 

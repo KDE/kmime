@@ -24,7 +24,7 @@
 
 using namespace KMime;
 
-#include <qtest.h>
+#include <QTest>
 
 QTEST_MAIN(ContentIndexTest)
 

@@ -22,7 +22,7 @@
 //#include <typeinfo>
 
 #include <QDebug>
-#include <qtest.h>
+#include <QTest>
 
 #include <kmime_headerfactory_p.h>
 #include <kmime_headers.h>

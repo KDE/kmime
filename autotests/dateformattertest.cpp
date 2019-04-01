@@ -19,7 +19,7 @@
 
 #include "kmime_dateformatter.h"
 
-#include <qtest.h>
+#include <QTest>
 #include <QObject>
 #include <QDateTime>
 #include <QDebug>

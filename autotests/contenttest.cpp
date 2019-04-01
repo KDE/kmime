@@ -20,7 +20,7 @@
 #include "contenttest.h"
 
 #include <QDebug>
-#include <qtest.h>
+#include <QTest>
 
 #include <kmime_content.h>
 #include <kmime_headers.h>

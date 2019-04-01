@@ -19,7 +19,7 @@
 #undef QT_USE_FAST_CONCATENATION
 #undef QT_USE_FAST_OPERATOR_PLUS
 
-#include <qtest.h>
+#include <QTest>
 
 #include "attachmenttest.h"
 

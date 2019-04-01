@@ -31,7 +31,7 @@
 #include <QVector>
 #include <QFlags>
 
-#include <qdatetime.h>
+#include <QDateTime>
 
 template <typename K, typename V> class QMap;
 class QStringList;

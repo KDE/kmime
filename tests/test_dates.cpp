@@ -1,6 +1,6 @@
 #include "kmime_dateformatter.h"
 #include "kmime_header_parsing.h"
-#include <qdebug.h>
+#include <QDebug>
 using namespace KMime;
 
 int
