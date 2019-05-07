@@ -31,12 +31,12 @@
   @authors the KMime authors (see AUTHORS file)
 
   @glossary @anchor RFC2822 @anchor rfc2822 @b RFC @b 2822:
-  RFC that defines the <a href="http://tools.ietf.org/html/rfc2822">
+  RFC that defines the <a href="https://tools.ietf.org/html/rfc2822">
   Internet Message Format</a>.
 
   @glossary @anchor ISO8601 @anchor iso8601 @b ISO @b 8601:
   International Standards Organization (ISO) standard that defines the
-  <a href="http://http://en.wikipedia.org/wiki/ISO_8601">
+  <a href="https://en.wikipedia.org/wiki/ISO_8601">
   international standard for date and time representations</a>.
 
   @glossary @anchor ctime @b ctime:

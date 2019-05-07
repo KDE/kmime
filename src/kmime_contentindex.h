@@ -27,7 +27,7 @@
   @authors Volker Krause \<vkrause@kde.org\>
 
   @glossary @anchor RFC3501 @anchor rfc3501 @b RFC @b 3501:
-  RFC that defines the <a href="http://tools.ietf.org/html/rfc3501">
+  RFC that defines the <a href="https://tools.ietf.org/html/rfc3501">
   Internet Message Access Protocol (IMAP)</a>.
 */
 

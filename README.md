@@ -10,11 +10,11 @@ newsgroup articles are based on the same standard called MIME, which stands for
 refer to both mail messages and newsgroup articles.
 
 KMime deals solely with the in-memory representation of messages, topics such a transport or storage
-of messages are handled by other libraries, for example by [the mailtransport library](http://api.kde.org/4.x-api/kdepimlibs-apidocs/mailtransport/html/index.html)
-or by [the KIMAP library](http://api.kde.org/4.x-api/kdepimlibs-apidocs/kimap/html/index.html).
+of messages are handled by other libraries, for example by [the mailtransport library](https://api.kde.org/kdepim/kmailtransport/html/index.html)
+or by [the KIMAP library](https://api.kde.org/kdepim/kimap/html/index.html).
 Similary, this library does not deal with displaying messages or advanced composing, for those there
 are the [messageviewer](http://api.kde.org/4.x-api/kdepim-apidocs/messageviewer/html/index.html)
-and the [messagecomposer](http://websvn.kde.org/trunk/KDE/kdepim/messagecomposer/")
+and the [messagecomposer](https://websvn.kde.org/trunk/KDE/kdepim/messagecomposer/")
 components in the KDEPIM module.
 
 KMime's main function is to parse, modify and assemble messages in-memory. In a
@@ -48,22 +48,22 @@ The MIME standard is quite new (1993), email and usenet existed way before the M
 existence. Because of this, the MIME standard has to keep backwards compatibility. The email
 standard before MIME lacked many capabilities like encodings other than ASCII or attachments. These
 and other things were later added by MIME. The standard for messages before MIME is defined in
-[RFC 5233](http://tools.ietf.org/html/rfc5322). In [RFC 2045](http://tools.ietf.org/html/rfc2045)
-to [RFC 2049](http://tools.ietf.org/html/rfc2049), several backward-compatible extensions
+[RFC 5233](https://tools.ietf.org/html/rfc5322). In [RFC 2045](https://tools.ietf.org/html/rfc2045)
+to [RFC 2049](https://tools.ietf.org/html/rfc2049), several backward-compatible extensions
 to the basic message format are defined, adding support for attachments, different encodings and many
 others.
 
-Actually, there is an even older standard, defined in [RFC 733](http://tools.ietf.org/html/rfc733)
+Actually, there is an even older standard, defined in [RFC 733](https://tools.ietf.org/html/rfc733)
 (*Standard for the format of ARPA network text messages*, introduced in 1977).
 This standard is now obsoleted by RFC 5322, but backwards compatibilty is in some cases supported, as
 there are still messages in this format around.
 
 Since pre-MIME messages had no way to handle attachments, attachments were sometimes added to the message
-text in an [uuencoded](http://en.wikipedia.org/wiki/Uuencoding) form. Although this is also
+text in an [uuencoded](https://en.wikipedia.org/wiki/Uuencoding) form. Although this is also
 obsolete, reading uuencoded attachments is still supported by KMime.
 
 After MIME was introduced, people realized that there is no way to have the filename of attachments
-encoded in anything different than ASCII. Thus, [RFC 2231](http://tools.ietf.org/html/rfc2231)
+encoded in anything different than ASCII. Thus, [RFC 2231](https://tools.ietf.org/html/rfc2231)
 was introduced to allow abitrary encodings for parameter values, such as the attachment filename.
 
 ## MIME by examples ## {#examples}
@@ -143,7 +143,7 @@ a byte array as a text string is called **decoding** the text. Converting a text
 In Qt, the class for text strings is QString, and the class for byte arrays is QByteArray. The base class
 of all codecs is QTextCodec.
 
-With the US-ASCII charset, encoding and decoding text is easy, one just has to look at an [ASCII table](http://en.wikipedia.org/wiki/ASCII_table)
+With the US-ASCII charset, encoding and decoding text is easy, one just has to look at an [ASCII table](https://en.wikipedia.org/wiki/ASCII_table)
 to be able to convert text strings to byte arrays and byte arrays to text strings. For
 example, the letter 'A' is represented by a single byte with the value of 65. When encountering a byte
 with the value 84, we can look that up in the table and see that it represents the letter 'T'.
@@ -159,11 +159,11 @@ Note that the byte values are written in hexadecimal form here, not in decimal a
 Now, what if we want to write a message that contains German umlauts or Chinese letters? Those
 are not in the ASCII table, therefore a different charset has to be used. There is a wealth of charsets
 to chose from. Not all charsets can handle all letters, for example the
-[ISO-8859-1](http://en.wikipedia.org/wiki/ISO-8859-1#ISO-8859-1) charset can handle
-German umlauts, but can not handle Chinese or Arabic letters. The [Unicode standard](http://en.wikipedia.org/wiki/Unicode)
+[ISO-8859-1](https://en.wikipedia.org/wiki/ISO-8859-1#ISO-8859-1) charset can handle
+German umlauts, but can not handle Chinese or Arabic letters. The [Unicode standard](https://en.wikipedia.org/wiki/Unicode)
 is an attempt to introduce charsets that can handle all known letters in the
-world, in all languages. Unicode actually has several charsets, for example [UTF-8](http://en.wikipedia.org/wiki/UTF-8)
-and [UTF-16](http://en.wikipedia.org/wiki/UTF-16). In an ideal world, everyone would be using
+world, in all languages. Unicode actually has several charsets, for example [UTF-8](https://en.wikipedia.org/wiki/UTF-8)
+and [UTF-16](https://en.wikipedia.org/wiki/UTF-16). In an ideal world, everyone would be using
 Unicode charsets, but for historic and legacy reasons, other charsets are still much in use.
 
 Charsets other than US-ASCII don't generally have as nice properties: A single letter can be represented
@@ -198,14 +198,14 @@ charset. To indicate which charset was used, a **Content-Type** header field has
 or even the complete `Content-Type` header field is left out, the receiver can not know how to interpret
 the byte array! In these cases, the byte array is usually decoded incorrectly, and the text strings contain
 wrong letters or lots of questionmarks. There is even a special term for such wrongly decoded text,
-[Mojibake](http://en.wikipedia.org/wiki/Mojibake). It is important to always know what charset
+[Mojibake](https://en.wikipedia.org/wiki/Mojibake). It is important to always know what charset
 your byte array is encoded with, otherwise an attempt at decoding the byte array into a text string will fail and produce
 Mojibake. **There is no such thing as plain text!** If there is no `Content-Type` header field in
 a message, the message body should be interpreted as US-ASCII.
 
 To learn more about charsets and encodings, read 
-[The Absolute Minimum Every Software Developer Absolutely, Positively Must Know About Unicode and Character Sets (No Excuses!)](http://www.joelonsoftware.com/articles/Unicode.html)
-and [A tutorial on character code issues](http://www.cs.tut.fi/~jkorpela/chars.html). Especially
+[The Absolute Minimum Every Software Developer Absolutely, Positively Must Know About Unicode and Character Sets (No Excuses!)](https://www.joelonsoftware.com/articles/Unicode.html)
+and [A tutorial on character code issues](https://www.cs.tut.fi/~jkorpela/chars.html). Especially
 the first article should really be read, as the name indicates.
 
 #### Content Transfer Encoding ####
@@ -232,7 +232,7 @@ The quoted-printable encoding is not a good choice when the input byte array con
 outside the 7-bit range, as the resulting byte array will be three times as big in the worst case,
 which is a waste of space. Therefore another content transfer encoding was introduced, **Base64**.
 The details of the base64 encoding are too much to write about here; refer to the
-[Wikipedia article](http://en.wikipedia.org/wiki/Base64) or the [RFC](http://tools.ietf.org/html/rfc2045#section-6.8)
+[Wikipedia article](https://en.wikipedia.org/wiki/Base64) or the [RFC](https://tools.ietf.org/html/rfc2045#section-6.8)
 for details. As an example, the ISO-8859-1 encoded text string "Grüezi Welt!" is, after encoding it with base64,
 represented by the following ASCII string: `R3L8ZXppIFdlbHQh`.
 To express the same in byte arrays: The byte array `47 72 FC 65 7A 69 20 57 65 6C 74 21`
@@ -245,7 +245,7 @@ case when the byte array is already completley in the 7-bit range, for example w
 text using the US-ASCII charset. 8-bit is also a marker to indicate that no content transfer encoding
 was used. This time, not because it was not necessary, but because of a special exception, byte values
 outside of the 7-bit range are allowed. For example, some SMTP servers support the
-[8BITMIME](http://tools.ietf.org/html/rfc1652) extension, which indicates that they accept
+[8BITMIME](https://tools.ietf.org/html/rfc1652) extension, which indicates that they accept
 bytes outside of the 7-bit range. In this case, one can simply use the byte arrays as-is, without using
 any content transfer encoding. Creating messages with 8-bit content transfer encoding is currently not
 supported by KMime. The advantage of 8-bit is that there is no overhead in size, unlike with
@@ -334,7 +334,7 @@ a mail to a mailbox with the display name "András Manţia" and with the subject
 The header fields are limited to characters in the 7-bit range, and are interpreted as US-ASCII.
 That means the header field names, such as "From: ", are all encoded in US-ASCII. The header field
 bodies, such as the "1.0" of `MIME-Version`, are also encoded with US-ASCII. This is mandated by
-[the RFC](http://tools.ietf.org/html/rfc5322#section-2).
+[the RFC](https://tools.ietf.org/html/rfc5322#section-2).
 
 The `Content-Type` and the `Content-Transfer-Encoding` header fields only apply to the message body,
 they have no meaning for other header fields.
@@ -358,7 +358,7 @@ The above example shows how text that is encoded with a different charset than U
 in the message header. This can be seen in the bodies of the `Subject` header field and the `To` header field.
 In this example, the body of the message is unimportant, it is just "bla bla bla" in US-ASCII.
 The way the header field bodies are encoded is sometimes referred to as a **RFC2047 string** or as an **encoded word**, which has
-the origin in the [RFC](http://tools.ietf.org/html/rfc2047) where this encoding scheme is defined.
+the origin in the [RFC](https://tools.ietf.org/html/rfc2047) where this encoding scheme is defined.
 RFC2047 strings are only allowed in some of the header fields, like `Subject` and in the display name
 of mailboxes in header fields like `From` and `To`. In other header fields, such as `Date` and
 `MIME-Version`, they are not allowed, but they wouldn't make much sense there anyway, since those are
@@ -378,7 +378,7 @@ The *second encoding* here is almost identical to the content transfer encoding.
 possible encodings, **b** and **q**. The `b` encoding is the same as the base64 encoding of the content
 transfer encoding. The `q` encoding is very similar to the quoted-printable encoding of the content
 transfer encoding, but with some little differences that are described in
-[the RFC](http://tools.ietf.org/html/rfc2047#section-4.2).
+[the RFC](https://tools.ietf.org/html/rfc2047#section-4.2).
 
 Let's examine the subject of the message, `=?iso-8859-1?q?Gr=FCezi!?=`, in detail:
 
@@ -488,7 +488,7 @@ The content type consists of a **media type** and a **subtype**. For example, th
 need to specify a charset, as those nodes are the only nodes of which the body is interpreted as a text string.
 
 The only header field not yet encountered in previous sections is the **Content-Disposition** header field,
-which is defined in a [separate RFC](http://tools.ietf.org/html/rfc2183). It describes how
+which is defined in a [separate RFC](https://tools.ietf.org/html/rfc2183). It describes how
 the message viewer application should display the MIME part. In the case of the image part, is should
 be presented as an attachment. The **filename** parameter tells the message viewer application which filename
 should be used by default when the user saves the attachment to disk.
@@ -671,7 +671,7 @@ at the end of the message, while inline images are shown in-place. In HTML, the 
 image file that is either a file on disk or an URL to an image on the Internet. To make inline images
 work with MIME messages, a different mechanism is needed, since the image is not a file on disk or on
 the Internet, but a MIME part somewhere in the same message. As specified in
-[RFC 2557](http://tools.ietf.org/html/rfc2557), the way this can be done is by refering
+[RFC 2557](https://tools.ietf.org/html/rfc2557), the way this can be done is by refering
 to a **Content-ID** in the `img` tag, and marking the MIME part that is the image with that content
 ID as well.
 
@@ -819,11 +819,11 @@ are both in the MIME body of the `message/rfc822` MIME part.
 ### Signed and Encrypted Messages ### {#crypto}
 
 MIME messages can be cryptographically signed and/or encrypted. The format for those messages is
-defined in [RFC 1847](http://tools.ietf.org/html/rfc1847, which specifies two new
+defined in [RFC 1847](https://tools.ietf.org/html/rfc1847, which specifies two new
 multipart subtypes, **multipart/signed** and **multipart/encrypted**. The crypto format of these new
 security multiparts is defined in additional RFCs; the most common formats are
-[OpenPGP](http://tools.ietf.org/html/rfc3156) and [S/MIME](http://tools.ietf.org/html/rfc2633).
-Both formats use the principle of [public-key cryptography](http://en.wikipedia.org/wiki/Public-key_cryptography).
+[OpenPGP](https://tools.ietf.org/html/rfc3156) and [S/MIME](https://tools.ietf.org/html/rfc2633).
+Both formats use the principle of [public-key cryptography](https://en.wikipedia.org/wiki/Public-key_cryptography).
 OpenPGP uses **key**s, and S/MIME uses **certificates**. For easier text flow, only the term `key` will be used
 for both keys and certificates in the text below.
 
@@ -836,7 +836,7 @@ security multiparts are very flexible.
 Security multiparts are not supported by KMime. However, it is possible for applications to use KMime
 when providing support for crypto messages. For example, the [messageviewer](http://api.kde.org/4.x-api/kdepim-apidocs/messageviewer/html/index.html)
 component in KDEPIM supports signed and encrypted MIME parts, and the
-[messagecomposer](http://websvn.kde.org/trunk/KDE/kdepim/messagecomposer/) library can create
+[messagecomposer](https://websvn.kde.org/trunk/KDE/kdepim/messagecomposer/) library can create
 such messages.
 
 Signed MIME parts are signed with the private key of the sender, everybody who has the
@@ -1122,29 +1122,29 @@ as the base class.
 
 # RFCs # {#rfcs}
 
-* [RFC 5322](http://tools.ietf.org/html/rfc5322): Internet Message Format
-* [RFC 5536](http://tools.ietf.org/html/rfc5536): Netnews Article Format
-* [RFC 2045](http://tools.ietf.org/html/rfc2045): Multipurpose Internet Mail Extensions (MIME), Part 1: Format of Internet Message Bodies
-* [RFC 2046](http://tools.ietf.org/html/rfc2046): Multipurpose Internet Mail Extensions (MIME), Part 2: Media Types
-* [RFC 2047](http://tools.ietf.org/html/rfc2047): Multipurpose Internet Mail Extensions (MIME), Part 3: Message Header Extensions for Non-ASCII Text
-* [RFC 2048](http://tools.ietf.org/html/rfc2048): Multipurpose Internet Mail Extensions (MIME), Part 4: Registration Procedures
-* [RFC 2049](http://tools.ietf.org/html/rfc2049): Multipurpose Internet Mail Extensions (MIME), Part 5: Conformance Criteria and Examples
-* [RFC 2231](http://tools.ietf.org/html/rfc2231): MIME Parameter Value and Encoded Word Extensions: Character Sets, Languages, and Continuations
-* [RFC 2183](http://tools.ietf.org/html/rfc2183): Communicating Presentation Information in Internet Message: The Content-Disposition Header Field
-* [RFC 2557](http://tools.ietf.org/html/rfc2557): MIME Encapsulation of Aggregate Documents, such as HTML (MHTML)
-* [RFC 1847](http://tools.ietf.org/html/rfc1847): Security Multiparts for MIME: Multipart/Signed and Multipart/Encrypted
-* [RFC 3851](http://tools.ietf.org/html/rfc3851): S/MIME Version 3 Message Specification
-* [RFC 3156](http://tools.ietf.org/html/rfc3156): MIME Security with OpenPGP
-* [RFC 2298](http://tools.ietf.org/html/rfc2298): An Extensible Message Format for Message Disposition Notifications
-* [RFC 2646](http://tools.ietf.org/html/rfc2646): The Text/Plain Format Parameter (not supported by KMime)
+* [RFC 5322](https://tools.ietf.org/html/rfc5322): Internet Message Format
+* [RFC 5536](https://tools.ietf.org/html/rfc5536): Netnews Article Format
+* [RFC 2045](https://tools.ietf.org/html/rfc2045): Multipurpose Internet Mail Extensions (MIME), Part 1: Format of Internet Message Bodies
+* [RFC 2046](https://tools.ietf.org/html/rfc2046): Multipurpose Internet Mail Extensions (MIME), Part 2: Media Types
+* [RFC 2047](https://tools.ietf.org/html/rfc2047): Multipurpose Internet Mail Extensions (MIME), Part 3: Message Header Extensions for Non-ASCII Text
+* [RFC 2048](https://tools.ietf.org/html/rfc2048): Multipurpose Internet Mail Extensions (MIME), Part 4: Registration Procedures
+* [RFC 2049](https://tools.ietf.org/html/rfc2049): Multipurpose Internet Mail Extensions (MIME), Part 5: Conformance Criteria and Examples
+* [RFC 2231](https://tools.ietf.org/html/rfc2231): MIME Parameter Value and Encoded Word Extensions: Character Sets, Languages, and Continuations
+* [RFC 2183](https://tools.ietf.org/html/rfc2183): Communicating Presentation Information in Internet Message: The Content-Disposition Header Field
+* [RFC 2557](https://tools.ietf.org/html/rfc2557): MIME Encapsulation of Aggregate Documents, such as HTML (MHTML)
+* [RFC 1847](https://tools.ietf.org/html/rfc1847): Security Multiparts for MIME: Multipart/Signed and Multipart/Encrypted
+* [RFC 3851](https://tools.ietf.org/html/rfc3851): S/MIME Version 3 Message Specification
+* [RFC 3156](https://tools.ietf.org/html/rfc3156): MIME Security with OpenPGP
+* [RFC 2298](https://tools.ietf.org/html/rfc2298): An Extensible Message Format for Message Disposition Notifications
+* [RFC 2646](https://tools.ietf.org/html/rfc2646): The Text/Plain Format Parameter (not supported by KMime)
 
 # Further Reading # {#section}
 
-* [Wikipedia article on MIME](http://en.wikipedia.org/wiki/MIME)
-* [The Absolute Minimum Every Software Developer Absolutely, Positively Must Know About Unicode and Character Sets (No Excuses!)](http://www.joelonsoftware.com/articles/Unicode.html)
-* [A tutorial on character code issues](http://www.cs.tut.fi/~jkorpela/chars.html)
-* [Online Base64 encoder and decoder](http://www.motobit.com/util/base64-decoder-encoder.asp)
-* [Online quoted-printable encoder](http://www.motobit.com/util/quoted-printable-encoder.asp)
-* [Onlinw quota reached](http://www.motobit.com/util/quoted-printable-decoder.asp)
-* [Online charset converter](http://www.motobit.com/util/charset-codepage-conversion.asp)
-* [Wikipedia article on public-key cryptography](http://en.wikipedia.org/wiki/Public-key_cryptography)
+* [Wikipedia article on MIME](https://en.wikipedia.org/wiki/MIME)
+* [The Absolute Minimum Every Software Developer Absolutely, Positively Must Know About Unicode and Character Sets (No Excuses!)](https://www.joelonsoftware.com/articles/Unicode.html)
+* [A tutorial on character code issues](https://www.cs.tut.fi/~jkorpela/chars.html)
+* [Online Base64 encoder and decoder](https://www.motobit.com/util/base64-decoder-encoder.asp)
+* [Online quoted-printable encoder](https://www.motobit.com/util/quoted-printable-encoder.asp)
+* [Onlinw quota reached](https://www.motobit.com/util/quoted-printable-decoder.asp)
+* [Online charset converter](https://www.motobit.com/util/charset-codepage-conversion.asp)
+* [Wikipedia article on public-key cryptography](https://en.wikipedia.org/wiki/Public-key_cryptography)

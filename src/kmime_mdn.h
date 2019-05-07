@@ -39,7 +39,7 @@
   Their format and usage is outlined in @ref RFC2298.
 
   @glossary @anchor RFC2298 @anchor rfc2298 @b RFC @b 2298:
-  RFC that defines the <a href="http://tools.ietf.org/html/rfc2298">
+  RFC that defines the <a href="https://tools.ietf.org/html/rfc2298">
   An Extensible Message Format for Message Disposition Notifications</a>.
 */
 

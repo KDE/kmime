@@ -277,7 +277,7 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->as7BitString(false), QByteArray("\"Some ?=U=?se =?r\" <user@example.com>"));
     delete h;
 
-    // based on bug #139477, trailing '.' in domain name (RFC 3696, section 2 - http://tools.ietf.org/html/rfc3696#page-4)
+    // based on bug #139477, trailing '.' in domain name (RFC 3696, section 2 - https://tools.ietf.org/html/rfc3696#page-4)
     h = new Headers::Generics::AddressList();
     h->from7BitString("joe@where.test.");
     QVERIFY(!h->isEmpty());

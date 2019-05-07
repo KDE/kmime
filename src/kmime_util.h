@@ -212,7 +212,7 @@ KMIME_EXPORT extern void addQuotes(QString &str, bool forceQuotes);
  *   leading to "Firstname Lastname<RLO><PDF>", so the whole mailbox is displayed
  *   correctly as "Firstname Lastname" <moc.mitciv@attacker.com> again.
  *
- * See http://unicode.org/reports/tr9 for more information on bidi control chars.
+ * See https://unicode.org/reports/tr9 for more information on bidi control chars.
  *
  * @param input the display name of a mailbox, which is checked for unbalanced Unicode
  *              direction control characters
