@@ -25,13 +25,13 @@
 
 #include "kmime_export.h"
 #include "kmime_message.h"
-//#include <supertrait.h>
 
 #include <QSharedPointer>
 
 namespace KMime
 {
 
+/** NNTP news article. */
 class KMIME_EXPORT NewsArticle : public Message
 {
 public:
@@ -39,6 +39,11 @@ public:
       A shared pointer to a news article.
     */
     typedef QSharedPointer<NewsArticle> Ptr;
+
+    ///@cond PRIVATE
+    // needed for Akonadi polymorphic payload support
+    typedef Message SuperClass;
+    ///@endcond
 
     /**
       Creates a NewsArticle object.
@@ -91,13 +96,5 @@ protected:
 }; // class NewsArticle
 
 } // namespace KMime
-
-////@cond PRIVATE
-//// super class trait specialization
-//namespace Akonadi
-//{
-//template <> struct SuperClass<KMime::NewsArticle> : public SuperClassTrait<KMime::Message> {};
-//}
-//@endcond
 
 #endif // __KMIME_NEWSARTICLE_H__
