@@ -9,15 +9,16 @@ set(KF5_MIN_VERSION "5.60.0")
 find_package(ECM ${KF5_MIN_VERSION} CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${KMime_SOURCE_DIR}/cmake ${ECM_MODULE_PATH})
 
+include(KDEInstallDirs)
+include(KDECMakeSettings)
+include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
+
 include(GenerateExportHeader)
 include(ECMGeneratePriFile)
 
 include(ECMGenerateHeaders)
 include(ECMSetupVersion)
 include(FeatureSummary)
-include(KDEInstallDirs)
-include(KDECMakeSettings)
-include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 
 
 
