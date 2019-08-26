@@ -401,7 +401,7 @@ QString MailboxList::displayString() const
         else
             return QString::fromLatin1(mbox.address());
     }
-    return displayNames().join(QStringLiteral(", "));
+    return displayNames().join(QLatin1String(", "));
 }
 
 Types::Mailbox::List MailboxList::mailboxes() const
@@ -507,7 +507,7 @@ QString AddressList::asUnicodeString() const
             rv.append(mbox.prettyAddress());
         }
     }
-    return rv.join(QStringLiteral(", "));
+    return rv.join(QLatin1String(", "));
 }
 
 void AddressList::clear()
@@ -570,7 +570,7 @@ QStringList AddressList::displayNames() const
 QString AddressList::displayString() const
 {
     // optimize for single entry and avoid creation of the QStringList in that case?
-    return displayNames().join(QStringLiteral(", "));
+    return displayNames().join(QLatin1String(", "));
 }
 
 Types::Mailbox::List AddressList::mailboxes() const
@@ -697,7 +697,7 @@ QByteArray PhraseList::as7BitString(bool withHeaderType) const
 
 QString PhraseList::asUnicodeString() const
 {
-    return d_func()->phraseList.join(QStringLiteral(", "));
+    return d_func()->phraseList.join(QLatin1String(", "));
 }
 
 void PhraseList::clear()

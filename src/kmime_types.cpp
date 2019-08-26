@@ -241,7 +241,7 @@ QString Mailbox::listToUnicodeString(const QVector<Mailbox>& mailboxes)
     foreach (const Types::Mailbox &mbox, mailboxes) {
         rv.append(mbox.prettyAddress());
     }
-    return rv.join(QStringLiteral(", "));
+    return rv.join(QLatin1String(", "));
 }
 
 } // namespace Types
