@@ -1247,7 +1247,7 @@ bool parseParameter(const char *&scursor, const char *const send,
         if (maybeAttribute.endsWith(QLatin1Char('*'))) {
             KMIME_WARN << "attribute ends with \"*\", but value is empty!"
                        "Chopping away \"*\".";
-            maybeAttribute.truncate(maybeAttribute.length() - 1);
+            maybeAttribute.chop(1);
         }
         result = qMakePair(maybeAttribute.toLower(), QStringOrQPair());
         return true;
@@ -1268,7 +1268,7 @@ bool parseParameter(const char *&scursor, const char *const send,
             // trailing "*" to not confuse upper layers.
             KMIME_WARN << "attribute ends with \"*\", but value is a quoted-string!"
                        "Chopping away \"*\".";
-            maybeAttribute.truncate(maybeAttribute.length() - 1);
+            maybeAttribute.chop(1);
         }
 
         if (!parseGenericQuotedString(scursor, send, maybeValue.qstring, isCRLF)) {
@@ -1515,7 +1515,7 @@ bool parseParameterListWithCharset(const char *&scursor,
 
             // is the value rfc2331-encoded?
             if (attribute.endsWith(QLatin1Char('*'))) {
-                attribute.truncate(attribute.length() - 1);
+                attribute.chop(1);
                 mode |= Encoded;
                 encodingMode = RFC2231;
             }
@@ -1526,7 +1526,7 @@ bool parseParameterListWithCharset(const char *&scursor,
             }
             // is the value continued?
             if (attribute.endsWith(QLatin1String("*0"))) {
-                attribute.truncate(attribute.length() - 2);
+                attribute.chop(2);
                 mode |= Continued;
             }
             //

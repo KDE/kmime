@@ -406,7 +406,7 @@ QString Content::decodedText(bool trimText, bool removeTrailingNewlines)
         s.truncate(i + 1);
     } else {
         if (s.right(1) == QLatin1Char('\n')) {
-            s.truncate(s.length() - 1);   // remove trailing new-line
+            s.chop(1);   // remove trailing new-line
         }
     }
 
