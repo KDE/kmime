@@ -459,7 +459,7 @@ int main(int argc, char *argv[])
         // date-time
         QDateTime result;
         bool ok =  parseDateTime(iit, iend, result, withCRLF);
-        time_t timet = result.toTime_t();
+        time_t timet = result.toSecsSinceEpoch();
 
         cout << (ok ? "OK" : "BAD") << endl
              << "result.time (in local timezone): " << ctime(&timet)

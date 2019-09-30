@@ -156,7 +156,7 @@ QString DateFormatter::dateString(time_t t, const QString &lang, bool shortForma
 
 QString DateFormatter::dateString(const QDateTime &dt, const QString &lang, bool shortFormat) const
 {
-    return dateString(dt.toLocalTime().toTime_t(), lang, shortFormat);
+    return dateString(dt.toLocalTime().toSecsSinceEpoch(), lang, shortFormat);
 }
 
 QString DateFormatterPrivate::rfc2822(time_t t)
@@ -164,7 +164,7 @@ QString DateFormatterPrivate::rfc2822(time_t t)
     QDateTime tmp;
     QString ret;
 
-    tmp.setTime_t(t);
+    tmp.setSecsSinceEpoch(t);
 
     ret = tmp.toString(QStringLiteral("ddd, dd MMM yyyy hh:mm:ss "));
     ret += QLatin1String(zone(t));
@@ -182,7 +182,7 @@ QString DateFormatterPrivate::custom(time_t t) const
     QDateTime dt;
     QString ret = mCustomFormat;
 
-    dt.setTime_t(t);
+    dt.setSecsSinceEpoch(t);
     if (z != -1) {
         ret.replace(z, 1, QLatin1String(zone(t)));
     }
@@ -265,11 +265,11 @@ QString DateFormatterPrivate::fancy(time_t t)
     if (mTodayOneSecondBeforeMidnight < time(nullptr)) {
         // determine time_t value of today 23:59:59
         const QDateTime today(QDate::currentDate(), QTime(23, 59, 59));
-        mTodayOneSecondBeforeMidnight = today.toTime_t();
+        mTodayOneSecondBeforeMidnight = today.toSecsSinceEpoch();
     }
 
     QDateTime old;
-    old.setTime_t(t);
+    old.setSecsSinceEpoch(t);
 
     if (mTodayOneSecondBeforeMidnight >= t) {
         const time_t diff = mTodayOneSecondBeforeMidnight - t;
@@ -301,7 +301,7 @@ QString DateFormatterPrivate::localized(time_t t, bool shortFormat, const QStrin
     QString ret;
     auto locale = QLocale::system();
 
-    tmp.setTime_t(t);
+    tmp.setSecsSinceEpoch(t);
 
     if (!lang.isEmpty()) {
         locale = QLocale(lang);

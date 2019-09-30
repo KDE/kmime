@@ -25,17 +25,17 @@ main()
     QByteArray ba = rfcd.toLatin1();
     const char *str = ba.constData();
     if (HeaderParsing::parseDateTime(str, str + rfcd.length(), dt)) {
-        qDebug() << " ntime =" << (ntime) << " dt =" << (dt.toTime_t());
-        qdt.setTime_t(dt.toTime_t());
+        qDebug() << " ntime =" << (ntime) << " dt =" << (dt.toSecsSinceEpoch());
+        qdt.setSecsSinceEpoch(dt.toSecsSinceEpoch());
         qDebug() << " qq =" << qdt.toString(QStringLiteral("ddd, dd MMM yyyy hh:mm:ss"));
-        qDebug() << " rfc2822 :" << t.formatDate(DateFormatter::Rfc, dt.toTime_t());
+        qDebug() << " rfc2822 :" << t.formatDate(DateFormatter::Rfc, dt.toSecsSinceEpoch());
     }
     QString ddd = QStringLiteral("Mon, 05 Aug 2002 01:57:51 -0700");
     ba = ddd.toLatin1();
     str = ba.constData();
     if (HeaderParsing::parseDateTime(str, str + ddd.length(), dt)) {
-        qDebug() << "dt =" << (dt.toTime_t());
-        qDebug() << " rfc2822 :" << t.formatDate(DateFormatter::Rfc, dt.toTime_t());
+        qDebug() << "dt =" << (dt.toSecsSinceEpoch());
+        qDebug() << " rfc2822 :" << t.formatDate(DateFormatter::Rfc, dt.toSecsSinceEpoch());
     }
 
     t.setCustomFormat(QStringLiteral("MMMM dddd yyyy Z"));
