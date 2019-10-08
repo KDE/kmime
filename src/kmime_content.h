@@ -308,7 +308,7 @@ public:
       @param type The type of the header to look for.
       @return true if a header was found and removed.
     */
-    Q_REQUIRED_RESULT bool removeHeader(const char *type);
+    bool removeHeader(const char *type);
 
     /**
       Searches for the first header of type @p T, and deletes it, removing
