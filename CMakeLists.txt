@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.5)
-set(PIM_VERSION "5.12.80")
+set(PIM_VERSION "5.13.40")
 
 project(KMime VERSION ${PIM_VERSION})
 
 # ECM setup
-set(KF5_MIN_VERSION "5.63.0")
+set(KF5_MIN_VERSION "5.64.0")
 
 find_package(ECM ${KF5_MIN_VERSION} CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${KMime_SOURCE_DIR}/cmake ${ECM_MODULE_PATH})
@@ -23,7 +23,7 @@ include(FeatureSummary)
 
 
 set(KMIME_LIB_VERSION ${PIM_VERSION})
-set(QT_REQUIRED_VERSION "5.11.0")
+set(QT_REQUIRED_VERSION "5.12.0")
 find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED Core)
 
 ecm_setup_version(PROJECT VARIABLE_PREFIX KMIME
