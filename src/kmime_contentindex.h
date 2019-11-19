@@ -106,7 +106,7 @@ public:
 
       @see push(), pop().
     */
-    Q_REQUIRED_RESULT unsigned int up();
+    unsigned int up();
 
     /**
       Returns a string representation of this content index according
