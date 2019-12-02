@@ -49,7 +49,7 @@
 #include "kmime_warning.h"
 
 
-#include <kcharsets.h>
+#include <KCharsets>
 #include <KCodecs>
 
 #include <QTextCodec>

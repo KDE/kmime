@@ -32,8 +32,8 @@
 #include <config-kmime.h>
 // #include <kdefakes.h> // for strcasestr
 
-#include <klocalizedstring.h>
-#include <kcharsets.h>
+#include <KLocalizedString>
+#include <KCharsets>
 #include <QDebug>
 #include <QCoreApplication>
 

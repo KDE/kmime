@@ -36,7 +36,7 @@
 #include "kmime_util.h"
 #include "kmime_codecs.h"
 
-#include <klocalizedstring.h>
+#include <KLocalizedString>
 #include <QDebug>
 
 #include <QByteArray>

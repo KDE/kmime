@@ -37,7 +37,7 @@
 
 #include <QTextStream>
 
-#include <klocalizedstring.h>
+#include <KLocalizedString>
 
 using namespace KMime;
 

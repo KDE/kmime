@@ -30,7 +30,7 @@
 #include "kmime_dateformatter.h"
 #include "kmime_warning.h"
 
-#include <kcharsets.h>
+#include <KCharsets>
 
 #include <KCodecs/KCodecs>
 

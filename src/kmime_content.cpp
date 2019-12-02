@@ -42,10 +42,10 @@
 #include "kmime_parsers.h"
 #include "kmime_util_p.h"
 
-#include <kcharsets.h>
+#include <KCharsets>
 #include <KCodecs/KCodecs>
 
-#include <klocalizedstring.h>
+#include <KLocalizedString>
 #include <QDebug>
 
 #include <QTextCodec>
