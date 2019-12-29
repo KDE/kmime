@@ -22,7 +22,7 @@
 */
 
 #include "kmime_codecs.h"
-
+#include "kmime_debug.h"
 #include <KCharsets>
 
 #include <QDebug>
@@ -282,7 +282,7 @@ QString decodeRFC2231String(const QByteArray &str, QByteArray &usedCS, const QBy
         }
         p++;
     }
-    qDebug() << "Got pre-decoded:" << st;
+    qCDebug(KMIME_LOG) << "Got pre-decoded:" << st;
     const QTextCodec *charsetcodec = KCharsets::charsets()->codecForName(QString::fromLatin1(charset));
     if (!charsetcodec || forceCS) {
         charsetcodec = KCharsets::charsets()->codecForName(QString::fromLatin1(defaultCS));
