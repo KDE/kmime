@@ -46,7 +46,6 @@
 #include <KCodecs/KCodecs>
 
 #include <KLocalizedString>
-#include <QDebug>
 
 #include <QTextCodec>
 #include <QByteArray>

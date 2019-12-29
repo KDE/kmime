@@ -25,8 +25,8 @@
 #define KMIME_WARNING_H
 
 #ifndef KMIME_NO_WARNING
-#  include <qdebug.h>
-#  define KMIME_WARN qDebug() << "Tokenizer Warning:"
+#  include "kmime_debug.h"
+#  define KMIME_WARN qCDebug(KMIME_LOG) << "Tokenizer Warning:"
 #  define KMIME_WARN_UNKNOWN(x,y) KMIME_WARN << "unknown " #x ": \"" \
         << y << "\"";
 #  define KMIME_WARN_UNKNOWN_ENCODING KMIME_WARN << "unknown encoding in " \

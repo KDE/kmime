@@ -24,6 +24,12 @@ set(kmime_LIB_SRCS
    kmime_types.cpp
 )
 
+ecm_qt_declare_logging_category(kmime_LIB_SRCS
+   HEADER kmime_debug.h
+   IDENTIFIER KMIME_LOG
+   CATEGORY_NAME org.kde.pim.kmime
+)
+
 add_library(KF5Mime ${kmime_LIB_SRCS})
 
 generate_export_header(KF5Mime BASE_NAME KMime)

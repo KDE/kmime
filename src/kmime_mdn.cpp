@@ -35,9 +35,9 @@
 #include "kmime_version.h"
 #include "kmime_util.h"
 #include "kmime_codecs.h"
+#include "kmime_debug.h"
 
 #include <KLocalizedString>
-#include <QDebug>
 
 #include <QByteArray>
 
@@ -297,7 +297,7 @@ QString descriptionFor(DispositionType d,
             return i18n(dispositionTypes[i].description);
         }
     }
-    qWarning() << "KMime::MDN::descriptionFor(): No such disposition type:"
+    qCWarning(KMIME_LOG) << "KMime::MDN::descriptionFor(): No such disposition type:"
                << static_cast<int>(d);
     return QString();
 }

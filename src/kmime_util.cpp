@@ -25,6 +25,7 @@
 #include "kmime_util_p.h"
 
 #include "kmime_charfreq.h"
+#include "kmime_debug.h"
 #include "kmime_header_parsing.h"
 #include "kmime_message.h"
 #include "kmime_warning.h"
@@ -34,7 +35,6 @@
 
 #include <KLocalizedString>
 #include <KCharsets>
-#include <QDebug>
 #include <QCoreApplication>
 
 #include <QVector>
@@ -62,7 +62,7 @@ QByteArray cachedCharset(const QByteArray &name)
     }
 
     c_harsetCache.append(name.toUpper());
-    //qDebug() << "KNMimeBase::cachedCharset() number of cs" << c_harsetCache.count();
+    //qCDebug(KMIME_LOG) << "KNMimeBase::cachedCharset() number of cs" << c_harsetCache.count();
     return c_harsetCache.last();
 }
 
@@ -166,7 +166,7 @@ QByteArray uniqueString()
 
     for (int i = 0; i < 10; i++) {
         int pos = (int)(61.0 * rand() / (RAND_MAX + 1.0));
-        //qDebug() << pos;
+        //qCDebug(KMIME_LOG) << pos;
         p[i] = chars[pos];
     }
 
@@ -492,7 +492,7 @@ KMIME_EXPORT QString balanceBidiState(const QString &input)
                 openDirChangers--;
             } else {
                 // One PDF too much, remove it
-                qWarning() << "Possible Unicode spoofing (unexpected PDF) detected in" << input;
+                qCWarning(KMIME_LOG) << "Possible Unicode spoofing (unexpected PDF) detected in" << input;
                 result.remove(i - numPDFsRemoved, 1);
                 numPDFsRemoved++;
             }
@@ -500,7 +500,7 @@ KMIME_EXPORT QString balanceBidiState(const QString &input)
     }
 
     if (openDirChangers > 0) {
-        qWarning() << "Possible Unicode spoofing detected in" << input;
+        qCWarning(KMIME_LOG) << "Possible Unicode spoofing detected in" << input;
 
         // At PDF chars to the end until the correct state is restored.
         // As a special exception, when encountering quoted strings, place the PDF before

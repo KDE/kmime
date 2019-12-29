@@ -32,6 +32,7 @@
 */
 
 #include "kmime_charfreq.h"
+#include "kmime_debug.h"
 
 using namespace KMime;
 
@@ -194,7 +195,7 @@ bool CharFreq::hasLeadingFrom() const
 CharFreq::Type CharFreq::type() const
 {
 #if 0
-    qDebug("Total: %d; NUL: %d; CTL: %d;\n"
+    qCDebug(KMIME_LOG)("Total: %d; NUL: %d; CTL: %d;\n"
            "CR: %d; LF: %d; CRLF: %d;\n"
            "lineMin: %d; lineMax: %d;\n"
            "printable: %d; eightBit: %d;\n"

@@ -19,7 +19,7 @@ include(ECMGeneratePriFile)
 include(ECMGenerateHeaders)
 include(ECMSetupVersion)
 include(FeatureSummary)
-
+include(ECMQtDeclareLoggingCategory)
 
 
 set(KMIME_LIB_VERSION ${PIM_VERSION})
@@ -76,6 +76,11 @@ install(FILES
     ${KMime_BINARY_DIR}/kmime_version.h
     DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}
     COMPONENT Devel
+    )
+
+install(FILES
+    kmime.categories
+    DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR}
     )
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

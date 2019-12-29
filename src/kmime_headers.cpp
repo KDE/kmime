@@ -46,8 +46,8 @@
 #include "kmime_content.h"
 #include "kmime_header_parsing.h"
 #include "kmime_headerfactory_p.h"
+#include "kmime_debug.h"
 #include "kmime_warning.h"
-
 
 #include <KCharsets>
 #include <KCodecs>
@@ -293,7 +293,7 @@ static bool stringToMailbox(const QByteArray &address,
     const char *cursor = address.constData();
     if (!parseAngleAddr(cursor, cursor + address.length(), addrSpec)) {
         if (!parseAddrSpec(cursor, cursor + address.length(), addrSpec)) {
-            qWarning() << "stringToMailbox: Invalid address";
+            qCWarning(KMIME_LOG) << "stringToMailbox: Invalid address";
             return false;
         }
     }
@@ -848,7 +848,7 @@ QByteArray Parametrized::as7BitString(bool withHeaderType) const
         } else {
             if (useOutlookAttachmentEncoding()) {
                 rv += it.key().toLatin1() + '=';
-                qDebug() << "doing:" << it.value() << QLatin1String(d->encCS);
+                qCDebug(KMIME_LOG) << "doing:" << it.value() << QLatin1String(d->encCS);
                 rv += "\"" + encodeRFC2047String(it.value(), d->encCS) + "\"";
             } else {
                 rv += it.key().toLatin1() + "*=";
@@ -1028,7 +1028,7 @@ void Ident::appendIdentifier(const QByteArray &id)
     if (parseAngleAddr(cursor, cursor + tmp.length(), msgId)) {
         d->msgIdList.append(msgId);
     } else {
-        qWarning() << "Unable to parse address spec!";
+        qCWarning(KMIME_LOG) << "Unable to parse address spec!";
     }
 }
 

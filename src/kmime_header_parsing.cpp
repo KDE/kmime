@@ -28,6 +28,7 @@
 #include "kmime_util_p.h"
 #include "kmime_codecs.h"
 #include "kmime_dateformatter.h"
+#include "kmime_debug.h"
 #include "kmime_warning.h"
 
 #include <KCharsets>
@@ -68,7 +69,7 @@ bool parseEncodedWord(const char *&scursor, const char *const send,
     char ch = *scursor++;
 
     if (ch != '?') {
-        // qDebug() << "first";
+        // qCDebug(KMIME_LOG) << "first";
         //KMIME_WARN_PREMATURE_END_OF( EncodedWord );
         return false;
     }
@@ -90,7 +91,7 @@ bool parseEncodedWord(const char *&scursor, const char *const send,
 
     // not found? can't be an encoded-word!
     if (scursor == send || *scursor != '?') {
-        // qDebug() << "second";
+        // qCDebug(KMIME_LOG) << "second";
         KMIME_WARN_PREMATURE_END_OF(EncodedWord);
         return false;
     }
@@ -121,7 +122,7 @@ bool parseEncodedWord(const char *&scursor, const char *const send,
 
     // not found? Can't be an encoded-word!
     if (scursor == send || *scursor != '?') {
-        // qDebug() << "third";
+        // qCDebug(KMIME_LOG) << "third";
         KMIME_WARN_PREMATURE_END_OF(EncodedWord);
         return false;
     }
@@ -129,7 +130,7 @@ bool parseEncodedWord(const char *&scursor, const char *const send,
     // extract the encoding information:
     QByteArray maybeEncoding(encodingStart, scursor - encodingStart);
 
-    // qDebug() << "parseEncodedWord: found charset == \"" << maybeCharset
+    // qCDebug(KMIME_LOG) << "parseEncodedWord: found charset == \"" << maybeCharset
     //         << "\"; language == \"" << maybeLanguage
     //         << "\"; encoding == \"" << maybeEncoding << "\"";
 
@@ -207,7 +208,7 @@ bool parseEncodedWord(const char *&scursor, const char *const send,
         return false;
     };
 
-    // qDebug() << "mimeName(): \"" << textCodec->name() << "\"";
+    // qCDebug(KMIME_LOG) << "mimeName(): \"" << textCodec->name() << "\"";
 
     // allocate a temporary buffer to store the 8bit text:
     int encodedTextLength = encodedTextEnd - encodedTextStart;
@@ -228,7 +229,7 @@ bool parseEncodedWord(const char *&scursor, const char *const send,
 
     result = textCodec->toUnicode(buffer.data(), bbegin - buffer.data());
 
-    // qDebug() << "result now: \"" << result << "\"";
+    // qCDebug(KMIME_LOG) << "result now: \"" << result << "\"";
     // cleanup:
     delete dec;
     language = maybeLanguage;
@@ -1452,7 +1453,7 @@ static void decodeRFC2231Value(KCodecs::Codec *&rfc2231Codec,
 
     value += textcodec->toUnicode(buffer.begin(), bit - buffer.begin());
 
-    // qDebug() << "value now: \"" << value << "\"";
+    // qCDebug(KMIME_LOG) << "value now: \"" << value << "\"";
     // cleanup:
     delete dec;
 }
@@ -1611,7 +1612,7 @@ static bool parseDayName(const char *&scursor, const char *const send)
     for (int i = 0 ; i < stdDayNamesLen ; ++i) {
         if (qstrnicmp(scursor, stdDayNames[i], 3) == 0) {
             scursor += 3;
-            // qDebug() << "found" << stdDayNames[i];
+            // qCDebug(KMIME_LOG) << "found" << stdDayNames[i];
             return true;
         }
     }
@@ -2049,7 +2050,7 @@ Headers::Base *extractHeader(const QByteArray &head, const int headerStart, int 
         header = HeaderFactory::createHeader(rawType, rawTypeLen);
     }
     if (!header) {
-        //qWarning() << "Returning Generic header of type" << rawType;
+        //qCWarning(KMIME_LOG)() << "Returning Generic header of type" << rawType;
         header = new Headers::Generic(rawType, rawTypeLen);
     }
     if (folded) {

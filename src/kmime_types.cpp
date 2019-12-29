@@ -26,10 +26,10 @@
 #include "kmime_header_parsing_p.h"
 #include "kmime_util.h"
 #include "kmime_util_p.h"
+#include "kmime_debug.h"
 
 #include <KCodecs>
 
-#include <QDebug>
 #include <QStringList>
 #include <QUrl>
 
@@ -136,7 +136,7 @@ void Mailbox::setAddress(const QByteArray &addr)
                                        cursor + addr.length(), mAddrSpec)) {
         if (!HeaderParsing::parseAddrSpec(cursor, cursor + addr.length(),
                                           mAddrSpec)) {
-            qWarning() << "Mailbox: Invalid address";
+            qCWarning(KMIME_LOG) << "Mailbox: Invalid address";
             return;
         }
     }
