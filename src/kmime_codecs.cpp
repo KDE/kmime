@@ -156,11 +156,11 @@ QByteArray encodeRFC2047Sentence(const QString &src, const QByteArray &charset)
     int pos = 0;
     int wordStart = 0;
 
-    //qDebug() << "Input:" << src;
+    //qCDebug(KMIME_LOG) << "Input:" << src;
     // Loop over all characters of the string.
     // When encountering a split character, RFC-2047-encode the word before it, and add it to the result.
     while (pos < length) {
-        //qDebug() << "Pos:" << pos << "Result:" << result << "Char:" << ch->toLatin1();
+        //qCDebug(KMIME_LOG) << "Pos:" << pos << "Result:" << result << "Char:" << ch->toLatin1();
         const bool isAscii = ch->unicode() < 127;
         const bool isReserved = (strchr(reservedCharacters, ch->toLatin1()) != nullptr);
         if (isAscii && isReserved) {
