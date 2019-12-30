@@ -430,7 +430,13 @@ bool MailboxList::parse(const char *&scursor, const char *const send,
     foreach (const auto &it, maybeAddressList) {
         if (!(it).displayName.isEmpty()) {
             KMIME_WARN << "mailbox groups in header disallowing them! Name: \""
-                       << (it).displayName << "\"" << endl;
+                       << (it).displayName << "\""
+              #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
+                       << endl
+              #else
+                       << Qt::endl
+              #endif
+                          ;
         }
         d->mailboxList += (it).mailboxList;
     }
@@ -455,7 +461,12 @@ bool SingleMailbox::parse(const char *&scursor, const char *const send,
 
     if (d->mailboxList.count() > 1) {
         KMIME_WARN << "multiple mailboxes in header allowing only a single one!"
-                   << endl;
+              #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
+                   << endl
+              #else
+                   << Qt::endl
+              #endif
+                      ;
     }
     return true;
 }
@@ -659,7 +670,13 @@ bool Token::parse(const char *&scursor, const char *const send, bool isCRLF)
     eatCFWS(scursor, send, isCRLF);
     if (scursor != send) {
         KMIME_WARN << "trailing garbage after token in header allowing "
-                   "only a single token!" << endl;
+                   "only a single token!"
+              #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
+                   << endl
+              #else
+                   << Qt::endl
+              #endif
+                      ;
     }
     return true;
 }
@@ -806,7 +823,13 @@ bool DotAtom::parse(const char *&scursor, const char *const send,
     eatCFWS(scursor, send, isCRLF);
     if (scursor != send) {
         KMIME_WARN << "trailing garbage after dot-atom in header allowing "
-                   "only a single dot-atom!" << endl;
+                   "only a single dot-atom!"
+              #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
+                   << endl
+              #else
+                   << Qt::endl
+              #endif
+                      ;
     }
     return true;
 }
@@ -1078,7 +1101,13 @@ bool SingleIdent::parse(const char *&scursor, const char *const send,
 
     if (d->msgIdList.count() > 1) {
         KMIME_WARN << "more than one msg-id in header "
-                   << "allowing only a single one!" << endl;
+                   << "allowing only a single one!"
+              #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
+                   << endl
+              #else
+                   << Qt::endl
+              #endif
+                      ;
     }
     return true;
 }
@@ -1153,7 +1182,13 @@ bool ReturnPath::parse(const char *&scursor, const char *const send,
         // check that there was no display-name:
         if (maybeMailbox.hasName()) {
             KMIME_WARN << "display-name \"" << maybeMailbox.name()
-                       << "\" in Return-Path!" << endl;
+                       << "\" in Return-Path!"
+              #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
+                       << endl
+              #else
+                       << Qt::endl
+              #endif
+                          ;
         }
     }
     d->mailbox = maybeMailbox;
@@ -1162,7 +1197,13 @@ bool ReturnPath::parse(const char *&scursor, const char *const send,
     eatCFWS(scursor, send, isCRLF);
     // and warn if it wasn't:
     if (scursor != send) {
-        KMIME_WARN << "trailing garbage after angle-addr in Return-Path!" << endl;
+        KMIME_WARN << "trailing garbage after angle-addr in Return-Path!"
+              #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
+                   << endl
+              #else
+                   << Qt::endl
+              #endif
+                      ;
     }
     return true;
 }

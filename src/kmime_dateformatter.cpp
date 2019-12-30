@@ -247,8 +247,14 @@ QByteArray DateFormatterPrivate::zone(time_t t)
 
     QByteArray ret;
     QTextStream s(&ret, QIODevice::WriteOnly);
-    s << (neg ? '-' : '+')
-      << qSetFieldWidth(2) << qSetPadChar(QLatin1Char('0')) << right << hours << mins;
+    s << (neg ? '-' : '+')         
+      << qSetFieldWidth(2) << qSetPadChar(QLatin1Char('0'))
+     #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
+      << right
+     #else
+      << Qt::right
+     #endif
+      << hours << mins;
     //old code: ret.sprintf( "%c%.2d%.2d", (neg) ? '-' : '+', hours, mins );
 
     return ret;
