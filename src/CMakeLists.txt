@@ -25,19 +25,11 @@ set(kmime_LIB_SRCS
 )
 
 
-if (ECM_VERSION VERSION_LESS "5.68.0")
-    ecm_qt_declare_logging_category(kmime_LIB_SRCS
-       HEADER kmime_debug.h
-       IDENTIFIER KMIME_LOG
-       CATEGORY_NAME org.kde.pim.kmime
-    )
-else()
-    ecm_qt_declare_logging_category(kmime_LIB_SRCS
+ecm_qt_declare_logging_category(kmime_LIB_SRCS
        HEADER kmime_debug.h
        IDENTIFIER KMIME_LOG
        CATEGORY_NAME org.kde.pim.kmime
         DESCRIPTION "kmime (pim lib)" EXPORT KMIME)
-endif()
 
 add_library(KF5Mime ${kmime_LIB_SRCS})
 
@@ -98,9 +90,7 @@ install(FILES
          DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}/KMime/kmime COMPONENT Devel
 )
 
-if (NOT ECM_VERSION VERSION_LESS "5.68.0")
-   ecm_qt_install_logging_categories(EXPORT KMIME FILE kmime.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
-endif()
+ecm_qt_install_logging_categories(EXPORT KMIME FILE kmime.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 
 ecm_generate_pri_file(BASE_NAME KMime LIB_NAME KF5Mime DEPS "" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF5}/KMime)
 install(FILES ${PRI_FILENAME} DESTINATION ${ECM_MKSPECS_INSTALL_DIR})
