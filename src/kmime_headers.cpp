@@ -255,7 +255,16 @@ void Structured::from7BitString(const char *s, size_t len)
 
 void Structured::from7BitString(const QByteArray &s)
 {
+#if 1
+    Q_D(Structured);
+    //Bug about mailto with space which are replaced by "_" so it failed to parse
+    //=> we reconvert to correct encoding as RFC2047
+    const QString str = KCodecs::decodeRFC2047String(s, &d->encCS, Content::defaultCharset());
+    const QByteArray ba = KCodecs::encodeRFC2047String(str, d->encCS);
+    from7BitString(ba.constData(), ba.length());
+#else
     from7BitString(s.constData(), s.length());
+#endif
 }
 
 QString Structured::asUnicodeString() const
