@@ -191,7 +191,7 @@ void Mailbox::from7BitString(const QByteArray &s)
     HeaderParsing::parseMailbox(cursor, cursor + s.length(), *this);
 }
 
-QByteArray KMime::Types::Mailbox::as7BitString(const QByteArray &encCharset) const
+QByteArray Mailbox::as7BitString(const QByteArray &encCharset) const
 {
     if (!hasName()) {
         return address();
@@ -210,12 +210,12 @@ QByteArray KMime::Types::Mailbox::as7BitString(const QByteArray &encCharset) con
     return rv;
 }
 
-QVector<KMime::Types::Mailbox> KMime::Types::Mailbox::listFromUnicodeString(const QString &s)
+QVector<KMime::Types::Mailbox> Mailbox::listFromUnicodeString(const QString &s)
 {
     return listFrom7BitString(encodeRFC2047Sentence(s, "utf-8"));
 }
 
-QVector<KMime::Types::Mailbox> KMime::Types::Mailbox::listFrom7BitString(const QByteArray& s)
+QVector<KMime::Types::Mailbox> Mailbox::listFrom7BitString(const QByteArray& s)
 {
     QVector<KMime::Types::Mailbox> res;
     QVector<KMime::Types::Address> maybeAddressList;
