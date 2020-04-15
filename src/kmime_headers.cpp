@@ -328,7 +328,7 @@ QByteArray MailboxList::as7BitString(bool withHeaderType) const
     if (withHeaderType) {
         rv = typeIntro();
     }
-    foreach (const Types::Mailbox &mbox, d->mailboxList) {
+    for (const Types::Mailbox &mbox : qAsConst(d->mailboxList)) {
         rv += mbox.as7BitString(d->encCS);
         rv += ", ";
     }
@@ -391,7 +391,7 @@ QStringList MailboxList::displayNames() const
     Q_D(const MailboxList);
     QStringList rv;
     rv.reserve(d->mailboxList.count());
-    foreach (const Types::Mailbox &mbox, d->mailboxList) {
+    for (const Types::Mailbox &mbox : qAsConst(d->mailboxList)) {
         if (mbox.hasName())
             rv.append(mbox.name());
         else
@@ -522,7 +522,7 @@ QString AddressList::asUnicodeString() const
 {
     Q_D(const AddressList);
     QStringList rv;
-    foreach (const Types::Address &addr, d->addressList) {
+    for (const Types::Address &addr : qAsConst(d->addressList)) {
         rv.reserve(rv.size() + addr.mailboxList.size());
         foreach (const Types::Mailbox &mbox, addr.mailboxList) {
             rv.append(mbox.prettyAddress());

@@ -307,7 +307,7 @@ QByteArray Content::encodedBody()
         }
 
         //add all (encoded) contents separated by boundaries
-        foreach (Content *c, d->multipartContents) {
+        for (Content *c : qAsConst(d->multipartContents)) {
             e += boundary + '\n';
             e += c->encodedContent(false);    // don't convert LFs here, we do that later!!!!!
         }
@@ -453,7 +453,7 @@ QVector<Content*> Content::attachments()
     if (ct && ct->isMultipart() && !ct->isSubtype("related") && !ct->isSubtype("alternative")) {
         const QVector<Content*> contentsList = contents();
         result.reserve(contentsList.count());
-        Q_FOREACH (Content *child, contentsList) {
+        for (Content *child : contentsList) {
             if (isAttachment(child))
                 result.push_back(child);
             else
@@ -1036,7 +1036,7 @@ bool ContentPrivate::parseMultipart(Content *q)
     Q_ASSERT(multipartContents.isEmpty());
     body.clear();
     const auto parts = mpp.parts();
-    foreach (const QByteArray &part, parts) {
+    for (const QByteArray &part : parts) {
         Content *c = new Content(q);
         c->setContent(part);
         c->setFrozen(frozen);
