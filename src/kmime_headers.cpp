@@ -436,7 +436,7 @@ bool MailboxList::parse(const char *&scursor, const char *const send,
     d->mailboxList.reserve(maybeAddressList.count());
 
     // extract the mailboxes and complain if there are groups:
-    foreach (const auto &it, maybeAddressList) {
+    for (const auto &it : qAsConst(maybeAddressList)) {
         if (!(it).displayName.isEmpty()) {
             KMIME_WARN << "mailbox groups in header disallowing them! Name: \""
                        << (it).displayName << "\""
@@ -500,8 +500,9 @@ QByteArray AddressList::as7BitString(bool withHeaderType) const
     if (withHeaderType) {
         rv = typeIntro();
     }
-    foreach (const Types::Address &addr, d->addressList) {
-        foreach (const Types::Mailbox &mbox, addr.mailboxList) {
+    for (const Types::Address &addr : qAsConst(d->addressList)) {
+        const auto mailBoxList = addr.mailboxList;
+        for (const Types::Mailbox &mbox : mailBoxList) {
             rv += mbox.as7BitString(d->encCS);
             rv += ", ";
         }
@@ -576,8 +577,9 @@ QStringList AddressList::displayNames() const
 {
     Q_D(const AddressList);
     QStringList rv;
-    foreach (const Types::Address &addr, d->addressList) {
-        foreach (const Types::Mailbox &mbox, addr.mailboxList) {
+    for (const Types::Address &addr : qAsConst(d->addressList)) {
+        const auto mailboxList = addr.mailboxList;
+        for (const Types::Mailbox &mbox : mailboxList) {
             if (mbox.hasName())
                 rv.append(mbox.name());
             else
@@ -952,7 +954,7 @@ QByteArray Ident::as7BitString(bool withHeaderType) const
     if (withHeaderType) {
         rv = typeIntro();
     }
-    foreach (const Types::AddrSpec &addr, d->msgIdList) {
+    for (const Types::AddrSpec &addr : qAsConst(d->msgIdList)) {
         if (!addr.isEmpty()) {
             const QString asString = addr.asString();
             rv += '<';

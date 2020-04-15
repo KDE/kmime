@@ -208,7 +208,7 @@ QByteArray Content::assembleHeaders()
 {
     Q_D(Content);
     QByteArray newHead;
-    foreach (const Headers::Base *h, d->headers) {
+    for (const Headers::Base *h : qAsConst(d->headers)) {
         if (!h->isEmpty()) {
             newHead += h->as7BitString() + '\n';
         }
@@ -621,7 +621,7 @@ Headers::Base *Content::headerByType(const char *type) const
 {
     Q_ASSERT(type  && *type);
 
-    foreach (Headers::Base *h, d_ptr->headers) {
+    for (Headers::Base *h : qAsConst(d_ptr->headers)) {
         if (h->is(type)) {
             return h; // Found.
         }
@@ -636,7 +636,7 @@ QVector<Headers::Base*> Content::headersByType(const char *type) const
 
     QVector<Headers::Base*> result;
 
-    foreach (Headers::Base *h, d_ptr->headers) {
+    for (Headers::Base *h : qAsConst(d_ptr->headers)) {
         if (h->is(type)) {
             result << h;
         }

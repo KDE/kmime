@@ -98,7 +98,7 @@ QString KMime::ContentIndex::toString() const
 {
     QStringList l;
     l.reserve(d->index.count());
-    foreach (unsigned int i, d->index) {
+    for (unsigned int i : qAsConst(d->index)) {
         l.append(QString::number(i));
     }
     return l.join(QLatin1Char('.'));

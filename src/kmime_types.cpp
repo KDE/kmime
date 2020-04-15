@@ -225,7 +225,7 @@ QVector<KMime::Types::Mailbox> Mailbox::listFrom7BitString(const QByteArray& s)
     }
 
     res.reserve(maybeAddressList.size());
-    foreach (const auto &it, maybeAddressList) {
+    for (const auto &it : qAsConst(maybeAddressList)) {
         res += (it).mailboxList;
     }
     return res;
@@ -238,7 +238,7 @@ QString Mailbox::listToUnicodeString(const QVector<Mailbox>& mailboxes)
 
     QStringList rv;
     rv.reserve(mailboxes.count());
-    foreach (const Types::Mailbox &mbox, mailboxes) {
+    for (const Types::Mailbox &mbox : mailboxes) {
         rv.append(mbox.prettyAddress());
     }
     return rv.join(QLatin1String(", "));
