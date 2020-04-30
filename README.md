@@ -6,19 +6,18 @@
 
 KMime is a library for handling mail messages and newsgroup articles. Both mail messages and
 newsgroup articles are based on the same standard called MIME, which stands for
-**Multipurpose Internet Mail Extensions**. In this document, the term `message` is used to
+**Multipurpose Internet Mail Extensions**. In this document, the term *message* is used to
 refer to both mail messages and newsgroup articles.
 
-KMime deals solely with the in-memory representation of messages, topics such a transport or storage
+KMime deals solely with the in-memory representation of messages. Topics such as transport or storage
 of messages are handled by other libraries, for example by [the mailtransport library](https://api.kde.org/kdepim/kmailtransport/html/index.html)
 or by [the KIMAP library](https://api.kde.org/kdepim/kimap/html/index.html).
-Similary, this library does not deal with displaying messages or advanced composing, for those there
-are the [messageviewer](http://api.kde.org/4.x-api/kdepim-apidocs/messageviewer/html/index.html)
-and the [messagecomposer](https://websvn.kde.org/trunk/KDE/kdepim/messagecomposer/")
-components in the KDEPIM module.
+Similarly, this library does not deal with displaying messages or advanced composing, for those there
+are the messageviewer and messagecomposer
+components in the KDE PIM [messagelib](https://api.kde.org/kdepim/messagelib/html/index.html) module.
 
 KMime's main function is to parse, modify and assemble messages in-memory. In a
-[later section](@ref string-broken-down), *parsing* and *assembling* is actually explained.
+[later section](@ref string-broken-down), *parsing* and *assembling* are actually explained.
 KMime provides high-level classes that make these tasks easy.
 
 MIME is defined by various RFCs, see the [RFC section](@ref rfcs) for a list of them.
@@ -27,8 +26,8 @@ MIME is defined by various RFCs, see the [RFC section](@ref rfcs) for a list of 
 
 This document will first give an [introduction to the MIME specification](@ref mime-intro), as it is
 essential to understand the basics of the structure of MIME messages for using this library.
-The introduction here is aimed at users of the library, it gives a broad overview with examples and
-omits some details. Developers who wish to modifiy KMime should read the
+The introduction here is aimed at users of the library. It gives a broad overview with examples and
+omits some details. Developers who wish to modify KMime should read the
 [corresponding RFCs](@ref rfcs) as well, but this is not necessary for library users.
 
 After the introduction to the MIME format, the two ways of representing a message in memory are
@@ -46,7 +45,7 @@ The last sections give a list of [relevant RFCs](@ref rfcs) and provide links fo
 
 The MIME standard is quite new (1993), email and usenet existed way before the MIME standard came into
 existence. Because of this, the MIME standard has to keep backwards compatibility. The email
-standard before MIME lacked many capabilities like encodings other than ASCII or attachments. These
+standard before MIME lacked many capabilities, like encodings other than ASCII, or attachments. These
 and other things were later added by MIME. The standard for messages before MIME is defined in
 [RFC 5233](https://tools.ietf.org/html/rfc5322). In [RFC 2045](https://tools.ietf.org/html/rfc2045)
 to [RFC 2049](https://tools.ietf.org/html/rfc2049), several backward-compatible extensions
@@ -55,16 +54,16 @@ others.
 
 Actually, there is an even older standard, defined in [RFC 733](https://tools.ietf.org/html/rfc733)
 (*Standard for the format of ARPA network text messages*, introduced in 1977).
-This standard is now obsoleted by RFC 5322, but backwards compatibilty is in some cases supported, as
+This standard is now obsoleted by RFC 5322, but backwards compatibility is in some cases supported, as
 there are still messages in this format around.
 
 Since pre-MIME messages had no way to handle attachments, attachments were sometimes added to the message
 text in an [uuencoded](https://en.wikipedia.org/wiki/Uuencoding) form. Although this is also
 obsolete, reading uuencoded attachments is still supported by KMime.
 
-After MIME was introduced, people realized that there is no way to have the filename of attachments
-encoded in anything different than ASCII. Thus, [RFC 2231](https://tools.ietf.org/html/rfc2231)
-was introduced to allow abitrary encodings for parameter values, such as the attachment filename.
+After MIME was introduced, people realized that there was no way to have the filename of attachments
+encoded in anything other than ASCII. Thus, [RFC 2231](https://tools.ietf.org/html/rfc2231)
+was introduced to allow arbitrary encodings for parameter values, such as the attachment filename.
 
 ## MIME by examples ## {#examples}
 
@@ -83,13 +82,13 @@ or by having a look at the examples in the [various RFCs](@ref rfcs).
     Hello World!
 
 The above example features a very simple message. The two main parts of this message are the **header**
-and the **body**, which are seperated by an empty line. The body contains the actual message content,
+and the **body**, which are separated by an empty line. The body contains the actual message content,
 and the header contains metadata about the message itself. The header consists of several **header fields**,
 each of them in their own line. Header fields are made up from the **header field name**, followed by a colon, followed
 by the **header field body**.
 
 The **MIME-Version** header field is mandatory for MIME messages. **Subject**,
-**From** and **Date** are important header fields, they are usually displayed in the message list of a
+**From** and **Date** are important header fields; they are usually displayed in the message list of a
 mail client. The `Subject` header field can be anything, it does not have a special structure. It is a
 so-called **unstructured** header field. In contrast, the `From` and the `Date` header fields have
 to follow a special structure, they must be formed in a way that machines can parse. They are **structured**
@@ -98,18 +97,18 @@ the `Date` header field so that it can sort the messages by date in the message 
 The exact details of how the header field bodies of structured header fields should be
 formed are specified in an RFC.
 
-In this example, the `From` header contains a single email address. More precisly, a single email address is called
+In this example, the `From` header contains a single email address. More precisely, a single email address is called
 a **mailbox**, which is made up of the **display name** (John Doe) and the **address specification** (john.doe@domain.com),
 which is enclosed in angle brackets. The `addr-spec` consists of the user name, the **local part**,
 and the **domain** name.
 
 Many header fields can contain multiple email addresses, for example the `To` field for messages with
-multiple recipients can have a comma-seperated list of mailboxes.
+multiple recipients can have a comma-separated list of mailboxes.
 A list of mailboxes, together with a display name for the list, forms a **group**, and multiple groups can form an
 **address list**. This is however rarely used, you'll most often see a simple list of plain mailboxes.
 
 There are many more possible header fields than shown in this example, and the header can even contain
-abitrary header fields, which usually are prefixed with `X-`, like `X-Face`.
+arbitrary header fields, which usually are prefixed with `X-`, like `X-Face`.
 
 ### Encodings and charsets ### {#encodings}
 
@@ -139,7 +138,7 @@ When talking about charsets, it is important to understand how strings of text a
 byte arrays, and the other way around. A message is nothing else than a big array of bytes.
 The bytes that form the body of the message somehow need to be interpreted as a text string. Interpreting
 a byte array as a text string is called **decoding** the text. Converting a text string to a byte array is called
-\b encoding the text. A **codec** (**co**der-**dec**oder) is a utility that can encode and decode text.
+**encoding** the text. A **codec** (**co**der-**dec**oder) is a utility that can encode and decode text.
 In Qt, the class for text strings is QString, and the class for byte arrays is QByteArray. The base class
 of all codecs is QTextCodec.
 
@@ -158,9 +157,9 @@ Note that the byte values are written in hexadecimal form here, not in decimal a
 
 Now, what if we want to write a message that contains German umlauts or Chinese letters? Those
 are not in the ASCII table, therefore a different charset has to be used. There is a wealth of charsets
-to chose from. Not all charsets can handle all letters, for example the
+to choose from. Not all charsets can handle all letters, for example the
 [ISO-8859-1](https://en.wikipedia.org/wiki/ISO-8859-1#ISO-8859-1) charset can handle
-German umlauts, but can not handle Chinese or Arabic letters. The [Unicode standard](https://en.wikipedia.org/wiki/Unicode)
+German umlauts, but cannot handle Chinese or Arabic letters. The [Unicode standard](https://en.wikipedia.org/wiki/Unicode)
 is an attempt to introduce charsets that can handle all known letters in the
 world, in all languages. Unicode actually has several charsets, for example [UTF-8](https://en.wikipedia.org/wiki/UTF-8)
 and [UTF-16](https://en.wikipedia.org/wiki/UTF-16). In an ideal world, everyone would be using
@@ -174,7 +173,7 @@ encoded with two or even more bytes. In general, one letter can be encoded in an
 on the charset. One can **not** rely on the `1 letter == 1 byte` assumption.
 
 Now, what should be done when the text string "Grüezi Welt!" should be sent in the body of a message?
-The first step is to chose a charset that can represent all letters. This already excludes US-ASCII.
+The first step is to choose a charset that can represent all of its letters. This already excludes US-ASCII.
 Once a charset is chosen, the text string is encoded into a byte array.
 "Grüezi Welt!" encoded with the ISO-8859-1 charset produces the following byte array:
 
@@ -192,12 +191,12 @@ You can try this out yourself: Open your favorite text editor and enter some tex
 letters. Then save the file and view it in a hex editor to see how the text was converted to a
 byte array. Make sure to try out setting different charsets in your text editor.
 
-At this point, the text string is sucessfully converted to a byte array, using e.g. the ISO-8859-1
+At this point, the text string is successfully converted to a byte array, using e.g. the ISO-8859-1
 charset. To indicate which charset was used, a **Content-Type** header field has to be added, with the correct
 **charset** parameter. In our example above, that was done. If the charset parameter of the `Content-Type`,
 or even the complete `Content-Type` header field is left out, the receiver can not know how to interpret
 the byte array! In these cases, the byte array is usually decoded incorrectly, and the text strings contain
-wrong letters or lots of questionmarks. There is even a special term for such wrongly decoded text,
+wrong letters or lots of question marks. There is even a special term for such wrongly decoded text,
 [Mojibake](https://en.wikipedia.org/wiki/Mojibake). It is important to always know what charset
 your byte array is encoded with, otherwise an attempt at decoding the byte array into a text string will fail and produce
 Mojibake. **There is no such thing as plain text!** If there is no `Content-Type` header field in
@@ -241,7 +240,7 @@ represented by the byte array `52 33 4C 38 5A 58 70 70 49 46 64 6C 62 48 51 68`.
 
 There are two other content transfer encodings besides quoted printable and base64: **7-bit** and
 **8-bit**. 7-bit is just a marker to indicate that no content transfer encoding is used. This is the
-case when the byte array is already completley in the 7-bit range, for example when writing English
+case when the byte array is already completely in the 7-bit range, for example when writing English
 text using the US-ASCII charset. 8-bit is also a marker to indicate that no content transfer encoding
 was used. This time, not because it was not necessary, but because of a special exception, byte values
 outside of the 7-bit range are allowed. For example, some SMTP servers support the
@@ -339,8 +338,8 @@ bodies, such as the "1.0" of `MIME-Version`, are also encoded with US-ASCII. Thi
 The `Content-Type` and the `Content-Transfer-Encoding` header fields only apply to the message body,
 they have no meaning for other header fields.
 
-This means that any letter in a different charset has to be encoded in some way to statisfy the RFC.
-Letters with a different charset are only allowed in some of the header field bodies, the header field
+This means that any letter in a different charset has to be encoded in some way to satisfy the RFC.
+Letters with a different charset are only allowed in some of the header field bodies; the header field
 names always have to be in US-ASCII.
 
     From: Thomas McGuire <thomas@domain.com>
@@ -358,8 +357,8 @@ The above example shows how text that is encoded with a different charset than U
 in the message header. This can be seen in the bodies of the `Subject` header field and the `To` header field.
 In this example, the body of the message is unimportant, it is just "bla bla bla" in US-ASCII.
 The way the header field bodies are encoded is sometimes referred to as a **RFC2047 string** or as an **encoded word**, which has
-the origin in the [RFC](https://tools.ietf.org/html/rfc2047) where this encoding scheme is defined.
-RFC2047 strings are only allowed in some of the header fields, like `Subject` and in the display name
+its origin in the [RFC](https://tools.ietf.org/html/rfc2047) where this encoding scheme is defined.
+RFC2047 strings are only allowed in some of the header fields, like `Subject`, and in the display name
 of mailboxes in header fields like `From` and `To`. In other header fields, such as `Date` and
 `MIME-Version`, they are not allowed, but they wouldn't make much sense there anyway, since those are
 structured header fields with a clearly defined structure.
@@ -369,7 +368,7 @@ RFC2047 strings start with "=?" and end with "?=". Between those markers, they c
 * The encoding, which is "q" or "b"
 * The encoded text
 
-These three parts are sperated with a '?'. Encoding the third part, the text, is very similar to how
+These three parts are separated with a '?'. Encoding the third part, the text, is very similar to how
 text strings in the message body are encoded: First, the text string is encoded to a byte array using
 the charset encoding. Afterwards, the second encoding is used on the result, to ensure that all resulting
 bytes are within the 7-bit range.
@@ -394,11 +393,11 @@ Each RFC2047 string in the header can use a different charset: In this example, 
 In the `To` header field, two RFC2047 strings are used. A single, bigger, RFC2047 string for the whole
 display name could also have been used. In this case, the second RFC2047 string starts with an underscore,
 which is decoded as a space in the `q` encoding. The space between the two RFC2047 strings is ignored,
-it is just used to seperate the two encoded words.
+it is just used to separate the two encoded words.
 
 There are some restriction on RFC2047 strings: They are not allowed to be longer than 75 characters,
 which means two or more encoded words have to be used for long text strings. Also, there are some
-restrictions on where RFC2047 strings are allowed; most importantly, the address specification must no
+restrictions on where RFC2047 strings are allowed; most importantly, the address specification must
 not be encoded, to be backwards compatible. For further details, refer to the RFC.
 
 ### Messages with attachments ### {#multipart-mixed}
@@ -444,18 +443,18 @@ consist of multiple parts are called **multipart** messages. The top-level conte
 it is just a random mixture of parts. Later, we will look at other types, such as `multipart/alternative`
 or `multipart/related`. A **part** is sometimes also called **node**, **content** or **MIME part**.
 
-Each MIME part of the message is seperated by a **boundary**, and that boundary
+Each MIME part of the message is separated by a **boundary**, and that boundary
 is specified in the top-level content-type header as a parameter. In the message body, the boundary
 is prefixed with `"--"`, and the last boundary is suffixed with `"--"`, so that the end of the message can
 be detected. When creating a message, care must be taken that the boundary appears nowhere else in the
 message, for example in the text part, as the parser would get confused by this.
 
 A MIME part begins right after the boundary. It consists of a **MIME header** and a **MIME body**, which
-are seperated by an empty line. The MIME header should not be confused with the message header: The
+are separated by an empty line. The MIME header should not be confused with the message header: The
 message header contains metadata about the whole message, like subject and date. The MIME header only
 contains metadata about the specific MIME part, like the content type of the MIME part. MIME header
 field names always start with `"Content-"`.
-The example above shows the three most important MIME header fields, usually those are the only ones
+The example above shows the three most important MIME header fields. Usually those are the only ones
 used. The top-level header of a message actually mixes the message metadata and the MIME metadata into one header: In this
 example, the header contains the `Date` header field, which is an ordinary header field, and it contains
 the `Content-Type` header field, which is a MIME header field.
@@ -469,14 +468,14 @@ MIME parts can be nested, and therefore form a tree. The above example has the f
 The `text/plain` node is therefore a `child` of the `multipart/mixed` node. The `multipart/mixed` node
 is a `parent` of the other two nodes. The `image/jpeg` node is a **sibling** of the `text/plain` node.
 `Multipart` nodes are the only nodes that have children, other nodes are **leaf** nodes.
-The body of a multipart node consists of all complete child nodes (MIME header and MIME body), seperated
+The body of a multipart node consists of all complete child nodes (MIME header and MIME body), separated
 by the boundary.
 
 Each MIME part can have a different content transfer encoding. In the above example, the text part has
-a `7bit` CTE, while the image part has a `base64` CTE. The multipart/mixed node does not specifiy
+a `7bit` CTE, while the image part has a `base64` CTE. The multipart/mixed node does not specify
 a CTE, multipart nodes always have `7bit` as the CTE. This is because the body of multipart nodes can
 only consist of bytes in the 7 bit range: The boundary is 7 bit, the MIME headers are 7 bit, and the
-MIME bodies are already ancoded with the CTE of the child MIME part, and are therefore also 7 bit. This means
+MIME bodies are already encoded with the CTE of the child MIME part, and are therefore also 7 bit. This means
 no CTE for multipart nodes is necessary.
 
 The MIME part for the image does not specify a charset parameter in the content type header field. This
@@ -496,9 +495,9 @@ should be used by default when the user saves the attachment to disk.
 The content type header field for the image MIME part has a **name** parameter, which is similar to the
 `filename` parameter of the `Content-Disposition` header field. The difference is that `name` refers
 to the name of the complete MIME part, whereas `filename` refers to the name of the attachment. The
-`name` paramter of the `Content-Type` header field in this case is superfluous and only exists for
+`name` parameter of the `Content-Type` header field in this case is superfluous and only exists for
 backwards compatibility, and can be ignored;
-the `filename` parameter of the `Content-Disposition` header field should be prefered when it is present.
+the `filename` parameter of the `Content-Disposition` header field should be preferred when it is present.
 
     From: Thomas McGuire <thomas@domain.com>
     To: sebastian@domain.com
@@ -547,7 +546,7 @@ the `filename` parameter of the `Content-Disposition` header field should be pre
     --Boundary-00=_PjtiLU2PvHpvp/R--
 
 The above example message consists of three MIME parts: The main text part and two attachments.
-One attachment has the media type \c text, therefore a charset parameter is necessary to correctly
+One attachment has the media type `text`, therefore a charset parameter is necessary to correctly
 display it. The MIME tree looks like this:
 
     multipart/mixed
@@ -586,7 +585,7 @@ display it. The MIME tree looks like this:
     </html>
     --Boundary-01=_m66jLd2/vZrH5oe--
 
-The above example is a simple HTML message, it consists of a plain text and a HTML part, which are
+The above example is a simple HTML message. It consists of a plain text and a HTML part, which are
 in a **multipart/alternative** container. The message has the following structure:
 
     multipart/alternative
@@ -595,12 +594,12 @@ in a **multipart/alternative** container. The message has the following structur
 
 The HTML part and the plain text part have the identical content, except that the HTML part contains
 additional markup, in this case for displaying the word `World` in bold. Since those parts are in a
-multipart/alternative container, the message viewer application can freely chose which part it displays.
+multipart/alternative container, the message viewer application can freely choose which part it displays.
 Some users might prefer reading the message in HTML format, some might prefer reading the message
 in plain text format.
 
 Of course, a HTML message could also consist only of a single `text/html`, without the multipart/alternative
-container and therefore without an alternative plain text part. However, people prefering the plain
+container and therefore without an alternative plain text part. However, people preferring the plain
 text version wouldn't like this, especially if their mail client has no HTML engine and they would see
 the HTML source including all tags only. Therefore, HTML messages should always include an alternative plain text part.
 
@@ -668,14 +667,14 @@ HTML has support for showing images, with the `img` tag. Such an image is shown 
 the `img` tag occurs, which is called an **inline image**. Note that inline images are different
 from images that are just normal attachments: Normal attachments are always shown at the beginning or
 at the end of the message, while inline images are shown in-place. In HTML, the `img` tag points to an
-image file that is either a file on disk or an URL to an image on the Internet. To make inline images
+image file that is either a file on disk or a URL of an image on the Internet. To make inline images
 work with MIME messages, a different mechanism is needed, since the image is not a file on disk or on
 the Internet, but a MIME part somewhere in the same message. As specified in
-[RFC 2557](https://tools.ietf.org/html/rfc2557), the way this can be done is by refering
+[RFC 2557](https://tools.ietf.org/html/rfc2557), the way this can be done is by referring
 to a **Content-ID** in the `img` tag, and marking the MIME part that is the image with that content
 ID as well.
 
-An example will probably be more clear than this explaination:
+An example will probably be more clear than this explanation:
 
     From: Thomas McGuire <thomas@domain.com>
     Subject: Inine Image Test
@@ -742,7 +741,7 @@ In this case, the `img` tag has the source `cid:547730348@KDE`, which is a place
 to the Content-Id header of another part. The image part contains exactly that value in its `Content-Id`
 header, and therefore a message viewer application can connect both.
 
-The plain text part can not have inline images, therefore its text might seem a bit confusing.
+The plain text part cannot have inline images, therefore its text might seem a bit confusing.
 
 HTML messages with inline images can of course also have attachments, in which the message structure
 becomes a mix of multipart/related, multipart/alternative and multipart/mixed. The following example
@@ -757,13 +756,13 @@ shows the structure of a message with two inline images and one `.tar.gz` attach
     |  \- image/png
     \- application/x-compressed-tar
 
-The structure of MIME messages can get arbitrarily complex, the above is just one relativley simply example.
+The structure of MIME messages can get arbitrarily complex, the above is just one relatively simple example.
 The nesting of multipart nodes can get much deeper, there is no restriction on nesting levels.
 
 ### Encapsulated messages ### {#encapsulated}
 
 Encapsulated messages are messages which are attachments to another message. The most common example
-is a forwareded mail, like in this example:
+is a forwarded mail, like in this example:
 
     From: Frank <frank@domain.com>
     To: Bob <bob@domain.com>
@@ -805,7 +804,6 @@ is a forwareded mail, like in this example:
     |- text/plain
     \- message/rfc822
     \- text/plain
-    \endverbatim
 
 The attached message is treated like any other attachment, and therefore the top-level content type
 is multipart/mixed.
@@ -819,28 +817,28 @@ are both in the MIME body of the `message/rfc822` MIME part.
 ### Signed and Encrypted Messages ### {#crypto}
 
 MIME messages can be cryptographically signed and/or encrypted. The format for those messages is
-defined in [RFC 1847](https://tools.ietf.org/html/rfc1847, which specifies two new
+defined in [RFC 1847](https://tools.ietf.org/html/rfc1847), which specifies two new
 multipart subtypes, **multipart/signed** and **multipart/encrypted**. The crypto format of these new
 security multiparts is defined in additional RFCs; the most common formats are
 [OpenPGP](https://tools.ietf.org/html/rfc3156) and [S/MIME](https://tools.ietf.org/html/rfc2633).
 Both formats use the principle of [public-key cryptography](https://en.wikipedia.org/wiki/Public-key_cryptography).
-OpenPGP uses **key**s, and S/MIME uses **certificates**. For easier text flow, only the term `key` will be used
+OpenPGP uses **keys**, and S/MIME uses **certificates**. For easier text flow, only the term `key` will be used
 for both keys and certificates in the text below.
 
-Security multiparts only sign or encrypt a specifc MIME part. The consequence is that the message headers
+Security multiparts only sign or encrypt a specific MIME part. The consequence is that the message headers
 can not be signed or encrypted. Also this means that it is possible to sign or encrypt only some of
 the MIME parts of a message, while leaving other MIME parts unsigned or unencrypted. Furthermore, it
 is possible to sign or encrypt different MIME parts with different crypto formats. As you can see,
 security multiparts are very flexible.
 
 Security multiparts are not supported by KMime. However, it is possible for applications to use KMime
-when providing support for crypto messages. For example, the [messageviewer](http://api.kde.org/4.x-api/kdepim-apidocs/messageviewer/html/index.html)
-component in KDEPIM supports signed and encrypted MIME parts, and the
-[messagecomposer](https://websvn.kde.org/trunk/KDE/kdepim/messagecomposer/) library can create
+when providing support for crypto messages. For example, the messageviewer
+component in KDE PIM's [messagelib](https://api.kde.org/kdepim/messagelib/html/index.html) supports signed and encrypted MIME parts, and the
+messagecomposer library can create
 such messages.
 
-Signed MIME parts are signed with the private key of the sender, everybody who has the
-public key of the sender can verifiy the signature. Encrypted MIME parts are encrypted with the public
+Signed MIME parts are signed with the private key of the sender, and everybody who has the
+public key of the sender can verify the signature. Encrypted MIME parts are encrypted with the public
 key of the receiver, and only the receiver, who is the sole person possessing the private key, can decrypt
 it. Sending an encrypted message to multiple recipients therefore means that the message has to be sent
 multiple times, once for each receiver, as each message needs to be encrypted with a different key.
@@ -947,7 +945,6 @@ the encrypted data, such as a version number. The second child then contains the
     -----END PGP MESSAGE-----
 
 
-    \verbatim
     multipart/encrypted
     |- application/pgp-encrypted
     \- application/octet-stream
@@ -956,14 +953,14 @@ The encrypted data is contained in the `application/octet-stream` MIME part. Wit
 the data, it is unknown what the original content type of the encrypted MIME data is! The encrypted
 data could be a simple text/plain MIME part, an image attachment, or a multipart part. The encrypted
 data contains both the MIME header and the MIME body of the original MIME part, as the header is needed
-to know the content type of the data. The data could as well by of content type multipart/signed, in
+to know the content type of the data. The data could as well be of content type multipart/signed, in
 which case the message would be both signed and encrypted.
 
-#### iNLINE CRYPTO FORMATS ####
+#### Inline Crypto Formats ####
 
 Although using the security multiparts `multipart/signed` and `multipart/encrypted` is the recommended
 standard, there are other possibilities to sign or encrypt a message. The most common methods are
-**Inline OpenPGP** and **S/MIME Opaque<**.
+**Inline OpenPGP** and **S/MIME Opaque**.
 
 For inline OpenPGP messages, the crypto data is contained inlined in the actual MIME part. For example,
 a message with a signed text/plain part might look like this:
@@ -988,8 +985,6 @@ a message with a signed text/plain part might look like this:
     WIoAn3PjVPlWibu02dfdFObwd2eJ1jAW
     =p3uO
     -----END PGP SIGNATURE-----
-    
-    \endverbatim
 
 Encrypted inline OpenPGP works in a similar way. Opaque S/MIME messages are also similar: For signed
 MIME parts, both the signature and the signed data are contained in a single MIME part with a content
@@ -1003,8 +998,8 @@ detail here.
 #### Line Breaks ####
 
 Each line in a MIME message has to end with a **CRLF**, which is a carriage return followed by a
-newline, which is the escape sequence`\\r\\n`. CR and LF may not appear in other places in
-a MIME message. Special care needs to be taken with encoded linebreaks in binary data, and with
+newline, which is the escape sequence `\\r\\n`. CR and LF may not appear in other places in
+a MIME message. Special care needs to be taken with encoded line breaks in binary data, and with
 distinguishing soft and hard line breaks when converting between different content transfer encodings.
 For more details, have a look at the RFCs.
 
@@ -1022,7 +1017,7 @@ the parameters of the header field value were in the next line. The header field
 **folded** in this case. In general, header fields can be folded whenever whitespace (**WS**) occurs.
 
 Header field values can contain **comments**; these comments are semantically invisible and have no
-meaning. Comments are surrouned by parentheses.
+meaning. Comments are surrounded by parentheses.
 
     Date: Thu, 13
           Feb 1969 23:32 -0330 (Newfoundland Time)
@@ -1030,7 +1025,7 @@ meaning. Comments are surrouned by parentheses.
 This example shows a folded header that also has a comment (*Newfoundland Time*). The date header is a structured header
 field, and therefore it has to obey to a defined syntax; however, adding comments and whitespace is
 allowed almost anywhere, and they are ignored when parsing the message. Comments and whitespace where
-folding is allowed is sometimes referred to as \b CFWS. Any occurence of CFWS is semantically regarded
+folding is allowed is sometimes referred to as **CFWS**. Any occurrence of CFWS is semantically regarded
 as a single space.
 
 # The two in-memory representations of messages # {#string-broken-down }
@@ -1038,8 +1033,8 @@ as a single space.
 There are two representations of messages in memory. The first is called **string representation**
 and the other one is called **broken-down representation**.
 
-String representation is somehow misnamed,
-a better term would be `byte array representation`. The string representation is just a big array of
+String representation is somewhat misnamed,
+a better term would be "byte array representation". The string representation is just a big array of
 bytes in memory, and those bytes make up the encoded mail. The string representation is what is stored
 on disk or what is received from an IMAP server, for example.
 
@@ -1049,11 +1044,11 @@ and each header in that list is again broken down into a structure. While the st
 is just an array of 7 bit characters that might be encoded, the broken-down representations contain the
 decoded text strings.
 
-As an example, conside the byte array
+As an example, consider the byte array
 
     "Hugo Maier" <hugo.maier@mailer.domain>
 
-Although this is just a bunch of 7 bit characters, a human immediatley recognizes the broken-down structure and
+Although this is just a bunch of 7 bit characters, a human immediately recognizes the broken-down structure and
 sees that the display name is "Hugo Maier" and that the localpart of the email address is "hugo.maier".
 To illustrate, the broken-down structure could be stored in a structure like this:
 
@@ -1074,11 +1069,11 @@ to display information like subject, sender and date in the list.
 On the other hand, assembling a message is for example done in the composer of a mail application, where the mail information
 is available in a broken-down form in the composer window, and is then assembled into a final MIME message that is then sent with SMTP.
 
-Parsing is often quite tricky, you should always use the methods from KMime instead of writing parsing
-routines yourself. Even the simple mailbox example above is in pratice difficult to parse, as many things like comments
+Parsing is often quite tricky. You should always use the methods from KMime instead of writing parsing
+routines yourself. Even the simple mailbox example above is in practice difficult to parse, as many things like comments
 and escaped characters need to be taken into consideration.
 The same is true for assembling: In the above case, one could be tempted to assemble the mailbox by simply
-writting code like this:
+writing code like this:
 
     QByteArray stringRepresentation = '"' + displayName + "\" <" + addressSpec + ">";
 
@@ -1103,17 +1098,17 @@ with head() and body().
 There is also a class `KMime::Message`, which basically is a thin wrapper around Content for the top-level
 MIME part. Message also contains convenience methods to access the message headers.
 
-For headers, there is a class hierachy, with `KMime::Headers::Base` as the base class, and
-`KMime::Headers::Generics::Structured` and KMime::Headers::Generics::Unstructured` in the next levels. Unstructured is
+For headers, there is a class hierarchy, with `KMime::Headers::Base` as the base class, and
+`KMime::Headers::Generics::Structured` and `KMime::Headers::Generics::Unstructured` in the next levels. Unstructured is
 for headers that don't have a defined structure, like Subject, whereas Structured headers have a
-specific structure, like Date. The header classes have methods to parse headers, like from7BitString(),
-and to assemble them, like as7BitString(). Once a header is parsed, the classes provide access to the
-broken-down structures, for example the Date header has a method dateTime().
-The parsing in from7BitString() is usually handled by a protected parse() function, which in turn call
-parsing functions for different types, like parseAddressList() or parseAddrSpec() from the `KMime::HeaderParsing`
+specific structure, like Date. The header classes have methods to parse headers, like `from7BitString()`,
+and to assemble them, like `as7BitString()`. Once a header is parsed, the classes provide access to the
+broken-down structures; for example the `Date` header has a method `dateTime()`.
+The parsing in `from7BitString()` is usually handled by a protected `parse()` function, which in turn call
+parsing functions for different types, like `parseAddressList()` or `parseAddrSpec()` from the `KMime::HeaderParsing`
 namespace.
 
-When modifing messages, the message is first parsed into a broken-down representation. This broken-down
+When modifying messages, the message is first parsed into a broken-down representation. This broken-down
 representation can then be accessed and modified with the appropriate functions. After changing the broken-down
 structure, it needs to be assembled again to get the modified string representation.
 
