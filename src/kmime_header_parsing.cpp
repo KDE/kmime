@@ -354,7 +354,6 @@ bool parseGenericQuotedString(const char *&scursor, const char *const send,
     // We will apply unfolding and quoted-pair removal.
     // We return when we either encounter the end or unescaped openChar
     // or closeChar.
-
     assert(*(scursor - 1) == openChar || *(scursor - 1) == closeChar);
 
     while (scursor != send) {
@@ -445,6 +444,31 @@ bool parseGenericQuotedString(const char *&scursor, const char *const send,
                 --scursor;
                 if (parseEncodedWord(scursor, send, tmp, lang, charset)) {
                     result += tmp;
+                    //qDebug() << " tmp " << tmp;
+                    if (scursor == send) {
+                        break;
+                    } else if (*scursor++ == ' ') { //Workaround Bug 362650 thunderbird add space for each new line
+                        if (scursor == send) {
+                            --scursor;
+                            break;
+                        } else if (*scursor++ == '=') {
+                            if (scursor == send) {
+                                --scursor;
+                                --scursor;
+                                break;
+                            } else if (*scursor++ == '?') {
+                                --scursor;
+                                --scursor;
+                                break;
+                            }
+                        } else {
+                            --scursor;
+                            --scursor;
+                        }
+                    } else {
+                        --scursor;
+                    }
+
                     break;
                 } else {
                     scursor = oldscursor;
@@ -1305,7 +1329,6 @@ bool parseRawParameterList(const char *&scursor, const char *const send,
     // (private) method is that we can deal with broken parameters
     // _here_ and leave the rfc2231 handling solely to
     // parseParameterList(), which will still be enough work.
-
     while (scursor != send) {
         eatCFWS(scursor, send, isCRLF);
         // empty entry ending the list: OK.
@@ -1317,7 +1340,6 @@ bool parseRawParameterList(const char *&scursor, const char *const send,
             scursor++;
             continue;
         }
-
         QPair<QString, QStringOrQPair> maybeParameter;
         if (!parseParameter(scursor, send, maybeParameter, isCRLF)) {
             // we need to do a bit of work if the attribute is not
@@ -1586,7 +1608,6 @@ bool parseParameterListWithCharset(const char *&scursor,
             }
         }
     }
-
     // write last attr/value pair:
     if (!attribute.isNull()) {
         result.insert(attribute, value);
