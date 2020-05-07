@@ -544,11 +544,50 @@ void HeaderTest::testContentDispositionHeader()
     delete h;
 
     // TODO: test for case-insensitive disposition value
+
+    // Bug 362650
+    h = new ContentDisposition;
+    h->from7BitString("attachment;\n"
+     "filename*0*=UTF-8''%D0%AD%D1%82%D0%BE%D0%92%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD;"
+     "filename*1*=%D0%B8%D0%B5%D0%A1%D0%94%D0%BB%D0%B8%D0%BD%D0%BD%D1%8B%D0%BC;"
+     "filename*2*=%D0%98%D0%BC%D0%B5%D0%BC%D0%A4%D0%B0%D0%B9%D0%BB%D0%B0%D0%A1;"
+     "filename*3*=%D0%BE%D0%B2%D1%81%D0%B5%D0%BC%D0%91%D0%B5%D0%B7%D0%9F%D1%80;"
+     "filename*4*=%D0%BE%D0%B1%D0%B5%D0%BB%D0%BE%D0%B2%D0%98%D0%95%D1%89%D1%91;"
+     "filename*5*=%D0%A0%D0%B0%D0%B7%D0%AD%D1%82%D0%BE%D0%92%D0%BB%D0%BE%D0%B6;"
+     "filename*6*=%D0%B5%D0%BD%D0%B8%D0%B5%D0%A1%D0%94%D0%BB%D0%B8%D0%BD%D0%BD;"
+     "filename*7*=%D1%8B%D0%BC%D0%98%D0%BC%D0%B5%D0%BC%D0%A4%D0%B0%D0%B9%D0%BB;"
+     "filename*8*=%D0%B0%D0%A1%D0%BE%D0%B2%D1%81%D0%B5%D0%BC%D0%91%D0%B5%D0%B7;"
+     "filename*9*=%D0%9F%D1%80%D0%BE%D0%B1%D0%B5%D0%BB%D0%BE%D0%B2%2E%74%78%74");
+    QCOMPARE(h->disposition(), CDattachment);
+    QCOMPARE(h->filename(), QString::fromUtf8("ЭтоВложениеСДлиннымИмемФайлаСовсемБезПробеловИЕщёРазЭтоВложениеСДлиннымИмемФайлаСовсемБезПробелов.txt"));
+
+    h = new ContentDisposition;
+    h->from7BitString("attachment; filename*=UTF-8''%D0%AD%D1%82%D0%BE%D0%92%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%D0%A1%D0%94%D0%BB%D0%B8%D0%BD%D0%BD%D1%8B%D0%BC%D0%98%D0%BC%D0%B5%D0%BC%D0%A4%D0%B0%D0%B9%D0%BB%D0%B0%D0%A1%D0%BE%D0%B2%D1%81%D0%B5%D0%BC%D0%91%D0%B5%D0%B7%D0%9F%D1%80%D0%BE%D0%B1%D0%B5%D0%BB%D0%BE%D0%B2%D0%98%D0%95%D1%89%D1%91%D0%A0%D0%B0%D0%B7%D0%AD%D1%82%D0%BE%D0%92%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%D0%A1%D0%94%D0%BB%D0%B8%D0%BD%D0%BD%D1%8B%D0%BC%D0%98%D0%BC%D0%B5%D0%BC%D0%A4%D0%B0%D0%B9%D0%BB%D0%B0%D0%A1%D0%BE%D0%B2%D1%81%D0%B5%D0%BC%D0%91%D0%B5%D0%B7%D0%9F%D1%80%D0%BE%D0%B1%D0%B5%D0%BB%D0%BE%D0%B2%2Etxt");
+    QCOMPARE(h->disposition(), CDattachment);
+    QCOMPARE(h->filename(), QString::fromUtf8("ЭтоВложениеСДлиннымИмемФайлаСовсемБезПробеловИЕщёРазЭтоВложениеСДлиннымИмемФайлаСовсемБезПробелов.txt"));
 }
 
 void HeaderTest::testContentTypeHeader()
 {
     ContentType *h;
+
+    //Bug 362650 (test is without space => ok)
+    h = new ContentType;
+    h->from7BitString("text/plain;\n name=\"=?UTF-8?B?0K3RgtC+0JLQu9C+0LbQtdC90LjQtdCh0JTQu9C40L3QvdGL0LzQmNC8?="
+                      "=?UTF-8?B?0LXQvNCk0LDQudC70LDQodC+0LLRgdC10LzQkdC10LfQn9GA0L7QsdC1?="
+                      "=?UTF-8?B?0LvQvtCy0JjQldGJ0ZHQoNCw0LfQrdGC0L7QktC70L7QttC10L3QuNC1?="
+                      "=?UTF-8?B?0KHQlNC70LjQvdC90YvQvNCY0LzQtdC80KTQsNC50LvQsNCh0L7QstGB?="
+                      "=?UTF-8?B?0LXQvNCR0LXQt9Cf0YDQvtCx0LXQu9C+0LIudHh0?=\"");
+    QCOMPARE(h->name(), QString::fromUtf8("ЭтоВложениеСДлиннымИмемФайлаСовсемБезПробеловИЕщёРазЭтоВложениеСДлиннымИмемФайлаСовсемБезПробелов.txt"));
+    delete h;
+    h = new ContentType;
+    h->from7BitString("text/plain;\n name=\"=?UTF-8?B?0K3RgtC+0JLQu9C+0LbQtdC90LjQtdCh0JTQu9C40L3QvdGL0LzQmNC8?="
+                      " =?UTF-8?B?0LXQvNCk0LDQudC70LDQodC+0LLRgdC10LzQkdC10LfQn9GA0L7QsdC1?="
+                      " =?UTF-8?B?0LvQvtCy0JjQldGJ0ZHQoNCw0LfQrdGC0L7QktC70L7QttC10L3QuNC1?="
+                      " =?UTF-8?B?0KHQlNC70LjQvdC90YvQvNCY0LzQtdC80KTQsNC50LvQsNCh0L7QstGB?="
+                      " =?UTF-8?B?0LXQvNCR0LXQt9Cf0YDQvtCx0LXQu9C+0LIudHh0?=\"");
+    QCOMPARE(h->name(), QString::fromUtf8("ЭтоВложениеСДлиннымИмемФайлаСовсемБезПробеловИЕщёРазЭтоВложениеСДлиннымИмемФайлаСовсемБезПробелов.txt"));
+    delete h;
 
     // empty header
     h = new ContentType();
@@ -624,6 +663,7 @@ void HeaderTest::testContentTypeHeader()
     QCOMPARE(h->mediaType(), QByteArray("MULTIPART"));
     QCOMPARE(h->subType(), QByteArray("MIXED"));
     delete h;
+
 }
 
 void HeaderTest::testTokenHeader()
