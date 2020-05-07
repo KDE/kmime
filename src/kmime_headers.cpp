@@ -255,7 +255,7 @@ void Structured::from7BitString(const char *s, size_t len)
 
 void Structured::from7BitString(const QByteArray &s)
 {
-#if 1
+#if 0
     Q_D(Structured);
     //Bug about mailto with space which are replaced by "_" so it failed to parse
     //=> we reconvert to correct encoding as RFC2047
@@ -1872,7 +1872,6 @@ bool ContentType::parse(const char *&scursor, const char *const send,
     if (!parseToken(scursor, send, maybeMimeType, ParseTokenNoFlag)) {
         return false;
     }
-
     // subtype
     eatCFWS(scursor, send, isCRLF);
     if (scursor == send || *scursor != '/') {
@@ -1883,7 +1882,6 @@ bool ContentType::parse(const char *&scursor, const char *const send,
     if (scursor == send) {
         return false;
     }
-
     QPair<const char *, int> maybeSubType;
     if (!parseToken(scursor, send, maybeSubType, ParseTokenNoFlag)) {
         return false;
@@ -1898,7 +1896,6 @@ bool ContentType::parse(const char *&scursor, const char *const send,
     if (scursor == send) {
         goto success; // no parameters
     }
-
     if (*scursor != ';') {
         return false;
     }
