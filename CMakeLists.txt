@@ -38,7 +38,7 @@ find_package(KF5Codecs ${KF5_MIN_VERSION} CONFIG REQUIRED)
 add_definitions(-DTRANSLATION_DOMAIN=\"libkmime5\")
 if (EXISTS "${CMAKE_SOURCE_DIR}/.git")
    add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050e00)
-   add_definitions(-DKF_DISABLE_DEPRECATED_BEFORE_AND_AT=0x054500)
+   add_definitions(-DKF_DISABLE_DEPRECATED_BEFORE_AND_AT=0x054600)
 endif()
 
 ########### Targets ###########
