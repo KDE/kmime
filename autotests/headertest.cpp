@@ -161,6 +161,7 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->as7BitString(false), QByteArray("Ingo =?ISO-8859-1?Q?Kl=F6cker?= <kloecker@kde.org>"));
     delete h;
 
+
     // a display name with non-latin1 content in both name components
     h = new Headers::Generics::AddressList();
     const QString testAddress = QString::fromUtf8("Ingö Klöcker <kloecker@kde.org>");
@@ -296,6 +297,17 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(names.takeFirst(), QLatin1String("jdoe@example.org."));
     QCOMPARE(names.takeFirst(), QLatin1String("Who?"));
     QCOMPARE(h->as7BitString(false), QByteArray("Mary Smith <mary@x.test>, jdoe@example.org., Who? <one@y.test>"));
+    delete h;
+
+    //Bug 421251
+    // a display name with non-latin1 content
+    h = new Headers::Generics::AddressList();
+    h->from7BitString("=?iso-8859-1?Q?=22I=F1igo_Salvador_Azurmendi=22?= <xalba@clientes.euskaltel.es>");
+    QCOMPARE(h->addresses().count(), 1);
+    QCOMPARE(h->addresses().first(), QByteArray("xalba@clientes.euskaltel.es"));
+    QCOMPARE(h->displayNames().first(), QString::fromUtf8("I\u00F1igo Salvador Azurmendi"));
+    QCOMPARE(h->asUnicodeString(), QString::fromUtf8("I\u00F1igo Salvador Azurmendi <xalba@clientes.euskaltel.es>"));
+    QCOMPARE(h->as7BitString(false), QByteArray("=?ISO-8859-1?Q?I=F1igo?= Salvador Azurmendi <xalba@clientes.euskaltel.es>"));
     delete h;
 }
 
