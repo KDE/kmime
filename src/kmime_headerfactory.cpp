@@ -38,8 +38,8 @@ using namespace KMime;
 using namespace KMime::Headers;
 
 #define mk_header(hdr) \
-    if (qstrnicmp(type, hdr ::staticType(), typeLen) == 0) \
-        return new hdr
+    if (qstrnicmp(type, hdr ::staticType(), std::max(typeLen, strlen(hdr::staticType()))) == 0) \
+        return new hdr;
 
 Headers::Base *HeaderFactory::createHeader(const char *type, size_t typeLen)
 {

@@ -630,6 +630,16 @@ void MessageTest::testEmptySubject()
     QVERIFY(msg->subject()->asUnicodeString().isEmpty());
 }
 
+void MessageTest::testReplyHeader()
+{
+    auto msg = readAndParseMail(QStringLiteral("reply-header.mbox"));
+    QVERIFY(msg);
+    QVERIFY(!msg->replyTo(false));
+    QCOMPARE(msg->hasHeader("Reply-To"), false);
+    QCOMPARE(msg->hasHeader("Reply"), true);
+    QVERIFY(msg->headerByType("Reply"));
+}
+
 KMime::Message::Ptr MessageTest::readAndParseMail(const QString &mailFile) const
 {
     QFile file(QLatin1String(TEST_DATA_DIR) + QLatin1String("/mails/") + mailFile);
