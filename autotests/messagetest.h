@@ -47,6 +47,7 @@ private Q_SLOTS:
     void testEncryptedMails();
     void testReturnSameMail();
     void testEmptySubject();
+    void testReplyHeader();
 
 private:
     KMime::Message::Ptr readAndParseMail(const QString &mailFile) const;
