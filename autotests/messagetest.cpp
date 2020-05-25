@@ -656,3 +656,12 @@ KMime::Message::Ptr MessageTest::readAndParseMail(const QString &mailFile) const
     return msg;
 }
 
+void MessageTest::testBug392239()
+{
+    auto msg = readAndParseMail(QStringLiteral("bug392239.mbox"));
+
+    QCOMPARE(msg->subject()->as7BitString().data(), "Subject: ");
+    QCOMPARE(msg->contents().size(), 0);
+    QCOMPARE(msg->contentTransferEncoding()->encoding(), KMime::Headers::CEbase64);
+    QCOMPARE(msg->decodedText().toUtf8().data(), "Following this paragraph there is a double line break which should result in vertical spacing.\r\rPreceding this paragraph there is a double line break which should result in vertical spacing.\r");
+}
