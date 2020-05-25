@@ -50,6 +50,7 @@ private Q_SLOTS:
     void testReplyHeader();
 
     void testBug392239();
+    void testCRtoLF();
 private:
     KMime::Message::Ptr readAndParseMail(const QString &mailFile) const;
 };

@@ -664,4 +664,16 @@ void MessageTest::testBug392239()
     QCOMPARE(msg->contents().size(), 0);
     QCOMPARE(msg->contentTransferEncoding()->encoding(), KMime::Headers::CEbase64);
     QCOMPARE(msg->decodedText().toUtf8().data(), "Following this paragraph there is a double line break which should result in vertical spacing.\r\rPreceding this paragraph there is a double line break which should result in vertical spacing.\r");
+    const QByteArray data = KMime::CRtoLF(msg->decodedText().toUtf8());
+    QCOMPARE(data, "Following this paragraph there is a double line break which should result in vertical spacing.\n\nPreceding this paragraph there is a double line break which should result in vertical spacing.\n");
+}
+
+void MessageTest::testCRtoLF()
+{
+    QByteArray data = "Subject: Test\n";
+    QCOMPARE(CRtoLF(data), "Subject: Test\n");
+    data = "Subject: Test\r";
+    QCOMPARE(CRtoLF(data), "Subject: Test\n");
+    data = "Subject: Test\r\n";
+    QCOMPARE(CRtoLF(data), "Subject: Test\r\n");
 }
