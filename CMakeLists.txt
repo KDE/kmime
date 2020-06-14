@@ -36,10 +36,8 @@ ecm_setup_version(PROJECT VARIABLE_PREFIX KMIME
 find_package(KF5I18n ${KF5_MIN_VERSION} CONFIG REQUIRED)
 find_package(KF5Codecs ${KF5_MIN_VERSION} CONFIG REQUIRED)
 add_definitions(-DTRANSLATION_DOMAIN=\"libkmime5\")
-if (EXISTS "${CMAKE_SOURCE_DIR}/.git")
-   add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050f00)
-   add_definitions(-DKF_DISABLE_DEPRECATED_BEFORE_AND_AT=0x054700)
-endif()
+add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050f00)
+add_definitions(-DKF_DISABLE_DEPRECATED_BEFORE_AND_AT=0x054700)
 
 ########### Targets ###########
 add_subdirectory(src)
