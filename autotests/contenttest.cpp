@@ -880,15 +880,15 @@ void ContentTest::testContentTypeMimetype()
     QFETCH(QList<QByteArray> , contentMimeType);
 
     // test parsing
-    Message *msg = new Message();
-    msg->setContent(data);
-    msg->parse();
+    Message msg;
+    msg.setContent(data);
+    msg.parse();
     QEXPECT_FAIL("broken", "Problem with content type", Continue);
-    QCOMPARE(msg->contentType(false)->mimeType(), mimetype);
-    QCOMPARE(msg->contents().count(), contentCount);
-    for (int i = 0; i < msg->contents().count(); ++i) {
-        QVERIFY(msg->contents().at(i)->contentType(false));
+    QCOMPARE(msg.contentType(false)->mimeType(), mimetype);
+    QCOMPARE(msg.contents().count(), contentCount);
+    for (int i = 0; i < msg.contents().count(); ++i) {
+        QVERIFY(msg.contents().at(i)->contentType(false));
         QCOMPARE(contentMimeType.count(), contentCount);
-        QCOMPARE(msg->contents().at(i)->contentType(false)->mimeType(), contentMimeType.at(i));
+        QCOMPARE(msg.contents().at(i)->contentType(false)->mimeType(), contentMimeType.at(i));
     }
 }

@@ -572,11 +572,13 @@ void HeaderTest::testContentDispositionHeader()
      "filename*9*=%D0%9F%D1%80%D0%BE%D0%B1%D0%B5%D0%BB%D0%BE%D0%B2%2E%74%78%74");
     QCOMPARE(h->disposition(), CDattachment);
     QCOMPARE(h->filename(), QString::fromUtf8("ЭтоВложениеСДлиннымИмемФайлаСовсемБезПробеловИЕщёРазЭтоВложениеСДлиннымИмемФайлаСовсемБезПробелов.txt"));
+    delete h;
 
     h = new ContentDisposition;
     h->from7BitString("attachment; filename*=UTF-8''%D0%AD%D1%82%D0%BE%D0%92%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%D0%A1%D0%94%D0%BB%D0%B8%D0%BD%D0%BD%D1%8B%D0%BC%D0%98%D0%BC%D0%B5%D0%BC%D0%A4%D0%B0%D0%B9%D0%BB%D0%B0%D0%A1%D0%BE%D0%B2%D1%81%D0%B5%D0%BC%D0%91%D0%B5%D0%B7%D0%9F%D1%80%D0%BE%D0%B1%D0%B5%D0%BB%D0%BE%D0%B2%D0%98%D0%95%D1%89%D1%91%D0%A0%D0%B0%D0%B7%D0%AD%D1%82%D0%BE%D0%92%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%D0%A1%D0%94%D0%BB%D0%B8%D0%BD%D0%BD%D1%8B%D0%BC%D0%98%D0%BC%D0%B5%D0%BC%D0%A4%D0%B0%D0%B9%D0%BB%D0%B0%D0%A1%D0%BE%D0%B2%D1%81%D0%B5%D0%BC%D0%91%D0%B5%D0%B7%D0%9F%D1%80%D0%BE%D0%B1%D0%B5%D0%BB%D0%BE%D0%B2%2Etxt");
     QCOMPARE(h->disposition(), CDattachment);
     QCOMPARE(h->filename(), QString::fromUtf8("ЭтоВложениеСДлиннымИмемФайлаСовсемБезПробеловИЕщёРазЭтоВложениеСДлиннымИмемФайлаСовсемБезПробелов.txt"));
+    delete h;
 }
 
 void HeaderTest::testContentTypeHeader()
