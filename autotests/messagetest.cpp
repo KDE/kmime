@@ -677,3 +677,21 @@ void MessageTest::testCRtoLF()
     data = "Subject: Test\r\n";
     QCOMPARE(CRtoLF(data), "Subject: Test\r\n");
 }
+
+void MessageTest::testBugAttachment387423()
+{
+    auto msg = readAndParseMail(QStringLiteral("kmail-attachmentstatus.mbox"));
+
+    QCOMPARE(msg->subject()->as7BitString().data(), "Subject: XXXXXXXXXXXXXXXXXXXXX");
+    qDebug() << "msg->attachments() "<< msg->attachments();
+    QEXPECT_FAIL("", "Problem with searching attachment", Continue);
+    QVERIFY(msg->attachments().count() == 1);
+
+    KMime::Content *attachment = msg->contents()[1];
+    QCOMPARE(attachment->contentType(false)->mediaType().data(), "image");
+    QCOMPARE(attachment->contentType(false)->subType().data(), "gif");
+    QCOMPARE(attachment->contentType(false)->subType().data(), "gif");
+    QCOMPARE(attachment->contentDisposition(false)->filename(), QStringLiteral("new.gif"));
+    QCOMPARE(attachment->contentDisposition(false)->disposition(), Headers::CDattachment);
+}
+
