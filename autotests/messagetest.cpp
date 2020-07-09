@@ -685,7 +685,8 @@ void MessageTest::testBugAttachment387423()
     QCOMPARE(msg->subject()->as7BitString().data(), "Subject: XXXXXXXXXXXXXXXXXXXXX");
     qDebug() << "msg->attachments() "<< msg->attachments();
     QEXPECT_FAIL("", "Problem with searching attachment", Continue);
-    QVERIFY(msg->attachments().count() == 1);
+    QCOMPARE(msg->attachments().count(), 1);
+    QCOMPARE(msg->contents().count(), 2);
 
     KMime::Content *attachment = msg->contents()[1];
     QCOMPARE(attachment->contentType(false)->mediaType().data(), "image");
