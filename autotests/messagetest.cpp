@@ -683,7 +683,6 @@ void MessageTest::testBugAttachment387423()
     auto msg = readAndParseMail(QStringLiteral("kmail-attachmentstatus.mbox"));
 
     QCOMPARE(msg->subject()->as7BitString().data(), "Subject: XXXXXXXXXXXXXXXXXXXXX");
-    qDebug() << "msg->attachments() "<< msg->attachments();
     QEXPECT_FAIL("", "Problem with searching attachment", Continue);
     QCOMPARE(msg->attachments().count(), 1);
     QCOMPARE(msg->contents().count(), 2);
