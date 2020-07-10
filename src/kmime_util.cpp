@@ -638,7 +638,8 @@ bool hasAttachment(Content *content)
     // Ok, content itself is not an attachment. now we deal with multiparts
     auto ct = content->contentType(false);
     if (ct && ct->isMultipart() && !ct->isSubtype("related")) {// && !ct->isSubtype("alternative")) {
-        Q_FOREACH (Content *child, content->contents()) {
+        const auto contents = content->contents();
+        for (Content *child : contents) {
             if (hasAttachment(child)) {
                 return true;
             }
@@ -659,7 +660,8 @@ bool hasInvitation(Content *content)
 
     // Ok, content itself is not an invitation. now we deal with multiparts
     if (content->contentType()->isMultipart()) {
-        Q_FOREACH (Content *child, content->contents()) {
+        const auto contents = content->contents();
+        for (Content *child : contents) {
             if (hasInvitation(child)) {
                 return true;
             }

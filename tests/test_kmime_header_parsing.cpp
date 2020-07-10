@@ -370,7 +370,8 @@ int main(int argc, char *argv[])
                  << (jt).displayName
                  << endl;
             int i = 0;
-            foreach (const auto &it, (jt).mailboxList) {
+            const auto mailboxList = (jt).mailboxList;
+            for (const auto &it : mailboxList) {
                 cout << "result[" << j << "].mailboxList[" << i << "].displayName:\n"
                      << (it).name() << endl
                      << "result[" << j << "].mailboxList[" << i << "].addrSpec.localPart:\n"

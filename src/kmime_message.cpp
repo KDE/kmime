@@ -74,7 +74,8 @@ Content *Message::mainBodyPart(const QByteArray &type)
             if (type.isEmpty()) {
                 return c->contents().at(0);
             }
-            foreach (Content *c1, c->contents()) {
+            const auto contents = c->contents();
+            for (Content *c1 : contents) {
                 if (c1->contentType()->mimeType() == type) {
                     return c1;
                 }
