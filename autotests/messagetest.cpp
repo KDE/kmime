@@ -695,3 +695,12 @@ void MessageTest::testBugAttachment387423()
     QCOMPARE(attachment->contentDisposition(false)->disposition(), Headers::CDattachment);
 }
 
+void MessageTest::testCrashReplyInvalidEmail()
+{
+    KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("crash-invalid-email-reply.mbox"));
+
+    QCOMPARE(msg->subject()->as7BitString().data(), "Subject: Re: Authorization required to post to gmane.network.wireguard (b96565298414a43aabcf9fbedf5e7e27)");
+    QEXPECT_FAIL("", "Problem with content type", Continue);
+    QCOMPARE(msg->contents().size(), 2);
+}
+
