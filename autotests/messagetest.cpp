@@ -157,7 +157,7 @@ void MessageTest::testHeaderFieldWithoutSpace()
 {
     // Headers without a space, like the CC header here, are allowed according to
     // the examples in RFC2822, Appendix A5
-    QString mail = QStringLiteral("From:\n"
+    const QString mail = QStringLiteral("From:\n"
                                  "To: heinz@test.de\n"
                                  "Cc:moritz@test.de\n"
                                  "Subject: Test\n"
@@ -178,7 +178,7 @@ void MessageTest::testWronglyFoldedHeaders()
 {
     // The first subject line here doesn't contain anything. This is invalid,
     // however there are some mailers out there that produce those messages.
-    QString mail = QStringLiteral("Subject:\n"
+    const QString mail = QStringLiteral("Subject:\n"
                                  " Hello\n"
                                  " World\n"
                                  "To: \n"
@@ -197,8 +197,8 @@ void MessageTest::missingHeadersTest()
 {
     // Test that the message body is OK even though some headers are missing
     KMime::Message msg;
-    QString body = QStringLiteral("Hi Donald, look at those nice pictures I found!\n");
-    QString content = QLatin1String("From: georgebush@whitehouse.org\n"
+    const QString body = QStringLiteral("Hi Donald, look at those nice pictures I found!\n");
+    const QString content = QLatin1String("From: georgebush@whitehouse.org\n"
                                     "To: donaldrumsfeld@whitehouse.org\n"
                                     "Subject: Cute Kittens\n"
                                     "\n") + body;
@@ -365,7 +365,7 @@ void MessageTest::testDecodedText()
 
 void MessageTest::testInlineImages()
 {
-    QByteArray data =
+    const QByteArray data =
         "From: <kde@kde.org>\n"
         "To: kde@kde.org\n"
         "Subject: Inline Image (unsigned)\n"
@@ -698,8 +698,11 @@ void MessageTest::testBugAttachment387423()
 void MessageTest::testCrashReplyInvalidEmail()
 {
     KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("crash-invalid-email-reply.mbox"));
-
     QCOMPARE(msg->subject()->as7BitString().data(), "Subject: Re: Authorization required to post to gmane.network.wireguard (b96565298414a43aabcf9fbedf5e7e27)");
+    //FIXME contenttype is empty
+    QCOMPARE(msg->contentType()->mimeType().data(), "");
+    QVERIFY(msg->isTopLevel());
+
     QEXPECT_FAIL("", "Problem with content type", Continue);
     QCOMPARE(msg->contents().size(), 2);
 }
