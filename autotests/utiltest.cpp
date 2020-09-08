@@ -1,7 +1,7 @@
 /*
     SPDX-FileCopyrightText: 2006 Volker Krause <vkrause@kde.org>
 
-    SPDX-License-Identifier: LGPL-2.0-only
+    SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
 #undef QT_USE_FAST_CONCATENATION

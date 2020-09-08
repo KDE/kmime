@@ -1,7 +1,7 @@
 /*
     SPDX-FileCopyrightText: 2006-2015 Volker Krause <vkrause@kde.org>
 
-    SPDX-License-Identifier: LGPL-2.0-only
+    SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
 #ifndef UTIL_TEST_H
