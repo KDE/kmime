@@ -32,8 +32,7 @@ namespace KMime {
 
 class DateFormatterPrivate {
 public:
-    DateFormatterPrivate() :
-        mTodayOneSecondBeforeMidnight(0)
+    DateFormatterPrivate()
     {}
 
     /**
@@ -95,7 +94,7 @@ public:
     static QByteArray zone(time_t t);
 
     DateFormatter::FormatType mFormat;
-    time_t mTodayOneSecondBeforeMidnight;
+    time_t mTodayOneSecondBeforeMidnight = 0;
     QString mCustomFormat;
 };
 

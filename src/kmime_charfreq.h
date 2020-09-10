@@ -154,8 +154,8 @@ private:
     uint mTotal;       // count of all chars
     uint mLineMin;     // minimum line length
     uint mLineMax;     // maximum line length
-    bool mTrailingWS;  // does the buffer contain trailing whitespace?
-    bool mLeadingFrom; // does the buffer contain lines starting with "From "?
+    bool mTrailingWS = false;  // does the buffer contain trailing whitespace?
+    bool mLeadingFrom = false; // does the buffer contain lines starting with "From "?
     //@endcond
 
     /**

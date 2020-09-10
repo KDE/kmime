@@ -20,9 +20,9 @@ namespace Parser
 {
 
 MultiPart::MultiPart(const QByteArray &src, const QByteArray &boundary)
+    : m_src(src)
+    , m_boundary(boundary)
 {
-    m_src = src;
-    m_boundary = boundary;
 }
 
 bool MultiPart::parse()

@@ -43,9 +43,7 @@ CharFreq::CharFreq(const QByteArray &buf)
       mEightBit(0),
       mTotal(0),
       mLineMin(0xffffffff),
-      mLineMax(0),
-      mTrailingWS(false),
-      mLeadingFrom(false)
+      mLineMax(0)
 {
     if (!buf.isEmpty()) {
         count(buf.data(), buf.size());
@@ -61,9 +59,7 @@ CharFreq::CharFreq(const char *buf, size_t len)
       mEightBit(0),
       mTotal(0),
       mLineMin(0xffffffff),
-      mLineMax(0),
-      mTrailingWS(false),
-      mLeadingFrom(false)
+      mLineMax(0)
 {
     if (buf && len > 0) {
         count(buf, len);

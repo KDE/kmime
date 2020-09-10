@@ -55,7 +55,7 @@ QByteArray cachedCharset(const QByteArray &name)
 
 bool isUsAscii(const QString &s)
 {
-    uint sLength = s.length();
+    const uint sLength = s.length();
     for (uint i = 0; i < sLength; i++) {
         if (s.at(i).toLatin1() <= 0) {     // c==0: non-latin1, c<0: non-us-ascii
             return false;

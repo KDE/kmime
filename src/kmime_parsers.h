@@ -43,7 +43,10 @@ public:
     }
 
 private:
-    QByteArray m_src, m_boundary, m_preamble, m_epilouge;
+    QByteArray m_src;
+    const QByteArray m_boundary;
+    QByteArray m_preamble;
+    QByteArray m_epilouge;
     QVector<QByteArray> m_parts;
 };
 

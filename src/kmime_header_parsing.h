@@ -190,7 +190,7 @@ Q_REQUIRED_RESULT KMIME_EXPORT bool parseAngleAddr(const char *&scursor, const c
   @param result the parsing result
   @param isCRLF true if input string is terminated with a CRLF.
 */
-Q_REQUIRED_RESULT KMIME_EXPORT bool parseMailbox(const char *&scursor, const char *const send,
+KMIME_EXPORT bool parseMailbox(const char *&scursor, const char *const send,
                                Types::Mailbox &result, bool isCRLF = false);
 
 Q_REQUIRED_RESULT KMIME_EXPORT bool parseGroup(const char *&scursor, const char *const send,
