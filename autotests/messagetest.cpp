@@ -686,11 +686,8 @@ void MessageTest::testCrashReplyInvalidEmail()
 {
     KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("crash-invalid-email-reply.mbox"));
     QCOMPARE(msg->subject()->as7BitString().data(), "Subject: Re: Authorization required to post to gmane.network.wireguard (b96565298414a43aabcf9fbedf5e7e27)");
-    //FIXME contenttype is empty
-    QCOMPARE(msg->contentType()->mimeType().data(), "");
+    QCOMPARE(msg->contentType()->mimeType().data(), "text/plain");
+    QCOMPARE(msg->contentType()->charset().data(), "us-ascii");
     QVERIFY(msg->isTopLevel());
-
-    QEXPECT_FAIL("", "Problem with content type", Continue);
-    QCOMPARE(msg->contents().size(), 2);
 }
 
