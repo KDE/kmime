@@ -33,7 +33,6 @@
   @authors the KMime authors (see AUTHORS file),
   Volker Krause \<vkrause@kde.org\>
 */
-
 #include "kmime_content.h"
 #include "kmime_content_p.h"
 #include "kmime_message.h"
@@ -144,6 +143,10 @@ void Content::parse()
     d->multipartContents.clear();
     d->clearBodyMessage();
     Headers::ContentType *ct = contentType();
+    if (ct->isEmpty()) { //Set default content-type as defined in https://tools.ietf.org/html/rfc2045#page-10 (5.2.  Content-Type Defaults)
+        ct->setMimeType("text/plain");
+        ct->setCharset("us-ascii");
+    }
     if (ct->isText()) {
         // This content is either text, or of unknown type.
 
