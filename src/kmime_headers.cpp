@@ -787,13 +787,13 @@ QByteArray DotAtom::as7BitString(bool withHeaderType) const
         rv += typeIntro();
     }
 
-    rv += d_func()->dotAtom.toLatin1(); // FIXME: encoding?
+    rv += d_func()->dotAtom;
     return rv;
 }
 
 QString DotAtom::asUnicodeString() const
 {
-    return d_func()->dotAtom;
+    return QString::fromLatin1(d_func()->dotAtom);
 }
 
 void DotAtom::clear()
@@ -811,7 +811,7 @@ bool DotAtom::parse(const char *&scursor, const char *const send,
                     bool isCRLF)
 {
     Q_D(DotAtom);
-    QString maybeDotAtom;
+    QByteArray maybeDotAtom;
     if (!parseDotAtom(scursor, send, maybeDotAtom, isCRLF)) {
         return false;
     }
@@ -1946,8 +1946,8 @@ bool ContentID::parse(const char *&scursor, const char *const send, bool isCRLF)
                 return false;
             }
 
-            // Save chars untill '>''
-            QString result;
+            // Save chars until '>''
+            QByteArray result;
             if (!parseDotAtom(scursor, send, result, false)) {
                 return false;
             }
@@ -1959,7 +1959,7 @@ bool ContentID::parse(const char *&scursor, const char *const send, bool isCRLF)
             scursor++;
             // /Almost parseAngleAddr
 
-            maybeContentId.localPart = result;
+            maybeContentId.localPart = QString::fromLatin1(result); // FIXME: just use QByteArray instead of AddrSpec in msgIdList?
             d->msgIdList.append(maybeContentId);
 
             eatCFWS(scursor, send, isCRLF);

@@ -244,12 +244,12 @@ static inline void eatWhiteSpace(const char *&scursor, const char *const send)
 }
 
 bool parseAtom(const char*&scursor, const char *const send,
-               QString &result, bool allow8Bit)
+               QByteArray &result, bool allow8Bit)
 {
     QPair<const char *, int> maybeResult;
 
     if (parseAtom(scursor, send, maybeResult, allow8Bit)) {
-        result = QString::fromLatin1(maybeResult.first, maybeResult.second);
+        result = QByteArray(maybeResult.first, maybeResult.second);
         return true;
     }
 
@@ -284,15 +284,13 @@ bool parseAtom(const char*&scursor, const char *const send,
     return success;
 }
 
-// FIXME: Remove this and the other parseToken() method. add a new one where "result" is a
-//        QByteArray.
 bool parseToken(const char*&scursor, const char *const send,
-                QString &result, ParseTokenFlags flags)
+                QByteArray &result, ParseTokenFlags flags)
 {
     QPair<const char *, int> maybeResult;
 
     if (parseToken(scursor, send, maybeResult, flags)) {
-        result = QString::fromLatin1(maybeResult.first, maybeResult.second);
+        result = QByteArray(maybeResult.first, maybeResult.second);
         return true;
     }
 
@@ -340,8 +338,6 @@ bool parseToken(const char*&scursor, const char *const send,
 //
 // - doesn't handle quoted CRLF
 
-// FIXME: Why is result a QString? This should be a QByteArray, since at this level, we don't
-//        know about encodings yet!
 bool parseGenericQuotedString(const char *&scursor, const char *const send,
                               QString &result, bool isCRLF,
                               const char openChar, const char closeChar)
@@ -556,6 +552,7 @@ bool parsePhrase(const char *&scursor, const char *const send,
 
     QString tmp;
     QByteArray lang, charset;
+    QPair<const char *, int> tmpAtom;
     const char *successfullyParsed = nullptr;
     // only used by the encoded-word branch
     const char *oldscursor;
@@ -662,9 +659,8 @@ bool parsePhrase(const char *&scursor, const char *const send,
             // fall though...
 
         default: //atom
-            tmp.clear();
             scursor--;
-            if (parseAtom(scursor, send, tmp, true /* allow 8bit */)) {
+            if (parseAtom(scursor, send, tmpAtom, true /* allow 8bit */)) {
                 successfullyParsed = scursor;
                 switch (found) {
                 case None:
@@ -681,7 +677,7 @@ bool parsePhrase(const char *&scursor, const char *const send,
                     assert(0);
                 }
                 lastWasEncodedWord = false;
-                result += tmp;
+                result += QLatin1String(tmpAtom.first, tmpAtom.second);
             } else {
                 if (found == None) {
                     return false;
@@ -697,16 +693,15 @@ bool parsePhrase(const char *&scursor, const char *const send,
     return found != None;
 }
 
-// FIXME: This should probably by QByteArray &result instead?
 bool parseDotAtom(const char *&scursor, const char *const send,
-                  QString &result, bool isCRLF)
+                  QByteArray &result, bool isCRLF)
 {
     eatCFWS(scursor, send, isCRLF);
 
     // always points to just after the last atom parsed:
     const char *successfullyParsed;
 
-    QString tmp;
+    QByteArray tmp;
     if (!parseAtom(scursor, send, tmp, false /* no 8bit */)) {
         return false;
     }
@@ -730,13 +725,13 @@ bool parseDotAtom(const char *&scursor, const char *const send,
         }
 
         // try to parse the next atom:
-        QString maybeAtom;
+        QByteArray maybeAtom;
         if (!parseAtom(scursor, send, maybeAtom, false /*no 8bit*/)) {
             scursor = successfullyParsed;
             return true;
         }
 
-        result += QLatin1Char('.');
+        result += '.';
         result += maybeAtom;
         successfullyParsed = scursor;
     }
@@ -819,14 +814,14 @@ bool parseDomain(const char *&scursor, const char *const send,
         }
     } else {
         // dot-atom:
-        QString maybeDotAtom;
+        QByteArray maybeDotAtom;
         if (parseDotAtom(scursor, send, maybeDotAtom, isCRLF)) {
-            result = maybeDotAtom;
             // Domain may end with '.', if so preserve it'
             if (scursor != send && *scursor == '.') {
-                result += QLatin1Char('.');
+                maybeDotAtom += '.';
                 scursor++;
             }
+            result = QString::fromLatin1(maybeDotAtom);
             return true;
         }
     }
@@ -904,6 +899,7 @@ bool parseAddrSpec(const char *&scursor, const char *const send,
 
     QString maybeLocalPart;
     QString tmp;
+    QPair<const char *, int> tmpAtom;
 
     while (scursor != send) {
         // first, eat any whitespace
@@ -930,9 +926,8 @@ bool parseAddrSpec(const char *&scursor, const char *const send,
 
         default: // atom
             scursor--; // re-set scursor to point to ch again
-            tmp.clear();
-            if (parseAtom(scursor, send, tmp, false /* no 8bit */)) {
-                maybeLocalPart += tmp;
+            if (parseAtom(scursor, send, tmpAtom, false /* no 8bit */)) {
+                maybeLocalPart += QLatin1String(tmpAtom.first, tmpAtom.second);
             } else {
                 return false; // parseAtom can only fail if the first char is non-atext.
             }
@@ -1226,11 +1221,8 @@ bool parseAddressList(const char *&scursor, const char *const send,
     return true;
 }
 
-// FIXME: Get rid of the very ugly "QStringOrQPair" thing. At this level, we are supposed to work
-//        on byte arrays, not strings! The result parameter should be a simple
-//        QPair<QByteArray,QByteArray>, which is the attribute name and the value.
 static bool parseParameter(const char *&scursor, const char *const send,
-                    QPair<QString, QStringOrQPair> &result, bool isCRLF)
+                           QPair<QString, QStringOrQPair> &result, bool isCRLF)
 {
     // parameter = regular-parameter / extended-parameter
     // regular-parameter = regular-parameter-name "=" value
@@ -1238,7 +1230,7 @@ static bool parseParameter(const char *&scursor, const char *const send,
     // value = token / quoted-string
     //
     // note that rfc2231 handling is out of the scope of this function.
-    // Therefore we return the attribute as QString and the value as
+    // Therefore we return the attribute as QByteArray and the value as
     // (start,length) tupel if we see that the value is encoded
     // (trailing asterisk), for parseParameterList to decode...
 
@@ -1250,11 +1242,12 @@ static bool parseParameter(const char *&scursor, const char *const send,
     //
     // parse the parameter name:
     //
-    // FIXME: maybeAttribute should be a QByteArray
-    QString maybeAttribute;
-    if (!parseToken(scursor, send, maybeAttribute, ParseTokenNoFlag)) {
+    QByteArray tmpAttr;
+    if (!parseToken(scursor, send, tmpAttr, ParseTokenNoFlag)) {
         return false;
     }
+    // FIXME: we could use QMap<QByteArray, ...> in the API for parameters
+    QString maybeAttribute = QString::fromLatin1(tmpAttr);
 
     eatCFWS(scursor, send, isCRLF);
     // premature end: not OK (haven't seen '=' yet).
@@ -1311,8 +1304,6 @@ static bool parseParameter(const char *&scursor, const char *const send,
     return true;
 }
 
-// FIXME: Get rid of QStringOrQPair: Use a simply QMap<QByteArray, QByteArray> for "result"
-//        instead!
 static bool parseRawParameterList(const char *&scursor, const char *const send,
                                   QMap<QString, QStringOrQPair> &result,
                                   bool isCRLF)

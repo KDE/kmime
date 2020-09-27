@@ -161,11 +161,11 @@ int main(int argc, char *argv[])
     case 1: {
         // atom
         cout << "with 8bit: " << endl;
-        QString result;
+        QByteArray result;
         bool ok = parseAtom(iit, iend, result, true);
 
         cout << (ok ? "OK" : "BAD") << endl
-             << "result:\n" << result
+             << "result:\n" << result.constData()
              << endl;
 
         cout << "without 8bit: " << endl;
@@ -177,18 +177,18 @@ int main(int argc, char *argv[])
 #endif
 
         cout << (ok ? "OK" : "BAD") << endl
-             << "result:\n" << result
+             << "result:\n" << result.constData()
              << endl;
     }
     break;
     case 2: {
         // token
         cout << "with 8bit: " << endl;
-        QString result;
+        QByteArray result;
         bool ok = parseToken(iit, iend, result, ParseTokenAllow8Bit);
 
         cout << (ok ? "OK" : "BAD") << endl
-             << "result:\n" << result
+             << "result:\n" << result.constData()
              << endl;
 
         cout << "without 8bit: " << endl;
@@ -200,7 +200,7 @@ int main(int argc, char *argv[])
 #endif
 
         cout << (ok ? "OK" : "BAD") << endl
-             << "result:\n" << result
+             << "result:\n" << result.constData()
              << endl;
     }
     break;
@@ -252,11 +252,11 @@ int main(int argc, char *argv[])
     break;
     case 7: {
         // dot-atom
-        QString result;
+        QByteArray result;
         bool ok = parseDotAtom(iit, iend, result, withCRLF);
 
         cout << (ok ? "OK" : "BAD") << endl
-             << "result:\n" << result
+             << "result:\n" << result.constData()
              << endl;
     }
     break;

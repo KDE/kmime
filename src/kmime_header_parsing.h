@@ -65,16 +65,18 @@ Q_REQUIRED_RESULT KMIME_EXPORT bool parseEncodedWord(const char *&scursor,
 //
 
 /** You may or may not have already started parsing into the
-    atom. This function will go on where you left off. */
+    atom. This function will go on where you left off.
+ */
 Q_REQUIRED_RESULT KMIME_EXPORT bool parseAtom(const char *&scursor, const char *const send,
-                            QString &result, bool allow8Bit = false);
+                            QByteArray &result, bool allow8Bit = false);
 
+/**
+ * More efficient overload, to avoid a copy of the substring
+ */
 Q_REQUIRED_RESULT KMIME_EXPORT bool parseAtom(const char *&scursor, const char *const send,
                             QPair<const char *, int> &result,
                             bool allow8Bit = false);
 
-/** You may or may not have already started parsing into the
-    token. This function will go on where you left off. */
 enum ParseTokenFlag {
     ParseTokenNoFlag = 0,
     ParseTokenAllow8Bit = 1,
@@ -82,8 +84,10 @@ enum ParseTokenFlag {
 };
 Q_DECLARE_FLAGS(ParseTokenFlags, ParseTokenFlag)
 
+/** You may or may not have already started parsing into the
+    token. This function will go on where you left off. */
 Q_REQUIRED_RESULT KMIME_EXPORT bool parseToken(const char *&scursor, const char *const send,
-                             QString &result, ParseTokenFlags flags = ParseTokenNoFlag);
+                             QByteArray &result, ParseTokenFlags flags = ParseTokenNoFlag);
 
 Q_REQUIRED_RESULT KMIME_EXPORT bool parseToken(const char *&scursor, const char *const send,
                              QPair<const char *, int> &result,
@@ -132,7 +136,7 @@ Q_REQUIRED_RESULT KMIME_EXPORT bool parsePhrase(const char *&scursor, const char
   @return true if the input phrase was successfully parsed; false otherwise.
 */
 Q_REQUIRED_RESULT KMIME_EXPORT bool parseDotAtom(const char *&scursor, const char *const send,
-                               QString &result, bool isCRLF = false);
+                               QByteArray &result, bool isCRLF = false);
 
 /**
   Eats comment-folding-white-space, skips whitespace, folding and comments

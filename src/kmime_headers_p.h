@@ -79,7 +79,7 @@ public:
 class DotAtomPrivate : public StructuredPrivate
 {
 public:
-    QString dotAtom;
+    QByteArray dotAtom;
 };
 
 class ParametrizedPrivate : public StructuredPrivate
