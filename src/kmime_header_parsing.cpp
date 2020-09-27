@@ -36,6 +36,16 @@ using namespace KMime::Types;
 namespace KMime
 {
 
+    namespace Types
+    {
+        // Optimization to avoid allocating QStrings when the value isn't encoded
+        struct KMIME_EXPORT QStringOrQPair {
+            QStringOrQPair() : qstring(), qpair(nullptr, 0) {}
+            QString qstring;
+            QPair<const char *, int> qpair;
+        };
+    } // namespace Types
+
 namespace HeaderParsing
 {
 
@@ -1219,7 +1229,7 @@ bool parseAddressList(const char *&scursor, const char *const send,
 // FIXME: Get rid of the very ugly "QStringOrQPair" thing. At this level, we are supposed to work
 //        on byte arrays, not strings! The result parameter should be a simple
 //        QPair<QByteArray,QByteArray>, which is the attribute name and the value.
-bool parseParameter(const char *&scursor, const char *const send,
+static bool parseParameter(const char *&scursor, const char *const send,
                     QPair<QString, QStringOrQPair> &result, bool isCRLF)
 {
     // parameter = regular-parameter / extended-parameter
@@ -1303,9 +1313,9 @@ bool parseParameter(const char *&scursor, const char *const send,
 
 // FIXME: Get rid of QStringOrQPair: Use a simply QMap<QByteArray, QByteArray> for "result"
 //        instead!
-bool parseRawParameterList(const char *&scursor, const char *const send,
-                           QMap<QString, QStringOrQPair> &result,
-                           bool isCRLF)
+static bool parseRawParameterList(const char *&scursor, const char *const send,
+                                  QMap<QString, QStringOrQPair> &result,
+                                  bool isCRLF)
 {
     // we use parseParameter() consecutively to obtain a map of raw
     // attributes to raw values. "Raw" here means that we don't do

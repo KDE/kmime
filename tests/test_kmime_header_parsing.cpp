@@ -34,8 +34,6 @@ static const char *tokenTypes[] = {
     "group",
     "address",
     "address-list",
-    "parameter",
-    "raw-parameter-list",
     "parameter-list",
     "time",
     "date-time"
@@ -124,6 +122,7 @@ int main(int argc, char *argv[])
     }
 
     assert(action == Token);
+    Q_UNUSED(action); // avoid warning in release mode
 
     int index;
     for (index = 0 ; index < tokenTypesLen ; ++index) {
@@ -161,14 +160,15 @@ int main(int argc, char *argv[])
     break;
     case 1: {
         // atom
-        QString result = QStringLiteral("with 8bit: ");
+        cout << "with 8bit: " << endl;
+        QString result;
         bool ok = parseAtom(iit, iend, result, true);
 
         cout << (ok ? "OK" : "BAD") << endl
              << "result:\n" << result
              << endl;
 
-        result = QStringLiteral("without 8bit: ");
+        cout << "without 8bit: " << endl;
 #ifdef COMPILE_FAIL
         ok = parseAtom(indata.begin(), iend, result, false);
 #else
@@ -183,14 +183,15 @@ int main(int argc, char *argv[])
     break;
     case 2: {
         // token
-        QString result = QStringLiteral("with 8bit: ");
+        cout << "with 8bit: " << endl;
+        QString result;
         bool ok = parseToken(iit, iend, result, ParseTokenAllow8Bit);
 
         cout << (ok ? "OK" : "BAD") << endl
              << "result:\n" << result
              << endl;
 
-        result = QStringLiteral("without 8bit: ");
+        cout << "without 8bit: " << endl;
 #ifdef COMPILE_FAIL
         ok = parseToken(indata.begin(), iend, result, ParseTokenNoFlag);
 #else
@@ -386,40 +387,6 @@ int main(int argc, char *argv[])
     }
     break;
     case 16: {
-        // parameter
-        QPair<QString, KMime::Types::QStringOrQPair> result;
-        bool ok = parseParameter(iit, iend, result, withCRLF);
-
-        cout << (ok ? "OK" : "BAD") << endl
-             << "result.first (attribute):\n" << result.first << endl
-             << "result.second.qstring (value):\n" << result.second.qstring << endl
-             << "result.second.qpair (value):\n"
-             << QByteArray(result.second.qpair.first, result.second.qpair.second + 1).data()
-             << endl;
-    }
-    break;
-    case 17: {
-        // raw-parameter-list
-        QMap<QString, KMime::Types::QStringOrQPair> result;
-        bool ok = parseRawParameterList(iit, iend, result, withCRLF);
-
-        cout << (ok ? "OK" : "BAD") << endl
-             << "result: " << result.count() << " raw parameters:"
-             << endl;
-        int i = 0;
-        for (QMap<QString, KMime::Types::QStringOrQPair>::ConstIterator it = result.constBegin();
-                it != result.constEnd() ; ++it, ++i) {
-            cout << "result[" << i << "].key() (attribute):\n"
-                 << it.key() << endl
-                 << "result[" << i << "].data().qstring (value):\n"
-                 << it.value().qstring << endl
-                 << "result[" << i << "].data().qpair (value):\n"
-                 << QByteArray(it.value().qpair.first, it.value().qpair.second + 1).data()
-                 << endl;
-        }
-    }
-    break;
-    case 18: {
         // parameter-list
         QMap<QString, QString> result;
         bool ok = parseParameterList(iit, iend, result, withCRLF);
@@ -438,7 +405,7 @@ int main(int argc, char *argv[])
         }
     }
     break;
-    case 19: {
+    case 17: {
         // time
         int hour, mins, secs;
         long int secsEastOfGMT;
@@ -456,7 +423,7 @@ int main(int argc, char *argv[])
              << endl;
     }
     break;
-    case 20: {
+    case 18: {
         // date-time
         QDateTime result;
         bool ok =  parseDateTime(iit, iend, result, withCRLF);

@@ -34,16 +34,6 @@ class Base;
 namespace Types
 {
 
-// for when we can't make up our mind what to use...
-// FIXME: Remove this thing, we should _always_ know whether we are handling a
-// byte array or a string.
-// In most places where this is used, it should simply be replaced by QByteArray
-struct KMIME_EXPORT QStringOrQPair {
-    QStringOrQPair() : qstring(), qpair(nullptr, 0) {}
-    QString qstring;
-    QPair<const char *, int> qpair;
-};
-
 } // namespace KMime::Types
 
 namespace HeaderParsing
@@ -204,19 +194,10 @@ Q_REQUIRED_RESULT KMIME_EXPORT bool parseAddressList(const char *&scursor,
                                    Types::AddressList &result,
                                    bool isCRLF = false);
 
-Q_REQUIRED_RESULT KMIME_EXPORT bool parseParameter(const char *&scursor, const char *const send,
-                                 QPair<QString, Types::QStringOrQPair> &result,
-                                 bool isCRLF = false);
-
 Q_REQUIRED_RESULT KMIME_EXPORT bool parseParameterList(const char *&scursor,
                                      const char *const send,
                                      QMap<QString, QString> &result,
                                      bool isCRLF = false);
-
-Q_REQUIRED_RESULT KMIME_EXPORT bool parseRawParameterList(const char *&scursor,
-                                        const char *const send,
-                                        QMap<QString, Types::QStringOrQPair> &result,
-                                        bool isCRLF = false);
 
 /**
  * Extract the charset embedded in the parameter list if there is one.
