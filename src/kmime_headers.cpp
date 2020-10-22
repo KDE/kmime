@@ -31,7 +31,6 @@
 #include "kmime_util_p.h"
 #include "kmime_codecs.h"
 #include "kmime_content.h"
-#include "kmime_header_parsing.h"
 #include "kmime_headerfactory_p.h"
 #include "kmime_debug.h"
 #include "kmime_warning.h"
@@ -40,8 +39,6 @@
 #include <KCodecs>
 
 #include <QTextCodec>
-#include <QString>
-#include <QStringList>
 
 #include <assert.h>
 #include <ctype.h>

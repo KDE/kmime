@@ -34,7 +34,6 @@
 #include <KLocalizedString>
 
 #include <QTextCodec>
-#include <QByteArray>
 
 using namespace KMime;
 

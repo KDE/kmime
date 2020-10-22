@@ -24,8 +24,6 @@
 #include <KCharsets>
 #include <QCoreApplication>
 
-#include <QVector>
-#include <QString>
 #include <QTextCodec>
 
 #include <ctype.h>

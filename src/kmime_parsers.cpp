@@ -10,7 +10,6 @@
 #include "kmime_parsers.h"
 
 #include <QRegularExpression>
-#include <QByteArray>
 
 using namespace KMime::Parser;
 
