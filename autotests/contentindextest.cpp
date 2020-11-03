@@ -47,12 +47,12 @@ void ContentIndexTest::testFromString()
 
 void ContentIndexTest::testContent()
 {
-    Content *c1 = new Content();
+    auto *c1 = new Content();
     QCOMPARE(c1->content(ContentIndex()), c1);
     QCOMPARE(c1->content(ContentIndex(QLatin1String("1"))), (Content *)nullptr);
     QCOMPARE(c1->indexForContent(c1), ContentIndex());
 
-    Content *c11 = new Content();
+    auto *c11 = new Content();
     // this makes c1 multipart/mixed, ie. c11 will be the second child!
     c1->addContent(c11);
     QCOMPARE(c1->content(ContentIndex(QLatin1String("2"))), c11);
@@ -62,10 +62,10 @@ void ContentIndexTest::testContent()
     QCOMPARE(c1->indexForContent(c11), ContentIndex(QLatin1String("2")));
     QCOMPARE(c1->indexForContent(c1->contents().first()), ContentIndex(QLatin1String("1")));
 
-    Content *c12 = new Content();
+    auto *c12 = new Content();
     c1->addContent(c12);
     // c12 becomes multipart/mixed, ie. c12 will be the second child!
-    Content *c121 = new Content();
+    auto *c121 = new Content();
     c12->addContent(c121);
     QCOMPARE(c1->content(ContentIndex(QLatin1String("3"))), c12);
     QCOMPARE(c1->content(ContentIndex(QLatin1String("3.2"))), c121);

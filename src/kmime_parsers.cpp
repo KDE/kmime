@@ -33,7 +33,7 @@ bool MultiPart::parse()
     m_parts.clear();
 
     //find the first valid boundary
-    while (1) {
+    while (true) {
         if ((pos1 = m_src.indexOf(b, pos1)) == -1 || pos1 == 0 ||
                 m_src[pos1 - 1] == '\n') { //valid boundary found or no boundary at all
             break;
@@ -59,7 +59,7 @@ bool MultiPart::parse()
             //now search the next linebreak
             //now find the next valid boundary
             pos2 = ++pos1; //pos1 and pos2 point now to the beginning of the next line after the boundary
-            while (1) {
+            while (true) {
                 if ((pos2 = m_src.indexOf(b, pos2)) == -1 ||
                         m_src[pos2 - 1] == '\n') { //valid boundary or no more boundaries found
                     break;

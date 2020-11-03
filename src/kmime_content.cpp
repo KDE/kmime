@@ -485,7 +485,7 @@ void Content::addContent(Content *c, bool prepend)
     // If this message is single-part; make it multipart first.
     if (d->multipartContents.isEmpty() && !contentType()->isMultipart()) {
         // The current body will be our first sub-Content.
-        Content *main = new Content(this);
+        auto *main = new Content(this);
 
         // Move the MIME headers to the newly created sub-Content.
         // NOTE: The other headers (RFC5322 headers like From:, To:, as well as X-headers
@@ -819,7 +819,7 @@ Content *Content::parent() const
 
 Content *Content::topLevel() const
 {
-    Content *top = const_cast<Content *>(this);
+    auto *top = const_cast<Content *>(this);
     Content *c = parent();
     while (c) {
         top = c;
@@ -918,7 +918,7 @@ bool ContentPrivate::parseUuencoded(Content *q)
         // Add the plain text part first.
         Q_ASSERT(multipartContents.isEmpty());
         {
-            Content *c = new Content(q);
+            auto *c = new Content(q);
             c->contentType()->setMimeType("text/plain");
             c->contentTransferEncoding()->setEncoding(Headers::CE7Bit);
             c->setBody(uup.textPart());
@@ -927,7 +927,7 @@ bool ContentPrivate::parseUuencoded(Content *q)
 
         // Now add each of the binary parts as sub-Contents.
         for (int i = 0; i < uup.binaryParts().count(); ++i) {
-            Content *c = new Content(q);
+            auto *c = new Content(q);
             c->contentType()->setMimeType(uup.mimeTypes().at(i));
             c->contentType()->setName(QLatin1String(uup.filenames().at(i)), QByteArray(/*charset*/));
             c->contentTransferEncoding()->setEncoding(Headers::CEuuenc);
@@ -974,7 +974,7 @@ bool ContentPrivate::parseYenc(Content *q)
         // Add the plain text part first.
         Q_ASSERT(multipartContents.isEmpty());
         {
-            Content *c = new Content(q);
+            auto *c = new Content(q);
             c->contentType()->setMimeType("text/plain");
             c->contentTransferEncoding()->setEncoding(Headers::CE7Bit);
             c->setBody(yenc.textPart());
@@ -983,7 +983,7 @@ bool ContentPrivate::parseYenc(Content *q)
 
         // Now add each of the binary parts as sub-Contents.
         for (int i = 0; i < yenc.binaryParts().count(); i++) {
-            Content *c = new Content(q);
+            auto *c = new Content(q);
             c->contentType()->setMimeType(yenc.mimeTypes().at(i));
             c->contentType()->setName(QLatin1String(yenc.filenames().at(i)), QByteArray(/*charset*/));
             c->contentTransferEncoding()->setEncoding(Headers::CEbinary);
@@ -1026,7 +1026,7 @@ bool ContentPrivate::parseMultipart(Content *q)
     body.clear();
     const auto parts = mpp.parts();
     for (const QByteArray &part : parts) {
-        Content *c = new Content(q);
+        auto *c = new Content(q);
         c->setContent(part);
         c->setFrozen(frozen);
         c->parse();

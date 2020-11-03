@@ -31,7 +31,7 @@ QByteArray Message::assembleHeaders()
     from(true);
 
     // Make sure the mandatory MIME-Version field (RFC2045) is present and valid.
-    Headers::MIMEVersion *mimeVersion = header<Headers::MIMEVersion>(true);
+    auto *mimeVersion = header<Headers::MIMEVersion>(true);
     mimeVersion->from7BitString("1.0");
 
     // Assemble all header fields.

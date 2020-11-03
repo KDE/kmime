@@ -132,7 +132,7 @@ void UtilTest::testAddQuotes_data()
     QTest::newRow("") << QByteArray("Lastname, Firstname")
                       << QByteArray("\"Lastname, Firstname\"") << false;
     QTest::newRow("") << QByteArray("John \"the hacker\" Smith")
-                      << QByteArray("\"John \\\"the hacker\\\" Smith\"") << false;
+                      << QByteArray(R"("John \"the hacker\" Smith")") << false;
 
     // Test the whole thing on strings as well, for one example
     QString string(QLatin1String("John \"the hacker\" Smith"));

@@ -23,7 +23,7 @@ QTEST_MAIN(HeaderTest)
 void HeaderTest::testIdentHeader()
 {
     // empty header
-    Headers::Generics::Ident *h = new Headers::Generics::Ident();
+    auto *h = new Headers::Generics::Ident();
     QVERIFY(h->isEmpty());
 
     // parse single identifier
@@ -77,7 +77,7 @@ void HeaderTest::testIdentHeader()
 void HeaderTest::testAddressListHeader()
 {
     // empty header
-    Headers::Generics::AddressList *h = new Headers::Generics::AddressList();
+    auto *h = new Headers::Generics::AddressList();
     QVERIFY(h->isEmpty());
 
     // parse single simple address
@@ -129,7 +129,7 @@ void HeaderTest::testAddressListHeader()
 
     // same again with some interessting quoting
     h = new Headers::Generics::AddressList();
-    h->from7BitString("\"Joe Q. Public\" <john.q.public@example.com>, <boss@nil.test>, \"Giant; \\\"Big\\\" Box\" <sysservices@example.net>");
+    h->from7BitString(R"("Joe Q. Public" <john.q.public@example.com>, <boss@nil.test>, "Giant; \"Big\" Box" <sysservices@example.net>)");
     QCOMPARE(h->addresses().count(), 3);
     names = h->displayNames();
     QCOMPARE(names.takeFirst(), QLatin1String("Joe Q. Public"));
@@ -301,7 +301,7 @@ void HeaderTest::testAddressListHeader()
 void HeaderTest::testMailboxListHeader()
 {
     // empty header
-    Headers::Generics::MailboxList *h = new Headers::Generics::MailboxList();
+    auto *h = new Headers::Generics::MailboxList();
     QVERIFY(h->isEmpty());
 
     // parse single simple address
@@ -328,7 +328,7 @@ void HeaderTest::testMailboxListHeader()
 void HeaderTest::testSingleMailboxHeader()
 {
     // empty header
-    Headers::Generics::SingleMailbox *h = new Headers::Generics::SingleMailbox();
+    auto *h = new Headers::Generics::SingleMailbox();
     QVERIFY(h->isEmpty());
 
     // parse single simple address
@@ -352,7 +352,7 @@ void HeaderTest::testSingleMailboxHeader()
              QLatin1String("\"John Smith\" <joe_smith@where.test>"));
 
     // parse quoted display name with \ in it
-    h->from7BitString("\"Lastname\\, Firstname\" <firstname.lastname@example.com>");
+    h->from7BitString(R"("Lastname\, Firstname" <firstname.lastname@example.com>)");
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->addresses().count(), 1);
     QCOMPARE(h->addresses().first(), QByteArray("firstname.lastname@example.com"));
@@ -366,7 +366,7 @@ void HeaderTest::testSingleMailboxHeader()
              "\"Lastname, Firstname\" <firstname.lastname@example.com>");
 
     // parse quoted display name with " in it
-    h->from7BitString("\"John \\\"the guru\\\" Smith\" <john.smith@mail.domain>");
+    h->from7BitString(R"("John \"the guru\" Smith" <john.smith@mail.domain>)");
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->addresses().count(), 1);
     QCOMPARE(h->addresses().first().data(), "john.smith@mail.domain");
@@ -1004,24 +1004,24 @@ void HeaderTest::testReturnPath()
 void HeaderTest::noAbstractHeaders()
 {
     From *h2 = new From(); delete h2;
-    Sender *h3 = new Sender(); delete h3;
+    auto *h3 = new Sender(); delete h3;
     To *h4 = new To(); delete h4;
     Cc *h5 = new Cc(); delete h5;
     Bcc *h6 = new Bcc(); delete h6;
-    ReplyTo *h7 = new ReplyTo(); delete h7;
-    Keywords *h8 = new Keywords(); delete h8;
-    MIMEVersion *h9 = new MIMEVersion(); delete h9;
-    MessageID *h10 = new MessageID(); delete h10;
-    ContentID *h11 = new ContentID(); delete h11;
-    Supersedes *h12 = new Supersedes(); delete h12;
-    InReplyTo *h13 = new InReplyTo(); delete h13;
-    References *h14 = new References(); delete h14;
-    Generic *h15 = new Generic(); delete h15;
-    Subject *h16 = new Subject(); delete h16;
-    Organization *h17 = new Organization(); delete h17;
-    ContentDescription *h18 = new ContentDescription(); delete h18;
-    FollowUpTo *h22 = new FollowUpTo(); delete h22;
-    UserAgent *h24 = new UserAgent(); delete h24;
+    auto *h7 = new ReplyTo(); delete h7;
+    auto *h8 = new Keywords(); delete h8;
+    auto *h9 = new MIMEVersion(); delete h9;
+    auto *h10 = new MessageID(); delete h10;
+    auto *h11 = new ContentID(); delete h11;
+    auto *h12 = new Supersedes(); delete h12;
+    auto *h13 = new InReplyTo(); delete h13;
+    auto *h14 = new References(); delete h14;
+    auto *h15 = new Generic(); delete h15;
+    auto *h16 = new Subject(); delete h16;
+    auto *h17 = new Organization(); delete h17;
+    auto *h18 = new ContentDescription(); delete h18;
+    auto *h22 = new FollowUpTo(); delete h22;
+    auto *h24 = new UserAgent(); delete h24;
 }
 
 void HeaderTest::testInvalidButOkQEncoding()
@@ -1080,14 +1080,14 @@ void HeaderTest::testBug271192()
                             (quote ? QLatin1String("\"") : QString()) +
                             QLatin1String(" <") + addrSpec + QLatin1String(">");
 
-    Headers::Generics::SingleMailbox *h = new Headers::Generics::SingleMailbox();
+    auto *h = new Headers::Generics::SingleMailbox();
     h->fromUnicodeString(mailbox, "utf-8");
     QCOMPARE(h->displayNames().size(), 1);
     QCOMPARE(h->displayNames().first().toUtf8(), displayName.remove(QLatin1String("\\")).toUtf8());
     delete h;
     h = nullptr;
 
-    Headers::Generics::MailboxList *h2 = new Headers::Generics::MailboxList();
+    auto *h2 = new Headers::Generics::MailboxList();
     h2->fromUnicodeString(mailbox + QLatin1String(",") + mailbox, "utf-8");
     QCOMPARE(h2->displayNames().size(), 2);
     QCOMPARE(h2->displayNames()[0].toUtf8(), displayName.remove(QLatin1String("\\")).toUtf8());
@@ -1106,7 +1106,7 @@ void HeaderTest::testBug271192_data()
     QTest::newRow("Firstname_2") << QString::fromUtf8("Интернет-компания Lastname") << false;
     QTest::newRow("Lastname") << QString::fromUtf8("Tobias König") << false;
     QTest::newRow("Firstname_Lastname") << QString::fromUtf8("Интернет-компания König") << false;
-    QTest::newRow("Quotemarks") << QString::fromUtf8("John \\\"Rocky\\\" Doe") << true;
+    QTest::newRow("Quotemarks") << QString::fromUtf8(R"(John \"Rocky\" Doe)") << true;
     QTest::newRow("Quotemarks_nonascii") << QString::fromUtf8("Jöhn \\\"Röcky\\\" Döe") << true;
 
     QTest::newRow("quote_Plain") << QString::fromUtf8("John Doe") << true;
