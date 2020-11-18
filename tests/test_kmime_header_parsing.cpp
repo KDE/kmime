@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
     }
 
     assert(action == Token);
-    Q_UNUSED(action); // avoid warning in release mode
+    Q_UNUSED(action) // avoid warning in release mode
 
     int index;
     for (index = 0 ; index < tokenTypesLen ; ++index) {
