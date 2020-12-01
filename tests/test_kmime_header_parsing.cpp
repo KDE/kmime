@@ -4,10 +4,7 @@
 
 #include <QFile>
 #include <QByteArray>
-#include <QVector>
-//#include <QString>
-
-//#include <stdio.h>
+#include <QMap>
 #include <iostream>
 #include <cstdlib>
 #include <cassert>

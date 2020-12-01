@@ -9,7 +9,6 @@
 #include <QTest>
 #include <QObject>
 #include <QDateTime>
-#include <QDebug>
 
 using namespace KMime;
 

@@ -6,7 +6,6 @@
 
 #include "headertest.h"
 
-#include <QDebug>
 #include <QTest>
 
 #include <kmime_headers.h>

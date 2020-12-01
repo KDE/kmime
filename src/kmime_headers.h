@@ -33,7 +33,6 @@
 #include <QString>
 #include <QStringList>
 #include <QDateTime>
-#include <QMap>
 #include <QVector>
 #include <QByteArray>
 #include <QMetaType>

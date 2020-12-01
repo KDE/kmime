@@ -20,11 +20,9 @@
 #include <config-kmime.h>
 // #include <kdefakes.h> // for strcasestr
 
-#include <KLocalizedString>
 #include <KCharsets>
 #include <QCoreApplication>
 
-#include <QTextCodec>
 
 #include <ctype.h>
 #include <time.h>

@@ -31,7 +31,6 @@
 #include <KCharsets>
 #include <KCodecs/KCodecs>
 
-#include <KLocalizedString>
 
 #include <QTextCodec>
 

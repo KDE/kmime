@@ -38,7 +38,6 @@
 #include <KCharsets>
 #include <KCodecs>
 
-#include <QTextCodec>
 
 #include <assert.h>
 #include <ctype.h>

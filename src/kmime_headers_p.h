@@ -7,6 +7,7 @@
 #ifndef KMIME_HEADERS_P_H
 #define KMIME_HEADERS_P_H
 
+#include <QMap>
 //@cond PRIVATE
 
 #define kmime_mk_empty_private( subclass, base ) \

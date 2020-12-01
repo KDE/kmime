@@ -8,7 +8,6 @@
 
 //#include <typeinfo>
 
-#include <QDebug>
 #include <QTest>
 
 #include <kmime_headerfactory_p.h>

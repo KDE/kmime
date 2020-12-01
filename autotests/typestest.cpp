@@ -8,7 +8,6 @@
 
 #include <QTest>
 #include <QObject>
-#include <QDebug>
 
 using namespace KMime;
 

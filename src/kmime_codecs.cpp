@@ -12,7 +12,6 @@
 #include "kmime_debug.h"
 #include <KCharsets>
 
-#include <QDebug>
 #include <QTextCodec>
 
 namespace KMime {

@@ -7,7 +7,6 @@
 #include "charfreqtest.h"
 #include <QTest>
 
-#include <QDebug>
 
 #include <../src/kmime_charfreq.cpp>
 using namespace KMime;

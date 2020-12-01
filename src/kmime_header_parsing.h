@@ -15,8 +15,6 @@
 
 #include <QString>
 #include <QPair>
-#include <QVector>
-#include <QFlags>
 
 #include <QDateTime>
 
