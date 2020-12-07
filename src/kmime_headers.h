@@ -81,7 +81,7 @@ enum contentDisposition {
 #define kmime_mk_trivial_ctor( subclass )                               \
     public:                                                               \
     subclass();                           \
-    ~subclass();
+    ~subclass() override;
 
 #define kmime_mk_dptr_ctor( subclass ) \
     protected: \
@@ -231,7 +231,7 @@ class KMIME_EXPORT Unstructured : public Base
     //@endcond
 public:
     Unstructured();
-    ~Unstructured();
+    ~Unstructured() override;
 
     using Base::from7BitString;
     void from7BitString(const QByteArray &s) override;
@@ -284,7 +284,7 @@ class KMIME_EXPORT Structured : public Base
 {
 public:
     Structured();
-    ~Structured();
+    ~Structured() override;
 
     void from7BitString(const char *s, size_t len) override;
     void from7BitString(const QByteArray &s) override;
@@ -320,7 +320,7 @@ class KMIME_EXPORT Address : public Structured
 {
 public:
     Address();
-    ~Address();
+    ~Address() override;
 protected:
     //@cond PRIVATE
     kmime_mk_dptr_ctor(Address)
@@ -1197,7 +1197,7 @@ class KMIME_EXPORT Generic : public Generics::Unstructured
 public:
     Generic();
     Generic(const char *t, int len = -1);
-    ~Generic();
+    ~Generic() override;
 
     void clear() override;
 
