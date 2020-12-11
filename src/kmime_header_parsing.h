@@ -19,7 +19,7 @@
 #include <QDateTime>
 
 template <typename K, typename V> class QMap;
-class QStringList;
+#include <QStringList>
 
 namespace KMime
 {
