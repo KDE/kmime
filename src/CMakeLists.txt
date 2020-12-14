@@ -32,7 +32,9 @@ ecm_qt_declare_logging_category(kmime_LIB_SRCS
         DESCRIPTION "kmime (pim lib)" EXPORT KMIME)
 
 add_library(KF5Mime ${kmime_LIB_SRCS})
-
+if (COMPILE_WITH_CMAKE_SUPPORT)
+    set_target_properties(KF5Mime PROPERTIES UNITY_BUILD ON)
+endif()
 generate_export_header(KF5Mime BASE_NAME KMime)
 
 add_library(KF5::Mime ALIAS KF5Mime)
