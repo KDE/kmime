@@ -1457,11 +1457,7 @@ static void decodeRFC2231Value(KCodecs::Codec *&rfc2231Codec,
     if (!dec->decode(decCursor, decEnd, bit, bend)) {
         KMIME_WARN << rfc2231Codec->name()
                    << "codec lies about its maxDecodedSizeFor()"
-              #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
-                   << endl
-              #else
                    << Qt::endl
-              #endif
                    << "result may be truncated";
     }
 
