@@ -344,7 +344,8 @@ int main(int argc, char *argv[])
              << "result.displayName:\n"
              << endl;
         int i = 0;
-        foreach (const auto &it, result.mailboxList) {
+        const auto mailboxList = result.mailboxList;
+        for (const auto &it : mailboxList) {
             cout << "result.mailboxList[" << i << "].displayName:\n"
                  << (it).name() << endl
                  << "result.mailboxList[" << i << "].addrSpec.localPart:\n"

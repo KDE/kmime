@@ -363,7 +363,8 @@ QVector<QByteArray> MailboxList::addresses() const
 {
     QVector<QByteArray> rv;
     rv.reserve(d_func()->mailboxList.count());
-    foreach (const Types::Mailbox &mbox, d_func()->mailboxList) {
+    const auto mailboxList = d_func()->mailboxList;
+    for (const Types::Mailbox &mbox : mailboxList) {
         rv.append(mbox.address());
     }
     return rv;
@@ -498,7 +499,8 @@ QString AddressList::asUnicodeString() const
     QStringList rv;
     for (const Types::Address &addr : qAsConst(d->addressList)) {
         rv.reserve(rv.size() + addr.mailboxList.size());
-        foreach (const Types::Mailbox &mbox, addr.mailboxList) {
+        const auto mailboxList = addr.mailboxList;
+        for (const Types::Mailbox &mbox : mailboxList) {
             rv.append(mbox.prettyAddress());
         }
     }
@@ -539,8 +541,10 @@ void AddressList::addAddress(const QByteArray &address,
 QVector<QByteArray> AddressList::addresses() const
 {
     QVector<QByteArray> rv;
-    foreach (const Types::Address &addr, d_func()->addressList) {
-        foreach (const Types::Mailbox &mbox, addr.mailboxList) {
+    const auto addressList = d_func()->addressList;
+    for (const Types::Address &addr : addressList) {
+        const auto mailboxList = addr.mailboxList;
+        for (const Types::Mailbox &mbox : mailboxList) {
             rv.append(mbox.address());
         }
     }
@@ -572,8 +576,10 @@ QString AddressList::displayString() const
 Types::Mailbox::List AddressList::mailboxes() const
 {
     Types::Mailbox::List rv;
-    foreach (const Types::Address &addr, d_func()->addressList) {
-        foreach (const Types::Mailbox &mbox, addr.mailboxList) {
+    const auto addressList = d_func()->addressList;
+    for (const Types::Address &addr : addressList) {
+        const auto mailboxList = addr.mailboxList;
+        for (const Types::Mailbox &mbox : mailboxList) {
             rv.append(mbox);
         }
     }
@@ -993,7 +999,8 @@ bool Ident::parse(const char *&scursor, const char *const send, bool isCRLF)
 QVector<QByteArray> Ident::identifiers() const
 {
     QVector<QByteArray> rv;
-    foreach (const Types::AddrSpec &addr, d_func()->msgIdList) {
+    const auto msgIdList = d_func()->msgIdList;
+    for (const Types::AddrSpec &addr : msgIdList) {
         if (!addr.isEmpty()) {
             const QString asString = addr.asString();
             if (!asString.isEmpty()) {

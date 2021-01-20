@@ -187,7 +187,8 @@ void Content::assemble()
     }
 
     d->head = assembleHeaders();
-    foreach (Content *c, contents()) {
+    const auto contentsList = contents();
+    for (Content *c : contentsList) {
         c->assemble();
     }
 }
@@ -424,7 +425,8 @@ Content *Content::textContent()
     if (contentType()->isText()) {
         ret = this;
     } else {
-        foreach (Content *c, d_ptr->contents()) {
+        const auto contents = d_ptr->contents();
+        for (Content *c : contents) {
             if ((ret = c->textContent()) != nullptr) {
                 break;
             }
@@ -557,7 +559,8 @@ void Content::removeContent(Content *c, bool del)
 
         // Move all headers from the old subcontent to ourselves.
         // NOTE: This also sets the new Content-Type.
-        foreach (Headers::Base *h, main->d_ptr->headers) {
+        const auto headers = main->d_ptr->headers;
+        for (Headers::Base *h : headers) {
             setHeader(h);   // Will remove the old one if present.
         }
         main->d_ptr->headers.clear();
@@ -692,7 +695,8 @@ int Content::storageSize() const
 
         // FIXME: This should take into account the boundary headers that are added in
         //        encodedContent!
-        foreach (Content *c, d->contents()) {
+        const auto contents = d->contents();
+        for (Content *c : contents) {
             s += c->storageSize();
         }
     }
@@ -709,7 +713,8 @@ int Content::lineCount() const
     }
     ret += d->body.count('\n');
 
-    foreach (Content *c, d->contents()) {
+    const auto contents = d->contents();
+    for (Content *c : contents) {
         ret += c->lineCount();
     }
 

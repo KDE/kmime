@@ -51,6 +51,7 @@ if (USE_UNITY_CMAKE_SUPPORT)
     endif()
 endif()
 ########### Targets ###########
+add_definitions(-DQT_NO_FOREACH)
 add_subdirectory(src)
 add_subdirectory(includes)
 
