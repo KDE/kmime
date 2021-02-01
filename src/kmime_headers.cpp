@@ -1542,24 +1542,21 @@ bool Newsgroups::isCrossposted() const {
 bool Newsgroups::parse(const char *&scursor, const char *const send, bool isCRLF) {
     Q_D(Newsgroups);
     clear();
-    forever {
-    eatCFWS(scursor, send, isCRLF);
-        if (scursor != send && *scursor == ',')
-        {
-            ++scursor;
-        }
-        eatCFWS(scursor, send, isCRLF);
-        if (scursor == send)
-        {
-            return true;
-        }
-        const char *start = scursor;
-        while (scursor != send && !isspace(*scursor) && *scursor != ',')
-        {
-            ++scursor;
-        }
-        QByteArray group(start, scursor - start);
-        d->groups.append(group);
+    while (true) {
+      eatCFWS(scursor, send, isCRLF);
+      if (scursor != send && *scursor == ',') {
+        ++scursor;
+      }
+      eatCFWS(scursor, send, isCRLF);
+      if (scursor == send) {
+        return true;
+      }
+      const char *start = scursor;
+      while (scursor != send && !isspace(*scursor) && *scursor != ',') {
+        ++scursor;
+      }
+      QByteArray group(start, scursor - start);
+      d->groups.append(group);
     }
     return true;
 }
