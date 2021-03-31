@@ -17,8 +17,7 @@
   @authors Constantin Berzan \<exit3219@gmail.com\>
 */
 
-#ifndef __KMIME_HEADERFACTORY_H__
-#define __KMIME_HEADERFACTORY_H__
+#pragma once
 
 #include "kmime_export.h"
 
@@ -44,4 +43,3 @@ namespace HeaderFactory
 
 } // namespace KMime
 
-#endif /* __KMIME_HEADERFACTORY_H__ */

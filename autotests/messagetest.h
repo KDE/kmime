@@ -4,8 +4,7 @@
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#ifndef MESSAGE_TEST_H
-#define MESSAGE_TEST_H
+#pragma once
 
 #include "kmime_message.h"
 #include <QObject>
@@ -44,4 +43,3 @@ private:
     KMime::Message::Ptr readAndParseMail(const QString &mailFile) const;
 };
 
-#endif

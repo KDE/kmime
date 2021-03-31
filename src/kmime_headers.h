@@ -24,8 +24,7 @@
   Volker Krause \<vkrause@kde.org\>
 */
 
-#ifndef __KMIME_HEADERS_H__
-#define __KMIME_HEADERS_H__
+#pragma once
 
 #include "kmime_export.h"
 #include "kmime_header_parsing.h"
@@ -1447,4 +1446,3 @@ Q_DECLARE_METATYPE(KMime::Headers::To*)
 Q_DECLARE_METATYPE(KMime::Headers::Cc*)
 Q_DECLARE_METATYPE(KMime::Headers::Bcc*)
 
-#endif // __KMIME_HEADERS_H__

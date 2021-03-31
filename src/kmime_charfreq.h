@@ -41,8 +41,7 @@
   no lines longer than 998 characters, and either only LFs, or only CRLFs.
 */
 
-#ifndef __KMIME_CHARFREQ_H__
-#define __KMIME_CHARFREQ_H__
+#pragma once
 
 #include <QByteArray>
 #undef None
@@ -169,4 +168,3 @@ private:
 
 } // namespace KMime
 
-#endif /* __KMIME_CHARFREQ_H__ */

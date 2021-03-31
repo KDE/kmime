@@ -4,8 +4,7 @@
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#ifndef KMIME_HEADERS_P_H
-#define KMIME_HEADERS_P_H
+#pragma once
 
 #include <QMap>
 //@cond PRIVATE
@@ -194,4 +193,3 @@ kmime_mk_empty_private(ContentID, Generics::SingleIdent)
 
 //@endcond
 
-#endif

@@ -4,8 +4,7 @@
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#ifndef KMIME_CONTENT_P_H
-#define KMIME_CONTENT_P_H
+#pragma once
 
 //@cond PRIVATE
 
@@ -65,4 +64,3 @@ public:
 
 //@endcond
 
-#endif

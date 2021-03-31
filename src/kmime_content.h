@@ -32,8 +32,7 @@ TODO: possible glossary terms:
  broken-down object representation
 */
 
-#ifndef __KMIME_CONTENT_H__
-#define __KMIME_CONTENT_H__
+#pragma once
 
 #include "kmime_export.h"
 #include "kmime_contentindex.h"
@@ -699,4 +698,3 @@ template <typename T> bool Content::removeHeader()
 
 Q_DECLARE_METATYPE(KMime::Content*)
 
-#endif // __KMIME_CONTENT_H__

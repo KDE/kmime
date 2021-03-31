@@ -7,8 +7,7 @@
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
-#ifndef __KMIME_UTIL_H__
-#define __KMIME_UTIL_H__
+#pragma once
 
 #include "kmime_export.h"
 #include "kmime_headers.h"
@@ -309,4 +308,3 @@ KMIME_EXPORT bool isInvitation(Content *content);
 
 } // namespace KMime
 
-#endif /* __KMIME_UTIL_H__ */

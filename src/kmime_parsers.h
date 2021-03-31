@@ -7,8 +7,7 @@
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
-#ifndef __KMIME_PARSERS__
-#define __KMIME_PARSERS__
+#pragma once
 
 #include <QByteArray>
 #include <QVector>
@@ -135,4 +134,3 @@ private:
 
 } // namespace KMime
 
-#endif // __KMIME_PARSERS__

@@ -7,8 +7,7 @@
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
-#ifndef __KMIME_CODECS_H__
-#define __KMIME_CODECS_H__
+#pragma once
 
 #include <QByteArray>
 #include <QString>
@@ -66,4 +65,3 @@ Q_REQUIRED_RESULT QByteArray encodeRFC2231String(const QString &src, const QByte
 
 } // namespace KMime
 
-#endif /* __KMIME_CODEC_H__ */

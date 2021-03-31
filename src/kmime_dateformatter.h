@@ -31,8 +31,7 @@
   ASCII string of the form "Sun Mar 31 02:08:35 2002".
 */
 
-#ifndef __KMIME_DATEFORMATTER_H__
-#define __KMIME_DATEFORMATTER_H__
+#pragma once
 
 #include <time.h>
 #include <QDateTime>
@@ -186,4 +185,3 @@ private:
 
 } // namespace KMime
 
-#endif /* __KMIME_DATEFORMATTER_H__ */

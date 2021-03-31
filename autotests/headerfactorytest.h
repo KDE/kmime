@@ -4,8 +4,7 @@
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#ifndef HEADERFACTORYTEST_H
-#define HEADERFACTORYTEST_H
+#pragma once
 
 #include <QObject>
 
@@ -16,4 +15,3 @@ private Q_SLOTS:
     void testBuiltInHeaders();
 };
 
-#endif

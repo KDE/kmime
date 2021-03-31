@@ -4,8 +4,7 @@
     SPDX-License-Identifier: LGPL-2.0-only
 */
 
-#ifndef RFC2231TEST_H
-#define RFC2231TEST_H
+#pragma once
 
 #include <QObject>
 
@@ -18,5 +17,4 @@ private Q_SLOTS:
     void testRFC2231encode();
 };
 
-#endif
 

@@ -4,8 +4,7 @@
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#ifndef RFC2047TEST_H
-#define RFC2047TEST_H
+#pragma once
 
 #include <QObject>
 
@@ -16,5 +15,4 @@ private Q_SLOTS:
     void testRFC2047encode();
 };
 
-#endif
 

@@ -4,8 +4,7 @@
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#ifndef UTIL_TEST_H
-#define UTIL_TEST_H
+#pragma once
 
 #include <QObject>
 
@@ -23,5 +22,4 @@ private Q_SLOTS:
     void testAttachment2();
 };
 
-#endif
 

@@ -3,8 +3,7 @@
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
-#ifndef KMIME_HEADER_PARSING_P_H
-#define KMIME_HEADER_PARSING_P_H
+#pragma once
 
 #include <QVector>
 
@@ -26,4 +25,3 @@ Q_REQUIRED_RESULT QVector<KMime::Headers::Base *> parseHeaders(const QByteArray 
 
 }
 
-#endif

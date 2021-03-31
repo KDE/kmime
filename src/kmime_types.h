@@ -7,8 +7,7 @@
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#ifndef __KMIME_TYPES_H__
-#define __KMIME_TYPES_H__
+#pragma once
 
 #include <QString>
 #include <QVector>
@@ -164,5 +163,4 @@ Q_DECLARE_TYPEINFO(KMime::Types::Mailbox, Q_MOVABLE_TYPE);
 Q_DECLARE_TYPEINFO(KMime::Types::Address, Q_MOVABLE_TYPE);
 Q_DECLARE_TYPEINFO(KMime::Types::AddrSpec, Q_MOVABLE_TYPE);
 
-#endif // __KMIME_HEADER_PARSING_H__
 

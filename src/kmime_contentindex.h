@@ -18,8 +18,7 @@
   Internet Message Access Protocol (IMAP)</a>.
 */
 
-#ifndef KMIME_CONTENTINDEX_H
-#define KMIME_CONTENTINDEX_H
+#pragma once
 
 #include "kmime_export.h"
 
@@ -133,4 +132,3 @@ KMIME_EXPORT uint qHash(const KMime::ContentIndex &);
 
 Q_DECLARE_METATYPE(KMime::ContentIndex)
 
-#endif

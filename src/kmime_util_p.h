@@ -4,8 +4,7 @@
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#ifndef KMIME_UTIL_P_H
-#define KMIME_UTIL_P_H
+#pragma once
 
 // @cond PRIVATE
 
@@ -70,4 +69,3 @@ inline bool isTText(char ch)
 
 // @endcond
 
-#endif

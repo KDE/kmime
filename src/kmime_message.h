@@ -7,8 +7,7 @@
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
-#ifndef __KMIME_MESSAGE_H__
-#define __KMIME_MESSAGE_H__
+#pragma once
 
 #include "kmime_export.h"
 #include "kmime_content.h"
@@ -188,4 +187,3 @@ private:
 Q_DECLARE_METATYPE(KMime::Message*)
 Q_DECLARE_METATYPE(KMime::Message::Ptr)
 
-#endif // __KMIME_MESSAGE_H__

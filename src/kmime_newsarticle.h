@@ -7,8 +7,7 @@
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
-#ifndef __KMIME_NEWSARTICLE_H__
-#define __KMIME_NEWSARTICLE_H__
+#pragma once
 
 #include "kmime_export.h"
 #include "kmime_message.h"
@@ -84,4 +83,3 @@ protected:
 
 } // namespace KMime
 
-#endif // __KMIME_NEWSARTICLE_H__

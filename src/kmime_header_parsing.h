@@ -7,8 +7,7 @@
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#ifndef __KMIME_HEADER_PARSING_H__
-#define __KMIME_HEADER_PARSING_H__
+#pragma once
 
 #include "kmime_export.h"
 #include "kmime_types.h"
@@ -255,5 +254,4 @@ KMIME_EXPORT void extractHeaderAndBody(const QByteArray &content,
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(KMime::HeaderParsing::ParseTokenFlags)
 
-#endif // __KMIME_HEADER_PARSING_H__
 

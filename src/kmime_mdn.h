@@ -30,8 +30,7 @@
   An Extensible Message Format for Message Disposition Notifications</a>.
 */
 
-#ifndef __KMIME_MDN_H__
-#define __KMIME_MDN_H__
+#pragma once
 
 #include "kmime_export.h"
 #include <QString>
@@ -182,4 +181,3 @@ KMIME_EXPORT extern QString descriptionFor(
 
 } // namespace KMime
 
-#endif // __KMIME_MDN_H__
