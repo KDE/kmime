@@ -6,8 +6,10 @@ configure_file(config-kmime.h.cmake ${KMime_BINARY_DIR}/src/config-kmime.h)
 kde_enable_exceptions()
 
 ########### next target ###############
+add_library(KF5Mime)
+add_library(KF5::Mime ALIAS KF5Mime)
 
-set(kmime_LIB_SRCS
+target_sources(KF5Mime PRIVATE
    kmime_charfreq.cpp
    kmime_util.cpp
    kmime_mdn.cpp
@@ -24,20 +26,16 @@ set(kmime_LIB_SRCS
    kmime_types.cpp
 )
 
-
-ecm_qt_declare_logging_category(kmime_LIB_SRCS
+ecm_qt_declare_logging_category(KF5Mime
        HEADER kmime_debug.h
        IDENTIFIER KMIME_LOG
        CATEGORY_NAME org.kde.pim.kmime
         DESCRIPTION "kmime (pim lib)" EXPORT KMIME)
 
-add_library(KF5Mime ${kmime_LIB_SRCS})
 if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
     set_target_properties(KF5Mime PROPERTIES UNITY_BUILD ON)
 endif()
 generate_export_header(KF5Mime BASE_NAME KMime)
-
-add_library(KF5::Mime ALIAS KF5Mime)
 
 target_include_directories(KF5Mime INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KMime>")
 target_include_directories(KF5Mime PUBLIC "$<BUILD_INTERFACE:${KMime_SOURCE_DIR}/src;${KMime_BINARY_DIR}/src;${KMime_BINARY_DIR}>")
