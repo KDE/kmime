@@ -212,7 +212,7 @@ QVector<KMime::Types::Mailbox> Mailbox::listFrom7BitString(const QByteArray& s)
     }
 
     res.reserve(maybeAddressList.size());
-    for (const auto &it : qAsConst(maybeAddressList)) {
+    for (const auto &it : std::as_const(maybeAddressList)) {
         res += (it).mailboxList;
     }
     return res;

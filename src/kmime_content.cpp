@@ -197,7 +197,7 @@ QByteArray Content::assembleHeaders()
 {
     Q_D(Content);
     QByteArray newHead;
-    for (const Headers::Base *h : qAsConst(d->headers)) {
+    for (const Headers::Base *h : std::as_const(d->headers)) {
         if (!h->isEmpty()) {
             newHead += h->as7BitString() + '\n';
         }
@@ -296,7 +296,7 @@ QByteArray Content::encodedBody()
         }
 
         //add all (encoded) contents separated by boundaries
-        for (Content *c : qAsConst(d->multipartContents)) {
+        for (Content *c : std::as_const(d->multipartContents)) {
             e += boundary + '\n';
             e += c->encodedContent(false);    // don't convert LFs here, we do that later!!!!!
         }
@@ -612,7 +612,7 @@ Headers::Base *Content::headerByType(const char *type) const
 {
     Q_ASSERT(type  && *type);
 
-    for (Headers::Base *h : qAsConst(d_ptr->headers)) {
+    for (Headers::Base *h : std::as_const(d_ptr->headers)) {
         if (h->is(type)) {
             return h; // Found.
         }
@@ -627,7 +627,7 @@ QVector<Headers::Base*> Content::headersByType(const char *type) const
 
     QVector<Headers::Base*> result;
 
-    for (Headers::Base *h : qAsConst(d_ptr->headers)) {
+    for (Headers::Base *h : std::as_const(d_ptr->headers)) {
         if (h->is(type)) {
             result << h;
         }

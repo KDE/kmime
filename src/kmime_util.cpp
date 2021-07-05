@@ -38,7 +38,7 @@ bool u_seOutlookEncoding = false;
 
 QByteArray cachedCharset(const QByteArray &name)
 {
-    for (const QByteArray &charset : qAsConst(c_harsetCache)) {
+    for (const QByteArray &charset : std::as_const(c_harsetCache)) {
         if (qstricmp(name.data(), charset.data()) == 0) {
             return charset;
         }

@@ -324,7 +324,7 @@ int main(int argc, char *argv[])
              << "result.displayName:\n" << result.displayName
              << endl;
         int i = 0;
-        for (const auto &it : qAsConst(result.mailboxList)) {
+        for (const auto &it : std::as_const(result.mailboxList)) {
             cout << "result.mailboxList[" << i << "].displayName:\n"
                  << (it).name() << endl
                  << "result.mailboxList[" << i << "].addrSpec.localPart:\n"
@@ -364,7 +364,7 @@ int main(int argc, char *argv[])
 
         cout << (ok ? "OK" : "BAD") << endl;
         int j = 0;
-        for (const auto &jt : qAsConst(result)) {
+        for (const auto &jt : std::as_const(result)) {
             cout << "result[" << j << "].displayName:\n"
                  << (jt).displayName
                  << endl;
