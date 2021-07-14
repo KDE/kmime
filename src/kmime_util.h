@@ -101,7 +101,7 @@ KMIME_EXPORT extern QByteArray extractHeader(const QByteArray &src,
 
   @param s source string containing CRLF's
 
-  @return the string with CRLF's substitued for LF's
+  @return the string with CRLF's substituted for LF's
   @see CRLFtoLF(const char*) LFtoCRLF
 */
 KMIME_EXPORT extern QByteArray CRLFtoLF(const QByteArray &s);
@@ -115,7 +115,7 @@ KMIME_EXPORT extern QByteArray CRLFtoLF(const QByteArray &s);
 
   @param s source string containing CRLF's
 
-  @return the string with CRLF's substitued for LF's
+  @return the string with CRLF's substituted for LF's
   @see CRLFtoLF(const QByteArray&) LFtoCRLF
 */
 KMIME_EXPORT extern QByteArray CRLFtoLF(const char *s);
@@ -130,7 +130,7 @@ KMIME_EXPORT extern QByteArray CRLFtoLF(const char *s);
 
   @param s source string containing CRLF's
 
-  @return the string with CRLF's substitued for LF's
+  @return the string with CRLF's substituted for LF's
   @see CRLFtoLF(const QByteArray&) LFtoCRLF
 */
 KMIME_EXPORT extern QByteArray LFtoCRLF(const QByteArray &s);
@@ -144,7 +144,7 @@ KMIME_EXPORT extern QByteArray LFtoCRLF(const QByteArray &s);
 
   @param s source string containing CR's
 
-  @return the string with CR's substitued for LF's
+  @return the string with CR's substituted for LF's
   @see CRtoLF(const QByteArray&) CRtoLF
 */
 KMIME_EXPORT extern QByteArray CRtoLF(const char *s);
@@ -159,7 +159,7 @@ KMIME_EXPORT extern QByteArray CRtoLF(const char *s);
 
   @param s source string containing CR's
 
-  @return the string with CR's substitued for LF's
+  @return the string with CR's substituted for LF's
   @see CRtoLF(const QByteArray&) CRtoLF
 */
 KMIME_EXPORT extern QByteArray CRtoLF(const QByteArray &s);

@@ -114,7 +114,7 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->asUnicodeString(), QLatin1String("John Doe <jdoe@machine.example>"));
     delete h;
 
-    // parsing and re-assembling list of diffrent addresses
+    // parsing and re-assembling list of different addresses
     h = new Headers::Generics::AddressList();
     h->from7BitString("Mary Smith <mary@x.test>, jdoe@example.org, Who? <one@y.test>");
     QCOMPARE(h->addresses().count(), 3);
@@ -126,7 +126,7 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->as7BitString(false), QByteArray("Mary Smith <mary@x.test>, jdoe@example.org, Who? <one@y.test>"));
     delete h;
 
-    // same again with some interessting quoting
+    // same again with some interesting quoting
     h = new Headers::Generics::AddressList();
     h->from7BitString(R"("Joe Q. Public" <john.q.public@example.com>, <boss@nil.test>, "Giant; \"Big\" Box" <sysservices@example.net>)");
     QCOMPARE(h->addresses().count(), 3);
@@ -643,7 +643,7 @@ void HeaderTest::testContentTypeHeader()
 
     // bug #197958 (name of Content-Type sent by Mozilla Thunderbird are not parsed -- test case generated with v2.0.0.22)
     // But with unquoted string
-    QEXPECT_FAIL("", "Unqouted rfc2047 strings are not supported as of now", Continue);
+    QEXPECT_FAIL("", "Unquoted rfc2047 strings are not supported as of now", Continue);
     h = new ContentType;
     h->from7BitString("text/plain;\n name==?ISO-8859-1?Q?lor=E9m_ipsum=2Etxt?=");
     QCOMPARE(h->name(), QString::fromUtf8("lorém ipsum.txt"));

@@ -48,7 +48,7 @@ void MessageTest::testMainBodyPart()
     // converted to a single-part, deleting the other content!
     msg2->clearContents(false);
 
-    // mulitpart/alternative
+    // multipart/alternative
     msg->contentType()->setMimeType("multipart/alternative");
     msg->addContent(html);
     msg->addContent(text);
@@ -57,7 +57,7 @@ void MessageTest::testMainBodyPart()
     QCOMPARE(msg->mainBodyPart("text/plain"), text);
     QCOMPARE(msg->mainBodyPart("text/html"), html);
 
-    // mulitpart/alternative inside multipart/mixed
+    // multipart/alternative inside multipart/mixed
     auto *msg3 = new Message();
     msg3->contentType()->setMimeType("multipart/mixed");
     msg3->addContent(msg);

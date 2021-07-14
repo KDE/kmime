@@ -920,7 +920,7 @@ class KMIME_EXPORT MessageID : public Generics::SingleIdent
     //@endcond
 public:
     /**
-      Generate a message identifer.
+      Generate a message identifier.
       @param fqdn A fully qualified domain name.
     */
     void generate(const QByteArray &fqdn);
@@ -1047,7 +1047,7 @@ public:
     bool isImage() const;
 
     /**
-      Returns true if the associated MIME entity is a mulitpart container.
+      Returns true if the associated MIME entity is a multipart container.
     */
     bool isMultipart() const;
 
@@ -1068,12 +1068,12 @@ public:
     void setCharset(const QByteArray &s);
 
     /**
-      Returns the boundary (for mulitpart containers).
+      Returns the boundary (for multipart containers).
     */
     QByteArray boundary() const;
 
     /**
-      Sets the mulitpart container boundary.
+      Sets the multipart container boundary.
     */
     void setBoundary(const QByteArray &s);
 

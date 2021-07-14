@@ -1230,7 +1230,7 @@ static bool parseParameter(const char *&scursor, const char *const send,
     //
     // note that rfc2231 handling is out of the scope of this function.
     // Therefore we return the attribute as QByteArray and the value as
-    // (start,length) tupel if we see that the value is encoded
+    // (start,length) tuple if we see that the value is encoded
     // (trailing asterisk), for parseParameterList to decode...
 
     eatCFWS(scursor, send, isCRLF);

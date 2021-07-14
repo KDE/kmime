@@ -242,7 +242,7 @@ bool UUEncoded::parse()
                 fileName = "";
             }
             m_filenames.append(fileName);
-            //everything beetween "begin" and "end" is uuencoded
+            //everything between "begin" and "end" is uuencoded
             m_bins.append(m_src.mid(uuStart, endPos - uuStart + 1));
             m_mimeTypes.append(guessMimeType(fileName));
             firstIteration = false;

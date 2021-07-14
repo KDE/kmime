@@ -231,8 +231,8 @@ QByteArray Content::encodedContent(bool useCrLf)
     QByteArray encodedContentData = head();           // return value; initialise with the head data
     const QByteArray encodedBodyData = encodedBody();
 
-    /* Make sure, that head and body have at least two newlines as seperator, otherwise add one.
-     * If we have enough newlines as sperator, than we should not change the number of newlines
+    /* Make sure that head and body have at least two newlines as separator, otherwise add one.
+     * If we have enough newlines as sperator, then we should not change the number of newlines
      * to not break digital signatures
      */
     if (!encodedContentData.endsWith("\n\n") &&

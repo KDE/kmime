@@ -116,7 +116,7 @@ int main(int argc, char *argv[])
             } else if (EQUALS("mailbox-terminated")) {
                 dispositionModifiers << MailboxTerminated;
             } else {
-                usage("unknwon disposition modifier!");
+                usage("unknown disposition modifier!");
             }
             break;
 

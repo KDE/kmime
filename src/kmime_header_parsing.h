@@ -141,7 +141,7 @@ Q_REQUIRED_RESULT KMIME_EXPORT bool parseDotAtom(const char *&scursor, const cha
   calling this function, you should check whether @p scursor == @p send
   (end of header reached).
 
-  If a comment with unbalanced parantheses is encountered, @p scursor
+  If a comment with unbalanced parentheses is encountered, @p scursor
   is being positioned on the opening '(' of the outmost comment.
 
   @param scursor pointer to the first character beyond the initial '=' of

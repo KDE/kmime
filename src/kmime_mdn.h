@@ -65,7 +65,7 @@ namespace MDN
   later time and read the message.
 
   @li Denied       The recipient does not wish the sender to be informed of the
-  message's disposition.  A UA may also siliently ignore message disposition
+  message's disposition.  A UA may also silently ignore message disposition
   requests in this situation.
 
   @li Failed       A failure occurred that prevented the proper generation
