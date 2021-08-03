@@ -333,7 +333,7 @@ QByteArray Content::decodedContent()
             QScopedPointer<KCodecs::Decoder> decoder(codec->makeDecoder());
             QByteArray::const_iterator inputIt = d_ptr->body.constBegin();
             QByteArray::iterator resultIt = ret.begin();
-            decoder->decode(inputIt, d_ptr->body.constEnd(), resultIt, ret.end());
+            decoder->decode(inputIt, d_ptr->body.constEnd(), resultIt, ret.constEnd());
             ret.truncate(resultIt - ret.begin());
             break;
         }
@@ -555,7 +555,7 @@ void Content::removeContent(Content *c, bool del)
 
     // If only one content is left, turn this content into a single-part.
     if (d->multipartContents.count() == 1) {
-        Content *main = d->multipartContents.first();
+        Content *main = d->multipartContents.constFirst();
 
         // Move all headers from the old subcontent to ourselves.
         // NOTE: This also sets the new Content-Type.
@@ -652,7 +652,7 @@ void Content::appendHeader(Headers::Base *h)
 bool Content::removeHeader(const char *type)
 {
     Q_D(Content);
-    const auto endIt = d->headers.end();
+    const auto endIt = d->headers.constEnd();
     for (auto it = d->headers.begin(); it != endIt; ++it)
         if ((*it)->is(type)) {
             delete(*it);

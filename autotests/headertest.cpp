@@ -478,7 +478,7 @@ void HeaderTest::testParametrizedHeader()
     QVERIFY(!h->hasParameter(QLatin1String("foo")));
 
     // add a parameter
-    h->setParameter(QLatin1String("filename"), QLatin1String("bla.jpg"));
+    h->setParameter(QStringLiteral("filename"), QStringLiteral("bla.jpg"));
     QVERIFY(!h->isEmpty());
     QVERIFY(h->hasParameter(QLatin1String("filename")));
     QVERIFY(h->hasParameter(QLatin1String("FiLeNaMe")));

@@ -511,7 +511,7 @@ void MessageTest::testEncapsulatedMessages()
     QCOMPARE(encapsulated->decodedText(false, false),
              QLatin1String("This is the encapsulated message body."));
     QCOMPARE(encapsulated.data(), messageContent->bodyAsMessage().data());
-    QCOMPARE(encapsulated.data(), messageContent->contents().first());
+    QCOMPARE(encapsulated.data(), messageContent->contents().constFirst());
     QCOMPARE(encapsulated->parent(), messageContent);
     QVERIFY(!encapsulated->isTopLevel());
     QCOMPARE(encapsulated->topLevel(), msg.data());
