@@ -652,7 +652,7 @@ void Content::appendHeader(Headers::Base *h)
 bool Content::removeHeader(const char *type)
 {
     Q_D(Content);
-    const auto endIt = d->headers.constEnd();
+    const auto endIt = d->headers.end();
     for (auto it = d->headers.begin(); it != endIt; ++it)
         if ((*it)->is(type)) {
             delete(*it);
