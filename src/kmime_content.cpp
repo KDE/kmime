@@ -444,10 +444,11 @@ QVector<Content*> Content::attachments()
         const QVector<Content*> contentsList = contents();
         result.reserve(contentsList.count());
         for (Content *child : contentsList) {
-            if (isAttachment(child))
+            if (isAttachment(child)) {
                 result.push_back(child);
-            else
+            } else {
                 result += child->attachments();
+            }
         }
     }
 
@@ -653,12 +654,13 @@ bool Content::removeHeader(const char *type)
 {
     Q_D(Content);
     const auto endIt = d->headers.end();
-    for (auto it = d->headers.begin(); it != endIt; ++it)
+    for (auto it = d->headers.begin(); it != endIt; ++it) {
         if ((*it)->is(type)) {
             delete(*it);
             d->headers.erase(it);
             return true;
         }
+    }
 
     return false;
 }

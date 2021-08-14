@@ -22,8 +22,11 @@ QByteArray encodeRFC2047String(const QString &src, const QByteArray &charset,
                                bool addressHeader, bool allow8BitHeaders)
 {
     QByteArray result;
-    int start = 0, end = 0;
-    bool nonAscii = false, ok = true, useQEncoding = false;
+    int start = 0;
+    int end = 0;
+    bool nonAscii = false;
+    bool ok = true;
+    bool useQEncoding = false;
 
     // fromLatin1() is safe here, codecForName() uses toLatin1() internally
     const QTextCodec *codec = KCharsets::charsets()->codecForName(QString::fromLatin1(charset), ok);
@@ -96,7 +99,8 @@ QByteArray encodeRFC2047String(const QString &src, const QByteArray &charset,
         if (useQEncoding) {
             result += "?Q?";
 
-            char c, hexcode;// "Q"-encoding implementation described in RFC 2047
+            char c;
+            char hexcode; // "Q"-encoding implementation described in RFC 2047
             for (int i = start; i < end; i++) {
                 c = encoded8Bit[i];
                 if (c == ' ') {   // make the result readable with not MIME-capable readers
@@ -247,7 +251,8 @@ QString decodeRFC2231String(const QByteArray &str, QByteArray &usedCS, const QBy
 
     QByteArray st = str.mid(str.lastIndexOf('\'') + 1);
 
-    char ch, ch2;
+    char ch;
+    char ch2;
     p = 0;
     while (p < st.length()) {
         if (st.at(p) == 37) {

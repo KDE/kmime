@@ -177,7 +177,10 @@ QByteArray unfoldHeader(const char *header, size_t headerSize)
     result.reserve(headerSize);
 
     const char *end = header + headerSize;
-    const char *pos = header, *foldBegin = nullptr, *foldMid = nullptr, *foldEnd = nullptr;
+    const char *pos = header;
+    const char *foldBegin = nullptr;
+    const char *foldMid = nullptr;
+    const char *foldEnd = nullptr;
     while ((foldMid = strchr(pos, '\n')) && foldMid < end) {
         foldBegin = foldEnd = foldMid;
         // find the first space before the line-break
@@ -333,7 +336,8 @@ int indexOfHeader(const QByteArray &src, const QByteArray &name, int &end, int &
 
 QByteArray extractHeader(const QByteArray &src, const QByteArray &name)
 {
-    int begin, end;
+    int begin;
+    int end;
     bool folded;
     QByteArray result;
 
@@ -557,8 +561,9 @@ bool isCryptoPart(Content *content)
 
     if (lowerSubType == "octet-stream") {
         auto cd = content->contentDisposition(false);
-        if (!cd)
+        if (!cd) {
             return false;
+        }
         const auto fileName = cd->filename().toLower();
         return fileName == QLatin1String("msg.asc") || fileName == QLatin1String("encrypted.asc");
     }
@@ -575,23 +580,26 @@ bool isAttachment(Content* content)
     const auto contentType = content->contentType(false);
     // multipart/* is never an attachment itself, message/rfc822 always is
     if (contentType) {
-        if (contentType->isMultipart())
+        if (contentType->isMultipart()) {
             return false;
-        if (contentType->isMimeType("message/rfc822"))
+        }
+        if (contentType->isMimeType("message/rfc822")) {
             return true;
+        }
     }
 
     // the main body part is not an attachment
     if (content->parent()) {
         const auto top = content->topLevel();
-        if (content == top->textContent())
+        if (content == top->textContent()) {
             return false;
+        }
     }
 
     // ignore crypto parts
-    if (isCryptoPart(content))
+    if (isCryptoPart(content)) {
         return false;
-
+    }
 
     // content type or content disposition having a file name set looks like an attachment
     const auto contentDisposition = content->contentDisposition(false);
@@ -604,19 +612,22 @@ bool isAttachment(Content* content)
     }
 
     // "attachment" content disposition is otherwise a good indicator though
-    if (contentDisposition && contentDisposition->disposition() == Headers::CDattachment)
+    if (contentDisposition && contentDisposition->disposition() == Headers::CDattachment) {
         return true;
+    }
 
     return false;
 }
 
 bool hasAttachment(Content *content)
 {
-    if (!content)
+    if (!content) {
         return false;
+    }
 
-    if (isAttachment(content))
+    if (isAttachment(content)) {
         return true;
+    }
 
     // Ok, content itself is not an attachment. now we deal with multiparts
     auto ct = content->contentType(false);

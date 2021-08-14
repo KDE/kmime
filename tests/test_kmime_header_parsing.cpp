@@ -145,7 +145,8 @@ int main(int argc, char *argv[])
     case 0: {
         // encoded-word
         QString result;
-        QByteArray language, charset;
+        QByteArray language;
+        QByteArray charset;
         // must have checked for initial '=' already:
         bool ok = indata.size() >= 1 && *iit++ == '=' &&
                   parseEncodedWord(iit, iend, result, language, charset);
@@ -405,7 +406,9 @@ int main(int argc, char *argv[])
     break;
     case 17: {
         // time
-        int hour, mins, secs;
+        int hour;
+        int mins;
+        int secs;
         long int secsEastOfGMT;
         bool timeZoneKnown = true;
 

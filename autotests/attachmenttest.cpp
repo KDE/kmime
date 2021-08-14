@@ -51,12 +51,15 @@ void AttachmentTest::testIsAttachment()
     auto root = new KMime::Message;
     auto c = new KMime::Content;
     root->addContent(c);
-    if (!mimeType.isEmpty())
+    if (!mimeType.isEmpty()) {
         c->contentType()->setMimeType(mimeType);
-    if (!name.isEmpty())
+    }
+    if (!name.isEmpty()) {
         c->contentType()->setName(name, "utf-8");
-    if (!fileName.isEmpty())
+    }
+    if (!fileName.isEmpty()) {
         c->contentDisposition()->setFilename(fileName);
+    }
     QCOMPARE(KMime::isAttachment(c), isAtt);
     QCOMPARE(KMime::hasAttachment(root), isAtt);
 

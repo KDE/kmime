@@ -376,10 +376,11 @@ QStringList MailboxList::displayNames() const
     QStringList rv;
     rv.reserve(d->mailboxList.count());
     for (const Types::Mailbox &mbox : std::as_const(d->mailboxList)) {
-        if (mbox.hasName())
+        if (mbox.hasName()) {
             rv.append(mbox.name());
-        else
+        } else {
             rv.append(QString::fromLatin1(mbox.address()));
+        }
     }
     return rv;
 }
@@ -389,10 +390,11 @@ QString MailboxList::displayString() const
     Q_D(const MailboxList);
     if (d->mailboxList.size() == 1) { // fast-path to avoid temporary QStringList in the common case of just one From address
         const auto& mbox = d->mailboxList.at(0);
-        if (mbox.hasName())
+        if (mbox.hasName()) {
             return mbox.name();
-        else
+        } else {
             return QString::fromLatin1(mbox.address());
+        }
     }
     return displayNames().join(QLatin1String(", "));
 }
@@ -558,10 +560,11 @@ QStringList AddressList::displayNames() const
     for (const Types::Address &addr : std::as_const(d->addressList)) {
         const auto mailboxList = addr.mailboxList;
         for (const Types::Mailbox &mbox : mailboxList) {
-            if (mbox.hasName())
+            if (mbox.hasName()) {
                 rv.append(mbox.name());
-            else
+            } else {
                 rv.append(QString::fromLatin1(mbox.address()));
+            }
         }
     }
     return rv;

@@ -431,7 +431,8 @@ bool parseGenericQuotedString(const char *&scursor, const char *const send,
 
             const char *oldscursor = scursor;
             QString tmp;
-            QByteArray lang, charset;
+            QByteArray lang;
+            QByteArray charset;
             if (*scursor++ == '?') {
                 --scursor;
                 if (parseEncodedWord(scursor, send, tmp, lang, charset)) {
@@ -550,7 +551,8 @@ bool parsePhrase(const char *&scursor, const char *const send,
     } found = None;
 
     QString tmp;
-    QByteArray lang, charset;
+    QByteArray lang;
+    QByteArray charset;
     QPair<const char *, int> tmpAtom;
     const char *successfullyParsed = nullptr;
     // only used by the encoded-word branch
@@ -1506,7 +1508,8 @@ bool parseParameterListWithCharset(const char *&scursor,
         RFC2231
     };
 
-    QMap<QString, QStringOrQPair>::Iterator it, end = rawParameterList.end();
+    QMap<QString, QStringOrQPair>::Iterator it;
+    QMap<QString, QStringOrQPair>::Iterator end = rawParameterList.end();
 
     for (it = rawParameterList.begin() ; it != end ; ++it) {
         if (attribute.isNull() || !it.key().startsWith(attribute)) {
@@ -1984,7 +1987,9 @@ bool parseDateTime(const char *&scursor, const char *const send,
     //
     // time
     //
-    int maybeHour, maybeMinute, maybeSecond;
+    int maybeHour;
+    int maybeMinute;
+    int maybeSecond;
     long int secsEastOfGMT;
     bool timeZoneKnown = true;
 
