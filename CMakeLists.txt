@@ -23,7 +23,7 @@ include(ECMQtDeclareLoggingCategory)
 
 
 set(KMIME_LIB_VERSION ${PIM_VERSION})
-set(QT_REQUIRED_VERSION "5.15.0")
+set(QT_REQUIRED_VERSION "5.15.2")
 find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED Core)
 
 ecm_setup_version(PROJECT VARIABLE_PREFIX KMIME
@@ -36,7 +36,7 @@ ecm_setup_version(PROJECT VARIABLE_PREFIX KMIME
 find_package(KF5I18n ${KF5_MIN_VERSION} CONFIG REQUIRED)
 find_package(KF5Codecs ${KF5_MIN_VERSION} CONFIG REQUIRED)
 add_definitions(-DTRANSLATION_DOMAIN=\"libkmime5\")
-add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050f00)
+add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050f02)
 add_definitions(-DKF_DISABLE_DEPRECATED_BEFORE_AND_AT=0x055600)
 option(USE_UNITY_CMAKE_SUPPORT "Use UNITY cmake support (speedup compile time)" OFF)
 
