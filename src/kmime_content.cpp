@@ -29,7 +29,7 @@
 #include "kmime_util_p.h"
 
 #include <KCharsets>
-#include <KCodecs/KCodecs>
+#include <KCodecs>
 
 
 #include <QTextCodec>

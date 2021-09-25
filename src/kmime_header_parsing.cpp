@@ -20,7 +20,7 @@
 
 #include <KCharsets>
 
-#include <KCodecs/KCodecs>
+#include <KCodecs>
 
 #include <QTextCodec>
 #include <QMap>
