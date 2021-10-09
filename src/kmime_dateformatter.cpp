@@ -106,10 +106,7 @@ DateFormatter::DateFormatter(FormatType ftype) :
     d->mFormat = ftype;
 }
 
-DateFormatter::~DateFormatter()
-{
-    delete d;
-}
+DateFormatter::~DateFormatter() = default;
 
 DateFormatter::FormatType DateFormatter::format() const
 {

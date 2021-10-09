@@ -668,7 +668,7 @@ protected:
     virtual QByteArray assembleHeaders();
 
     //@cond PRIVATE
-    ContentPrivate *d_ptr;
+    std::unique_ptr<ContentPrivate> const d_ptr;
     //@endcond
 
 private:

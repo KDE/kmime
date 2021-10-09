@@ -37,6 +37,7 @@
 #include <QDateTime>
 #include <QString>
 #include "kmime_export.h"
+#include <memory>
 
 namespace KMime
 {
@@ -179,7 +180,7 @@ public:
 private:
     //@cond PRIVATE
     Q_DISABLE_COPY(DateFormatter)
-    DateFormatterPrivate *const d;
+    std::unique_ptr<DateFormatterPrivate> const d;
     //@endcond
 };
 

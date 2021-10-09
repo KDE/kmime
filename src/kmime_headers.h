@@ -35,7 +35,7 @@
 #include <QVector>
 #include <QByteArray>
 #include <QMetaType>
-
+#include <memory>
 namespace KMime
 {
 
@@ -190,7 +190,7 @@ protected:
     QByteArray typeIntro() const;
 
     //@cond PRIVATE
-    BasePrivate *d_ptr;
+    std::unique_ptr<BasePrivate> const d_ptr;
     kmime_mk_dptr_ctor(Base)
     //@endcond
 
