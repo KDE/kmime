@@ -57,7 +57,11 @@
     {                                                                     \
     }                                                                     \
     \
-subclass::~subclass() = default;
+	subclass::~subclass() { \
+		Q_D(subclass); \
+		delete d;  /* see comment above the BasePrivate class */ \
+		d_ptr = nullptr; \
+	}
 
 // end kmime_mk_trivial_ctor_with_dptr
 
@@ -97,7 +101,11 @@ Base::Base(BasePrivate *dd) :
 {
 }
 
-Base::~Base() = default;
+Base::~Base()
+{
+    delete d_ptr;
+    d_ptr = nullptr;
+}
 
 void Base::from7BitString(const char *s, size_t len)
 {
@@ -153,7 +161,12 @@ Unstructured::Unstructured() : Base(new UnstructuredPrivate)
 {
 }
 
-Unstructured::~Unstructured() = default;
+Unstructured::~Unstructured()
+{
+    Q_D(Unstructured);
+    delete d;
+    d_ptr = nullptr;
+}
 
 void Unstructured::from7BitString(const QByteArray &s)
 {
@@ -205,7 +218,13 @@ Structured::Structured() : Base(new StructuredPrivate)
 }
 
 kmime_mk_dptr_ctor(Structured, Base)
-Structured::~Structured() = default;
+
+Structured::~Structured()
+{
+    Q_D(Structured);
+    delete d;
+    d_ptr = nullptr;
+}
 
 
 void Structured::from7BitString(const char *s, size_t len)
@@ -1173,7 +1192,12 @@ Generic::Generic(const char *t, int len) : Generics::Unstructured(new GenericPri
     setType(t, len);
 }
 
-Generic::~Generic() = default;
+Generic::~Generic()
+{
+    Q_D(Generic);
+    delete d;
+    d_ptr = nullptr;
+}
 
 void Generic::clear()
 {

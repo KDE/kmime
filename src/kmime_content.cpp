@@ -50,6 +50,8 @@ Content::~Content()
     Q_D(Content);
     qDeleteAll(d->headers);
     d->headers.clear();
+    delete d_ptr;
+    d_ptr = nullptr;
 }
 
 bool Content::hasContent() const
