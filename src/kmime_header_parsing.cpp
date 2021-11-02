@@ -24,7 +24,6 @@
 
 #include <QTextCodec>
 #include <QMap>
-#include <QStringList>
 
 #include <ctype.h> // for isdigit
 #include <cassert>
