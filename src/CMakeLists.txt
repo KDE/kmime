@@ -24,7 +24,22 @@ target_sources(KF5Mime PRIVATE
    kmime_dateformatter.cpp
    kmime_codecs.cpp
    kmime_types.cpp
-)
+
+   kmime_charfreq.h
+   kmime_util.h
+   kmime_mdn.h
+   kmime_parsers.h
+   kmime_header_parsing.h
+   kmime_headerfactory_p.h
+   kmime_content.h
+   kmime_contentindex.h
+   kmime_headers.h
+   kmime_message.h
+   kmime_newsarticle.h
+   kmime_dateformatter.h
+   kmime_codecs.h
+   kmime_types.h
+   )
 
 ecm_qt_declare_logging_category(KF5Mime
        HEADER kmime_debug.h
