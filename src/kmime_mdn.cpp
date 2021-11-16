@@ -33,6 +33,12 @@
 #else
 # include <unistd.h>
 #endif
+#include "ki18n_version.h"
+#if KI18N_VERSION >= QT_VERSION_CHECK(5, 89, 0)
+#include <klazylocalizedstring.h>
+#undef I18N_NOOP
+#define I18N_NOOP kli18n
+#endif
 
 namespace KMime
 {
@@ -43,7 +49,11 @@ namespace MDN
 static const struct {
     DispositionType dispositionType;
     const char *string;
+#if KI18N_VERSION < QT_VERSION_CHECK(5, 89, 0)
     const char *description;
+#else
+    const KLazyLocalizedString description;
+#endif
 } dispositionTypes[] = {
     {
         Displayed, "displayed",
@@ -281,7 +291,11 @@ QString descriptionFor(DispositionType d,
 {
     for (int i = 0 ; i < numDispositionTypes ; ++i) {
         if (dispositionTypes[i].dispositionType == d) {
+#if KI18N_VERSION < QT_VERSION_CHECK(5, 89, 0)
             return i18n(dispositionTypes[i].description);
+#else
+            return KLocalizedString(dispositionTypes[i].description).toString();
+#endif
         }
     }
     qCWarning(KMIME_LOG) << "KMime::MDN::descriptionFor(): No such disposition type:"
