@@ -104,7 +104,7 @@ NonMimeParser::NonMimeParser(const QByteArray &src) :
 {
 }
 
-NonMimeParser::~NonMimeParser() {}
+NonMimeParser::~NonMimeParser() = default;
 
 /**
  * try to guess the mimetype from the file-extension

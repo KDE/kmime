@@ -181,7 +181,7 @@ QByteArray encodeRFC2047Sentence(const QString &src, const QByteArray &charset)
 QByteArray encodeRFC2231String(const QString &str, const QByteArray &charset)
 {
     if (str.isEmpty()) {
-        return QByteArray();
+      return {};
     }
 
     const QTextCodec *codec = KCharsets::charsets()->codecForName(QString::fromLatin1(charset));

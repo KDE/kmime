@@ -364,7 +364,7 @@ QByteArray Content::decodedContent()
 QString Content::decodedText(bool trimText, bool removeTrailingNewlines)
 {
     if (!d_ptr->decodeText(this)) {   //this is not a text content !!
-        return QString();
+      return {};
     }
 
     bool ok = true;
@@ -792,7 +792,7 @@ ContentIndex KMime::Content::indexForContent(Content *content) const
             return ci;
         }
     }
-    return ContentIndex(); // not found
+    return {}; // not found
 }
 
 bool Content::isTopLevel() const
@@ -850,7 +850,7 @@ Message::Ptr Content::bodyAsMessage() const
     if (bodyIsMessage() && d_ptr->bodyAsMessage) {
         return d_ptr->bodyAsMessage;
     } else {
-        return Message::Ptr();
+      return {};
     }
 }
 

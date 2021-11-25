@@ -13,7 +13,7 @@
 namespace KMime
 {
 class Message;
-typedef QSharedPointer<Message> MessagePtr;
+using MessagePtr = QSharedPointer<Message>;
 }
 
 namespace KMime

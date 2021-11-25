@@ -134,7 +134,7 @@ QString DateFormatter::dateString(time_t t, const QString &lang, bool shortForma
     case Custom:
         return d->custom(t);
     }
-    return QString();
+    return {};
 }
 
 QString DateFormatter::dateString(const QDateTime &dt, const QString &lang, bool shortFormat) const
@@ -158,7 +158,7 @@ QString DateFormatterPrivate::rfc2822(time_t t)
 QString DateFormatterPrivate::custom(time_t t) const
 {
     if (mCustomFormat.isEmpty()) {
-        return QString();
+      return {};
     }
 
     int z = mCustomFormat.indexOf(QLatin1Char('Z'));

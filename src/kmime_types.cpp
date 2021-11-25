@@ -40,7 +40,7 @@ static inline QString QUrl_fromAce_wrapper(const QString &domain)
 static QString addr_spec_as_string(const AddrSpec &as, bool pretty)
 {
     if (as.isEmpty()) {
-        return QString();
+      return {};
     }
 
     static const QChar dotChar = QLatin1Char('.');

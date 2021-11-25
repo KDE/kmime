@@ -26,13 +26,10 @@ using namespace KMime;
 class ContentIndex::Private : public QSharedData
 {
 public:
-    Private() {}
-    Private(const Private &other) : QSharedData(other)
-    {
-        index = other.index;
-    }
+  Private() = default;
+  Private(const Private &other) : QSharedData(other) { index = other.index; }
 
-    QVector<unsigned int> index;
+  QVector<unsigned int> index;
 };
 
 KMime::ContentIndex::ContentIndex() : d(new Private)
@@ -53,13 +50,9 @@ KMime::ContentIndex::ContentIndex(const QString &index) : d(new Private)
     }
 }
 
-ContentIndex::ContentIndex(const ContentIndex &other) : d(other.d)
-{
-}
+ContentIndex::ContentIndex(const ContentIndex &other) = default;
 
-ContentIndex::~ContentIndex()
-{
-}
+ContentIndex::~ContentIndex() = default;
 
 bool KMime::ContentIndex::isValid() const
 {

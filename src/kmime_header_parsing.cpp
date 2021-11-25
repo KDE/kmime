@@ -25,8 +25,8 @@
 #include <QTextCodec>
 #include <QMap>
 
-#include <ctype.h> // for isdigit
 #include <cassert>
+#include <cctype> // for isdigit
 
 using namespace KMime;
 using namespace KMime::Types;

@@ -33,10 +33,10 @@
 
 #pragma once
 
-#include <time.h>
+#include "kmime_export.h"
 #include <QDateTime>
 #include <QString>
-#include "kmime_export.h"
+#include <ctime>
 #include <memory>
 
 namespace KMime

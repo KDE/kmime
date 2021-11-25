@@ -20,9 +20,7 @@ Message::Message() : Content()
 {
 }
 
-Message::~Message()
-{
-}
+Message::~Message() = default;
 
 QByteArray Message::assembleHeaders()
 {

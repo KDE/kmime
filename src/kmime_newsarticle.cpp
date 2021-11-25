@@ -20,9 +20,7 @@ NewsArticle::NewsArticle() : Message()
 {
 }
 
-NewsArticle::~NewsArticle()
-{
-}
+NewsArticle::~NewsArticle() = default;
 
 QByteArray NewsArticle::assembleHeaders()
 {

@@ -38,9 +38,8 @@
 #include <KCharsets>
 #include <KCodecs>
 
-
-#include <assert.h>
-#include <ctype.h>
+#include <cassert>
+#include <cctype>
 
 // macro to generate a default constructor implementation
 #define kmime_mk_trivial_ctor( subclass, baseclass )                  \
@@ -272,9 +271,7 @@ Address::Address() : Structured(new AddressPrivate)
 
 kmime_mk_dptr_ctor(Address, Structured)
 
-Address:: ~Address()
-{
-}
+    Address::~Address() = default;
 
 // helper method used in AddressList and MailboxList
 static bool stringToMailbox(const QByteArray &address,
@@ -304,7 +301,7 @@ QByteArray MailboxList::as7BitString(bool withHeaderType) const
 {
     const Q_D(MailboxList);
     if (isEmpty()) {
-        return QByteArray();
+      return {};
     }
 
     QByteArray rv;
@@ -470,7 +467,7 @@ QByteArray AddressList::as7BitString(bool withHeaderType) const
 {
     const Q_D(AddressList);
     if (d->addressList.isEmpty()) {
-        return QByteArray();
+      return {};
     }
 
     QByteArray rv;
@@ -614,7 +611,7 @@ kmime_mk_dptr_ctor(Token, Structured)
 QByteArray Token::as7BitString(bool withHeaderType) const
 {
     if (isEmpty()) {
-        return QByteArray();
+      return {};
     }
     if (withHeaderType) {
         return typeIntro() + d_func()->token;
@@ -682,7 +679,7 @@ QByteArray PhraseList::as7BitString(bool withHeaderType) const
 {
     const Q_D(PhraseList);
     if (isEmpty()) {
-        return QByteArray();
+      return {};
     }
 
     QByteArray rv;
@@ -770,7 +767,7 @@ kmime_mk_trivial_ctor_with_dptr(DotAtom, Structured)
 QByteArray DotAtom::as7BitString(bool withHeaderType) const
 {
     if (isEmpty()) {
-        return QByteArray();
+      return {};
     }
 
     QByteArray rv;
@@ -831,7 +828,7 @@ QByteArray Parametrized::as7BitString(bool withHeaderType) const
 {
     const Q_D(Parametrized);
     if (isEmpty()) {
-        return QByteArray();
+      return {};
     }
 
     QByteArray rv;
@@ -920,7 +917,7 @@ QByteArray Ident::as7BitString(bool withHeaderType) const
 {
     const Q_D(Ident);
     if (d->msgIdList.isEmpty()) {
-        return QByteArray();
+      return {};
     }
 
     QByteArray rv;
@@ -1052,7 +1049,7 @@ kmime_mk_dptr_ctor(SingleIdent, Ident)
 QByteArray SingleIdent::identifier() const
 {
     if (d_func()->msgIdList.isEmpty()) {
-        return QByteArray();
+      return {};
     }
 
     if (d_func()->cachedIdentifier.isEmpty()) {
@@ -1105,7 +1102,7 @@ kmime_mk_trivial_ctor_with_name_and_dptr(ReturnPath, Generics::Address, Return-P
 QByteArray ReturnPath::as7BitString(bool withHeaderType) const
 {
     if (isEmpty()) {
-        return QByteArray();
+      return {};
     }
 
     QByteArray rv;
@@ -1257,7 +1254,7 @@ QByteArray Control::as7BitString(bool withHeaderType) const
 {
     const Q_D(Control);
     if (isEmpty()) {
-        return QByteArray();
+      return {};
     }
 
     QByteArray rv;
@@ -1362,7 +1359,7 @@ QString MailCopiesTo::asUnicodeString() const
     if (d_func()->neverCopy) {
         return QStringLiteral("nobody");
     }
-    return QString();
+    return {};
 }
 
 void MailCopiesTo::clear()
@@ -1437,7 +1434,7 @@ kmime_mk_trivial_ctor_with_name_and_dptr(Date, Generics::Structured, Date)
 QByteArray Date::as7BitString(bool withHeaderType) const
 {
     if (isEmpty()) {
-        return QByteArray();
+      return {};
     }
 
     QByteArray rv;
@@ -1492,7 +1489,7 @@ kmime_mk_trivial_ctor_with_name(FollowUpTo, Newsgroups, Followup-To)
 QByteArray Newsgroups::as7BitString(bool withHeaderType) const {
     const Q_D(Newsgroups);
     if (isEmpty()) {
-        return QByteArray();
+      return {};
     }
 
     QByteArray rv;
@@ -1574,7 +1571,7 @@ kmime_mk_trivial_ctor_with_name_and_dptr(Lines, Generics::Structured, Lines)
 
 QByteArray Lines::as7BitString(bool withHeaderType) const {
     if (isEmpty()) {
-        return QByteArray();
+      return {};
     }
 
     QByteArray num;
@@ -1588,7 +1585,7 @@ QByteArray Lines::as7BitString(bool withHeaderType) const {
 
 QString Lines::asUnicodeString() const {
     if (isEmpty()) {
-        return QString();
+      return {};
     }
     return QString::number(d_func()->lines);
 }
@@ -1643,7 +1640,7 @@ void ContentType::clear() {
 
 QByteArray ContentType::as7BitString(bool withHeaderType) const {
     if (isEmpty()) {
-        return QByteArray();
+      return {};
     }
 
     QByteArray rv;
@@ -1678,7 +1675,7 @@ QByteArray ContentType::subType() const {
     Q_D(const ContentType);
     const int pos = d->mimeType.indexOf('/');
     if (pos < 0) {
-        return QByteArray();
+      return {};
     } else {
         return d->mimeType.mid(pos + 1);
     }
@@ -2037,7 +2034,7 @@ kmime_mk_trivial_ctor_with_name_and_dptr(ContentDisposition,
 
 QByteArray ContentDisposition::as7BitString(bool withHeaderType) const {
     if (isEmpty()) {
-        return QByteArray();
+      return {};
     }
 
     QByteArray rv;
@@ -2050,7 +2047,7 @@ QByteArray ContentDisposition::as7BitString(bool withHeaderType) const {
     } else if (d_func()->disposition == CDinline) {
         rv += "inline";
     } else {
-        return QByteArray();
+      return {};
     }
 
     if (!Parametrized::isEmpty()) {

@@ -213,7 +213,7 @@ static QByteArray dispositionField(DispositionType d, ActionMode a, SendingMode 
 static QByteArray finalRecipient(const QString &recipient)
 {
     if (recipient.isEmpty()) {
-        return QByteArray();
+      return {};
     } else {
         return "Final-Recipient: rfc822; "
                + encodeRFC2047String(recipient, "utf-8") + '\n';
@@ -223,7 +223,7 @@ static QByteArray finalRecipient(const QString &recipient)
 static QByteArray orginalRecipient(const QByteArray &recipient)
 {
     if (recipient.isEmpty()) {
-        return QByteArray();
+      return {};
     } else {
         return "Original-Recipient: " + recipient + '\n';
     }
@@ -232,7 +232,7 @@ static QByteArray orginalRecipient(const QByteArray &recipient)
 static QByteArray originalMessageID(const QByteArray &msgid)
 {
     if (msgid.isEmpty()) {
-        return QByteArray();
+      return {};
     } else {
         return "Original-Message-ID: " + msgid + '\n';
     }
@@ -300,7 +300,7 @@ QString descriptionFor(DispositionType d,
     }
     qCWarning(KMIME_LOG) << "KMime::MDN::descriptionFor(): No such disposition type:"
                << static_cast<int>(d);
-    return QString();
+    return {};
 }
 
 } // namespace MDN

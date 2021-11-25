@@ -23,10 +23,9 @@
 #include <KCharsets>
 #include <QCoreApplication>
 
-
-#include <ctype.h>
-#include <time.h>
-#include <stdlib.h>
+#include <cctype>
+#include <cstdlib>
+#include <ctime>
 
 using namespace KMime;
 

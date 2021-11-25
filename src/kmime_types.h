@@ -28,7 +28,7 @@ struct KMIME_EXPORT AddrSpec {
     QString localPart;
     QString domain;
 };
-typedef QVector<AddrSpec> AddrSpecList;
+using AddrSpecList = QVector<AddrSpec>;
 
 /**
   Represents an (email address, display name) pair according RFC 2822,
