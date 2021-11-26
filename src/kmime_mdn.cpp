@@ -294,7 +294,7 @@ QString descriptionFor(DispositionType d,
 #if KI18N_VERSION < QT_VERSION_CHECK(5, 89, 0)
             return i18n(dispositionTypes[i].description);
 #else
-            return KLocalizedString(dispositionTypes[i].description).toString();
+            return dispositionTypes[i].description.toString();
 #endif
         }
     }
