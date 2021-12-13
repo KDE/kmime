@@ -33,12 +33,7 @@
 #else
 # include <unistd.h>
 #endif
-#include <ki18n_version.h>
-#if KI18N_VERSION >= QT_VERSION_CHECK(5, 89, 0)
 #include <KLazyLocalizedString>
-#undef I18N_NOOP
-#define I18N_NOOP kli18n
-#endif
 
 namespace KMime
 {
@@ -49,49 +44,37 @@ namespace MDN
 static const struct {
     DispositionType dispositionType;
     const char *string;
-#if KI18N_VERSION < QT_VERSION_CHECK(5, 89, 0)
-    const char *description;
-#else
     const KLazyLocalizedString description;
-#endif
-} dispositionTypes[] = {
-    {
-        Displayed, "displayed",
-        I18N_NOOP("The message sent on ${date} to ${to} with subject "
-        "\"${subject}\" has been displayed. This is no guarantee that "
-        "the message has been read or understood.")
-    },
-    {
-        Deleted, "deleted",
-        I18N_NOOP("The message sent on ${date} to ${to} with subject "
-        "\"${subject}\" has been deleted unseen. This is no guarantee "
-        "that the message will not be \"undeleted\" and nonetheless "
-        "read later on.")
-    },
-    {
-        Dispatched, "dispatched",
-        I18N_NOOP("The message sent on ${date} to ${to} with subject "
-        "\"${subject}\" has been dispatched. This is no guarantee "
-        "that the message will not be read later on.")
-    },
-    {
-        Processed, "processed",
-        I18N_NOOP("The message sent on ${date} to ${to} with subject "
-        "\"${subject}\" has been processed by some automatic means.")
-    },
-    {
-        Denied, "denied",
-        I18N_NOOP("The message sent on ${date} to ${to} with subject "
-        "\"${subject}\" has been acted upon. The sender does not wish "
-        "to disclose more details to you than that.")
-    },
-    {
-        Failed, "failed",
-        I18N_NOOP("Generation of a Message Disposition Notification for the "
-        "message sent on ${date} to ${to} with subject \"${subject}\" "
-        "failed. Reason is given in the Failure: header field below.")
-    }
-};
+} dispositionTypes[] = {{Displayed,
+                         "displayed",
+                         kli18n("The message sent on ${date} to ${to} with subject "
+                                "\"${subject}\" has been displayed. This is no guarantee that "
+                                "the message has been read or understood.")},
+                        {Deleted,
+                         "deleted",
+                         kli18n("The message sent on ${date} to ${to} with subject "
+                                "\"${subject}\" has been deleted unseen. This is no guarantee "
+                                "that the message will not be \"undeleted\" and nonetheless "
+                                "read later on.")},
+                        {Dispatched,
+                         "dispatched",
+                         kli18n("The message sent on ${date} to ${to} with subject "
+                                "\"${subject}\" has been dispatched. This is no guarantee "
+                                "that the message will not be read later on.")},
+                        {Processed,
+                         "processed",
+                         kli18n("The message sent on ${date} to ${to} with subject "
+                                "\"${subject}\" has been processed by some automatic means.")},
+                        {Denied,
+                         "denied",
+                         kli18n("The message sent on ${date} to ${to} with subject "
+                                "\"${subject}\" has been acted upon. The sender does not wish "
+                                "to disclose more details to you than that.")},
+                        {Failed,
+                         "failed",
+                         kli18n("Generation of a Message Disposition Notification for the "
+                                "message sent on ${date} to ${to} with subject \"${subject}\" "
+                                "failed. Reason is given in the Failure: header field below.")}};
 
 static const int numDispositionTypes =
     sizeof dispositionTypes / sizeof *dispositionTypes;
@@ -291,11 +274,7 @@ QString descriptionFor(DispositionType d,
 {
     for (int i = 0 ; i < numDispositionTypes ; ++i) {
         if (dispositionTypes[i].dispositionType == d) {
-#if KI18N_VERSION < QT_VERSION_CHECK(5, 89, 0)
-            return i18n(dispositionTypes[i].description);
-#else
             return dispositionTypes[i].description.toString();
-#endif
         }
     }
     qCWarning(KMIME_LOG) << "KMime::MDN::descriptionFor(): No such disposition type:"
