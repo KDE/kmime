@@ -23,7 +23,7 @@
 #include <config-kmime.h>
 
 #include <QTextStream>
-
+#include <QIODevice>
 #include <KLocalizedString>
 
 using namespace KMime;

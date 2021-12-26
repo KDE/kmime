@@ -18,10 +18,10 @@
 #include "kmime_warning.h"
 
 #include <config-kmime.h>
-// #include <kdefakes.h> // for strcasestr
 
 #include <KCharsets>
 #include <QCoreApplication>
+#include <QRegExp>
 
 #include <cctype>
 #include <cstdlib>
