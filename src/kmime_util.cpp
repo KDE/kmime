@@ -534,10 +534,10 @@ QString removeBidiControlChars(const QString &input)
     const int LRE = 0x202A;
     const int RLE = 0x202B;
     QString result = input;
-    result.remove(LRO);
-    result.remove(RLO);
-    result.remove(LRE);
-    result.remove(RLE);
+    result.remove(QChar(LRO));
+    result.remove(QChar(RLO));
+    result.remove(QChar(LRE));
+    result.remove(QChar(RLE));
     return result;
 }
 
