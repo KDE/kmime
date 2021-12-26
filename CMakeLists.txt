@@ -24,7 +24,10 @@ include(ECMAddQch)
 
 set(KMIME_LIB_VERSION ${PIM_VERSION})
 set(QT_REQUIRED_VERSION "5.15.2")
-find_package(Qt5 ${QT_REQUIRED_VERSION} CONFIG REQUIRED Core)
+find_package(Qt${QT_MAJOR_VERSION} ${QT_REQUIRED_VERSION} CONFIG REQUIRED Core)
+if (QT_MAJOR_VERSION STREQUAL "6")
+    find_package(Qt6Core5Compat)
+endif()
 
 ecm_setup_version(PROJECT VARIABLE_PREFIX KMIME
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kmime_version.h"
@@ -80,7 +83,7 @@ install(EXPORT KF5MimeTargets
 
 install(FILES
     ${KMime_BINARY_DIR}/kmime_version.h
-    DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}
+    DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF}
     COMPONENT Devel
     )
 

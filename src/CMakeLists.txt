@@ -52,7 +52,7 @@ if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
 endif()
 generate_export_header(KF5Mime BASE_NAME KMime)
 
-target_include_directories(KF5Mime INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KMime>")
+target_include_directories(KF5Mime INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF}/KMime>")
 target_include_directories(KF5Mime PUBLIC "$<BUILD_INTERFACE:${KMime_SOURCE_DIR}/src;${KMime_BINARY_DIR}/src;${KMime_BINARY_DIR}>")
 
 if (WIN32)
@@ -61,12 +61,15 @@ endif()
 
 target_link_libraries(KF5Mime
 PUBLIC
-    Qt::Core
+    Qt${QT_MAJOR_VERSION}::Core
 PRIVATE
     KF5::I18n
     KF5::Codecs
     ${_kmime_extra_libs}
 )
+if (TARGET Qt6::Core5Compat)
+    target_link_libraries(KF5Mime PRIVATE Qt6::Core5Compat) # QTextCodec
+endif()
 
 set_target_properties(KF5Mime PROPERTIES
     VERSION ${KMIME_VERSION}
@@ -102,7 +105,7 @@ install(FILES
          kmime_dateformatter.h
          kmime_util.h
          kmime_types.h
-         DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}/KMime/kmime COMPONENT Devel
+         DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF}/KMime/kmime COMPONENT Devel
 )
 
 if (BUILD_QCH)
@@ -130,5 +133,5 @@ endif()
 
 ecm_qt_install_logging_categories(EXPORT KMIME FILE kmime.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 
-ecm_generate_pri_file(BASE_NAME KMime LIB_NAME KF5Mime DEPS "" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF5}/KMime)
+ecm_generate_pri_file(BASE_NAME KMime LIB_NAME KF5Mime DEPS "" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF}/KMime)
 install(FILES ${PRI_FILENAME} DESTINATION ${ECM_MKSPECS_INSTALL_DIR})
