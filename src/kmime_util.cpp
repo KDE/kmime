@@ -21,7 +21,7 @@
 
 #include <KCharsets>
 #include <QCoreApplication>
-#include <QRegExp>
+#include <QRegularExpression>
 
 #include <cctype>
 #include <cstdlib>
@@ -456,7 +456,7 @@ void addQuotes_impl(StringType &str, bool forceQuotes)
     bool needsQuotes = false;
     for (int i = 0; i < str.length(); i++) {
         const CharType cur = str.at(i);
-        if (QString(ToString(str)).contains(QRegExp(QStringLiteral("\"|\\\\|=|\\]|\\[|:|;|,|\\.|,|@|<|>|\\)|\\(")))) {
+        if (QString(ToString(str)).contains(QRegularExpression(QStringLiteral("\"|\\\\|=|\\]|\\[|:|;|,|\\.|,|@|<|>|\\)|\\(")))) {
             needsQuotes = true;
         }
         if (cur == CharConverterType('\\') || cur == CharConverterType('\"')) {
