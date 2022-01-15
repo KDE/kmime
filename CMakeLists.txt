@@ -83,7 +83,7 @@ install(EXPORT KF5MimeTargets
 
 install(FILES
     ${KMime_BINARY_DIR}/kmime_version.h
-    DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF}
+    DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF}/KMime/
     COMPONENT Devel
     )
 
