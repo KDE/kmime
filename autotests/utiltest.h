@@ -13,6 +13,7 @@ class UtilTest : public QObject
     Q_OBJECT
 private Q_SLOTS:
     void testUnfoldHeader();
+    void testFoldHeader();
     void testExtractHeader();
     void testBalanceBidiState();
     void testBalanceBidiState_data();

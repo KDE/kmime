@@ -46,6 +46,70 @@ void UtilTest::testUnfoldHeader()
     QCOMPARE(KMime::unfoldHeader("\r\n bla"), QByteArray("bla"));
 }
 
+void UtilTest::testFoldHeader()
+{
+    // no folding required
+    // -------------------
+
+    // <78 characters
+    QCOMPARE(KMime::foldHeader("To: foo@bar"), QByteArray("To: foo@bar"));
+    // exactly 78 characters
+    QCOMPARE(KMime::foldHeader("To: fooooooooooooooooooooooooooooooooooooooooooooooooooooooooo@baaaaaaaaaaaaar"),
+                    QByteArray("To: fooooooooooooooooooooooooooooooooooooooooooooooooooooooooo@baaaaaaaaaaaaar"));
+
+    // folding required
+    // ----------------
+
+    // exactly 79 characters
+    QCOMPARE(KMime::foldHeader("To: fooooooooooooooooooooooooooooooooooooooooooooooooooooooooo@baaaaaaaaaaaaaar"),
+                    QByteArray("To:\n fooooooooooooooooooooooooooooooooooooooooooooooooooooooooo@baaaaaaaaaaaaaar"));
+
+    // >78 characters
+    QCOMPARE(KMime::foldHeader("To: some@where, fooooooooooooooooooooooooooooooooooooooooooooooooooooooooo@baaaaaaaaaaaaaar"),
+                    QByteArray("To: some@where,\n fooooooooooooooooooooooooooooooooooooooooooooooooooooooooo@baaaaaaaaaaaaaar"));
+
+    QCOMPARE(KMime::foldHeader("To: some@where, some@else, fooooooooooooooooooooooooooooooooooooooooooooooooooooooooo@baaaaaaaaaaaaaar"),
+                    QByteArray("To: some@where, some@else,\n fooooooooooooooooooooooooooooooooooooooooooooooooooooooooo@baaaaaaaaaaaaaar"));
+
+    QCOMPARE(KMime::foldHeader("To: Some Body <some@where>, fooooooooooooooooooooooooooooooooooooooooooooooooooooooooo@baaaaaaaaaaaaaar"),
+                    QByteArray("To: Some Body <some@where>,\n fooooooooooooooooooooooooooooooooooooooooooooooooooooooooo@baaaaaaaaaaaaaar"));
+
+    QCOMPARE(KMime::foldHeader("To: \"Some Body\" <some@where>, fooooooooooooooooooooooooooooooooooooooooooooooooooooooooo@baaaaaaaaaaaaaar"),
+                    QByteArray("To: \"Some Body\" <some@where>,\n fooooooooooooooooooooooooooooooooooooooooooooooooooooooooo@baaaaaaaaaaaaaar"));
+
+    QCOMPARE(KMime::foldHeader("To: Some Body <some@where>, John Doe <some@else>, fooooooooooooooooooooooooooooooooooooooooooooooooooooooooo@baaaaaaaaaaaaaar"),
+                    QByteArray("To: Some Body <some@where>, John Doe <some@else>,\n fooooooooooooooooooooooooooooooooooooooooooooooooooooooooo@baaaaaaaaaaaaaar"));
+
+    QCOMPARE(KMime::foldHeader("To: \"Some Body\" <some@where>, \"John Doe\" <some@else>, fooooooooooooooooooooooooooooooooooooooooooooooooooooooooo@baaaaaaaaaaaaaar"),
+                    QByteArray("To: \"Some Body\" <some@where>, \"John Doe\" <some@else>,\n fooooooooooooooooooooooooooooooooooooooooooooooooooooooooo@baaaaaaaaaaaaaar"));
+
+    QCOMPARE(KMime::foldHeader("To: Some Body <some@where>, Aaaa Bbb <aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbb>"),
+                    QByteArray("To: Some Body <some@where>,\n Aaaa Bbb <aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbb>"));
+
+    QCOMPARE(KMime::foldHeader("To: \"Some Body\" <some@where>, \"Aaaa Bbb\" <aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbb>"),
+                    QByteArray("To: \"Some Body\" <some@where>,\n \"Aaaa Bbb\" <aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbb>"));
+
+    QCOMPARE(KMime::foldHeader("To: Some Body <some@where>, John Doe <some@else>, Aaaa Bbb <aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbb>"),
+                    QByteArray("To: Some Body <some@where>, John Doe <some@else>,\n Aaaa Bbb <aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbb>"));
+
+    QCOMPARE(KMime::foldHeader("To: \"Some Body\" <some@where>, \"John Doe\" <some@else>, \"Aaaa Bbb\" <aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbb>"),
+                    QByteArray("To: \"Some Body\" <some@where>, \"John Doe\" <some@else>,\n \"Aaaa Bbb\" <aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbb>"));
+
+    // avoid splitting at comma within quoted string (allowed but discouraged)
+    QCOMPARE(KMime::foldHeader("To: \"Body, Some\" <some@where>, \"Doe, John\" <some@else>, \"Bbb, Aaaa\" <aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbb>"),
+                    QByteArray("To: \"Body, Some\" <some@where>, \"Doe, John\" <some@else>,\n \"Bbb, Aaaa\" <aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbb>"));
+
+    // ignore escaped double quote within quoted string
+    QCOMPARE(KMime::foldHeader(R"RAW(To: "\"Body, Some" <some@where>, "\"Doe, John" <some@else>, "\"Bbb, Aaaa" <aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbb>)RAW"),
+                    QByteArray(R"RAW(To: "\"Body, Some" <some@where>, "\"Doe, John" <some@else>,
+ "\"Bbb, Aaaa" <aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbb>)RAW"));
+
+    // escaped backslashes, followed by escaped double quote within quoted string
+    QCOMPARE(KMime::foldHeader(R"RAW(To: "Body\\\\\", Some\\\\" <some@where>, aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbb)RAW"),
+                    QByteArray(R"RAW(To: "Body\\\\\", Some\\\\" <some@where>,
+ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbb)RAW"));
+}
+
 void UtilTest::testExtractHeader()
 {
     QByteArray header("To: <foo@bla.org>\n"
