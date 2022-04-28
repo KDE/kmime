@@ -595,11 +595,7 @@ void MessageTest::testReturnSameMail()
 {
     KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("dontchangemail.mbox"));
     QFile file(QLatin1String(TEST_DATA_DIR) + QLatin1String("/mails/dontchangemail.mbox"));
-    const bool ok = file.open(QIODevice::ReadOnly);
-    if (!ok) {
-        qWarning() << file.fileName() << "not found";
-    }
-    Q_ASSERT(ok);
+    QVERIFY(file.open(QIODevice::ReadOnly | QIODevice::Text));
     QByteArray fileContent = file.readAll();
     QCOMPARE(msg->encodedContent(), fileContent);
     QCOMPARE(msg->decodedText(), QLatin1String(""));
