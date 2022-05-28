@@ -28,7 +28,7 @@ private Q_SLOTS:
         qDebug() << sizeof(Content);
         QVERIFY(sizeof(Content) <= 16);
         qDebug() << sizeof(ContentPrivate);
-        QVERIFY(sizeof(ContentPrivate) <= 88);
+        QVERIFY(sizeof(ContentPrivate) <= (sizeof(QByteArray) * 5 + sizeof(QVector<Content*>) * 2 + 32));
         qDebug() << sizeof(Message);
         QCOMPARE(sizeof(Message), sizeof(Content));
     }
@@ -67,29 +67,29 @@ private Q_SLOTS:
 
     void testHeadersPrivate()
     {
-        VERIFYSIZE(BasePrivate, 8);
-        VERIFYSIZE(UnstructuredPrivate, 16);
+        VERIFYSIZE(BasePrivate, sizeof(QByteArray));
+        VERIFYSIZE(UnstructuredPrivate, sizeof(BasePrivate) + sizeof(QString));
         VERIFYSIZE(StructuredPrivate, sizeof(BasePrivate));     // empty
         VERIFYSIZE(AddressPrivate, sizeof(StructuredPrivate));
-        VERIFYSIZE(MailboxListPrivate, 16);
+        VERIFYSIZE(MailboxListPrivate, sizeof(BasePrivate) + sizeof(QVector<Types::Mailbox>));
         VERIFYSIZE(SingleMailboxPrivate, sizeof(MailboxListPrivate));
-        VERIFYSIZE(AddressListPrivate, 16);
-        VERIFYSIZE(IdentPrivate, 32);
+        VERIFYSIZE(AddressListPrivate, sizeof(BasePrivate) + sizeof(KMime::Types::AddressList));
+        VERIFYSIZE(IdentPrivate, sizeof(AddressListPrivate) + sizeof(KMime::Types::AddrSpecList) + sizeof(QByteArray));
         VERIFYSIZE(SingleIdentPrivate, sizeof(IdentPrivate));
-        VERIFYSIZE(TokenPrivate, 16);
-        VERIFYSIZE(PhraseListPrivate, 16);
-        VERIFYSIZE(DotAtomPrivate, 16);
-        VERIFYSIZE(ParametrizedPrivate, 16);
-        VERIFYSIZE(ReturnPathPrivate, 32);
-        VERIFYSIZE(MailCopiesToPrivate, 24);
-        VERIFYSIZE(ContentTransferEncodingPrivate, 24);
-        VERIFYSIZE(ContentIDPrivate, 24);
-        VERIFYSIZE(ContentTypePrivate, 32);
-        VERIFYSIZE(GenericPrivate, 24);
-        VERIFYSIZE(ControlPrivate, 24);
-        VERIFYSIZE(DatePrivate, 16);
-        VERIFYSIZE(NewsgroupsPrivate, 16);
-        VERIFYSIZE(LinesPrivate, 16);
+        VERIFYSIZE(TokenPrivate, sizeof(StructuredPrivate) + sizeof(QByteArray));
+        VERIFYSIZE(PhraseListPrivate, sizeof(StructuredPrivate) + sizeof(QStringList));
+        VERIFYSIZE(DotAtomPrivate, sizeof(StructuredPrivate) + sizeof(QByteArray));
+        VERIFYSIZE(ParametrizedPrivate, sizeof(StructuredPrivate) + sizeof(QMap<QString, QString>));
+        VERIFYSIZE(ReturnPathPrivate, sizeof(AddressPrivate) + sizeof(Types::Mailbox));
+        VERIFYSIZE(MailCopiesToPrivate, sizeof(AddressListPrivate) + 8);
+        VERIFYSIZE(ContentTransferEncodingPrivate, sizeof(TokenPrivate) + 8);
+        VERIFYSIZE(ContentIDPrivate, sizeof(SingleIdentPrivate));
+        VERIFYSIZE(ContentTypePrivate, sizeof(ParametrizedPrivate) + sizeof(QByteArray) + 8);
+        VERIFYSIZE(GenericPrivate, sizeof(UnstructuredPrivate) + 8);
+        VERIFYSIZE(ControlPrivate, sizeof(StructuredPrivate) + 2*sizeof(QByteArray));
+        VERIFYSIZE(DatePrivate, sizeof(StructuredPrivate) + 8);
+        VERIFYSIZE(NewsgroupsPrivate, sizeof(StructuredPrivate) + sizeof(QVector<QByteArray>));
+        VERIFYSIZE(LinesPrivate, sizeof(StructuredPrivate) + 8);
     }
 };
 
