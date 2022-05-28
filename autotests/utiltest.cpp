@@ -41,6 +41,9 @@ void UtilTest::testUnfoldHeader()
     QCOMPARE(KMime::unfoldHeader("bla \n=09 bla"), QByteArray("bla bla"));
     QCOMPARE(KMime::unfoldHeader("bla \n =20 bla"), QByteArray("bla =20 bla"));
     QCOMPARE(KMime::unfoldHeader("bla \n =09 bla"), QByteArray("bla =09 bla"));
+    // malformed input resulting in leading linebreaks
+    QCOMPARE(KMime::unfoldHeader("\n bla"), QByteArray("bla"));
+    QCOMPARE(KMime::unfoldHeader("\r\n bla"), QByteArray("bla"));
 }
 
 void UtilTest::testExtractHeader()

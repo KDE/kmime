@@ -183,7 +183,7 @@ QByteArray unfoldHeader(const char *header, size_t headerSize)
     while ((foldMid = strchr(pos, '\n')) && foldMid < end) {
         foldBegin = foldEnd = foldMid;
         // find the first space before the line-break
-        while (foldBegin) {
+        while (foldBegin > header) {
             if (!QChar::isSpace(*(foldBegin - 1))) {
                 break;
             }
@@ -207,7 +207,7 @@ QByteArray unfoldHeader(const char *header, size_t headerSize)
         }
 
         result.append(pos, foldBegin - pos);
-        if (foldEnd < end - 1) {
+        if (foldBegin != pos && foldEnd < end - 1) {
             result += ' ';
         }
         pos = foldEnd;
