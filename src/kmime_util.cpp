@@ -280,7 +280,7 @@ int findHeaderLineEnd(const QByteArray &src, int &dataBegin, bool *folded)
     return end;
 }
 
-#ifndef HAVE_STRCASESTR
+#if !HAVE_STRCASESTR
 #ifdef WIN32
 #define strncasecmp _strnicmp
 #endif

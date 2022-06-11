@@ -188,11 +188,11 @@ QString DateFormatter::customFormat() const
 
 QByteArray DateFormatterPrivate::zone(time_t t)
 {
-#if defined(HAVE_TIMEZONE) || defined(HAVE_TM_GMTOFF)
+#if HAVE_TIMEZONE || HAVE_TM_GMTOFF
     struct tm *local = localtime(&t);
 #endif
 
-#if defined(HAVE_TIMEZONE)
+#if HAVE_TIMEZONE
 
     //hmm, could make hours & mins static
     int secs = qAbs(timezone);
@@ -209,7 +209,7 @@ QByteArray DateFormatterPrivate::zone(time_t t)
         }
     }
 
-#elif defined(HAVE_TM_GMTOFF)
+#elif HAVE_TM_GMTOFF
 
     int secs = qAbs(local->tm_gmtoff);
     int neg  = (local->tm_gmtoff < 0) ? 1 : 0;
