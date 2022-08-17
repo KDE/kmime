@@ -61,7 +61,7 @@ endif()
 
 target_link_libraries(KF5Mime
 PUBLIC
-    Qt${QT_MAJOR_VERSION}::Core
+    Qt::Core
 PRIVATE
     KF5::I18n
     KF5::Codecs
