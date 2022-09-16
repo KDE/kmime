@@ -254,8 +254,8 @@ QByteArray foldHeader(const QByteArray &header)
     }
 
     // fast forward to header body
-    int pos = header.indexOf(':');
-    if (pos < 0 || ++pos >= header.length()) {
+    int pos = header.indexOf(':') + 1;
+    if (pos <= 0 || pos >= header.length()) {
         return header;
     }
 
@@ -278,7 +278,7 @@ QByteArray foldHeader(const QByteArray &header)
         if (pos - start > maxLen && eligible) {
             // Fold line preferably at recommended position, at eligible position
             // otherwise.
-            const int fws = recommended ?: eligible;
+            const int fws = recommended ? recommended : eligible;
             hdr.insert(fws, '\n');
             // We started a new line, so reset.
             if (eligible <= fws) {
