@@ -100,14 +100,12 @@ void UtilTest::testFoldHeader()
                     QByteArray("To: \"Body, Some\" <some@where>, \"Doe, John\" <some@else>,\n \"Bbb, Aaaa\" <aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbb>"));
 
     // ignore escaped double quote within quoted string
-    QCOMPARE(KMime::foldHeader(R"RAW(To: "\"Body, Some" <some@where>, "\"Doe, John" <some@else>, "\"Bbb, Aaaa" <aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbb>)RAW"),
-                    QByteArray(R"RAW(To: "\"Body, Some" <some@where>, "\"Doe, John" <some@else>,
- "\"Bbb, Aaaa" <aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbb>)RAW"));
+    QCOMPARE(KMime::foldHeader("To: \"\\\"Body, Some\" <some@where>, \"\\\"Doe, John\" <some@else>, \"\\\"Bbb, Aaaa\" <aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbb>"),
+                    QByteArray("To: \"\\\"Body, Some\" <some@where>, \"\\\"Doe, John\" <some@else>,\n \"\\\"Bbb, Aaaa\" <aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbb>"));
 
     // escaped backslashes, followed by escaped double quote within quoted string
-    QCOMPARE(KMime::foldHeader(R"RAW(To: "Body\\\\\", Some\\\\" <some@where>, aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbb)RAW"),
-                    QByteArray(R"RAW(To: "Body\\\\\", Some\\\\" <some@where>,
- aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbb)RAW"));
+    QCOMPARE(KMime::foldHeader("To: \"Body\\\\\\\\\\\", Some\\\\\\\\\" <some@where>, aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbb"),
+                    QByteArray("To: \"Body\\\\\\\\\\\", Some\\\\\\\\\" <some@where>,\n aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbb"));
 }
 
 void UtilTest::testExtractHeader()
