@@ -295,6 +295,13 @@ QByteArray foldHeader(const QByteArray &header)
             break;
         }
 
+        // account for already inserted FWS
+        // (NOTE: we are not caring about broken ones here)
+        if (hdr[pos] == '\n') {
+            recommended = eligible = 0;
+            start = pos + 1/* LF */;
+        }
+
         // Any white space character position is eligible for folding, except of
         // escape pair (i.e. BSP WSP must not be folded).
         if (hdr[pos] == ' ' && !ctx.isEscapePair && hdr[pos - 1] != '\n') {

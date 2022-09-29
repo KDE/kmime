@@ -106,6 +106,18 @@ void UtilTest::testFoldHeader()
     // escaped backslashes, followed by escaped double quote within quoted string
     QCOMPARE(KMime::foldHeader("To: \"Body\\\\\\\\\\\", Some\\\\\\\\\" <some@where>, aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbb"),
                     QByteArray("To: \"Body\\\\\\\\\\\", Some\\\\\\\\\" <some@where>,\n aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbb"));
+
+    // don't remove already inserted folding
+    QCOMPARE(KMime::foldHeader("To: some@where,\n some@else"),
+                    QByteArray("To: some@where,\n some@else"));
+
+    // honor already inserted folding: no additional folding required
+    QCOMPARE(KMime::foldHeader("To: some@where,\n some@else, fooooooooooooooooooooooooooooooooooooooooooooooooooooooooo@baaaaar"),
+                    QByteArray("To: some@where,\n some@else, fooooooooooooooooooooooooooooooooooooooooooooooooooooooooo@baaaaar"));
+
+    // honor already inserted folding: fold at correct position
+    QCOMPARE(KMime::foldHeader("To: some@where,\n some@else, fooooooooooooooooooooooooooooooooooooooooooooooooooooooooo@baaaaaar"),
+                    QByteArray("To: some@where,\n some@else,\n fooooooooooooooooooooooooooooooooooooooooooooooooooooooooo@baaaaaar"));
 }
 
 void UtilTest::testExtractHeader()
