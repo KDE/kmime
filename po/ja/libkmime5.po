@@ -1,0 +1,95 @@
+# translation of libkmime.po to Japanese
+# This file is distributed under the same license as the PACKAGE package.
+# Shinichi Tsunoda <tsuno@ngy.1st.ne.jp>, 2005.
+# Yukiko Bando <ybando@k6.dion.ne.jp>, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: libkmime\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-12-14 00:45+0000\n"
+"PO-Revision-Date: 2008-03-01 07:00+0900\n"
+"Last-Translator: Yukiko Bando <ybando@k6.dion.ne.jp>\n"
+"Language-Team: Japanese <kde-jp@kde.org>\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.10.2\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Accelerator-Marker: &\n"
+"X-Text-Markup: kde4\n"
+
+#: kmime_dateformatter.cpp:247
+#, kde-format
+msgctxt "invalid time specified"
+msgid "unknown"
+msgstr "不明"
+
+#: kmime_dateformatter.cpp:263
+#, kde-format
+msgid "Today %1"
+msgstr "今日 %1"
+
+#: kmime_dateformatter.cpp:267
+#, kde-format
+msgid "Yesterday %1"
+msgstr "昨日 %1"
+
+#: kmime_dateformatter.cpp:272
+#, kde-format
+msgctxt "1. weekday, 2. time"
+msgid "%1 %2"
+msgstr "%1 %2"
+
+#: kmime_mdn.cpp:50
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"displayed. This is no guarantee that the message has been read or understood."
+msgstr ""
+"${date} に ${to} に対して件名 “${subject}” で送信されたメッセージは表示されま"
+"した。このメッセージが読まれた/理解されたという保証はありません。"
+
+#: kmime_mdn.cpp:55
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"deleted unseen. This is no guarantee that the message will not be \"undeleted"
+"\" and nonetheless read later on."
+msgstr ""
+"${date} に ${to} に対して件名 “${subject}” で送信されたメッセージは表示されず"
+"に削除されました。このメッセージが復活されて後で読まれないという保証はありま"
+"せん。"
+
+#: kmime_mdn.cpp:61
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"dispatched. This is no guarantee that the message will not be read later on."
+msgstr ""
+"${date} に ${to} に対して件名 “${subject}” で送信されたメッセージは他へ転送さ"
+"れました。このメッセージが後で読まれないという保証はありません。"
+
+#: kmime_mdn.cpp:66
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"processed by some automatic means."
+msgstr ""
+"${date} に ${to} に対して件名 “${subject}” で送信されたメッセージはなんらかの"
+"自動化された方法で処理されました。"
+
+#: kmime_mdn.cpp:70
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"acted upon. The sender does not wish to disclose more details to you than "
+"that."
+msgstr ""
+"${date} に ${to} に対して件名 “${subject}” で送信されたメッセージは操作されま"
+"した。送信者はこれ以上の詳細を明らかにすることを望んでいません。"
+
+#: kmime_mdn.cpp:75
+msgid ""
+"Generation of a Message Disposition Notification for the message sent on "
+"${date} to ${to} with subject \"${subject}\" failed. Reason is given in the "
+"Failure: header field below."
+msgstr ""
+"${date} に ${to} に対して件名 “${subject}” で送信されたメッセージの開封通知の"
+"生成に失敗しました。理由は下の Failure: ヘッダフィールドに表示されています。"

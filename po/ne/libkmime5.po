@@ -1,0 +1,91 @@
+# translation of libkmime.po to Nepali
+# Mahesh Subedi <submanesh@gmail.com>, 2007.
+# Nabin Gautam <nabin@mpp.org.np>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: libkmime\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-12-14 00:45+0000\n"
+"PO-Revision-Date: 2007-08-20 13:06+0545\n"
+"Last-Translator: Nabin Gautam <nabin@mpp.org.np>\n"
+"Language-Team: Nepali <info@mpp.org.np>\n"
+"Language: ne\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n !=1\n"
+"\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: kmime_dateformatter.cpp:247
+#, fuzzy, kde-format
+#| msgid "unknown"
+msgctxt "invalid time specified"
+msgid "unknown"
+msgstr "अज्ञात"
+
+#: kmime_dateformatter.cpp:263
+#, kde-format
+msgid "Today %1"
+msgstr "आज %1"
+
+#: kmime_dateformatter.cpp:267
+#, kde-format
+msgid "Yesterday %1"
+msgstr "हिजो %1"
+
+#: kmime_dateformatter.cpp:272
+#, kde-format
+msgctxt "1. weekday, 2. time"
+msgid "%1 %2"
+msgstr "%1 %2"
+
+#: kmime_mdn.cpp:50
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"displayed. This is no guarantee that the message has been read or understood."
+msgstr ""
+"\"${subject}\" विषयसँग ${date} बाट ${to} मा पठाएको सन्देश प्रर्दशन गरिएको छ । त्यो "
+"सन्देश पढेको र बुझेकोमा कुनै निश्चय छैन ।"
+
+#: kmime_mdn.cpp:55
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"deleted unseen. This is no guarantee that the message will not be \"undeleted"
+"\" and nonetheless read later on."
+msgstr ""
+"\"${subject}\" विषयसँग ${date} बाट ${to} मा पठाएको सन्देश अदृश्य रूपमा मेटियो । "
+"सन्देश \"नमेटिएको\" छ र त्यो पछि पढिन्छ भन्नेमा कुनै निश्चय गर्न सकिदैन ।"
+
+#: kmime_mdn.cpp:61
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"dispatched. This is no guarantee that the message will not be read later on."
+msgstr ""
+"\"${subject}\" विषयसँग ${date} बाट ${to} पठाएको सन्देश छोडियो । त्यो सन्देश पढिन्छ "
+"नै भन्ने कुनै निश्चय गर्न सकिदैन ।"
+
+#: kmime_mdn.cpp:66
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"processed by some automatic means."
+msgstr ""
+"सन्देश केहि स्वचालित साधनद्वारा \"${subject}\" विषयसँग ${date} बाट ${to} पठाइयो ।"
+
+#: kmime_mdn.cpp:70
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"acted upon. The sender does not wish to disclose more details to you than "
+"that."
+msgstr ""
+"\"${subject}\" विषयसँग ${date} बाट ${to} पठाएको सन्देश क्रियाशिल गरियो । प्रेषकले "
+"यो भन्दा बढि जानकारी तपाईँलाई खोल्न चाहेन ।"
+
+#: kmime_mdn.cpp:75
+msgid ""
+"Generation of a Message Disposition Notification for the message sent on "
+"${date} to ${to} with subject \"${subject}\" failed. Reason is given in the "
+"Failure: header field below."
+msgstr ""
+"सन्देशका लागि \"${subject}\" सँग ${date} बाट ${to} मा सन्देश विन्यास सूचनाको उत्पन्न "
+"पठाउन असफल । असफलताको कारण हेडर फिल्ड तलको असफलमा दिएको छ ।"

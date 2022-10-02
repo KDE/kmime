@@ -1,0 +1,97 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Zlatko Popov <zlatkopopov@fsa-bg.org>, 2007.
+# Yasen Pramatarov <yasen@lindeas.com>, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: libkmime\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-12-14 00:45+0000\n"
+"PO-Revision-Date: 2009-08-28 11:45+0300\n"
+"Last-Translator: Yasen Pramatarov <yasen@lindeas.com>\n"
+"Language-Team: Bulgarian <dict@fsa-bg.org>\n"
+"Language: bg\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: kmime_dateformatter.cpp:247
+#, kde-format
+msgctxt "invalid time specified"
+msgid "unknown"
+msgstr "неизвестно"
+
+#: kmime_dateformatter.cpp:263
+#, kde-format
+msgid "Today %1"
+msgstr "днес %1"
+
+#: kmime_dateformatter.cpp:267
+#, kde-format
+msgid "Yesterday %1"
+msgstr "вчера %1"
+
+#: kmime_dateformatter.cpp:272
+#, kde-format
+msgctxt "1. weekday, 2. time"
+msgid "%1 %2"
+msgstr "%1 %2"
+
+#: kmime_mdn.cpp:50
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"displayed. This is no guarantee that the message has been read or understood."
+msgstr ""
+"Съобщението, което бе изпратено до ${to} на ${date} с тема \"${subject}\", е "
+"видяно от получателя. Това не гарантира, че съобщението е било прочетено или "
+"осмислено."
+
+#: kmime_mdn.cpp:55
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"deleted unseen. This is no guarantee that the message will not be \"undeleted"
+"\" and nonetheless read later on."
+msgstr ""
+"Съобщението, което бе изпратено до ${to} на ${date} с тема \"${subject}\", е "
+"изтрито от получателя без да бъде прочетено. Това не гарантира, че "
+"съобщението не е било прочетено по-късно. Получателят може да го е "
+"възстановил и прочел по-късно."
+
+#: kmime_mdn.cpp:61
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"dispatched. This is no guarantee that the message will not be read later on."
+msgstr ""
+"Съобщението, което бе изпратено до ${to} на ${date} с тема \"${subject}\", е "
+"разпределено. Това не гарантира, че съобщението не е било прочетено по-късно."
+
+#: kmime_mdn.cpp:66
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"processed by some automatic means."
+msgstr ""
+"Съобщението, което бе изпратено до ${to} на ${date} с тема \"${subject}\", е "
+"обработено по автоматичен начин."
+
+#: kmime_mdn.cpp:70
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"acted upon. The sender does not wish to disclose more details to you than "
+"that."
+msgstr ""
+"Съобщението, което бе изпратено до ${to} на ${date} с тема \"${subject}\", е "
+"било обработено от получателя. Получателят не иска да разкрие повече "
+"подробности."
+
+#: kmime_mdn.cpp:75
+msgid ""
+"Generation of a Message Disposition Notification for the message sent on "
+"${date} to ${to} with subject \"${subject}\" failed. Reason is given in the "
+"Failure: header field below."
+msgstr ""
+"Генерирането на съобщение за получаване/прочитане на съобщението, което бе "
+"изпратено до ${to} на ${date} с тема \"${subject}\", се провали. Причината "
+"за грешката е дадена в полето \"Грешка\" по-долу."

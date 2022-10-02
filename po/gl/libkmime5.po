@@ -1,0 +1,93 @@
+# translation of libkmime.po to galician
+#
+# Xabi G. Feal <xabigf@gmx.net>, 2006.
+# mvillarino <mvillarino@users.sourceforge.net>, 2007, 2008, 2009.
+# Adrian Chaves <adrian@chaves.io>, 2018.
+msgid ""
+msgstr ""
+"Project-Id-Version: libkmime\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-12-14 00:45+0000\n"
+"PO-Revision-Date: 2018-04-30 00:14+0100\n"
+"Last-Translator: Adrian Chaves <adrian@chaves.io>\n"
+"Language-Team: Galician <kde-i18n-doc@kde.org>\n"
+"Language: gl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: kmime_dateformatter.cpp:247
+#, kde-format
+msgctxt "invalid time specified"
+msgid "unknown"
+msgstr "descoñecido"
+
+#: kmime_dateformatter.cpp:263
+#, kde-format
+msgid "Today %1"
+msgstr "Hoxe %1"
+
+#: kmime_dateformatter.cpp:267
+#, kde-format
+msgid "Yesterday %1"
+msgstr "Onte %1"
+
+#: kmime_dateformatter.cpp:272
+#, kde-format
+msgctxt "1. weekday, 2. time"
+msgid "%1 %2"
+msgstr "%1 %2"
+
+#: kmime_mdn.cpp:50
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"displayed. This is no guarantee that the message has been read or understood."
+msgstr ""
+"Mostrouse a mensaxe enviada o ${date} a ${to} co asunto «${subject}». Isto "
+"non garante que a mensaxe fose lida nin comprendida."
+
+#: kmime_mdn.cpp:55
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"deleted unseen. This is no guarantee that the message will not be \"undeleted"
+"\" and nonetheless read later on."
+msgstr ""
+"Eliminouse sen verse a mensaxe enviada o ${date} a ${to} co asunto "
+"«${subject}». Isto non garante que a mensaxe non fose recuperada e lida con "
+"posterioridade."
+
+#: kmime_mdn.cpp:61
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"dispatched. This is no guarantee that the message will not be read later on."
+msgstr ""
+"Despachouse a mensaxe enviada o ${date} a ${to} co asunto «${subject}». Isto "
+"non garante que a mensaxe non se lea con posterioridade."
+
+#: kmime_mdn.cpp:66
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"processed by some automatic means."
+msgstr ""
+"A mensaxe enviada o ${date} a ${to} co asunto «${subject}» procesouse por "
+"algúns medios automáticos."
+
+#: kmime_mdn.cpp:70
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"acted upon. The sender does not wish to disclose more details to you than "
+"that."
+msgstr ""
+"Actuouse sobre a mensaxe enviada o ${date} a ${to} co asunto «${subject}». O "
+"remitente non desexa divulgar máis detalles que este."
+
+#: kmime_mdn.cpp:75
+msgid ""
+"Generation of a Message Disposition Notification for the message sent on "
+"${date} to ${to} with subject \"${subject}\" failed. Reason is given in the "
+"Failure: header field below."
+msgstr ""
+"Fallou a xeración da Notificación de Disposición da Mensaxe para a mensaxe "
+"enviada o ${date} a ${to} co asunto «${subject}». A razón dáse no Fallo: "
+"campo da cabeceira embaixo."

@@ -1,0 +1,94 @@
+# Translation of libkmime5.po to Brazilian Portuguese
+# Copyright (C) 2014 This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# André Marcelo Alvarenga <alvarenga@kde.org>, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: libkmime5\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-12-14 00:45+0000\n"
+"PO-Revision-Date: 2014-08-16 10:56-0300\n"
+"Last-Translator: André Marcelo Alvarenga <alvarenga@kde.org>\n"
+"Language-Team: Brazilian Portuguese <kde-i18n-pt_br@kde.org>\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#: kmime_dateformatter.cpp:247
+#, kde-format
+msgctxt "invalid time specified"
+msgid "unknown"
+msgstr "desconhecido"
+
+#: kmime_dateformatter.cpp:263
+#, kde-format
+msgid "Today %1"
+msgstr "Hoje %1"
+
+#: kmime_dateformatter.cpp:267
+#, kde-format
+msgid "Yesterday %1"
+msgstr "Ontem %1"
+
+#: kmime_dateformatter.cpp:272
+#, kde-format
+msgctxt "1. weekday, 2. time"
+msgid "%1 %2"
+msgstr "%1 %2"
+
+#: kmime_mdn.cpp:50
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"displayed. This is no guarantee that the message has been read or understood."
+msgstr ""
+"A mensagem enviada em ${date} para ${to} com o assunto \"${subject}\" foi "
+"mostrada. Isso não garante que a mensagem foi lida ou compreendida."
+
+#: kmime_mdn.cpp:55
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"deleted unseen. This is no guarantee that the message will not be \"undeleted"
+"\" and nonetheless read later on."
+msgstr ""
+"A mensagem enviada em ${date} para ${to} com o assunto \"${subject}\" foi "
+"excluída sem ser lida. Isso não garante que a mensagem não será \"recuperada"
+"\" e lida posteriormente."
+
+#: kmime_mdn.cpp:61
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"dispatched. This is no guarantee that the message will not be read later on."
+msgstr ""
+"A mensagem enviada em ${date} para ${to} com o assunto \"${subject}\" foi "
+"encaminhada. Isso não garante que a mensagem não será lida posteriormente."
+
+#: kmime_mdn.cpp:66
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"processed by some automatic means."
+msgstr ""
+"A mensagem enviada em ${date} para ${to} com o assunto \"${subject}\" foi "
+"processada de forma automática."
+
+#: kmime_mdn.cpp:70
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"acted upon. The sender does not wish to disclose more details to you than "
+"that."
+msgstr ""
+"A mensagem enviada em ${date} para ${to} com o assunto \"${subject}\" foi "
+"atendida. O remetente não deseja divulgar mais detalhes."
+
+#: kmime_mdn.cpp:75
+msgid ""
+"Generation of a Message Disposition Notification for the message sent on "
+"${date} to ${to} with subject \"${subject}\" failed. Reason is given in the "
+"Failure: header field below."
+msgstr ""
+"A geração de uma Notificação de Disposição de Mensagem (MDN) para a mensagem "
+"enviada em ${date} para ${to} com o assunto \"${subject}\" falhou. O motivo "
+"está no cabeçalho \"Failure:\" abaixo."

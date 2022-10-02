@@ -1,0 +1,95 @@
+# translation of libkmime.po to Greek
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Spiros Georgaras <sng@hellug.gr>, 2007, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: libkmime\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-12-14 00:45+0000\n"
+"PO-Revision-Date: 2008-02-22 21:02+0200\n"
+"Last-Translator: Spiros Georgaras <sng@hellug.gr>\n"
+"Language-Team: Greek <i18ngr@lists.hellug.gr>\n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: kmime_dateformatter.cpp:247
+#, kde-format
+msgctxt "invalid time specified"
+msgid "unknown"
+msgstr "άγνωστος"
+
+#: kmime_dateformatter.cpp:263
+#, kde-format
+msgid "Today %1"
+msgstr "Σήμερα %1"
+
+#: kmime_dateformatter.cpp:267
+#, kde-format
+msgid "Yesterday %1"
+msgstr "Χθες %1"
+
+#: kmime_dateformatter.cpp:272
+#, kde-format
+msgctxt "1. weekday, 2. time"
+msgid "%1 %2"
+msgstr "%1 %2"
+
+#: kmime_mdn.cpp:50
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"displayed. This is no guarantee that the message has been read or understood."
+msgstr ""
+"Το μήνυμα που στάλθηκε την ${date} στον παραλήπτη ${to} με θέμα"
+"\"${subject}\" παραδόθηκε. Αυτό δε σημαίνει ότι έχει αναγνωστεί ή κατανοηθεί."
+
+#: kmime_mdn.cpp:55
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"deleted unseen. This is no guarantee that the message will not be \"undeleted"
+"\" and nonetheless read later on."
+msgstr ""
+"Το μήνυμα που στάλθηκε την ${date} στον παραλήπτη ${to} με θέμα"
+"\"${subject}\" διαγράφηκε πριν αναγνωστεί. . Αυτό δε ότι δεν μπορεί να "
+"αναγνωστεί στο μέλλον."
+
+#: kmime_mdn.cpp:61
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"dispatched. This is no guarantee that the message will not be read later on."
+msgstr ""
+"Το μήνυμα που στάλθηκε την ${date} στον παραλήπτη ${to} με θέμα"
+"\"${subject}\" στάλθηκε. Αυτό δε σημαίνει ότι δε θα αναγνωστεί αργότερα."
+
+#: kmime_mdn.cpp:66
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"processed by some automatic means."
+msgstr ""
+"Το μήνυμα που στάλθηκε την ${date} στον παραλήπτη ${to} με θέμα"
+"\"${subject}\" έχει υποστεί κάποιου είδους αυτόματη επεξεργασία."
+
+#: kmime_mdn.cpp:70
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"acted upon. The sender does not wish to disclose more details to you than "
+"that."
+msgstr ""
+"Το μήνυμα που στάλθηκε την ${date} στον παραλήπτη ${to} με θέμα"
+"\"${subject}\" έχει υποστεί κάποιου είδους επεξεργασία. Ο χρήστης δεν "
+"επιθυμεί να σας δώσει περισσότερες πληροφορίες."
+
+#: kmime_mdn.cpp:75
+msgid ""
+"Generation of a Message Disposition Notification for the message sent on "
+"${date} to ${to} with subject \"${subject}\" failed. Reason is given in the "
+"Failure: header field below."
+msgstr ""
+"Η δημιουργία του Μηνύματος Ειδοποίησης Διάθεσης για το μήνυμα που στάλθηκε "
+"την ${date} στον παραλήπτη ${to} με θέμα \"${subject}\" απέτυχε. Ο λόγος "
+"αναφέρεται στην πεδίο κεφαλίδας Αποτυχία: παρακάτω."
