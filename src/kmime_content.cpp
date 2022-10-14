@@ -440,16 +440,17 @@ QVector<Content*> Content::attachments()
     QVector<Content*> result;
 
     auto ct = contentType(false);
-    if (ct && ct->isMultipart() && !ct->isSubtype("related") && !ct->isSubtype("alternative")) {
-        const QVector<Content*> contentsList = contents();
-        result.reserve(contentsList.count());
-        for (Content *child : contentsList) {
-            if (isAttachment(child)) {
-                result.push_back(child);
-            } else {
-                result += child->attachments();
-            }
+    if (ct && ct->isMultipart() &&
+        !ct->isSubtype("related") /* && !ct->isSubtype("alternative")*/) {
+      const QVector<Content *> contentsList = contents();
+      result.reserve(contentsList.count());
+      for (Content *child : contentsList) {
+        if (isAttachment(child)) {
+          result.push_back(child);
+        } else {
+          result += child->attachments();
         }
+      }
     }
 
     return result;
