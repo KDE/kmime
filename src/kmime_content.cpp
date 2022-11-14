@@ -28,7 +28,6 @@
 #include "kmime_parsers.h"
 #include "kmime_util_p.h"
 
-#include <KCharsets>
 #include <KCodecs>
 
 
@@ -367,10 +366,8 @@ QString Content::decodedText(bool trimText, bool removeTrailingNewlines)
       return {};
     }
 
-    bool ok = true;
-    QTextCodec *codec =
-        KCharsets::charsets()->codecForName(QLatin1String(contentType()->charset()), ok);
-    if (!ok  || codec == nullptr) {   // no suitable codec found => try local settings and hope the best ;-)
+    QTextCodec *codec = QTextCodec::codecForName(contentType()->charset());
+    if (codec == nullptr) {   // no suitable codec found => try local settings and hope the best ;-)
         codec = QTextCodec::codecForLocale();
         QByteArray chset = codec->name();
         contentType()->setCharset(chset);
@@ -403,11 +400,9 @@ QString Content::decodedText(bool trimText, bool removeTrailingNewlines)
 
 void Content::fromUnicodeString(const QString &s)
 {
-    bool ok = true;
-    QTextCodec *codec =
-        KCharsets::charsets()->codecForName(QLatin1String(contentType()->charset()), ok);
+    QTextCodec *codec = QTextCodec::codecForName(contentType()->charset());
 
-    if (!ok) {   // no suitable codec found => try local settings and hope the best ;-)
+    if (!codec) {   // no suitable codec found => try local settings and hope the best ;-)
         codec = QTextCodec::codecForLocale();
         QByteArray chset = codec->name();
         contentType()->setCharset(chset);

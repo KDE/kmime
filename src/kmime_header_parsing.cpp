@@ -18,8 +18,6 @@
 #include "kmime_debug.h"
 #include "kmime_warning.h"
 
-#include <KCharsets>
-
 #include <KCodecs>
 
 #include <QTextCodec>
@@ -182,22 +180,24 @@ bool parseEncodedWord(const char *&scursor, const char *const send,
     assert(dec);
 
     // try if there's a (text)codec for the charset found:
-    bool matchOK = false;
     QTextCodec *textCodec = nullptr;
     if (forceCS || maybeCharset.isEmpty()) {
-        textCodec = KCharsets::charsets()->codecForName(QLatin1String(defaultCS), matchOK);
+        textCodec = QTextCodec::codecForName(defaultCS);
+        if (!textCodec) {
+            textCodec = QTextCodec::codecForName("iso-8859-1");
+        }
         usedCS = cachedCharset(defaultCS);
     } else {
-        textCodec = KCharsets::charsets()->codecForName(QLatin1String(maybeCharset), matchOK);
-        if (!matchOK) {    //no suitable codec found => use default charset
-            textCodec = KCharsets::charsets()->codecForName(QLatin1String(defaultCS), matchOK);
+        textCodec = QTextCodec::codecForName(maybeCharset);
+        if (textCodec) {    //no suitable codec found => use default charset
             usedCS = cachedCharset(defaultCS);
         } else {
+            textCodec = QTextCodec::codecForName("iso-8859-1");
             usedCS = cachedCharset(maybeCharset);
         }
     }
 
-    if (!matchOK || !textCodec) {
+    if (!textCodec) {
         KMIME_WARN_UNKNOWN(Charset, maybeCharset);
         delete dec;
         return false;
@@ -1425,10 +1425,8 @@ static void decodeRFC2231Value(KCodecs::Codec *&rfc2231Codec,
         // get the decoders:
         //
 
-        bool matchOK = false;
-        textcodec = KCharsets::charsets()->codecForName(QLatin1String(charset), matchOK);
-        if (!matchOK) {
-            textcodec = nullptr;
+        textcodec = QTextCodec::codecForName(charset);
+        if (!textcodec) {
             KMIME_WARN_UNKNOWN(Charset, charset);
         }
     }

@@ -35,7 +35,6 @@
 #include "kmime_debug.h"
 #include "kmime_warning.h"
 
-#include <KCharsets>
 #include <KCodecs>
 
 #include <cassert>

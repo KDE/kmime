@@ -19,7 +19,6 @@
 
 #include <config-kmime.h>
 
-#include <KCharsets>
 #include <QCoreApplication>
 #include <QRegularExpression>
 
