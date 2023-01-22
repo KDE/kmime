@@ -19,7 +19,7 @@ macro(ADD_KMIME_TEST)
     target_link_libraries(${_testName}
       KF5Mime
       Qt::Test
-      KF5::Codecs
+      KF${KF_MAJOR_VERSION}::Codecs
     )
     if (TARGET Qt6::Core5Compat)
         target_link_libraries(${_testName} Qt6::Core5Compat) # QTextCodec

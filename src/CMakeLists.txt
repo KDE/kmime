@@ -63,8 +63,8 @@ target_link_libraries(KF5Mime
 PUBLIC
     Qt::Core
 PRIVATE
-    KF5::I18n
-    KF5::Codecs
+    KF${KF_MAJOR_VERSION}::I18n
+    KF${KF_MAJOR_VERSION}::Codecs
     ${_kmime_extra_libs}
 )
 if (TARGET Qt6::Core5Compat)
