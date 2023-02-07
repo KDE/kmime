@@ -96,10 +96,9 @@ QByteArray encodeRFC2047String(const QString &src, const QByteArray &charset,
         if (useQEncoding) {
             result += "?Q?";
 
-            char c;
             char hexcode; // "Q"-encoding implementation described in RFC 2047
             for (int i = start; i < end; i++) {
-                c = encoded8Bit[i];
+                char c = encoded8Bit[i];
                 if (c == ' ') {   // make the result readable with not MIME-capable readers
                     result += '_';
                 } else {
