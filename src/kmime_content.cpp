@@ -30,7 +30,10 @@
 
 #include <KCodecs>
 
-
+#include <QDebug>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QStringDecoder>
+#endif
 #include <QTextCodec>
 
 using namespace KMime;
@@ -366,6 +369,7 @@ QString Content::decodedText(bool trimText, bool removeTrailingNewlines)
       return {};
     }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QTextCodec *codec = QTextCodec::codecForName(contentType()->charset());
     if (codec == nullptr) {   // no suitable codec found => try local settings and hope the best ;-)
         codec = QTextCodec::codecForLocale();
@@ -374,6 +378,16 @@ QString Content::decodedText(bool trimText, bool removeTrailingNewlines)
     }
 
     QString s = codec->toUnicode(d_ptr->body.data(), d_ptr->body.length());
+#else
+    QStringDecoder codec(contentType()->charset().constData());
+    if (!codec.isValid()) {   // no suitable codec found => try local settings and hope the best ;-)
+        codec = QStringDecoder(QStringDecoder::System);
+        QByteArray chset = codec.name();
+        contentType()->setCharset(chset);
+    }
+
+    QString s = codec.decode(d_ptr->body);
+#endif
 
     if (trimText || removeTrailingNewlines) {
         int i;
