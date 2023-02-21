@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
-set(PIM_VERSION "5.22.40")
+set(PIM_VERSION "5.22.41")
 
 project(KMime VERSION ${PIM_VERSION})
 
@@ -101,7 +101,7 @@ if(BUILD_TESTING)
 endif()
 
 ########### CMake Config Files ###########
-set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF5Mime")
+set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KPim${KF_MAJOR_VERSION}Mime")
 
 configure_package_config_file(
     "${KMime_SOURCE_DIR}/KPimMimeConfig.cmake.in"
@@ -118,7 +118,7 @@ install(FILES
 
 install(EXPORT KPim${KF_MAJOR_VERSION}MimeTargets
     DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
-    FILE KF5MimeTargets.cmake
+    FILE KPim${KF_MAJOR_VERSION}MimeTargets.cmake
     NAMESPACE KPim${KF_MAJOR_VERSION}::
     )
 
