@@ -1,0 +1,15 @@
+@PACKAGE_INIT@
+include(CMakeFindDependencyMacro)
+find_dependency(Qt@QT_MAJOR_VERSION@Core @QT_REQUIRED_VERSION@)
+find_dependency(KF@KF_MAJOR_VERSION@Codecs @KF_MIN_VERSION@)
+
+if (@KMIME_KF5_COMPAT@)
+    message(WARNING "\n"
+                    "************* DEPRECATION WARNING *************\n"
+		    "Using find_package(KF5Mime) and KF5::Mime targets is deprecated. "
+		    "Please use find_package(KPim@KF_MAJOR_VERSION@Mime) and KPim@KF_MAJOR_VERSION@::Mime instead. This backwards "
+                    "compatibility will be removed in the next major version.\n"
+                    "***********************************************\n")
+endif()
+
+include("${CMAKE_CURRENT_LIST_DIR}/KPim@KF_MAJOR_VERSION@MimeTargets.cmake")

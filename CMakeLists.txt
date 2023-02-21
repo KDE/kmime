@@ -42,7 +42,7 @@ endif()
 
 ecm_setup_version(PROJECT VARIABLE_PREFIX KMIME
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kmime_version.h"
-                        PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF5MimeConfigVersion.cmake"
+                        PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KPim${KF_MAJOR_VERSION}MimeConfigVersion.cmake"
                         SOVERSION 5
 )
 
@@ -61,6 +61,36 @@ set(COMPILE_WITH_UNITY_CMAKE_SUPPORT OFF)
 if (USE_UNITY_CMAKE_SUPPORT)
     set(COMPILE_WITH_UNITY_CMAKE_SUPPORT ON)
 endif()
+
+##
+# TODO: Backwards compatiblity. Remove in next major version
+##
+set(CMAKECONFIG_INSTALL_DIR_KF5 "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF5Mime")
+set(KMIME_KF5_COMPAT TRUE)
+configure_package_config_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/KPimMimeConfig.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/KF5MimeConfig.cmake"
+    INSTALL_DESTINATION ${CMAKECONFIG_INSTALL_DIR_KF5}
+)
+
+install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/KF5MimeConfig.cmake"
+    DESTINATION "${CMAKECONFIG_INSTALL_DIR_KF5}"
+    COMPONENT Devel
+)
+install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/KPim${KF_MAJOR_VERSION}MimeConfigVersion.cmake"
+    RENAME "KF5MimeConfigVersion.cmake"
+    DESTINATION "${CMAKECONFIG_INSTALL_DIR_KF5}"
+    COMPONENT Devel
+)
+install(EXPORT KPim${KF_MAJOR_VERSION}MimeTargets
+    DESTINATION "${CMAKECONFIG_INSTALL_DIR_KF5}"
+    FILE KPim${KF_MAJOR_VERSION}MimeTargets.cmake
+    NAMESPACE KF5::
+)
+
+
 ########### Targets ###########
 add_subdirectory(src)
 add_subdirectory(includes)
@@ -74,38 +104,38 @@ endif()
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF5Mime")
 
 configure_package_config_file(
-    "${KMime_SOURCE_DIR}/KF5MimeConfig.cmake.in"
-    "${KMime_BINARY_DIR}/KF5MimeConfig.cmake"
+    "${KMime_SOURCE_DIR}/KPimMimeConfig.cmake.in"
+    "${KMime_BINARY_DIR}/KPim${KF_MAJOR_VERSION}MimeConfig.cmake"
     INSTALL_DESTINATION  ${CMAKECONFIG_INSTALL_DIR}
     )
 
 install(FILES
-    "${KMime_BINARY_DIR}/KF5MimeConfig.cmake"
-    "${KMime_BINARY_DIR}/KF5MimeConfigVersion.cmake"
+    "${KMime_BINARY_DIR}/KPim${KF_MAJOR_VERSION}MimeConfig.cmake"
+    "${KMime_BINARY_DIR}/KPim${KF_MAJOR_VERSION}MimeConfigVersion.cmake"
     DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
     COMPONENT Devel
     )
 
-install(EXPORT KF5MimeTargets
+install(EXPORT KPim${KF_MAJOR_VERSION}MimeTargets
     DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
     FILE KF5MimeTargets.cmake
-    NAMESPACE KF5::
+    NAMESPACE KPim${KF_MAJOR_VERSION}::
     )
 
 install(FILES
     ${KMime_BINARY_DIR}/kmime_version.h
-    DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF}/KMime/
+    DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KMime/
     COMPONENT Devel
     )
 
 if (BUILD_QCH)
     ecm_install_qch_export(
-        TARGETS KF5Mime_QCH
-        FILE KF5MimeQchTargets.cmake
+        TARGETS KPim${KF_MAJOR_VERSION}Mime_QCH
+        FILE KPim${KF_MAJOR_VERSION}MimeQchTargets.cmake
         DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
         COMPONENT Devel
     )
-    set(PACKAGE_INCLUDE_QCHTARGETS "include(\"\${CMAKE_CURRENT_LIST_DIR}/KF5MimeQchTargets.cmake\")")
+    set(PACKAGE_INCLUDE_QCHTARGETS "include(\"\${CMAKE_CURRENT_LIST_DIR}/KPim${KF_MAJOR_VERSION}MimeQchTargets.cmake\")")
 endif()
 
 
