@@ -102,7 +102,7 @@ endif()
 
 ########### CMake Config Files ###########
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KPim${KF_MAJOR_VERSION}Mime")
-
+set(KMIME_KF5_COMPAT FALSE)
 configure_package_config_file(
     "${KMime_SOURCE_DIR}/KPimMimeConfig.cmake.in"
     "${KMime_BINARY_DIR}/KPim${KF_MAJOR_VERSION}MimeConfig.cmake"
