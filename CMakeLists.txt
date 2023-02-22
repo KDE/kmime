@@ -62,6 +62,7 @@ if (USE_UNITY_CMAKE_SUPPORT)
     set(COMPILE_WITH_UNITY_CMAKE_SUPPORT ON)
 endif()
 
+if (QT_MAJOR_VERSION STREQUAL "5")
 ##
 # TODO: Backwards compatiblity. Remove in next major version
 ##
@@ -89,7 +90,7 @@ install(EXPORT KPim${KF_MAJOR_VERSION}MimeTargets
     FILE KPim${KF_MAJOR_VERSION}MimeTargets.cmake
     NAMESPACE KF5::
 )
-
+endif()
 
 ########### Targets ###########
 add_subdirectory(src)
