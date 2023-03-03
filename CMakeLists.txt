@@ -46,6 +46,7 @@ ecm_setup_version(PROJECT VARIABLE_PREFIX KMIME
                         SOVERSION 5
 )
 
+option(BUILD_WITH_COMPAT_LIBS "Generate compat cmake file (Set at false will allow to co-install lib)" ON)
 option(BUILD_QCH "Build API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
 add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
 
@@ -63,6 +64,7 @@ if (USE_UNITY_CMAKE_SUPPORT)
 endif()
 
 #if (QT_MAJOR_VERSION STREQUAL "5")
+if (BUILD_WITH_COMPAT_LIBS)
 ##
 # TODO: Backwards compatiblity. Remove in next major version
 ##
@@ -90,6 +92,7 @@ install(EXPORT KPim${KF_MAJOR_VERSION}MimeTargets
     FILE KPim${KF_MAJOR_VERSION}MimeTargets.cmake
     NAMESPACE KF5::
 )
+endif()
 #endif()
 
 ########### Targets ###########
