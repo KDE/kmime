@@ -4,7 +4,7 @@ set(PIM_VERSION "5.23.40")
 project(KMime VERSION ${PIM_VERSION})
 
 # ECM setup
-set(KF_MIN_VERSION "5.103.0")
+set(KF_MIN_VERSION "5.104.0")
 
 find_package(ECM ${KF_MIN_VERSION} CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${KMime_SOURCE_DIR}/cmake ${ECM_MODULE_PATH})
@@ -30,7 +30,7 @@ if (QT_MAJOR_VERSION STREQUAL "6")
     set(KF_MIN_VERSION "5.240.0")
     set(KF_MAJOR_VERSION "6")
 else()
-    set(KF_MIN_VERSION "5.100.0")
+    set(KF_MIN_VERSION "5.104.0")
     set(KF_MAJOR_VERSION "5")
 endif()
 
