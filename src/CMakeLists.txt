@@ -77,7 +77,7 @@ set_target_properties(KPim${KF_MAJOR_VERSION}Mime PROPERTIES
     EXPORT_NAME Mime
 )
 
-install(TARGETS KPim${KF_MAJOR_VERSION}Mime EXPORT KPim${KF_MAJOR_VERSION}MimeTargets ${KF_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS KPim${KF_MAJOR_VERSION}Mime EXPORT KPim${KF_MAJOR_VERSION}MimeTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 # Don't install them but needed to compile kdepimlibs
 ecm_generate_headers(KMime_CamelCase_HEADERS
