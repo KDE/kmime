@@ -107,6 +107,17 @@ endif()
 ########### CMake Config Files ###########
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KPim${KF_MAJOR_VERSION}Mime")
 set(KMIME_KF5_COMPAT FALSE)
+if (BUILD_QCH)
+    ecm_install_qch_export(
+        TARGETS KPim${KF_MAJOR_VERSION}Mime_QCH
+        FILE KPim${KF_MAJOR_VERSION}MimeQchTargets.cmake
+        DESTINATION "${CMAKECONFIG_INSTALL_DIR_KF5}"
+        COMPONENT Devel
+    )
+    set(PACKAGE_INCLUDE_QCHTARGETS "include(\"\${CMAKE_CURRENT_LIST_DIR}/KPim${KF_MAJOR_VERSION}MimeQchTargets.cmake\")")
+endif()
+
+
 configure_package_config_file(
     "${KMime_SOURCE_DIR}/KPimMimeConfig.cmake.in"
     "${KMime_BINARY_DIR}/KPim${KF_MAJOR_VERSION}MimeConfig.cmake"
@@ -131,17 +142,6 @@ install(FILES
     DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KMime/
     COMPONENT Devel
     )
-
-if (BUILD_QCH)
-    ecm_install_qch_export(
-        TARGETS KPim${KF_MAJOR_VERSION}Mime_QCH
-        FILE KPim${KF_MAJOR_VERSION}MimeQchTargets.cmake
-        DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
-        COMPONENT Devel
-    )
-    set(PACKAGE_INCLUDE_QCHTARGETS "include(\"\${CMAKE_CURRENT_LIST_DIR}/KPim${KF_MAJOR_VERSION}MimeQchTargets.cmake\")")
-endif()
-
 
 ki18n_install(po)
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
