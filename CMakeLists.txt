@@ -142,6 +142,13 @@ install(FILES
     DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KMime/
     COMPONENT Devel
     )
+if (BUILD_QCH)
+    install(FILES
+        "${CMAKE_CURRENT_BINARY_DIR}/KPim${KF_MAJOR_VERSION}MimeQchTargets.cmake"
+        DESTINATION "${CMAKECONFIG_INSTALL_DIR_KF5}"
+        COMPONENT Devel
+    )
+endif()
 
 ki18n_install(po)
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
