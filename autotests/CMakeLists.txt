@@ -1,6 +1,6 @@
 include(ECMMarkAsTest)
 
-find_package(Qt${QT_MAJOR_VERSION}Test ${QT_REQUIRED_VERSION} CONFIG REQUIRED)
+find_package(Qt6Test ${QT_REQUIRED_VERSION} CONFIG REQUIRED)
 
 # Turn exceptions on
 kde_enable_exceptions()
@@ -17,9 +17,9 @@ macro(ADD_KMIME_TEST)
     add_executable(${_testName} ${_testName}.cpp ${kmime_autotest_SRCS})
     add_test(NAME kmime-${_testName} COMMAND ${_testName})
     target_link_libraries(${_testName}
-      KPim${KF_MAJOR_VERSION}Mime
+      KPim6Mime
       Qt::Test
-      KF${KF_MAJOR_VERSION}::Codecs
+      KF6::Codecs
     )
     if (TARGET Qt6::Core5Compat)
         target_link_libraries(${_testName} Qt6::Core5Compat) # QTextCodec

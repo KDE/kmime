@@ -4,7 +4,7 @@ set(PIM_VERSION "5.23.40")
 project(KMime VERSION ${PIM_VERSION})
 
 # ECM setup
-set(KF_MIN_VERSION "5.105.0")
+set(KF_MIN_VERSION "5.240.0")
 
 find_package(ECM ${KF_MIN_VERSION} CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${KMime_SOURCE_DIR}/cmake ${ECM_MODULE_PATH})
@@ -24,25 +24,17 @@ include(ECMDeprecationSettings)
 include(ECMAddQch)
 
 set(KMIME_LIB_VERSION ${PIM_VERSION})
-set(QT_REQUIRED_VERSION "5.15.2")
-if (QT_MAJOR_VERSION STREQUAL "6")
-    set(QT_REQUIRED_VERSION "6.4.0")
-    set(KF_MIN_VERSION "5.240.0")
+set(QT_REQUIRED_VERSION "6.4.0")
     set(KF_MAJOR_VERSION "6")
-else()
-    set(KF_MAJOR_VERSION "5")
-endif()
 
 
-find_package(Qt${QT_MAJOR_VERSION} ${QT_REQUIRED_VERSION} CONFIG REQUIRED Core)
-if (QT_MAJOR_VERSION STREQUAL "6")
-    find_package(Qt6Core5Compat)
-endif()
+find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED Core)
+find_package(Qt6Core5Compat)
 
 ecm_setup_version(PROJECT VARIABLE_PREFIX KMIME
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kmime_version.h"
-                        PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KPim${KF_MAJOR_VERSION}MimeConfigVersion.cmake"
-                        SOVERSION 5
+                        PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KPim6MimeConfigVersion.cmake"
+                        SOVERSION 6
 )
 
 option(BUILD_WITH_COMPAT_LIBS "Generate compat cmake file (Set at false will allow to co-install lib)" ON)
@@ -50,8 +42,8 @@ option(BUILD_QCH "Build API documentation in QCH format (for e.g. Qt Assistant, 
 add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
 
 ########### Find packages ###########
-find_package(KF${KF_MAJOR_VERSION}I18n ${KF_MIN_VERSION} CONFIG REQUIRED)
-find_package(KF${KF_MAJOR_VERSION}Codecs ${KF_MIN_VERSION} CONFIG REQUIRED)
+find_package(KF6I18n ${KF_MIN_VERSION} CONFIG REQUIRED)
+find_package(KF6Codecs ${KF_MIN_VERSION} CONFIG REQUIRED)
 add_definitions(-DTRANSLATION_DOMAIN=\"libkmime5\")
 ecm_set_disabled_deprecation_versions(QT 6.4.0  KF 5.105.0)
 
@@ -72,83 +64,43 @@ if(BUILD_TESTING)
 endif()
 
 ########### CMake Config Files ###########
-set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KPim${KF_MAJOR_VERSION}Mime")
+set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KPim6Mime")
 set(KMIME_KF5_COMPAT FALSE)
 if (BUILD_QCH)
     ecm_install_qch_export(
-        TARGETS KPim${KF_MAJOR_VERSION}Mime_QCH
-        FILE KPim${KF_MAJOR_VERSION}MimeQchTargets.cmake
+        TARGETS KPim6Mime_QCH
+        FILE KPim6MimeQchTargets.cmake
         DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
         COMPONENT Devel
     )
-    set(PACKAGE_INCLUDE_QCHTARGETS "include(\"\${CMAKE_CURRENT_LIST_DIR}/KPim${KF_MAJOR_VERSION}MimeQchTargets.cmake\")")
+    set(PACKAGE_INCLUDE_QCHTARGETS "include(\"\${CMAKE_CURRENT_LIST_DIR}/KPim6MimeQchTargets.cmake\")")
 endif()
 
 
 configure_package_config_file(
     "${KMime_SOURCE_DIR}/KPimMimeConfig.cmake.in"
-    "${KMime_BINARY_DIR}/KPim${KF_MAJOR_VERSION}MimeConfig.cmake"
+    "${KMime_BINARY_DIR}/KPim6MimeConfig.cmake"
     INSTALL_DESTINATION  ${CMAKECONFIG_INSTALL_DIR}
     )
 
 install(FILES
-    "${KMime_BINARY_DIR}/KPim${KF_MAJOR_VERSION}MimeConfig.cmake"
-    "${KMime_BINARY_DIR}/KPim${KF_MAJOR_VERSION}MimeConfigVersion.cmake"
+    "${KMime_BINARY_DIR}/KPim6MimeConfig.cmake"
+    "${KMime_BINARY_DIR}/KPim6MimeConfigVersion.cmake"
     DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
     COMPONENT Devel
     )
 
-install(EXPORT KPim${KF_MAJOR_VERSION}MimeTargets
+install(EXPORT KPim6MimeTargets
     DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
-    FILE KPim${KF_MAJOR_VERSION}MimeTargets.cmake
-    NAMESPACE KPim${KF_MAJOR_VERSION}::
+    FILE KPim6MimeTargets.cmake
+    NAMESPACE KPim6::
     )
 
 install(FILES
     ${KMime_BINARY_DIR}/kmime_version.h
-    DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KMime/
+    DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim6/KMime/
     COMPONENT Devel
     )
-#if (QT_MAJOR_VERSION STREQUAL "5")
-if (BUILD_WITH_COMPAT_LIBS)
-## 
-# TODO: Backwards compatiblity. Remove in next major version
-##      
-set(CMAKECONFIG_INSTALL_DIR_KF5 "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF5Mime")
-set(KMIME_KF5_COMPAT TRUE)
-configure_package_config_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/KPimMimeConfig.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/KF5MimeConfig.cmake"
-    INSTALL_DESTINATION ${CMAKECONFIG_INSTALL_DIR_KF5}
-)
-
-install(FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/KF5MimeConfig.cmake"
-    DESTINATION "${CMAKECONFIG_INSTALL_DIR_KF5}"
-    COMPONENT Devel
-)   
-install(FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/KPim${KF_MAJOR_VERSION}MimeConfigVersion.cmake"
-    RENAME "KF5MimeConfigVersion.cmake"
-    DESTINATION "${CMAKECONFIG_INSTALL_DIR_KF5}"
-    COMPONENT Devel
-)   
-install(EXPORT KPim${KF_MAJOR_VERSION}MimeTargets
-    DESTINATION "${CMAKECONFIG_INSTALL_DIR_KF5}"
-    FILE KPim${KF_MAJOR_VERSION}MimeTargets.cmake
-    NAMESPACE KF5::
-)   
-if (BUILD_QCH)
-    install(FILES
-        "${CMAKE_CURRENT_BINARY_DIR}/KPim${KF_MAJOR_VERSION}MimeQchTargets.cmake"
-        DESTINATION "${CMAKECONFIG_INSTALL_DIR_KF5}"
-        COMPONENT Devel
-    )
-endif()
-    
-endif()
-#endif()
-
 
 ki18n_install(po)
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

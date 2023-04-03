@@ -6,10 +6,10 @@ configure_file(config-kmime.h.cmake ${KMime_BINARY_DIR}/src/config-kmime.h)
 kde_enable_exceptions()
 
 ########### next target ###############
-add_library(KPim${KF_MAJOR_VERSION}Mime)
-add_library(KPim${KF_MAJOR_VERSION}::Mime ALIAS KPim${KF_MAJOR_VERSION}Mime)
+add_library(KPim6Mime)
+add_library(KPim6::Mime ALIAS KPim6Mime)
 
-target_sources(KPim${KF_MAJOR_VERSION}Mime PRIVATE
+target_sources(KPim6Mime PRIVATE
    kmime_charfreq.cpp
    kmime_util.cpp
    kmime_mdn.cpp
@@ -41,43 +41,43 @@ target_sources(KPim${KF_MAJOR_VERSION}Mime PRIVATE
    kmime_types.h
    )
 
-ecm_qt_declare_logging_category(KPim${KF_MAJOR_VERSION}Mime
+ecm_qt_declare_logging_category(KPim6Mime
        HEADER kmime_debug.h
        IDENTIFIER KMIME_LOG
        CATEGORY_NAME org.kde.pim.kmime
         DESCRIPTION "kmime (pim lib)" EXPORT KMIME)
 
 if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
-    set_target_properties(KPim${KF_MAJOR_VERSION}Mime PROPERTIES UNITY_BUILD ON)
+    set_target_properties(KPim6Mime PROPERTIES UNITY_BUILD ON)
 endif()
-generate_export_header(KPim${KF_MAJOR_VERSION}Mime BASE_NAME KMime)
+generate_export_header(KPim6Mime BASE_NAME KMime)
 
-target_include_directories(KPim${KF_MAJOR_VERSION}Mime INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KMime>")
-target_include_directories(KPim${KF_MAJOR_VERSION}Mime PUBLIC "$<BUILD_INTERFACE:${KMime_SOURCE_DIR}/src;${KMime_BINARY_DIR}/src;${KMime_BINARY_DIR}>")
+target_include_directories(KPim6Mime INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim6/KMime>")
+target_include_directories(KPim6Mime PUBLIC "$<BUILD_INTERFACE:${KMime_SOURCE_DIR}/src;${KMime_BINARY_DIR}/src;${KMime_BINARY_DIR}>")
 
 if (WIN32)
     set(_kmime_extra_libs ws2_32)
 endif()
 
-target_link_libraries(KPim${KF_MAJOR_VERSION}Mime
+target_link_libraries(KPim6Mime
 PUBLIC
     Qt::Core
 PRIVATE
-    KF${KF_MAJOR_VERSION}::I18n
-    KF${KF_MAJOR_VERSION}::Codecs
+    KF6::I18n
+    KF6::Codecs
     ${_kmime_extra_libs}
 )
 if (TARGET Qt6::Core5Compat)
-    target_link_libraries(KPim${KF_MAJOR_VERSION}Mime PRIVATE Qt6::Core5Compat) # QTextCodec
+    target_link_libraries(KPim6Mime PRIVATE Qt6::Core5Compat) # QTextCodec
 endif()
 
-set_target_properties(KPim${KF_MAJOR_VERSION}Mime PROPERTIES
+set_target_properties(KPim6Mime PROPERTIES
     VERSION ${KMIME_VERSION}
     SOVERSION ${KMIME_SOVERSION}
     EXPORT_NAME Mime
 )
 
-install(TARGETS KPim${KF_MAJOR_VERSION}Mime EXPORT KPim${KF_MAJOR_VERSION}MimeTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS KPim6Mime EXPORT KPim6MimeTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 # Don't install them but needed to compile kdepimlibs
 ecm_generate_headers(KMime_CamelCase_HEADERS
@@ -105,14 +105,14 @@ install(FILES
          kmime_dateformatter.h
          kmime_util.h
          kmime_types.h
-         DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KMime/kmime COMPONENT Devel
+         DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim6/KMime/kmime COMPONENT Devel
 )
 
 if (BUILD_QCH)
     ecm_add_qch(
-        KPim${KF_MAJOR_VERSION}Mime_QCH
+        KPim6Mime_QCH
         NAME KMime
-        BASE_NAME KPim${KF_MAJOR_VERSION}Mime
+        BASE_NAME KPim6Mime
         VERSION ${PIM_VERSION}
         ORG_DOMAIN org.kde
         SOURCES # using only public headers, to cover only public API
@@ -120,7 +120,7 @@ if (BUILD_QCH)
         MD_MAINPAGE "${CMAKE_SOURCE_DIR}/README.md"
         #IMAGE_DIRS "${CMAKE_SOURCE_DIR}/docs/pics"
         LINK_QCHS
-            Qt${QT_MAJOR_VERSION}Core_QCH
+            Qt6Core_QCH
         INCLUDE_DIRS
             ${CMAKE_CURRENT_BINARY_DIR}
         BLANK_MACROS
@@ -133,5 +133,5 @@ endif()
 
 ecm_qt_install_logging_categories(EXPORT KMIME FILE kmime.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 
-ecm_generate_pri_file(BASE_NAME KMime LIB_NAME KPim${KF_MAJOR_VERSION}Mime DEPS "" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR}/KPim${KF_MAJOR_VERSION}/KMime)
+ecm_generate_pri_file(BASE_NAME KMime LIB_NAME KPim6Mime DEPS "" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR}/KPim6/KMime)
 install(FILES ${PRI_FILENAME} DESTINATION ${ECM_MKSPECS_INSTALL_DIR})
