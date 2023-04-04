@@ -2,15 +2,5 @@
 include(CMakeFindDependencyMacro)
 find_dependency(Qt6Core @QT_REQUIRED_VERSION@)
 find_dependency(KF6Codecs @KF_MIN_VERSION@)
-
-if (@KMIME_KF5_COMPAT@)
-    message(WARNING "\n"
-                    "************* DEPRECATION WARNING *************\n"
-		    "Using find_package(KF5Mime) and KF5::Mime targets is deprecated. "
-		    "Please use find_package(KPim6Mime) and KPim6::Mime instead. This backwards "
-                    "compatibility will be removed in the next major version.\n"
-                    "***********************************************\n")
-endif()
-
 include("${CMAKE_CURRENT_LIST_DIR}/KPim6MimeTargets.cmake")
 @PACKAGE_INCLUDE_QCHTARGETS@
