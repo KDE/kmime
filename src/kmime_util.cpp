@@ -31,7 +31,7 @@ using namespace KMime;
 namespace KMime
 {
 
-QVector<QByteArray> c_harsetCache;
+QList<QByteArray> c_harsetCache;
 bool u_seOutlookEncoding = false;
 
 QByteArray cachedCharset(const QByteArray &name)
@@ -71,9 +71,8 @@ QString nameForEncoding(Headers::contentEncoding enc)
     }
 }
 
-QVector<Headers::contentEncoding> encodingsForData(const QByteArray &data)
-{
-    QVector<Headers::contentEncoding> allowed;
+QList<Headers::contentEncoding> encodingsForData(const QByteArray &data) {
+    QList<Headers::contentEncoding> allowed;
     CharFreq cf(data);
 
     switch (cf.type()) {

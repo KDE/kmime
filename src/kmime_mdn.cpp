@@ -166,9 +166,9 @@ static const char *stringFor(SendingMode s)
     return nullptr;
 }
 
-static QByteArray dispositionField(DispositionType d, ActionMode a, SendingMode s,
-                                   const QVector<DispositionModifier> &m)
-{
+static QByteArray dispositionField(DispositionType d, ActionMode a,
+                                   SendingMode s,
+                                   const QList<DispositionModifier> &m) {
 
     // mandatory parts: Disposition: foo/baz; bar
     QByteArray result = "Disposition: ";
@@ -180,8 +180,8 @@ static QByteArray dispositionField(DispositionType d, ActionMode a, SendingMode 
 
     // optional parts: Disposition: foo/baz; bar/mod1,mod2,mod3
     bool first = true;
-    for (QVector<DispositionModifier>::const_iterator mt = m.begin();
-            mt != m.end() ; ++mt) {
+    for (QList<DispositionModifier>::const_iterator mt = m.begin();
+         mt != m.end(); ++mt) {
         if (first) {
             result += '/';
             first = false;
@@ -233,15 +233,10 @@ static QByteArray reportingUAField()
            QByteArray("; KMime " KMIME_VERSION_STRING "\n");
 }
 
-QByteArray dispositionNotificationBodyContent(const QString &r,
-        const QByteArray &o,
-        const QByteArray &omid,
-        DispositionType d,
-        ActionMode a,
-        SendingMode s,
-        const QVector<DispositionModifier> &m,
-        const QString &special)
-{
+QByteArray dispositionNotificationBodyContent(
+    const QString &r, const QByteArray &o, const QByteArray &omid,
+    DispositionType d, ActionMode a, SendingMode s,
+    const QList<DispositionModifier> &m, const QString &special) {
     // in Perl: chomp(special)
     QString spec;
     if (special.endsWith(QLatin1Char('\n'))) {
@@ -269,9 +264,7 @@ QByteArray dispositionNotificationBodyContent(const QString &r,
     return result;
 }
 
-QString descriptionFor(DispositionType d,
-                       const QVector<DispositionModifier> &)
-{
+QString descriptionFor(DispositionType d, const QList<DispositionModifier> &) {
     for (int i = 0 ; i < numDispositionTypes ; ++i) {
         if (dispositionTypes[i].dispositionType == d) {
             return dispositionTypes[i].description.toString();

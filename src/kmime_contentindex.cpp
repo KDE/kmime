@@ -17,9 +17,9 @@
 #include "kmime_contentindex.h"
 
 #include <QHash>
+#include <QList>
 #include <QSharedData>
 #include <QStringList>
-#include <QVector>
 
 using namespace KMime;
 
@@ -29,7 +29,7 @@ public:
   Private() = default;
   Private(const Private &other) : QSharedData(other) { index = other.index; }
 
-  QVector<unsigned int> index;
+  QList<unsigned int> index;
 };
 
 KMime::ContentIndex::ContentIndex() : d(new Private)

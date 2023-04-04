@@ -197,15 +197,13 @@ QByteArray Mailbox::as7BitString(const QByteArray &encCharset) const
     return rv;
 }
 
-QVector<KMime::Types::Mailbox> Mailbox::listFromUnicodeString(const QString &s)
-{
+QList<KMime::Types::Mailbox> Mailbox::listFromUnicodeString(const QString &s) {
     return listFrom7BitString(encodeRFC2047Sentence(s, "utf-8"));
 }
 
-QVector<KMime::Types::Mailbox> Mailbox::listFrom7BitString(const QByteArray& s)
-{
-    QVector<KMime::Types::Mailbox> res;
-    QVector<KMime::Types::Address> maybeAddressList;
+QList<KMime::Types::Mailbox> Mailbox::listFrom7BitString(const QByteArray &s) {
+    QList<KMime::Types::Mailbox> res;
+    QList<KMime::Types::Address> maybeAddressList;
     const char *scursor = s.constData();
     if (!HeaderParsing::parseAddressList(scursor, scursor + s.size(), maybeAddressList)) {
         return res;
@@ -218,8 +216,7 @@ QVector<KMime::Types::Mailbox> Mailbox::listFrom7BitString(const QByteArray& s)
     return res;
 }
 
-QString Mailbox::listToUnicodeString(const QVector<Mailbox>& mailboxes)
-{
+QString Mailbox::listToUnicodeString(const QList<Mailbox> &mailboxes) {
     if (mailboxes.size() == 1) { // QStringList free fast-path for the common case
         return mailboxes.at(0).prettyAddress();
     }

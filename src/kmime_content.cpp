@@ -431,31 +431,27 @@ Content *Content::textContent()
     return ret;
 }
 
-QVector<Content*> Content::attachments()
-{
-    QVector<Content*> result;
+QList<Content *> Content::attachments() {
+    QList<Content *> result;
 
     auto ct = contentType(false);
     if (ct && ct->isMultipart() &&
         !ct->isSubtype("related") /* && !ct->isSubtype("alternative")*/) {
-      const QVector<Content *> contentsList = contents();
-      result.reserve(contentsList.count());
-      for (Content *child : contentsList) {
-        if (isAttachment(child)) {
-          result.push_back(child);
-        } else {
-          result += child->attachments();
-        }
+        const QList<Content *> contentsList = contents();
+        result.reserve(contentsList.count());
+        for (Content *child : contentsList) {
+            if (isAttachment(child)) {
+                result.push_back(child);
+            } else {
+                result += child->attachments();
+            }
       }
     }
 
     return result;
 }
 
-QVector<Content*> Content::contents() const
-{
-    return d_ptr->contents();
-}
+QList<Content *> Content::contents() const { return d_ptr->contents(); }
 
 void Content::replaceContent(Content *oldContent, Content *newContent)
 {
@@ -601,10 +597,7 @@ void Content::changeEncoding(Headers::contentEncoding e)
     }
 }
 
-QVector<Headers::Base*> Content::headers() const
-{
-    return d_ptr->headers;
-}
+QList<Headers::Base *> Content::headers() const { return d_ptr->headers; }
 
 Headers::Base *Content::headerByType(const char *type) const
 {
@@ -619,11 +612,10 @@ Headers::Base *Content::headerByType(const char *type) const
     return nullptr; // Not found.
 }
 
-QVector<Headers::Base*> Content::headersByType(const char *type) const
-{
+QList<Headers::Base *> Content::headersByType(const char *type) const {
     Q_ASSERT(type && *type);
 
-    QVector<Headers::Base*> result;
+    QList<Headers::Base *> result;
 
     for (Headers::Base *h : std::as_const(d_ptr->headers)) {
         if (h->is(type)) {
@@ -881,11 +873,10 @@ void ContentPrivate::clearBodyMessage()
     bodyAsMessage.reset();
 }
 
-QVector<Content*> ContentPrivate::contents() const
-{
+QList<Content *> ContentPrivate::contents() const {
     Q_ASSERT(multipartContents.isEmpty() || !bodyAsMessage);
     if (bodyAsMessage) {
-        return QVector<Content*>() << bodyAsMessage.data();
+      return QList<Content *>() << bodyAsMessage.data();
     } else {
         return multipartContents;
     }

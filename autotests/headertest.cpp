@@ -925,7 +925,7 @@ void HeaderTest::testNewsgroupsHeader()
     QVERIFY(h->as7BitString().isEmpty());
 
     // set newsgroups
-    QVector<QByteArray> groups;
+    QList<QByteArray> groups;
     groups << "gmane.comp.kde.devel.core" << "gmane.comp.kde.devel.buildsystem";
     h->setGroups(groups);
     QVERIFY(!h->isEmpty());

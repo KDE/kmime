@@ -28,7 +28,8 @@ private Q_SLOTS:
         qDebug() << sizeof(Content);
         QVERIFY(sizeof(Content) <= 16);
         qDebug() << sizeof(ContentPrivate);
-        QVERIFY(sizeof(ContentPrivate) <= (sizeof(QByteArray) * 5 + sizeof(QVector<Content*>) * 2 + 32));
+        QVERIFY(sizeof(ContentPrivate) <=
+                (sizeof(QByteArray) * 5 + sizeof(QList<Content *>) * 2 + 32));
         qDebug() << sizeof(Message);
         QCOMPARE(sizeof(Message), sizeof(Content));
     }
@@ -71,7 +72,8 @@ private Q_SLOTS:
         VERIFYSIZE(UnstructuredPrivate, sizeof(BasePrivate) + sizeof(QString));
         VERIFYSIZE(StructuredPrivate, sizeof(BasePrivate));     // empty
         VERIFYSIZE(AddressPrivate, sizeof(StructuredPrivate));
-        VERIFYSIZE(MailboxListPrivate, sizeof(BasePrivate) + sizeof(QVector<Types::Mailbox>));
+        VERIFYSIZE(MailboxListPrivate,
+                   sizeof(BasePrivate) + sizeof(QList<Types::Mailbox>));
         VERIFYSIZE(SingleMailboxPrivate, sizeof(MailboxListPrivate));
         VERIFYSIZE(AddressListPrivate, sizeof(BasePrivate) + sizeof(KMime::Types::AddressList));
         VERIFYSIZE(IdentPrivate, sizeof(AddressListPrivate) + sizeof(KMime::Types::AddrSpecList) + sizeof(QByteArray));
@@ -88,7 +90,8 @@ private Q_SLOTS:
         VERIFYSIZE(GenericPrivate, sizeof(UnstructuredPrivate) + 8);
         VERIFYSIZE(ControlPrivate, sizeof(StructuredPrivate) + 2*sizeof(QByteArray));
         VERIFYSIZE(DatePrivate, sizeof(StructuredPrivate) + 8);
-        VERIFYSIZE(NewsgroupsPrivate, sizeof(StructuredPrivate) + sizeof(QVector<QByteArray>));
+        VERIFYSIZE(NewsgroupsPrivate,
+                   sizeof(StructuredPrivate) + sizeof(QList<QByteArray>));
         VERIFYSIZE(LinesPrivate, sizeof(StructuredPrivate) + 8);
     }
 };

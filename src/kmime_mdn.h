@@ -33,8 +33,8 @@
 #pragma once
 
 #include "kmime_export.h"
+#include <QList>
 #include <QString>
-#include <QVector>
 
 class QByteArray;
 
@@ -164,18 +164,16 @@ enum SendingMode {
   Generates the content of the message/disposition-notification body part.
 */
 KMIME_EXPORT extern QByteArray dispositionNotificationBodyContent(
-    const QString &finalRecipient,
-    const QByteArray &originalRecipient,
-    const QByteArray &originalMsgID,
-    DispositionType disposition,
-    ActionMode actionMode,
-    SendingMode sendingMode,
-    const QVector<DispositionModifier> &dispositionModifers = QVector<DispositionModifier>(),
+    const QString &finalRecipient, const QByteArray &originalRecipient,
+    const QByteArray &originalMsgID, DispositionType disposition,
+    ActionMode actionMode, SendingMode sendingMode,
+    const QList<DispositionModifier> &dispositionModifers =
+        QList<DispositionModifier>(),
     const QString &special = QString());
 
 KMIME_EXPORT extern QString descriptionFor(
     DispositionType d,
-    const QVector<DispositionModifier> &m = QVector<DispositionModifier>());
+    const QList<DispositionModifier> &m = QList<DispositionModifier>());
 
 } // namespace MDN
 

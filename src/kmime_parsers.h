@@ -10,7 +10,7 @@
 #pragma once
 
 #include <QByteArray>
-#include <QVector>
+#include <QList>
 
 namespace KMime
 {
@@ -28,10 +28,7 @@ public:
     MultiPart(const QByteArray &src, const QByteArray &boundary);
 
     Q_REQUIRED_RESULT bool parse();
-    Q_REQUIRED_RESULT QVector<QByteArray> parts() const
-    {
-        return m_parts;
-    }
+    Q_REQUIRED_RESULT QList<QByteArray> parts() const { return m_parts; }
     Q_REQUIRED_RESULT QByteArray preamble() const
     {
         return m_preamble;
@@ -46,7 +43,7 @@ private:
     const QByteArray m_boundary;
     QByteArray m_preamble;
     QByteArray m_epilouge;
-    QVector<QByteArray> m_parts;
+    QList<QByteArray> m_parts;
 };
 
 /** Helper-class: abstract base class of all parsers for
@@ -79,16 +76,11 @@ public:
     {
         return m_text;
     }
-    Q_REQUIRED_RESULT QVector<QByteArray> binaryParts() const
-    {
-        return m_bins;
-    }
-    Q_REQUIRED_RESULT QVector<QByteArray> filenames() const
-    {
+    Q_REQUIRED_RESULT QList<QByteArray> binaryParts() const { return m_bins; }
+    Q_REQUIRED_RESULT QList<QByteArray> filenames() const {
         return m_filenames;
     }
-    Q_REQUIRED_RESULT QVector<QByteArray> mimeTypes() const
-    {
+    Q_REQUIRED_RESULT QList<QByteArray> mimeTypes() const {
         return m_mimeTypes;
     }
 
@@ -96,7 +88,7 @@ protected:
     static QByteArray guessMimeType(const QByteArray &fileName);
 
     QByteArray m_src, m_text;
-    QVector<QByteArray> m_bins, m_filenames, m_mimeTypes;
+    QList<QByteArray> m_bins, m_filenames, m_mimeTypes;
     int m_partNr, m_totalNr;
 };
 

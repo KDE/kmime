@@ -36,7 +36,7 @@ private Q_SLOTS:
 
     void testListToString()
     {
-        QVector<Types::Mailbox> mboxes;
+        QList<Types::Mailbox> mboxes;
         QCOMPARE(Types::Mailbox::listToUnicodeString(mboxes), QString());
 
         Types::Mailbox mbox;

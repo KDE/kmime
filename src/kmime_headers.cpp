@@ -355,9 +355,8 @@ void MailboxList::addAddress(const QByteArray &address,
     }
 }
 
-QVector<QByteArray> MailboxList::addresses() const
-{
-    QVector<QByteArray> rv;
+QList<QByteArray> MailboxList::addresses() const {
+    QList<QByteArray> rv;
     rv.reserve(d_func()->mailboxList.count());
     const auto mailboxList = d_func()->mailboxList;
     for (const Types::Mailbox &mbox : mailboxList) {
@@ -409,7 +408,7 @@ bool MailboxList::parse(const char *&scursor, const char *const send,
     // sender := "Sender:" mailbox CRLF
 
     // parse an address-list:
-    QVector<Types::Address> maybeAddressList;
+    QList<Types::Address> maybeAddressList;
     if (!parseAddressList(scursor, send, maybeAddressList, isCRLF)) {
         return false;
     }
@@ -536,9 +535,8 @@ void AddressList::addAddress(const QByteArray &address,
     }
 }
 
-QVector<QByteArray> AddressList::addresses() const
-{
-    QVector<QByteArray> rv;
+QList<QByteArray> AddressList::addresses() const {
+    QList<QByteArray> rv;
     const auto addressList = d_func()->addressList;
     for (const Types::Address &addr : addressList) {
         const auto mailboxList = addr.mailboxList;
@@ -589,7 +587,7 @@ bool AddressList::parse(const char *&scursor, const char *const send,
                         bool isCRLF)
 {
     Q_D(AddressList);
-    QVector<Types::Address> maybeAddressList;
+    QList<Types::Address> maybeAddressList;
     if (!parseAddressList(scursor, send, maybeAddressList, isCRLF)) {
         return false;
     }
@@ -995,9 +993,8 @@ bool Ident::parse(const char *&scursor, const char *const send, bool isCRLF)
     return true;
 }
 
-QVector<QByteArray> Ident::identifiers() const
-{
-    QVector<QByteArray> rv;
+QList<QByteArray> Ident::identifiers() const {
+    QList<QByteArray> rv;
     const auto msgIdList = d_func()->msgIdList;
     for (const Types::AddrSpec &addr : msgIdList) {
         if (!addr.isEmpty()) {
@@ -1525,11 +1522,9 @@ bool Newsgroups::isEmpty() const {
     return d_func()->groups.isEmpty();
 }
 
-QVector<QByteArray> Newsgroups::groups() const {
-    return d_func()->groups;
-}
+QList<QByteArray> Newsgroups::groups() const { return d_func()->groups; }
 
-void Newsgroups::setGroups(const QVector<QByteArray> &groups) {
+void Newsgroups::setGroups(const QList<QByteArray> &groups) {
     Q_D(Newsgroups);
     d->groups = groups;
 }

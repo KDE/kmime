@@ -5,7 +5,7 @@
 */
 #pragma once
 
-#include <QVector>
+#include <QList>
 
 class QByteArray;
 
@@ -19,8 +19,8 @@ class Base;
 namespace HeaderParsing
 {
 
-Q_REQUIRED_RESULT QVector<KMime::Headers::Base *> parseHeaders(const QByteArray &head);
-
+Q_REQUIRED_RESULT QList<KMime::Headers::Base *>
+parseHeaders(const QByteArray &head);
 }
 
 }

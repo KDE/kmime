@@ -29,12 +29,12 @@
 #include "kmime_export.h"
 #include "kmime_header_parsing.h"
 
+#include <QByteArray>
+#include <QDateTime>
+#include <QList>
+#include <QMetaType>
 #include <QString>
 #include <QStringList>
-#include <QDateTime>
-#include <QVector>
-#include <QByteArray>
-#include <QMetaType>
 
 namespace KMime
 {
@@ -106,82 +106,83 @@ public:
     /**
       A vector of headers.
     */
-    typedef QVector<KMime::Headers::Base *> List;
+  typedef QList<KMime::Headers::Base *> List;
 
-    /**
-      Creates an empty header.
-    */
-    Base();
+  /**
+    Creates an empty header.
+  */
+  Base();
 
-    /**
-      Destructor.
-    */
-    virtual ~Base();
+  /**
+    Destructor.
+  */
+  virtual ~Base();
 
-    /**
-      Parses the given string. Take care of RFC2047-encoded strings.
-      @param s The encoded header data.
-    */
-    virtual void from7BitString(const char *s, size_t len);
-    virtual void from7BitString(const QByteArray &s) = 0;
+  /**
+    Parses the given string. Take care of RFC2047-encoded strings.
+    @param s The encoded header data.
+  */
+  virtual void from7BitString(const char *s, size_t len);
+  virtual void from7BitString(const QByteArray &s) = 0;
 
-    /**
-      Returns the encoded header.
-      @param withHeaderType Specifies whether the header-type should be included.
-    */
-    Q_REQUIRED_RESULT virtual QByteArray as7BitString(bool withHeaderType = true) const = 0;
+  /**
+    Returns the encoded header.
+    @param withHeaderType Specifies whether the header-type should be included.
+  */
+  Q_REQUIRED_RESULT virtual QByteArray
+  as7BitString(bool withHeaderType = true) const = 0;
 
-    /**
-      Returns the charset that is used for RFC2047-encoding.
-    */
-    Q_REQUIRED_RESULT QByteArray rfc2047Charset() const;
+  /**
+    Returns the charset that is used for RFC2047-encoding.
+  */
+  Q_REQUIRED_RESULT QByteArray rfc2047Charset() const;
 
-    /**
-      Sets the charset for RFC2047-encoding.
-      @param cs The new charset used for RFC2047 encoding.
-    */
-    void setRFC2047Charset(const QByteArray &cs);
+  /**
+    Sets the charset for RFC2047-encoding.
+    @param cs The new charset used for RFC2047 encoding.
+  */
+  void setRFC2047Charset(const QByteArray &cs);
 
-    /**
-      Parses the given string and set the charset.
-      @param s The header data as unicode string.
-      @param b The charset preferred for encoding.
-    */
-    virtual void fromUnicodeString(const QString &s, const QByteArray &b) = 0;
+  /**
+    Parses the given string and set the charset.
+    @param s The header data as unicode string.
+    @param b The charset preferred for encoding.
+  */
+  virtual void fromUnicodeString(const QString &s, const QByteArray &b) = 0;
 
-    /**
-      Returns the decoded content of the header without the header-type.
+  /**
+    Returns the decoded content of the header without the header-type.
 
-      @note The return value of this method should only be used when showing an address
-            to the user. It is not guaranteed that fromUnicodeString( asUnicodeString(), ... )
-            will return the original string.
-    */
-    virtual QString asUnicodeString() const = 0;
+    @note The return value of this method should only be used when showing an
+    address to the user. It is not guaranteed that fromUnicodeString(
+    asUnicodeString(), ... ) will return the original string.
+  */
+  virtual QString asUnicodeString() const = 0;
 
-    /**
-      Deletes.
-    */
-    virtual void clear() = 0;
+  /**
+    Deletes.
+  */
+  virtual void clear() = 0;
 
-    /**
-      Checks if this header contains any data.
-    */
-    virtual bool isEmpty() const = 0;
+  /**
+    Checks if this header contains any data.
+  */
+  virtual bool isEmpty() const = 0;
 
-    /**
-      Returns the type of this header (e.g. "From").
-    */
-    virtual const char *type() const;
+  /**
+    Returns the type of this header (e.g. "From").
+  */
+  virtual const char *type() const;
 
-    /**
-      Checks if this header is of type @p t.
-    */
-    Q_REQUIRED_RESULT bool is(const char *t) const;
+  /**
+    Checks if this header is of type @p t.
+  */
+  Q_REQUIRED_RESULT bool is(const char *t) const;
 
-    /**
-      Checks if this header is a MIME header.
-    */
-    Q_REQUIRED_RESULT bool isMimeHeader() const;
+  /**
+    Checks if this header is a MIME header.
+  */
+  Q_REQUIRED_RESULT bool isMimeHeader() const;
 
 protected:
     /**
@@ -368,7 +369,7 @@ public:
     /**
       Returns a list of all addresses in this header, regardless of groups.
     */
-    QVector<QByteArray> addresses() const;
+    QList<QByteArray> addresses() const;
 
     /**
       Returns a list of all display names associated with the addresses in
@@ -457,7 +458,7 @@ public:
     /**
       Returns a list of all addresses in this header, regardless of groups.
     */
-    QVector<QByteArray> addresses() const;
+    QList<QByteArray> addresses() const;
 
     /**
       Returns a list of all display names associated with the addresses in this header.
@@ -513,7 +514,7 @@ public:
       - Identifiers are not enclosed in angle-brackets.
       - Identifiers are listed in the same order as in the header.
     */
-    QVector<QByteArray> identifiers() const;
+    QList<QByteArray> identifiers() const;
 
     /**
       Appends a new identifier to this header.
@@ -1354,12 +1355,12 @@ public:
     /**
       Returns the list of newsgroups.
     */
-    QVector<QByteArray> groups() const;
+    QList<QByteArray> groups() const;
 
     /**
       Sets the newsgroup list.
     */
-    void setGroups(const QVector<QByteArray> &groups);
+    void setGroups(const QList<QByteArray> &groups);
 
     /**
       Returns true if this message has been cross-posted, i.e. if it has been

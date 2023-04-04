@@ -44,7 +44,7 @@ kmime_mk_empty_private(Address, Structured)
 class MailboxListPrivate : public AddressPrivate
 {
 public:
-    QVector<Types::Mailbox> mailboxList;
+  QList<Types::Mailbox> mailboxList;
 };
 
 kmime_mk_empty_private(SingleMailbox, MailboxList)
@@ -171,7 +171,7 @@ public:
 class NewsgroupsPrivate : public Generics::StructuredPrivate
 {
 public:
-    QVector<QByteArray> groups;
+  QList<QByteArray> groups;
 };
 
 class LinesPrivate : public Generics::StructuredPrivate
