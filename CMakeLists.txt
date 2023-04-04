@@ -65,7 +65,7 @@ endif()
 
 ########### CMake Config Files ###########
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KPim6Mime")
-set(KMIME_KF5_COMPAT FALSE)
+set(KMIME_KF6_COMPAT FALSE)
 if (BUILD_QCH)
     ecm_install_qch_export(
         TARGETS KPim6Mime_QCH

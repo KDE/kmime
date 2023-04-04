@@ -9,8 +9,8 @@ deprecated: false
 release: false
 libraries:
  - qmake: KMime
-   cmake: "KF5::Mime"
-cmakename: KF5Mime
+   cmake: "KPim6::Mime"
+cmakename: KPim6Mime
 
 public_lib: true
 group: kdepim
