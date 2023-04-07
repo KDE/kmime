@@ -50,7 +50,12 @@ ecm_qt_declare_logging_category(KPim6Mime
 if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
     set_target_properties(KPim6Mime PROPERTIES UNITY_BUILD ON)
 endif()
-generate_export_header(KPim6Mime BASE_NAME KMime)
+ecm_generate_export_header(KPim6Mime
+    BASE_NAME KMime
+    VERSION ${KMIME_VERSION}
+    DEPRECATED_BASE_VERSION 0
+    USE_VERSION_HEADER
+)
 
 target_include_directories(KPim6Mime INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim6/KMime>")
 target_include_directories(KPim6Mime PUBLIC "$<BUILD_INTERFACE:${KMime_SOURCE_DIR}/src;${KMime_BINARY_DIR}/src;${KMime_BINARY_DIR}>")
