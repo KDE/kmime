@@ -25,7 +25,6 @@ include(ECMAddQch)
 
 set(KMIME_LIB_VERSION ${PIM_VERSION})
 set(QT_REQUIRED_VERSION "6.4.0")
-    set(KF_MAJOR_VERSION "6")
 
 
 find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED Core)
