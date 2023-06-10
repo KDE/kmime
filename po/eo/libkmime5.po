@@ -1,36 +1,39 @@
 # Translation of libkmime into esperanto.
+# Copyright (C) 2009 Free Software Foundation, Inc.
+# This file is distributed under the same license as the kmime package.
 # Axel Rousseau <axel@esperanto-jeunes.org>, 2009.
+# Oliver Kellogg <okellogg@users.sourceforge.net>, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: libkmime\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2021-12-14 00:45+0000\n"
-"PO-Revision-Date: 2009-11-15 12:06+0100\n"
-"Last-Translator: Axel Rousseau <axel@esperanto-jeunes.org>\n"
+"PO-Revision-Date: 2023-06-09 20:56+0100\n"
+"Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: pology\n"
+"X-Generator: translate-po (https://github.com/zcribe/translate-po)\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: kmime_dateformatter.cpp:247
 #, kde-format
 msgctxt "invalid time specified"
 msgid "unknown"
-msgstr ""
+msgstr "nekonata"
 
 #: kmime_dateformatter.cpp:263
 #, kde-format
 msgid "Today %1"
-msgstr ""
+msgstr "Hodiaŭ %1"
 
 #: kmime_dateformatter.cpp:267
 #, kde-format
 msgid "Yesterday %1"
-msgstr ""
+msgstr "Hieraŭ %1"
 
 #: kmime_dateformatter.cpp:272
 #, kde-format
@@ -43,6 +46,8 @@ msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "displayed. This is no guarantee that the message has been read or understood."
 msgstr ""
+"La mesaĝo sendita je ${date} al ${to} kun temo \"${subject}\" estis "
+"montrita. Ĉi tio ne garantias, ke la mesaĝo estas legita aŭ komprenita."
 
 #: kmime_mdn.cpp:55
 msgid ""
@@ -50,18 +55,25 @@ msgid ""
 "deleted unseen. This is no guarantee that the message will not be \"undeleted"
 "\" and nonetheless read later on."
 msgstr ""
+"La mesaĝo sendita je ${date} al ${to} kun temo \"${subject}\" estis forigita "
+"nevidite. Ĉi tio ne garantias, ke la mesaĝo ne estos \"neforigita\" kaj "
+"tamen legita poste."
 
 #: kmime_mdn.cpp:61
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "dispatched. This is no guarantee that the message will not be read later on."
 msgstr ""
+"La mesaĝo sendita je ${date} al ${to} kun temo \"${subject}\" estis sendita. "
+"Ĉi tio ne garantias, ke la mesaĝo ne estos legita poste."
 
 #: kmime_mdn.cpp:66
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "processed by some automatic means."
 msgstr ""
+"La mesaĝo sendita je ${date} al ${to} kun temo \"${subject}\" estis "
+"prilaborita per iuj aŭtomataj rimedoj."
 
 #: kmime_mdn.cpp:70
 msgid ""
@@ -69,6 +81,8 @@ msgid ""
 "acted upon. The sender does not wish to disclose more details to you than "
 "that."
 msgstr ""
+"La mesaĝo sendita je ${date} al ${to} kun temo \"${subject}\" estis reagata. "
+"La sendinto ne volas malkaŝi al vi pli da detaloj ol tio."
 
 #: kmime_mdn.cpp:75
 msgid ""
@@ -76,3 +90,6 @@ msgid ""
 "${date} to ${to} with subject \"${subject}\" failed. Reason is given in the "
 "Failure: header field below."
 msgstr ""
+"Generado de Avizo pri Mesaĝo por la mesaĝo sendita je ${date} al ${to} kun "
+"temo \"${subject}\" malsukcesis. La kialo estas donita en la suba kampo de "
+"la kaplinio Malsukceso."
