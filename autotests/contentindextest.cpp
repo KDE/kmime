@@ -89,3 +89,5 @@ void ContentIndexTest::testNavigation()
     QCOMPARE(ci.toString(), QLatin1String("2"));
 }
 
+
+#include "moc_contentindextest.cpp"

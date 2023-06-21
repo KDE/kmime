@@ -687,3 +687,5 @@ void MessageTest::testCrashReplyInvalidEmail()
     QVERIFY(msg->isTopLevel());
 }
 
+
+#include "moc_messagetest.cpp"

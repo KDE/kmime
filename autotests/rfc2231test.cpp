@@ -83,3 +83,5 @@ void RFC2231Test::testRFC2231encode()
     QCOMPARE(KMime::encodeRFC2231String(QString::fromUtf8("with accents Ã²Ã³Ã¨Ã©Ã¤Ã¯Ã±"), "utf-8").constData(),
              "utf-8''with%20accents%20%C3%83%C2%B2%C3%83%C2%B3%C3%83%C2%A8%C3%83%C2%A9%C3%83%C2%A4%C3%83%C2%AF%C3%83%C2%B1");
 }
+
+#include "moc_rfc2231test.cpp"

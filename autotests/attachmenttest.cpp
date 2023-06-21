@@ -290,3 +290,5 @@ void AttachmentTest::testAttachment2()
         QCOMPARE(hasAttachment(root), true);
         delete root;
 }
+
+#include "moc_attachmenttest.cpp"

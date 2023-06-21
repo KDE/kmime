@@ -80,3 +80,5 @@ void HeaderFactoryTest::testBuiltInHeaders()
     QVERIFY(isHeaderRegistered<Lines>());
     QVERIFY(isHeaderRegistered<UserAgent>());
 }
+
+#include "moc_headerfactorytest.cpp"

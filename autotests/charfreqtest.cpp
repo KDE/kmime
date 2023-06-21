@@ -138,3 +138,5 @@ void CharFreqTest::testLeadingFrom()
     QVERIFY(cf.hasLeadingFrom());
 }
 
+
+#include "moc_charfreqtest.cpp"

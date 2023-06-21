@@ -1116,3 +1116,5 @@ void HeaderTest::testBug271192_data()
     QTest::newRow("quote_LastName_comma_Firstname") << QString::fromUtf8("König, Интернет-компания") << true;
 }
 
+
+#include "moc_headertest.cpp"

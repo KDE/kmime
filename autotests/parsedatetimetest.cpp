@@ -65,3 +65,5 @@ void ParseDateTimeTest::testParseDateTime()
     QCOMPARE(result, expResult);
 }
 
+
+#include "moc_parsedatetimetest.cpp"

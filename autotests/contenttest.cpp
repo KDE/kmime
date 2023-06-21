@@ -879,3 +879,5 @@ void ContentTest::testContentTypeMimetype()
         QCOMPARE(msg.contents().at(i)->contentType(false)->mimeType(), contentMimeType.at(i));
     }
 }
+
+#include "moc_contenttest.cpp"

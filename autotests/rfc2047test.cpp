@@ -32,3 +32,5 @@ void RFC2047Test::testRFC2047encode()
     QCOMPARE(KCodecs::decodeRFC2047String(QString::fromUtf8(result)), input);
     QVERIFY(result.contains("utf-8"));
 }
+
+#include "moc_rfc2047test.cpp"

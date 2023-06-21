@@ -348,3 +348,5 @@ void UtilTest::testLFCRLF_performance()
     expected.replace('\n', "\r\n");
     QCOMPARE(output, expected);
 }
+
+#include "moc_utiltest.cpp"
