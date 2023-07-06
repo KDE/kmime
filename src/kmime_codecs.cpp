@@ -11,7 +11,8 @@
 #include "kmime_codecs.h"
 #include "kmime_debug.h"
 
-#include <QTextCodec>
+#include <QStringDecoder>
+#include <QStringEncoder>
 
 namespace KMime {
 
@@ -27,27 +28,26 @@ QByteArray encodeRFC2047String(const QString &src, const QByteArray &charset,
     bool useQEncoding = false;
 
     // fromLatin1() is safe here, codecForName() uses toLatin1() internally
-    const QTextCodec *codec = QTextCodec::codecForName(charset);
+    QStringEncoder codec(charset.constData());
 
     QByteArray usedCS;
-    if (!codec) {
+    if (!codec.isValid()) {
         //no codec available => try local8Bit and hope the best ;-)
-        codec = QTextCodec::codecForLocale();
-        usedCS = codec->name();
+        codec = QStringEncoder(QStringEncoder::System);
+        usedCS = codec.name();
     } else {
         if (charset.isEmpty()) {
-            usedCS = codec->name();
+            usedCS = codec.name();
         } else {
             usedCS = charset;
         }
     }
 
-    QTextCodec::ConverterState converterState(QTextCodec::IgnoreHeader);
-    QByteArray encoded8Bit = codec->fromUnicode(src.constData(), src.length(), &converterState);
-    if (converterState.invalidChars > 0) {
+    QByteArray encoded8Bit = codec.encode(src);
+    if (codec.hasError()) {
         usedCS = "utf-8";
-        codec = QTextCodec::codecForName(usedCS);
-        encoded8Bit = codec->fromUnicode(src);
+        codec = QStringEncoder(usedCS.constData());
+        encoded8Bit = codec.encode(src);
     }
 
     if (usedCS.contains("8859-")) {     // use "B"-Encoding for non iso-8859-x charsets
@@ -180,12 +180,12 @@ QByteArray encodeRFC2231String(const QString &str, const QByteArray &charset)
       return {};
     }
 
-    const QTextCodec *codec = QTextCodec::codecForName(charset);
+    QStringEncoder codec(charset.constData());
     QByteArray latin;
     if (charset == "us-ascii") {
         latin = str.toLatin1();
-    } else if (codec) {
-        latin = codec->fromUnicode(str);
+    } else if (codec.isValid()) {
+        latin = codec.encode(str);
     } else {
         latin = str.toLocal8Bit();
     }
@@ -240,11 +240,11 @@ QString decodeRFC2231String(const QByteArray &str, QByteArray &usedCS, const QBy
 {
     int p = str.indexOf('\'');
     if (p < 0) {
-        auto codec = QTextCodec::codecForName(defaultCS);
-        if (!codec) {
-            codec = QTextCodec::codecForLocale();
+        QStringDecoder codec(defaultCS.constData());
+        if (!codec.isValid()) {
+            codec = QStringDecoder(QStringDecoder::System);
         }
-        return codec->toUnicode(str);
+        return codec.decode(str);
     }
 
     QByteArray charset = str.left(p);
@@ -274,16 +274,16 @@ QString decodeRFC2231String(const QByteArray &str, QByteArray &usedCS, const QBy
         p++;
     }
     qCDebug(KMIME_LOG) << "Got pre-decoded:" << st;
-    const QTextCodec *charsetcodec = QTextCodec::codecForName(charset);
-    if (!charsetcodec || forceCS) {
-        charsetcodec = QTextCodec::codecForName(defaultCS);
+    QStringDecoder charsetcodec(charset.constData());
+    if (!charsetcodec.isValid() || forceCS) {
+        charsetcodec = QStringDecoder(defaultCS.constData());
     }
-    if (!charsetcodec) {
-        charsetcodec = QTextCodec::codecForLocale();
+    if (!charsetcodec.isValid()) {
+        charsetcodec = QStringDecoder(QStringDecoder::System);
     }
 
-    usedCS = charsetcodec->name();
-    return charsetcodec->toUnicode(st);
+    usedCS = charsetcodec.name();
+    return charsetcodec.decode(st);
 }
 
 }

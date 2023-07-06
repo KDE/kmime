@@ -32,7 +32,7 @@
 
 #include <QDebug>
 #include <QStringDecoder>
-#include <QTextCodec>
+#include <QStringEncoder>
 
 using namespace KMime;
 
@@ -401,15 +401,15 @@ QString Content::decodedText(bool trimText, bool removeTrailingNewlines)
 
 void Content::fromUnicodeString(const QString &s)
 {
-    QTextCodec *codec = QTextCodec::codecForName(contentType()->charset());
+    QStringEncoder codec(contentType()->charset().constData());
 
-    if (!codec) {   // no suitable codec found => try local settings and hope the best ;-)
-        codec = QTextCodec::codecForLocale();
-        QByteArray chset = codec->name();
+    if (!codec.isValid()) {   // no suitable codec found => try local settings and hope the best ;-)
+        codec = QStringEncoder(QStringEncoder::System);
+        QByteArray chset = codec.name();
         contentType()->setCharset(chset);
     }
 
-    d_ptr->body = codec->fromUnicode(s);
+    d_ptr->body = codec.encode(s);
     contentTransferEncoding()->setDecoded(true);   //text is always decoded
 }
 

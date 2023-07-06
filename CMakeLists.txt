@@ -28,7 +28,6 @@ set(QT_REQUIRED_VERSION "6.4.0")
 
 
 find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED Core)
-find_package(Qt6Core5Compat)
 
 ecm_setup_version(PROJECT VARIABLE_PREFIX KMIME
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kmime_version.h"

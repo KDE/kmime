@@ -21,7 +21,6 @@ macro(ADD_KMIME_TEST)
       Qt::Test
       KF6::Codecs
     )
-    target_link_libraries(${_testName} Qt6::Core5Compat) # QTextCodec
     set_target_properties(${_testName} PROPERTIES COMPILE_FLAGS -DTEST_DATA_DIR="\\"${CMAKE_CURRENT_SOURCE_DIR}/data\\"" )
     ecm_mark_as_test(${_testName})
     set_tests_properties(kmime-${_testName} PROPERTIES ENVIRONMENT "LANG=C")

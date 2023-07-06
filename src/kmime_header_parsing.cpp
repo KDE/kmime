@@ -20,8 +20,8 @@
 
 #include <KCodecs>
 
-#include <QTextCodec>
 #include <QMap>
+#include <QStringDecoder>
 
 #include <cassert>
 #include <cctype> // for isdigit
@@ -180,24 +180,24 @@ bool parseEncodedWord(const char *&scursor, const char *const send,
     assert(dec);
 
     // try if there's a (text)codec for the charset found:
-    QTextCodec *textCodec = nullptr;
+    QStringDecoder textCodec;
     if (forceCS || maybeCharset.isEmpty()) {
-        textCodec = QTextCodec::codecForName(defaultCS);
-        if (!textCodec) {
-            textCodec = QTextCodec::codecForName("iso-8859-1");
+        textCodec = QStringDecoder(defaultCS.constData());
+        if (!textCodec.isValid()) {
+            textCodec = QStringDecoder(QStringDecoder::Latin1);
         }
         usedCS = cachedCharset(defaultCS);
     } else {
-        textCodec = QTextCodec::codecForName(maybeCharset);
-        if (textCodec) {    //no suitable codec found => use default charset
+        textCodec = QStringDecoder(maybeCharset.constData());
+        if (textCodec.isValid()) {    //no suitable codec found => use default charset
             usedCS = cachedCharset(defaultCS);
         } else {
-            textCodec = QTextCodec::codecForName("iso-8859-1");
+            textCodec = QStringDecoder(QStringDecoder::Latin1);
             usedCS = cachedCharset(maybeCharset);
         }
     }
 
-    if (!textCodec) {
+    if (!textCodec.isValid()) {
         KMIME_WARN_UNKNOWN(Charset, maybeCharset);
         delete dec;
         return false;
@@ -222,7 +222,7 @@ bool parseEncodedWord(const char *&scursor, const char *const send,
                    << encodedTextLength << ")\nresult may be truncated";
     }
 
-    result = textCodec->toUnicode(buffer.data(), bbegin - buffer.data());
+    result = textCodec.decode(QByteArrayView(buffer.data(), bbegin - buffer.data()));
 
     // qCDebug(KMIME_LOG) << "result now: \"" << result << "\"";
     // cleanup:
@@ -1368,7 +1368,7 @@ static bool parseRawParameterList(const char *&scursor, const char *const send,
 }
 
 static void decodeRFC2231Value(KCodecs::Codec *&rfc2231Codec,
-                               QTextCodec *&textcodec,
+                               QStringDecoder &textcodec,
                                bool isContinuation, QString &value,
                                QPair<const char *, int> &source, QByteArray &charset)
 {
@@ -1425,8 +1425,8 @@ static void decodeRFC2231Value(KCodecs::Codec *&rfc2231Codec,
         // get the decoders:
         //
 
-        textcodec = QTextCodec::codecForName(charset);
-        if (!textcodec) {
+        textcodec = QStringDecoder(charset.constData());
+        if (!textcodec.isValid()) {
             KMIME_WARN_UNKNOWN(Charset, charset);
         }
     }
@@ -1436,7 +1436,7 @@ static void decodeRFC2231Value(KCodecs::Codec *&rfc2231Codec,
         assert(rfc2231Codec);
     }
 
-    if (!textcodec) {
+    if (!textcodec.isValid()) {
         value += QString::fromLatin1(decCursor, decEnd - decCursor);
         return;
     }
@@ -1460,7 +1460,7 @@ static void decodeRFC2231Value(KCodecs::Codec *&rfc2231Codec,
                    << "result may be truncated";
     }
 
-    value += textcodec->toUnicode(buffer.begin(), bit - buffer.begin());
+    value += textcodec.decode(QByteArrayView(buffer.begin(), bit - buffer.begin()));
 
     // qCDebug(KMIME_LOG) << "value now: \"" << value << "\"";
     // cleanup:
@@ -1492,7 +1492,7 @@ bool parseParameterListWithCharset(const char *&scursor,
     // by the key!
 
     KCodecs::Codec *rfc2231Codec = nullptr;
-    QTextCodec *textcodec = nullptr;
+    QStringDecoder textcodec;
     QString attribute;
     QString value;
     enum Mode {

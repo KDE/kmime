@@ -72,7 +72,6 @@ PRIVATE
     KF6::Codecs
     ${_kmime_extra_libs}
 )
-target_link_libraries(KPim6Mime PRIVATE Qt6::Core5Compat) # QTextCodec
 
 set_target_properties(KPim6Mime PROPERTIES
     VERSION ${KMIME_VERSION}

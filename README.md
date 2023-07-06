@@ -139,8 +139,7 @@ byte arrays, and the other way around. A message is nothing else than a big arra
 The bytes that form the body of the message somehow need to be interpreted as a text string. Interpreting
 a byte array as a text string is called **decoding** the text. Converting a text string to a byte array is called
 **encoding** the text. A **codec** (**co**der-**dec**oder) is a utility that can encode and decode text.
-In Qt, the class for text strings is QString, and the class for byte arrays is QByteArray. The base class
-of all codecs is QTextCodec.
+In Qt, the class for text strings is QString, and the class for byte arrays is QByteArray.
 
 With the US-ASCII charset, encoding and decoding text is easy, one just has to look at an [ASCII table](https://en.wikipedia.org/wiki/ASCII_table)
 to be able to convert text strings to byte arrays and byte arrays to text strings. For
