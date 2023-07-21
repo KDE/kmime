@@ -19,14 +19,14 @@ QTEST_MAIN(ContentTest)
 void ContentTest::testGetHeaderInstance()
 {
     // stuff that looks trivial but breaks if you mess with virtual method signatures (see r534381)
-    auto *myfrom = new Headers::From();
+    auto myfrom = new Headers::From();
     QCOMPARE(myfrom->type(), "From");
     Headers::Base *mybase = myfrom;
     QCOMPARE(mybase->type(), "From");
     delete myfrom;
 
     // getHeaderInstance() is protected, so we need to test it via KMime::Message
-    auto *c = new Message();
+    auto c = new Message();
     Headers::From *f1 = c->from(true);
     Headers::From *f2 = c->from(true);
     QCOMPARE(f1, f2);
@@ -36,7 +36,7 @@ void ContentTest::testGetHeaderInstance()
 void ContentTest::testHeaderAddRemove()
 {
     // Add a Content-Description header to a content.
-    auto *c = new Content;
+    auto c = new Content;
     QVERIFY(!c->contentDescription(false));
     c->contentDescription()->from7BitString("description");
 
@@ -86,12 +86,12 @@ void ContentTest::testHeaderAddRemove()
 
 void ContentTest::testHeaderAppend()
 {
-    auto *c = new Content;
+    auto c = new Content;
     QByteArray d1("Resent-From: test1@example.com");
     QByteArray d2("Resent-From: test2@example.com");
-    auto *h1 = new Headers::Generic("Resent-From");
+    auto h1 = new Headers::Generic("Resent-From");
     h1->from7BitString("test1@example.com");
-    auto *h2 = new Headers::Generic("Resent-From");
+    auto h2 = new Headers::Generic("Resent-From");
     h2->from7BitString("test2@example.com");
     c->appendHeader(h1);
     c->appendHeader(h2);
@@ -100,7 +100,7 @@ void ContentTest::testHeaderAppend()
     QCOMPARE(c->head(), head);
 
     QByteArray d3("Resent-From: test3@example.com");
-    auto *h3 = new Headers::Generic("Resent-From");
+    auto h3 = new Headers::Generic("Resent-From");
     h3->from7BitString("test3@example.com");
     c->appendHeader(h3);
     c->assemble();
@@ -111,11 +111,11 @@ void ContentTest::testHeaderAppend()
 
 void ContentTest::testImplicitMultipartGeneration()
 {
-    auto *c1 = new Content();
+    auto c1 = new Content();
     c1->contentType()->from7BitString("text/plain");
     c1->setBody("textpart");
 
-    auto *c2 = new Content();
+    auto c2 = new Content();
     c2->contentType()->from7BitString("text/html");
     c2->setBody("htmlpart");
 
@@ -154,14 +154,14 @@ void ContentTest::testImplicitMultipartGeneration()
 
 void ContentTest::testExplicitMultipartGeneration()
 {
-    auto *c1 = new Content();
+    auto c1 = new Content();
     c1->contentType()->from7BitString("multipart/mixed");
 
-    auto *c2 = new Content();
+    auto c2 = new Content();
     c2->contentType()->from7BitString("text/plain");
     c2->setBody("textpart");
 
-    auto *c3 = new Content();
+    auto c3 = new Content();
     c3->contentType()->from7BitString("text/html");
     c3->setBody("htmlpart");
 
@@ -190,7 +190,7 @@ void ContentTest::testExplicitMultipartGeneration()
 
 void ContentTest::testSetContent()
 {
-    auto *c = new Content();
+    auto c = new Content();
     QVERIFY(!c->hasContent());
 
     // head and body present
@@ -245,7 +245,7 @@ void ContentTest::testEncodedContent()
         "\n"
         "--simple boundary--\n";
 
-    auto *msg = new Message;
+    auto msg = new Message;
     msg->setContent(data);
     msg->parse();
 
@@ -302,7 +302,7 @@ void ContentTest::testEncodedContent()
 
 void ContentTest::testDecodedContent()
 {
-    auto *c = new Content();
+    auto c = new Content();
     c->setBody("\0");
     QVERIFY(c->decodedContent() == QByteArray());
     c->setBody(QByteArray());
@@ -325,7 +325,7 @@ void ContentTest::testMultipleHeaderExtraction()
         "Received: from dev2.kde.org ([192.168.100.3])\n"
         "           by ktown.kde.org ([192.168.100.1])\n";
 
-    auto *msg = new Message();
+    auto msg = new Message();
     msg->setContent(data);
     // FAILS identically to ContentTest::testMultipartMixed
     //  QCOMPARE( msg->encodedContent(), data );
@@ -426,7 +426,7 @@ void ContentTest::testMultipartMixed()
         "--simple boundary--\n";
 
     // test parsing
-    auto *msg = new Message();
+    auto msg = new Message();
     msg->setContent(data);
     QCOMPARE(msg->encodedContent(), data);
     msg->parse();
@@ -572,7 +572,7 @@ void ContentTest::testParsingUuencoded()
         "end\n"
         "\n";
 
-    auto *msg = new Message();
+    auto msg = new Message();
     msg->setContent(uuencodedMsg);
     msg->parse();
     auto contents = msg->contents();
@@ -599,22 +599,22 @@ void ContentTest::testParsingUuencoded()
 
 void ContentTest::testParent()
 {
-    auto *c1 = new Content();
+    auto c1 = new Content();
     c1->contentType()->from7BitString("multipart/mixed");
 
-    auto *c2 = new Content();
+    auto c2 = new Content();
     c2->contentType()->from7BitString("text/plain");
     c2->setBody("textpart");
 
-    auto *c3 = new Content();
+    auto c3 = new Content();
     c3->contentType()->from7BitString("text/html");
     c3->setBody("htmlpart");
 
-    auto *c4 = new Content();
+    auto c4 = new Content();
     c4->contentType()->from7BitString("text/html");
     c4->setBody("htmlpart2");
 
-    auto *c5 = new Content();
+    auto c5 = new Content();
     c5->contentType()->from7BitString("multipart/mixed");
 
     //c2 doesn't have a parent yet
@@ -667,7 +667,7 @@ void ContentTest::testParent()
         "This is the epilogue.  It is also to be ignored.\n";
 
     // test parsing
-    auto *msg = new Message();
+    auto msg = new Message();
     msg->setContent(data);
     msg->parse();
     QCOMPARE(msg->parent(), (Content *)nullptr);
@@ -709,7 +709,7 @@ void ContentTest::testFreezing()
         "\n"
         "This is the epilogue.  It is also to be ignored.\n";
 
-    auto *msg = new Message;
+    auto msg = new Message;
     msg->setContent(data);
     msg->setFrozen(true);
 
