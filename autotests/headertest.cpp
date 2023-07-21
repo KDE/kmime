@@ -22,7 +22,7 @@ QTEST_MAIN(HeaderTest)
 void HeaderTest::testIdentHeader()
 {
     // empty header
-    auto *h = new Headers::Generics::Ident();
+    auto h = new Headers::Generics::Ident();
     QVERIFY(h->isEmpty());
 
     // parse single identifier
@@ -76,7 +76,7 @@ void HeaderTest::testIdentHeader()
 void HeaderTest::testAddressListHeader()
 {
     // empty header
-    auto *h = new Headers::Generics::AddressList();
+    auto h = new Headers::Generics::AddressList();
     QVERIFY(h->isEmpty());
 
     // parse single simple address
@@ -300,7 +300,7 @@ void HeaderTest::testAddressListHeader()
 void HeaderTest::testMailboxListHeader()
 {
     // empty header
-    auto *h = new Headers::Generics::MailboxList();
+    auto h = new Headers::Generics::MailboxList();
     QVERIFY(h->isEmpty());
 
     // parse single simple address
@@ -327,7 +327,7 @@ void HeaderTest::testMailboxListHeader()
 void HeaderTest::testSingleMailboxHeader()
 {
     // empty header
-    auto *h = new Headers::Generics::SingleMailbox();
+    auto h = new Headers::Generics::SingleMailbox();
     QVERIFY(h->isEmpty());
 
     // parse single simple address
@@ -1003,24 +1003,24 @@ void HeaderTest::testReturnPath()
 void HeaderTest::noAbstractHeaders()
 {
     From *h2 = new From(); delete h2;
-    auto *h3 = new Sender(); delete h3;
+    auto h3 = new Sender(); delete h3;
     To *h4 = new To(); delete h4;
     Cc *h5 = new Cc(); delete h5;
     Bcc *h6 = new Bcc(); delete h6;
-    auto *h7 = new ReplyTo(); delete h7;
-    auto *h8 = new Keywords(); delete h8;
-    auto *h9 = new MIMEVersion(); delete h9;
-    auto *h10 = new MessageID(); delete h10;
-    auto *h11 = new ContentID(); delete h11;
-    auto *h12 = new Supersedes(); delete h12;
-    auto *h13 = new InReplyTo(); delete h13;
-    auto *h14 = new References(); delete h14;
-    auto *h15 = new Generic(); delete h15;
-    auto *h16 = new Subject(); delete h16;
-    auto *h17 = new Organization(); delete h17;
-    auto *h18 = new ContentDescription(); delete h18;
-    auto *h22 = new FollowUpTo(); delete h22;
-    auto *h24 = new UserAgent(); delete h24;
+    auto h7 = new ReplyTo(); delete h7;
+    auto h8 = new Keywords(); delete h8;
+    auto h9 = new MIMEVersion(); delete h9;
+    auto h10 = new MessageID(); delete h10;
+    auto h11 = new ContentID(); delete h11;
+    auto h12 = new Supersedes(); delete h12;
+    auto h13 = new InReplyTo(); delete h13;
+    auto h14 = new References(); delete h14;
+    auto h15 = new Generic(); delete h15;
+    auto h16 = new Subject(); delete h16;
+    auto h17 = new Organization(); delete h17;
+    auto h18 = new ContentDescription(); delete h18;
+    auto h22 = new FollowUpTo(); delete h22;
+    auto h24 = new UserAgent(); delete h24;
 }
 
 void HeaderTest::testInvalidButOkQEncoding()
@@ -1079,14 +1079,14 @@ void HeaderTest::testBug271192()
                             (quote ? QLatin1String("\"") : QString()) +
                             QLatin1String(" <") + addrSpec + QLatin1String(">");
 
-    auto *h = new Headers::Generics::SingleMailbox();
+    auto h = new Headers::Generics::SingleMailbox();
     h->fromUnicodeString(mailbox, "utf-8");
     QCOMPARE(h->displayNames().size(), 1);
     QCOMPARE(h->displayNames().first().toUtf8(), displayName.remove(QLatin1String("\\")).toUtf8());
     delete h;
     h = nullptr;
 
-    auto *h2 = new Headers::Generics::MailboxList();
+    auto h2 = new Headers::Generics::MailboxList();
     h2->fromUnicodeString(mailbox + QLatin1String(",") + mailbox, "utf-8");
     QCOMPARE(h2->displayNames().size(), 2);
     QCOMPARE(h2->displayNames()[0].toUtf8(), displayName.remove(QLatin1String("\\")).toUtf8());

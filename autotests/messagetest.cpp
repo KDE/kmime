@@ -16,11 +16,11 @@ QTEST_MAIN(MessageTest)
 
 void MessageTest::testMainBodyPart()
 {
-    auto *msg = new Message();
-    auto *msg2 = new Message();
-    auto *text = new Content();
+    auto msg = new Message();
+    auto msg2 = new Message();
+    auto text = new Content();
     text->contentType()->setMimeType("text/plain");
-    auto *html = new Content();
+    auto html = new Content();
     html->contentType()->setMimeType("text/html");
 
     // empty message
@@ -58,10 +58,10 @@ void MessageTest::testMainBodyPart()
     QCOMPARE(msg->mainBodyPart("text/html"), html);
 
     // multipart/alternative inside multipart/mixed
-    auto *msg3 = new Message();
+    auto msg3 = new Message();
     msg3->contentType()->setMimeType("multipart/mixed");
     msg3->addContent(msg);
-    auto *attach = new Content();
+    auto attach = new Content();
     attach->contentType()->setMimeType("text/plain");
 
     QCOMPARE(msg3->mainBodyPart(), html);
@@ -87,7 +87,7 @@ void MessageTest::testBrunosMultiAssembleBug()
         "\n"
         "body";
 
-    auto *msg = new Message;
+    auto msg = new Message;
     msg->setContent(data);
     msg->parse();
     msg->assemble();
@@ -118,7 +118,7 @@ void MessageTest::testWillsAndTillsCrash()
                             "X-KMail-SignatureState:\n"
                             "X-KMail-MDN-Sent:\n\n";
 
-    auto *msg = new KMime::Message;
+    auto msg = new KMime::Message;
     msg->setContent(deadlyMail);
     msg->parse();
     QVERIFY(!msg->date()->isEmpty());
@@ -298,7 +298,7 @@ void MessageTest::testUtf16()
     QCOMPARE(msg.decodedText(false, true), QLatin1String("This is UTF-16 Text."));
 
     // Add a new To header, for testings
-    auto *to = new KMime::Headers::To;
+    auto to = new KMime::Headers::To;
     KMime::Types::Mailbox address;
     address.setAddress("test@test.de");
     address.setName(QStringLiteral("Fränz Töster"));
