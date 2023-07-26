@@ -165,8 +165,8 @@ typedef QList<Address> AddressList;
 
 } // namespace KMime
 
-Q_DECLARE_TYPEINFO(KMime::Types::Mailbox, Q_MOVABLE_TYPE);
-Q_DECLARE_TYPEINFO(KMime::Types::Address, Q_MOVABLE_TYPE);
-Q_DECLARE_TYPEINFO(KMime::Types::AddrSpec, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO(KMime::Types::Mailbox, Q_RELOCATABLE_TYPE);
+Q_DECLARE_TYPEINFO(KMime::Types::Address, Q_RELOCATABLE_TYPE);
+Q_DECLARE_TYPEINFO(KMime::Types::AddrSpec, Q_RELOCATABLE_TYPE);
 
 
