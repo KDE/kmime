@@ -12,8 +12,7 @@ portingAid: false
 deprecated: false
 release: false
 libraries:
- - qmake: KMime
-   cmake: "KPim6::Mime"
+ - cmake: "KPim6::Mime"
 cmakename: KPim6Mime
 
 public_lib: true
