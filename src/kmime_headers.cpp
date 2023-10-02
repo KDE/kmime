@@ -1467,13 +1467,18 @@ void Date::setDateTime(const QDateTime & dt) {
 }
 
 int Date::ageInDays() const {
-    QDate today = QDate::currentDate();
+    const QDate today = QDate::currentDate();
     return dateTime().date().daysTo(today);
 }
 
 bool Date::parse(const char *&scursor, const char *const send, bool isCRLF) {
     Q_D(Date);
-    return parseDateTime(scursor, send, d->dateTime, isCRLF);
+    const char *start = scursor;
+    bool result = parseDateTime(scursor, send, d->dateTime, isCRLF);
+    if (!result) {
+        result = parseQDateTime(start, send, d->dateTime, isCRLF);
+    }
+    return result;
 }
 
 //-----</Date>---------------------------------

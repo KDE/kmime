@@ -886,6 +886,30 @@ void HeaderTest::testDateHeader()
     QCOMPARE(h->dateTime().time(), QTime(2, 29, 44));
     QCOMPARE(h->dateTime().offsetFromUtc(), -18000);
     delete h;
+
+    // Bug Date: 13/10/20 12:51:47
+    h = new Date;
+    h->from7BitString("13/10/20 12:51:47");
+    QVERIFY(!h->isEmpty());
+    QCOMPARE(h->dateTime().date(), QDate(2020, 10, 13));
+    QCOMPARE(h->dateTime().time(), QTime(12, 51, 47));
+    delete h;
+
+    //28/09/23 16:05:54
+    h = new Date;
+    h->from7BitString("28/09/23 16:05:54");
+    QVERIFY(!h->isEmpty());
+    QCOMPARE(h->dateTime().date(), QDate(2023, 9, 28));
+    QCOMPARE(h->dateTime().time(), QTime(16, 05, 54));
+    delete h;
+
+    // Wed, 12 Apr 2030
+    h = new Date;
+    h->from7BitString("Wed, 12 Apr 2030");
+    QVERIFY(!h->isEmpty());
+    QCOMPARE(h->dateTime().date(), QDate(2030, 4, 12));
+    QCOMPARE(h->dateTime().time(), QTime(0, 0, 0));
+    delete h;
 }
 
 void HeaderTest::testLinesHeader()
