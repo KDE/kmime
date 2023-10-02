@@ -226,6 +226,8 @@ Q_REQUIRED_RESULT KMIME_EXPORT bool parseTime(const char *&scursor, const char *
 
 Q_REQUIRED_RESULT KMIME_EXPORT bool parseDateTime(const char *&scursor, const char *const send,
                                 QDateTime &result, bool isCRLF = false);
+Q_REQUIRED_RESULT KMIME_EXPORT bool parseQDateTime(const char *&scursor, const char *const send,
+                                QDateTime &result, bool isCRLF = false);
 
 /**
  * Extracts and returns the first header that is contained in the given byte array.

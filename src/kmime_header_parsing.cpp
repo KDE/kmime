@@ -1882,6 +1882,21 @@ bool parseTime(const char *&scursor, const char *send,
     return true;
 }
 
+bool parseQDateTime(const char *&scursor, const char *const send,
+                   QDateTime &result, bool isCRLF)
+{
+    eatCFWS(scursor, send, isCRLF);
+    if (scursor == send) {
+        return false;
+    }
+    // In qt6 yy == 1900 ! => for sure we use 2000 here.
+    result = QDateTime::fromString(QString::fromLatin1(scursor, 17), QStringLiteral("dd/MM/yy HH:mm:ss"));
+    QDate resultDate = result.date();
+    resultDate.setDate(resultDate.year() + 100, resultDate.month(), resultDate.day());
+    result.setDate(resultDate);
+    return result.isValid();
+}
+
 bool parseDateTime(const char *&scursor, const char *const send,
                    QDateTime &result, bool isCRLF)
 {
@@ -1977,53 +1992,56 @@ bool parseDateTime(const char *&scursor, const char *const send,
     }
 
     eatCFWS(scursor, send, isCRLF);
-    if (scursor == send) {
-        return false;
-    }
-
-    //
-    // time
-    //
     int maybeHour;
     int maybeMinute;
     int maybeSecond;
-    long int secsEastOfGMT;
-    bool timeZoneKnown = true;
+    long int secsEastOfGMT = 0;
+    QDate maybeDate;
+    QTime maybeTime;
+    if (scursor != send) {
+        //
+        // time
+        //
+        bool timeZoneKnown = true;
 
-    if (!parseTime(scursor, send,
-                   maybeHour, maybeMinute, maybeSecond,
-                   secsEastOfGMT, timeZoneKnown, isCRLF)) {
-        return false;
-    }
-
-    // in asctime() the year follows the time
-    if (!timeAfterYear) {
-        eatCFWS(scursor, send, isCRLF);
-        if (scursor == send) {
+        if (!parseTime(scursor, send,
+                       maybeHour, maybeMinute, maybeSecond,
+                       secsEastOfGMT, timeZoneKnown, isCRLF)) {
             return false;
         }
 
-        if (!parseDigits(scursor, send, maybeYear)) {
+        // in asctime() the year follows the time
+        if (!timeAfterYear) {
+            eatCFWS(scursor, send, isCRLF);
+            if (scursor == send) {
+                return false;
+            }
+
+            if (!parseDigits(scursor, send, maybeYear)) {
+                return false;
+            }
+        }
+
+        // RFC 2822 4.3 processing:
+        if (maybeYear < 50) {
+            maybeYear += 2000;
+        } else if (maybeYear < 1000) {
+            maybeYear += 1900;
+        }
+        // else keep as is
+        if (maybeYear < 1900) {
+            return false; // rfc2822, 3.3
+        }
+
+        maybeDate = QDate(maybeYear, maybeMonth, maybeDay);
+        maybeTime = QTime(maybeHour, maybeMinute, maybeSecond);
+
+        if (!maybeDate.isValid() || !maybeTime.isValid()) {
             return false;
         }
-    }
-
-    // RFC 2822 4.3 processing:
-    if (maybeYear < 50) {
-        maybeYear += 2000;
-    } else if (maybeYear < 1000) {
-        maybeYear += 1900;
-    }
-    // else keep as is
-    if (maybeYear < 1900) {
-        return false; // rfc2822, 3.3
-    }
-
-    const QDate maybeDate = QDate(maybeYear, maybeMonth, maybeDay);
-    const QTime maybeTime = QTime(maybeHour, maybeMinute, maybeSecond);
-
-    if (!maybeDate.isValid() || !maybeTime.isValid()) {
-        return false;
+    } else {
+        maybeDate = QDate(maybeYear, maybeMonth, maybeDay);
+        maybeTime = QTime(0, 0, 0);
     }
 
     result = QDateTime(maybeDate, maybeTime, Qt::OffsetFromUTC, secsEastOfGMT);
