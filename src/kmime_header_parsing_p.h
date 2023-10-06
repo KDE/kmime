@@ -19,7 +19,7 @@ class Base;
 namespace HeaderParsing
 {
 
-Q_REQUIRED_RESULT QList<KMime::Headers::Base *>
+[[nodiscard]] QList<KMime::Headers::Base *>
 parseHeaders(const QByteArray &head);
 }
 

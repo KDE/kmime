@@ -66,7 +66,7 @@ public:
     /**
       Returns true if this index is non-empty (valid).
     */
-    Q_REQUIRED_RESULT bool isValid() const;
+    [[nodiscard]] bool isValid() const;
 
     /**
       Removes and returns the top-most index. Used to recursively
@@ -74,7 +74,7 @@ public:
 
       @see push(), up().
     */
-    Q_REQUIRED_RESULT unsigned int pop();
+    [[nodiscard]] unsigned int pop();
 
     /**
       Adds @p index to the content index. Used when ascending the message
@@ -98,21 +98,21 @@ public:
       Returns a string representation of this content index according
       to @ref RFC3501 section 6.4.5.
     */
-    Q_REQUIRED_RESULT QString toString() const;
+    [[nodiscard]] QString toString() const;
 
     /**
       Compares this with @p index for equality.
 
       @param index is the content index to compare.
     */
-    Q_REQUIRED_RESULT bool operator==(const ContentIndex &index) const;
+    [[nodiscard]] bool operator==(const ContentIndex &index) const;
 
     /**
       Compares this with @p index for inequality.
 
       @param index is the content index to compare.
     */
-    Q_REQUIRED_RESULT bool operator!=(const ContentIndex &index) const;
+    [[nodiscard]] bool operator!=(const ContentIndex &index) const;
 
     /**
       Assignment operator.

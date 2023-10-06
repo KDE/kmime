@@ -41,7 +41,7 @@ KMIME_EXPORT extern QString nameForEncoding(KMime::Headers::contentEncoding enc)
   @param data the data to check encodings for
   @ since 4.4
 */
-Q_REQUIRED_RESULT KMIME_EXPORT QList<KMime::Headers::contentEncoding>
+[[nodiscard]] KMIME_EXPORT QList<KMime::Headers::contentEncoding>
 encodingsForData(const QByteArray &data);
 
 /**

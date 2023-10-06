@@ -27,18 +27,12 @@ class MultiPart
 public:
     MultiPart(const QByteArray &src, const QByteArray &boundary);
 
-    Q_REQUIRED_RESULT bool parse();
-    Q_REQUIRED_RESULT QList<QByteArray> parts() const { return m_parts; }
-    Q_REQUIRED_RESULT QByteArray preamble() const
-    {
-        return m_preamble;
-    }
-    Q_REQUIRED_RESULT QByteArray epilouge() const
-    {
-        return m_epilouge;
-    }
+    [[nodiscard]] bool parse();
+    [[nodiscard]] QList<QByteArray> parts() const { return m_parts; }
+    [[nodiscard]] QByteArray preamble() const { return m_preamble; }
+    [[nodiscard]] QByteArray epilouge() const { return m_epilouge; }
 
-private:
+  private:
     QByteArray m_src;
     const QByteArray m_boundary;
     QByteArray m_preamble;
@@ -56,35 +50,18 @@ public:
     explicit NonMimeParser(const QByteArray &src);
     virtual ~NonMimeParser();
     virtual bool parse() = 0;
-    Q_REQUIRED_RESULT bool isPartial() const
-    {
-        return (m_partNr > -1 && m_totalNr > -1 && m_totalNr != 1);
+    [[nodiscard]] bool isPartial() const {
+      return (m_partNr > -1 && m_totalNr > -1 && m_totalNr != 1);
     }
-    Q_REQUIRED_RESULT int partialNumber() const
-    {
-        return m_partNr;
-    }
-    Q_REQUIRED_RESULT int partialCount() const
-    {
-        return m_totalNr;
-    }
-    Q_REQUIRED_RESULT bool hasTextPart() const
-    {
-        return (m_text.length() > 1);
-    }
-    Q_REQUIRED_RESULT QByteArray textPart() const
-    {
-        return m_text;
-    }
-    Q_REQUIRED_RESULT QList<QByteArray> binaryParts() const { return m_bins; }
-    Q_REQUIRED_RESULT QList<QByteArray> filenames() const {
-        return m_filenames;
-    }
-    Q_REQUIRED_RESULT QList<QByteArray> mimeTypes() const {
-        return m_mimeTypes;
-    }
+    [[nodiscard]] int partialNumber() const { return m_partNr; }
+    [[nodiscard]] int partialCount() const { return m_totalNr; }
+    [[nodiscard]] bool hasTextPart() const { return (m_text.length() > 1); }
+    [[nodiscard]] QByteArray textPart() const { return m_text; }
+    [[nodiscard]] QList<QByteArray> binaryParts() const { return m_bins; }
+    [[nodiscard]] QList<QByteArray> filenames() const { return m_filenames; }
+    [[nodiscard]] QList<QByteArray> mimeTypes() const { return m_mimeTypes; }
 
-protected:
+  protected:
     static QByteArray guessMimeType(const QByteArray &fileName);
 
     QByteArray m_src, m_text;
@@ -101,9 +78,9 @@ class UUEncoded : public NonMimeParser
 public:
     UUEncoded(const QByteArray &src, const QByteArray &subject);
 
-    Q_REQUIRED_RESULT bool parse() override;
+    [[nodiscard]] bool parse() override;
 
-private:
+  private:
     QByteArray m_subject;
 };
 
@@ -116,9 +93,9 @@ class YENCEncoded : public NonMimeParser
 public:
     explicit YENCEncoded(const QByteArray &src);
 
-    Q_REQUIRED_RESULT bool parse() override;
+    [[nodiscard]] bool parse() override;
 
-private:
+  private:
     static bool yencMeta(QByteArray &src, const QByteArray &name, int *value);
 };
 

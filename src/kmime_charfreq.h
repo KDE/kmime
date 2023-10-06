@@ -96,52 +96,52 @@ public:
     /**
       Returns the data #Type as derived from the class heuristics.
     */
-    Q_REQUIRED_RESULT Type type() const;
+    [[nodiscard]] Type type() const;
 
     /**
       Returns true if the data #Type is EightBitData; false otherwise.
     */
-    Q_REQUIRED_RESULT bool isEightBitData() const;
+    [[nodiscard]] bool isEightBitData() const;
 
     /**
       Returns true if the data #Type is EightBitText; false otherwise.
     */
-    Q_REQUIRED_RESULT bool isEightBitText() const;
+    [[nodiscard]] bool isEightBitText() const;
 
     /**
       Returns true if the data #Type is SevenBitData; false otherwise.
     */
-    Q_REQUIRED_RESULT bool isSevenBitData() const;
+    [[nodiscard]] bool isSevenBitData() const;
 
     /**
       Returns true if the data #Type is SevenBitText; false otherwise.
     */
-    Q_REQUIRED_RESULT bool isSevenBitText() const;
+    [[nodiscard]] bool isSevenBitText() const;
 
     /**
       Returns true if the data contains trailing whitespace. i.e.,
       if any line ends with space (' ') or tab ('\\t').
     */
-    Q_REQUIRED_RESULT bool hasTrailingWhitespace() const;
+    [[nodiscard]] bool hasTrailingWhitespace() const;
 
     /**
       Returns true if the data contains a line that starts with "From ".
     */
-    Q_REQUIRED_RESULT bool hasLeadingFrom() const;
+    [[nodiscard]] bool hasLeadingFrom() const;
 
     /**
       Returns the percentage of printable characters in the data.
       The result is undefined if the number of data characters is zero.
     */
-    Q_REQUIRED_RESULT float printableRatio() const;
+    [[nodiscard]] float printableRatio() const;
 
     /**
       Returns the percentage of control code characters (CTLs) in the data.
       The result is undefined if the number of data characters is zero.
     */
-    Q_REQUIRED_RESULT float controlCodesRatio() const;
+    [[nodiscard]] float controlCodesRatio() const;
 
-private:
+  private:
     //@cond PRIVATE
     uint mNUL;         // count of NUL chars
     uint mCTL;         // count of CTLs (incl. DEL, excl. CR, LF, HT)

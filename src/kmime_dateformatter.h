@@ -88,7 +88,7 @@ public:
 
       @see setFormat().
     */
-    Q_REQUIRED_RESULT FormatType format() const;
+    [[nodiscard]] FormatType format() const;
 
     /**
       Sets the date format to @p ftype.
@@ -109,8 +109,8 @@ public:
 
       @return a QString containing the formatted date.
     */
-    Q_REQUIRED_RESULT QString dateString(time_t t, const QString &lang = QString(),
-                       bool shortFormat = true) const;
+    [[nodiscard]] QString dateString(time_t t, const QString &lang = QString(),
+                                     bool shortFormat = true) const;
 
     /**
       Constructs a formatted date string from QDateTime @p dtime.
@@ -122,8 +122,9 @@ public:
 
       @return a QString containing the formatted date.
     */
-    Q_REQUIRED_RESULT QString dateString(const QDateTime &dtime, const QString &lang = QString(),
-                       bool shortFormat = true) const;
+    [[nodiscard]] QString dateString(const QDateTime &dtime,
+                                     const QString &lang = QString(),
+                                     bool shortFormat = true) const;
 
     /**
       Sets the custom format for date to string conversions to @p format.
@@ -142,7 +143,7 @@ public:
 
       @see setCustomFormat().
     */
-    Q_REQUIRED_RESULT QString customFormat() const;
+    [[nodiscard]] QString customFormat() const;
 
     //static methods
     /**
@@ -157,9 +158,10 @@ public:
 
       @return a QString containing the formatted date.
     */
-    Q_REQUIRED_RESULT static QString formatDate(DateFormatter::FormatType ftype, time_t t,
-                              const QString &data = QString(),
-                              bool shortFormat = true);
+    [[nodiscard]] static QString formatDate(DateFormatter::FormatType ftype,
+                                            time_t t,
+                                            const QString &data = QString(),
+                                            bool shortFormat = true);
 
     /**
       Convenience function, same as formatDate() but returns the current time
@@ -173,11 +175,11 @@ public:
 
       @return a QString containing the formatted date.
     */
-    Q_REQUIRED_RESULT static QString formatCurrentDate(DateFormatter::FormatType ftype,
-                                     const QString &data = QString(),
-                                     bool shortFormat = true);
+    [[nodiscard]] static QString
+    formatCurrentDate(DateFormatter::FormatType ftype,
+                      const QString &data = QString(), bool shortFormat = true);
 
-private:
+  private:
     //@cond PRIVATE
     Q_DISABLE_COPY(DateFormatter)
     std::unique_ptr<DateFormatterPrivate> const d;

@@ -32,14 +32,18 @@ namespace KMime
 
   @return the encoded string.
 */
-Q_REQUIRED_RESULT QByteArray encodeRFC2047String(const QString &src, const QByteArray &charset, bool addressHeader = false, bool allow8bitHeaders = false);
+[[nodiscard]] QByteArray encodeRFC2047String(const QString &src,
+                                             const QByteArray &charset,
+                                             bool addressHeader = false,
+                                             bool allow8bitHeaders = false);
 
 /**
  * Same as encodeRFC2047String(), but with a crucial difference: Instead of encoding the complete
  * string as a single encoded word, the string will be split up at control characters, and only parts of
  * the sentence that really need to be encoded will be encoded.
  */
-Q_REQUIRED_RESULT QByteArray encodeRFC2047Sentence(const QString &src, const QByteArray &charset);
+[[nodiscard]] QByteArray encodeRFC2047Sentence(const QString &src,
+                                               const QByteArray &charset);
 
 /**
   Decodes string @p src according to RFC2231
@@ -52,7 +56,10 @@ Q_REQUIRED_RESULT QByteArray encodeRFC2047Sentence(const QString &src, const QBy
 
   @return the decoded string.
 */
-Q_REQUIRED_RESULT QString decodeRFC2231String(const QByteArray &src, QByteArray &usedCS, const QByteArray &defaultCS = QByteArray(), bool forceCS = false);
+[[nodiscard]] QString
+decodeRFC2231String(const QByteArray &src, QByteArray &usedCS,
+                    const QByteArray &defaultCS = QByteArray(),
+                    bool forceCS = false);
 
 /**
   Encodes string @p src according to RFC2231 using charset @p charset.
@@ -61,7 +68,8 @@ Q_REQUIRED_RESULT QString decodeRFC2231String(const QByteArray &src, QByteArray 
   @param charset       charset to use.
   @return the encoded string.
 */
-Q_REQUIRED_RESULT QByteArray encodeRFC2231String(const QString &src, const QByteArray &charset);
+[[nodiscard]] QByteArray encodeRFC2231String(const QString &src,
+                                             const QByteArray &charset);
 
 } // namespace KMime
 

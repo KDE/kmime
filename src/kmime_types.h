@@ -43,14 +43,14 @@ public:
     Returns a string representation of the email address, without
     the angle brackets.
   */
-  Q_REQUIRED_RESULT QByteArray address() const;
+  [[nodiscard]] QByteArray address() const;
 
-  Q_REQUIRED_RESULT AddrSpec addrSpec() const;
+  [[nodiscard]] AddrSpec addrSpec() const;
 
   /**
     Returns the display name.
   */
-  Q_REQUIRED_RESULT QString name() const;
+  [[nodiscard]] QString name() const;
 
   /**
     Sets the email address.
@@ -76,12 +76,12 @@ public:
   /**
     Returns true if this mailbox has an address.
   */
-  Q_REQUIRED_RESULT bool hasAddress() const;
+  [[nodiscard]] bool hasAddress() const;
 
   /**
     Returns true if this mailbox has a display name.
   */
-  Q_REQUIRED_RESULT bool hasName() const;
+  [[nodiscard]] bool hasName() const;
 
   /**
    * Describes how display names should be quoted
@@ -105,7 +105,7 @@ public:
    * @param quoting describes how the display name should be quoted
    * @since 4.5
    */
-  Q_REQUIRED_RESULT QString prettyAddress(Quoting quoting = QuoteNever) const;
+  [[nodiscard]] QString prettyAddress(Quoting quoting = QuoteNever) const;
 
   /**
     Parses the given unicode string.
@@ -122,30 +122,28 @@ public:
 
     @param encCharset The charset used for encoding.
   */
-  Q_REQUIRED_RESULT QByteArray as7BitString(const QByteArray &encCharset) const;
+  [[nodiscard]] QByteArray as7BitString(const QByteArray &encCharset) const;
 
   /**
    * Returns a list of mailboxes from an unicode string.
    *
    * @since 5.14
    */
-  Q_REQUIRED_RESULT static QList<Mailbox>
-  listFromUnicodeString(const QString &s);
+  [[nodiscard]] static QList<Mailbox> listFromUnicodeString(const QString &s);
 
   /**
    * Returns a list of mailboxes from an encoded 7bit string.
    *
    * @since 5.14
    */
-  Q_REQUIRED_RESULT static QList<Mailbox>
-  listFrom7BitString(const QByteArray &s);
+  [[nodiscard]] static QList<Mailbox> listFrom7BitString(const QByteArray &s);
 
   /**
    * Returns a unicode string representing the given list of mailboxes.
    *
    * @since 5.15
    */
-  Q_REQUIRED_RESULT static QString
+  [[nodiscard]] static QString
   listToUnicodeString(const QList<Mailbox> &mailboxes);
 
 private:
