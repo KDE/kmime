@@ -1,6 +1,6 @@
 include(ConfigureChecks)
 
-configure_file(config-kmime.h.cmake ${KMime_BINARY_DIR}/src/config-kmime.h)
+configure_file(config-kmime.h.in ${KMime_BINARY_DIR}/src/config-kmime.h)
 
 # Turn exceptions on
 kde_enable_exceptions()
