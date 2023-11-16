@@ -22,6 +22,7 @@
 
 #include <QMap>
 #include <QStringDecoder>
+#include <QTimeZone>
 
 #include <cassert>
 #include <cctype> // for isdigit
@@ -2044,8 +2045,7 @@ bool parseDateTime(const char *&scursor, const char *const send,
         maybeTime = QTime(0, 0, 0);
     }
 
-    result = QDateTime(maybeDate, maybeTime, Qt::OffsetFromUTC, secsEastOfGMT);
-    //result = QDateTime( maybeDateTime, QDateTime::Spec( QDateTime::OffsetFromUTC, secsEastOfGMT ) );
+    result = QDateTime(maybeDate, maybeTime, QTimeZone::fromSecondsAheadOfUtc(secsEastOfGMT));
     if (!result.isValid()) {
         return false;
     }
