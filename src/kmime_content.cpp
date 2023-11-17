@@ -695,23 +695,6 @@ int Content::storageSize() const
     return s;
 }
 
-int Content::lineCount() const
-{
-    const Q_D(Content);
-    int ret = 0;
-    if (!isTopLevel()) {
-        ret += d->head.count('\n');
-    }
-    ret += d->body.count('\n');
-
-    const auto contents = d->contents();
-    for (Content *c : contents) {
-        ret += c->lineCount();
-    }
-
-    return ret;
-}
-
 bool ContentPrivate::decodeText(Content *q)
 {
     Headers::ContentTransferEncoding *enc = q->contentTransferEncoding();

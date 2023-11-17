@@ -368,11 +368,6 @@ public:
   [[nodiscard]] int storageSize() const;
 
   /**
-    Line count of this Content and all sub-Contents.
-  */
-  [[nodiscard]] int lineCount() const;
-
-  /**
     Returns the Content body raw data.
 
     Note that this will be empty for multipart contents or for encapsulated
