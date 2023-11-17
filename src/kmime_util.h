@@ -45,24 +45,6 @@ KMIME_EXPORT extern QString nameForEncoding(KMime::Headers::contentEncoding enc)
 encodingsForData(const QByteArray &data);
 
 /**
-  * Set whether or not to use outlook compatible attachment filename encoding. Outlook
-  *  fails to properly adhere to the RFC2322 standard for parametrized header fields, and
-  *  instead is only able to read and write attachment filenames encoded in RFC2047-style.
-  *  This will create mails that are not standards-compliant!
-  *
-  * @param violateStandard      Whether or not to use outlook-compatible attachment
-  *                              filename encodings.
-  *
-  * @since 4.5
-  */
-KMIME_EXPORT extern void setUseOutlookAttachmentEncoding(bool violateStandard);
-
-/**
- * Retrieve whether or not to use outlook compatible encodings for attachments.
- */
-KMIME_EXPORT extern bool useOutlookAttachmentEncoding();
-
-/**
   Constructs a random string (sans leading/trailing "--") that can
   be used as a multipart delimiter (ie. as @p boundary parameter
   to a multipart/... content-type).

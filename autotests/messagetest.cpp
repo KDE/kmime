@@ -557,7 +557,6 @@ void MessageTest::testEncapsulatedMessages()
 
 void MessageTest::testOutlookAttachmentNaming()
 {
-    KMime::setUseOutlookAttachmentEncoding(true);
     // Try and decode
     KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("outlook-attachment.mbox"));
     QVERIFY(msg->attachments().count() == 1);
@@ -577,8 +576,7 @@ void MessageTest::testOutlookAttachmentNaming()
     attachment->contentDisposition()->setRFC2047Charset("ISO-8859-1"); // default changed to UTF-8 in KF6, which is fine, but breaks the test
     attachment->assemble();
     qDebug() << "got:" << attachment->contentDisposition()->as7BitString(false);
-    QCOMPARE(attachment->contentDisposition()->as7BitString(false), QByteArray("attachment; filename=\"=?ISO-8859-1?Q?=E5=2Ediff?=\""));
-    KMime::setUseOutlookAttachmentEncoding(false);
+    QCOMPARE(attachment->contentDisposition()->as7BitString(false), QByteArray("attachment; filename*=ISO-8859-1''%E5%2Ediff"));
 }
 
 void MessageTest::testEncryptedMails()

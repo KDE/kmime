@@ -32,7 +32,6 @@ namespace KMime
 {
 
 QList<QByteArray> c_harsetCache;
-bool u_seOutlookEncoding = false;
 
 QByteArray cachedCharset(const QByteArray &name)
 {
@@ -120,16 +119,6 @@ const uchar tTextMap[16] = {
     0x7F, 0xFF, 0xFF, 0xE3,
     0xFF, 0xFF, 0xFF, 0xFE
 };
-
-void setUseOutlookAttachmentEncoding(bool violateStandard)
-{
-    u_seOutlookEncoding = violateStandard;
-}
-
-bool useOutlookAttachmentEncoding()
-{
-    return u_seOutlookEncoding;
-}
 
 QByteArray uniqueString()
 {
