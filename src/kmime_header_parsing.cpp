@@ -49,8 +49,7 @@ namespace HeaderParsing
 // parse the encoded-word (scursor points to after the initial '=')
 bool parseEncodedWord(const char *&scursor, const char *const send,
                       QString &result, QByteArray &language,
-                      QByteArray &usedCS, const QByteArray &defaultCS,
-                      bool forceCS)
+                      QByteArray &usedCS, const QByteArray &defaultCS)
 {
     // make sure the caller already did a bit of the work.
     assert(*(scursor - 1) == '=');
@@ -182,7 +181,7 @@ bool parseEncodedWord(const char *&scursor, const char *const send,
 
     // try if there's a (text)codec for the charset found:
     QStringDecoder textCodec;
-    if (forceCS || maybeCharset.isEmpty()) {
+    if (maybeCharset.isEmpty()) {
         textCodec = QStringDecoder(defaultCS.constData());
         if (!textCodec.isValid()) {
             textCodec = QStringDecoder(QStringDecoder::Latin1);
