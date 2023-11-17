@@ -46,22 +46,6 @@ namespace KMime
                                                const QByteArray &charset);
 
 /**
-  Decodes string @p src according to RFC2231
-
-  @param src       source string.
-  @param usedCs    the detected charset is returned here
-  @param defaultCS the charset to use in case the detected
-                   one isn't known to us.
-  @param forceCS   force the use of the default charset.
-
-  @return the decoded string.
-*/
-[[nodiscard]] QString
-decodeRFC2231String(const QByteArray &src, QByteArray &usedCS,
-                    const QByteArray &defaultCS = QByteArray(),
-                    bool forceCS = false);
-
-/**
   Encodes string @p src according to RFC2231 using charset @p charset.
 
   @param src           source string.
