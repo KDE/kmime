@@ -686,7 +686,7 @@ QByteArray PhraseList::as7BitString(bool withHeaderType) const
 
     for (int i = 0; i < d->phraseList.count(); ++i) {
         // FIXME: only encode when needed, quote when needed, etc.
-        rv += encodeRFC2047String(d->phraseList[i], d->encCS, false, false);
+        rv += encodeRFC2047String(d->phraseList[i], d->encCS, false);
         if (i != d->phraseList.count() - 1) {
             rv += ", ";
         }

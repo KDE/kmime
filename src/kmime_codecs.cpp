@@ -19,7 +19,7 @@ namespace KMime {
 static const char reservedCharacters[] = "\"()<>@,.;:\\[]=";
 
 QByteArray encodeRFC2047String(QStringView src, const QByteArray &charset,
-                               bool addressHeader, bool allow8BitHeaders)
+                               bool addressHeader)
 {
     QByteArray result;
     int start = 0;
@@ -52,10 +52,6 @@ QByteArray encodeRFC2047String(QStringView src, const QByteArray &charset,
 
     if (usedCS.contains("8859-")) {     // use "B"-Encoding for non iso-8859-x charsets
         useQEncoding = true;
-    }
-
-    if (allow8BitHeaders) {
-        return encoded8Bit;
     }
 
     int encoded8BitLength = encoded8Bit.length();

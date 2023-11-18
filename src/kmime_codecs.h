@@ -28,14 +28,12 @@ namespace KMime
   @param charset       charset to use. If it can't encode the string, UTF-8 will be used instead.
   @param addressHeader if this flag is true, all special chars
                        like <,>,[,],... will be encoded, too.
-  @param allow8bitHeaders if this flag is true, 8Bit headers are allowed.
 
   @return the encoded string.
 */
 [[nodiscard]] QByteArray encodeRFC2047String(QStringView src,
                                              const QByteArray &charset,
-                                             bool addressHeader = false,
-                                             bool allow8bitHeaders = false);
+                                             bool addressHeader = false);
 
 /**
  * Same as encodeRFC2047String(), but with a crucial difference: Instead of encoding the complete
