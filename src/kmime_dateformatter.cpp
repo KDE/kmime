@@ -32,7 +32,7 @@ public:
     {}
 
     /**
-      Returns a QString containing the specified time_t @p t formatted
+      Returns a QString containing the specified time @p t formatted
       using the #Fancy #FormatType.
 
       @param t is the time to use for formatting.
@@ -40,7 +40,7 @@ public:
     QString fancy(const QDateTime &t);
 
     /**
-      Returns a QString containing the specified time_t @p t formatted
+      Returns a QString containing the specified time @p t formatted
       using the #Localized #FormatType.
 
       @param t is the time to use for formatting.
@@ -50,7 +50,7 @@ public:
     static QString localized(const QDateTime &t, bool shortFormat = true, const QString &lang = QString());
 
     /**
-      Returns a QString containing the specified time_t @p t formatted
+      Returns a QString containing the specified time @p t formatted
       with the ctime() function.
 
       @param t is the time to use for formatting.
@@ -58,7 +58,7 @@ public:
     static QString cTime(const QDateTime &t);
 
     /**
-      Returns a QString containing the specified time_t @p t in the
+      Returns a QString containing the specified time @p t in the
       "%Y-%m-%d %H:%M:%S" #Iso #FormatType.
 
       @param t is the time to use for formatting.
@@ -83,7 +83,7 @@ public:
 
     /**
       Returns a QString that identifies the timezone (eg."-0500")
-      of the specified time_t @p t.
+      of the specified time @p t.
 
       @param t time to compute timezone from.
     */
@@ -112,11 +112,6 @@ DateFormatter::FormatType DateFormatter::format() const
 void DateFormatter::setFormat(FormatType ftype)
 {
     d->mFormat = ftype;
-}
-
-QString DateFormatter::dateString(time_t t, const QString &lang, bool shortFormat) const
-{
-    return dateString(QDateTime::fromSecsSinceEpoch(t), lang, shortFormat);
 }
 
 QString DateFormatter::dateString(const QDateTime &dt, const QString &lang, bool shortFormat) const
@@ -258,12 +253,6 @@ QString DateFormatter::formatDate(FormatType ftype, const QDateTime &t,
         f.setCustomFormat(data);
     }
     return f.dateString(t, data, shortFormat);
-}
-
-QString DateFormatter::formatDate(FormatType ftype, time_t t,
-                                  const QString &data, bool shortFormat)
-{
-    return formatDate(ftype, QDateTime::fromSecsSinceEpoch(t), data, shortFormat);
 }
 
 QString DateFormatter::formatCurrentDate(FormatType ftype, const QString &data, bool shortFormat)

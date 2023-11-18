@@ -36,7 +36,6 @@
 #include "kmime_export.h"
 #include <QDateTime>
 #include <QString>
-#include <ctime>
 #include <memory>
 
 namespace KMime
@@ -100,19 +99,6 @@ public:
     void setFormat(FormatType ftype);
 
     /**
-      Constructs a formatted date string from time_t @p t.
-
-      @param t is the time_t to use for formatting.
-      @param lang is the language, only used if #FormatType is #Localized.
-      @param shortFormat if true, create the short version of the date string,
-      only used if #FormatType is #Localized.
-
-      @return a QString containing the formatted date.
-    */
-    [[nodiscard]] [[deprecated("use the QDateTime overload instead")]] QString dateString(time_t t, const QString &lang = QString(),
-                                     bool shortFormat = true) const;
-
-    /**
       Constructs a formatted date string from QDateTime @p dtime.
 
       @param dtime is the QDateTime to use for formatting.
@@ -162,11 +148,6 @@ public:
                                             const QDateTime &t,
                                             const QString &data = QString(),
                                             bool shortFormat = true);
-    [[nodiscard]] [[deprecated("use the QDateTime overload instead")]] static QString formatDate(DateFormatter::FormatType ftype,
-                                            time_t t,
-                                            const QString &data = QString(),
-                                            bool shortFormat = true);
-
 
     /**
       Convenience function, same as formatDate() but returns the current time
