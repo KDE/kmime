@@ -18,7 +18,7 @@ namespace KMime {
 
 static const char reservedCharacters[] = "\"()<>@,.;:\\[]=";
 
-QByteArray encodeRFC2047String(const QString &src, const QByteArray &charset,
+QByteArray encodeRFC2047String(QStringView src, const QByteArray &charset,
                                bool addressHeader, bool allow8BitHeaders)
 {
     QByteArray result;
@@ -134,7 +134,7 @@ QByteArray encodeRFC2047String(const QString &src, const QByteArray &charset,
     return result;
 }
 
-QByteArray encodeRFC2047Sentence(const QString &src, const QByteArray &charset)
+QByteArray encodeRFC2047Sentence(QStringView src, const QByteArray &charset)
 {
     QByteArray result;
     const QChar *ch = src.constData();
@@ -152,7 +152,7 @@ QByteArray encodeRFC2047Sentence(const QString &src, const QByteArray &charset)
         if (isAscii && isReserved) {
             const int wordSize = pos - wordStart;
             if (wordSize > 0) {
-                const QString word = src.mid(wordStart, wordSize);
+                const auto word = src.mid(wordStart, wordSize);
                 result += encodeRFC2047String(word, charset);
             }
 
@@ -166,7 +166,7 @@ QByteArray encodeRFC2047Sentence(const QString &src, const QByteArray &charset)
     // Encode the last word
     const int wordSize = pos - wordStart;
     if (wordSize > 0) {
-        const QString word = src.mid(wordStart, pos - wordStart);
+        const auto word = src.mid(wordStart, pos - wordStart);
         result += encodeRFC2047String(word, charset);
     }
 
@@ -174,7 +174,7 @@ QByteArray encodeRFC2047Sentence(const QString &src, const QByteArray &charset)
 }
 
 //-----------------------------------------------------------------------------
-QByteArray encodeRFC2231String(const QString &str, const QByteArray &charset)
+QByteArray encodeRFC2231String(QStringView str, const QByteArray &charset)
 {
     if (str.isEmpty()) {
       return {};

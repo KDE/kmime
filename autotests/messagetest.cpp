@@ -250,7 +250,7 @@ void MessageTest::testBidiSpoofing()
     //const QString PDF( QChar( 0x202C ) );
 
     const QByteArray senderAndRLO =
-        encodeRFC2047String(QLatin1String("Sender") + RLO + QLatin1String(" <sender@test.org>"), "utf-8");
+        encodeRFC2047String(QString(QLatin1String("Sender") + RLO + QLatin1String(" <sender@test.org>")), "utf-8");
 
     // The display name of the "From" has an RLO, make sure the KMime parser balances it
     QByteArray data =

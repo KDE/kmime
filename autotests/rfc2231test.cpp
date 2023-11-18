@@ -32,7 +32,7 @@ void RFC2231Test::testRFC2231encode()
     // empty
     QCOMPARE(KMime::encodeRFC2047String(QString(), "utf-8"), QByteArray());
     // identity
-    QCOMPARE(KMime::encodeRFC2047String(QLatin1String("bla"), "utf-8"), QByteArray("bla"));
+    QCOMPARE(KMime::encodeRFC2047String(u"bla", "utf-8"), QByteArray("bla"));
     QCOMPARE(KMime::encodeRFC2231String(QString::fromUtf8("with accents Ã²Ã³Ã¨Ã©Ã¤Ã¯Ã±"), "utf-8").constData(),
              "utf-8''with%20accents%20%C3%83%C2%B2%C3%83%C2%B3%C3%83%C2%A8%C3%83%C2%A9%C3%83%C2%A4%C3%83%C2%AF%C3%83%C2%B1");
 }

@@ -32,7 +32,7 @@ namespace KMime
 
   @return the encoded string.
 */
-[[nodiscard]] QByteArray encodeRFC2047String(const QString &src,
+[[nodiscard]] QByteArray encodeRFC2047String(QStringView src,
                                              const QByteArray &charset,
                                              bool addressHeader = false,
                                              bool allow8bitHeaders = false);
@@ -42,7 +42,7 @@ namespace KMime
  * string as a single encoded word, the string will be split up at control characters, and only parts of
  * the sentence that really need to be encoded will be encoded.
  */
-[[nodiscard]] QByteArray encodeRFC2047Sentence(const QString &src,
+[[nodiscard]] QByteArray encodeRFC2047Sentence(QStringView src,
                                                const QByteArray &charset);
 
 /**
@@ -52,7 +52,7 @@ namespace KMime
   @param charset       charset to use.
   @return the encoded string.
 */
-[[nodiscard]] QByteArray encodeRFC2231String(const QString &src,
+[[nodiscard]] QByteArray encodeRFC2231String(QStringView src,
                                              const QByteArray &charset);
 
 } // namespace KMime

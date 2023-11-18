@@ -19,7 +19,7 @@ void RFC2047Test::testRFC2047encode()
     // empty
     QCOMPARE(KMime::encodeRFC2047String(QString(), "utf-8"), QByteArray());
     // identity
-    QCOMPARE(KMime::encodeRFC2047String(QLatin1String("bla"), "utf-8"), QByteArray("bla"));
+    QCOMPARE(KMime::encodeRFC2047String(u"bla", "utf-8"), QByteArray("bla"));
     // utf-8
     // expected value is probably wrong, libkmime will chose 'B' instead of 'Q' encoding
     QEXPECT_FAIL("", "libkmime will chose 'B' instead of 'Q' encoding", Continue);
