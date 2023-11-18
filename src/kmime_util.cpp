@@ -531,12 +531,12 @@ void removeQuotes(QString &str)
     removeQuotesGeneric<QString, QLatin1Char>(str);
 }
 
-template<class StringType, class CharType, class CharConverterType, class StringConverterType, class ToString>
+template<class StringType, class CharConverterType, class StringConverterType, class ToString>
 void addQuotes_impl(StringType &str, bool forceQuotes)
 {
     bool needsQuotes = false;
     for (int i = 0; i < str.length(); i++) {
-        const CharType cur = str.at(i);
+        const auto cur = str.at(i);
         if (QString(ToString(str)).contains(QRegularExpression(QStringLiteral("\"|\\\\|=|\\]|\\[|:|;|,|\\.|,|@|<|>|\\)|\\(")))) {
             needsQuotes = true;
         }
@@ -554,12 +554,12 @@ void addQuotes_impl(StringType &str, bool forceQuotes)
 
 void addQuotes(QByteArray &str, bool forceQuotes)
 {
-    addQuotes_impl<QByteArray, char, char, char *, QLatin1String>(str, forceQuotes);
+    addQuotes_impl<QByteArray, char, char *, QLatin1String>(str, forceQuotes);
 }
 
 void addQuotes(QString &str, bool forceQuotes)
 {
-    addQuotes_impl<QString, QChar, QLatin1Char, QLatin1String, QString>(str, forceQuotes);
+    addQuotes_impl<QString, QLatin1Char, QLatin1String, QString>(str, forceQuotes);
 }
 
 KMIME_EXPORT QString balanceBidiState(const QString &input)
