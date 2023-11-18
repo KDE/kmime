@@ -20,6 +20,7 @@
 #include <QList>
 #include <QSharedData>
 #include <QStringList>
+#include <QStringTokenizer>
 
 using namespace KMime;
 
@@ -36,10 +37,9 @@ KMime::ContentIndex::ContentIndex() : d(new Private)
 {
 }
 
-KMime::ContentIndex::ContentIndex(const QString &index) : d(new Private)
+KMime::ContentIndex::ContentIndex(QStringView index) : d(new Private)
 {
-    const QStringList l = index.split(QLatin1Char('.'));
-    for (const QString &s : l) {
+    for (auto s : QStringTokenizer{index, QLatin1Char('.')}) {
         bool ok;
         unsigned int i = s.toUInt(&ok);
         if (!ok) {
@@ -51,6 +51,7 @@ KMime::ContentIndex::ContentIndex(const QString &index) : d(new Private)
 }
 
 ContentIndex::ContentIndex(const ContentIndex &other) = default;
+ContentIndex::ContentIndex(ContentIndex &&) noexcept = default;
 
 ContentIndex::~ContentIndex() = default;
 
@@ -94,13 +95,8 @@ bool KMime::ContentIndex::operator !=(const ContentIndex &index) const
     return d->index != index.d->index;
 }
 
-ContentIndex &ContentIndex::operator =(const ContentIndex &other)
-{
-    if (this != &other) {
-        d = other.d;
-    }
-    return *this;
-}
+ContentIndex &ContentIndex::operator =(const ContentIndex &other) = default;
+ContentIndex &ContentIndex::operator =(ContentIndex &&) noexcept = default;
 
 uint KMime::qHash(const KMime::ContentIndex &index)
 {

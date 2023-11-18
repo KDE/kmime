@@ -51,12 +51,13 @@ public:
       @param index is a string representation of a message part index according
       to @ref RFC3501 section 6.4.5.
     */
-    explicit ContentIndex(const QString &index);
+    explicit ContentIndex(QStringView index);
 
     /**
       Copy constructor.
     */
     ContentIndex(const ContentIndex &other);
+    ContentIndex(ContentIndex &&) noexcept;
 
     /**
       Destructor.
@@ -118,6 +119,7 @@ public:
       Assignment operator.
     */
     ContentIndex &operator=(const ContentIndex &other);
+    ContentIndex &operator=(ContentIndex &&) noexcept;
 
 private:
     //@cond PRIVATE
