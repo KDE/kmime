@@ -20,10 +20,6 @@
 
 #include "kmime_dateformatter.h"
 
-#include <config-kmime.h>
-
-#include <QTextStream>
-#include <QIODevice>
 #include <KLocalizedString>
 
 using namespace KMime;
@@ -39,51 +35,51 @@ public:
       Returns a QString containing the specified time_t @p t formatted
       using the #Fancy #FormatType.
 
-      @param t is the time_t to use for formatting.
+      @param t is the time to use for formatting.
     */
-    QString fancy(time_t t);
+    QString fancy(const QDateTime &t);
 
     /**
       Returns a QString containing the specified time_t @p t formatted
       using the #Localized #FormatType.
 
-      @param t is the time_t to use for formatting.
+      @param t is the time to use for formatting.
       @param shortFormat if true, create the short version of the date string.
       @param lang is a QString containing the language to use.
     */
-    static QString localized(time_t t, bool shortFormat = true, const QString &lang = QString());
+    static QString localized(const QDateTime &t, bool shortFormat = true, const QString &lang = QString());
 
     /**
       Returns a QString containing the specified time_t @p t formatted
       with the ctime() function.
 
-      @param t is the time_t to use for formatting.
+      @param t is the time to use for formatting.
     */
-    static QString cTime(time_t t);
+    static QString cTime(const QDateTime &t);
 
     /**
       Returns a QString containing the specified time_t @p t in the
       "%Y-%m-%d %H:%M:%S" #Iso #FormatType.
 
-      @param t is the time_t to use for formatting.
+      @param t is the time to use for formatting.
     */
-    static QString isoDate(time_t t);
+    static QString isoDate(const QDateTime &t);
 
     /**
-      Returns a QString containing the specified time_t @p t in the
+      Returns a QString containing the specified time @p t in the
       #Rfc #FormatType.
 
-      @param t is the time_t to use for formatting.
+      @param t is the time to use for formatting.
     */
-    static QString rfc2822(time_t t);
+    static QString rfc2822(const QDateTime &t);
 
     /**
-      Returns a QString containing the specified time_t @p t formatted
+      Returns a QString containing the specified time @p t formatted
       with a previously specified custom format.
 
       @param t time used for formatting
     */
-    QString custom(time_t t) const;
+    QString custom(const QDateTime &t) const;
 
     /**
       Returns a QString that identifies the timezone (eg."-0500")
@@ -91,10 +87,10 @@ public:
 
       @param t time to compute timezone from.
     */
-    static QByteArray zone(time_t t);
+    static QByteArray zone(const QDateTime &t);
 
     DateFormatter::FormatType mFormat;
-    time_t mTodayOneSecondBeforeMidnight = 0;
+    QDateTime mTodayOneSecondBeforeMidnight;
     QString mCustomFormat;
 };
 
@@ -120,42 +116,39 @@ void DateFormatter::setFormat(FormatType ftype)
 
 QString DateFormatter::dateString(time_t t, const QString &lang, bool shortFormat) const
 {
-    switch (d->mFormat) {
-    case Fancy:
-        return d->fancy(t);
-    case Localized:
-        return d->localized(t, shortFormat, lang);
-    case CTime:
-        return d->cTime(t);
-    case Iso:
-        return d->isoDate(t);
-    case Rfc:
-        return d->rfc2822(t);
-    case Custom:
-        return d->custom(t);
-    }
-    return {};
+    return dateString(QDateTime::fromSecsSinceEpoch(t), lang, shortFormat);
 }
 
 QString DateFormatter::dateString(const QDateTime &dt, const QString &lang, bool shortFormat) const
 {
-    return dateString(dt.toLocalTime().toSecsSinceEpoch(), lang, shortFormat);
+    switch (d->mFormat) {
+    case Fancy:
+        return d->fancy(dt);
+    case Localized:
+        return d->localized(dt, shortFormat, lang);
+    case CTime:
+        return d->cTime(dt);
+    case Iso:
+        return d->isoDate(dt);
+    case Rfc:
+        return d->rfc2822(dt);
+    case Custom:
+        return d->custom(dt);
+    }
+    return {};
 }
 
-QString DateFormatterPrivate::rfc2822(time_t t)
+QString DateFormatterPrivate::rfc2822(const QDateTime &t)
 {
-    QDateTime tmp;
     QString ret;
 
-    tmp.setSecsSinceEpoch(t);
-
-    ret = tmp.toString(QStringLiteral("ddd, dd MMM yyyy hh:mm:ss "));
+    ret = t.toString(QStringLiteral("ddd, dd MMM yyyy hh:mm:ss "));
     ret += QLatin1String(zone(t));
 
     return ret;
 }
 
-QString DateFormatterPrivate::custom(time_t t) const
+QString DateFormatterPrivate::custom(const QDateTime &t) const
 {
     if (mCustomFormat.isEmpty()) {
       return {};
@@ -165,12 +158,11 @@ QString DateFormatterPrivate::custom(time_t t) const
     QDateTime dt;
     QString ret = mCustomFormat;
 
-    dt.setSecsSinceEpoch(t);
     if (z != -1) {
         ret.replace(z, 1, QLatin1String(zone(t)));
     }
 
-    ret = dt.toString(ret);
+    ret = t.toString(ret);
 
     return ret;
 }
@@ -186,131 +178,79 @@ QString DateFormatter::customFormat() const
     return d->mCustomFormat;
 }
 
-QByteArray DateFormatterPrivate::zone(time_t t)
+QByteArray DateFormatterPrivate::zone(const QDateTime &t)
 {
-#if HAVE_TIMEZONE || HAVE_TM_GMTOFF
-    struct tm *local = localtime(&t);
-#endif
+    const auto secs = t.offsetFromUtc();
+    const auto hours = std::abs(secs / 3600);
+    const auto mins  = std::abs((secs - hours * 3600) / 60);
 
-#if HAVE_TIMEZONE
-
-    //hmm, could make hours & mins static
-    int secs = qAbs(timezone);
-    int neg  = (timezone > 0) ? 1 : 0;
-    int hours = secs / 3600;
-    int mins  = (secs - hours * 3600) / 60;
-
-    // adjust to daylight
-    if (local->tm_isdst > 0) {
-        if (neg) {
-            --hours;
-        } else {
-            ++hours;
-        }
-    }
-
-#elif HAVE_TM_GMTOFF
-
-    int secs = qAbs(local->tm_gmtoff);
-    int neg  = (local->tm_gmtoff < 0) ? 1 : 0;
-    int hours = secs / 3600;
-    int mins  = (secs - hours * 3600) / 60;
-
-#else
-
-    QDateTime d1 = QDateTime::fromString(QString::fromLatin1(asctime(gmtime(&t))));
-    QDateTime d2 = QDateTime::fromString(QString::fromLatin1(asctime(localtime(&t))));
-    int secs = d1.secsTo(d2);
-    int neg = (secs < 0) ? 1 : 0;
-    secs = qAbs(secs);
-    int hours = secs / 3600;
-    int mins  = (secs - hours * 3600) / 60;
-
-#endif /* HAVE_TIMEZONE */
-
-    QByteArray ret;
-    QTextStream s(&ret, QIODevice::WriteOnly);
-    s << (neg ? '-' : '+')         
-      << qSetFieldWidth(2) << qSetPadChar(QLatin1Char('0'))
-      << Qt::right
-      << hours << mins;
-    //old code: ret.sprintf( "%c%.2d%.2d", (neg) ? '-' : '+', hours, mins );
-
+    QByteArray ret(6, 0);
+    qsnprintf(ret.data(), ret.size(), "%c%.2d%.2d", (secs < 0) ? '-' : '+', hours, mins);
+    ret.chop(1);
     return ret;
 }
 
-QString DateFormatterPrivate::fancy(time_t t)
+QString DateFormatterPrivate::fancy(const QDateTime &t)
 {
-    auto locale = QLocale::system();
-
-    if (t <= 0) {
+    if (!t.isValid()) {
         return i18nc("invalid time specified", "unknown");
     }
 
-    if (mTodayOneSecondBeforeMidnight < time(nullptr)) {
-        // determine time_t value of today 23:59:59
-        const QDateTime today(QDate::currentDate(), QTime(23, 59, 59));
-        mTodayOneSecondBeforeMidnight = today.toSecsSinceEpoch();
+    if (!mTodayOneSecondBeforeMidnight.isValid()) {
+        // determine time of today 23:59:59
+        mTodayOneSecondBeforeMidnight = QDateTime(QDate::currentDate(), QTime(23, 59, 59));
     }
 
-    QDateTime old;
-    old.setSecsSinceEpoch(t);
+    QDateTime old(t);
 
     if (mTodayOneSecondBeforeMidnight >= t) {
-        const time_t diff = mTodayOneSecondBeforeMidnight - t;
+        const auto diff = t.secsTo(mTodayOneSecondBeforeMidnight);
         if (diff < 7 * 24 * 60 * 60) {
             if (diff < 24 * 60 * 60) {
                 return i18n("Today %1",
-                            locale.toString(old.time(), QLocale::ShortFormat));
+                            QLocale().toString(old.time(), QLocale::ShortFormat));
             }
             if (diff < 2 * 24 * 60 * 60) {
                 return i18n("Yesterday %1",
-                            locale.toString(old.time(), QLocale::ShortFormat));
+                            QLocale().toString(old.time(), QLocale::ShortFormat));
             }
             for (int i = 3; i < 8; i++) {
                 if (diff < i * 24 * 60 * 60) {
                     return i18nc("1. weekday, 2. time", "%1 %2" ,
-                                 locale.dayName(old.date().dayOfWeek(), QLocale::LongFormat),
-                                 locale.toString(old.time(), QLocale::ShortFormat));
+                                 QLocale().dayName(old.date().dayOfWeek(), QLocale::LongFormat),
+                                 QLocale().toString(old.time(), QLocale::ShortFormat));
                 }
             }
         }
     }
 
-    return locale.toString(old, QLocale::ShortFormat);
+    return QLocale().toString(old, QLocale::ShortFormat);
 }
 
-QString DateFormatterPrivate::localized(time_t t, bool shortFormat, const QString &lang)
+QString DateFormatterPrivate::localized(const QDateTime &t, bool shortFormat, const QString &lang)
 {
-    QDateTime tmp;
     QString ret;
-    auto locale = QLocale::system();
-
-    tmp.setSecsSinceEpoch(t);
 
     if (!lang.isEmpty()) {
-        locale = QLocale(lang);
-        ret = locale.toString(tmp, (shortFormat ? QLocale::ShortFormat : QLocale::LongFormat));
+        ret = QLocale(lang).toString(t, (shortFormat ? QLocale::ShortFormat : QLocale::LongFormat));
     } else {
-        ret = locale.toString(tmp, (shortFormat ? QLocale::ShortFormat : QLocale::LongFormat));
+        ret = QLocale().toString(t, (shortFormat ? QLocale::ShortFormat : QLocale::LongFormat));
     }
 
     return ret;
 }
 
-QString DateFormatterPrivate::cTime(time_t t)
+QString DateFormatterPrivate::cTime(const QDateTime &t)
 {
-    return QString::fromLatin1(ctime(&t)).trimmed();
+    return t.toString(QStringLiteral("ddd MMM dd hh:mm:ss yyyy"));
 }
 
-QString DateFormatterPrivate::isoDate(time_t t)
+QString DateFormatterPrivate::isoDate(const QDateTime &t)
 {
-    char cstr[64];
-    strftime(cstr, 63, "%Y-%m-%d %H:%M:%S", localtime(&t));
-    return QLatin1String(cstr);
+    return t.toString(QStringLiteral("yyyy-MM-dd hh:mm:ss"));
 }
 
-QString DateFormatter::formatDate(FormatType ftype, time_t t,
+QString DateFormatter::formatDate(FormatType ftype, const QDateTime &t,
                                   const QString &data, bool shortFormat)
 {
     DateFormatter f(ftype);
@@ -320,11 +260,17 @@ QString DateFormatter::formatDate(FormatType ftype, time_t t,
     return f.dateString(t, data, shortFormat);
 }
 
+QString DateFormatter::formatDate(FormatType ftype, time_t t,
+                                  const QString &data, bool shortFormat)
+{
+    return formatDate(ftype, QDateTime::fromSecsSinceEpoch(t), data, shortFormat);
+}
+
 QString DateFormatter::formatCurrentDate(FormatType ftype, const QString &data, bool shortFormat)
 {
     DateFormatter f(ftype);
     if (ftype == Custom) {
         f.setCustomFormat(data);
     }
-    return f.dateString(time(nullptr), data, shortFormat);
+    return f.dateString(QDateTime::currentDateTime(), data, shortFormat);
 }

@@ -18,7 +18,7 @@ main()
 {
     DateFormatter t;
 
-    time_t ntime = time(nullptr);
+    auto ntime = QDateTime::currentDateTime();
     qDebug() << "Time now:";
     qDebug() << "tFancy : \t" << t.dateString(ntime);
     t.setFormat(DateFormatter::Localized);
@@ -38,20 +38,20 @@ main()
         qDebug() << " ntime =" << (ntime) << " dt =" << (dt.toSecsSinceEpoch());
         qdt.setSecsSinceEpoch(dt.toSecsSinceEpoch());
         qDebug() << " qq =" << qdt.toString(QStringLiteral("ddd, dd MMM yyyy hh:mm:ss"));
-        qDebug() << " rfc2822 :" << t.formatDate(DateFormatter::Rfc, dt.toSecsSinceEpoch());
+        qDebug() << " rfc2822 :" << t.formatDate(DateFormatter::Rfc, dt);
     }
     QString ddd = QStringLiteral("Mon, 05 Aug 2002 01:57:51 -0700");
     ba = ddd.toLatin1();
     str = ba.constData();
     if (HeaderParsing::parseDateTime(str, str + ddd.length(), dt)) {
         qDebug() << "dt =" << (dt.toSecsSinceEpoch());
-        qDebug() << " rfc2822 :" << t.formatDate(DateFormatter::Rfc, dt.toSecsSinceEpoch());
+        qDebug() << " rfc2822 :" << t.formatDate(DateFormatter::Rfc, dt);
     }
 
     t.setCustomFormat(QStringLiteral("MMMM dddd yyyy Z"));
     qDebug() << "tCustom : \t" << t.dateString(ntime);
 
-    ntime -= (24 * 3600 + 1);
+    ntime = ntime.addSecs(24 * 3600 + 1);
     qDebug() << "Time 24 hours and 1 second ago:";
     t.setFormat(DateFormatter::Fancy);
     qDebug() << "tFancy : \t" << t.dateString(ntime);
@@ -67,7 +67,7 @@ main()
     qDebug() << "tCustom : \t" << t.dateString(ntime);
 
     t.setFormat(DateFormatter::Fancy);
-    ntime -= (24 * 3600 * 30 + 59);
+    ntime = ntime.addSecs(24 * 3600 * 30 + 59);
     qDebug() << "Time 31 days and 1 minute ago:";
     qDebug() << "tFancy : \t" << t.dateString(ntime);
     t.setFormat(DateFormatter::Localized);

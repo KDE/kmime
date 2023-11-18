@@ -109,7 +109,7 @@ public:
 
       @return a QString containing the formatted date.
     */
-    [[nodiscard]] QString dateString(time_t t, const QString &lang = QString(),
+    [[nodiscard]] [[deprecated("use the QDateTime overload instead")]] QString dateString(time_t t, const QString &lang = QString(),
                                      bool shortFormat = true) const;
 
     /**
@@ -150,7 +150,7 @@ public:
       Convenience function dateString
 
       @param ftype is the #FormatType to use.
-      @param t is the time_t to use for formatting.
+      @param t is the time to use for formatting.
       @param data is either the format when #FormatType is Custom,
       or language when #FormatType is #Localized.
       @param shortFormat if true, create the short version of the date string,
@@ -159,9 +159,14 @@ public:
       @return a QString containing the formatted date.
     */
     [[nodiscard]] static QString formatDate(DateFormatter::FormatType ftype,
+                                            const QDateTime &t,
+                                            const QString &data = QString(),
+                                            bool shortFormat = true);
+    [[nodiscard]] [[deprecated("use the QDateTime overload instead")]] static QString formatDate(DateFormatter::FormatType ftype,
                                             time_t t,
                                             const QString &data = QString(),
                                             bool shortFormat = true);
+
 
     /**
       Convenience function, same as formatDate() but returns the current time

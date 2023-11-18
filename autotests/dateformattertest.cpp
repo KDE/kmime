@@ -9,6 +9,7 @@
 #include <QTest>
 #include <QObject>
 #include <QDateTime>
+#include <QTimeZone>
 
 using namespace KMime;
 
@@ -40,6 +41,34 @@ private Q_SLOTS:
         QCOMPARE(f.dateString(dt, QLatin1String("de")), QString::fromLatin1("26.05.15 12:34"));
     }
 
+    void testFormat_data()
+    {
+        QTest::addColumn<KMime::DateFormatter::FormatType>("format");
+        QTest::addColumn<QDateTime>("dt");
+        QTest::addColumn<QString>("output");
+
+        QTest::newRow("ctime") << DateFormatter::CTime << QDateTime(QDate(2023, 11, 18), QTime(17, 34, 56)) << QStringLiteral("Sat Nov 18 17:34:56 2023");
+        QTest::newRow("iso") << DateFormatter::Iso << QDateTime(QDate(2023, 11, 18), QTime(17, 34, 56)) << QStringLiteral("2023-11-18 17:34:56");
+        QTest::newRow("rfc") << DateFormatter::Rfc << QDateTime(QDate(2023, 11, 18), QTime(17, 34, 56), QTimeZone("Europe/Brussels")) << QStringLiteral("Sat, 18 Nov 2023 17:34:56 +0100");
+    }
+
+    void testFormat()
+    {
+        QFETCH(KMime::DateFormatter::FormatType, format);
+        QFETCH(QDateTime, dt);
+        QFETCH(QString, output);
+
+        KMime::DateFormatter formatter(format);
+        QCOMPARE(formatter.dateString(dt), output);
+    }
+
+    void testCustomFormat()
+    {
+        DateFormatter f(DateFormatter::Custom);
+        f.setCustomFormat(QStringLiteral("hh:mm Z"));
+        auto dt = QDateTime(QDate(2023, 11, 18), QTime(17, 34, 56), QTimeZone("Europe/Brussels"));
+        QCOMPARE(f.dateString(dt), QLatin1String("17:34 +0100"));
+    }
 };
 
 QTEST_MAIN(DateFormatterTest)
