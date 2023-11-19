@@ -10,9 +10,9 @@
 
 #include <QByteArray>
 #include <QChar>
+#include <QString>
 
 #include <cctype>
-#include <cstdlib>
 
 using namespace KMime;
 
@@ -168,4 +168,71 @@ QByteArray KMime::foldHeader(const QByteArray &header)
     }
 
     return hdr;
+}
+
+namespace
+{
+template < typename StringType, typename CharType > void removeQuotesGeneric(StringType &str)
+{
+    bool inQuote = false;
+    for (int i = 0; i < str.length(); ++i) {
+        if (str[i] == CharType('"')) {
+            str.remove(i, 1);
+            i--;
+            inQuote = !inQuote;
+        } else {
+            if (inQuote && (str[i] == CharType('\\'))) {
+                str.remove(i, 1);
+            }
+        }
+    }
+}
+}
+
+void KMime::removeQuotes(QByteArray &str)
+{
+    removeQuotesGeneric<QByteArray, char>(str);
+}
+
+void KMime::removeQuotes(QString &str)
+{
+    removeQuotesGeneric<QString, QLatin1Char>(str);
+}
+
+namespace {
+template<class StringType, class CharConverterType>
+void addQuotes_impl(StringType &str, bool forceQuotes)
+{
+    constexpr const char reservedCharacters[] = R"(""(),.:;<=>@[\])"; // sorted!
+
+    bool needsQuotes = false;
+    for (qsizetype i = 0; i < str.length(); i++) {
+        const auto cur = str.at(i);
+        const auto it = std::lower_bound(std::begin(reservedCharacters), std::end(reservedCharacters), cur, [](char lhs, auto rhs) {
+            return CharConverterType(lhs) < rhs;
+        });
+        if (it != std::end(reservedCharacters) && CharConverterType(*it) == cur) {
+            needsQuotes = true;
+        }
+        if (cur == CharConverterType('\\') || cur == CharConverterType('\"')) {
+            str.insert(i, CharConverterType('\\'));
+            i++;
+        }
+    }
+
+    if (needsQuotes || forceQuotes) {
+        str.insert(0, CharConverterType('\"'));
+        str.append(CharConverterType('\"'));
+    }
+}
+}
+
+void KMime::addQuotes(QByteArray &str, bool forceQuotes)
+{
+    addQuotes_impl<QByteArray, char>(str, forceQuotes);
+}
+
+void KMime::addQuotes(QString &str, bool forceQuotes)
+{
+    addQuotes_impl<QString, QLatin1Char>(str, forceQuotes);
 }

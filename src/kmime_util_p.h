@@ -7,6 +7,7 @@
 #pragma once
 
 class QByteArray;
+class QString;
 
 #include <cstdlib>
 
@@ -63,6 +64,41 @@ QByteArray unfoldHeader(const char *header, size_t headerSize);
   @param header The header to fold.
 */
 QByteArray foldHeader(const QByteArray &header);
+
+/**
+  Removes quote (DQUOTE) characters and decodes "quoted-pairs"
+  (ie. backslash-escaped characters)
+
+  @param str the string to work on.
+  @see addQuotes
+*/
+void removeQuotes(QByteArray &str);
+
+/**
+  Removes quote (DQUOTE) characters and decodes "quoted-pairs"
+  (ie. backslash-escaped characters)
+
+  @param str the string to work on.
+  @see addQuotes
+*/
+void removeQuotes(QString &str);
+
+/**
+  Converts the given string into a quoted-string if the string contains
+  any special characters (ie. one of ()<>@,.;:[]=\").
+
+  @param str us-ascii string to work on.
+  @param forceQuotes if @c true, always add quote characters.
+*/
+void addQuotes(QByteArray &str, bool forceQuotes);
+
+/**
+ * Overloaded method, behaves same as the above.
+ * @param str us-ascii string to work on.
+ * @param forceQuotes if @c true, always add quote characters.
+ * @since 4.5
+ */
+void addQuotes(QString &str, bool forceQuotes);
 
 //@cond PRIVATE
 extern const unsigned char aTextMap[16];

@@ -139,42 +139,6 @@ KMIME_EXPORT extern QByteArray CRtoLF(const char *s);
 */
 KMIME_EXPORT extern QByteArray CRtoLF(const QByteArray &s);
 
-
-/**
-  Removes quote (DQUOTE) characters and decodes "quoted-pairs"
-  (ie. backslash-escaped characters)
-
-  @param str the string to work on.
-  @see addQuotes
-*/
-KMIME_EXPORT extern void removeQuotes(QByteArray &str);
-
-/**
-  Removes quote (DQUOTE) characters and decodes "quoted-pairs"
-  (ie. backslash-escaped characters)
-
-  @param str the string to work on.
-  @see addQuotes
-*/
-KMIME_EXPORT extern void removeQuotes(QString &str);
-
-/**
-  Converts the given string into a quoted-string if the string contains
-  any special characters (ie. one of ()<>@,.;:[]=\").
-
-  @param str us-ascii string to work on.
-  @param forceQuotes if @c true, always add quote characters.
-*/
-KMIME_EXPORT extern void addQuotes(QByteArray &str, bool forceQuotes);
-
-/**
- * Overloaded method, behaves same as the above.
- * @param str us-ascii string to work on.
- * @param forceQuotes if @c true, always add quote characters.
- * @since 4.5
- */
-KMIME_EXPORT extern void addQuotes(QString &str, bool forceQuotes);
-
 /**
  * Makes sure that the bidirectional state at the end of the string is the
  * same as at the beginning of the string.
