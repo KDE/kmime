@@ -23,18 +23,7 @@
 
 using namespace KMime;
 
-/**
- * Private class that helps to provide binary compatibility between releases.
- * @internal
- */
-//@cond PRIVATE
-//class KMime::CharFreq::Private
-//{
-//  public:
-//};
-//@endcond
-
-CharFreq::CharFreq(const QByteArray &buf)
+CharFreq::CharFreq(QByteArrayView buf)
     : mNUL(0),
       mCTL(0),
       mCR(0), mLF(0),
@@ -50,28 +39,10 @@ CharFreq::CharFreq(const QByteArray &buf)
     }
 }
 
-CharFreq::CharFreq(const char *buf, size_t len)
-    : mNUL(0),
-      mCTL(0),
-      mCR(0), mLF(0),
-      mCRLF(0),
-      mPrintable(0),
-      mEightBit(0),
-      mTotal(0),
-      mLineMin(0xffffffff),
-      mLineMax(0)
-{
-    if (buf && len > 0) {
-        count(buf, len);
-    }
-}
-
-//@cond PRIVATE
 static inline bool isWS(char ch)
 {
     return (ch == '\t' || ch == ' ');
 }
-//@endcond
 
 void CharFreq::count(const char *it, size_t len)
 {

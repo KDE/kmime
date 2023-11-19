@@ -46,6 +46,8 @@
 #include <QByteArray>
 #undef None
 
+#include <limits>
+
 namespace KMime
 {
 
@@ -70,16 +72,7 @@ public:
 
       @param buf is a QByteArray containing the data.
     */
-    explicit CharFreq(const QByteArray &buf);
-
-    /**
-      Constructs a Character Frequency instance for a buffer @p buf of
-      chars of length @p len.
-
-      @param buf is a pointer to a character string containing the data.
-      @param len is the length of @p buf, in characters.
-    */
-    CharFreq(const char *buf, size_t len);
+    explicit CharFreq(QByteArrayView buf);
 
     /**
       The different types of data.
@@ -142,20 +135,18 @@ public:
     [[nodiscard]] float controlCodesRatio() const;
 
   private:
-    //@cond PRIVATE
-    uint mNUL;         // count of NUL chars
-    uint mCTL;         // count of CTLs (incl. DEL, excl. CR, LF, HT)
-    uint mCR;          // count of CR chars
-    uint mLF;          // count of LF chars
-    uint mCRLF;        // count of LFs, preceded by CRs
-    uint mPrintable;   // count of printable US-ASCII chars (SPC..~)
-    uint mEightBit;    // count of other latin1 chars (those with 8th bit set)
-    uint mTotal;       // count of all chars
-    uint mLineMin;     // minimum line length
-    uint mLineMax;     // maximum line length
+    uint mNUL = 0;       // count of NUL chars
+    uint mCTL = 0;       // count of CTLs (incl. DEL, excl. CR, LF, HT)
+    uint mCR = 0;        // count of CR chars
+    uint mLF = 0;        // count of LF chars
+    uint mCRLF = 0;      // count of LFs, preceded by CRs
+    uint mPrintable = 0; // count of printable US-ASCII chars (SPC..~)
+    uint mEightBit = 0;  // count of other latin1 chars (those with 8th bit set)
+    uint mTotal = 0;     // count of all chars
+    uint mLineMin = std::numeric_limits<uint>::max(); // minimum line length
+    uint mLineMax = 0;   // maximum line length
     bool mTrailingWS = false;  // does the buffer contain trailing whitespace?
     bool mLeadingFrom = false; // does the buffer contain lines starting with "From "?
-    //@endcond
 
     /**
       Performs the character frequency counts on the data.
