@@ -51,8 +51,6 @@ class DateFormatterPrivate;
   - @b fancy "Today 02:08:35"
   - @b ctime as with the @ref ctime function, eg. "Sun Mar 31 02:08:35 2002"
   - @b localized according to the control center setting, eg. "2002-03-31 02:08"
-  - @b iso  according to the @ref ISO8601 standard, eg. "2002-03-31 02:08:35"
-  - @b rfc according to @ref RFC2822 (Section 3.3), eg. "Sun, 31 Mar 2002 02:08:35 -0500"
   - @b custom "whatever you like"
 */
 class KMIME_EXPORT DateFormatter
@@ -65,8 +63,6 @@ public:
         CTime,      /**< ctime "Sun Mar 31 02:08:35 2002" */
         Localized,  /**< localized "2002-03-31 02:08" */
         Fancy,      /**< fancy "Today 02:08:35" */
-        Iso,        /**< iso  "2002-03-31 02:08:35" */
-        Rfc,        /**< rfc  "Sun, 31 Mar 2002 02:08:35 -0500" */
         Custom      /**< custom "whatever you like" */
     };
 

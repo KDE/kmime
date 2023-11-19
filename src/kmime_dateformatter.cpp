@@ -58,22 +58,6 @@ public:
     static QString cTime(const QDateTime &t);
 
     /**
-      Returns a QString containing the specified time @p t in the
-      "%Y-%m-%d %H:%M:%S" #Iso #FormatType.
-
-      @param t is the time to use for formatting.
-    */
-    static QString isoDate(const QDateTime &t);
-
-    /**
-      Returns a QString containing the specified time @p t in the
-      #Rfc #FormatType.
-
-      @param t is the time to use for formatting.
-    */
-    static QString rfc2822(const QDateTime &t);
-
-    /**
       Returns a QString containing the specified time @p t formatted
       with a previously specified custom format.
 
@@ -123,24 +107,10 @@ QString DateFormatter::dateString(const QDateTime &dt, const QString &lang, bool
         return d->localized(dt, shortFormat, lang);
     case CTime:
         return d->cTime(dt);
-    case Iso:
-        return d->isoDate(dt);
-    case Rfc:
-        return d->rfc2822(dt);
     case Custom:
         return d->custom(dt);
     }
     return {};
-}
-
-QString DateFormatterPrivate::rfc2822(const QDateTime &t)
-{
-    QString ret;
-
-    ret = t.toString(QStringLiteral("ddd, dd MMM yyyy hh:mm:ss "));
-    ret += QLatin1String(zone(t));
-
-    return ret;
 }
 
 QString DateFormatterPrivate::custom(const QDateTime &t) const
@@ -238,11 +208,6 @@ QString DateFormatterPrivate::localized(const QDateTime &t, bool shortFormat, co
 QString DateFormatterPrivate::cTime(const QDateTime &t)
 {
     return t.toString(QStringLiteral("ddd MMM dd hh:mm:ss yyyy"));
-}
-
-QString DateFormatterPrivate::isoDate(const QDateTime &t)
-{
-    return t.toString(QStringLiteral("yyyy-MM-dd hh:mm:ss"));
 }
 
 QString DateFormatter::formatDate(FormatType ftype, const QDateTime &t,

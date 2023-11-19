@@ -48,8 +48,6 @@ private Q_SLOTS:
         QTest::addColumn<QString>("output");
 
         QTest::newRow("ctime") << DateFormatter::CTime << QDateTime(QDate(2023, 11, 18), QTime(17, 34, 56)) << QStringLiteral("Sat Nov 18 17:34:56 2023");
-        QTest::newRow("iso") << DateFormatter::Iso << QDateTime(QDate(2023, 11, 18), QTime(17, 34, 56)) << QStringLiteral("2023-11-18 17:34:56");
-        QTest::newRow("rfc") << DateFormatter::Rfc << QDateTime(QDate(2023, 11, 18), QTime(17, 34, 56), QTimeZone("Europe/Brussels")) << QStringLiteral("Sat, 18 Nov 2023 17:34:56 +0100");
     }
 
     void testFormat()

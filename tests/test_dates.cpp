@@ -1,5 +1,4 @@
 #include "kmime_dateformatter.h"
-#include "kmime_header_parsing.h"
 #include <QDebug>
 using namespace KMime;
 
@@ -25,28 +24,6 @@ main()
     qDebug() << "tLocalized : \t" << t.dateString(ntime);
     t.setFormat(DateFormatter::CTime);
     qDebug() << "tCTime : \t" << t.dateString(ntime);
-    t.setFormat(DateFormatter::Iso);
-    qDebug() << "tIso   : \t" << t.dateString(ntime);
-    t.setFormat(DateFormatter::Rfc);
-    qDebug() << "trfc2822 : \t" << t.dateString(ntime);
-    QString rfcd = t.formatDate(DateFormatter::Rfc, ntime);
-    QDateTime dt;
-    QDateTime qdt;
-    QByteArray ba = rfcd.toLatin1();
-    const char *str = ba.constData();
-    if (HeaderParsing::parseDateTime(str, str + rfcd.length(), dt)) {
-        qDebug() << " ntime =" << (ntime) << " dt =" << (dt.toSecsSinceEpoch());
-        qdt.setSecsSinceEpoch(dt.toSecsSinceEpoch());
-        qDebug() << " qq =" << qdt.toString(QStringLiteral("ddd, dd MMM yyyy hh:mm:ss"));
-        qDebug() << " rfc2822 :" << t.formatDate(DateFormatter::Rfc, dt);
-    }
-    QString ddd = QStringLiteral("Mon, 05 Aug 2002 01:57:51 -0700");
-    ba = ddd.toLatin1();
-    str = ba.constData();
-    if (HeaderParsing::parseDateTime(str, str + ddd.length(), dt)) {
-        qDebug() << "dt =" << (dt.toSecsSinceEpoch());
-        qDebug() << " rfc2822 :" << t.formatDate(DateFormatter::Rfc, dt);
-    }
 
     t.setCustomFormat(QStringLiteral("MMMM dddd yyyy Z"));
     qDebug() << "tCustom : \t" << t.dateString(ntime);
@@ -59,10 +36,6 @@ main()
     qDebug() << "tLocalized : \t" << t.dateString(ntime);
     t.setFormat(DateFormatter::CTime);
     qDebug() << "tCTime : \t" << t.dateString(ntime);
-    t.setFormat(DateFormatter::Iso);
-    qDebug() << "tIso   : \t" << t.dateString(ntime);
-    t.setFormat(DateFormatter::Rfc);
-    qDebug() << "trfc2822 : \t" << t.dateString(ntime);
     t.setCustomFormat(QStringLiteral("MMMM dddd Z yyyy"));
     qDebug() << "tCustom : \t" << t.dateString(ntime);
 
@@ -74,10 +47,6 @@ main()
     qDebug() << "tLocalized : \t" << t.dateString(ntime);
     t.setFormat(DateFormatter::CTime);
     qDebug() << "tCTime : \t" << t.dateString(ntime);
-    t.setFormat(DateFormatter::Iso);
-    qDebug() << "tIso   : \t" << t.dateString(ntime);
-    t.setFormat(DateFormatter::Rfc);
-    qDebug() << "trfc2822 : \t" << t.dateString(ntime);
     t.setCustomFormat(QStringLiteral("MMMM Z dddd yyyy"));
     qDebug() << "tCustom : \t" << t.dateString(ntime);
 
@@ -85,8 +54,6 @@ main()
     qDebug() << "tFancy : \t" << DateFormatter::formatDate(DateFormatter::Fancy, ntime);
     qDebug() << "tLocalized : \t" << DateFormatter::formatDate(DateFormatter::Localized, ntime);
     qDebug() << "tCTime : \t" << DateFormatter::formatDate(DateFormatter::CTime, ntime);
-    qDebug() << "tIso   : \t" << DateFormatter::formatDate(DateFormatter::Iso, ntime);
-    qDebug() << "trfc2822 : \t" << DateFormatter::formatDate(DateFormatter::Rfc, ntime);
     qDebug() << "tCustom : \t" << DateFormatter::formatDate(DateFormatter::Custom, ntime,
              QStringLiteral("Z MMMM dddd yyyy"));
     t.setFormat(DateFormatter::Fancy);
@@ -96,10 +63,6 @@ main()
     qDebug() << "tLocalized : \t" << t.dateString(QDateTime::currentDateTime());
     t.setFormat(DateFormatter::CTime);
     qDebug() << "tCTime : \t" << t.dateString(QDateTime::currentDateTime());
-    t.setFormat(DateFormatter::Iso);
-    qDebug() << "tIso   : \t" << t.dateString(QDateTime::currentDateTime());
-    t.setFormat(DateFormatter::Rfc);
-    qDebug() << "tIso   : \t" << t.dateString(QDateTime::currentDateTime());
     t.setCustomFormat(QStringLiteral("MMMM d dddd yyyy Z"));
     qDebug() << "tCustom : \t" << t.dateString(QDateTime::currentDateTime());
 }
