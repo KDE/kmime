@@ -20,8 +20,8 @@
 #include <config-kmime.h>
 
 #include <QCoreApplication>
-#include <QRegularExpression>
 
+#include <algorithm>
 #include <cctype>
 #include <cstdlib>
 #include <ctime>
@@ -531,13 +531,18 @@ void removeQuotes(QString &str)
     removeQuotesGeneric<QString, QLatin1Char>(str);
 }
 
-template<class StringType, class CharConverterType, class StringConverterType, class ToString>
+template<class StringType, class CharConverterType>
 void addQuotes_impl(StringType &str, bool forceQuotes)
 {
+    constexpr const char reservedCharacters[] = R"(""(),.:;<=>@[\])"; // sorted!
+
     bool needsQuotes = false;
-    for (int i = 0; i < str.length(); i++) {
+    for (qsizetype i = 0; i < str.length(); i++) {
         const auto cur = str.at(i);
-        if (QString(ToString(str)).contains(QRegularExpression(QStringLiteral("\"|\\\\|=|\\]|\\[|:|;|,|\\.|,|@|<|>|\\)|\\(")))) {
+        const auto it = std::lower_bound(std::begin(reservedCharacters), std::end(reservedCharacters), cur, [](char lhs, auto rhs) {
+            return CharConverterType(lhs) < rhs;
+        });
+        if (it != std::end(reservedCharacters) && CharConverterType(*it) == cur) {
             needsQuotes = true;
         }
         if (cur == CharConverterType('\\') || cur == CharConverterType('\"')) {
@@ -548,18 +553,18 @@ void addQuotes_impl(StringType &str, bool forceQuotes)
 
     if (needsQuotes || forceQuotes) {
         str.insert(0, CharConverterType('\"'));
-        str.append(StringConverterType("\""));
+        str.append(CharConverterType('\"'));
     }
 }
 
 void addQuotes(QByteArray &str, bool forceQuotes)
 {
-    addQuotes_impl<QByteArray, char, char *, QLatin1String>(str, forceQuotes);
+    addQuotes_impl<QByteArray, char>(str, forceQuotes);
 }
 
 void addQuotes(QString &str, bool forceQuotes)
 {
-    addQuotes_impl<QString, QLatin1Char, QLatin1String, QString>(str, forceQuotes);
+    addQuotes_impl<QString, QLatin1Char>(str, forceQuotes);
 }
 
 KMIME_EXPORT QString balanceBidiState(const QString &input)
