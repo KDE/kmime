@@ -6,6 +6,10 @@
 
 #pragma once
 
+class QByteArray;
+
+#include <cstdlib>
+
 // @cond PRIVATE
 
 /* Internal helper functions. Not part of the public API. */
@@ -47,11 +51,24 @@ extern int indexOfHeader(const QByteArray &src, const QByteArray &name, int &end
  */
 extern QByteArray uniqueString();
 
-//@cond PRIVATE
-extern const uchar aTextMap[16];
-extern const uchar tTextMap[16];
+/**
+  Unfolds the given header if necessary.
+  @param header The header to unfold.
+*/
+QByteArray unfoldHeader(const QByteArray &header);
+QByteArray unfoldHeader(const char *header, size_t headerSize);
 
-inline bool isOfSet(const uchar map[16], unsigned char ch)
+/**
+  Folds the given header if necessary.
+  @param header The header to fold.
+*/
+QByteArray foldHeader(const QByteArray &header);
+
+//@cond PRIVATE
+extern const unsigned char aTextMap[16];
+extern const unsigned char tTextMap[16];
+
+inline bool isOfSet(const unsigned char map[16], unsigned char ch)
 {
     return (ch < 128) && (map[ ch / 8 ] & 0x80 >> ch % 8);
 }

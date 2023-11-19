@@ -55,20 +55,6 @@ encodingsForData(const QByteArray &data);
 KMIME_EXPORT extern QByteArray multiPartBoundary();
 
 /**
-  Unfolds the given header if necessary.
-  @param header The header to unfold.
-*/
-
-KMIME_EXPORT extern QByteArray unfoldHeader(const QByteArray &header);
-KMIME_EXPORT extern QByteArray unfoldHeader(const char *header, size_t headerSize);
-
-/**
-  Folds the given header if necessary.
-  @param header The header to fold.
-*/
-KMIME_EXPORT extern QByteArray foldHeader(const QByteArray &header);
-
-/**
   Tries to extract the header with name @p name from the string
   @p src, unfolding it if necessary.
 

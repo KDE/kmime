@@ -12,6 +12,7 @@ add_library(KPim6::Mime ALIAS KPim6Mime)
 target_sources(KPim6Mime PRIVATE
    kmime_charfreq.cpp
    kmime_util.cpp
+   kmime_util_p.cpp
    kmime_mdn.cpp
    kmime_parsers.cpp
    kmime_header_parsing.cpp
