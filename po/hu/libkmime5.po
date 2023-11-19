@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-12-14 00:45+0000\n"
+"POT-Creation-Date: 2023-11-19 01:52+0000\n"
 "PO-Revision-Date: 2008-05-26 11:11+0100\n"
 "Last-Translator: Tamas Szanto <tszanto@interware.hu>\n"
 "Language-Team: Hungarian <kde-lista@sophia.jpte.hu>\n"
@@ -14,23 +14,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: kmime_dateformatter.cpp:247
+#: kmime_dateformatter.cpp:196
 #, kde-format
 msgctxt "invalid time specified"
 msgid "unknown"
 msgstr "ismeretlen"
 
-#: kmime_dateformatter.cpp:263
+#: kmime_dateformatter.cpp:210
 #, kde-format
 msgid "Today %1"
 msgstr "Ma - %1"
 
-#: kmime_dateformatter.cpp:267
+#: kmime_dateformatter.cpp:214
 #, kde-format
 msgid "Yesterday %1"
 msgstr "Tegnap - %1"
 
-#: kmime_dateformatter.cpp:272
+#: kmime_dateformatter.cpp:219
 #, kde-format
 msgctxt "1. weekday, 2. time"
 msgid "%1 %2"

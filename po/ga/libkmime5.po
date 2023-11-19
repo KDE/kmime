@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdepim/libkmime.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-12-14 00:45+0000\n"
+"POT-Creation-Date: 2023-11-19 01:52+0000\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -17,23 +17,23 @@ msgstr ""
 "Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n < 11 ? "
 "3 : 4\n"
 
-#: kmime_dateformatter.cpp:247
+#: kmime_dateformatter.cpp:196
 #, kde-format
 msgctxt "invalid time specified"
 msgid "unknown"
 msgstr "anaithnid"
 
-#: kmime_dateformatter.cpp:263
+#: kmime_dateformatter.cpp:210
 #, kde-format
 msgid "Today %1"
 msgstr "Inniu %1"
 
-#: kmime_dateformatter.cpp:267
+#: kmime_dateformatter.cpp:214
 #, kde-format
 msgid "Yesterday %1"
 msgstr "Inné %1"
 
-#: kmime_dateformatter.cpp:272
+#: kmime_dateformatter.cpp:219
 #, kde-format
 msgctxt "1. weekday, 2. time"
 msgid "%1 %2"

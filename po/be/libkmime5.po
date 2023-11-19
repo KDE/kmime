@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libkmime\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-12-14 00:45+0000\n"
+"POT-Creation-Date: 2023-11-19 01:52+0000\n"
 "PO-Revision-Date: 2007-04-23 17:46+0300\n"
 "Last-Translator: Darafei Praliaskouski <komzpa@licei2.com>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -20,24 +20,24 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || n%10>=5 && n%10<=9 || n"
 "%100>=11 && n%100<=14 ? 2 : 3);\n"
 
-#: kmime_dateformatter.cpp:247
+#: kmime_dateformatter.cpp:196
 #, fuzzy, kde-format
 #| msgid "unknown"
 msgctxt "invalid time specified"
 msgid "unknown"
 msgstr "невядомы"
 
-#: kmime_dateformatter.cpp:263
+#: kmime_dateformatter.cpp:210
 #, kde-format
 msgid "Today %1"
 msgstr "Сёння %1"
 
-#: kmime_dateformatter.cpp:267
+#: kmime_dateformatter.cpp:214
 #, kde-format
 msgid "Yesterday %1"
 msgstr "Учора %1"
 
-#: kmime_dateformatter.cpp:272
+#: kmime_dateformatter.cpp:219
 #, kde-format
 msgctxt "1. weekday, 2. time"
 msgid "%1 %2"
