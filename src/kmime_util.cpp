@@ -11,11 +11,11 @@
 #include "kmime_util.h"
 #include "kmime_util_p.h"
 
-#include "kmime_charfreq.h"
+#include "kmime_charfreq_p.h"
 #include "kmime_debug.h"
 #include "kmime_header_parsing.h"
 #include "kmime_message.h"
-#include "kmime_warning.h"
+#include "kmime_warning_p.h"
 
 #include <config-kmime.h>
 

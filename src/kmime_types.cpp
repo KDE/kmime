@@ -8,7 +8,7 @@
 */
 
 #include "kmime_types.h"
-#include "kmime_codecs.h"
+#include "kmime_codecs_p.h"
 #include "kmime_header_parsing.h"
 #include "kmime_header_parsing_p.h"
 #include "kmime_util.h"

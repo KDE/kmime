@@ -13,10 +13,10 @@
 #include "kmime_headers.h"
 #include "kmime_util.h"
 #include "kmime_util_p.h"
-#include "kmime_codecs.h"
+#include "kmime_codecs_p.h"
 #include "kmime_dateformatter.h"
 #include "kmime_debug.h"
-#include "kmime_warning.h"
+#include "kmime_warning_p.h"
 
 #include <KCodecs>
 

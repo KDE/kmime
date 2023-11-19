@@ -8,7 +8,7 @@
   SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#include "kmime_codecs.h"
+#include "kmime_codecs_p.h"
 #include "kmime_debug.h"
 
 #include <QStringDecoder>

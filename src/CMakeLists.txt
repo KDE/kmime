@@ -26,7 +26,7 @@ target_sources(KPim6Mime PRIVATE
    kmime_codecs.cpp
    kmime_types.cpp
 
-   kmime_charfreq.h
+   kmime_charfreq_p.h
    kmime_util.h
    kmime_mdn.h
    kmime_parsers.h
@@ -38,7 +38,7 @@ target_sources(KPim6Mime PRIVATE
    kmime_message.h
    kmime_newsarticle.h
    kmime_dateformatter.h
-   kmime_codecs.h
+   kmime_codecs_p.h
    kmime_types.h
    )
 
