@@ -7,6 +7,7 @@
 */
 
 #include "kmime_util_p.h"
+#include "kmime_debug.h"
 
 #include <QByteArray>
 #include <QChar>
@@ -235,4 +236,64 @@ void KMime::addQuotes(QByteArray &str, bool forceQuotes)
 void KMime::addQuotes(QString &str, bool forceQuotes)
 {
     addQuotes_impl<QString, QLatin1Char>(str, forceQuotes);
+}
+
+QString KMime::balanceBidiState(const QString &input)
+{
+    const int LRO = 0x202D;
+    const int RLO = 0x202E;
+    const int LRE = 0x202A;
+    const int RLE = 0x202B;
+    const int PDF = 0x202C;
+
+    QString result = input;
+
+    int openDirChangers = 0;
+    int numPDFsRemoved = 0;
+    for (int i = 0; i < input.length(); i++) {
+        const ushort &code = input.at(i).unicode();
+        if (code == LRO || code == RLO || code == LRE || code == RLE) {
+            openDirChangers++;
+        } else if (code == PDF) {
+            if (openDirChangers > 0) {
+                openDirChangers--;
+            } else {
+                // One PDF too much, remove it
+                qCWarning(KMIME_LOG) << "Possible Unicode spoofing (unexpected PDF) detected in" << input;
+                result.remove(i - numPDFsRemoved, 1);
+                numPDFsRemoved++;
+            }
+        }
+    }
+
+    if (openDirChangers > 0) {
+        qCWarning(KMIME_LOG) << "Possible Unicode spoofing detected in" << input;
+
+        // At PDF chars to the end until the correct state is restored.
+        // As a special exception, when encountering quoted strings, place the PDF before
+        // the last quote.
+        for (int i = openDirChangers; i > 0; i--) {
+            if (result.endsWith(QLatin1Char('"'))) {
+                result.insert(result.length() - 1, QChar(PDF));
+            } else {
+                result += QChar(PDF);
+            }
+        }
+    }
+
+    return result;
+}
+
+QString KMime::removeBidiControlChars(const QString &input)
+{
+    const int LRO = 0x202D;
+    const int RLO = 0x202E;
+    const int LRE = 0x202A;
+    const int RLE = 0x202B;
+    QString result = input;
+    result.remove(QChar(LRO));
+    result.remove(QChar(RLO));
+    result.remove(QChar(LRE));
+    result.remove(QChar(RLE));
+    return result;
 }
