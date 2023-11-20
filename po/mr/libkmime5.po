@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-19 01:52+0000\n"
+"POT-Creation-Date: 2023-11-20 01:59+0000\n"
 "PO-Revision-Date: 2013-03-16 11:56+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -17,23 +17,23 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: kmime_dateformatter.cpp:196
+#: kmime_dateformatter.cpp:161
 #, kde-format
 msgctxt "invalid time specified"
 msgid "unknown"
 msgstr "अपरिचीत"
 
-#: kmime_dateformatter.cpp:210
+#: kmime_dateformatter.cpp:175
 #, kde-format
 msgid "Today %1"
 msgstr "आज %1"
 
-#: kmime_dateformatter.cpp:214
+#: kmime_dateformatter.cpp:179
 #, kde-format
 msgid "Yesterday %1"
 msgstr "काल %1"
 
-#: kmime_dateformatter.cpp:219
+#: kmime_dateformatter.cpp:184
 #, kde-format
 msgctxt "1. weekday, 2. time"
 msgid "%1 %2"

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libkmime\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-19 01:52+0000\n"
+"POT-Creation-Date: 2023-11-20 01:59+0000\n"
 "PO-Revision-Date: 2008-05-10 12:07+0200\n"
 "Last-Translator: Thomas Reitelbach <tr@erdfunkstelle.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -13,23 +13,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: kmime_dateformatter.cpp:196
+#: kmime_dateformatter.cpp:161
 #, kde-format
 msgctxt "invalid time specified"
 msgid "unknown"
 msgstr "Unbekannt"
 
-#: kmime_dateformatter.cpp:210
+#: kmime_dateformatter.cpp:175
 #, kde-format
 msgid "Today %1"
 msgstr "Heute %1"
 
-#: kmime_dateformatter.cpp:214
+#: kmime_dateformatter.cpp:179
 #, kde-format
 msgid "Yesterday %1"
 msgstr "Gestern %1"
 
-#: kmime_dateformatter.cpp:219
+#: kmime_dateformatter.cpp:184
 #, kde-format
 msgctxt "1. weekday, 2. time"
 msgid "%1 %2"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libkmime\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-19 01:52+0000\n"
+"POT-Creation-Date: 2023-11-20 01:59+0000\n"
 "PO-Revision-Date: 2016-02-15 00:07+0200\n"
 "Last-Translator: Lasse Liehu <lasse.liehu@gmail.com>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -20,23 +20,23 @@ msgstr ""
 "X-POT-Import-Date: 2012-12-01 22:25:20+0000\n"
 "X-Generator: Lokalize 2.0\n"
 
-#: kmime_dateformatter.cpp:196
+#: kmime_dateformatter.cpp:161
 #, kde-format
 msgctxt "invalid time specified"
 msgid "unknown"
 msgstr "tuntematon"
 
-#: kmime_dateformatter.cpp:210
+#: kmime_dateformatter.cpp:175
 #, kde-format
 msgid "Today %1"
 msgstr "Tänään %1"
 
-#: kmime_dateformatter.cpp:214
+#: kmime_dateformatter.cpp:179
 #, kde-format
 msgid "Yesterday %1"
 msgstr "Eilen %1"
 
-#: kmime_dateformatter.cpp:219
+#: kmime_dateformatter.cpp:184
 #, kde-format
 msgctxt "1. weekday, 2. time"
 msgid "%1 %2"
