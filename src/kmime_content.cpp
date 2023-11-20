@@ -675,6 +675,26 @@ int Content::size()
     return ret;
 }
 
+int Content::storageSize() const
+{
+    const Q_D(Content);
+    int s = d->head.size();
+
+    if (d->contents().isEmpty()) {
+        s += d->body.size();
+    } else {
+
+        // FIXME: This should take into account the boundary headers that are added in
+        //        encodedContent!
+        const auto contents = d->contents();
+        for (Content *c : contents) {
+            s += c->storageSize();
+        }
+    }
+
+    return s;
+}
+
 bool ContentPrivate::decodeText(Content *q)
 {
     Headers::ContentTransferEncoding *enc = q->contentTransferEncoding();

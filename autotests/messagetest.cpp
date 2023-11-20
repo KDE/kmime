@@ -517,6 +517,12 @@ void MessageTest::testEncapsulatedMessages()
     QCOMPARE(encapsulated->topLevel(), msg.data());
     QCOMPARE(encapsulated->index().toString().toLatin1().data(), "2.1");
 
+    // Now test some misc functions
+    QCOMPARE(msg->storageSize(), msg->head().size() + textContent->storageSize() +
+             messageContent->storageSize());
+    QCOMPARE(messageContent->storageSize(), messageContent->head().size() +
+             encapsulated->storageSize());
+
     // Now change some properties on the encapsulated message
     encapsulated->subject()->fromUnicodeString(QStringLiteral("New subject"), "us-ascii");
     encapsulated->fromUnicodeString(QStringLiteral("New body string."));
