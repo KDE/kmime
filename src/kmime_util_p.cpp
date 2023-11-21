@@ -6,6 +6,8 @@
   SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
+#include <config-kmime.h>
+
 #include "kmime_util_p.h"
 #include "kmime_debug.h"
 
@@ -16,6 +18,139 @@
 #include <cctype>
 
 using namespace KMime;
+
+int KMime::findHeaderLineEnd(const QByteArray &src, int &dataBegin, bool *folded)
+{
+    int end = dataBegin;
+    int len = src.length() - 1;
+
+    if (folded) {
+        *folded = false;
+    }
+
+    if (dataBegin < 0) {
+        // Not found
+        return -1;
+    }
+
+    if (dataBegin > len) {
+        // No data available
+        return len + 1;
+    }
+
+    // If the first line contains nothing, but the next line starts with a space
+    // or a tab, that means a stupid mail client has made the first header field line
+    // entirely empty, and has folded the rest to the next line(s).
+    if (src.at(end) == '\n' && end + 1 < len &&
+            (src[end + 1] == ' ' || src[end + 1] == '\t')) {
+
+        // Skip \n and first whitespace
+        dataBegin += 2;
+        end += 2;
+    }
+
+    if (src.at(end) != '\n') {      // check if the header is not empty
+        while (true) {
+            end = src.indexOf('\n', end + 1);
+            if (end == -1 || end == len) {
+                // end of string
+                break;
+            } else if (src[end + 1] == ' ' || src[end + 1] == '\t' ||
+                       (src[end + 1] == '=' && end + 3 <= len &&
+                        ((src[end + 2] == '0' && src[end + 3] == '9') ||
+                         (src[end + 2] == '2' && src[end + 3] == '0')))) {
+                // next line is header continuation or starts with =09/=20 (bug #86302)
+                if (folded) {
+                    *folded = true;
+                }
+            } else {
+                // end of header (no header continuation)
+                break;
+            }
+        }
+    }
+
+    if (end < 0) {
+        end = len + 1; //take the rest of the string
+    }
+    return end;
+}
+
+#if !HAVE_STRCASESTR
+#ifdef WIN32
+#define strncasecmp _strnicmp
+#endif
+static const char *strcasestr(const char *haystack, const char *needle)
+{
+    /* Copied from libreplace as part of qtwebengine 5.5.1 */
+    const char *s;
+    size_t nlen = strlen(needle);
+    for (s = haystack; *s; s++) {
+        if (toupper(*needle) == toupper(*s) && strncasecmp(s, needle, nlen) == 0) {
+            return (char *)((uintptr_t)s);
+        }
+    }
+    return NULL;
+}
+#endif
+
+int KMime::indexOfHeader(const QByteArray &src, const QByteArray &name, int &end, int &dataBegin, bool *folded)
+{
+    QByteArray n = name;
+    n.append(':');
+    int begin = -1;
+
+    if (qstrnicmp(n.constData(), src.constData(), n.length()) == 0) {
+        begin = 0;
+    } else {
+        n.prepend('\n');
+        const char *p = strcasestr(src.constData(), n.constData());
+        if (!p) {
+            begin = -1;
+        } else {
+            begin = p - src.constData();
+            ++begin;
+        }
+    }
+
+    if (begin > -1) {       //there is a header with the given name
+        dataBegin = begin + name.length() + 1; //skip the name
+        // skip the usual space after the colon
+        if (dataBegin < src.length() && src.at(dataBegin) == ' ') {
+            ++dataBegin;
+        }
+        end = findHeaderLineEnd(src, dataBegin, folded);
+        return begin;
+
+    } else {
+        end = -1;
+        dataBegin = -1;
+        return -1; //header not found
+    }
+}
+
+QByteArray KMime::extractHeader(const QByteArray &src, const QByteArray &name)
+{
+    int begin;
+    int end;
+    bool folded;
+    QByteArray result;
+
+    if (src.isEmpty() || indexOfHeader(src, name, end, begin, &folded) < 0) {
+        return result;
+    }
+
+    if (begin >= 0) {
+        if (!folded) {
+            result = src.mid(begin, end - begin);
+        } else {
+            if (end > begin) {
+                result = unfoldHeader(src.constData() + begin, end - begin);
+            }
+        }
+    }
+    return result;
+}
 
 QByteArray KMime::unfoldHeader(const char *header, size_t headerSize)
 {

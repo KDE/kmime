@@ -55,19 +55,6 @@ encodingsForData(const QByteArray &data);
 KMIME_EXPORT extern QByteArray multiPartBoundary();
 
 /**
-  Tries to extract the header with name @p name from the string
-  @p src, unfolding it if necessary.
-
-  @param src  the source string.
-  @param name the name of the header to search for.
-
-  @return the first instance of the header @p name in @p src
-          or a null QByteArray if no such header was found.
-*/
-KMIME_EXPORT extern QByteArray extractHeader(const QByteArray &src,
-        const QByteArray &name);
-
-/**
   Converts all occurrences of "\r\n" (CRLF) in @p s to "\n" (LF).
 
   This function is expensive and should be used only if the mail

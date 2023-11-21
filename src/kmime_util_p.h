@@ -34,6 +34,18 @@ extern QByteArray cachedCharset(const QByteArray &name);
 extern int findHeaderLineEnd(const QByteArray &src, int &dataBegin, bool *folded = nullptr);
 
 /**
+  Tries to extract the header with name @p name from the string
+  @p src, unfolding it if necessary.
+
+  @param src  the source string.
+  @param name the name of the header to search for.
+
+  @return the first instance of the header @p name in @p src
+          or a null QByteArray if no such header was found.
+*/
+QByteArray extractHeader(const QByteArray &src, const QByteArray &name);
+
+/**
   Finds the first header of type @p name in @p src.
   @param end The end index of the header.
   @param dataBegin begin of the data part of the header, -1 if not found.
