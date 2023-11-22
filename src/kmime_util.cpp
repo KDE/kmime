@@ -191,30 +191,6 @@ QByteArray LFtoCRLF(const char *s)
     return LFtoCRLF(ret);
 }
 
-QByteArray CRtoLF(const QByteArray &s)
-{
-    const int firstNewline = s.indexOf('\r');
-    if (firstNewline == -1) {
-        return s;
-    }
-    if (firstNewline > 0 && (s.length() > firstNewline + 1) && s.at(firstNewline + 1) == '\n') {
-        // We found \r\n already, don't change anything
-        // This check assumes that input is consistent in terms of newlines,
-        // but so did if (s.contains("\r\n")), too.
-        return s;
-    }
-
-    QByteArray ret = s;
-    ret.replace('\r', '\n');
-    return ret;
-}
-
-QByteArray CRtoLF(const char *s)
-{
-    const QByteArray ret = s;
-    return CRtoLF(ret);
-}
-
 bool isCryptoPart(Content *content)
 {
     auto ct = content->contentType(false);

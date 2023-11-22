@@ -36,7 +36,6 @@ private Q_SLOTS:
     void testReplyHeader();
 
     void testBug392239();
-    void testCRtoLF();
     void testBugAttachment387423();
     void testCrashReplyInvalidEmail();
 private:

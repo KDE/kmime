@@ -98,35 +98,6 @@ KMIME_EXPORT extern QByteArray CRLFtoLF(const char *s);
 KMIME_EXPORT extern QByteArray LFtoCRLF(const QByteArray &s);
 
 /**
-  Converts all occurrences of "\r" (CR) in @p s to "\n" (LF).
-
-  This function is expensive and should be used only if the mail
-  will be stored locally. All decode functions can cope with both
-  line endings.
-
-  @param s source string containing CR's
-
-  @return the string with CR's substituted for LF's
-  @see CRtoLF(const QByteArray&) CRtoLF
-*/
-KMIME_EXPORT extern QByteArray CRtoLF(const char *s);
-
-/**
-  Converts all occurrences of "\r" (CR) in @p s to "\n" (LF).
-
-  This function is expensive and should be used only if the mail
-  will be transmitted as an RFC822 message later. All decode
-  functions can cope with and all encode functions can optionally
-  produce both line endings, which is much faster.
-
-  @param s source string containing CR's
-
-  @return the string with CR's substituted for LF's
-  @see CRtoLF(const QByteArray&) CRtoLF
-*/
-KMIME_EXPORT extern QByteArray CRtoLF(const QByteArray &s);
-
-/**
  * Returns whether or not the given MIME node is an attachment part.
  * @param content the MIME node to parse
  * @see hasAttachment()
