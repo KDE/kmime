@@ -19,7 +19,7 @@
 
 using namespace KMime;
 
-int KMime::findHeaderLineEnd(const QByteArray &src, int &dataBegin, bool *folded)
+int KMime::findHeaderLineEnd(QByteArrayView src, int &dataBegin, bool *folded)
 {
     int end = dataBegin;
     int len = src.length() - 1;

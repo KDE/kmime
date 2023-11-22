@@ -2053,7 +2053,7 @@ bool parseDateTime(const char *&scursor, const char *const send,
 
 namespace {
 
-Headers::Base *extractHeader(const QByteArray &head, const int headerStart, int &endOfFieldBody)
+Headers::Base *extractHeader(QByteArrayView head, const int headerStart, int &endOfFieldBody)
 {
     Headers::Base *header = {};
 
@@ -2101,6 +2101,19 @@ Headers::Base *extractFirstHeader(QByteArray &head)
         head.remove(0, endOfFieldBody + 1);
     } else {
         head.clear();
+    }
+
+    return header;
+}
+
+std::unique_ptr<KMime::Headers::Base> parseNextHeader(QByteArrayView &head)
+{
+    int endOfFieldBody = 0;
+    std::unique_ptr<KMime::Headers::Base> header(extractHeader(head, 0, endOfFieldBody));
+    if (header) {
+        head = head.mid(endOfFieldBody + 1);
+    } else {
+        head = {};
     }
 
     return header;

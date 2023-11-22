@@ -7,6 +7,7 @@
 #pragma once
 
 class QByteArray;
+class QByteArrayView;
 class QString;
 
 #include <cstdlib>
@@ -31,7 +32,7 @@ extern QByteArray cachedCharset(const QByteArray &name);
   @param folded true if the headder is folded into multiple lines
   @returns the end index of the header, -1 if the @p dataBegin was -1.
 */
-extern int findHeaderLineEnd(const QByteArray &src, int &dataBegin, bool *folded = nullptr);
+extern int findHeaderLineEnd(QByteArrayView src, int &dataBegin, bool *folded = nullptr);
 
 /**
   Tries to extract the header with name @p name from the string

@@ -255,8 +255,16 @@ parseTime(const char *&scursor, const char *const send, int &hour, int &min,
  *
  * @since 4.4
  */
-[[nodiscard]] KMIME_EXPORT KMime::Headers::Base *
+[[nodiscard]] [[deprecated("use parseNextHeader")]] KMIME_EXPORT KMime::Headers::Base *
 extractFirstHeader(QByteArray &head);
+
+/** Parses the first header contained the given data.
+ *  If a header is found @p head will be shortened to no longer
+ *  include the corresponding data, ie. this method can be called
+ *  iteratively on the same data until it returns @c null.
+ *  @since 6.0
+ */
+[[nodiscard]] KMIME_EXPORT std::unique_ptr<KMime::Headers::Base> parseNextHeader(QByteArrayView &head);
 
 /**
  * Extract the header header and the body from a complete content.

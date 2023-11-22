@@ -1140,5 +1140,22 @@ void HeaderTest::testBug271192_data()
     QTest::newRow("quote_LastName_comma_Firstname") << QString::fromUtf8("König, Интернет-компания") << true;
 }
 
+void HeaderTest::testParseNextHeader()
+{
+    QByteArray data("From: konqi@kde.org\nTo: katie@kde.org\n\n");
+    QByteArrayView dataView(data);
+
+    auto header = KMime::HeaderParsing::parseNextHeader(dataView);
+    QVERIFY(header);
+    QCOMPARE(header->type(), "From");
+    QVERIFY(dataView.startsWith("To:"));
+
+    header = KMime::HeaderParsing::parseNextHeader(dataView);
+    QVERIFY(header);
+    QCOMPARE(header->type(), "To");
+
+    QVERIFY(!KMime::HeaderParsing::parseNextHeader(dataView));
+    QVERIFY(dataView.isEmpty());
+}
 
 #include "moc_headertest.cpp"

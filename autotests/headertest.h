@@ -35,6 +35,7 @@ private Q_SLOTS:
     void testBug271192();
     void testBug271192_data();
     void testMissingQuotes();
+    void testParseNextHeader();
 
     // makes sure we don't accidentally have an abstract header class that's not
     // meant to be abstract
