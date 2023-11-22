@@ -7,7 +7,7 @@
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
-#include "kmime_parsers.h"
+#include "kmime_parsers_p.h"
 
 #include <QRegularExpression>
 

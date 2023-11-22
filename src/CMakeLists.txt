@@ -29,7 +29,7 @@ target_sources(KPim6Mime PRIVATE
    kmime_charfreq_p.h
    kmime_util.h
    kmime_mdn.h
-   kmime_parsers.h
+   kmime_parsers_p.h
    kmime_header_parsing.h
    kmime_headerfactory_p.h
    kmime_content.h

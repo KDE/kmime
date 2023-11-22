@@ -25,7 +25,7 @@
 #include "kmime_message.h"
 #include "kmime_header_parsing.h"
 #include "kmime_header_parsing_p.h"
-#include "kmime_parsers.h"
+#include "kmime_parsers_p.h"
 #include "kmime_util_p.h"
 
 #include <KCodecs>
