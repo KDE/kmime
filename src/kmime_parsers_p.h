@@ -47,9 +47,6 @@ public:
 class NonMimeParser
 {
 public:
-    explicit NonMimeParser(const QByteArray &src);
-    virtual ~NonMimeParser();
-    virtual bool parse() = 0;
     [[nodiscard]] bool isPartial() const {
       return (m_partNr > -1 && m_totalNr > -1 && m_totalNr != 1);
     }
@@ -61,7 +58,10 @@ public:
     [[nodiscard]] QList<QByteArray> filenames() const { return m_filenames; }
     [[nodiscard]] QList<QByteArray> mimeTypes() const { return m_mimeTypes; }
 
-  protected:
+protected:
+    explicit NonMimeParser(const QByteArray &src);
+    ~NonMimeParser();
+
     static QByteArray guessMimeType(const QByteArray &fileName);
 
     QByteArray m_src, m_text;
@@ -78,7 +78,7 @@ class UUEncoded : public NonMimeParser
 public:
     UUEncoded(const QByteArray &src, const QByteArray &subject);
 
-    [[nodiscard]] bool parse() override;
+    [[nodiscard]] bool parse();
 
   private:
     QByteArray m_subject;
@@ -93,7 +93,7 @@ class YENCEncoded : public NonMimeParser
 public:
     explicit YENCEncoded(const QByteArray &src);
 
-    [[nodiscard]] bool parse() override;
+    [[nodiscard]] bool parse();
 
   private:
     static bool yencMeta(QByteArray &src, const QByteArray &name, int *value);
