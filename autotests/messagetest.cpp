@@ -36,8 +36,8 @@ void MessageTest::testMainBodyPart()
 
     // multipart/mixed
     msg2->contentType()->setMimeType("multipart/mixed");
-    msg2->addContent(text);
-    msg2->addContent(html);
+    msg2->appendContent(text);
+    msg2->appendContent(html);
 
     QCOMPARE(msg2->mainBodyPart(), text);
     QCOMPARE(msg2->mainBodyPart("text/plain"), text);
@@ -50,8 +50,8 @@ void MessageTest::testMainBodyPart()
 
     // multipart/alternative
     msg->contentType()->setMimeType("multipart/alternative");
-    msg->addContent(html);
-    msg->addContent(text);
+    msg->appendContent(html);
+    msg->appendContent(text);
 
     QCOMPARE(msg->mainBodyPart(), html);
     QCOMPARE(msg->mainBodyPart("text/plain"), text);
@@ -60,7 +60,7 @@ void MessageTest::testMainBodyPart()
     // multipart/alternative inside multipart/mixed
     auto msg3 = new Message();
     msg3->contentType()->setMimeType("multipart/mixed");
-    msg3->addContent(msg);
+    msg3->appendContent(msg);
     auto attach = new Content();
     attach->contentType()->setMimeType("text/plain");
 

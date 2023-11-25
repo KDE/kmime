@@ -49,8 +49,12 @@ void AttachmentTest::testIsAttachment()
     QFETCH(bool, isAtt);
 
     auto root = new KMime::Message;
+    root->contentType()->from7BitString("multipart/mixed");
+    root->contentTransferEncoding()->setEncoding(KMime::Headers::CE7Bit);
+    auto c0 = new KMime::Content;
+    root->appendContent(c0);
     auto c = new KMime::Content;
-    root->addContent(c);
+    root->appendContent(c);
     if (!mimeType.isEmpty()) {
         c->contentType()->setMimeType(mimeType);
     }
@@ -95,12 +99,12 @@ void AttachmentTest::testHasAttachment()
 
     auto c1 = new KMime::Content;
     c1->contentType()->setMimeType("text/plain");
-    root->addContent(c1);
+    root->appendContent(c1);
 
     auto c2 = new KMime::Content;
     c2->contentType()->setMimeType("image/jpeg");
     c2->contentDisposition()->setFilename(QStringLiteral("image.jpg"));
-    root->addContent(c2);
+    root->appendContent(c2);
 
     QCOMPARE(KMime::hasAttachment(root), false);
     QCOMPARE(root->attachments().size(), 0);
@@ -119,11 +123,11 @@ void AttachmentTest::testHasAttachment()
 
     c1 = new KMime::Content;
     c1->contentType()->setMimeType("text/plain");
-    root->addContent(c1);
+    root->appendContent(c1);
 
     c2 = new KMime::Content;
     c2->contentType()->setMimeType("text/html");
-    root->addContent(c2);
+    root->appendContent(c2);
 
     QCOMPARE(KMime::hasAttachment(root), false);
     QCOMPARE(root->attachments().size(), 0);
@@ -131,10 +135,15 @@ void AttachmentTest::testHasAttachment()
 
     // the main part of multipart/mixed is not an attachment, even if it looks like one
     root = new KMime::Message;
+    root->contentType()->from7BitString("multipart/mixed");
+    root->contentTransferEncoding()->setEncoding(KMime::Headers::CE7Bit);
+    auto c0 = new KMime::Content;
+    root->appendContent(c0);
+
     c1 = new KMime::Content;
     c1->contentType()->setMimeType("text/plain");
     c1->contentType()->setName(QStringLiteral("file.txt"), "utf-8");
-    root->addContent(c1, true);
+    root->prependContent(c1);
     QCOMPARE(KMime::isAttachment(c1), false);
     QCOMPARE(KMime::hasAttachment(c1), false);
     QCOMPARE(KMime::hasAttachment(root), false);
@@ -145,10 +154,15 @@ void AttachmentTest::testHasAttachment()
 void AttachmentTest::testNestedMultipart()
 {
     auto root = new KMime::Message;
+    root->contentType()->from7BitString("multipart/mixed");
+    root->contentTransferEncoding()->setEncoding(KMime::Headers::CE7Bit);
+    auto c0 = new KMime::Content;
+    root->appendContent(c0);
+
     auto sig = new KMime::Content;
     sig->contentType()->setMimeType("application/pgp-signature");
     sig->contentType()->setName(QStringLiteral("signature.asc"), "utf-8");
-    root->addContent(sig);
+    root->appendContent(sig);
     root->contentType()->setMimeType("multipart/signed");
 
     auto mixed = root->contents().at(0);
@@ -156,7 +170,7 @@ void AttachmentTest::testNestedMultipart()
     auto att = new KMime::Content;
     att->contentType()->setMimeType("image/jpeg");
     att->contentType()->setName(QStringLiteral("attachment.jpg"), "utf-8");
-    mixed->addContent(att);
+    mixed->appendContent(att);
 
     mixed->contentType()->setMimeType("multipart/mixed");
 

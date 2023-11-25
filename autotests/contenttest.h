@@ -14,7 +14,6 @@ private Q_SLOTS:
     void testGetHeaderInstance();
     void testHeaderAddRemove();
     void testHeaderAppend();
-    void testImplicitMultipartGeneration();
     void testExplicitMultipartGeneration();
     void testSetContent();
     void testEncodedContent();

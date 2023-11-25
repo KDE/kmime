@@ -529,6 +529,34 @@ void Content::addContent(Content *c, bool prepend)
     }
 }
 
+void Content::appendContent(Content *c)
+{
+    // This method makes no sense for encapsulated messages
+    Q_ASSERT(!bodyIsMessage());
+
+    Q_D(Content);
+    d->multipartContents.append(c);
+
+    if (c->parent() != this) {
+        // If the content was part of something else, this will remove it from there.
+        c->setParent(this);
+    }
+}
+
+void Content::prependContent(Content *c)
+{
+    // This method makes no sense for encapsulated messages
+    Q_ASSERT(!bodyIsMessage());
+
+    Q_D(Content);
+    d->multipartContents.prepend(c);
+
+    if (c->parent() != this) {
+        // If the content was part of something else, this will remove it from there.
+        c->setParent(this);
+    }
+}
+
 void Content::removeContent(Content *c, bool del)
 {
     Q_D(Content);
@@ -566,6 +594,22 @@ void Content::removeContent(Content *c, bool del)
         delete main;
         d->multipartContents.clear();
     }
+}
+
+Content *Content::takeContent(Content *c)
+{
+    // This method makes no sense for encapsulated messages.
+    // Should be covered by the above assert already, though.
+    Q_ASSERT(!bodyIsMessage());
+
+    Q_D(Content);
+    if (d->multipartContents.isEmpty() || !d->multipartContents.contains(c)) {
+        return nullptr;
+    }
+
+    d->multipartContents.removeAll(c);
+    c->d_ptr->parent = nullptr;
+    return c;
 }
 
 void Content::changeEncoding(Headers::contentEncoding e)
@@ -778,14 +822,14 @@ void Content::setParent(Content *parent)
     Content *oldParent = d_ptr->parent;
     if (oldParent) {
         if (!oldParent->contents().isEmpty() && oldParent->contents().contains(this)) {
-            oldParent->removeContent(this);
+            oldParent->takeContent(this);
         }
     }
 
     d_ptr->parent = parent;
     if (parent) {
         if (!parent->contents().isEmpty() && !parent->contents().contains(this)) {
-            parent->addContent(this);
+            parent->appendContent(this);
         }
     }
 }

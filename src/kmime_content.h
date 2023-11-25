@@ -540,7 +540,28 @@ public:
     @see removeContent().
   */
   // KDE5: Do not convert single-part->multipart automatically.
-  void addContent(Content *content, bool prepend = false);
+  [[deprecated("use append/prependContent instead")]] void addContent(Content *content, bool prepend = false);
+
+  /**
+    Appends a new sub-Content. If the sub-Content is already part of another
+    Content object, it is removed from there and its parent is updated.
+
+    @param content The new sub-Content.
+    @see prependContent()
+    @see takeContent()
+    @since 6.0
+  */
+  void appendContent(Content *content);
+  /**
+    Prepends a new sub-Content. If the sub-Content is already part of another
+    Content object, it is removed from there and its parent is updated.
+
+    @param content The new sub-Content.
+    @see appendContent()
+    @see takeContent()
+    @since 6.0
+  */
+  void prependContent(Content *content);
 
   void replaceContent(Content *oldContent, Content *newContent);
   /**
@@ -560,7 +581,20 @@ public:
     @see clearContents().
   */
   // KDE5: Do not convert multipart->single-part automatically.
-  void removeContent(Content *content, bool del = false);
+  [[deprecated("use takeContent instead")]] void removeContent(Content *content, bool del = false);
+  /**
+    Removes the given sub-Content and, if that actually was a sub-content
+    returns that.
+
+    @param content The Content to remove. It is not deleted, ownership goes
+    back to the caller.
+
+    @see appendContent()
+    @see prependContent()
+    @see clearContents()
+    @since 6.0
+  */
+  Content *takeContent(Content *content);
 
   /**
     Changes the encoding of this Content to @p e.  If the Content is binary,

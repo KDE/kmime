@@ -53,24 +53,22 @@ void ContentIndexTest::testContent()
     QCOMPARE(c1->indexForContent(c1), ContentIndex());
 
     auto c11 = new Content();
-    // this makes c1 multipart/mixed, ie. c11 will be the second child!
-    c1->addContent(c11);
-    QCOMPARE(c1->content(ContentIndex(u"2")), c11);
+    c1->appendContent(c11);
+    QCOMPARE(c1->content(ContentIndex(u"1")), c11);
     QCOMPARE(c1->content(ContentIndex(u"3")), (Content *)nullptr);
     QCOMPARE(c1->content(ContentIndex(u"2.1")), (Content *)nullptr);
     QCOMPARE(c1->indexForContent(c1), ContentIndex());
-    QCOMPARE(c1->indexForContent(c11), ContentIndex(u"2"));
+    QCOMPARE(c1->indexForContent(c11), ContentIndex(u"1"));
     QCOMPARE(c1->indexForContent(c1->contents().first()), ContentIndex(u"1"));
 
     auto c12 = new Content();
-    c1->addContent(c12);
-    // c12 becomes multipart/mixed, ie. c12 will be the second child!
+    c1->appendContent(c12);
     auto c121 = new Content();
-    c12->addContent(c121);
-    QCOMPARE(c1->content(ContentIndex(u"3")), c12);
-    QCOMPARE(c1->content(ContentIndex(u"3.2")), c121);
-    QCOMPARE(c1->indexForContent(c121), ContentIndex(u"3.2"));
-    QCOMPARE(c121->index(), ContentIndex(u"3.2"));
+    c12->appendContent(c121);
+    QCOMPARE(c1->content(ContentIndex(u"2")), c12);
+    QCOMPARE(c1->content(ContentIndex(u"2.1")), c121);
+    QCOMPARE(c1->indexForContent(c121), ContentIndex(u"2.1"));
+    QCOMPARE(c121->index(), ContentIndex(u"2.1"));
 
     QCOMPARE(c1->indexForContent((Content *)nullptr), ContentIndex());
     delete c1;

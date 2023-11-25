@@ -109,49 +109,6 @@ void ContentTest::testHeaderAppend()
     delete c;
 }
 
-void ContentTest::testImplicitMultipartGeneration()
-{
-    auto c1 = new Content();
-    c1->contentType()->from7BitString("text/plain");
-    c1->setBody("textpart");
-
-    auto c2 = new Content();
-    c2->contentType()->from7BitString("text/html");
-    c2->setBody("htmlpart");
-
-    c1->addContent(c2);
-
-    // c1 implicitly converted into a multipart/mixed node.
-    QVERIFY(c1->contentType(false));
-    QCOMPARE(c1->contentType()->mimeType(), QByteArray("multipart/mixed"));
-    QVERIFY(c1->body().isEmpty());
-
-    QCOMPARE(c1->contents().count(), 2);
-    Content *c = c1->contents().at(0);   // Former c1.
-    QVERIFY(c->contentType(false));
-    QCOMPARE(c->contentType()->mimeType(), QByteArray("text/plain"));
-    QCOMPARE(c->body(), QByteArray("textpart"));
-
-    QCOMPARE(c1->contents().at(1), c2);
-
-    // Now remove c2. c1 should be converted back to a text/plain content.
-    c1->removeContent(c2, false);
-    QVERIFY(c1->contents().isEmpty());
-    QVERIFY(c1->contentType(false));
-    QCOMPARE(c1->contentType()->mimeType(), QByteArray("text/plain"));
-    QCOMPARE(c1->body(), QByteArray("textpart"));
-
-    // c2 should not have been touched.
-    QVERIFY(c2->contents().isEmpty());
-    QVERIFY(c2->contentType(false));
-    QCOMPARE(c2->contentType()->mimeType(), QByteArray("text/html"));
-    QCOMPARE(c2->body(), QByteArray("htmlpart"));
-
-    // Clean up.
-    delete c1;
-    delete c2;
-}
-
 void ContentTest::testExplicitMultipartGeneration()
 {
     auto c1 = new Content();
@@ -165,8 +122,8 @@ void ContentTest::testExplicitMultipartGeneration()
     c3->contentType()->from7BitString("text/html");
     c3->setBody("htmlpart");
 
-    c1->addContent(c2);
-    c1->addContent(c3);
+    c1->appendContent(c2);
+    c1->appendContent(c3);
 
     // c1 should not have been changed.
     QCOMPARE(c1->contentType()->mimeType(), QByteArray("multipart/mixed"));
@@ -176,11 +133,13 @@ void ContentTest::testExplicitMultipartGeneration()
     QCOMPARE(c1->contents().at(0), c2);
     QCOMPARE(c1->contents().at(1), c3);
 
-    // Removing c3 should turn c1 into a single-part content containing the data of c2.
-    c1->removeContent(c3, false);
-    QCOMPARE(c1->contentType()->mimeType(), QByteArray("text/plain"));
-    QCOMPARE(c1->contents().count(), 0);
-    QCOMPARE(c1->body(), QByteArray("textpart"));
+    c1->takeContent(c3);
+    QCOMPARE(c1->contents().count(), 1);
+    QCOMPARE(c1->contentType()->mimeType(), QByteArray("multipart/mixed"));
+    QVERIFY(c1->body().isEmpty());
+    QCOMPARE(c1->contents().at(0), c2);
+    QCOMPARE(c2->body(), QByteArray("textpart"));
+    QCOMPARE(c3->parent(), nullptr);
 
     // Clean up.
     delete c1;
@@ -457,12 +416,18 @@ void ContentTest::testMultipartMixed()
     auto header = new Headers::MIMEVersion;
     header->from7BitString("1.234");
     msg->setHeader(header);
-    msg->setBody(part1);
+    msg->contentType()->from7BitString("multipart/mixed");
+    msg->contentTransferEncoding()->setEncoding(KMime::Headers::CE7Bit);
+
+    c = new Content();
+    c->setBody(part1);
+    msg->appendContent(c);
+
     c = new Content();
     c->setBody(part2);
     c->contentType()->setMimeType("text/plain");
     c->contentType()->setCharset("us-ascii");
-    msg->addContent(c);
+    msg->appendContent(c);
     msg->contentType()->setBoundary("simple boundary");
 
     list = msg->contents();
@@ -474,8 +439,8 @@ void ContentTest::testMultipartMixed()
 
     msg->assemble();
     //QByteArray encc = msg->encodedContent();
-    //qDebug() << "expected assembled content" << assembled;
-    //qDebug() << "actual encoded content" << encc;
+    //qDebug().noquote() << "expected assembled content" << assembled;
+    //qDebug().noquote() << "actual encoded content" << encc;
     QCOMPARE(msg->encodedContent(), assembled);
     delete msg;
 }
@@ -620,23 +585,27 @@ void ContentTest::testParent()
     //c2 doesn't have a parent yet
     QCOMPARE(c2->parent(), (Content *)nullptr);
 
-    c1->addContent(c2);
-    c1->addContent(c3);
-    c1->addContent(c4);
+    c1->appendContent(c2);
+    c1->appendContent(c3);
+    c1->appendContent(c4);
+    QCOMPARE(c1->contents().size(), 3);
 
     // c1 is the parent of those
     QCOMPARE(c2->parent(), c1);
     QCOMPARE(c3->parent(), c1);
 
     //test removal
-    c1->removeContent(c2, false);
+    c1->takeContent(c2);
     QCOMPARE(c2->parent(), (Content *)nullptr);
     QCOMPARE(c1->contents().at(0), c3);
+    QCOMPARE(c1->contents().size(), 2);
 
 //check if the content is moved correctly to another parent
-    c5->addContent(c4);
+    c5->appendContent(c4);
     QCOMPARE(c4->parent(), c5);
-    QCOMPARE(c1->contents().count(), 0);   //yes, it should be 0
+    QCOMPARE(c1->contents().size(), 1);
+    QCOMPARE(c1->contents().at(0), c3);
+    QCOMPARE(c5->contents().size(), 1);
     QCOMPARE(c5->contents().at(0), c4);
 
     // example taken from RFC 2046, section 5.1.1.

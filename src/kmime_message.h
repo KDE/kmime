@@ -58,8 +58,8 @@ class MessagePrivate;
  * a->setBody( "Some text in the attachment..." );
  *
  * // Attach the both multiparts and assemble the message.
- * m->addContent( b );
- * m->addContent( a );
+ * m->appendContent( b );
+ * m->appendContent( a );
  * m->assemble();
  * \endcode
  */
