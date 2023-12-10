@@ -2093,19 +2093,6 @@ Headers::Base *extractHeader(QByteArrayView head, const int headerStart, int &en
 
 }
 
-Headers::Base *extractFirstHeader(QByteArray &head)
-{
-    int endOfFieldBody = 0;
-    auto header = extractHeader(head, 0, endOfFieldBody);
-    if (header) {
-        head.remove(0, endOfFieldBody + 1);
-    } else {
-        head.clear();
-    }
-
-    return header;
-}
-
 std::unique_ptr<KMime::Headers::Base> parseNextHeader(QByteArrayView &head)
 {
     int endOfFieldBody = 0;

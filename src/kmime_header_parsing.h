@@ -249,15 +249,6 @@ parseTime(const char *&scursor, const char *const send, int &hour, int &min,
                                                QDateTime &result,
                                                bool isCRLF = false);
 
-/**
- * Extracts and returns the first header that is contained in the given byte array.
- * The header will also be removed from the passed-in byte array head.
- *
- * @since 4.4
- */
-[[nodiscard]] [[deprecated("use parseNextHeader")]] KMIME_EXPORT KMime::Headers::Base *
-extractFirstHeader(QByteArray &head);
-
 /** Parses the first header contained the given data.
  *  If a header is found @p head will be shortened to no longer
  *  include the corresponding data, ie. this method can be called
