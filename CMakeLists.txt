@@ -23,7 +23,7 @@ include(ECMDeprecationSettings)
 include(ECMAddQch)
 
 set(KMIME_LIB_VERSION ${PIM_VERSION})
-set(QT_REQUIRED_VERSION "6.5.0")
+set(QT_REQUIRED_VERSION "6.6.0")
 
 
 find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED Core)
