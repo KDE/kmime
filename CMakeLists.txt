@@ -40,7 +40,7 @@ add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt 
 ########### Find packages ###########
 find_package(KF6I18n ${KF_MIN_VERSION} CONFIG REQUIRED)
 find_package(KF6Codecs ${KF_MIN_VERSION} CONFIG REQUIRED)
-add_definitions(-DTRANSLATION_DOMAIN=\"libkmime5\")
+add_definitions(-DTRANSLATION_DOMAIN=\"libkmime6\")
 add_definitions(-DQT_NO_CONTEXTLESS_CONNECT)
 ecm_set_disabled_deprecation_versions(QT 6.6.0  KF 5.246.0)
 
