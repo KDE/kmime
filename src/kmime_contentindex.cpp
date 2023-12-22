@@ -98,7 +98,7 @@ bool KMime::ContentIndex::operator !=(const ContentIndex &index) const
 ContentIndex &ContentIndex::operator =(const ContentIndex &other) = default;
 ContentIndex &ContentIndex::operator =(ContentIndex &&) noexcept = default;
 
-uint KMime::qHash(const KMime::ContentIndex &index)
+size_t KMime::qHash(const KMime::ContentIndex &index, size_t seed) noexcept
 {
-    return qHash(index.toString());
+    return qHash(index.toString(), seed);
 }

@@ -128,7 +128,7 @@ private:
     //@endcond
 };
 
-KMIME_EXPORT uint qHash(const KMime::ContentIndex &);
+KMIME_EXPORT size_t qHash(const KMime::ContentIndex &, size_t seed = 0) noexcept;
 
 }  //namespace KMime
 
