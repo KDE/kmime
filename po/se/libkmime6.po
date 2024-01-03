@@ -1,4 +1,4 @@
-# Translation of libkmime5 to Northern Sami
+# Translation of libkmime6 to Northern Sami
 #
 # Børre Gaup <boerre@skolelinux.no>, 2009, 2010.
 msgid ""

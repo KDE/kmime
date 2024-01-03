@@ -1,4 +1,4 @@
-# Translation of libkmime5 to Norwegian Bokmål
+# Translation of libkmime6 to Norwegian Bokmål
 #
 # Nils Kristian Tomren <slx@nilsk.net>, 2005.
 # Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2007, 2008.
