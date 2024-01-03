@@ -1,4 +1,4 @@
-# Translation of libkmime5 to Norwegian Nynorsk
+# Translation of libkmime6 to Norwegian Nynorsk
 #
 # Karl Ove Hufthammer <karl@huftis.org>, 2008, 2020.
 # Eirik U. Birkeland <eirbir@gmail.com>, 2008.
