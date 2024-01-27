@@ -1626,7 +1626,6 @@ bool ContentType::isEmpty() const {
 
 void ContentType::clear() {
     Q_D(ContentType);
-    d->category = CCsingle;
     d->mimeType.clear();
     Parametrized::clear();
 }
@@ -1677,12 +1676,6 @@ QByteArray ContentType::subType() const {
 void ContentType::setMimeType(const QByteArray & mimeType) {
     Q_D(ContentType);
     d->mimeType = mimeType;
-
-    if (isMultipart()) {
-        d->category = CCcontainer;
-    } else {
-        d->category = CCsingle;
-    }
 }
 
 bool ContentType::isMediatype(const char *mediatype) const {
@@ -1790,13 +1783,9 @@ int ContentType::partialCount() const {
     }
 }
 
-contentCategory ContentType::category() const {
-    return d_func()->category;
-}
-
 void ContentType::setCategory(contentCategory c) {
     Q_D(ContentType);
-    d->category = c;
+    Q_UNUSED(c);
 }
 
 void ContentType::setPartialParams(int total, int number) {
@@ -1841,7 +1830,7 @@ bool ContentType::parse(const char *&scursor, const char *const send,
     // parameter list
     eatCFWS(scursor, send, isCRLF);
     if (scursor == send) {
-        goto success; // no parameters
+        return true; // no parameters
     }
     if (*scursor != ';') {
         return false;
@@ -1852,13 +1841,6 @@ bool ContentType::parse(const char *&scursor, const char *const send,
         return false;
     }
 
-    // adjust category
-success:
-    if (isMultipart()) {
-        d->category = CCcontainer;
-    } else {
-        d->category = CCsingle;
-    }
     return true;
 }
 

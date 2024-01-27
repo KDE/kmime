@@ -31,7 +31,6 @@ class MessagePrivate;
  * Headers::ContentType *ct = m->contentType();
  * ct->setMimeType( "multipart/mixed" );
  * ct->setBoundary( multiPartBoundary() );
- * ct->setCategory( Headers::CCcontainer );
  * Headers::ContentTransferEncoding *cte = m->contentTransferEncoding();
  * cte->setEncoding(Headers::CE7Bit);
  * cte->setDecoded(true);

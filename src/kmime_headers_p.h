@@ -124,11 +124,9 @@ class ContentTypePrivate : public Generics::ParametrizedPrivate
 {
 public:
     ContentTypePrivate() :
-        Generics::ParametrizedPrivate(),
-        category(CCsingle)
+        Generics::ParametrizedPrivate()
     {}
     QByteArray mimeType;
-    contentCategory category;
 };
 
 class ContentDispositionPrivate : public Generics::ParametrizedPrivate

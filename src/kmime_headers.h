@@ -1117,10 +1117,7 @@ public:
     */
     void setPartialParams(int total, int number);
 
-    // TODO: document
-    contentCategory category() const;
-
-    void setCategory(contentCategory c);
+    [[deprecated("don't call, has no effect")]] void setCategory(contentCategory c);
 
 protected:
     bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;

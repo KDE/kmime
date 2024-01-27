@@ -496,9 +496,6 @@ void Content::addContent(Content *c, bool prepend)
             }
         }
 
-        // Adjust the Content-Type of the newly created sub-Content.
-        main->contentType()->setCategory(Headers::CCmixedPart);
-
         // Move the body to the new subcontent.
         main->setBody(d->body);
         d->body.clear();
@@ -510,7 +507,6 @@ void Content::addContent(Content *c, bool prepend)
         Headers::ContentType *ct = contentType();
         ct->setMimeType("multipart/mixed");
         ct->setBoundary(multiPartBoundary());
-        ct->setCategory(Headers::CCcontainer);
         auto cte = contentTransferEncoding();
         cte->setEncoding(Headers::CE7Bit);
         cte->setDecoded(true);
@@ -931,7 +927,6 @@ bool ContentPrivate::parseUuencoded(Content *q)
         body.clear();
         ct->setMimeType("multipart/mixed");
         ct->setBoundary(multiPartBoundary());
-        ct->setCategory(Headers::CCcontainer);
         auto cte = q->contentTransferEncoding();
         cte->setEncoding(Headers::CE7Bit);
         cte->setDecoded(true);
@@ -987,7 +982,6 @@ bool ContentPrivate::parseYenc(Content *q)
         body.clear();
         ct->setMimeType("multipart/mixed");
         ct->setBoundary(multiPartBoundary());
-        ct->setCategory(Headers::CCcontainer);
         auto cte = q->contentTransferEncoding();
         cte->setEncoding(Headers::CE7Bit);
         cte->setDecoded(true);
@@ -1034,14 +1028,6 @@ bool ContentPrivate::parseMultipart(Content *q)
     preamble = mpp.preamble();
     epilogue = mpp.epilouge();
 
-    // Determine the category of the subparts (used in attachments()).
-    Headers::contentCategory cat;
-    if (ct->isSubtype("alternative")) {
-        cat = Headers::CCalternativePart;
-    } else {
-        cat = Headers::CCmixedPart; // Default to "mixed".
-    }
-
     // Create a sub-Content for every part.
     Q_ASSERT(multipartContents.isEmpty());
     body.clear();
@@ -1051,7 +1037,6 @@ bool ContentPrivate::parseMultipart(Content *q)
         c->setContent(part);
         c->setFrozen(frozen);
         c->parse();
-        c->contentType()->setCategory(cat);
         multipartContents.append(c);
     }
 
