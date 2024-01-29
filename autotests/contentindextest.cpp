@@ -6,8 +6,8 @@
 
 #include "contentindextest.h"
 
-#include <kmime_content.h>
-#include <kmime_contentindex.h>
+#include "kmime_content.h"
+#include "kmime_contentindex.h"
 
 using namespace KMime;
 

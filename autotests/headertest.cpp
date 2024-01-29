@@ -8,7 +8,7 @@
 
 #include <QTest>
 
-#include <kmime_headers.h>
+#include "kmime_headers.h"
 
 using namespace KMime;
 using namespace KMime::Headers;
