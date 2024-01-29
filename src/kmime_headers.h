@@ -46,13 +46,6 @@ namespace Headers
 
 class BasePrivate;
 
-enum contentCategory {
-    CCsingle,
-    CCcontainer,
-    CCmixedPart,
-    CCalternativePart
-};
-
 /**
   Various possible values for the "Content-Transfer-Encoding" header.
 */
@@ -1116,8 +1109,6 @@ public:
       @param number The number of this entity in a multi-part set.
     */
     void setPartialParams(int total, int number);
-
-    [[deprecated("don't call, has no effect")]] void setCategory(contentCategory c);
 
 protected:
     bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;

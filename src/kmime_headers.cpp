@@ -1783,11 +1783,6 @@ int ContentType::partialCount() const {
     }
 }
 
-void ContentType::setCategory(contentCategory c) {
-    Q_D(ContentType);
-    Q_UNUSED(c);
-}
-
 void ContentType::setPartialParams(int total, int number) {
     setParameter(QStringLiteral("number"), QString::number(number));
     setParameter(QStringLiteral("total"), QString::number(total));
