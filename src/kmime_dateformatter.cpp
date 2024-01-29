@@ -124,7 +124,7 @@ QString DateFormatterPrivate::custom(const QDateTime &t) const
     QString ret = mCustomFormat;
 
     if (z != -1) {
-        ret.replace(z, 1, QLatin1String(zone(t)));
+      ret.replace(z, 1, QLatin1StringView(zone(t)));
     }
 
     ret = t.toString(ret);

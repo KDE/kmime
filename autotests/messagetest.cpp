@@ -153,10 +153,10 @@ void MessageTest::testHeaderFieldWithoutSpace()
     msg.setContent(mail.toLatin1());
     msg.parse();
 
-    QCOMPARE(msg.to()->asUnicodeString(), QLatin1String("heinz@test.de"));
+    QCOMPARE(msg.to()->asUnicodeString(), QLatin1StringView("heinz@test.de"));
     QCOMPARE(msg.from()->asUnicodeString(), QString());
-    QCOMPARE(msg.cc()->asUnicodeString(), QLatin1String("moritz@test.de"));
-    QCOMPARE(msg.subject()->asUnicodeString(), QLatin1String("Test"));
+    QCOMPARE(msg.cc()->asUnicodeString(), QLatin1StringView("moritz@test.de"));
+    QCOMPARE(msg.subject()->asUnicodeString(), QLatin1StringView("Test"));
     QVERIFY(msg.hasHeader("X-Mailer"));
     QVERIFY(msg.headerByType("X-Mailer")->asUnicodeString().isEmpty());
 }
@@ -175,9 +175,10 @@ void MessageTest::testWronglyFoldedHeaders()
     msg.setContent(mail.toLatin1());
     msg.parse();
 
-    QCOMPARE(msg.subject()->asUnicodeString(), QLatin1String("Hello World"));
+    QCOMPARE(msg.subject()->asUnicodeString(),
+             QLatin1StringView("Hello World"));
     QCOMPARE(msg.body().data(), "<Body>");
-    QCOMPARE(msg.to()->asUnicodeString(), QLatin1String("test@test.de"));
+    QCOMPARE(msg.to()->asUnicodeString(), QLatin1StringView("test@test.de"));
 }
 
 void MessageTest::missingHeadersTest()
@@ -185,10 +186,12 @@ void MessageTest::missingHeadersTest()
     // Test that the message body is OK even though some headers are missing
     KMime::Message msg;
     const QString body = QStringLiteral("Hi Donald, look at those nice pictures I found!\n");
-    const QString content = QLatin1String("From: georgebush@whitehouse.org\n"
-                                    "To: donaldrumsfeld@whitehouse.org\n"
-                                    "Subject: Cute Kittens\n"
-                                    "\n") + body;
+    const QString content =
+        QLatin1StringView("From: georgebush@whitehouse.org\n"
+                          "To: donaldrumsfeld@whitehouse.org\n"
+                          "Subject: Cute Kittens\n"
+                          "\n") +
+        body;
     msg.setContent(content.toLatin1());
     msg.parse();
     msg.assemble();
@@ -241,7 +244,7 @@ void MessageTest::testBug219749()
     QCOMPARE(attachment->contentID()->as7BitString(false).data(), "<jaselka1.docx4AECA1F9@9230725.3CDBB752>");
     Headers::ContentDisposition *cd = attachment->contentDisposition(false);
     QVERIFY(cd);
-    QCOMPARE(cd->filename(), QLatin1String("jaselka 1.docx"));
+    QCOMPARE(cd->filename(), QLatin1StringView("jaselka 1.docx"));
 }
 
 void MessageTest::testBidiSpoofing()
@@ -250,7 +253,9 @@ void MessageTest::testBidiSpoofing()
     //const QString PDF( QChar( 0x202C ) );
 
     const QByteArray senderAndRLO =
-        encodeRFC2047String(QString(QLatin1String("Sender") + RLO + QLatin1String(" <sender@test.org>")), "utf-8");
+        encodeRFC2047String(QString(QLatin1StringView("Sender") + RLO +
+                                    QLatin1String(" <sender@test.org>")),
+                            "utf-8");
 
     // The display name of the "From" has an RLO, make sure the KMime parser balances it
     QByteArray data =
@@ -266,7 +271,8 @@ void MessageTest::testBidiSpoofing()
     // instead of adding PDF chars, because of broken KHTML.
     //const QString expectedDisplayName = "\"Sender" + RLO + PDF + "\"";
     const QString expectedDisplayName = QStringLiteral("Sender");
-    const QString expectedMailbox = expectedDisplayName + QLatin1String(" <sender@test.org>");
+    const QString expectedMailbox =
+        expectedDisplayName + QLatin1StringView(" <sender@test.org>");
     QCOMPARE(msg.from()->addresses().count(), 1);
     QCOMPARE(msg.from()->asUnicodeString(), expectedMailbox);
     QCOMPARE(msg.from()->displayNames().first(), expectedDisplayName);
@@ -293,9 +299,11 @@ void MessageTest::testUtf16()
     msg.setContent(data);
     msg.parse();
 
-    QCOMPARE(msg.from()->asUnicodeString(), QLatin1String("foo@bar.com"));
-    QCOMPARE(msg.subject()->asUnicodeString(), QLatin1String("UTF-16 Test"));
-    QCOMPARE(msg.decodedText(false, true), QLatin1String("This is UTF-16 Text."));
+    QCOMPARE(msg.from()->asUnicodeString(), QLatin1StringView("foo@bar.com"));
+    QCOMPARE(msg.subject()->asUnicodeString(),
+             QLatin1StringView("UTF-16 Test"));
+    QCOMPARE(msg.decodedText(false, true),
+             QLatin1StringView("This is UTF-16 Text."));
 
     // Add a new To header, for testings
     auto to = new KMime::Headers::To;
@@ -332,9 +340,12 @@ void MessageTest::testDecodedText()
     msg.setContent(data);
     msg.parse();
 
-    QCOMPARE(msg.decodedText(true, false), QLatin1String("Testing Whitespace"));
-    QCOMPARE(msg.decodedText(true, true), QLatin1String("Testing Whitespace"));
-    QCOMPARE(msg.decodedText(false, true), QLatin1String("Testing Whitespace   \n  \n "));
+    QCOMPARE(msg.decodedText(true, false),
+             QLatin1StringView("Testing Whitespace"));
+    QCOMPARE(msg.decodedText(true, true),
+             QLatin1StringView("Testing Whitespace"));
+    QCOMPARE(msg.decodedText(false, true),
+             QLatin1StringView("Testing Whitespace   \n  \n "));
 
     QByteArray data2 =
         "Subject: Test\n"
@@ -345,9 +356,12 @@ void MessageTest::testDecodedText()
     msg2.setContent(data2);
     msg2.parse();
 
-    QCOMPARE(msg2.decodedText(true, false), QLatin1String("Testing Whitespace"));
-    QCOMPARE(msg2.decodedText(true, true), QLatin1String("Testing Whitespace"));
-    QCOMPARE(msg2.decodedText(false, true), QLatin1String("Testing Whitespace   \n  \n \n\n\n "));
+    QCOMPARE(msg2.decodedText(true, false),
+             QLatin1StringView("Testing Whitespace"));
+    QCOMPARE(msg2.decodedText(true, true),
+             QLatin1StringView("Testing Whitespace"));
+    QCOMPARE(msg2.decodedText(false, true),
+             QLatin1StringView("Testing Whitespace   \n  \n \n\n\n "));
 }
 
 void MessageTest::testInlineImages()
@@ -410,7 +424,8 @@ void MessageTest::testInlineImages()
     QCOMPARE(msg.contents()[0]->contentType()->subType().data(), "alternative");
 
     QCOMPARE(msg.contents()[1]->contentType()->isImage(), true);
-    QCOMPARE(msg.contents()[1]->contentType()->name(), QLatin1String("inlineimage.png"));
+    QCOMPARE(msg.contents()[1]->contentType()->name(),
+             QLatin1StringView("inlineimage.png"));
     QCOMPARE(msg.contents()[1]->contentID()->identifier().data(), "740439759");
     QCOMPARE(msg.contents()[1]->contentID()->as7BitString(false).data(), "<740439759>");
 }
@@ -443,8 +458,11 @@ void MessageTest::testIssue3914()
     KMime::Content *attachedMail =  msg->contents().at(1);
     QCOMPARE(attachedMail->contentType()->mimeType().data(), "message/rfc822");
     QVERIFY(attachedMail->contentDisposition(false));
-    QVERIFY(attachedMail->contentDisposition()->hasParameter(QLatin1String("filename")));
-    QVERIFY(attachedMail->contentDisposition()->parameter(QLatin1String("filename")).isEmpty());
+    QVERIFY(attachedMail->contentDisposition()->hasParameter(
+        QLatin1StringView("filename")));
+    QVERIFY(attachedMail->contentDisposition()
+                ->parameter(QLatin1StringView("filename"))
+                .isEmpty());
 }
 
 void MessageTest::testBug223509()
@@ -489,8 +507,10 @@ void MessageTest::testEncapsulatedMessages()
     QVERIFY(!textContent->bodyIsMessage());
     QVERIFY(!textContent->bodyAsMessage());
     QVERIFY(!textContent->isTopLevel());
-    QCOMPARE(textContent->decodedText(true, true),
-             QLatin1String("Hi Hans!\nLook at this interesting mail I forwarded to you!"));
+    QCOMPARE(
+        textContent->decodedText(true, true),
+        QLatin1StringView(
+            "Hi Hans!\nLook at this interesting mail I forwarded to you!"));
     QCOMPARE(textContent->index().toString().toLatin1().data(), "1");
 
     KMime::Content *messageContent = msg->contents().at(1);
@@ -509,7 +529,7 @@ void MessageTest::testEncapsulatedMessages()
     QVERIFY(!encapsulated->bodyAsMessage());
     QCOMPARE(encapsulated->subject()->as7BitString(false).data(), "Foo");
     QCOMPARE(encapsulated->decodedText(false, false),
-             QLatin1String("This is the encapsulated message body."));
+             QLatin1StringView("This is the encapsulated message body."));
     QCOMPARE(encapsulated.data(), messageContent->bodyAsMessage().data());
     QCOMPARE(encapsulated.data(), messageContent->contents().constFirst());
     QCOMPARE(encapsulated->parent(), messageContent);
@@ -592,11 +612,12 @@ void MessageTest::testEncryptedMails()
 void MessageTest::testReturnSameMail()
 {
     KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("dontchangemail.mbox"));
-    QFile file(QLatin1String(TEST_DATA_DIR) + QLatin1String("/mails/dontchangemail.mbox"));
+    QFile file(QLatin1StringView(TEST_DATA_DIR) +
+               QLatin1String("/mails/dontchangemail.mbox"));
     QVERIFY(file.open(QIODevice::ReadOnly | QIODevice::Text));
     QByteArray fileContent = file.readAll();
     QCOMPARE(msg->encodedContent(), fileContent);
-    QCOMPARE(msg->decodedText(), QLatin1String(""));
+    QCOMPARE(msg->decodedText(), QLatin1StringView(""));
     KMime::Message msg2;
     msg2.setContent(msg->encodedContent());
     msg2.parse();
@@ -623,10 +644,11 @@ void MessageTest::testReplyHeader()
 
 KMime::Message::Ptr MessageTest::readAndParseMail(const QString &mailFile) const
 {
-    QFile file(QLatin1String(TEST_DATA_DIR) + QLatin1String("/mails/") + mailFile);
-    const bool ok = file.open(QIODevice::ReadOnly);
-    if (!ok) {
-        qWarning() << file.fileName() << "not found";
+  QFile file(QLatin1StringView(TEST_DATA_DIR) + QLatin1String("/mails/") +
+             mailFile);
+  const bool ok = file.open(QIODevice::ReadOnly);
+  if (!ok) {
+    qWarning() << file.fileName() << "not found";
     }
     Q_ASSERT(ok);
     const QByteArray data = KMime::CRLFtoLF(file.readAll());

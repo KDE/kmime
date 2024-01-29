@@ -228,7 +228,8 @@ bool UUEncoded::parse()
 
             if ((!containsBegin || !containsEnd) && !m_subject.isNull()) {
                 // message may be split up => parse subject
-                const auto match = subjectRegex.match(QLatin1String(m_subject));
+                const auto match =
+                    subjectRegex.match(QLatin1StringView(m_subject));
                 pos = match.capturedStart(0);
                 len = match.capturedLength(0);
                 if (pos != -1) {

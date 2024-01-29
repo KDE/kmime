@@ -20,9 +20,9 @@ void ContentIndexTest::testToString()
     KMime::ContentIndex ci;
     QCOMPARE(ci.toString(), QString());
     ci.push(1);
-    QCOMPARE(ci.toString(), QLatin1String("1"));
+    QCOMPARE(ci.toString(), QLatin1StringView("1"));
     ci.push(2);
-    QCOMPARE(ci.toString(), QLatin1String("2.1"));
+    QCOMPARE(ci.toString(), QLatin1StringView("2.1"));
 }
 
 void ContentIndexTest::testFromString()
@@ -81,10 +81,10 @@ void ContentIndexTest::testNavigation()
     ci.push(1);
     ci.push(2);
     ci.push(3);
-    QCOMPARE(ci.toString(), QLatin1String("3.2.1"));
+    QCOMPARE(ci.toString(), QLatin1StringView("3.2.1"));
     QCOMPARE(ci.pop(), 3u);
     QCOMPARE(ci.up(), 1u);
-    QCOMPARE(ci.toString(), QLatin1String("2"));
+    QCOMPARE(ci.toString(), QLatin1StringView("2"));
 }
 
 

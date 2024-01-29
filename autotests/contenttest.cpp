@@ -251,7 +251,8 @@ void ContentTest::testEncodedContent()
     const QStringList lines = QString::fromLatin1(content).split(QStringLiteral("\r\n"));
     for (const QString &line : lines) {
         QEXPECT_FAIL("", "KMime does not fold lines longer than 998 characters", Continue);
-        QVERIFY(line.length() < 998 && !line.isEmpty() && line != QLatin1String("body"));
+        QVERIFY(line.length() < 998 && !line.isEmpty() &&
+                line != QLatin1StringView("body"));
         // The test should be (after the expected failure disappears):
         //QVERIFY( line.length() < 998 );
     }

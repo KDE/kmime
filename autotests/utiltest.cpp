@@ -213,7 +213,7 @@ void UtilTest::testAddQuotes_data()
                       << QByteArray(R"("John \"the hacker\" Smith")") << false;
 
     // Test the whole thing on strings as well, for one example
-    QString string(QLatin1String("John \"the hacker\" Smith"));
+    QString string(QLatin1StringView("John \"the hacker\" Smith"));
     addQuotes(string, false);
     QCOMPARE(string, QString::fromLatin1("\"John \\\"the hacker\\\" Smith\""));
 }

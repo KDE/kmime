@@ -30,7 +30,8 @@ private Q_SLOTS:
         QCOMPARE(f.dateString(dt), u"Yesterday 12:34 PM");
 
         dt.setDate(dt.date().addDays(-1));
-        QVERIFY(f.dateString(dt).startsWith(QLocale::c().toString(dt, QLatin1String("dddd"))));
+        QVERIFY(f.dateString(dt).startsWith(
+            QLocale::c().toString(dt, QLatin1StringView("dddd"))));
     }
 
     void testLocalizedFormat()
@@ -38,7 +39,8 @@ private Q_SLOTS:
         DateFormatter f(DateFormatter::Localized);
 
         auto dt = QDateTime(QDate(2015, 5, 26), QTime(12, 34, 56));
-        QCOMPARE(f.dateString(dt, QLatin1String("de")), QString::fromLatin1("26.05.15 12:34"));
+        QCOMPARE(f.dateString(dt, QLatin1StringView("de")),
+                 QString::fromLatin1("26.05.15 12:34"));
     }
 
     void testFormat_data()
@@ -65,7 +67,7 @@ private Q_SLOTS:
         DateFormatter f(DateFormatter::Custom);
         f.setCustomFormat(QStringLiteral("hh:mm Z"));
         auto dt = QDateTime(QDate(2023, 11, 18), QTime(17, 34, 56), QTimeZone("Europe/Brussels"));
-        QCOMPARE(f.dateString(dt), QLatin1String("17:34 +0100"));
+        QCOMPARE(f.dateString(dt), QLatin1StringView("17:34 +0100"));
     }
 };
 

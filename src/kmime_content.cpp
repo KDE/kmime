@@ -945,11 +945,13 @@ bool ContentPrivate::parseUuencoded(Content *q)
         for (int i = 0; i < uup.binaryParts().count(); ++i) {
             auto c = new Content(q);
             c->contentType()->setMimeType(uup.mimeTypes().at(i));
-            c->contentType()->setName(QLatin1String(uup.filenames().at(i)), QByteArray(/*charset*/));
+            c->contentType()->setName(QLatin1StringView(uup.filenames().at(i)),
+                                      QByteArray(/*charset*/));
             c->contentTransferEncoding()->setEncoding(Headers::CEuuenc);
             c->contentTransferEncoding()->setDecoded(false);
             c->contentDisposition()->setDisposition(Headers::CDattachment);
-            c->contentDisposition()->setFilename(QLatin1String(uup.filenames().at(i)));
+            c->contentDisposition()->setFilename(
+                QLatin1StringView(uup.filenames().at(i)));
             // uup.binaryParts().at(i) does no longer have the uuencode header, which makes KCodecs fail since 5c66308c4786ef7fbf77b0e306e73f7d4ac3431b
             c->setBody(prevBody);
             c->changeEncoding(Headers::CEbase64);   // Convert to base64.
@@ -1000,10 +1002,12 @@ bool ContentPrivate::parseYenc(Content *q)
         for (int i = 0; i < yenc.binaryParts().count(); i++) {
             auto c = new Content(q);
             c->contentType()->setMimeType(yenc.mimeTypes().at(i));
-            c->contentType()->setName(QLatin1String(yenc.filenames().at(i)), QByteArray(/*charset*/));
+            c->contentType()->setName(QLatin1StringView(yenc.filenames().at(i)),
+                                      QByteArray(/*charset*/));
             c->contentTransferEncoding()->setEncoding(Headers::CEbinary);
             c->contentDisposition()->setDisposition(Headers::CDattachment);
-            c->contentDisposition()->setFilename(QLatin1String(yenc.filenames().at(i)));
+            c->contentDisposition()->setFilename(
+                QLatin1StringView(yenc.filenames().at(i)));
             c->setBody(yenc.binaryParts().at(i));     // Yenc bodies are binary.
             c->changeEncoding(Headers::CEbase64);   // Convert to base64.
             multipartContents.append(c);

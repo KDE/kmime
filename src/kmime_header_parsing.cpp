@@ -391,7 +391,7 @@ bool parseGenericQuotedString(const char *&scursor, const char *const send,
                     // inside a quoted-string without it being part of FWS.
                     // We take it verbatim.
                     KMIME_WARN_NON_FOLDING(CRLF);
-                    result += QLatin1String("\r\n");
+                    result += QLatin1StringView("\r\n");
                     // the cursor is decremented again, so's we need not
                     // duplicate the whole switch here. "ch" could've been
                     // everything (incl. openChar or closeChar).
@@ -569,7 +569,7 @@ bool parsePhrase(const char *&scursor, const char *const send,
                 return false;
             } else {
                 if (scursor != send && (*scursor == ' ' || *scursor == '\t')) {
-                    result += QLatin1String(". ");
+                  result += QLatin1StringView(". ");
                 } else {
                     result += QLatin1Char('.');
                 }
@@ -677,7 +677,7 @@ bool parsePhrase(const char *&scursor, const char *const send,
                     assert(0);
                 }
                 lastWasEncodedWord = false;
-                result += QLatin1String(tmpAtom.first, tmpAtom.second);
+                result += QLatin1StringView(tmpAtom.first, tmpAtom.second);
             } else {
                 if (found == None) {
                     return false;
@@ -927,7 +927,8 @@ bool parseAddrSpec(const char *&scursor, const char *const send,
         default: // atom
             scursor--; // re-set scursor to point to ch again
             if (parseAtom(scursor, send, tmpAtom, false /* no 8bit */)) {
-                maybeLocalPart += QLatin1String(tmpAtom.first, tmpAtom.second);
+              maybeLocalPart +=
+                  QLatin1StringView(tmpAtom.first, tmpAtom.second);
             } else {
                 return false; // parseAtom can only fail if the first char is non-atext.
             }
@@ -1531,14 +1532,15 @@ bool parseParameterListWithCharset(const char *&scursor,
                 encodingMode = RFC2231;
             }
             // is the value rfc2047-encoded?
-            if (!(*it).qstring.isNull() && (*it).qstring.contains(QLatin1String("=?"))) {
-                mode |= Encoded;
-                encodingMode = RFC2047;
+            if (!(*it).qstring.isNull() &&
+                (*it).qstring.contains(QLatin1StringView("=?"))) {
+              mode |= Encoded;
+              encodingMode = RFC2047;
             }
             // is the value continued?
-            if (attribute.endsWith(QLatin1String("*0"))) {
-                attribute.chop(2);
-                mode |= Continued;
+            if (attribute.endsWith(QLatin1StringView("*0"))) {
+              attribute.chop(2);
+              mode |= Continued;
             }
             //
             // decode if necessary:

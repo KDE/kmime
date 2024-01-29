@@ -30,11 +30,11 @@ namespace Types
 // Fortunately, the presence of IDNA is readily detected with a substring match...
 static inline QString QUrl_fromAce_wrapper(const QString &domain)
 {
-    if (domain.contains(QLatin1String("xn--"))) {
-        return QUrl::fromAce(domain.toLatin1());
-    } else {
-        return domain;
-    }
+  if (domain.contains(QLatin1StringView("xn--"))) {
+    return QUrl::fromAce(domain.toLatin1());
+  } else {
+    return domain;
+  }
 }
 
 static QString addr_spec_as_string(const AddrSpec &as, bool pretty)
@@ -154,7 +154,7 @@ bool Mailbox::hasName() const
 QString Mailbox::prettyAddress(Quoting quoting) const
 {
     if (!hasName()) {
-        return QLatin1String(address());
+      return QLatin1StringView(address());
     }
     QString s = name();
     if (quoting != QuoteNever) {
@@ -162,7 +162,8 @@ QString Mailbox::prettyAddress(Quoting quoting) const
     }
 
     if (hasAddress()) {
-        s += QLatin1String(" <") + QLatin1String(address()) + QLatin1Char('>');
+      s +=
+          QLatin1StringView(" <") + QLatin1String(address()) + QLatin1Char('>');
     }
     return s;
 }
@@ -226,7 +227,7 @@ QString Mailbox::listToUnicodeString(const QList<Mailbox> &mailboxes) {
     for (const Types::Mailbox &mbox : mailboxes) {
         rv.append(mbox.prettyAddress());
     }
-    return rv.join(QLatin1String(", "));
+    return rv.join(QLatin1StringView(", "));
 }
 
 } // namespace Types
