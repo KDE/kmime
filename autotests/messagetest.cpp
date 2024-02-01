@@ -254,7 +254,7 @@ void MessageTest::testBidiSpoofing()
 
     const QByteArray senderAndRLO =
         encodeRFC2047String(QString(QLatin1StringView("Sender") + RLO +
-                                    QLatin1String(" <sender@test.org>")),
+                                    QLatin1StringView(" <sender@test.org>")),
                             "utf-8");
 
     // The display name of the "From" has an RLO, make sure the KMime parser balances it
@@ -613,7 +613,7 @@ void MessageTest::testReturnSameMail()
 {
     KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("dontchangemail.mbox"));
     QFile file(QLatin1StringView(TEST_DATA_DIR) +
-               QLatin1String("/mails/dontchangemail.mbox"));
+               QLatin1StringView("/mails/dontchangemail.mbox"));
     QVERIFY(file.open(QIODevice::ReadOnly | QIODevice::Text));
     QByteArray fileContent = file.readAll();
     QCOMPARE(msg->encodedContent(), fileContent);
@@ -644,7 +644,7 @@ void MessageTest::testReplyHeader()
 
 KMime::Message::Ptr MessageTest::readAndParseMail(const QString &mailFile) const
 {
-  QFile file(QLatin1StringView(TEST_DATA_DIR) + QLatin1String("/mails/") +
+  QFile file(QLatin1StringView(TEST_DATA_DIR) + QLatin1StringView("/mails/") +
              mailFile);
   const bool ok = file.open(QIODevice::ReadOnly);
   if (!ok) {

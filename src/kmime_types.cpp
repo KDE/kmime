@@ -163,7 +163,7 @@ QString Mailbox::prettyAddress(Quoting quoting) const
 
     if (hasAddress()) {
       s +=
-          QLatin1StringView(" <") + QLatin1String(address()) + QLatin1Char('>');
+          QLatin1StringView(" <") + QLatin1StringView(address()) + QLatin1Char('>');
     }
     return s;
 }

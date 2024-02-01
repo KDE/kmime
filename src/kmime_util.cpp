@@ -215,7 +215,7 @@ bool isCryptoPart(Content *content)
         }
         const auto fileName = cd->filename().toLower();
         return fileName == QLatin1StringView("msg.asc") ||
-               fileName == QLatin1String("encrypted.asc");
+               fileName == QLatin1StringView("encrypted.asc");
     }
 
     return false;

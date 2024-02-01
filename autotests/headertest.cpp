@@ -496,7 +496,7 @@ void HeaderTest::testParametrizedHeader()
     QVERIFY(h->hasParameter(QLatin1StringView("FiLeNaMe")));
     QVERIFY(!h->hasParameter(QLatin1StringView("bla.jpg")));
     QCOMPARE(h->parameter(QLatin1StringView("filename")),
-             QLatin1String("bla.jpg"));
+             QLatin1StringView("bla.jpg"));
     QCOMPARE(h->as7BitString(false), QByteArray("filename=\"bla.jpg\""));
 
     // clear again
@@ -508,16 +508,16 @@ void HeaderTest::testParametrizedHeader()
     h = new Parametrized;
     h->from7BitString("filename=genome.jpeg;\n modification-date=\"Wed, 12 Feb 1997 16:29:51 -0500\"");
     QCOMPARE(h->parameter(QLatin1StringView("filename")),
-             QLatin1String("genome.jpeg"));
+             QLatin1StringView("genome.jpeg"));
     QCOMPARE(h->parameter(QLatin1StringView("modification-date")),
-             QLatin1String("Wed, 12 Feb 1997 16:29:51 -0500"));
+             QLatin1StringView("Wed, 12 Feb 1997 16:29:51 -0500"));
     QCOMPARE(h->as7BitString(false), QByteArray("filename=\"genome.jpeg\"; modification-date=\"Wed, 12 Feb 1997 16:29:51 -0500\""));
     delete h;
 
     // quoting of whitespaces in parameter value
     h = new Parametrized();
     h->setParameter(QLatin1StringView("boundary"),
-                    QLatin1String("simple boundary"));
+                    QLatin1StringView("simple boundary"));
     QCOMPARE(h->as7BitString(false), QByteArray("boundary=\"simple boundary\""));
     delete h;
 
@@ -1121,7 +1121,7 @@ void HeaderTest::testBug271192()
     const QString mailbox =
         (quote ? QLatin1StringView("\"") : QString()) + displayName +
         (quote ? QLatin1StringView("\"") : QString()) +
-        QLatin1StringView(" <") + addrSpec + QLatin1String(">");
+        QLatin1StringView(" <") + addrSpec + QLatin1StringView(">");
 
     auto h = new Headers::Generics::SingleMailbox();
     h->fromUnicodeString(mailbox, "utf-8");
