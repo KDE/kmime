@@ -63,7 +63,7 @@ QByteArray encodeRFC2047String(QStringView src, const QByteArray &charset,
         // encode escape character, for japanese encodings...
         if (((signed char)encoded8Bit[i] < 0) || (encoded8Bit[i] == '\033') ||
                 (addressHeader && (strchr("\"()<>@,.;:\\[]=", encoded8Bit[i]) != nullptr))) {
-            end = start;   // non us-ascii char found, now we determine where to stop encoding
+            end = start;   // non us-ascii char found. Now we determine where to stop encoding
             nonAscii = true;
             break;
         }

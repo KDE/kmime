@@ -67,7 +67,7 @@ bool parseEncodedWord(const char *&scursor, const char *const send,
         return false;
     }
 
-    // remember start of charset (ie. just after the initial "=?") and
+    // remember start of charset (i.e. just after the initial "=?") and
     // language (just after the first '*') fields:
     const char *charsetStart = scursor;
     const char *languageStart = nullptr;
@@ -370,10 +370,10 @@ bool parseGenericQuotedString(const char *&scursor, const char *const send,
             // But I see a problem if we are given Unix-native
             // line-ending-mails, where we cannot determine anymore
             // whether a given '\n' was part of a CRLF or was occurring
-            // on it's own.
+            // on its own.
             READ_ch_OR_FAIL;
             if (ch != '\n') {
-                // CR on it's own...
+                // CR on its own...
                 KMIME_WARN_LONE(CR);
                 result += QLatin1Char('\r');
                 scursor--; // points to after the '\r' again
@@ -392,7 +392,7 @@ bool parseGenericQuotedString(const char *&scursor, const char *const send,
                     // We take it verbatim.
                     KMIME_WARN_NON_FOLDING(CRLF);
                     result += QLatin1StringView("\r\n");
-                    // the cursor is decremented again, so's we need not
+                    // the cursor is decremented again, we need not
                     // duplicate the whole switch here. "ch" could've been
                     // everything (incl. openChar or closeChar).
                     scursor--;
@@ -498,7 +498,7 @@ bool parseComment(const char *&scursor, const char *const send,
         QString cmntPart;
         if (parseGenericQuotedString(scursor, send, cmntPart, isCRLF, '(', ')')) {
             assert(*(scursor - 1) == ')' || *(scursor - 1) == '(');
-            // see the kdoc for above function for the possible conditions
+            // see the kdoc for the above function for the possible conditions
             // we have to check:
             switch (*(scursor - 1)) {
             case ')':
@@ -527,7 +527,7 @@ bool parseComment(const char *&scursor, const char *const send,
             default: assert(0);
             } // switch
         } else {
-            // !parseGenericQuotedString, ie. premature end
+            // !parseGenericQuotedString, i.e. premature end
             if (afterLastClosingParenPos) {
                 scursor = afterLastClosingParenPos;
             } else {
@@ -1470,7 +1470,7 @@ static void decodeRFC2231Value(KCodecs::Codec *&rfc2231Codec,
 
 // known issues:
 //  - permutes rfc2231 continuations when the total number of parts
-//    exceeds 10 (other-sections then becomes *xy, ie. two digits)
+//    exceeds 10 (other-sections then becomes *xy, i.e. two digits)
 
 bool parseParameterListWithCharset(const char *&scursor,
                                    const char *const send,

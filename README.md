@@ -249,7 +249,7 @@ any content transfer encoding. Creating messages with 8-bit content transfer enc
 supported by KMime. The advantage of 8-bit is that there is no overhead in size, unlike with
 base64 or even quoted-printable.
 
-When using one of the 4 contents transfer encodings, i.e. quoted-printable, base64, 7-bit or 8-bit, this
+When using one of the 4 content transfer encodings, i.e. quoted-printable, base64, 7-bit or 8-bit, this
 has to be indicated in the header field **Content-Transfer-Encoding**. If the header field is left out,
 it is assumed that the content transfer encoding is 7-bit. The example above uses quoted-printable.
 
@@ -362,7 +362,7 @@ of mailboxes in header fields like `From` and `To`. In other header fields, such
 `MIME-Version`, they are not allowed, but they wouldn't make much sense there anyway, since those are
 structured header fields with a clearly defined structure.
 
-RFC2047 strings start with "=?" and end with "?=". Between those markers, they consists of three parts:
+RFC2047 strings start with "=?" and end with "?=". Between those markers, they consist of three parts:
 * The charset, such as "iso-8859-1"
 * The encoding, which is "q" or "b"
 * The encoded text
@@ -602,8 +602,8 @@ container and therefore without an alternative plain text part. However, people 
 text version wouldn't like this, especially if their mail client has no HTML engine and they would see
 the HTML source including all tags only. Therefore, HTML messages should always include an alternative plain text part.
 
-HTML messages can of course also contain attachments. In this case, the message contains both a
-multipart/alternative and a multipart/mixed node, for example with the following structure, for a HTML
+HTML messages can also contain attachments. In this case, the message contains both a
+multipart/alternative and a multipart/mixed node, for example with the following structure, for an HTML
 message that has an image attachment:
 
     multipart/mixed
@@ -1063,7 +1063,7 @@ the reverse is called **assembling**. Parsing a message is necessary when wantin
 structure. For example, when sending a mail,
 the address spec of a mailbox needs to be passed to the SMTP server, which means that the recipient headers need to
 be parsed in order to access that information. Another example is the message list in an mail application, where the
-broken-down structure of a mail is needed
+broken-down structure of an email is needed
 to display information like subject, sender and date in the list.
 On the other hand, assembling a message is for example done in the composer of a mail application, where the mail information
 is available in a broken-down form in the composer window, and is then assembled into a final MIME message that is then sent with SMTP.

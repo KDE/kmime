@@ -228,11 +228,11 @@ void Content::clearContents(bool del)
 
 QByteArray Content::encodedContent(bool useCrLf)
 {
-    QByteArray encodedContentData = head();           // return value; initialise with the head data
+    QByteArray encodedContentData = head();           // return value; initialize with the head data
     const QByteArray encodedBodyData = encodedBody();
 
     /* Make sure that head and body have at least two newlines as separator, otherwise add one.
-     * If we have enough newlines as sperator, then we should not change the number of newlines
+     * If we have enough newlines as separator, then we should not change the number of newlines
      * to not break digital signatures
      */
     if (!encodedContentData.endsWith("\n\n") &&
@@ -368,7 +368,7 @@ QString Content::decodedText(bool trimText, bool removeTrailingNewlines)
     }
 
     QStringDecoder codec(contentType()->charset().constData());
-    if (!codec.isValid()) {   // no suitable codec found => try local settings and hope the best ;-)
+    if (!codec.isValid()) {   // no suitable codec found => try local settings and hope for the best ;-)
         codec = QStringDecoder(QStringDecoder::System);
         QByteArray chset = codec.name();
         contentType()->setCharset(chset);
@@ -403,7 +403,7 @@ void Content::fromUnicodeString(const QString &s)
 {
     QStringEncoder codec(contentType()->charset().constData());
 
-    if (!codec.isValid()) {   // no suitable codec found => try local settings and hope the best ;-)
+    if (!codec.isValid()) {   // no suitable codec found => try local settings and hope for the best ;-)
         codec = QStringEncoder(QStringEncoder::System);
         QByteArray chset = codec.name();
         contentType()->setCharset(chset);
@@ -477,7 +477,7 @@ void Content::addContent(Content *c, bool prepend)
     // This method makes no sense for encapsulated messages
     Q_ASSERT(!bodyIsMessage());
 
-    // If this message is single-part; make it multipart first.
+    // If this message is single-part, make it multipart first.
     if (d->multipartContents.isEmpty() && !contentType()->isMultipart()) {
         // The current body will be our first sub-Content.
         auto main = new Content(this);

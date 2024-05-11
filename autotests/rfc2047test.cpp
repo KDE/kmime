@@ -21,8 +21,8 @@ void RFC2047Test::testRFC2047encode()
     // identity
     QCOMPARE(KMime::encodeRFC2047String(u"bla", "utf-8"), QByteArray("bla"));
     // utf-8
-    // expected value is probably wrong, libkmime will chose 'B' instead of 'Q' encoding
-    QEXPECT_FAIL("", "libkmime will chose 'B' instead of 'Q' encoding", Continue);
+    // expected value is probably wrong, libkmime will choose 'B' instead of 'Q' encoding
+    QEXPECT_FAIL("", "libkmime will choose 'B' instead of 'Q' encoding", Continue);
     QCOMPARE(KMime::encodeRFC2047String(QString::fromUtf8("Ingo Klöcker <kloecker@kde.org>"), "utf-8").constData(),
              "=?utf-8?q?Ingo=20Kl=C3=B6cker?= <kloecker@kde.org>");
 

@@ -67,7 +67,7 @@ void ContentTest::testHeaderAddRemove()
     // The content must have forgotten the header now.
     QVERIFY(!c->contentDescription(false));
 
-    // And after assembly the header should stay gone.
+    // And after assembly, the header should stay gone.
     c->assemble();
     //QVERIFY(c->head().isEmpty());
     QVERIFY(!c->contentDescription(false));

@@ -844,7 +844,7 @@ QByteArray Parametrized::as7BitString(bool withHeaderType) const
         if (isUsAscii(it.value())) {
             rv += it.key().toLatin1() + '=';
             QByteArray tmp = it.value().toLatin1();
-            addQuotes(tmp, true);   // force quoting, eg. for whitespaces in parameter value
+            addQuotes(tmp, true);   // force quoting, e.g. for whitespaces in parameter value
             rv += tmp;
         } else {
             rv += it.key().toLatin1() + "*=";

@@ -176,13 +176,13 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->displayNames().first(), QString::fromUtf8("Ingo Klöcker"));
     delete h;
 
-    // parsing a empty group
+    // parsing an empty group
     h = new Headers::Generics::AddressList();
     h->from7BitString("Undisclosed recipients:;");
     QCOMPARE(h->addresses().count(), 0);
     delete h;
 
-    // parsing and re-assembling a address list with a group
+    // parsing and re-assembling an address list with a group
     h = new Headers::Generics::AddressList();
     h->from7BitString("A Group:Chris Jones <c@a.test>,joe@where.test,John <jdoe@one.test>;");
     QCOMPARE(h->addresses().count(), 3);
@@ -221,8 +221,8 @@ void HeaderTest::testAddressListHeader()
              QLatin1StringView("Vice@censored.serverkompetenz.net"));
     QCOMPARE(names.takeFirst(),
              QLatin1StringView("President@mail2.censored.net"));
-    // there is an wrong ' ' after the name, but since the header is completely
-    // broken we can be happy it parses at all...
+    // there is a wrong ' ' after the name, but since the header is completely
+    // broken, we can be happy it parses at all...
     QCOMPARE(names.takeFirst(),
              QLatin1StringView("Int\\\\\\\\\\'l Lotto Commission. "));
     auto addrs = h->addresses();

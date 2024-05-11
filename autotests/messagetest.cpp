@@ -201,7 +201,7 @@ void MessageTest::missingHeadersTest()
     // Now create a new message, based on the content of the first one.
     // The body of the new message should still be the same.
     // (there was a bug that caused missing mandatory headers to be
-    //  added as a empty newline, which caused parts of the header to
+    //  added as an empty newline, which caused parts of the header to
     //  leak into the body)
     KMime::Message msg2;
     msg2.setContent(msg.encodedContent());

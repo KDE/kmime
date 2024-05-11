@@ -81,7 +81,7 @@ QList<Headers::contentEncoding> encodingsForData(const QByteArray &data) {
         [[fallthrough]];
     case CharFreq::SevenBitData:
         if (cf.printableRatio() > 5.0 / 6.0) {
-            // let n the length of data and p the number of printable chars.
+            // let n be the length of data and p the number of printable chars.
             // Then base64 \approx 4n/3; qp \approx p + 3(n-p)
             // => qp < base64 iff p > 5n/6.
             allowed << Headers::CEquPr;
@@ -279,7 +279,7 @@ bool hasAttachment(Content *content)
         return true;
     }
 
-    // Ok, content itself is not an attachment. now we deal with multiparts
+    // OK, content itself is not an attachment. Now we deal with multiparts
     auto ct = content->contentType(false);
     if (ct && ct->isMultipart() && !ct->isSubtype("related")) {// && !ct->isSubtype("alternative")) {
         const auto contents = content->contents();
@@ -302,7 +302,7 @@ bool hasInvitation(Content *content)
         return true;
     }
 
-    // Ok, content itself is not an invitation. now we deal with multiparts
+    // OK, content itself is not an invitation. Now we deal with multiparts
     if (content->contentType()->isMultipart()) {
         const auto contents = content->contents();
         for (Content *child : contents) {
