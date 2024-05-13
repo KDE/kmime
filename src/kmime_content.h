@@ -260,6 +260,13 @@ public:
     inconsistent with the methods in KMime::Message!
   */
   template <typename T> T *header(bool create = false);
+  /**
+    Returns the first header of type @tparam T.
+
+    Can be @c nullptr if such a header doesn't exist.
+    @since 24.08
+  */
+  template <typename T> [[nodiscard]] T *header() const;
 
   /**
     Returns all @p type headers in the Content.
@@ -318,6 +325,13 @@ public:
     @param create If true, create the header if it doesn't exist yet.
   */
   Headers::ContentType *contentType(bool create = true);
+  /**
+    Returns the Content-Type header.
+
+    Can be @c nullptr if the header doesn't exist.
+    @since 24.08
+  */
+  [[nodiscard]] const Headers::ContentType *contentType() const;
 
   /**
     Returns the Content-Transfer-Encoding header.
@@ -325,6 +339,13 @@ public:
     @param create If true, create the header if it doesn't exist yet.
   */
   Headers::ContentTransferEncoding *contentTransferEncoding(bool create = true);
+  /**
+    Returns the Content-Transfer-Encoding header.
+
+    Can be @c nullptr if the header doesn't exist.
+    @since 24.08
+  */
+  [[nodiscard]] const Headers::ContentTransferEncoding *contentTransferEncoding() const;
 
   /**
     Returns the Content-Disposition header.
@@ -332,6 +353,13 @@ public:
     @param create If true, create the header if it doesn't exist yet.
   */
   Headers::ContentDisposition *contentDisposition(bool create = true);
+  /**
+    Returns the Content-Disposition header.
+
+    Can be @c nullptr if the header doesn't exist.
+    @since 24.08
+  */
+  [[nodiscard]] const Headers::ContentDisposition *contentDisposition() const;
 
   /**
     Returns the Content-Description header.
@@ -339,6 +367,13 @@ public:
     @param create If true, create the header if it doesn't exist yet.
   */
   Headers::ContentDescription *contentDescription(bool create = true);
+  /**
+    Returns the Content-Description header.
+
+    Can be @c nullptr if the header doesn't exist.
+    @since 24.08
+  */
+  [[nodiscard]] const Headers::ContentDescription *contentDescription() const;
 
   /**
     Returns the Content-Location header.
@@ -347,6 +382,13 @@ public:
     @since 4.2
   */
   Headers::ContentLocation *contentLocation(bool create = true);
+  /**
+    Returns the Content-Location header.
+
+    Can be @c nullptr if the header doesn't exist.
+    @since 24.08
+  */
+  [[nodiscard]] const Headers::ContentLocation *contentLocation() const;
 
   /**
     Returns the Content-ID header.
@@ -354,6 +396,13 @@ public:
     @since 4.4
   */
   Headers::ContentID *contentID(bool create = true);
+  /**
+    Returns the Content-ID header.
+
+    Can be @c nullptr if the header doesn't exist.
+    @since 24.08
+  */
+  [[nodiscard]] const Headers::ContentID *contentID() const;
 
   /**
     Returns the size of the Content body after encoding.
@@ -462,7 +511,7 @@ public:
   // TODO: KDE5: BIC: Rename this to decodedBody(), since only the body is
   // returned. In contrast, setContent() sets the head and the body! Also, try
   // to make this const.
-  [[nodiscard]] QByteArray decodedContent();
+  [[nodiscard]] QByteArray decodedContent() const;
 
   /**
     Returns the decoded text. Additional to decodedContent(), this also
@@ -723,6 +772,16 @@ template <typename T> T *Content::header(bool create)
     } else if (create) {
         h = new T;
         appendHeader(h); // we already know the header doesn't exist yet
+    }
+    return static_cast<T *>(h);
+}
+
+template <typename T> T *Content::header() const
+{
+    Headers::Base *h = headerByType(T::staticType());
+    if (h) {
+        // Make sure the header is actually of the right type.
+        Q_ASSERT(dynamic_cast<T *>(h));
     }
     return static_cast<T *>(h);
 }

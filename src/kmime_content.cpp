@@ -310,17 +310,17 @@ QByteArray Content::encodedBody()
     return e;
 }
 
-QByteArray Content::decodedContent()
+QByteArray Content::decodedContent() const
 {
     QByteArray ret;
-    Headers::ContentTransferEncoding *ec = contentTransferEncoding();
+    const Headers::ContentTransferEncoding *ec = contentTransferEncoding();
     bool removeTrailingNewline = false;
 
     if (d_ptr->body.isEmpty()) {
         return ret;
     }
 
-    if (ec->isDecoded()) {
+    if (!ec || ec->isDecoded()) {
         ret = d_ptr->body;
         //Laurent Fix bug #311267
         //removeTrailingNewline = true;
@@ -879,6 +879,9 @@ bool Content::bodyIsMessage() const
 #define kmime_mk_header_accessor( type, method ) \
     Headers::type *Content::method( bool create ) { \
         return header<Headers::type>( create ); \
+    } \
+    const Headers::type *Content::method() const { \
+        return header<Headers::type>(); \
     }
 
 kmime_mk_header_accessor(ContentType, contentType)
