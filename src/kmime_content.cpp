@@ -431,10 +431,10 @@ Content *Content::textContent()
     return ret;
 }
 
-QList<Content *> Content::attachments() {
+QList<Content *> Content::attachments() const {
     QList<Content *> result;
 
-    auto ct = contentType(false);
+    auto ct = contentType();
     if (ct && ct->isMultipart() &&
         !ct->isSubtype("related") /* && !ct->isSubtype("alternative")*/) {
         const QList<Content *> contentsList = contents();
@@ -699,11 +699,11 @@ bool Content::hasHeader(const char* type) const
     return headerByType(type) != nullptr;
 }
 
-int Content::size()
+int Content::size() const
 {
     int ret = d_ptr->body.length();
 
-    if (contentTransferEncoding()->encoding() == Headers::CEbase64) {
+    if (const auto cte = contentTransferEncoding(); cte && cte->encoding() == Headers::CEbase64) {
         KCodecs::Codec *codec = KCodecs::Codec::codecForName("base64");
         return codec->maxEncodedSizeFor(ret);
     }

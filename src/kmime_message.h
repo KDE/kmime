@@ -84,78 +84,156 @@ public:
       @param create If true, create the header if it doesn't exist yet.
     */
     KMime::Headers::MessageID *messageID(bool create = true);
+    /**
+      Returns the Message-ID header.
+      Can be @c nullptr if the header doesn't exist.
+      @since 24.08
+    */
+    [[nodiscard]] const KMime::Headers::MessageID *messageID() const;
 
     /**
       Returns the Subject header.
       @param create If true, create the header if it doesn't exist yet.
     */
     KMime::Headers::Subject *subject(bool create = true);
+    /**
+      Returns the Subject header.
+      Can be @c nullptr if the header doesn't exist.
+      @since 24.08
+    */
+    [[nodiscard]] const KMime::Headers::Subject *subject() const;
 
     /**
       Returns the Date header.
       @param create If true, create the header if it doesn't exist yet.
     */
     KMime::Headers::Date *date(bool create = true);
+    /**
+      Returns the Date header.
+      Can be @c nullptr if the header doesn't exist.
+      @since 24.08
+    */
+    [[nodiscard]] const KMime::Headers::Date *date() const;
 
     /**
       Returns the From header.
       @param create If true, create the header if it doesn't exist yet.
     */
     KMime::Headers::From *from(bool create = true);
+    /**
+      Returns the From header.
+      Can be @c nullptr if the header doesn't exist.
+      @since 24.08
+    */
+    [[nodiscard]] const KMime::Headers::From *from() const;
 
     /**
       Returns the Organization header.
       @param create If true, create the header if it doesn't exist yet.
     */
     KMime::Headers::Organization *organization(bool create = true);
+    /**
+      Returns the Organization header.
+      Can be @c nullptr if the header doesn't exist.
+      @since 24.08
+    */
+    [[nodiscard]] const KMime::Headers::Organization *organization() const;
 
     /**
       Returns the Reply-To header.
       @param create If true, create the header if it doesn't exist yet.
     */
     KMime::Headers::ReplyTo *replyTo(bool create = true);
+    /**
+      Returns the Reply-To header.
+      Can be @c nullptr if the header doesn't exist.
+      @since 24.08
+    */
+    [[nodiscard]] const KMime::Headers::ReplyTo *replyTo() const;
 
     /**
       Returns the To header.
       @param create If true, create the header if it doesn't exist yet.
     */
     KMime::Headers::To *to(bool create = true);
+    /**
+      Returns the To header.
+      Can be @c nullptr if the header doesn't exist.
+      @since 24.08
+    */
+    [[nodiscard]] const KMime::Headers::To *to() const;
 
     /**
       Returns the Cc header.
       @param create If true, create the header if it doesn't exist yet.
     */
     KMime::Headers::Cc *cc(bool create = true);
+    /**
+      Returns the Cc header.
+      Can be @c nullptr if the header doesn't exist.
+      @since 24.08
+    */
+    [[nodiscard]] const KMime::Headers::Cc *cc() const;
 
     /**
       Returns the Bcc header.
       @param create If true, create the header if it doesn't exist yet.
     */
     KMime::Headers::Bcc *bcc(bool create = true);
+    /**
+      Returns the Bcc header.
+      Can be @c nullptr if the header doesn't exist.
+      @since 24.08
+    */
+    [[nodiscard]] const KMime::Headers::Bcc *bcc() const;
 
     /**
       Returns the References header.
       @param create If true, create the header if it doesn't exist yet.
     */
     KMime::Headers::References *references(bool create = true);
+    /**
+      Returns the References header.
+      Can be @c nullptr if the header doesn't exist.
+      @since 24.08
+    */
+    [[nodiscard]] const KMime::Headers::References *references() const;
 
     /**
       Returns the User-Agent header.
       @param create If true, create the header if it doesn't exist yet.
     */
     KMime::Headers::UserAgent *userAgent(bool create = true);
+    /**
+      Returns the User-Agent header.
+      Can be @c nullptr if the header doesn't exist.
+      @since 24.08
+    */
+    [[nodiscard]] const KMime::Headers::UserAgent *userAgent() const;
 
     /**
       Returns the In-Reply-To header.
       @param create If true, create the header if it doesn't exist yet.
     */
     KMime::Headers::InReplyTo *inReplyTo(bool create = true);
+    /**
+      Returns the In-Reply-To header.
+      Can be @c nullptr if the header doesn't exist.
+      @since 24.08
+    */
+    [[nodiscard]] const KMime::Headers::InReplyTo *inReplyTo() const;
 
     /**
       Returns the Sender header.
       @param create If true, create the header if it doesn't exist yet.
     */
     KMime::Headers::Sender *sender(bool create = true);
+    /**
+      Returns the Sender header.
+      Can be @c nullptr if the header doesn't exist.
+      @since 24.08
+    */
+    [[nodiscard]] const KMime::Headers::Sender *sender() const;
 
     /**
       Returns the first main body part of a given type, taking multipart/mixed

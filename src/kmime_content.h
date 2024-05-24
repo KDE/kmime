@@ -409,7 +409,7 @@ public:
     (If the encoding is quoted-printable, this is only an approximate size.)
     This will return 0 for multipart contents or for encapsulated messages.
   */
-  [[nodiscard]] int size();
+  [[nodiscard]] int size() const;
 
   /**
     Returns the size of this Content and all sub-Contents.
@@ -562,7 +562,7 @@ public:
    * multipart nodes, or the primary body part (see textContent()).
    * @see KMime::isAttachment(), KMime::hasAttachment()
    */
-  [[nodiscard]] QList<Content *> attachments();
+  [[nodiscard]] QList<Content *> attachments() const;
 
   /**
    * For multipart contents, this will return a list of all multipart child

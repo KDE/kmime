@@ -16,10 +16,7 @@ using namespace KMime;
 namespace KMime
 {
 
-Message::Message() : Content()
-{
-}
-
+Message::Message() = default;
 Message::~Message() = default;
 
 QByteArray Message::assembleHeaders()
@@ -83,6 +80,9 @@ QString Message::mimeType()
 #define kmime_mk_header_accessor( type, method ) \
     Headers::type *Message::method( bool create ) { \
         return header<Headers::type>( create ); \
+    } \
+    const Headers::type *Message::method() const { \
+        return header<Headers::type>(); \
     }
 
 kmime_mk_header_accessor(MessageID, messageID)

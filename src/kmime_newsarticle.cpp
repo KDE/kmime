@@ -16,10 +16,7 @@ using namespace KMime;
 namespace KMime
 {
 
-NewsArticle::NewsArticle() : Message()
-{
-}
-
+NewsArticle::NewsArticle() = default;
 NewsArticle::~NewsArticle() = default;
 
 QByteArray NewsArticle::assembleHeaders()
@@ -35,6 +32,9 @@ QByteArray NewsArticle::assembleHeaders()
 #define kmime_mk_header_accessor( type, method ) \
     Headers::type* NewsArticle::method( bool create ) { \
         return header<Headers::type>( create ); \
+    } \
+    const Headers::type* NewsArticle::method() const { \
+        return header<Headers::type>(); \
     }
 
 kmime_mk_header_accessor(Control, control)
