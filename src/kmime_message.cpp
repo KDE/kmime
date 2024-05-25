@@ -38,9 +38,9 @@ Content *Message::mainBodyPart(const QByteArray &type)
     KMime::Content *c = this;
     while (c) {
         // not a multipart message
-        const KMime::Headers::ContentType *const contentType = c->contentType();
-        if (!contentType->isMultipart()) {
-            if (contentType->mimeType() == type || type.isEmpty()) {
+        const KMime::Headers::ContentType *const contentType = c->contentType(false);
+        if (!contentType || !contentType->isMultipart()) {
+            if ((contentType && contentType->mimeType() == type) || type.isEmpty()) {
                 return c;
             }
             return nullptr;
@@ -52,7 +52,7 @@ Content *Message::mainBodyPart(const QByteArray &type)
         }
 
         // multipart/alternative
-        if (contentType->subType() == "alternative") {
+        if (contentType && contentType->subType() == "alternative") {
             if (type.isEmpty()) {
                 return c->contents().at(0);
             }
