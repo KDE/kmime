@@ -244,7 +244,8 @@ public:
       @param type The mimetype of the body part, if not given, the first
       body part will be returned, regardless of it's type.
     */
-    Content *mainBodyPart(const QByteArray &type = QByteArray());
+    [[nodiscard]] Content *mainBodyPart(const QByteArray &type = QByteArray());
+    [[nodiscard]] const Content *mainBodyPart(const QByteArray &type = QByteArray()) const;
 
     /**
       Returns the MIME type used for Messages

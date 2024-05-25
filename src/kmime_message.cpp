@@ -35,10 +35,16 @@ QByteArray Message::assembleHeaders()
 
 Content *Message::mainBodyPart(const QByteArray &type)
 {
-    KMime::Content *c = this;
+    // ugly, but given we start from a non-const this we know the result will be safely const_castable as well
+    return const_cast<Content*>(static_cast<const Message*>(this)->mainBodyPart(type));
+}
+
+const Content *Message::mainBodyPart(const QByteArray &type) const
+{
+    const KMime::Content *c = this;
     while (c) {
         // not a multipart message
-        const KMime::Headers::ContentType *const contentType = c->contentType(false);
+        const KMime::Headers::ContentType *const contentType = c->contentType();
         if (!contentType || !contentType->isMultipart()) {
             if ((contentType && contentType->mimeType() == type) || type.isEmpty()) {
                 return c;
