@@ -102,7 +102,7 @@ KMIME_EXPORT extern QByteArray LFtoCRLF(const QByteArray &s);
  * @param content the MIME node to parse
  * @see hasAttachment()
  */
-KMIME_EXPORT bool isAttachment(Content *content);
+KMIME_EXPORT bool isAttachment(const Content *content);
 
 /**
  * Returns whether or not the given MIME node contains an attachment part. This function will
@@ -110,7 +110,7 @@ KMIME_EXPORT bool isAttachment(Content *content);
  * @param content the MIME node to parse
  * @see isAttachment()
  */
-KMIME_EXPORT bool hasAttachment(Content *content);
+KMIME_EXPORT bool hasAttachment(const Content *content);
 
 /**
  * Returns whether or not the given MIME node contains an invitation part. This function will
@@ -118,7 +118,7 @@ KMIME_EXPORT bool hasAttachment(Content *content);
  * @param content the MIME node to parse
  * @since 4.14.6
  */
-KMIME_EXPORT bool hasInvitation(Content *content);
+KMIME_EXPORT bool hasInvitation(const Content *content);
 
 /**
  * Returns whether or not the given @p message is partly or fully signed.
@@ -140,7 +140,7 @@ KMIME_EXPORT bool isEncrypted(Message *message);
  * Determines if the MIME part @p content is a crypto part.
  * This is, is either an encrypted part or a signature part.
  */
-KMIME_EXPORT bool isCryptoPart(Content *content);
+KMIME_EXPORT bool isCryptoPart(const Content *content);
 
 /**
  * Returns whether or not the given MIME @p content is an invitation
@@ -148,7 +148,7 @@ KMIME_EXPORT bool isCryptoPart(Content *content);
  *
  * @since 4.6
  */
-KMIME_EXPORT bool isInvitation(Content *content);
+KMIME_EXPORT bool isInvitation(const Content *content);
 
 } // namespace KMime
 

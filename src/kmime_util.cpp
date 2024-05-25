@@ -191,9 +191,9 @@ QByteArray LFtoCRLF(const char *s)
     return LFtoCRLF(ret);
 }
 
-bool isCryptoPart(Content *content)
+bool isCryptoPart(const Content *content)
 {
-    auto ct = content->contentType(false);
+    const auto ct = content->contentType();
     if (!ct || !ct->isMediatype("application")) {
         return false;
     }
@@ -209,7 +209,7 @@ bool isCryptoPart(Content *content)
     }
 
     if (lowerSubType == "octet-stream") {
-        auto cd = content->contentDisposition(false);
+        const auto cd = content->contentDisposition();
         if (!cd) {
             return false;
         }
@@ -221,13 +221,13 @@ bool isCryptoPart(Content *content)
     return false;
 }
 
-bool isAttachment(Content* content)
+bool isAttachment(const Content* content)
 {
     if (!content) {
         return false;
     }
 
-    const auto contentType = content->contentType(false);
+    const auto contentType = content->contentType();
     // multipart/* is never an attachment itself, message/rfc822 always is
     if (contentType) {
         if (contentType->isMultipart()) {
@@ -252,7 +252,7 @@ bool isAttachment(Content* content)
     }
 
     // content type or content disposition having a file name set looks like an attachment
-    const auto contentDisposition = content->contentDisposition(false);
+    const auto contentDisposition = content->contentDisposition();
     if (contentDisposition && !contentDisposition->filename().isEmpty()) {
         return true;
     }
@@ -269,7 +269,7 @@ bool isAttachment(Content* content)
     return false;
 }
 
-bool hasAttachment(Content *content)
+bool hasAttachment(const Content *content)
 {
     if (!content) {
         return false;
@@ -280,7 +280,7 @@ bool hasAttachment(Content *content)
     }
 
     // OK, content itself is not an attachment. Now we deal with multiparts
-    auto ct = content->contentType(false);
+    const auto ct = content->contentType();
     if (ct && ct->isMultipart() && !ct->isSubtype("related")) {// && !ct->isSubtype("alternative")) {
         const auto contents = content->contents();
         for (Content *child : contents) {
@@ -292,7 +292,7 @@ bool hasAttachment(Content *content)
     return false;
 }
 
-bool hasInvitation(Content *content)
+bool hasInvitation(const Content *content)
 {
     if (!content) {
         return false;
@@ -303,7 +303,7 @@ bool hasInvitation(Content *content)
     }
 
     // OK, content itself is not an invitation. Now we deal with multiparts
-    if (content->contentType()->isMultipart()) {
+    if (auto ct = content->contentType(); ct && ct->isMultipart()) {
         const auto contents = content->contents();
         for (Content *child : contents) {
             if (hasInvitation(child)) {
@@ -355,19 +355,14 @@ bool isEncrypted(Message *message)
     return false;
 }
 
-bool isInvitation(Content *content)
+bool isInvitation(const Content *content)
 {
     if (!content) {
         return false;
     }
 
-    const KMime::Headers::ContentType *const contentType = content->contentType(false);
-
-    if (contentType && contentType->isMediatype("text") && contentType->isSubtype("calendar")) {
-        return true;
-    }
-
-    return false;
+    const KMime::Headers::ContentType *const contentType = content->contentType();
+    return contentType && contentType->isMediatype("text") && contentType->isSubtype("calendar");
 }
 
 } // namespace KMime
