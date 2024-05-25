@@ -314,13 +314,16 @@ bool hasInvitation(const Content *content)
     return false;
 }
 
-bool isSigned(Message *message)
+bool isSigned(const Message *message)
 {
     if (!message) {
         return false;
     }
 
     const KMime::Headers::ContentType *const contentType = message->contentType();
+    if (!contentType) {
+        return false;
+    }
     if (contentType->isSubtype("signed") ||
             contentType->isSubtype("pgp-signature") ||
             contentType->isSubtype("pkcs7-signature") ||
@@ -334,13 +337,16 @@ bool isSigned(Message *message)
     return false;
 }
 
-bool isEncrypted(Message *message)
+bool isEncrypted(const Message *message)
 {
     if (!message) {
         return false;
     }
 
     const KMime::Headers::ContentType *const contentType = message->contentType();
+    if (!contentType) {
+        return false;
+    }
     if (contentType->isSubtype("encrypted") ||
             contentType->isSubtype("pgp-encrypted") ||
             contentType->isSubtype("pkcs7-mime") ||

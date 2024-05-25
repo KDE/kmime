@@ -126,7 +126,7 @@ KMIME_EXPORT bool hasInvitation(const Content *content);
  * @param message the message to check for being signed
  * @since 4.6
  */
-KMIME_EXPORT bool isSigned(Message *message);
+KMIME_EXPORT bool isSigned(const Message *message);
 
 /**
  * Returns whether or not the given @p message is partly or fully encrypted.
@@ -134,7 +134,7 @@ KMIME_EXPORT bool isSigned(Message *message);
  * @param message the message to check for being encrypted
  * @since 4.6
  */
-KMIME_EXPORT bool isEncrypted(Message *message);
+KMIME_EXPORT bool isEncrypted(const Message *message);
 
 /**
  * Determines if the MIME part @p content is a crypto part.
