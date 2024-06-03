@@ -554,7 +554,13 @@ public:
   /**
     Returns the first Content with mimetype text/.
   */
-  Content *textContent();
+  [[nodiscard]] Content *textContent();
+  /**
+    Returns the first Content with MIME type text/.
+    Const overload of the above, the returned Content cannot be modified.
+    @since 24.08
+  */
+  [[nodiscard]] const Content *textContent() const;
 
   /**
    * Returns all attachments below this node, recursively.

@@ -415,20 +415,26 @@ void Content::fromUnicodeString(const QString &s)
 
 Content *Content::textContent()
 {
-    Content *ret = nullptr;
+    // we start from a non-const this we know the result will be safely const_castable as well
+    return const_cast<Content*>(static_cast<const Content*>(this)->textContent());
+}
 
+const Content *Content::textContent() const
+{
     //return the first content with mimetype=text/*
-    if (contentType()->isText()) {
-        ret = this;
-    } else {
-        const auto contents = d_ptr->contents();
-        for (Content *c : contents) {
-            if ((ret = c->textContent()) != nullptr) {
-                break;
-            }
+    // see ContentType::isText, that's also true for an empty header
+    if (const auto ct = contentType(); !ct || ct->isText()) {
+        return this;
+    }
+
+    const auto contents = d_ptr->contents();
+    for (const Content *c : contents) {
+        if (auto ret = c->textContent()) {
+            return ret;
         }
     }
-    return ret;
+
+    return nullptr;
 }
 
 QList<Content *> Content::attachments() const {
