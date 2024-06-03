@@ -874,11 +874,10 @@ Message::Ptr Content::bodyAsMessage() const
 
 bool Content::bodyIsMessage() const
 {
-    // Use const_case here to work around API issue that neither header() nor hasHeader() are
-    // const, even though they should be
-    return const_cast<Content *>(this)->header<Headers::ContentType>(false) &&
-           const_cast<Content *>(this)->header<Headers::ContentType>(true)
-           ->mimeType().toLower() == "message/rfc822";
+    if (const auto ct = contentType(); ct) {
+        return ct->isMimeType("message/rfc822");
+    }
+    return false;
 }
 
 // @cond PRIVATE
