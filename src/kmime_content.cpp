@@ -226,7 +226,7 @@ void Content::clearContents(bool del)
     d->clearBodyMessage();
 }
 
-QByteArray Content::encodedContent(bool useCrLf)
+QByteArray Content::encodedContent(bool useCrLf) const
 {
     QByteArray encodedContentData = head();           // return value; initialize with the head data
     const QByteArray encodedBodyData = encodedBody();
@@ -249,9 +249,9 @@ QByteArray Content::encodedContent(bool useCrLf)
     }
 }
 
-QByteArray Content::encodedBody()
+QByteArray Content::encodedBody() const
 {
-    Q_D(Content);
+    Q_D(const Content);
     QByteArray e;
     // Body.
     if (d->frozen) {
@@ -270,9 +270,9 @@ QByteArray Content::encodedBody()
         e += d->bodyAsMessage->encodedContent();
     } else if (!d->body.isEmpty()) {
         // This is a single-part Content.
-        Headers::ContentTransferEncoding *enc = contentTransferEncoding();
+        const auto enc = contentTransferEncoding();
 
-        if (enc->needToEncode()) {
+        if (enc && enc->needToEncode()) {
             if (enc->encoding() == Headers::CEquPr) {
                 e += KCodecs::quotedPrintableEncode(d->body, false);
             } else {
@@ -288,8 +288,8 @@ QByteArray Content::encodedBody()
 
     if (!d->frozen && !d->multipartContents.isEmpty()) {
         // This is a multipart Content.
-        Headers::ContentType *ct = contentType();
-        QByteArray boundary = "\n--" + ct->boundary();
+        const auto ct = contentType();
+        QByteArray boundary = "\n--" + (ct ? ct->boundary() : QByteArray());
 
         if (!d->preamble.isEmpty()) {
             e += d->preamble;

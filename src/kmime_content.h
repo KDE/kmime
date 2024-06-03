@@ -492,7 +492,7 @@ public:
 
     @param useCrLf If true, use @ref CRLF instead of @ref LF for linefeeds.
   */
-  [[nodiscard]] QByteArray encodedContent(bool useCrLf = false);
+  [[nodiscard]] QByteArray encodedContent(bool useCrLf = false) const;
 
   /**
    * Like encodedContent(), with the difference that only the body will be
@@ -500,7 +500,7 @@ public:
    *
    * @since 4.6
    */
-  [[nodiscard]] QByteArray encodedBody();
+  [[nodiscard]] QByteArray encodedBody() const;
 
   /**
    * Returns the decoded Content body.
