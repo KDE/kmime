@@ -742,26 +742,37 @@ void Content::setParent(Content *parent)
     }
 }
 
-Content *Content::parent() const
+Content *Content::parent()
 {
     return d_ptr->parent;
 }
 
-Content *Content::topLevel() const
+const Content *Content::parent() const
 {
-    auto top = const_cast<Content *>(this);
-    Content *c = parent();
-    while (c) {
-        top = c;
+    return d_ptr->parent;
+}
+
+Content *Content::topLevel()
+{
+    auto c = this;
+    while (c->parent()) {
         c = c->parent();
     }
+    return c;
+}
 
-    return top;
+const Content *Content::topLevel() const
+{
+    auto c = this;
+    while (c->parent()) {
+        c = c->parent();
+    }
+    return c;
 }
 
 ContentIndex Content::index() const
 {
-    Content *top = topLevel();
+    auto top = topLevel();
     if (top) {
         return top->indexForContent(const_cast<Content *>(this));
     }

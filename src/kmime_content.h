@@ -668,13 +668,16 @@ public:
    * parent.
    * @since 4.3
    */
-  Content *parent() const;
+  [[nodiscard]] Content *parent();
+  [[nodiscard]] const Content *parent() const;
 
   /**
    * Returns the toplevel content object, 0 if there is no such object.
    * @since 4.3
    */
-  Content *topLevel() const;
+  [[nodiscard]] Content *topLevel();
+  [[nodiscard]] const Content *topLevel() const;
+
 
   /**
    * Returns the index of this Content based on the topLevel() object.
