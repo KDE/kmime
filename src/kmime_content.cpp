@@ -476,61 +476,6 @@ void Content::replaceContent(Content *oldContent, Content *newContent)
 }
 
 
-void Content::addContent(Content *c, bool prepend)
-{
-    Q_D(Content);
-
-    // This method makes no sense for encapsulated messages
-    Q_ASSERT(!bodyIsMessage());
-
-    // If this message is single-part, make it multipart first.
-    if (d->multipartContents.isEmpty() && !contentType()->isMultipart()) {
-        // The current body will be our first sub-Content.
-        auto main = new Content(this);
-
-        // Move the MIME headers to the newly created sub-Content.
-        // NOTE: The other headers (RFC5322 headers like From:, To:, as well as X-headers
-        // are not moved to the subcontent; they remain with the top-level content.
-        for (auto it = d->headers.begin(); it != d->headers.end();) {
-            if ((*it)->isMimeHeader()) {
-                // Add to new content.
-                main->setHeader(*it);
-                // Remove from this content.
-                it = d->headers.erase(it);
-            } else {
-                ++it;
-            }
-        }
-
-        // Move the body to the new subcontent.
-        main->setBody(d->body);
-        d->body.clear();
-
-        // Add the subcontent.
-        d->multipartContents.append(main);
-
-        // Convert this content to "multipart/mixed".
-        Headers::ContentType *ct = contentType();
-        ct->setMimeType("multipart/mixed");
-        ct->setBoundary(multiPartBoundary());
-        auto cte = contentTransferEncoding();
-        cte->setEncoding(Headers::CE7Bit);
-        cte->setDecoded(true);
-    }
-
-    // Add the new content.
-    if (prepend) {
-        d->multipartContents.prepend(c);
-    } else {
-        d->multipartContents.append(c);
-    }
-
-    if (c->parent() != this) {
-        // If the content was part of something else, this will remove it from there.
-        c->setParent(this);
-    }
-}
-
 void Content::appendContent(Content *c)
 {
     // This method makes no sense for encapsulated messages
@@ -556,45 +501,6 @@ void Content::prependContent(Content *c)
     if (c->parent() != this) {
         // If the content was part of something else, this will remove it from there.
         c->setParent(this);
-    }
-}
-
-void Content::removeContent(Content *c, bool del)
-{
-    Q_D(Content);
-    if (d->multipartContents.isEmpty() || !d->multipartContents.contains(c)) {
-        return;
-    }
-
-    // This method makes no sense for encapsulated messages.
-    // Should be covered by the above assert already, though.
-    Q_ASSERT(!bodyIsMessage());
-
-    d->multipartContents.removeAll(c);
-    if (del) {
-        delete c;
-    } else {
-        c->d_ptr->parent = nullptr;
-    }
-
-    // If only one content is left, turn this content into a single-part.
-    if (d->multipartContents.count() == 1) {
-        Content *main = d->multipartContents.constFirst();
-
-        // Move all headers from the old subcontent to ourselves.
-        // NOTE: This also sets the new Content-Type.
-        const auto headers = main->d_ptr->headers;
-        for (Headers::Base *h : headers) {
-            setHeader(h);   // Will remove the old one if present.
-        }
-        main->d_ptr->headers.clear();
-
-        // Move the body.
-        d->body = main->body();
-
-        // Delete the old subcontent.
-        delete main;
-        d->multipartContents.clear();
     }
 }
 

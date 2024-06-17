@@ -579,25 +579,6 @@ public:
   [[nodiscard]] QList<Content *> contents() const;
 
   /**
-    Adds a new sub-Content. If the sub-Content is already part of another
-    Content object, it is removed from there and its parent is updated.
-    If the current Content object is single-part, it is converted to
-    multipart/mixed first.
-
-    @warning If the single-part to multipart conversion happens, all
-    pointers you may have into this object (such as headers) will become
-    invalid!
-
-    @param content The new sub-Content.
-    @param prepend If true, prepend to the Content list; otherwise append.
-    to the Content list.
-
-    @see removeContent().
-  */
-  // KDE5: Do not convert single-part->multipart automatically.
-  [[deprecated("use append/prependContent instead")]] void addContent(Content *content, bool prepend = false);
-
-  /**
     Appends a new sub-Content. If the sub-Content is already part of another
     Content object, it is removed from there and its parent is updated.
 
@@ -619,24 +600,6 @@ public:
   void prependContent(Content *content);
 
   void replaceContent(Content *oldContent, Content *newContent);
-  /**
-    Removes the given sub-Content. If only one sub-Content is left, the
-    current Content object is converted into a single-part Content.
-
-    @warning If the multipart to single-part conversion happens, the head
-    and body of the single remaining sub-Content are copied over, and the
-    sub-Content is deleted.  All pointers to it or into it (such as headers)
-    will become invalid!
-
-    @param content The Content to remove.
-    @param del If true, delete the removed Content object. Otherwise set its
-    parent to 0.
-
-    @see addContent().
-    @see clearContents().
-  */
-  // KDE5: Do not convert multipart->single-part automatically.
-  [[deprecated("use takeContent instead")]] void removeContent(Content *content, bool del = false);
   /**
     Removes the given sub-Content and, if that actually was a sub-content
     returns that.
