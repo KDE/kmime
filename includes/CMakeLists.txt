@@ -6,7 +6,6 @@ set(KMime_HEADERS
   DateFormatter
   HeaderParsing
   Headers
-  KMimeMessage
   MDN
   Message
   NewsArticle
