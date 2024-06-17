@@ -24,10 +24,11 @@ private Q_SLOTS:
 
         auto dt = QDateTime::currentDateTime();
         dt.setTime(QTime(12, 34, 56));
-        QCOMPARE(f.dateString(dt), u"Today 12:34 PM");
+        // depending on the platform ICU/CLDR version we get different Unicode whitespaces before the AM/PM mark, simplified() ignores those
+        QCOMPARE(f.dateString(dt).simplified(), u"Today 12:34 PM");
 
         dt.setDate(dt.date().addDays(-1));
-        QCOMPARE(f.dateString(dt), u"Yesterday 12:34 PM");
+        QCOMPARE(f.dateString(dt).simplified(), u"Yesterday 12:34 PM");
 
         dt.setDate(dt.date().addDays(-1));
         QVERIFY(f.dateString(dt).startsWith(
