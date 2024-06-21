@@ -48,7 +48,7 @@ ecm_qt_declare_logging_category(KPim6Mime
        CATEGORY_NAME org.kde.pim.kmime
         DESCRIPTION "kmime (pim lib)" EXPORT KMIME)
 
-if (COMPILE_WITH_UNITY_CMAKE_SUPPORT)
+if(COMPILE_WITH_UNITY_CMAKE_SUPPORT)
     set_target_properties(KPim6Mime PROPERTIES UNITY_BUILD ON)
 endif()
 ecm_generate_export_header(KPim6Mime
@@ -61,7 +61,7 @@ ecm_generate_export_header(KPim6Mime
 target_include_directories(KPim6Mime INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim6/KMime>")
 target_include_directories(KPim6Mime PUBLIC "$<BUILD_INTERFACE:${KMime_SOURCE_DIR}/src;${KMime_BINARY_DIR}/src;${KMime_BINARY_DIR}>")
 
-if (WIN32)
+if(WIN32)
     set(_kmime_extra_libs ws2_32)
 endif()
 
@@ -111,7 +111,7 @@ install(FILES
          DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim6/KMime/kmime COMPONENT Devel
 )
 
-if (BUILD_QCH)
+if(BUILD_QCH)
     ecm_add_qch(
         KPim6Mime_QCH
         NAME KMime
