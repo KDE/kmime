@@ -862,6 +862,7 @@ public:
       For instance, if you fill your Content with already-encoded base64 data,
       you will want to setDecoded( false ).
       @param decoded if @c true the content is already decoded
+      @deprecated Use Content::set[Encoded]Body() instead.
     */
     void setDecoded(bool isDecoded = true);
 

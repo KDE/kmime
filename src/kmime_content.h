@@ -427,7 +427,7 @@ public:
   [[nodiscard]] QByteArray body() const;
 
   /**
-    Sets the Content body raw data.
+    Sets the Content decoded body raw data.
 
     This method operates on the string representation of the Content. Call
     parse() if you want to access individual sub-Contents or the encapsulated
@@ -435,9 +435,30 @@ public:
 
     @param body is a QByteArray containing the body data.
 
-    @see body().
+    @note @p body is assumed to be decoded as far as the content transfer encoding
+    is concerned.
+
+    @see setEncodedBody()
   */
   void setBody(const QByteArray &body);
+
+  /**
+    Sets the Content body raw data encoded according to the content transfer encoding.
+
+    This method operates on the string representation of the Content. Call
+    parse() if you want to access individual sub-Contents or the encapsulated
+    message.
+
+    @param body is a QByteArray containing the body data.
+
+    @note @p body is assumed to be encoded as far as the content transfer encoding
+    is concerned.
+
+    @since 24.08
+
+    @see setBody()
+  */
+  void setEncodedBody(const QByteArray &body);
 
   /**
     Returns the MIME preamble.

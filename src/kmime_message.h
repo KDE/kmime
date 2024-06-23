@@ -33,7 +33,6 @@ class MessagePrivate;
  * ct->setBoundary( multiPartBoundary() );
  * Headers::ContentTransferEncoding *cte = m->contentTransferEncoding();
  * cte->setEncoding(Headers::CE7Bit);
- * cte->setDecoded(true);
  *
  * // Set the headers.
  * m->from()->fromUnicodeString( "some@mailaddy.com", "utf-8" );
