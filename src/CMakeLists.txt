@@ -22,7 +22,6 @@ target_sources(KPim6Mime PRIVATE
    kmime_headers.cpp
    kmime_message.cpp
    kmime_newsarticle.cpp
-   kmime_dateformatter.cpp
    kmime_codecs.cpp
    kmime_types.cpp
 
@@ -37,7 +36,6 @@ target_sources(KPim6Mime PRIVATE
    kmime_headers.h
    kmime_message.h
    kmime_newsarticle.h
-   kmime_dateformatter.h
    kmime_codecs_p.h
    kmime_types.h
    )
@@ -88,7 +86,6 @@ ecm_generate_headers(KMime_CamelCase_HEADERS
   KMime_Content
   KMime_Message
   KMime_Util
-  KMime_Dateformatter
   KMime_Header_Parsing
   PREFIX KMime
 
@@ -105,7 +102,6 @@ install(FILES
          kmime_message.h
          kmime_mdn.h
          kmime_newsarticle.h
-         kmime_dateformatter.h
          kmime_util.h
          kmime_types.h
          DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim6/KMime/kmime COMPONENT Devel

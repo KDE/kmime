@@ -21,9 +21,3 @@ endif()
 add_executable(test_charfreq test_charfreq.cpp)
 add_test(NAME test_charfreq COMMAND test_charfreq)
 target_link_libraries(test_charfreq KPim6Mime)
-
-########### next target ###############
-
-add_executable(test_dates test_dates.cpp)
-add_test(NAME test_dates COMMAND test_dates)
-target_link_libraries(test_dates KPim6Mime)

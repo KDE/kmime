@@ -39,7 +39,6 @@ add_kmime_test(
   rfc2231test
   sizetest
   parsedatetimetest
-  dateformattertest
   attachmenttest
   typestest
 )
