@@ -22,6 +22,7 @@ include(ECMQtDeclareLoggingCategory)
 include(ECMDeprecationSettings)
 include(ECMFeatureSummary)
 include(ECMAddQch)
+include(ECMPoQmTools)
 
 set(KMIME_LIB_VERSION ${PIM_VERSION})
 set(QT_REQUIRED_VERSION "6.6.0")
@@ -39,9 +40,7 @@ option(BUILD_QCH "Build API documentation in QCH format (for e.g. Qt Assistant, 
 add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
 
 ########### Find packages ###########
-find_package(KF6I18n ${KF_MIN_VERSION} CONFIG REQUIRED)
 find_package(KF6Codecs ${KF_MIN_VERSION} CONFIG REQUIRED)
-add_definitions(-DTRANSLATION_DOMAIN=\"libkmime6\")
 add_definitions(-DQT_NO_CONTEXTLESS_CONNECT)
 ecm_set_disabled_deprecation_versions(QT 6.7.0  KF 6.4.0)
 
@@ -99,5 +98,5 @@ install(FILES
     COMPONENT Devel
     )
 
-ki18n_install(po)
+ecm_install_po_files_as_qm(poqm)
 ecm_feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

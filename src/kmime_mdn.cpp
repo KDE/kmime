@@ -24,16 +24,15 @@
 #include "kmime_codecs_p.h"
 #include "kmime_debug.h"
 
-#include <KLocalizedString>
-
 #include <QByteArray>
+#include <QCoreApplication>
+#include <array>
 
 #ifdef Q_OS_WIN // gethostname
 # include <winsock2.h>
 #else
 # include <unistd.h>
 #endif
-#include <KLazyLocalizedString>
 
 namespace KMime
 {
@@ -41,47 +40,60 @@ namespace KMime
 namespace MDN
 {
 
-static const struct {
+struct DispositionMetaData {
     DispositionType dispositionType;
     const char *string;
-    const KLazyLocalizedString description;
-} dispositionTypes[] = {{Displayed,
-                         "displayed",
-                         kli18n("The message sent on ${date} to ${to} with subject "
-                                "\"${subject}\" has been displayed. This is no guarantee that "
-                                "the message has been read or understood.")},
-                        {Deleted,
-                         "deleted",
-                         kli18n("The message sent on ${date} to ${to} with subject "
-                                "\"${subject}\" has been deleted unseen. This is no guarantee "
-                                "that the message will not be \"undeleted\" and nonetheless "
-                                "read later on.")},
-                        {Dispatched,
-                         "dispatched",
-                         kli18n("The message sent on ${date} to ${to} with subject "
-                                "\"${subject}\" has been dispatched. This is no guarantee "
-                                "that the message will not be read later on.")},
-                        {Processed,
-                         "processed",
-                         kli18n("The message sent on ${date} to ${to} with subject "
-                                "\"${subject}\" has been processed by some automatic means.")},
-                        {Denied,
-                         "denied",
-                         kli18n("The message sent on ${date} to ${to} with subject "
-                                "\"${subject}\" has been acted upon. The sender does not wish "
-                                "to disclose more details to you than that.")},
-                        {Failed,
-                         "failed",
-                         kli18n("Generation of a Message Disposition Notification for the "
-                                "message sent on ${date} to ${to} with subject \"${subject}\" "
-                                "failed. Reason is given in the Failure: header field below.")}};
+    const char *description;
+};
 
-static const int numDispositionTypes =
-    sizeof dispositionTypes / sizeof *dispositionTypes;
+static constexpr std::array<DispositionMetaData, 6> dispositionTypes = {
+    DispositionMetaData {
+        Displayed,
+        "displayed",
+        QT_TRANSLATE_NOOP("DispositionModifier", "The message sent on ${date} to ${to} with subject "
+            "\"${subject}\" has been displayed. This is no guarantee that "
+            "the message has been read or understood.")
+    },
+    DispositionMetaData{
+        Deleted,
+        "deleted",
+        QT_TRANSLATE_NOOP("DispositionModifier", "The message sent on ${date} to ${to} with subject "
+            "\"${subject}\" has been deleted unseen. This is no guarantee "
+            "that the message will not be \"undeleted\" and nonetheless "
+            "read later on.")
+    },
+    DispositionMetaData{
+        Dispatched,
+        "dispatched",
+        QT_TRANSLATE_NOOP("DispositionModifier", "The message sent on ${date} to ${to} with subject "
+            "\"${subject}\" has been dispatched. This is no guarantee "
+            "that the message will not be read later on.")
+    },
+    DispositionMetaData{
+        Processed,
+        "processed",
+        QT_TRANSLATE_NOOP("DispositionModifier", "The message sent on ${date} to ${to} with subject "
+            "\"${subject}\" has been processed by some automatic means.")
+    },
+    DispositionMetaData{
+        Denied,
+        "denied",
+        QT_TRANSLATE_NOOP("DispositionModifier", "The message sent on ${date} to ${to} with subject "
+            "\"${subject}\" has been acted upon. The sender does not wish "
+            "to disclose more details to you than that.")
+    },
+    DispositionMetaData{
+        Failed,
+        "failed",
+        QT_TRANSLATE_NOOP("DispositionModifier", "Generation of a Message Disposition Notification for the "
+            "message sent on ${date} to ${to} with subject \"${subject}\" "
+            "failed. Reason is given in the Failure: header field below.")
+    }
+};
 
 static const char *stringFor(DispositionType d)
 {
-    for (int i = 0 ; i < numDispositionTypes ; ++i) {
+    for (size_t i = 0 ; i < dispositionTypes.size() ; ++i) {
         if (dispositionTypes[i].dispositionType == d) {
             return dispositionTypes[i].string;
         }
@@ -92,23 +104,22 @@ static const char *stringFor(DispositionType d)
 //
 // disposition-modifier
 //
-static const struct {
+struct DispositionModifierMetaData {
     DispositionModifier dispositionModifier;
     const char *string;
-} dispositionModifiers[] = {
-    { Error, "error" },
-    { Warning, "warning" },
-    { Superseded, "superseded" },
-    { Expired, "expired" },
-    { MailboxTerminated, "mailbox-terminated" }
 };
 
-static const int numDispositionModifiers =
-    sizeof dispositionModifiers / sizeof *dispositionModifiers;
+static constexpr std::array<DispositionModifierMetaData, 5> dispositionModifiers = {
+    DispositionModifierMetaData{ Error, "error" },
+    DispositionModifierMetaData{ Warning, "warning" },
+    DispositionModifierMetaData{ Superseded, "superseded" },
+    DispositionModifierMetaData{ Expired, "expired" },
+    DispositionModifierMetaData{ MailboxTerminated, "mailbox-terminated" }
+};
 
 static const char *stringFor(DispositionModifier m)
 {
-    for (int i = 0 ; i < numDispositionModifiers ; ++i) {
+    for (size_t i = 0 ; i < dispositionModifiers.size() ; ++i) {
         if (dispositionModifiers[i].dispositionModifier == m) {
             return dispositionModifiers[i].string;
         }
@@ -120,20 +131,19 @@ static const char *stringFor(DispositionModifier m)
 // action-mode (part of disposition-mode)
 //
 
-static const struct {
+struct ActionModeMetaData {
     ActionMode actionMode;
     const char *string;
-} actionModes[] = {
-    { ManualAction, "manual-action" },
-    { AutomaticAction, "automatic-action" }
 };
 
-static const int numActionModes =
-    sizeof actionModes / sizeof *actionModes;
+static constexpr std::array<ActionModeMetaData, 2> actionModes = {
+    ActionModeMetaData{ ManualAction, "manual-action" },
+    ActionModeMetaData{ AutomaticAction, "automatic-action" }
+};
 
 static const char *stringFor(ActionMode a)
 {
-    for (int i = 0 ; i < numActionModes ; ++i) {
+    for (size_t i = 0 ; i < actionModes.size() ; ++i) {
         if (actionModes[i].actionMode == a) {
             return actionModes[i].string;
         }
@@ -145,20 +155,19 @@ static const char *stringFor(ActionMode a)
 // sending-mode (part of disposition-mode)
 //
 
-static const struct {
+struct SendingModeMetaData {
     SendingMode sendingMode;
     const char *string;
-} sendingModes[] = {
-    { SentManually, "MDN-sent-manually" },
-    { SentAutomatically, "MDN-sent-automatically" }
 };
 
-static const int numSendingModes =
-    sizeof sendingModes / sizeof *sendingModes;
+static constexpr std::array<SendingModeMetaData, 2> sendingModes = {
+    SendingModeMetaData{ SentManually, "MDN-sent-manually" },
+    SendingModeMetaData{ SentAutomatically, "MDN-sent-automatically" }
+};
 
 static const char *stringFor(SendingMode s)
 {
-    for (int i = 0 ; i < numSendingModes ; ++i) {
+    for (size_t i = 0 ; i < sendingModes.size() ; ++i) {
         if (sendingModes[i].sendingMode == s) {
             return sendingModes[i].string;
         }
@@ -265,9 +274,9 @@ QByteArray dispositionNotificationBodyContent(
 }
 
 QString descriptionFor(DispositionType d, const QList<DispositionModifier> &) {
-    for (int i = 0 ; i < numDispositionTypes ; ++i) {
+    for (size_t i = 0 ; i < dispositionTypes.size() ; ++i) {
         if (dispositionTypes[i].dispositionType == d) {
-            return dispositionTypes[i].description.toString();
+            return QCoreApplication::translate("DispositionModifier", dispositionTypes[i].description);
         }
     }
     qCWarning(KMIME_LOG) << "KMime::MDN::descriptionFor(): No such disposition type:"

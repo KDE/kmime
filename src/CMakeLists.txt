@@ -9,6 +9,8 @@ kde_enable_exceptions()
 add_library(KPim6Mime)
 add_library(KPim6::Mime ALIAS KPim6Mime)
 
+ecm_create_qm_loader(KPim6Mime libkmime6_qt)
+
 target_sources(KPim6Mime PRIVATE
    kmime_charfreq.cpp
    kmime_util.cpp
@@ -67,7 +69,6 @@ target_link_libraries(KPim6Mime
 PUBLIC
     Qt::Core
 PRIVATE
-    KF6::I18n
     KF6::Codecs
     ${_kmime_extra_libs}
 )
