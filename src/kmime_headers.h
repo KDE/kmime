@@ -852,26 +852,6 @@ public:
     */
     void setEncoding(contentEncoding e);
 
-    /**
-      Returns whether the Content containing this header is already decoded.
-    */
-    bool isDecoded() const;
-
-    /**
-      Set whether the Content containing this header is already decoded.
-      For instance, if you fill your Content with already-encoded base64 data,
-      you will want to setDecoded( false ).
-      @param decoded if @c true the content is already decoded
-      @deprecated Use Content::set[Encoded]Body() instead.
-    */
-    void setDecoded(bool isDecoded = true);
-
-    /**
-      Returns whether the Content containing this header needs to be encoded
-      (i.e., if decoded() is true and encoding() is base64 or quoted-printable).
-    */
-    bool needToEncode() const;
-
 protected:
     bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
 

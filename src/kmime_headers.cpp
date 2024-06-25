@@ -1939,7 +1939,6 @@ static const encTableType encTable[] = {
 
 void ContentTransferEncoding::clear() {
     Q_D(ContentTransferEncoding);
-    d->decoded = true;
     d->cte = CE7Bit;
     Token::clear();
 }
@@ -1960,20 +1959,6 @@ void ContentTransferEncoding::setEncoding(contentEncoding e) {
     }
 }
 
-bool ContentTransferEncoding::isDecoded() const {
-    return d_func()->decoded;
-}
-
-void ContentTransferEncoding::setDecoded(bool decoded) {
-    Q_D(ContentTransferEncoding);
-    d->decoded = decoded;
-}
-
-bool ContentTransferEncoding::needToEncode() const {
-    const Q_D(ContentTransferEncoding);
-    return d->decoded && (d->cte == CEquPr || d->cte == CEbase64);
-}
-
 bool ContentTransferEncoding::parse(const char  *&scursor,
                                     const char *const send, bool isCRLF) {
     Q_D(ContentTransferEncoding);
@@ -1989,7 +1974,6 @@ bool ContentTransferEncoding::parse(const char  *&scursor,
             break;
         }
     }
-    d->decoded = (d->cte == CE7Bit || d->cte == CE8Bit);
     return true;
 }
 

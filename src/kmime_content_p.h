@@ -38,6 +38,12 @@ public:
     bool parseMultipart(Content *q);
     void clearBodyMessage();
 
+    /**
+      Returns whether the Content containing this header needs to be encoded
+      (i.e., if decoded() is true and encoding() is base64 or quoted-printable).
+    */
+    [[nodiscard]] bool needToEncode(const Content *q) const;
+
     bool decodeText(Content *q);
 
     // This one returns the normal multipartContents for multipart contents, but returns
@@ -58,6 +64,8 @@ public:
     QList<Headers::Base *> headers;
 
     bool frozen : 1;
+    // Indicates whether body has content transfer encoding applied or not
+    bool m_decoded : 1 = true;
 };
 
 }

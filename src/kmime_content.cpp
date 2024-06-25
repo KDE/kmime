@@ -86,12 +86,13 @@ QByteArray Content::body() const
 void Content::setBody(const QByteArray &body)
 {
     d_ptr->body = body;
+    d_ptr->m_decoded = true;
 }
 
 void Content::setEncodedBody(const QByteArray &body)
 {
     d_ptr->body = body;
-    contentTransferEncoding()->setDecoded(false);
+    d_ptr->m_decoded = false;
 }
 
 QByteArray Content::preamble() const
@@ -122,6 +123,9 @@ void Content::parse()
     qDeleteAll(d->headers);
     d->headers.clear();
     d->headers = HeaderParsing::parseHeaders(d->head);
+    if (const auto cte = contentTransferEncoding(false); cte) {
+        d->m_decoded = (cte->encoding() == Headers::CE7Bit || cte->encoding() == Headers::CE8Bit);
+    }
 
     // If we are frozen, save the body as-is. This is done because parsing
     // changes the content (it loses preambles and epilogues, converts uuencode->mime, etc.)
@@ -278,7 +282,7 @@ QByteArray Content::encodedBody() const
         // This is a single-part Content.
         const auto enc = contentTransferEncoding();
 
-        if (enc && enc->needToEncode()) {
+        if (enc && d->needToEncode(this)) {
             if (enc->encoding() == Headers::CEquPr) {
                 e += KCodecs::quotedPrintableEncode(d->body, false);
             } else {
@@ -326,7 +330,7 @@ QByteArray Content::decodedContent() const
         return ret;
     }
 
-    if (!ec || ec->isDecoded()) {
+    if (!ec || d_ptr->m_decoded) {
         ret = d_ptr->body;
         //Laurent Fix bug #311267
         //removeTrailingNewline = true;
@@ -416,7 +420,7 @@ void Content::fromUnicodeString(const QString &s)
     }
 
     d_ptr->body = codec.encode(s);
-    contentTransferEncoding()->setDecoded(true);   //text is always decoded
+    d_ptr->m_decoded = true;   //text is always decoded
 }
 
 Content *Content::textContent()
@@ -540,14 +544,14 @@ void Content::changeEncoding(Headers::contentEncoding e)
 
     if (d_ptr->decodeText(this)) {
         // This is textual content.  Textual content is stored decoded.
-        Q_ASSERT(enc->isDecoded());
+        Q_ASSERT(d_ptr->m_decoded);
         enc->setEncoding(e);
     } else {
         // This is non-textual content.  Re-encode it.
         if (e == Headers::CEbase64) {
             KCodecs::base64Encode(decodedContent(), d_ptr->body, true);
             enc->setEncoding(e);
-            enc->setDecoded(false);
+            d_ptr->m_decoded = false;
         } else {
             // It only makes sense to convert binary stuff to base64.
             Q_ASSERT(false);
@@ -653,6 +657,12 @@ int Content::storageSize() const
     return s;
 }
 
+bool ContentPrivate::needToEncode(const Content *q) const
+{
+    const auto cte = q->contentTransferEncoding();
+    return m_decoded && cte && (cte->encoding() == Headers::CEquPr || cte->encoding() == Headers::CEbase64);
+}
+
 bool ContentPrivate::decodeText(Content *q)
 {
     Headers::ContentTransferEncoding *enc = q->contentTransferEncoding();
@@ -660,7 +670,7 @@ bool ContentPrivate::decodeText(Content *q)
     if (!q->contentType()->isText()) {
         return false; //non textual data cannot be decoded here => use decodedContent() instead
     }
-    if (enc->isDecoded()) {
+    if (m_decoded) {
         return true; //nothing to do
     }
 
@@ -682,7 +692,7 @@ bool ContentPrivate::decodeText(Content *q)
     if (!body.endsWith("\n")) {
         body.append("\n");
     }
-    enc->setDecoded(true);
+    m_decoded = true;
     return true;
 }
 
@@ -860,7 +870,7 @@ bool ContentPrivate::parseUuencoded(Content *q)
         ct->setBoundary(multiPartBoundary());
         auto cte = q->contentTransferEncoding();
         cte->setEncoding(Headers::CE7Bit);
-        cte->setDecoded(true);
+        m_decoded = true;
 
         // Add the plain text part first.
         Q_ASSERT(multipartContents.isEmpty());
@@ -916,7 +926,7 @@ bool ContentPrivate::parseYenc(Content *q)
         ct->setBoundary(multiPartBoundary());
         auto cte = q->contentTransferEncoding();
         cte->setEncoding(Headers::CE7Bit);
-        cte->setDecoded(true);
+        m_decoded = true;
 
         // Add the plain text part first.
         Q_ASSERT(multipartContents.isEmpty());
