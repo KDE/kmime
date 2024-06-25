@@ -8,7 +8,7 @@
 
 #include <QTest>
 
-#include "kmime_header_parsing.h"
+#include "headerparsing.h"
 
 using namespace KMime;
 

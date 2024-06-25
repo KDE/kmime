@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "kmime_message.h"
+#include "message.h"
 #include <QObject>
 
 class MessageTest : public QObject

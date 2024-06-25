@@ -1,4 +1,4 @@
-#include "kmime_mdn.h"
+#include "mdn.h"
 using namespace KMime::MDN;
 
 #include <QByteArray>

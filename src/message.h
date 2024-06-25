@@ -10,8 +10,8 @@
 #pragma once
 
 #include "kmime_export.h"
-#include "kmime_content.h"
-#include "kmime_headers.h"
+#include "content.h"
+#include "headers.h"
 
 #include <QMetaType>
 #include <QSharedPointer>

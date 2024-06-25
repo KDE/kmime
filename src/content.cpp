@@ -1,6 +1,4 @@
 /*
-    kmime_content.cpp
-
     KMime, the KDE Internet mail/usenet news message library.
     SPDX-FileCopyrightText: 2001 the KMime authors.
     See file AUTHORS for details
@@ -20,13 +18,13 @@
   @authors the KMime authors (see AUTHORS file),
   Volker Krause \<vkrause@kde.org\>
 */
-#include "kmime_content.h"
-#include "kmime_content_p.h"
-#include "kmime_message.h"
-#include "kmime_header_parsing.h"
-#include "kmime_header_parsing_p.h"
-#include "kmime_parsers_p.h"
-#include "kmime_util_p.h"
+#include "content.h"
+#include "content_p.h"
+#include "message.h"
+#include "headerparsing.h"
+#include "headerparsing_p.h"
+#include "parsers_p.h"
+#include "util_p.h"
 
 #include <KCodecs>
 

@@ -18,8 +18,8 @@
   @authors Constantin Berzan \<exit3219@gmail.com\>
 */
 
-#include "kmime_headerfactory_p.h"
-#include "kmime_headers.h"
+#include "headerfactory_p.h"
+#include "headers.h"
 
 #include <algorithm>
 

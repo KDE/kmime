@@ -1,6 +1,6 @@
 
-#include "kmime_headers.h"
-#include "kmime_header_parsing.h"
+#include "headers.h"
+#include "headerparsing.h"
 
 #include <QFile>
 #include <QByteArray>

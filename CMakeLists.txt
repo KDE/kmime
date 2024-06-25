@@ -56,7 +56,6 @@ endif()
 
 ########### Targets ###########
 add_subdirectory(src)
-add_subdirectory(includes)
 
 if(BUILD_TESTING)
     add_subdirectory(autotests)

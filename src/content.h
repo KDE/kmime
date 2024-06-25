@@ -1,6 +1,4 @@
 /*
-    kmime_content.h
-
     KMime, the KDE Internet mail/usenet news message library.
     SPDX-FileCopyrightText: 2001 the KMime authors.
     See file AUTHORS for details
@@ -35,9 +33,9 @@ TODO: possible glossary terms:
 #pragma once
 
 #include "kmime_export.h"
-#include "kmime_contentindex.h"
-#include "kmime_util.h"
-#include "kmime_headers.h"
+#include "contentindex.h"
+#include "util.h"
+#include "headers.h"
 
 #include <QByteArray>
 #include <QList>

@@ -4,7 +4,7 @@
   SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#include "kmime_types.h"
+#include "types.h"
 
 #include <QTest>
 #include <QObject>

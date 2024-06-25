@@ -8,7 +8,7 @@
 #include <QTest>
 #include <QDebug>
 #include <QFile>
-#include <kmime_codecs.cpp>
+#include <codecs.cpp>
 
 using namespace KMime;
 

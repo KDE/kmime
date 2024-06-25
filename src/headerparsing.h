@@ -10,7 +10,7 @@
 #pragma once
 
 #include "kmime_export.h"
-#include "kmime_types.h"
+#include "types.h"
 
 #include <QString>
 #include <QPair>

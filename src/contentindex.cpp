@@ -14,7 +14,7 @@
   @authors Volker Krause \<vkrause@kde.org\>
 */
 
-#include "kmime_contentindex.h"
+#include "contentindex.h"
 
 #include <QHash>
 #include <QList>

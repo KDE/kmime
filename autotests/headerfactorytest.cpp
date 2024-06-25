@@ -10,8 +10,8 @@
 
 #include <QTest>
 
-#include "kmime_headerfactory_p.h"
-#include "kmime_headers.h"
+#include "headerfactory_p.h"
+#include "headers.h"
 
 using namespace KMime;
 using namespace KMime::Headers;

@@ -8,8 +8,8 @@
 
 #include "rfc2231test.h"
 
-#include "kmime_util.h"
-#include <kmime_codecs.cpp>
+#include "util.h"
+#include <codecs.cpp>
 #include <QDebug>
 using namespace KMime;
 

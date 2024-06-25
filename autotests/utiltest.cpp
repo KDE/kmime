@@ -11,9 +11,9 @@
 
 #include "utiltest.h"
 
-#include <kmime_charfreq.cpp>
-#include <kmime_util_p.cpp>
-#include "kmime_message.h"
+#include <charfreq.cpp>
+#include <util_p.cpp>
+#include "message.h"
 
 using namespace KMime;
 

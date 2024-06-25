@@ -4,9 +4,9 @@
   SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#include "kmime_message.h"
-#include "kmime_content_p.h"
-#include "kmime_headers_p.h"
+#include "message.h"
+#include "content_p.h"
+#include "headers_p.h"
 
 #include <QTest>
 #include <QObject>

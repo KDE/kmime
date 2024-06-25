@@ -18,8 +18,7 @@
   @authors Marc Mutz \<mutz@kde.org\>
 */
 
-#include "kmime_charfreq_p.h"
-#include "kmime_debug.h"
+#include "charfreq_p.h"
 
 using namespace KMime;
 

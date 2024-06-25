@@ -10,7 +10,7 @@
 #pragma once
 
 #include "kmime_export.h"
-#include "kmime_message.h"
+#include "message.h"
 
 #include <QSharedPointer>
 

@@ -27,7 +27,7 @@
 #pragma once
 
 #include "kmime_export.h"
-#include "kmime_header_parsing.h"
+#include "headerparsing.h"
 
 #include <QByteArray>
 #include <QDateTime>

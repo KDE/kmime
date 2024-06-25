@@ -18,10 +18,10 @@
   @authors Marc Mutz \<mutz@kde.org\>
 */
 
-#include "kmime_mdn.h"
+#include "mdn.h"
 #include "kmime_version.h"
-#include "kmime_util.h"
-#include "kmime_codecs_p.h"
+#include "util.h"
+#include "codecs_p.h"
 #include "kmime_debug.h"
 
 #include <QByteArray>

@@ -1,5 +1,5 @@
 /*  -*- c++ -*-
-    kmime_charfreq.h
+    charfreq.h
 
     KMime, the KDE Internet mail/usenet news message library.
     SPDX-FileCopyrightText: 2001-2002 Marc Mutz <mutz@kde.org>

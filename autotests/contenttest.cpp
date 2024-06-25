@@ -9,9 +9,10 @@
 #include <QDebug>
 #include <QTest>
 
-#include "kmime_content.h"
-#include "kmime_headers.h"
-#include "kmime_message.h"
+#include "content.h"
+#include "headers.h"
+#include "message.h"
+
 using namespace KMime;
 
 QTEST_MAIN(ContentTest)

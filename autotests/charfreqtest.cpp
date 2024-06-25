@@ -8,7 +8,7 @@
 #include <QTest>
 
 
-#include <../src/kmime_charfreq.cpp>
+#include <../src/charfreq.cpp>
 using namespace KMime;
 
 QTEST_MAIN(CharFreqTest)

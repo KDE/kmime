@@ -9,7 +9,7 @@
 #include "rfc2047test.h"
 
 #include <KCodecs>
-#include <kmime_codecs.cpp>
+#include <codecs.cpp>
 using namespace KMime;
 
 QTEST_MAIN(RFC2047Test)

@@ -11,8 +11,8 @@
 
 #include "attachmenttest.h"
 
-#include "kmime_util.h"
-#include "kmime_message.h"
+#include "util.h"
+#include "message.h"
 
 using namespace KMime;
 

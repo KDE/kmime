@@ -8,7 +8,7 @@
 
 #include <config-kmime.h>
 
-#include "kmime_util_p.h"
+#include "util_p.h"
 #include "kmime_debug.h"
 
 #include <QByteArray>

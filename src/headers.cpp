@@ -24,16 +24,16 @@
   Volker Krause \<vkrause@kde.org\>
 */
 
-#include "kmime_headers.h"
-#include "kmime_headers_p.h"
+#include "headers.h"
+#include "headers_p.h"
 
-#include "kmime_util.h"
-#include "kmime_util_p.h"
-#include "kmime_codecs_p.h"
-#include "kmime_content.h"
-#include "kmime_headerfactory_p.h"
+#include "util.h"
+#include "util_p.h"
+#include "codecs_p.h"
+#include "content.h"
+#include "headerfactory_p.h"
 #include "kmime_debug.h"
-#include "kmime_warning_p.h"
+#include "warning_p.h"
 
 #include <KCodecs>
 

@@ -12,35 +12,36 @@ add_library(KPim6::Mime ALIAS KPim6Mime)
 ecm_create_qm_loader(KPim6Mime libkmime6_qt)
 
 target_sources(KPim6Mime PRIVATE
-   kmime_charfreq.cpp
-   kmime_util.cpp
-   kmime_util_p.cpp
-   kmime_mdn.cpp
-   kmime_parsers.cpp
-   kmime_header_parsing.cpp
-   kmime_headerfactory.cpp
-   kmime_content.cpp
-   kmime_contentindex.cpp
-   kmime_headers.cpp
-   kmime_message.cpp
-   kmime_newsarticle.cpp
-   kmime_codecs.cpp
-   kmime_types.cpp
+   charfreq.cpp
+   util.cpp
+   util_p.cpp
+   mdn.cpp
+   parsers.cpp
+   headerparsing.cpp
+   headerfactory.cpp
+   content.cpp
+   contentindex.cpp
+   headers.cpp
+   message.cpp
+   newsarticle.cpp
+   codecs.cpp
+   types.cpp
 
-   kmime_charfreq_p.h
-   kmime_util.h
-   kmime_mdn.h
-   kmime_parsers_p.h
-   kmime_header_parsing.h
-   kmime_headerfactory_p.h
-   kmime_content.h
-   kmime_contentindex.h
-   kmime_headers.h
-   kmime_message.h
-   kmime_newsarticle.h
-   kmime_codecs_p.h
-   kmime_types.h
-   )
+   charfreq_p.h
+   util.h
+   mdn.h
+   parsers_p.h
+   headerparsing.h
+   headerparsing_p.h
+   headerfactory_p.h
+   content.h
+   contentindex.h
+   headers.h
+   message.h
+   newsarticle.h
+   codecs_p.h
+   types.h
+)
 
 ecm_qt_declare_logging_category(KPim6Mime
        HEADER kmime_debug.h
@@ -81,31 +82,30 @@ set_target_properties(KPim6Mime PROPERTIES
 
 install(TARGETS KPim6Mime EXPORT KPim6MimeTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
-# Don't install them but needed to compile kdepimlibs
 ecm_generate_headers(KMime_CamelCase_HEADERS
   HEADER_NAMES
-  KMime_Content
-  KMime_Message
-  KMime_Util
-  KMime_Header_Parsing
-  PREFIX KMime
-
+      Content
+      ContentIndex
+      Headers
+      Message
+      Util
+      HeaderParsing
+      Types
+      MDN
   REQUIRED_HEADERS KMime_HEADERS
+  PREFIX KMime
 )
 
+install(FILES
+    ${KMime_CamelCase_HEADERS}
+    DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim6/KMime/KMime
+)
 
 install(FILES
-         ${KMime_BINARY_DIR}/src/kmime_export.h
-         kmime_content.h
-         kmime_contentindex.h
-         kmime_header_parsing.h
-         kmime_headers.h
-         kmime_message.h
-         kmime_mdn.h
-         kmime_newsarticle.h
-         kmime_util.h
-         kmime_types.h
-         DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim6/KMime/kmime COMPONENT Devel
+     ${KMime_BINARY_DIR}/src/kmime_export.h
+     ${KMime_HEADERS}
+     DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim6/KMime/kmime
+     COMPONENT Devel
 )
 
 if(BUILD_QCH)

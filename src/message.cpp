@@ -8,8 +8,8 @@
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#include "kmime_message.h"
-#include "kmime_util_p.h"
+#include "message.h"
+#include "util_p.h"
 
 using namespace KMime;
 

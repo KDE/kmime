@@ -1,5 +1,5 @@
 /*  -*- c++ -*-
-    kmime_codecs.h
+    codecs.h
 
     KMime, the KDE Internet mail/usenet news message library.
     SPDX-FileCopyrightText: 2001 the KMime authors.

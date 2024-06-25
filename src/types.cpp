@@ -7,12 +7,12 @@
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#include "kmime_types.h"
-#include "kmime_codecs_p.h"
-#include "kmime_header_parsing.h"
-#include "kmime_header_parsing_p.h"
-#include "kmime_util.h"
-#include "kmime_util_p.h"
+#include "types.h"
+#include "codecs_p.h"
+#include "headerparsing.h"
+#include "headerparsing_p.h"
+#include "util.h"
+#include "util_p.h"
 #include "kmime_debug.h"
 
 #include <KCodecs>
