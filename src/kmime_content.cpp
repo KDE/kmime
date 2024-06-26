@@ -371,7 +371,7 @@ QByteArray Content::decodedContent() const
     return ret;
 }
 
-QString Content::decodedText(bool trimText, bool removeTrailingNewlines)
+QString Content::decodedText(bool trimText, bool removeTrailingNewlines) const
 {
     if (!d_ptr->decodeText(this)) {   //this is not a text content !!
       return {};
@@ -380,14 +380,12 @@ QString Content::decodedText(bool trimText, bool removeTrailingNewlines)
     QStringDecoder codec(contentType()->charset().constData());
     if (!codec.isValid()) {   // no suitable codec found => try local settings and hope for the best ;-)
         codec = QStringDecoder(QStringDecoder::System);
-        QByteArray chset = codec.name();
-        contentType()->setCharset(chset);
     }
 
     QString s = codec.decode(d_ptr->body);
 
     if (trimText || removeTrailingNewlines) {
-        int i;
+        qsizetype i;
         for (i = s.length() - 1; i >= 0; --i) {
             if (trimText) {
                 if (!s[i].isSpace()) {
@@ -663,9 +661,9 @@ bool ContentPrivate::needToEncode(const Content *q) const
     return m_decoded && cte && (cte->encoding() == Headers::CEquPr || cte->encoding() == Headers::CEbase64);
 }
 
-bool ContentPrivate::decodeText(Content *q)
+bool ContentPrivate::decodeText(const Content *q)
 {
-    Headers::ContentTransferEncoding *enc = q->contentTransferEncoding();
+    const Headers::ContentTransferEncoding *enc = q->contentTransferEncoding();
 
     if (!q->contentType()->isText()) {
         return false; //non textual data cannot be decoded here => use decodedContent() instead
@@ -674,23 +672,25 @@ bool ContentPrivate::decodeText(Content *q)
         return true; //nothing to do
     }
 
-    switch (enc->encoding()) {
-    case Headers::CEbase64 :
-        body = KCodecs::base64Decode(body);
-        break;
-    case Headers::CEquPr :
-        body = KCodecs::quotedPrintableDecode(body);
-        break;
-    case Headers::CEuuenc :
-        body = KCodecs::uudecode(body);
-        break;
-    case Headers::CEbinary :
-        // nothing to decode
-    default :
-        break;
+    if (enc) {
+        switch (enc->encoding()) {
+        case Headers::CEbase64 :
+            body = KCodecs::base64Decode(body);
+            break;
+        case Headers::CEquPr :
+            body = KCodecs::quotedPrintableDecode(body);
+            break;
+        case Headers::CEuuenc :
+            body = KCodecs::uudecode(body);
+            break;
+        case Headers::CEbinary :
+            // nothing to decode
+        default :
+            break;
+        }
     }
-    if (!body.endsWith("\n")) {
-        body.append("\n");
+    if (!body.endsWith('\n')) {
+        body.append('\n');
     }
     m_decoded = true;
     return true;

@@ -12,21 +12,14 @@
 
 namespace KMime
 {
+class Content;
 class Message;
 using MessagePtr = QSharedPointer<Message>;
-}
-
-namespace KMime
-{
 
 class ContentPrivate
 {
 public:
-    explicit ContentPrivate() :
-        frozen(false)
-    {
-    }
-
+    explicit ContentPrivate() = default;
     ~ContentPrivate()
     {
         qDeleteAll(multipartContents);
@@ -44,7 +37,7 @@ public:
     */
     [[nodiscard]] bool needToEncode(const Content *q) const;
 
-    bool decodeText(Content *q);
+    [[nodiscard]] bool decodeText(const Content *q);
 
     // This one returns the normal multipartContents for multipart contents, but returns
     // a list with just bodyAsMessage in it for contents that are encapsulated messages.
@@ -63,9 +56,9 @@ public:
 
     QList<Headers::Base *> headers;
 
-    bool frozen : 1;
+    bool frozen : 1 = false;
     // Indicates whether body has content transfer encoding applied or not
-    bool m_decoded : 1 = true;
+    mutable bool m_decoded : 1 = true;
 };
 
 }

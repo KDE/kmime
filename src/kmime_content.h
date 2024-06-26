@@ -551,7 +551,7 @@ public:
   // removeTrailingNewlines
   //                  is false?
   [[nodiscard]] QString decodedText(bool trimText = false,
-                                    bool removeTrailingNewlines = false);
+                                    bool removeTrailingNewlines = false) const;
 
   /**
     Sets the Content body to the given string using charset of the content type.
