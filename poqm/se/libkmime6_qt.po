@@ -1,0 +1,116 @@
+# Translation of libkmime6 to Northern Sami
+#
+# Børre Gaup <boerre@skolelinux.no>, 2009, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: libkmime\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2023-11-20 01:59+0000\n"
+"PO-Revision-Date: 2010-02-01 13:38+0100\n"
+"Last-Translator: Børre Gaup <boerre@skolelinux.no>\n"
+"Language-Team: Northern Sami <l10n-no@lister.huftis.org>\n"
+"Language: se\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Environment: kde\n"
+"X-Accelerator-Marker: &\n"
+"X-Text-Markup: kde4\n"
+
+#: kmime_mdn.cpp:53
+#, fuzzy
+#| msgid ""
+#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+#| "displayed. This is no guarantee that the message has been read or "
+#| "understood."
+msgctxt "DispositionModifier|"
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"displayed. This is no guarantee that the message has been read or understood."
+msgstr ""
+"Diehtu mii sáddejuvvui ${date} ${to}:i mas lea fáddá «${subject}» lea "
+"čájehuvvon. Liikká dát ii mearkkaš ahte diehtu lea lohkon dahje ipmirduvvon."
+
+#: kmime_mdn.cpp:60
+#, fuzzy
+#| msgid ""
+#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+#| "deleted unseen. This is no guarantee that the message will not be "
+#| "\"undeleted\" and nonetheless read later on."
+msgctxt "DispositionModifier|"
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"deleted unseen. This is no guarantee that the message will not be \"undeleted"
+"\" and nonetheless read later on."
+msgstr ""
+"Diehtu mii sáddejuvvui ${date} ${to}:i mas lea fáddá «${subject}» "
+"sihkkojuvvui ovdalgo čájehuvvui. Liikká lea vejolaš viežžat dieđu "
+"ruskalihtis ja lohkat dan maŋileabbut."
+
+#: kmime_mdn.cpp:68
+#, fuzzy
+#| msgid ""
+#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+#| "dispatched. This is no guarantee that the message will not be read later "
+#| "on."
+msgctxt "DispositionModifier|"
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"dispatched. This is no guarantee that the message will not be read later on."
+msgstr ""
+"Diehtu mii sáddejuvvui ${date} ${to}:i mas lea fáddá «${subject}» "
+"sáddejuvvui dakkaviđi viidáseappot . Liikká dát ii mearkkaš ahte diehtu ii "
+"lohko maŋileabbut."
+
+#: kmime_mdn.cpp:75
+#, fuzzy
+#| msgid ""
+#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+#| "processed by some automatic means."
+msgctxt "DispositionModifier|"
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"processed by some automatic means."
+msgstr ""
+"Diehtu mii sáddejuvvui ${date} ${to}:i mas lea fáddá «${subject}» lea "
+"mášiinnalaččat gieđahallon."
+
+#: kmime_mdn.cpp:81
+#, fuzzy
+#| msgid ""
+#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+#| "acted upon. The sender does not wish to disclose more details to you than "
+#| "that."
+msgctxt "DispositionModifier|"
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"acted upon. The sender does not wish to disclose more details to you than "
+"that."
+msgstr ""
+"Diehtu mii sáddejuvvui ${date} ${to}:i mas lea fáddá «${subject}» lea "
+"gieđahallon. Sáddejeaddji ii muital mii eará dáidá leat dáhpáhuvvon dáinna "
+"dieđuid."
+
+#: kmime_mdn.cpp:88
+msgctxt "DispositionModifier|"
+msgid ""
+"Generation of a Message Disposition Notification for the message sent on "
+"${date} to ${to} with subject \"${subject}\" failed. Reason is given in the "
+"Failure: header field below."
+msgstr ""
+
+#~ msgctxt "invalid time specified"
+#~ msgid "unknown"
+#~ msgstr "amas"
+
+#~ msgid "Today %1"
+#~ msgstr "Otne %1"
+
+#~ msgid "Yesterday %1"
+#~ msgstr "Ikte %1"
+
+#~ msgctxt "1. weekday, 2. time"
+#~ msgid "%1 %2"
+#~ msgstr "%1 %2"

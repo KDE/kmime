@@ -1,0 +1,119 @@
+# Tamas Szanto <tszanto@interware.hu>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: KDE 4.1\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2023-11-20 01:59+0000\n"
+"PO-Revision-Date: 2008-05-26 11:11+0100\n"
+"Last-Translator: Tamas Szanto <tszanto@interware.hu>\n"
+"Language-Team: Hungarian <kde-lista@sophia.jpte.hu>\n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: kmime_mdn.cpp:53
+#, fuzzy
+#| msgid ""
+#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+#| "displayed. This is no guarantee that the message has been read or "
+#| "understood."
+msgctxt "DispositionModifier|"
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"displayed. This is no guarantee that the message has been read or understood."
+msgstr ""
+"Az üzenet megjelent a címzettnél (elküldési dátum: ${date}, címzett: ${to}, "
+"tárgy: \"${subject}\"). displayed. Nem biztos, hogy a címzett valóban "
+"elolvasta és megértette az üzenetet."
+
+#: kmime_mdn.cpp:60
+#, fuzzy
+#| msgid ""
+#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+#| "deleted unseen. This is no guarantee that the message will not be "
+#| "\"undeleted\" and nonetheless read later on."
+msgctxt "DispositionModifier|"
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"deleted unseen. This is no guarantee that the message will not be \"undeleted"
+"\" and nonetheless read later on."
+msgstr ""
+"Az üzenetet elolvasás nélkül törölték (elküldési dátum: ${date}, címzett: "
+"${to}, tárgy: \"${subject}\"). Elképzelhető, hogy később az üzenet törlését "
+"visszavonják és a címzett mégis elolvassa az üzenetet."
+
+#: kmime_mdn.cpp:68
+#, fuzzy
+#| msgid ""
+#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+#| "dispatched. This is no guarantee that the message will not be read later "
+#| "on."
+msgctxt "DispositionModifier|"
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"dispatched. This is no guarantee that the message will not be read later on."
+msgstr ""
+"Az üzenetet átküldték másnak (elküldési dátum: ${date}, címzett: ${to}, "
+"tárgy: \"${subject}\"). Elképzelhető, hogy az üzenetet a címzett később "
+"mégis elolvassa."
+
+#: kmime_mdn.cpp:75
+#, fuzzy
+#| msgid ""
+#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+#| "processed by some automatic means."
+msgctxt "DispositionModifier|"
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"processed by some automatic means."
+msgstr ""
+"Az üzenetet automatikusan feldolgozták (elküldési dátum: ${date}, címzett: "
+"${to}, tárgy: \"${subject}\")."
+
+#: kmime_mdn.cpp:81
+#, fuzzy
+#| msgid ""
+#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+#| "acted upon. The sender does not wish to disclose more details to you than "
+#| "that."
+msgctxt "DispositionModifier|"
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"acted upon. The sender does not wish to disclose more details to you than "
+"that."
+msgstr ""
+"Az üzenetet feldolgozták (elküldési dátum: ${date}, címzett: ${to}, tárgy: "
+"\"${subject}\"). A feldolgozás részleteiről nem érhető el információ."
+
+#: kmime_mdn.cpp:88
+#, fuzzy
+#| msgid ""
+#| "Generation of a Message Disposition Notification for the message sent on "
+#| "${date} to ${to} with subject \"${subject}\" failed. Reason is given in "
+#| "the Failure: header field below."
+msgctxt "DispositionModifier|"
+msgid ""
+"Generation of a Message Disposition Notification for the message sent on "
+"${date} to ${to} with subject \"${subject}\" failed. Reason is given in the "
+"Failure: header field below."
+msgstr ""
+"Nem sikerült feldolgozási választ (MDN = Message Disposition Notification) "
+"küldeni az üzenetre (elküldési dátum: ${date}, címzett: ${to}, tárgy: "
+"\"${subject}\"). A hiba oka az alábbi Failure: fejlécmezőben található."
+
+#~ msgctxt "invalid time specified"
+#~ msgid "unknown"
+#~ msgstr "ismeretlen"
+
+#~ msgid "Today %1"
+#~ msgstr "Ma - %1"
+
+#~ msgid "Yesterday %1"
+#~ msgstr "Tegnap - %1"
+
+#~ msgctxt "1. weekday, 2. time"
+#~ msgid "%1 %2"
+#~ msgstr "%2. %1"

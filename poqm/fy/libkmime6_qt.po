@@ -1,0 +1,128 @@
+# translation of libkmime.po to Frysk
+# translation of libkmime.po to
+#
+# Rinse de Vries <rinsedevries@kde.nl>, 2004, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: libkmime\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2023-11-20 01:59+0000\n"
+"PO-Revision-Date: 2007-04-29 14:34+0200\n"
+"Last-Translator: Rinse de Vries <rinsedevries@kde.nl>\n"
+"Language-Team: Frysk <kde-i18n-fry@kde.org>\n"
+"Language: fy\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: kmime_mdn.cpp:53
+#, fuzzy
+#| msgid ""
+#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+#| "displayed. This is no guarantee that the message has been read or "
+#| "understood."
+msgctxt "DispositionModifier|"
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"displayed. This is no guarantee that the message has been read or understood."
+msgstr ""
+"Dit berjocht ferstjoerd op ${date} oan ${to} mei as ûnderwerp \"${subject}\" "
+"is werjûn. Der is gjin inkele garânsje dat it berjocht el lêzen of begrepen "
+"is."
+
+# Wat kryptysk omskreaun...
+#: kmime_mdn.cpp:60
+#, fuzzy
+#| msgid ""
+#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+#| "deleted unseen. This is no guarantee that the message will not be "
+#| "\"undeleted\" and nonetheless read later on."
+msgctxt "DispositionModifier|"
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"deleted unseen. This is no guarantee that the message will not be \"undeleted"
+"\" and nonetheless read later on."
+msgstr ""
+"Dit berjocht, ferstjoerd op ${date} oan ${to} mei as ûnderwerp "
+"\"${subject}\" is wiske sûnder dat it lêzen is. Der is gjin inkele garânsje "
+"dat it wiskjen net ûngedien makke wurdt en it berjocht dochs noch lêzen "
+"wurdt."
+
+# lest rigel is kryptysk
+#: kmime_mdn.cpp:68
+#, fuzzy
+#| msgid ""
+#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+#| "dispatched. This is no guarantee that the message will not be read later "
+#| "on."
+msgctxt "DispositionModifier|"
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"dispatched. This is no guarantee that the message will not be read later on."
+msgstr ""
+"Dit berjocht ferstjoerd op ${date} oan ${to} mei as ûnderwerp \"${subject}\" "
+"is trochstjoerd. Der is gjin inkele garânsje dat it berjocht efterôf dochs "
+"lêzen wurde sil."
+
+#: kmime_mdn.cpp:75
+#, fuzzy
+#| msgid ""
+#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+#| "processed by some automatic means."
+msgctxt "DispositionModifier|"
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"processed by some automatic means."
+msgstr ""
+"Dit berjocht ferstjoerd op ${date} oan ${to} mei as ûnderwerp \"${subject}\" "
+"is troch in automatysk proses ferwurke."
+
+#: kmime_mdn.cpp:81
+#, fuzzy
+#| msgid ""
+#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+#| "acted upon. The sender does not wish to disclose more details to you than "
+#| "that."
+msgctxt "DispositionModifier|"
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"acted upon. The sender does not wish to disclose more details to you than "
+"that."
+msgstr ""
+"Op dit berjocht ferstjoerd op ${date} aan ${to} mei as ûnderwerp "
+"\"${subject}\" is reagearre. De ôfstjoerder wol net mear ynformaasje kwyt as "
+"dit."
+
+#: kmime_mdn.cpp:88
+#, fuzzy
+#| msgid ""
+#| "Generation of a Message Disposition Notification for the message sent on "
+#| "${date} to ${to} with subject \"${subject}\" failed. Reason is given in "
+#| "the Failure: header field below."
+msgctxt "DispositionModifier|"
+msgid ""
+"Generation of a Message Disposition Notification for the message sent on "
+"${date} to ${to} with subject \"${subject}\" failed. Reason is given in the "
+"Failure: header field below."
+msgstr ""
+"It oanmeitsjen fan in ûntfangst- en lêsbefêstiging foar it berjocht dat "
+"ferstjoerd is op ${date} oan ${to}, mei as ûnderwerp \"${subject}\" is "
+"mislearre. De reden hjirfan is: sjoch kopskrift hjirûnder."
+
+#, fuzzy
+#~| msgid "unknown"
+#~ msgctxt "invalid time specified"
+#~ msgid "unknown"
+#~ msgstr "ûnbekend"
+
+#~ msgid "Today %1"
+#~ msgstr "hjoed %1"
+
+#~ msgid "Yesterday %1"
+#~ msgstr "juster %1"
+
+#~ msgctxt "1. weekday, 2. time"
+#~ msgid "%1 %2"
+#~ msgstr "%1 %2"

@@ -1,0 +1,123 @@
+# Copyright (C) 2006, 2007 Free Software Foundation, Inc.
+# translation of libkmime.po to Macedonian
+#
+# Balalovski Ivan <bbalalce@gmail.com>, 2006.
+# Viktor Stojanovski <viktor@lugola.net>, 2006.
+msgid ""
+msgstr ""
+"Project-Id-Version: libkmime\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2023-11-20 01:59+0000\n"
+"PO-Revision-Date: 2006-04-30 00:20+0200\n"
+"Last-Translator: Viktor Stojanovski <viktor@lugola.net>\n"
+"Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
+"Language: mk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.2\n"
+"Plural-Forms: Plural-Forms: nplurals=3; plural=n%10==1 ? 0 : n%10==2 ? 1 : "
+"2;\n"
+
+#: kmime_mdn.cpp:53
+#, fuzzy
+#| msgid ""
+#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+#| "displayed. This is no guarantee that the message has been read or "
+#| "understood."
+msgctxt "DispositionModifier|"
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"displayed. This is no guarantee that the message has been read or understood."
+msgstr ""
+"Пораката испратена на ${date} до ${to} со тема \"${subject}\" е прикажана. "
+"Нема гаранција дека таа е прожитана или разбрана. "
+
+#: kmime_mdn.cpp:60
+#, fuzzy
+#| msgid ""
+#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+#| "deleted unseen. This is no guarantee that the message will not be "
+#| "\"undeleted\" and nonetheless read later on."
+msgctxt "DispositionModifier|"
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"deleted unseen. This is no guarantee that the message will not be \"undeleted"
+"\" and nonetheless read later on."
+msgstr ""
+"Пораката испратена на ${date} до ${to} со тема \"${subject}\" е прикажана. "
+"Нема гаранција дека таа нема да биде \"undeleted\" и прочитана подоцна."
+
+#: kmime_mdn.cpp:68
+#, fuzzy
+#| msgid ""
+#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+#| "dispatched. This is no guarantee that the message will not be read later "
+#| "on."
+msgctxt "DispositionModifier|"
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"dispatched. This is no guarantee that the message will not be read later on."
+msgstr ""
+"Пораката испратена на ${date} до ${to} со тема \"${subject}\" е прикажана. "
+"Нема гаранција дека таа нема да биде прочитана подоцна."
+
+#: kmime_mdn.cpp:75
+#, fuzzy
+#| msgid ""
+#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+#| "processed by some automatic means."
+msgctxt "DispositionModifier|"
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"processed by some automatic means."
+msgstr ""
+"Пораката испратена на ${date} до ${to} со тема \"${subject}\" е обработена "
+"од некои автоматскипроцеси."
+
+#: kmime_mdn.cpp:81
+#, fuzzy
+#| msgid ""
+#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+#| "acted upon. The sender does not wish to disclose more details to you than "
+#| "that."
+msgctxt "DispositionModifier|"
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"acted upon. The sender does not wish to disclose more details to you than "
+"that."
+msgstr ""
+"Пораката испратена на ${date} до ${to} со тема \"${subject}\" е модифицирана "
+"подоцна. Испраќачот не сака да ви расветли повеќе детали."
+
+#: kmime_mdn.cpp:88
+#, fuzzy
+#| msgid ""
+#| "Generation of a Message Disposition Notification for the message sent on "
+#| "${date} to ${to} with subject \"${subject}\" failed. Reason is given in "
+#| "the Failure: header field below."
+msgctxt "DispositionModifier|"
+msgid ""
+"Generation of a Message Disposition Notification for the message sent on "
+"${date} to ${to} with subject \"${subject}\" failed. Reason is given in the "
+"Failure: header field below."
+msgstr ""
+"Склоност за генерирање пораки за пораката испратена на ${date} за ${to} со "
+"тема \"${subject}\" не беше успешно. Причината е дадена во Неуспех: "
+"заглавието подолу."
+
+#, fuzzy
+#~| msgid "unknown"
+#~ msgctxt "invalid time specified"
+#~ msgid "unknown"
+#~ msgstr "непознато"
+
+#~ msgid "Today %1"
+#~ msgstr "Денес %1"
+
+#~ msgid "Yesterday %1"
+#~ msgstr "Вчера %1"
+
+#~ msgctxt "1. weekday, 2. time"
+#~ msgid "%1 %2"
+#~ msgstr "%1 %2"

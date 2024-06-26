@@ -1,0 +1,120 @@
+# translation of libkmime.po to
+# محمد سعد  Mohamed SAAD <metehyi@free.fr>, 2006.
+# Youssef Chahibi <chahibi@gmail.com>, 2007.
+# Safa Alfulaij <safa1996alfulaij@gmail.com>, 2018.
+# Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2021.
+msgid ""
+msgstr ""
+"Project-Id-Version: libkmime\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2023-11-20 01:59+0000\n"
+"PO-Revision-Date: 2021-06-19 21:22+0400\n"
+"Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
+"Language-Team: Arabic <kde-i18n-ar@kde.org>\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: kmime_mdn.cpp:53
+#, fuzzy
+#| msgid ""
+#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+#| "displayed. This is no guarantee that the message has been read or "
+#| "understood."
+msgctxt "DispositionModifier|"
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"displayed. This is no guarantee that the message has been read or understood."
+msgstr ""
+"عُرضت الرّسالة المرسلة في ${date} إلى ${to} وموضوعها ”${subject}“. هذا ليس "
+"ضمانًا بأنّ الرّسالة قد قُرأت أو فُهمت."
+
+#: kmime_mdn.cpp:60
+#, fuzzy
+#| msgid ""
+#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+#| "deleted unseen. This is no guarantee that the message will not be "
+#| "\"undeleted\" and nonetheless read later on."
+msgctxt "DispositionModifier|"
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"deleted unseen. This is no guarantee that the message will not be \"undeleted"
+"\" and nonetheless read later on."
+msgstr ""
+"حُذفت الرّسالة المرسلة في ${date} إلى ${to} وموضوعها ”${subject}“ دون قراءتها. "
+"هذا ليس ضمانًا بأنّ لن ”يُلغى حذف“ الرّسالة وقراءتها لاحقًا رغم ذلك."
+
+#: kmime_mdn.cpp:68
+#, fuzzy
+#| msgid ""
+#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+#| "dispatched. This is no guarantee that the message will not be read later "
+#| "on."
+msgctxt "DispositionModifier|"
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"dispatched. This is no guarantee that the message will not be read later on."
+msgstr ""
+"أُرسلت الرّسالة المرسلة في ${date} إلى ${to} وموضوعها ”${subject}“. هذا ليس "
+"ضمانًا بأنّ لن تُقرأ الرّسالة لاحقًا."
+
+#: kmime_mdn.cpp:75
+#, fuzzy
+#| msgid ""
+#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+#| "processed by some automatic means."
+msgctxt "DispositionModifier|"
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"processed by some automatic means."
+msgstr ""
+"جرت معالجة الرّسالة المرسلة في ${date} إلى ${to} وموضوعها ”${subject}“ بوسائل "
+"آليّة."
+
+#: kmime_mdn.cpp:81
+#, fuzzy
+#| msgid ""
+#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+#| "acted upon. The sender does not wish to disclose more details to you than "
+#| "that."
+msgctxt "DispositionModifier|"
+msgid ""
+"The message sent on ${date} to ${to} with subject \"${subject}\" has been "
+"acted upon. The sender does not wish to disclose more details to you than "
+"that."
+msgstr ""
+"اتُّخذ إجراء للرّسالة المرسلة في ${date} إلى ${to} وموضوعها ”${subject}“. لا "
+"يريد المرسل عرض تفاصيل أكثر عن ذلك لك."
+
+#: kmime_mdn.cpp:88
+#, fuzzy
+#| msgid ""
+#| "Generation of a Message Disposition Notification for the message sent on "
+#| "${date} to ${to} with subject \"${subject}\" failed. Reason is given in "
+#| "the Failure: header field below."
+msgctxt "DispositionModifier|"
+msgid ""
+"Generation of a Message Disposition Notification for the message sent on "
+"${date} to ${to} with subject \"${subject}\" failed. Reason is given in the "
+"Failure: header field below."
+msgstr ""
+"فشل توليد إخطار ترتيب رسالة للرّسالة المرسلة في ${date} إلى ${to} وموضوعها "
+"”${subject}“. السّبب موجود في حقل ترويسة ”فشل:“ أدناه."
+
+#~ msgctxt "invalid time specified"
+#~ msgid "unknown"
+#~ msgstr "مجهول"
+
+#~ msgid "Today %1"
+#~ msgstr "اليوم %1"
+
+#~ msgid "Yesterday %1"
+#~ msgstr "الأمس %1"
+
+# الإثنين   5 يناير 2015
+#~ msgctxt "1. weekday, 2. time"
+#~ msgid "%1 %2"
+#~ msgstr "%1 %2"
