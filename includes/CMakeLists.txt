@@ -3,7 +3,6 @@
 set(KMime_HEADERS
   Content
   ContentIndex
-  DateFormatter
   HeaderParsing
   Headers
   MDN
