@@ -150,7 +150,7 @@ public:
     address to the user. It is not guaranteed that fromUnicodeString(
     asUnicodeString(), ... ) will return the original string.
   */
-  virtual QString asUnicodeString() const = 0;
+  [[nodiscard]] virtual QString asUnicodeString() const = 0;
 
   /**
     Deletes.
@@ -160,12 +160,12 @@ public:
   /**
     Checks if this header contains any data.
   */
-  virtual bool isEmpty() const = 0;
+  [[nodiscard]] virtual bool isEmpty() const = 0;
 
   /**
     Returns the type of this header (e.g. "From").
   */
-  virtual const char *type() const;
+  [[nodiscard]] virtual const char *type() const;
 
   /**
     Checks if this header is of type @p t.

@@ -249,7 +249,7 @@ public:
     /**
       Returns the MIME type used for Messages
     */
-    static QString mimeType();
+    [[nodiscard]] static QString mimeType();
 
 protected:
     QByteArray assembleHeaders() override;
