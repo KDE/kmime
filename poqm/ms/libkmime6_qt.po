@@ -17,6 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=1;\n"
 "X-Generator: KBabel 1.11.4\n"
+"X-Qt-Contexts: true\n"
 
 #: kmime_mdn.cpp:53
 #, fuzzy

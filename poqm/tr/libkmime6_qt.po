@@ -7,108 +7,80 @@
 # Ozan Eren BILGEN <oebilgen@uekae.tubitak.gov.tr>, 2005.
 # obsoleteman <tulliana@gmail.com>, 2008.
 # Kaan Ozdincer <kaanozdincer@gmail.com>, 2014.
+# SPDX-FileCopyrightText: 2024 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdepimlibs-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-20 01:59+0000\n"
-"PO-Revision-Date: 2014-11-12 01:06+0200\n"
-"Last-Translator: Kaan Ozdincer <kaanozdincer@gmail.com>\n"
+"PO-Revision-Date: 2024-06-26 13:14+0300\n"
+"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 1.4\n"
-"(http: //www.transifex.com/projects/p/kdepimlibs-k-tr/language/tr/)\n"
+"X-Generator: Lokalize 24.07.70\n"
+"X-Qt-Contexts: true\n"
 
 #: kmime_mdn.cpp:53
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "displayed. This is no guarantee that the message has been read or "
-#| "understood."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "displayed. This is no guarantee that the message has been read or understood."
 msgstr ""
-"${date} tarihinde ${to} adresine gönderilen \"${subject}\" konulu ileti "
+"${date} tarihinde ${to} adresine gönderilen “${subject}” konulu ileti "
 "gösterilmektedir. İletinin okunduğunun veya anlaşıldığının garantisi yoktur."
 
 #: kmime_mdn.cpp:60
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "deleted unseen. This is no guarantee that the message will not be "
-#| "\"undeleted\" and nonetheless read later on."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "deleted unseen. This is no guarantee that the message will not be \"undeleted"
 "\" and nonetheless read later on."
 msgstr ""
-"${date} tarihinde ${to} adresine gönderilen \"${subject}\" konulu ileti "
+"${date} tarihinde ${to} adresine gönderilen “${subject}” konulu ileti "
 "okunmadan silinmiştir. Silmenin geri alınacağının ve akabinde okunacağının "
 "garantisi yoktur."
 
 #: kmime_mdn.cpp:68
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "dispatched. This is no guarantee that the message will not be read later "
-#| "on."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "dispatched. This is no guarantee that the message will not be read later on."
 msgstr ""
-"${date} tarihinde ${to} adresine gönderilen \"${subject}\" konulu ileti sevk "
+"${date} tarihinde ${to} adresine gönderilen “${subject}” konulu ileti sevk "
 "edilmiştir. İletinin ileride okunup okunmayacağının garantisi yoktur."
 
 #: kmime_mdn.cpp:75
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "processed by some automatic means."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "processed by some automatic means."
 msgstr ""
-"${date} tarihinde ${to} adresine gönderilen \"${subject}\" konulu ileti bazı "
+"${date} tarihinde ${to} adresine gönderilen “${subject}” konulu ileti bazı "
 "otomatik yordamlarca işlenmiştir."
 
 #: kmime_mdn.cpp:81
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "acted upon. The sender does not wish to disclose more details to you than "
-#| "that."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "acted upon. The sender does not wish to disclose more details to you than "
 "that."
 msgstr ""
-"${date} tarihinde ${to} adresine gönderilen \"${subject}\" konulu iletinin "
-"ele geçtiğine dair yanıt verilmemiştir. Gönderici Size bu bilgiden fazlasını "
+"${date} tarihinde ${to} adresine gönderilen “${subject}” konulu iletinin ele "
+"geçtiğine dair yanıt verilmemiştir. Gönderici Size bu bilgiden fazlasını "
 "sunmamaktadır."
 
 #: kmime_mdn.cpp:88
-#, fuzzy
-#| msgid ""
-#| "Generation of a Message Disposition Notification for the message sent on "
-#| "${date} to ${to} with subject \"${subject}\" failed. Reason is given in "
-#| "the Failure: header field below."
 msgctxt "DispositionModifier|"
 msgid ""
 "Generation of a Message Disposition Notification for the message sent on "
 "${date} to ${to} with subject \"${subject}\" failed. Reason is given in the "
 "Failure: header field below."
 msgstr ""
-"${date} tarihinde ${to} adresine gönderilen \"${subject}\" konulu iletinin "
+"${date} tarihinde ${to} adresine gönderilen “${subject}” konulu iletinin "
 "ileti dağıtım bilgisi yaratılamamıştır. Nedeni aşağıdaki Failure: başlığında "
 "belirtilmiştir."
 

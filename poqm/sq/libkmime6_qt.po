@@ -17,6 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2011-04-22 03:43+0000\n"
 "X-Generator: Launchpad (build 12883)\n"
+"X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: kmime_mdn.cpp:53
