@@ -642,16 +642,6 @@ public:
   void changeEncoding(Headers::contentEncoding e);
 
   /**
-    Returns the charset that is used to decode RFC2047 strings in all headers
-    and to decode the body if the charset is not declared explicitly. It is also
-    used as the charset when encoding RFC2047 strings in headers.
-  */
-  // TODO: Split this up into a charset for encoding and one for decoding, and
-  // make the one for
-  //       encoding UTF-8 by default.
-  static QByteArray defaultCharset();
-
-  /**
     Returns the Content specified by the given index.
     If the index does not point to a Content, 0 is returned. If the index
     is invalid (empty), this Content is returned.

@@ -113,7 +113,7 @@ void Base::from7BitString(const char *s, size_t len)
 QByteArray Base::rfc2047Charset() const
 {
     if (d_ptr->encCS.isEmpty()) {
-        return Content::defaultCharset();
+        return QByteArrayLiteral("UTF-8");
     } else {
         return d_ptr->encCS;
     }
@@ -169,7 +169,7 @@ Unstructured::~Unstructured()
 void Unstructured::from7BitString(const QByteArray &s)
 {
     Q_D(Unstructured);
-    d->decoded = KCodecs::decodeRFC2047String(s, &d->encCS, Content::defaultCharset());
+    d->decoded = KCodecs::decodeRFC2047String(s, &d->encCS, QByteArrayLiteral("UTF-8"));
 }
 
 QByteArray Unstructured::as7BitString(bool withHeaderType) const
@@ -229,7 +229,7 @@ void Structured::from7BitString(const char *s, size_t len)
 {
     Q_D(Structured);
     if (d->encCS.isEmpty()) {
-        d->encCS = Content::defaultCharset();
+        d->encCS = QByteArrayLiteral("UTF-8");
     }
     parse(s, s + len);
 }
@@ -1730,7 +1730,7 @@ QByteArray ContentType::charset() const {
     QByteArray ret = parameter(QStringLiteral("charset")).toLatin1();
     if (ret.isEmpty()) {
         //return the default-charset if necessary
-        ret = Content::defaultCharset();
+        ret = QByteArrayLiteral("UTF-8");
     }
     return ret;
 }

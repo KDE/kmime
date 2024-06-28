@@ -694,11 +694,6 @@ bool ContentPrivate::decodeText(const Content *q)
     return true;
 }
 
-QByteArray Content::defaultCharset()
-{
-    return KMime::cachedCharset(QByteArrayLiteral("ISO-8859-1"));
-}
-
 Content *KMime::Content::content(const ContentIndex &index) const
 {
     if (!index.isValid()) {
