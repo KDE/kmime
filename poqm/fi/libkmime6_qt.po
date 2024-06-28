@@ -21,7 +21,7 @@ msgstr ""
 "X-Generator: Lokalize 2.0\n"
 "X-Qt-Contexts: true\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -35,7 +35,7 @@ msgstr ""
 "Viesti lähetetty ${date} saajalle ${to} otsikolla \"${subject}\" on "
 "näytetty. Tämä ei tarkoita välttämättä, että viesti on luettu tai ymmärretty."
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -51,7 +51,7 @@ msgstr ""
 "poistettu näyttämättömänä. Tämä ei tarkoita, etteikö viestiä olisi voitu "
 "\"palauttaa takaisin\" ja lukea myöhemmin."
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -65,7 +65,7 @@ msgstr ""
 "Viesti lähetetty ${date} saajalle ${to} otsikolla \"${subject}\" on "
 "toimitettu. Tämä ei tarkoita, etteikö viestiä voisi lukea myöhemmin."
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -78,7 +78,7 @@ msgstr ""
 "Viesti lähetetty ${date} saajalle ${to} otsikolla \"${subject}\" on "
 "käsitelty automaattisesti."
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -94,7 +94,7 @@ msgstr ""
 "vastatoimenpiteen. Lähettäjä ei halua paljastaa enempää yksityiskohtia "
 "sinulle."
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 #, fuzzy
 #| msgid ""
 #| "Generation of a Message Disposition Notification for the message sent on "

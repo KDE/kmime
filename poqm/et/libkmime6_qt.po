@@ -17,7 +17,7 @@ msgstr ""
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -32,7 +32,7 @@ msgstr ""
 "vaadatud. Pole siiski mingit kinnitust, et kirja oleks loetud või sellest "
 "aru saadud."
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -48,7 +48,7 @@ msgstr ""
 "vaatamata. Pole siiski mingit kinnitust, et kirja ei oleks hiljem "
 "prügikastist välja tõmmatud ja ikkagi läbi loetud."
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -62,7 +62,7 @@ msgstr ""
 "${date} adressaadile ${to} saadetud kiri teemaga \"${subject}\" on kätte "
 "toimetatud. Pole siiski mingit kinnitust, et seda ei loeta hiljem."
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -75,7 +75,7 @@ msgstr ""
 "${date} adressaadile ${to} saadetud kirja teemaga \"${subject}\" on "
 "töödeldud mingite automaatsete vahenditega."
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -90,7 +90,7 @@ msgstr ""
 "${date} adressaadile ${to} saadetud kirjaga teemal \"${subject}\" on midagi "
 "ette võetud. Saaja ei ole soovinud midagi enamat paljastada."
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 #, fuzzy
 #| msgid ""
 #| "Generation of a Message Disposition Notification for the message sent on "

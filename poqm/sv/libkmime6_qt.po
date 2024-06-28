@@ -18,7 +18,7 @@ msgstr ""
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -32,7 +32,7 @@ msgstr ""
 "Brevet som skickades ${date} till ${to} med rubriken \"${subject}\" har "
 "visats. Det finns ingen garanti att brevet har lästs eller begripits."
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -48,7 +48,7 @@ msgstr ""
 "tagits bort utan att ha visats. Det finns ingen garanti att detta inte "
 "ångras, och brevet ändå läses senare."
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -62,7 +62,7 @@ msgstr ""
 "Brevet som skickades ${date} till ${to} med rubriken \"${subject}\" har "
 "skickats vidare. Det finns ingen garanti att inte brevet ändå läses senare."
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -75,7 +75,7 @@ msgstr ""
 "Brevet som skickades ${date} till ${to} med rubriken \"${subject}\" har "
 "hanterats på något automatiserat sätt."
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -90,7 +90,7 @@ msgstr ""
 "Brevet som skickades ${date} till ${to} med rubriken \"${subject}\" har "
 "hanterats. Avsändaren vill inte avslöja ytterligare information för dig."
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 #, fuzzy
 #| msgid ""
 #| "Generation of a Message Disposition Notification for the message sent on "

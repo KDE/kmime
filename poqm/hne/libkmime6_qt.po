@@ -20,14 +20,14 @@ msgstr ""
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "displayed. This is no guarantee that the message has been read or understood."
 msgstr ""
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -35,21 +35,21 @@ msgid ""
 "\" and nonetheless read later on."
 msgstr ""
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "dispatched. This is no guarantee that the message will not be read later on."
 msgstr ""
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "processed by some automatic means."
 msgstr ""
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -57,7 +57,7 @@ msgid ""
 "that."
 msgstr ""
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 msgctxt "DispositionModifier|"
 msgid ""
 "Generation of a Message Disposition Notification for the message sent on "

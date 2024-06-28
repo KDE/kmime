@@ -23,7 +23,7 @@ msgstr ""
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -37,7 +37,7 @@ msgstr ""
 "Le message envoyé le ${date} à ${to} avec le sujet « ${subject} » a été "
 "affiché. Il n'y a aucune certitude qu'il ait été lu ou compris."
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -53,7 +53,7 @@ msgstr ""
 "supprimé sans être lu. Il n'y a aucune certitude que ce message ne soit pas "
 "retrouvé et quand même lu par la suite."
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -67,7 +67,7 @@ msgstr ""
 "Le message envoyé le ${date} à ${to} avec le sujet « ${subject} » a été "
 "redirigé. Il n'y a aucune certitude qu'il soit lu par la suite."
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -80,7 +80,7 @@ msgstr ""
 "Le message envoyé le ${date} à ${to} avec le sujet « ${subject} » a été "
 "traité par un système automatique."
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -95,7 +95,7 @@ msgstr ""
 "Le message envoyé le ${date} à ${to} avec le sujet « ${subject} » a été "
 "manipulé. L'expéditeur n'a pas souhaité vous donner plus de détails."
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 #, fuzzy
 #| msgid ""
 #| "Generation of a Message Disposition Notification for the message sent on "

@@ -20,7 +20,7 @@ msgstr ""
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: qtrich\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 #, fuzzy
 msgctxt "DispositionModifier|"
 msgid ""
@@ -30,7 +30,7 @@ msgstr ""
 "Diehtu mii sáddejuvvui ${date} ${to}:i mas lea fáddá «${subject}» lea "
 "čájehuvvon. Liikká dát ii mearkkaš ahte diehtu lea lohkon dahje ipmirduvvon."
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 #, fuzzy
 msgctxt "DispositionModifier|"
 msgid ""
@@ -42,7 +42,7 @@ msgstr ""
 "sihkkojuvvui ovdalgo čájehuvvui. Liikká lea vejolaš viežžat dieđu "
 "ruskalihtis ja lohkat dan maŋileabbut."
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 #, fuzzy
 msgctxt "DispositionModifier|"
 msgid ""
@@ -53,7 +53,7 @@ msgstr ""
 "sáddejuvvui dakkaviđi viidáseappot . Liikká dát ii mearkkaš ahte diehtu ii "
 "lohko maŋileabbut."
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 #, fuzzy
 msgctxt "DispositionModifier|"
 msgid ""
@@ -63,7 +63,7 @@ msgstr ""
 "Diehtu mii sáddejuvvui ${date} ${to}:i mas lea fáddá «${subject}» lea "
 "mášiinnalaččat gieđahallon."
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 #, fuzzy
 msgctxt "DispositionModifier|"
 msgid ""
@@ -75,7 +75,7 @@ msgstr ""
 "gieđahallon. Sáddejeaddji ii muital mii eará dáidá leat dáhpáhuvvon dáinna "
 "dieđuid."
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 msgctxt "DispositionModifier|"
 msgid ""
 "Generation of a Message Disposition Notification for the message sent on "

@@ -19,7 +19,7 @@ msgstr ""
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=(n==0 || n==1);\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -33,7 +33,7 @@ msgstr ""
 "پیام ارسالی در $}تاریخ{ به $}به{ با موضوع »$}موضوع{« نمایش داده شده است. هیچ "
 "ضمانتی وجود ندارد که پیام خوانده یا درک شود."
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -49,7 +49,7 @@ msgstr ""
 "حذف شده است. هیچ ضمانتی وجود ندارد که پیام »حذف‌نشده« نباشد و با این حال از "
 "روی آن خوانده نشود."
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -63,7 +63,7 @@ msgstr ""
 "پیام ارسالی در $}تاریخ{ به $}به{ با موضوع »$}موضوع{« روانه شده است. هیچ "
 "ضمانتی وجود ندارد که بعداً از روی پیام خوانده شود."
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -76,7 +76,7 @@ msgstr ""
 "پیام ارسالی در $}تاریخ{ به $}به{ با موضوع »$}موضوع{« به وسیله برخی ابزارهای "
 "خودکار پردازش شده است."
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -91,7 +91,7 @@ msgstr ""
 "پیام ارسالی در $}تاریخ{ به $}به{ با موضوع »$}موضوع{« عمل کرده است. "
 "ارسال‌کننده نمی‌خواهد بیش از این وارد جزئیات شود."
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 #, fuzzy
 #| msgid ""
 #| "Generation of a Message Disposition Notification for the message sent on "

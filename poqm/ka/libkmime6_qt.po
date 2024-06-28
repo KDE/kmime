@@ -19,7 +19,7 @@ msgstr ""
 "X-Generator: Poedit 3.3.2\n"
 "X-Qt-Contexts: true\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -28,7 +28,7 @@ msgstr ""
 "${date}-ზე ${to}-სთან გაგზავნილი შეტყობინება, სათაურით \"${subject}\" "
 "დაათვალიერეს. გარანტია იმის, რომ ის გაიგეს ან წაიკითხეს, არ არსებობს."
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -39,7 +39,7 @@ msgstr ""
 "წაშალეს ნახვის გარეშე. გარანტია იმის, რომ ამ შეტყობინებას მოგვიანებით "
 "ნაგვიდან არ ამოიღებენ და არ წაიკითხავენ, არ არსებობს."
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -48,7 +48,7 @@ msgstr ""
 "${date}-ზე ${to}-სთან გაგზავნილი შეტყობინება, სათაურით \"${subject}\" "
 "გაგზავნილია. გარანტია იმის, რომ მას არ წაიკითხავენ, არ არსებობს."
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -57,7 +57,7 @@ msgstr ""
 "${date}-ზე ${to}-სთან გაგზავნილი შეტყობინება, სათაურით \"${subject}\" "
 "ავტომატიზაციის მიერ იქნა დამუშავებული."
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -67,7 +67,7 @@ msgstr ""
 "${date}-ზე ${to}-სთან გაგზავნილი შეტყობინება, სათაურით \"${subject}\" -ზე "
 "განხორციელებული იქნა ქმედებები. გამომგზავნს მეტი დეტალები არ გაუმხელია."
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 msgctxt "DispositionModifier|"
 msgid ""
 "Generation of a Message Disposition Notification for the message sent on "

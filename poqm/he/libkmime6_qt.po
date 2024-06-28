@@ -19,7 +19,7 @@ msgstr ""
 "X-Generator: Lokalize 23.08.5\n"
 "X-Qt-Contexts: true\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -33,7 +33,7 @@ msgstr ""
 "ההודעה שנשלחה ב־${date} אל ${to} עם הנושא „${subject}” הוצגה. זה לא אומר "
 "שההודעה נקראה או הופנמה."
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -48,7 +48,7 @@ msgstr ""
 "ההודעה שנשלחה ב־${date} אל ${to} עם הנושא „${subject}” נמחקה לפני שהוצגה. זה "
 "לא אומר שאי אפשר לשחזר את ההודעה ולקרוא אותה לאחר מכן."
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -62,7 +62,7 @@ msgstr ""
 "ההודעה שנשלחה ב־${date} אל ${to} עם הנושא „${subject}” שוגרה. זה לא אומר "
 "שההודעה לא תיקרא בהמשך."
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -75,7 +75,7 @@ msgstr ""
 "ההודעה שנשלחה ב־${date} אל ${to} עם הנושא „${subject}” עובדה עם תהליכים "
 "אוטומטיים. "
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -90,7 +90,7 @@ msgstr ""
 "ההודעה שנשלחה ב־${date} אל ${to} עם הנושא „${subject}” זכתה להתייחסות. הנמען "
 "לא רוצה לחשוף פרטים נוספים מעבר לכך."
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 #, fuzzy
 #| msgid ""
 #| "Generation of a Message Disposition Notification for the message sent on "

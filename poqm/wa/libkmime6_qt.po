@@ -18,7 +18,7 @@ msgstr ""
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -33,7 +33,7 @@ msgstr ""
 "håyné. I gn a pont d' waeranteye kel messaedje fuxhaxhe léjhou ou co bén "
 "comprindou."
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -49,7 +49,7 @@ msgstr ""
 "disfacé divant del vey. I gn a pont d' waeranteye kel messaedje serè nén "
 "« rapexhî » ni k' i srè léjhou pus tård."
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -64,7 +64,7 @@ msgstr ""
 "ricassî otomaticmint. I gn a pont d' waeranteye kel messaedje ni srè nén "
 "léjhou pus tård."
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -77,7 +77,7 @@ msgstr ""
 "Li messaedje evoyî l' ${date} a ${to} avou po sudjet « ${subject} » a stî "
 "traitî avou ene sacwè otomatike."
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -92,7 +92,7 @@ msgstr ""
 "Li messaedje evoyî l' ${date} a ${to} avou po sudjet « ${subject} » a stî "
 "apougnî. L' evoyeu n' sohaite nén dner pus di pondants et djondants k' çoula."
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 #, fuzzy
 #| msgid ""
 #| "Generation of a Message Disposition Notification for the message sent on "

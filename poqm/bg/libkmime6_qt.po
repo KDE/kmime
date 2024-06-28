@@ -19,7 +19,7 @@ msgstr ""
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -34,7 +34,7 @@ msgstr ""
 "видяно от получателя. Това не гарантира, че съобщението е било прочетено или "
 "осмислено."
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -51,7 +51,7 @@ msgstr ""
 "съобщението не е било прочетено по-късно. Получателят може да го е "
 "възстановил и прочел по-късно."
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -65,7 +65,7 @@ msgstr ""
 "Съобщението, което бе изпратено до ${to} на ${date} с тема \"${subject}\", е "
 "разпределено. Това не гарантира, че съобщението не е било прочетено по-късно."
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -78,7 +78,7 @@ msgstr ""
 "Съобщението, което бе изпратено до ${to} на ${date} с тема \"${subject}\", е "
 "обработено по автоматичен начин."
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -94,7 +94,7 @@ msgstr ""
 "било обработено от получателя. Получателят не иска да разкрие повече "
 "подробности."
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 #, fuzzy
 #| msgid ""
 #| "Generation of a Message Disposition Notification for the message sent on "

@@ -24,7 +24,7 @@ msgstr ""
 "X-Generator: Lokalize 24.07.70\n"
 "X-Qt-Contexts: true\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -33,7 +33,7 @@ msgstr ""
 "${date} tarihinde ${to} adresine gönderilen “${subject}” konulu ileti "
 "gösterilmektedir. İletinin okunduğunun veya anlaşıldığının garantisi yoktur."
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -44,7 +44,7 @@ msgstr ""
 "okunmadan silinmiştir. Silmenin geri alınacağının ve akabinde okunacağının "
 "garantisi yoktur."
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -53,7 +53,7 @@ msgstr ""
 "${date} tarihinde ${to} adresine gönderilen “${subject}” konulu ileti sevk "
 "edilmiştir. İletinin ileride okunup okunmayacağının garantisi yoktur."
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -62,7 +62,7 @@ msgstr ""
 "${date} tarihinde ${to} adresine gönderilen “${subject}” konulu ileti bazı "
 "otomatik yordamlarca işlenmiştir."
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -73,7 +73,7 @@ msgstr ""
 "geçtiğine dair yanıt verilmemiştir. Gönderici Size bu bilgiden fazlasını "
 "sunmamaktadır."
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 msgctxt "DispositionModifier|"
 msgid ""
 "Generation of a Message Disposition Notification for the message sent on "

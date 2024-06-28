@@ -23,7 +23,7 @@ msgstr ""
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -37,7 +37,7 @@ msgstr ""
 "${date}-(e)an ${to}-(r)i \"${subject}\" gaipean bidalitako mezua bistaratu "
 "da. Honek ez du esan nahi mezua irakurri edo ulertu denik."
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -53,7 +53,7 @@ msgstr ""
 "gabe ezabatu da. Honek ez du esan nahi mezua berreskuratuko ez denik eta "
 "geroago irakurriko denik."
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -67,7 +67,7 @@ msgstr ""
 "${date}-(e)an ${to}-(r)i \"${subject}\" gaipean bidalitako mezua birbidali "
 "da. Honek ez du esan nahi mezua geroago irakurriko ez denik."
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -80,7 +80,7 @@ msgstr ""
 "${date}-(e)an ${to}-(r)i \"${subject}\" gaipean bidalitako mezua modu "
 "automatiko batea prozesatu da."
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -95,7 +95,7 @@ msgstr ""
 "${date}-(e)an ${to}-(r)i \"${subject}\" gaipean bidalitako mezua artxibatu "
 "da. Bidalzaileak ez du xehetasun gehiagorik eman nahi."
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 #, fuzzy
 #| msgid ""
 #| "Generation of a Message Disposition Notification for the message sent on "

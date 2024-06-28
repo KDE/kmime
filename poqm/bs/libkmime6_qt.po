@@ -21,7 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -35,7 +35,7 @@ msgstr ""
 "Poruka poslana dana ${date} za ${to} sa temom „${subject}“ je prikazana. Ovo "
 "ne garantuje da je poruka pročitana i shvaćena."
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -51,7 +51,7 @@ msgstr ""
 "nego što je pogledana. Ovo ne garantuje da poruka neće biti kasnije vraćena "
 "i pročitana."
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -65,7 +65,7 @@ msgstr ""
 "Poruka poslana dana ${date} za ${to} sa temom „${subject}“ je poslijeđena. "
 "Ovo ne garantuje da poruka neće biti kasnije pročitana."
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -78,7 +78,7 @@ msgstr ""
 "Poruka poslana dana ${date} za ${to} sa temom „${subject}“ obrađena je na "
 "neki automatski način."
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -93,7 +93,7 @@ msgstr ""
 "Na poruku poslanu dana ${date} za ${to} sa temom „${subject}“ je reagovano.. "
 "Pošiljalac ne želi da saopšti išta detaljnije."
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 #, fuzzy
 #| msgid ""
 #| "Generation of a Message Disposition Notification for the message sent on "

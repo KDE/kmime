@@ -1,43 +1,34 @@
 # translation of libkmime.po to galician
 #
+# SPDX-FileCopyrightText: 2018, 2024 Adrian Chaves <adrian@chaves.io>
 # Xabi G. Feal <xabigf@gmx.net>, 2006.
 # mvillarino <mvillarino@users.sourceforge.net>, 2007, 2008, 2009.
-# Adrian Chaves <adrian@chaves.io>, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: libkmime\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-20 01:59+0000\n"
-"PO-Revision-Date: 2018-04-30 00:14+0100\n"
-"Last-Translator: Adrian Chaves <adrian@chaves.io>\n"
-"Language-Team: Galician <kde-i18n-doc@kde.org>\n"
+"PO-Revision-Date: 2024-06-27 21:14+0200\n"
+"Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
+"Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Qt-Contexts: true\n"
+"X-Generator: Lokalize 24.05.1\n"
 
-#: kmime_mdn.cpp:53
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "displayed. This is no guarantee that the message has been read or "
-#| "understood."
+#: mdn.cpp:53
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "displayed. This is no guarantee that the message has been read or understood."
 msgstr ""
-"Mostrouse a mensaxe enviada o ${date} a ${to} co asunto «${subject}». Isto "
+"Amosouse a mensaxe enviada o ${date} a ${to} co asunto «${subject}». Isto "
 "non garante que a mensaxe fose lida nin comprendida."
 
-#: kmime_mdn.cpp:60
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "deleted unseen. This is no guarantee that the message will not be "
-#| "\"undeleted\" and nonetheless read later on."
+#: mdn.cpp:60
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -48,12 +39,7 @@ msgstr ""
 "«${subject}». Isto non garante que a mensaxe non fose recuperada e lida con "
 "posterioridade."
 
-#: kmime_mdn.cpp:68
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "dispatched. This is no guarantee that the message will not be read later "
-#| "on."
+#: mdn.cpp:68
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -62,11 +48,7 @@ msgstr ""
 "Despachouse a mensaxe enviada o ${date} a ${to} co asunto «${subject}». Isto "
 "non garante que a mensaxe non se lea con posterioridade."
 
-#: kmime_mdn.cpp:75
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "processed by some automatic means."
+#: mdn.cpp:75
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -75,12 +57,7 @@ msgstr ""
 "A mensaxe enviada o ${date} a ${to} co asunto «${subject}» procesouse por "
 "algúns medios automáticos."
 
-#: kmime_mdn.cpp:81
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "acted upon. The sender does not wish to disclose more details to you than "
-#| "that."
+#: mdn.cpp:81
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -90,12 +67,7 @@ msgstr ""
 "Actuouse sobre a mensaxe enviada o ${date} a ${to} co asunto «${subject}». O "
 "remitente non desexa divulgar máis detalles que este."
 
-#: kmime_mdn.cpp:88
-#, fuzzy
-#| msgid ""
-#| "Generation of a Message Disposition Notification for the message sent on "
-#| "${date} to ${to} with subject \"${subject}\" failed. Reason is given in "
-#| "the Failure: header field below."
+#: mdn.cpp:88
 msgctxt "DispositionModifier|"
 msgid ""
 "Generation of a Message Disposition Notification for the message sent on "

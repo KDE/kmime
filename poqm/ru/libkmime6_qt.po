@@ -24,7 +24,7 @@ msgstr ""
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -38,7 +38,7 @@ msgstr ""
 "Было показано письмо, отправленное ${date} ${to} с темой «${subject}». Нет "
 "гарантии, что письмо было прочитано или понято."
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -54,7 +54,7 @@ msgstr ""
 "«${subject}». Нет гарантии, что удалённое письмо будет позднее восстановлено "
 "и прочитано."
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -68,7 +68,7 @@ msgstr ""
 "Было обработано письмо, отправленное ${date} ${to} с темой «${subject}». Нет "
 "гарантии, что письмо будет позднее прочитано."
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -81,7 +81,7 @@ msgstr ""
 "Письмо, отправленное ${date} ${to} с темой «${subject}», было обработано "
 "автоматически."
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -97,7 +97,7 @@ msgstr ""
 "произведены какие-то действия. Отправитель не хотел, чтобы было раскрыто "
 "больше информации о действиях над письмом."
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 #, fuzzy
 #| msgid ""
 #| "Generation of a Message Disposition Notification for the message sent on "

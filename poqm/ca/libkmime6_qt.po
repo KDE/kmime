@@ -24,7 +24,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -33,7 +33,7 @@ msgstr ""
 "El missatge enviat el ${date} a ${to} amb l'assumpte «${subject}» s'ha "
 "mostrat. Això no és garantia que aquest hagi estat llegit o comprés."
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -44,7 +44,7 @@ msgstr ""
 "suprimit sense veure'l. Això no és garantia que aquest no hagi estat "
 "«recuperat» i llegit més tard."
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -53,7 +53,7 @@ msgstr ""
 "El missatge enviat el ${date} a ${to} amb l'assumpte «${subject}» s'ha "
 "despatxat. Això no és garantia que aquest no hagi estat llegit més tard."
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -62,7 +62,7 @@ msgstr ""
 "El missatge enviat el ${date} a ${to} amb l'assumpte «${subject}» s'ha "
 "processat amb algun mitjà automàtic."
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -72,7 +72,7 @@ msgstr ""
 "El missatge enviat el ${date} a ${to} amb l'assumpte «${subject}» s'ha "
 "arxivat. El remitent no desitja proporcionar més detalls que aquests."
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 msgctxt "DispositionModifier|"
 msgid ""
 "Generation of a Message Disposition Notification for the message sent on "

@@ -18,7 +18,7 @@ msgstr ""
 "X-Qt-Contexts: true\n"
 "X-Generator: Lokalize 22.12.3\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -27,7 +27,7 @@ msgstr ""
 "Il messaggio inviato il ${date} a ${to} con oggetto \"${subject}\" è stato "
 "visualizzato. Però, non è garantito che sia stato letto o capito."
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -38,7 +38,7 @@ msgstr ""
 "cancellato senza essere visualizzato. Questo, però, non garantisce che non "
 "possa essere \"ripristinato\" e letto più tardi."
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -48,7 +48,7 @@ msgstr ""
 "recapitato. Questo, però, non garantisce che non possa essere letto più "
 "tardi."
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -57,7 +57,7 @@ msgstr ""
 "Il messaggio inviato il ${date} a ${to} con oggetto \"${subject}\" è stato "
 "elaborato da una procedura automatica."
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -67,7 +67,7 @@ msgstr ""
 "Il messaggio inviato il ${date} a ${to} con oggetto \"${subject}\" è stato "
 "archiviato. Il mittente non vuol rivelare altro dettaglio che questo."
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 msgctxt "DispositionModifier|"
 msgid ""
 "Generation of a Message Disposition Notification for the message sent on "

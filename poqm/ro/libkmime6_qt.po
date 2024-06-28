@@ -20,7 +20,7 @@ msgstr ""
 "20)) ? 1 : 2;\n"
 "X-Qt-Contexts: true\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -34,7 +34,7 @@ msgstr ""
 "Mesajul expediat la ${date} către ${to} cu subiectul „${subject}” a fost "
 "afișat. Aceasta nu este o garanție că mesajul a fost citit sau înțeles."
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -50,7 +50,7 @@ msgstr ""
 "șters fără să fie văzut. Aceasta nu este o garanție că mesajul nu va fi "
 "recuperat și citit totuși mai târziu."
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -65,7 +65,7 @@ msgstr ""
 "redirecționat. Aceasta nu este o garanție că mesajul nu va fi citit mai "
 "târziu."
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -78,7 +78,7 @@ msgstr ""
 "Mesajul expediat la ${date} către ${to} cu subiectul „${subject}” a fost "
 "procesat printr-un mijloc automatizat."
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -93,7 +93,7 @@ msgstr ""
 "Mesajul expediat la ${date} către ${to} cu subiectul „${subject}” a fost "
 "prelucrat. Expeditorul nu vrea să vă ofere mai multe detalii."
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 #, fuzzy
 #| msgid ""
 #| "Generation of a Message Disposition Notification for the message sent on "

@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Qt-Contexts: true\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -30,7 +30,7 @@ msgstr ""
 "Garantie dafür, dass die Nachricht tatsächlich vom Empfänger gelesen oder "
 "verstanden wurde."
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -46,7 +46,7 @@ msgstr ""
 "wurde ungesehen gelöscht. Dies ist allerdings keine Garantie dafür, dass die "
 "Nachricht nicht wiederhergestellt und später gelesen wird."
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -61,7 +61,7 @@ msgstr ""
 "wurde weitergesendet. Dies ist allerdings keine Garantie dafür, dass die "
 "Nachricht nicht später noch gelesen wird."
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -74,7 +74,7 @@ msgstr ""
 "Die am ${date} an ${to} mit dem Betreff „${subject}“ gesendete Nachricht "
 "wurde durch einen Automatismus verarbeitet."
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -89,7 +89,7 @@ msgstr ""
 "Die am ${date} an ${to} mit dem Betreff „${subject}“ gesendete Nachricht "
 "wurde behandelt. Der Sender möchte Ihnen keine näheren Details preisgeben."
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 #, fuzzy
 #| msgid ""
 #| "Generation of a Message Disposition Notification for the message sent on "

@@ -17,7 +17,7 @@ msgstr ""
 "%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
 "X-Qt-Contexts: true\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -31,7 +31,7 @@ msgstr ""
 "Laiškas išsiųstas ${date} adresu ${to} tema „${subject}“ buvo parodytas. "
 "Nėra garantijų, kad laiškas buvo perskaitytas ar suprastas."
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -47,7 +47,7 @@ msgstr ""
 "adresatui jo nepamačius. Nėra garantijos, kad laiško statusas nebus vėliau "
 "pakeistas į „neištrintą“ ir jis nebus perskaitytas."
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -62,7 +62,7 @@ msgstr ""
 "apdorotas (pvz., persiųstas). Tai nereiškia, kad laiškas vėliau nebus "
 "perskaitytas."
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -75,7 +75,7 @@ msgstr ""
 "Laiškas išsiųstas ${date} adresu ${to} tema „${subject}“ buvo apdorotas "
 "kažkokia automatine priemone."
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -90,7 +90,7 @@ msgstr ""
 "Laiškas išsiųstas ${date} adresu ${to} tema „${subject}“ buvo apdorotas. "
 "Siuntėjas nenori atskleisti daugiau detalių apie veiksmą."
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 #, fuzzy
 #| msgid ""
 #| "Generation of a Message Disposition Notification for the message sent on "

@@ -16,11 +16,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
 "X-Qt-Contexts: true\n"
 "X-Generator: Lokalize 23.08.5\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -29,7 +29,7 @@ msgstr ""
 "عُرضت الرّسالة المرسلة في ${date} إلى ${to} وموضوعها ”${subject}“. هذا ليس "
 "ضمانًا بأنّ الرّسالة قد قُرأت أو فُهمت."
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -39,7 +39,7 @@ msgstr ""
 "حُذفت الرّسالة المرسلة في ${date} إلى ${to} وموضوعها ”${subject}“ دون قراءتها. "
 "هذا ليس ضمانًا بأنّ لن ”يُلغى حذف“ الرّسالة وقراءتها لاحقًا رغم ذلك."
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -48,7 +48,7 @@ msgstr ""
 "أُرسلت الرّسالة المرسلة في ${date} إلى ${to} وموضوعها ”${subject}“. هذا ليس "
 "ضمانًا بأنّ لن تُقرأ الرّسالة لاحقًا."
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -57,7 +57,7 @@ msgstr ""
 "جرت معالجة الرّسالة المرسلة في ${date} إلى ${to} وموضوعها ”${subject}“ بوسائل "
 "آليّة."
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -67,7 +67,7 @@ msgstr ""
 "اتُّخذ إجراء للرّسالة المرسلة في ${date} إلى ${to} وموضوعها ”${subject}“. لا "
 "يريد المرسل عرض تفاصيل أكثر عن ذلك لك."
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 msgctxt "DispositionModifier|"
 msgid ""
 "Generation of a Message Disposition Notification for the message sent on "

@@ -17,7 +17,7 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "X-Qt-Contexts: true\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -31,7 +31,7 @@ msgstr ""
 "\"${subject}\" विषयसँग ${date} बाट ${to} मा पठाएको सन्देश प्रर्दशन गरिएको छ । त्यो "
 "सन्देश पढेको र बुझेकोमा कुनै निश्चय छैन ।"
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -46,7 +46,7 @@ msgstr ""
 "\"${subject}\" विषयसँग ${date} बाट ${to} मा पठाएको सन्देश अदृश्य रूपमा मेटियो । "
 "सन्देश \"नमेटिएको\" छ र त्यो पछि पढिन्छ भन्नेमा कुनै निश्चय गर्न सकिदैन ।"
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -60,7 +60,7 @@ msgstr ""
 "\"${subject}\" विषयसँग ${date} बाट ${to} पठाएको सन्देश छोडियो । त्यो सन्देश पढिन्छ "
 "नै भन्ने कुनै निश्चय गर्न सकिदैन ।"
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -72,7 +72,7 @@ msgid ""
 msgstr ""
 "सन्देश केहि स्वचालित साधनद्वारा \"${subject}\" विषयसँग ${date} बाट ${to} पठाइयो ।"
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -87,7 +87,7 @@ msgstr ""
 "\"${subject}\" विषयसँग ${date} बाट ${to} पठाएको सन्देश क्रियाशिल गरियो । प्रेषकले "
 "यो भन्दा बढि जानकारी तपाईँलाई खोल्न चाहेन ।"
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 #, fuzzy
 #| msgid ""
 #| "Generation of a Message Disposition Notification for the message sent on "

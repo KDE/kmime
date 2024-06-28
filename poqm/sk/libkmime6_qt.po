@@ -16,7 +16,7 @@ msgstr ""
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -30,7 +30,7 @@ msgstr ""
 "Správa poslaná dňa ${date} pre ${to} s predmetom \"${subject}\" bola "
 "zobrazená. Toto nie je garancia, že správa bola prečítaná a porozumená."
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -46,7 +46,7 @@ msgstr ""
 "odstránená bez zobrazenia. Toto nie je garancia, že správa nebude obnovená a "
 "prečítaná neskôr."
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -60,7 +60,7 @@ msgstr ""
 "Správa poslaná dňa ${date} pre ${to} s predmetom \"${subject}\" bola "
 "odoslaná. Toto nie je garancia, že správa nebude neskôr prečítaná."
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -73,7 +73,7 @@ msgstr ""
 "Správa poslaná dňa ${date} pre ${to} s predmetom \"${subject}\" bola v "
 "nejakom zmysle spracovaná."
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -88,7 +88,7 @@ msgstr ""
 "Správa poslaná dňa ${date} pre ${to} s predmetom \"${subject}\" bola "
 "prejednaná. Odosielateľ si neželá prezradiť viac detailov ako sú tieto."
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 #, fuzzy
 #| msgid ""
 #| "Generation of a Message Disposition Notification for the message sent on "

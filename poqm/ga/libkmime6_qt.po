@@ -18,7 +18,7 @@ msgstr ""
 "3 : 4\n"
 "X-Qt-Contexts: true\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -33,7 +33,7 @@ msgstr ""
 "\"${subject}\". Níl gealltanas ar bith ann go raibh an teachtaireacht léite "
 "nó tuigthe."
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -49,7 +49,7 @@ msgstr ""
 "\"${subject}\" gan í a léamh. Níl gealltanas ar bith ann nach mbeadh sé "
 "\"díscriosta\" agus léite amach anseo."
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -64,7 +64,7 @@ msgstr ""
 "\"${subject}\" chun siúil. Níl gealltanas ar bith ann nach mbeidh an "
 "teachtaireacht léite amach anseo."
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -77,7 +77,7 @@ msgstr ""
 "Próiseáladh an teachtaireacht a seoladh chuig ${to} ar ${date} le hábhar "
 "\"${subject}\" go huathoibríoch."
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -92,7 +92,7 @@ msgstr ""
 "Déileáladh leis an teachtaireacht a seoladh chuig ${to} ar ${date} le hábhar "
 "\"${subject}\". Ní mian leis an seoltóir tuilleadh sonraí a chomhroinnt leat."
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 #, fuzzy
 #| msgid ""
 #| "Generation of a Message Disposition Notification for the message sent on "

@@ -19,7 +19,7 @@ msgstr ""
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=(n>1);\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -33,7 +33,7 @@ msgstr ""
 "${date} दिनाङ्के ${to} इत्यस्मै \"${subject}\" इति विषयेण सह प्रेषितः सन्देशः प्रदर्शितः "
 "अस्ति । एतेन सन्देशः पठितः अवगतः वा इति प्रत्याभूति नास्ति ।."
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -49,7 +49,7 @@ msgstr ""
 "लोपितः अस्ति । एतत् न प्रत्याभूति यत् सन्देशः \"अविलोपितः\" न भविष्यति तथापि पश्चात् "
 "पठितः भविष्यति ।."
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -63,7 +63,7 @@ msgstr ""
 "${date} दिनाङ्के ${to} इत्यस्मै \"${subject}\" इति विषयेण सह प्रेषितः सन्देशः प्रेषितः "
 "अस्ति । एतेन पश्चात् सन्देशः न पठितः इति प्रत्याभूति नास्ति ।."
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -76,7 +76,7 @@ msgstr ""
 "${date} दिनाङ्के ${to} इत्यस्मै \"${subject}\" इति विषयेण सह प्रेषितः सन्देशः केनचित् "
 "स्वचालितसाधनेन संसाधितः अस्ति ।."
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -91,7 +91,7 @@ msgstr ""
 "${date} दिनाङ्के ${to} इत्यस्मै \"${subject}\" इति विषयेण सह प्रेषितः सन्देशः कार्यं कृतः "
 "अस्ति । प्रेषकः तस्मात् अधिकं विवरणं भवद्भ्यः प्रकटयितुं न इच्छति ।."
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 #, fuzzy
 #| msgid ""
 #| "Generation of a Message Disposition Notification for the message sent on "

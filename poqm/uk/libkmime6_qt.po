@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -31,7 +31,7 @@ msgstr ""
 "Повідомлення відіслане ${date} до ${to} з темою «${subject}» було показано. "
 "Але це не гарантує те, що його прочитали та правильно зрозуміли."
 
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -42,7 +42,7 @@ msgstr ""
 "адресатом без перегляду. Але це не гарантує те, що його не можна відновити "
 "та прочитати пізніше."
 
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -51,7 +51,7 @@ msgstr ""
 "Повідомлення відіслане ${date} до ${to} з темою «${subject}» було переслане. "
 "Але це не гарантує те, що його не прочитають пізніше."
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -60,7 +60,7 @@ msgstr ""
 "Повідомлення відіслане ${date} до ${to} з темою «${subject}» було "
 "опрацьовано якимось автоматичним чином."
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -70,7 +70,7 @@ msgstr ""
 "З повідомленням відісланим ${date} до ${to} з темою «${subject}» було щось "
 "зроблено. Ніякої додаткової інформації не розголошується."
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 msgctxt "DispositionModifier|"
 msgid ""
 "Generation of a Message Disposition Notification for the message sent on "

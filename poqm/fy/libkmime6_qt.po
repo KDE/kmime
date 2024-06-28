@@ -18,7 +18,7 @@ msgstr ""
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: kmime_mdn.cpp:53
+#: mdn.cpp:53
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -34,7 +34,7 @@ msgstr ""
 "is."
 
 # Wat kryptysk omskreaun...
-#: kmime_mdn.cpp:60
+#: mdn.cpp:60
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -52,7 +52,7 @@ msgstr ""
 "wurdt."
 
 # lest rigel is kryptysk
-#: kmime_mdn.cpp:68
+#: mdn.cpp:68
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -67,7 +67,7 @@ msgstr ""
 "is trochstjoerd. Der is gjin inkele garânsje dat it berjocht efterôf dochs "
 "lêzen wurde sil."
 
-#: kmime_mdn.cpp:75
+#: mdn.cpp:75
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -80,7 +80,7 @@ msgstr ""
 "Dit berjocht ferstjoerd op ${date} oan ${to} mei as ûnderwerp \"${subject}\" "
 "is troch in automatysk proses ferwurke."
 
-#: kmime_mdn.cpp:81
+#: mdn.cpp:81
 #, fuzzy
 #| msgid ""
 #| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -96,7 +96,7 @@ msgstr ""
 "\"${subject}\" is reagearre. De ôfstjoerder wol net mear ynformaasje kwyt as "
 "dit."
 
-#: kmime_mdn.cpp:88
+#: mdn.cpp:88
 #, fuzzy
 #| msgid ""
 #| "Generation of a Message Disposition Notification for the message sent on "
