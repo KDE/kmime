@@ -63,23 +63,9 @@ KMIME_EXPORT extern QByteArray multiPartBoundary();
   @param s source string containing CRLF's
 
   @return the string with CRLF's substituted for LF's
-  @see CRLFtoLF(const char*) LFtoCRLF
+  @see LFtoCRLF
 */
 KMIME_EXPORT extern QByteArray CRLFtoLF(const QByteArray &s);
-
-/**
-  Converts all occurrences of "\r\n" (CRLF) in @p s to "\n" (LF).
-
-  This function is expensive and should be used only if the mail
-  will be stored locally. All decode functions can cope with both
-  line endings.
-
-  @param s source string containing CRLF's
-
-  @return the string with CRLF's substituted for LF's
-  @see CRLFtoLF(const QByteArray&) LFtoCRLF
-*/
-KMIME_EXPORT extern QByteArray CRLFtoLF(const char *s);
 
 /**
   Converts all occurrences of "\n" (LF) in @p s to "\r\n" (CRLF).
