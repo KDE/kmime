@@ -25,7 +25,7 @@ class Message;
   Checks whether @p s contains any non-us-ascii characters.
   @param s
 */
-KMIME_EXPORT extern bool isUsAscii(const QString &s);
+KMIME_EXPORT bool isUsAscii(QStringView s);
 
 /**
   Returns a user-visible string for a contentEncoding, for example
@@ -41,8 +41,7 @@ KMIME_EXPORT extern QString nameForEncoding(KMime::Headers::contentEncoding enc)
   @param data the data to check encodings for
   @ since 4.4
 */
-[[nodiscard]] KMIME_EXPORT QList<KMime::Headers::contentEncoding>
-encodingsForData(const QByteArray &data);
+[[nodiscard]] KMIME_EXPORT QList<KMime::Headers::contentEncoding> encodingsForData(QByteArrayView data);
 
 /**
   Constructs a random string (sans leading/trailing "--") that can

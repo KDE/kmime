@@ -44,15 +44,9 @@ QByteArray cachedCharset(const QByteArray &name)
     return c_harsetCache.last();
 }
 
-bool isUsAscii(const QString &s)
+bool isUsAscii(QStringView s)
 {
-    const uint sLength = s.length();
-    for (uint i = 0; i < sLength; i++) {
-        if (s.at(i).toLatin1() <= 0) {     // c==0: non-latin1, c<0: non-us-ascii
-            return false;
-        }
-    }
-    return true;
+    return std::all_of(s.begin(), s.end(), [](QChar c) { return c.unicode() < 128; });
 }
 
 QString nameForEncoding(Headers::contentEncoding enc)
@@ -68,7 +62,7 @@ QString nameForEncoding(Headers::contentEncoding enc)
     }
 }
 
-QList<Headers::contentEncoding> encodingsForData(const QByteArray &data) {
+QList<Headers::contentEncoding> encodingsForData(QByteArrayView data) {
     QList<Headers::contentEncoding> allowed;
     CharFreq cf(data);
 
