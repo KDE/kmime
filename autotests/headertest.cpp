@@ -147,6 +147,8 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->addresses().first(), QByteArray("kloecker@kde.org"));
     QCOMPARE(h->displayNames().first(), QString::fromUtf8("Ingo Klöcker"));
     QCOMPARE(h->asUnicodeString(), QString::fromUtf8("Ingo Klöcker <kloecker@kde.org>"));
+    QCOMPARE(h->as7BitString(false), "Ingo =?UTF-8?B?S2zDtmNrZXI=?= <kloecker@kde.org>");
+    h->setRFC2047Charset("iso-8859-1");
     QCOMPARE(h->as7BitString(false), QByteArray("Ingo =?ISO-8859-1?Q?Kl=F6cker?= <kloecker@kde.org>"));
     delete h;
 
@@ -200,6 +202,8 @@ void HeaderTest::testAddressListHeader()
     h->addAddress("c@a.test");
     QCOMPARE(h->addresses().count(), 3);
     QCOMPARE(h->asUnicodeString(), QString::fromUtf8("John <jdoe@one.test>, Ingo Klöcker <kloecker@kde.org>, c@a.test"));
+    QCOMPARE(h->as7BitString(false), QByteArray("John <jdoe@one.test>, Ingo =?UTF-8?B?S2zDtmNrZXI=?= <kloecker@kde.org>, c@a.test"));
+    h->setRFC2047Charset("ISO-8859-1");
     QCOMPARE(h->as7BitString(false), QByteArray("John <jdoe@one.test>, Ingo =?ISO-8859-1?Q?Kl=F6cker?= <kloecker@kde.org>, c@a.test"));
     delete h;
 
@@ -300,6 +304,8 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->addresses().first(), QByteArray("xalba@clientes.euskaltel.es"));
     QCOMPARE(h->displayNames().first(), QString::fromUtf8("I\u00F1igo Salvador Azurmendi"));
     QCOMPARE(h->asUnicodeString(), QString::fromUtf8("I\u00F1igo Salvador Azurmendi <xalba@clientes.euskaltel.es>"));
+    QCOMPARE(h->as7BitString(false), QByteArray("=?UTF-8?B?ScOxaWdv?= Salvador Azurmendi <xalba@clientes.euskaltel.es>"));
+    h->setRFC2047Charset("ISO-8859-1");
     QCOMPARE(h->as7BitString(false), QByteArray("=?ISO-8859-1?Q?I=F1igo?= Salvador Azurmendi <xalba@clientes.euskaltel.es>"));
     delete h;
 }
