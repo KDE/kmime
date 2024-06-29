@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: libkmime\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-20 01:59+0000\n"
-"PO-Revision-Date: 2023-06-09 20:56+0100\n"
+"PO-Revision-Date: 2024-06-28 10:53+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -21,11 +21,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: mdn.cpp:53
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "displayed. This is no guarantee that the message has been read or "
-#| "understood."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -35,11 +30,6 @@ msgstr ""
 "montrita. Ĉi tio ne garantias, ke la mesaĝo estas legita aŭ komprenita."
 
 #: mdn.cpp:60
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "deleted unseen. This is no guarantee that the message will not be "
-#| "\"undeleted\" and nonetheless read later on."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -51,11 +41,6 @@ msgstr ""
 "tamen legita poste."
 
 #: mdn.cpp:68
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "dispatched. This is no guarantee that the message will not be read later "
-#| "on."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -65,10 +50,6 @@ msgstr ""
 "Ĉi tio ne garantias, ke la mesaĝo ne estos legita poste."
 
 #: mdn.cpp:75
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "processed by some automatic means."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -78,11 +59,6 @@ msgstr ""
 "prilaborita per iuj aŭtomataj rimedoj."
 
 #: mdn.cpp:81
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "acted upon. The sender does not wish to disclose more details to you than "
-#| "that."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -93,11 +69,6 @@ msgstr ""
 "La sendinto ne volas malkaŝi al vi pli da detaloj ol tio."
 
 #: mdn.cpp:88
-#, fuzzy
-#| msgid ""
-#| "Generation of a Message Disposition Notification for the message sent on "
-#| "${date} to ${to} with subject \"${subject}\" failed. Reason is given in "
-#| "the Failure: header field below."
 msgctxt "DispositionModifier|"
 msgid ""
 "Generation of a Message Disposition Notification for the message sent on "
@@ -107,17 +78,3 @@ msgstr ""
 "Generado de Avizo pri Mesaĝo por la mesaĝo sendita je ${date} al ${to} kun "
 "temo \"${subject}\" malsukcesis. La kialo estas donita en la suba kampo de "
 "la kaplinio Malsukceso."
-
-#~ msgctxt "invalid time specified"
-#~ msgid "unknown"
-#~ msgstr "nekonata"
-
-#~ msgid "Today %1"
-#~ msgstr "Hodiaŭ %1"
-
-#~ msgid "Yesterday %1"
-#~ msgstr "Hieraŭ %1"
-
-#~ msgctxt "1. weekday, 2. time"
-#~ msgid "%1 %2"
-#~ msgstr "%1 %2"
