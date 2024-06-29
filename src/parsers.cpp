@@ -229,12 +229,18 @@ bool UUEncoded::parse()
                         idx++;
                         MCount++;
                     }
+
+                    // partial version of the check below, for things that can be evaluated
+                    // while this loop is still counting
+                    if ((lineCount - MCount) > 10) {
+                        success = false;
+                        break;
+                    }
                 }
             }
 
             //printf("lineCount=%d , MCount=%d\n", lineCount, MCount);
-            if (MCount == 0 || (lineCount - MCount) > 10 ||
-                    ((!containsBegin || !containsEnd) && (MCount < 15))) {
+            if (MCount == 0 || (lineCount - MCount) > 10 || ((!containsBegin || !containsEnd) && (MCount < 15))) {
                 // harder check for split-articles
                 success = false;
                 break; //too many "non-M-Lines" found, we give up
