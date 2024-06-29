@@ -1,0 +1,343 @@
+From: Matthias Ettrich <null@kde.org>
+Subject: New Project: Kool Desktop Environment (KDE)
+Date: Mon, 14 Oct 1996 03:00:00 +0100
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+
+Programmers wanted!
+
+Motivation
+
+Unix popularity grows thanks to the free variants, mostly Linux. But still a 
+consistant, nice looking free desktop-environment is missing. There are 
+several nice either free or low-priced applications available, so that Linux/
+X11 would almost fit everybody needs if we could offer a real GUI.
+
+Of course there are GUI's. There is the Commond Desktop Environment (much too 
+exensive), Looking Glas (not too expensive but not really the solution), and 
+several free X-Filemanagers that are almost GUI's. Moxfm for example is very 
+well done, but unfortunately it is based on Motif. Anyway, the question is: 
+What is a GUI? What should a GUI be?
+
+First of all, since there are a lot of missunderstandings on this topic, what 
+is NOT a GUI:
+
+*   the X-Window-System is NOT a GUI. It's what its name says: A Window system
+
+*   Motif is NOT a GUI. They tried to create a GUI when they made Motif, but 
+unfortunately they couldn't really agree, so they released Motif as Widget-
+Library with a Window-Manager. Much later they completed Motif with the CDE, 
+but too late, since Windows already runs on the majority of desktops.
+
+*   Window-managers are NOT GUI's. They are (better: should be) small programs 
+that handle the windows. It's not really the idea to hack a lot of stuff into 
+them.
+
+IMHO a GUI should offer a complete, graphical environment. It should allow a 
+users to do his everyday tasks with it, like starting applications, reading 
+mail, configuring his desktop, editing some files, delete some files, look at 
+some pictures, etc. All parts must fit together and work together. A nice 
+button with a nice "Editor"-icon is not at all a graphical user environment if 
+it invokes "xterm -e vi". Maybe you have been disappointed long time ago too, 
+when you installed X with a nice window manager, clicked on that beautiful 
+"Help"-Icon ... chrk chrk (the hard disk)...an ugly, unsuable, weird xman 
+appeared on the desktop :-(
+
+A GUI for endusers
+
+The idea is NOT to create a GUI for the complete UNIX-system or the System-
+Administrator. For that purpose the UNIX-CLI with thousands of tools and 
+scripting languages is much better. The idea is to create a GUI for an 
+ENDUSER. Somebody who wants to browse the web with Linux, write some letters 
+and play some nice games.
+
+I really believed that is even yet possible with Linux until I configured my 
+girlfriends Box. Well, I didn't notice anymore that I work with lots of 
+different kind of menues, scrollbars and textwidgets. I already know that some 
+widgets need to be under the mouse when they should get the keyevents, some 
+sliders wants the middle mouse for dragging and some textwidgets only want 
+emacs-bindings and don't understand keys like "pos1" or "end". And selecting 
+some text is different everywere, too. Even the menues and buttons (for exampel 
+Xaw, Fvwm, XForms, Motif) behave completely different.
+
+One word to the Athena-Widgets: Although there are a few nice applications 
+available that uses these "widgets" we should really get rid of them. Thinking 
+that "Athena is a widget-library" is a similar missunderstanding like "X is a 
+GUI". Athena is an very old example how widget libraries could be implemented 
+with Xlib and Xt. It's more or less a online-documentation for Widget-Set-
+Programmers, but not a tool for application-programmers. Unfortunately, the 
+old Unix problem, a so good online-documentation that people used it for 
+applications.
+
+So one of the major goals is to provide a modern and common look&feel for all 
+the applications. And this is exactly the reason, why this project is different 
+from elder attempts.
+
+Since a few weeks a really great new widget library is available free in 
+source and price for free software development. Check out
+http://www.troll.no
+
+The stuff is called "Qt" and is really a revolution in programming X. It's an 
+almost complete, fully C++ Widget-library that implementes a slightly improved 
+Motif look and feel, or, switchable during startup, Window95.
+
+The fact that it is done by a company (Troll Tech) is IMO a great advantage. 
+We have the sources and a superb library, they have beta testers. But they 
+also spend their WHOLE TIME in improving the library. They also give great 
+support. That means, Qt is also interesting for commercial applications. A 
+real alternative to the terrible Motif :) But the greatest pro for Qt is the 
+way how it is programmed. It's really a very easy-to-use powerfull C++-
+library.
+
+Qt is also portable, yet to Windows95/NT, but you do not have to worry about 
+that. It's very easy to use UNIX/X specific things in programming, so that 
+porting to NT is hardly possible :-)
+
+I really recommend looking at this library. It has IMO the power to become the 
+leading library for free software development. And it's a way to escape the 
+TCL/TK monsters that try to slow down all our processors and eat up our 
+memory...
+
+It's really time yet to standarize the desktop somewhat. It's nonsense to load 
+10 different widgets into memory for the same task. Imagine this desktop:
+
+*   fvwm (own widgets)
+*   rxvt (own widgets)
+*   tgif (own widgets)
+*   xv (own widgets)
+*   ghostview (athena widgets)
+*   lyx (xforms widgets)
+*   xftp (motif widgets)
+*   textedit (xview widgets)
+*   arena (own widgets)
+
+One may argue that a usual UNIX-Box has enough memory to handle all these 
+different kind of widgets. Even if this might be correct, the really annoying 
+thing is, that all these widgets (menus, buttons, scrollbars, etc.) behave 
+slightly different. And this isn't only an academic example, I've really seen 
+such desktops :-}
+
+I know we couldn't get rid of this chaos at once, but my dream is a 
+coexistance between Motif and Qt.
+The Kool Desktop Environment (KDE)
+
+I don't have the time to do this all alone (also since LyX is my main 
+project). But a thing like a Desktop Environment can easily be cut into lots 
+of parts. There is very probably a part for you, too! If you want to learn 
+some X-programming, why not doing a small, neat project for the KDE? If you 
+know others who like to programm something, please prevend them from writing 
+the 1004th tetris games or the 768th minesweeper clone ;-) Think we also have 
+enough XBiffs yet...
+
+So here is my project list so far. Probably there are even more things to do 
+that would fit great into the KDE. It's a very open project.
+
+Panel:
+    The basic application. Run's as FvwmModule (at the beginning). Offers a 
+combination between Windows95 and CDE. I think about a small taskbar at the 
+bottom and a kind of CDE-panel on the top of the screen. The panel has 
+graphical icon menus on the left (similar to GoodStuff) to launch applications, 
+4 buttons in the middle to switch to other virtual desktops and few icons for 
+often needed applications on the right. There is for example a mail-icon that 
+also indicates new mail, a wastebasket to open the delete-folder (that also 
+indicates when it isn't empty and is capable of drag'n'drop). Maybe a analog 
+clock with date at the very right. Also a nice special icon for exiting the 
+environment or locking the screen. All the stuff is completly configurable via 
+GUI. I'm also thinking about solutions, that only available applications can 
+be installed on the desktop and that new applications appear on the desktop 
+automatically.
+
+    I started to work on this panel, but would of course love some help. There 
+are also lot of smaller things to do, like a tool to chose a background pixmap 
+(for each virtual desktop) etc.
+
+    Also nice icons are needed!
+
+Filemanager
+    Another major application inside the KDE. The idea is not to create a 
+powerful high-end graphical bash-replacement (like tkdesk tries to be), but a 
+nice looking easy-to-use filemanager for simple tasks. Simple tasks are mainly 
+deleting some files, copying some files, copying some files to floppy disk, 
+starting applications by clicking on a file (for example ghostview for 
+postscript files or xli for gifs, etc).
+
+    I'm thinking about nice windows, one for each directory, that shows icons 
+for every file. It should be possible to drag files around (either copy or 
+move), even between different windows. Another important point is the support 
+of the floppy-disk, so that mounting/umounting is done user-transparent.
+
+    Dragging of icons should be done in a nice way, that means moving around a 
+special window (see Qt's xshape example), NOT like xfm or xfilemanager by 
+setting another monochrome bitmap for the cursor.
+
+    So it will also be possible to put files as icons on the desktop. This is 
+IMO a very nice feature. Since applications are launched by the panel, it's 
+even clear that icons are real data-objects. With fvwm-1 and the FvwmFileMgr 
+it wasn't really clear wether an icon is yet a file or an iconified window.
+
+    Drag'n'drop inside a Qt application isn't really difficult. The filemanager 
+is IMO a very nice and not too time consuming project. Who wants?
+mail client
+    A really comfortable mailclient. IMO the most comfortable mailclient for X 
+is yet XF-Mail. And the author is willing to port it to Qt when the KDE-
+project will start! But he asks for some assitance (for example for coding the 
+small popups, etc.)
+easy texteditor
+    Very small but important project. An editor that fits the needs of those 
+who have to edit a textfile once in a month and didn't find the time yet to 
+learn vi (and don't have the time to wait for x-emacs to start, and don't have 
+the memory to use a motif-static-nedit, and don't have the cpu-power and 
+memory to use a tk-monster like tkedit,...)
+
+    Unfortunatly the Qt multiline-textwidget isn't available in Qt-1.0, but 
+Troll-Tech already announced the beta-testing. So the texteditor can be 
+started in a few weeks, too.
+Terminal
+    Similar to the CDE terminal program. A kind of xterm with nice menu bar to 
+set the font, exit, etc. Nice project, get the xterm sources and add a GUI 
+with Qt!
+Image viewer
+    The application that will be launced as default from the filemanager for 
+gifs, jpegs and all this. Well, xv is shareware and really needs quite a long 
+time for startup. But there is a plain Xlib programm without any menues or 
+buttons called "xli". Get the sources and make it userfriendly with Qt!
+Lots of small other tools:
+
+*       xdvi with Qt-Gui
+ *      ghostview with Qt-Gui
+*       xmag with Qt-Gui
+*       whatever you want
+
+Hypertext Help System
+    A complete desktop environment needs a nice hypertext online help. I think 
+the best choice would be HTML (>= 2.0). So a free Qt-based html-viewer would 
+be a great idea. It might be possible to use the Arena-sources, but arena 
+needs very long for startup. Maybe it would be best to start from scratch. Qt 
+offers excellent functions for dealing with different fonts. For a help system 
+HTML 2.0 is more than enough, some nice search function added and that's it. 
+Since it is also possible to convert the obsolete troff man-pages to HTML, we 
+can also integrate the original UNIX help system.
+
+    BTW: There is a Troll Tech Qt-competition (look at their webpages). The 
+best application (not only functionallity, but also design counts. Just 
+porting an existing great application to Qt won't probably be enough :-( ) 
+wins $2000 and a few Qt on NT licenses (worth another $2000). They also 
+mentioned a browser-project as an example. So a nice HTML-browser in Qt, ready 
+in Janurary may be worth $4000 (This includes selling the unneeded NT licenses 
+;-) )
+
+Window Manager
+    At the beginning, the KDE panel will work as an Fvwm-Module. When this is 
+done, a lot of stuff can be stripped from the bloated fvwm window manager. We 
+don't need anymore fvwm-menus, icon handling and zillions of configurable 
+things. We need a small, realiable windowmanager. So maybe stripping all 
+unncessary stuff from fvwm will make sense in a while. But this may come very 
+last.
+
+System Tools
+    Whatever a user, or you, might need. A graphical passwd comes to my mind. 
+But probably there are a lot more! Maybe this will lead to a small system 
+administration tool someday.
+
+Games
+    We have yet a nice tetris game (an Qt example program). What is needed is 
+a nice set of small games like solitaire (please with nice cards that can be 
+really dragged!). There are several nice card games available for X, for 
+example xpat2. So why not take the cards from them and write a real solitaire 
+games, very similar to MS-Solitaire. I really had to install Wine sometimes 
+just to play solitair, what an overhead! But other games are needed, too. Take 
+xmris, pacman, etc. add a nice GUI. Or write some from scratch. Whatever you 
+want :)
+Icons
+    A set of nice icons. 3D-pixmaps are quite a good start (but why should the 
+button be inside a pixmap, if we use a toolkit with buttons???)
+Documentation
+    A documentation project is always a good thing to have. But before we 
+should clearify how the hypertext help system should look like. We can then 
+start with documentation pages in the chosen HTML-subset and for example use 
+arean as help browser. Anyway we need some application to document first.
+Web-Pages / Ftp Server / Aministration
+    We need a server for the files and webpages that inform about the state of 
+the project. Especially what projects are currently worked on and what 
+projects still wait for somebody to do them. I set up a preliminary homepage 
+on
+    http://www-pu.informatik.uni-tuebingen.de/users/ettrich
+    that just contains this posting yet and a few links. I may setup real 
+webpages for the very beginning but I would be very happy if I could 
+concentrate on discussion and coding. So if there is someone out there in the 
+net who likes to design and maintain webpages, here is a job for him :)
+Discussion
+    The most important topic :-) If you are interested please join the mailing 
+list
+    kde@kde.org
+    Subscribing can be done by sending a mail with in *Body*:
+    subscribe [your email address]
+    to
+    kde-request@kde.org
+
+Applications
+    When the KDE gets widely accepted, new (free) applications will hopefully 
+be based on Qt, too, to fit with the comfortable and pleasant look and feel of 
+the desktop.
+
+    We may for example port LyX to Qt, so that a comfortable wordprocessor is 
+available. But that is still in discussion in the LyX Team.
+
+    A nice vector-orientated drawing tool would also be fine. Well, Xfig is a 
+powerful but ugly monster. But there is "tgif", a very powerful, easy to use 
+but ugly program. The author doesn't like the idea of adding a Qt GUI for the 
+menus, icons and scrollbars, since Qt is C++ and he wants to keep tgif plain 
+C, since on some sites no C++ compiler is available. Well, the KDE doesn't 
+really aim on these old and weird UNIX boxes (also I think a g++ is almost 
+everywhere available). But maybe the tgif-author agrees when somebody else 
+adds a nice GUI to tgif (the sources are free, don't know wether this is GPL). 
+Since tgif yet implements its own GUI this shouldn't be too difficult. It's 
+really easy with Qt to access plain Xlib functionality and functions, so not 
+very much will have to be rewritten. Also C++ makes it very easy to include 
+plain C code.
+
+    What about an easy to use, nice newsreader similar to knews? Could also be 
+integrated into the KDE. ... and ... and ... and.
+
+So there is a lot of work (and fun) to do! If you are interested, please join 
+the mailing list. If we get about 20-30 people we could start. And probably 
+before 24th December the net-community will give itself another nice and 
+longtime-needed gift.
+
+The stuff will be distributed under the terms of the GPL.
+
+I admit the whole thing sounds a bit like fantasy. But it is very serious from 
+my side. Everybody I'm talking to in the net would LOVE a somewhat cleaner 
+desktop. Qt is the chance to realize this. So let us join our rare sparetime 
+and just do it!
+
+Hopefully looking foward to lots of followups and replies!
+
+Regards,
+
+Matthias Ettrich
+(ettrich@informatik.uni-tuebingen.de)
+
+BTW: Usually these postings get a lot of answers like "Use a Mac if you want a 
+GUI, CLI rules!", "I like thousands of different widgets-libraries on my 
+desktop, if you are too stupid to learn them, you should use windoze", "RAM 
+prices are so low, I only use static motif programs", "You will never succeed, 
+so better stop before the beginning", "Why Qt? I prefer schnurz-purz-widgets 
+with xyz-lisp-shell. GPL! Check it out!", etc. Thanks for not sending these as 
+followup to this posting :-) I know I'm a dreamer...
+
+BTW2: You might wonder why I'm so against Tk. Well, I don't like the 
+philosophy: Tk's doesn't have a textwidget, for example, but a slow 
+wordprocessor. Same with other widgets. In combination with TCL the programs 
+become slow and ugly (of course there are exceptions). I didn't yet see any 
+application that uses Tk from C++ or C, although an API seems to exist. TCL/TK 
+is very usefull for prototyping. Ideal for example for kernel configuration. 
+And since Tk looks little similar to Motif, the widgets are also quite easy to 
+use. But I really don't like any TCL/Tk application to stay permanantly on the 
+desktop. And Qt is much easier (at least as easy) to program. Check it out!
+
+BTW3: I don't have any connections to Troll Tech, I just like their product 
+(look at the sources: really high quality!) and their kind of marketing: free 
+sourcecode for free software.
+
