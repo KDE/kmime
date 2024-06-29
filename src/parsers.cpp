@@ -11,6 +11,8 @@
 
 #include <QRegularExpression>
 
+#include <cctype>
+
 using namespace KMime::Parser;
 
 namespace KMime
@@ -157,6 +159,22 @@ QByteArray NonMimeParser::guessMimeType(const QByteArray &fileName)
 
 //==============================================================================
 
+[[nodiscard]] static qsizetype findUuencodeBeginMarker(const QByteArray &s, qsizetype startPos)
+{
+    auto idx = startPos;
+    while (true) {
+        idx = s.indexOf("begin ", idx);
+        if (idx < 0 || idx + 9 >= s.size()) {
+            break;
+        }
+        if (std::isdigit(s[idx + 6]) && std::isdigit(s[idx + 7]) && std::isdigit(s[idx + 8])) {
+            return idx;
+        }
+        idx += 6;
+    }
+    return -1;
+}
+
 UUEncoded::UUEncoded(const QByteArray &src, const QByteArray &subject) :
     NonMimeParser(src), m_subject(subject)
 {}
@@ -166,10 +184,6 @@ bool UUEncoded::parse()
     qsizetype currentPos = 0;
     bool success = true;
     bool firstIteration = true;
-
-    const auto srcStr = QString::fromLatin1(m_src);
-    const QRegularExpression beginRegex(QStringLiteral("begin [0-9][0-9][0-9]"));
-    const QRegularExpression subjectRegex(QStringLiteral("[0-9]+/[0-9]+"));
 
     while (success) {
         qsizetype beginPos = currentPos;
@@ -184,7 +198,7 @@ bool UUEncoded::parse()
         QByteArray tmp;
         QByteArray fileName;
 
-        if ((beginPos = srcStr.indexOf(beginRegex, currentPos)) > -1 &&
+        if ((beginPos = findUuencodeBeginMarker(m_src, currentPos)) > -1 &&
                 (beginPos == 0 || m_src.at(beginPos - 1) == '\n')) {
             containsBegin = true;
             uuStart = m_src.indexOf('\n', beginPos);
@@ -228,8 +242,8 @@ bool UUEncoded::parse()
 
             if ((!containsBegin || !containsEnd) && !m_subject.isNull()) {
                 // message may be split up => parse subject
-                const auto match =
-                    subjectRegex.match(QLatin1StringView(m_subject));
+                const QRegularExpression subjectRegex(QStringLiteral("[0-9]+/[0-9]+"));
+                const auto match = subjectRegex.match(QLatin1StringView(m_subject));
                 pos = match.capturedStart(0);
                 len = match.capturedLength(0);
                 if (pos != -1) {
