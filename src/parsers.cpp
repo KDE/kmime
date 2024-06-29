@@ -212,7 +212,7 @@ bool UUEncoded::parse()
             beginPos = currentPos;
         }
 
-        if ((endPos = m_src.indexOf("\nend", (uuStart > 0) ? uuStart - 1 : 0)) == -1) {
+        if (!containsBegin || (endPos = m_src.indexOf("\nend", (uuStart > 0) ? uuStart - 1 : 0)) == -1) {
             endPos = m_src.length(); //no end found
         } else {
             containsEnd = true;
