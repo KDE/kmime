@@ -163,7 +163,7 @@ UUEncoded::UUEncoded(const QByteArray &src, const QByteArray &subject) :
 
 bool UUEncoded::parse()
 {
-    int currentPos = 0;
+    qsizetype currentPos = 0;
     bool success = true;
     bool firstIteration = true;
 
@@ -172,13 +172,13 @@ bool UUEncoded::parse()
     const QRegularExpression subjectRegex(QStringLiteral("[0-9]+/[0-9]+"));
 
     while (success) {
-        int beginPos = currentPos;
-        int uuStart = currentPos;
-        int endPos = 0;
+        qsizetype beginPos = currentPos;
+        qsizetype uuStart = currentPos;
+        qsizetype endPos = 0;
         int lineCount = 0;
         int MCount = 0;
-        int pos = 0;
-        int len = 0;
+        qsizetype pos = 0;
+        qsizetype len = 0;
         bool containsBegin = false;
         bool containsEnd = false;
         QByteArray tmp;
@@ -208,7 +208,7 @@ bool UUEncoded::parse()
 
             //printf("beginPos=%d , uuStart=%d , endPos=%d\n", beginPos, uuStart, endPos);
             //all lines in a uuencoded text start with 'M'
-            for (int idx = uuStart; idx < endPos; idx++) {
+            for (auto idx = uuStart; idx < endPos; idx++) {
                 if (m_src[idx] == '\n') {
                     lineCount++;
                     if (idx + 1 < endPos && m_src[idx + 1] == 'M') {
@@ -260,7 +260,7 @@ bool UUEncoded::parse()
             m_mimeTypes.append(guessMimeType(fileName));
             firstIteration = false;
 
-            int next = m_src.indexOf('\n', endPos + 1);
+            auto next = m_src.indexOf('\n', endPos + 1);
             if (next == -1) {   //no more line breaks found, we give up
                 success = false;
                 break;
