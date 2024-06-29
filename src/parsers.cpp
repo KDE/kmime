@@ -288,10 +288,13 @@ bool UUEncoded::parse()
         }
     }
 
-    // append trailing text part of the article
-    m_text.append(m_src.right(m_src.length() - currentPos));
+    // append trailing text part of the article (only
+    if (!m_bins.isEmpty() || isPartial()) {
+        m_text.append(m_src.right(m_src.length() - currentPos));
+        return true;
+    }
 
-    return ((!m_bins.isEmpty()) || isPartial());
+    return false;
 }
 
 //==============================================================================
