@@ -33,7 +33,7 @@ public:
     [[nodiscard]] QByteArray epilouge() const { return m_epilouge; }
 
   private:
-    QByteArray m_src;
+    const QByteArray m_src;
     const QByteArray m_boundary;
     QByteArray m_preamble;
     QByteArray m_epilouge;

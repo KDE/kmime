@@ -223,9 +223,9 @@ bool UUEncoded::parse()
             //printf("beginPos=%d , uuStart=%d , endPos=%d\n", beginPos, uuStart, endPos);
             //all lines in a uuencoded text start with 'M'
             for (auto idx = uuStart; idx < endPos; idx++) {
-                if (m_src[idx] == '\n') {
+                if (m_src.at(idx) == '\n') {
                     lineCount++;
-                    if (idx + 1 < endPos && m_src[idx + 1] == 'M') {
+                    if (idx + 1 < endPos && m_src.at(idx + 1) == 'M') {
                         idx++;
                         MCount++;
                     }
