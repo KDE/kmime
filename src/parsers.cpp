@@ -526,9 +526,12 @@ bool YENCEncoded::parse()
     }
 
     // append trailing text part of the article
-    m_text.append(m_src.right(m_src.length() - currentPos));
+    if (!m_bins.isEmpty()) {
+        m_text.append(m_src.right(m_src.length() - currentPos));
+        return true;
+    }
 
-    return !m_bins.isEmpty();
+    return false;
 }
 
 } // namespace Parser
