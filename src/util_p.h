@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include <qglobal.h>
+
 class QByteArray;
 class QByteArrayView;
 class QString;
@@ -32,7 +34,7 @@ extern QByteArray cachedCharset(const QByteArray &name);
   @param folded true if the headder is folded into multiple lines
   @returns the end index of the header, -1 if the @p dataBegin was -1.
 */
-extern int findHeaderLineEnd(QByteArrayView src, int &dataBegin, bool *folded = nullptr);
+qsizetype findHeaderLineEnd(QByteArrayView src, qsizetype &dataBegin, bool *folded = nullptr);
 
 /**
   Tries to extract the header with name @p name from the string
@@ -53,7 +55,7 @@ QByteArray extractHeader(const QByteArray &src, const QByteArray &name);
   @param folded true if the headder is folded into multiple lines
   @returns the begin index of the header, -1 if not found.
 */
-extern int indexOfHeader(const QByteArray &src, const QByteArray &name, int &end, int &dataBegin, bool *folded = nullptr);
+qsizetype indexOfHeader(const QByteArray &src, const QByteArray &name, qsizetype &end, qsizetype &dataBegin, bool *folded = nullptr);
 
 /**
  *  Uses current time, pid and random numbers to construct a string

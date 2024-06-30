@@ -2054,11 +2054,11 @@ bool parseDateTime(const char *&scursor, const char *const send,
 
 namespace {
 
-Headers::Base *extractHeader(QByteArrayView head, const int headerStart, int &endOfFieldBody)
+Headers::Base *extractHeader(QByteArrayView head, const qsizetype headerStart, qsizetype &endOfFieldBody)
 {
     Headers::Base *header = {};
 
-    int startOfFieldBody = head.indexOf(':', headerStart);
+    auto startOfFieldBody = head.indexOf(':', headerStart);
     if (startOfFieldBody < 0) {
         return nullptr;
     }
@@ -2096,7 +2096,7 @@ Headers::Base *extractHeader(QByteArrayView head, const int headerStart, int &en
 
 std::unique_ptr<KMime::Headers::Base> parseNextHeader(QByteArrayView &head)
 {
-    int endOfFieldBody = 0;
+    qsizetype endOfFieldBody = 0;
     std::unique_ptr<KMime::Headers::Base> header(extractHeader(head, 0, endOfFieldBody));
     if (header) {
         head = head.mid(endOfFieldBody + 1);
@@ -2118,7 +2118,7 @@ void extractHeaderAndBody(const QByteArray &content, QByteArray &header, QByteAr
         return;
     }
 
-    int pos = content.indexOf("\n\n", 0);
+    auto pos = content.indexOf("\n\n", 0);
     if (pos > -1) {
         header = content.left(++pos);    //header *must* end with "\n" !!
         body = content.mid(pos + 1);
@@ -2133,10 +2133,10 @@ void extractHeaderAndBody(const QByteArray &content, QByteArray &header, QByteAr
 QList<Headers::Base *> parseHeaders(const QByteArray &head) {
     QList<Headers::Base *> ret;
 
-    int cursor = 0;
+    qsizetype cursor = 0;
     while (cursor < head.size()) {
-        const int headerStart = cursor;
-        int endOfFieldBody;
+        const auto headerStart = cursor;
+        qsizetype endOfFieldBody;
         if (auto header = extractHeader(head, headerStart, endOfFieldBody)) {
             ret << header;
             cursor = endOfFieldBody + 1;

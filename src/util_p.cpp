@@ -19,10 +19,10 @@
 
 using namespace KMime;
 
-int KMime::findHeaderLineEnd(QByteArrayView src, int &dataBegin, bool *folded)
+qsizetype KMime::findHeaderLineEnd(QByteArrayView src, qsizetype &dataBegin, bool *folded)
 {
-    int end = dataBegin;
-    int len = src.length() - 1;
+    auto end = dataBegin;
+    auto len = src.length() - 1;
 
     if (folded) {
         *folded = false;
@@ -94,11 +94,11 @@ static const char *strcasestr(const char *haystack, const char *needle)
 }
 #endif
 
-int KMime::indexOfHeader(const QByteArray &src, const QByteArray &name, int &end, int &dataBegin, bool *folded)
+qsizetype KMime::indexOfHeader(const QByteArray &src, const QByteArray &name, qsizetype &end, qsizetype &dataBegin, bool *folded)
 {
     QByteArray n = name;
     n.append(':');
-    int begin = -1;
+    qsizetype begin = -1;
 
     if (qstrnicmp(n.constData(), src.constData(), n.length()) == 0) {
         begin = 0;
@@ -131,8 +131,8 @@ int KMime::indexOfHeader(const QByteArray &src, const QByteArray &name, int &end
 
 QByteArray KMime::extractHeader(const QByteArray &src, const QByteArray &name)
 {
-    int begin;
-    int end;
+    qsizetype begin;
+    qsizetype end;
     bool folded;
     QByteArray result;
 

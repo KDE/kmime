@@ -31,9 +31,9 @@ bool MultiPart::parse()
 {
     QByteArray b = "--" + m_boundary;
     QByteArray part;
-    int pos1 = 0;
-    int pos2 = 0;
-    int blen = b.length();
+    qsizetype pos1 = 0;
+    qsizetype pos2 = 0;
+    auto blen = b.length();
 
     m_parts.clear();
 
@@ -119,7 +119,7 @@ QByteArray NonMimeParser::guessMimeType(const QByteArray &fileName)
     QByteArray mimeType;
 
     if (!fileName.isEmpty()) {
-        int pos = fileName.lastIndexOf('.');
+        auto pos = fileName.lastIndexOf('.');
         if (pos++ != -1) {
             tmp = fileName.mid(pos, fileName.length() - pos).toUpper();
             if (tmp == "JPG" || tmp == "JPEG") {
@@ -317,12 +317,12 @@ bool YENCEncoded::yencMeta(QByteArray &src, const QByteArray &name, int *value)
     bool found = false;
     QByteArray sought = name + '=';
 
-    int iPos = src.indexOf(sought);
+    auto iPos = src.indexOf(sought);
     if (iPos > -1) {
-        int pos1 = src.indexOf(' ', iPos);
-        int pos2 = src.indexOf('\r', iPos);
-        int pos3 = src.indexOf('\t', iPos);
-        int pos4 = src.indexOf('\n', iPos);
+        auto pos1 = src.indexOf(' ', iPos);
+        auto pos2 = src.indexOf('\r', iPos);
+        auto pos3 = src.indexOf('\t', iPos);
+        auto pos4 = src.indexOf('\n', iPos);
         if (pos2 >= 0 && (pos1 < 0 || pos1 > pos2)) {
             pos1 = pos2;
         }
@@ -346,11 +346,11 @@ bool YENCEncoded::yencMeta(QByteArray &src, const QByteArray &name, int *value)
 
 bool YENCEncoded::parse()
 {
-    int currentPos = 0;
+    qsizetype currentPos = 0;
     bool success = true;
     while (success) {
-        int beginPos = currentPos;
-        int yencStart = currentPos;
+        qsizetype beginPos = currentPos;
+        qsizetype yencStart = currentPos;
         bool containsPart = false;
         QByteArray fileName;
 
@@ -376,12 +376,12 @@ bool YENCEncoded::parse()
 
             // Filenames can contain any embedded chars until end of line
             QByteArray meta = m_src.mid(beginPos, yencStart - beginPos);
-            int namePos = meta.indexOf("name=");
+            qsizetype namePos = meta.indexOf("name=");
             if (namePos == -1) {
                 success = false;
                 break;
             }
-            int eolPos = meta.indexOf('\r', namePos);
+            qsizetype eolPos = meta.indexOf('\r', namePos);
             if (eolPos == -1) {
                 eolPos = meta.indexOf('\n', namePos);
             }
@@ -427,8 +427,8 @@ bool YENCEncoded::parse()
 
             // We have a valid yenc header; now we extract the binary data
             int totalSize = 0;
-            int pos = yencStart;
-            int len = m_src.length();
+            qsizetype pos = yencStart;
+            qsizetype len = m_src.length();
             bool lineStart = true;
             int lineLength = 0;
             bool containsEnd = false;

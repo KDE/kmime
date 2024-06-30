@@ -157,7 +157,7 @@ QByteArray CRLFtoLF(const QByteArray &s)
 
 QByteArray LFtoCRLF(const QByteArray &s)
 {
-    const int firstNewline = s.indexOf('\n');
+    const auto firstNewline = s.indexOf('\n');
     if (firstNewline == -1) {
         return s;
     }
