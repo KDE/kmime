@@ -76,12 +76,12 @@ protected:
 class UUEncoded : public NonMimeParser
 {
 public:
-    UUEncoded(const QByteArray &src, const QByteArray &subject);
+    UUEncoded(const QByteArray &src, const QByteArray &head);
 
     [[nodiscard]] bool parse();
 
   private:
-    QByteArray m_subject;
+    QByteArray m_head;
 };
 
 /** Helper-class: tries to extract the data from a possibly

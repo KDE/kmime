@@ -846,7 +846,7 @@ QList<Content *> ContentPrivate::contents() const {
 
 bool ContentPrivate::parseUuencoded(Content *q)
 {
-    Parser::UUEncoded uup(body, KMime::extractHeader(head, "Subject"));
+    Parser::UUEncoded uup(body, head);
     if (!uup.parse()) {
         return false; // Parsing failed.
     }

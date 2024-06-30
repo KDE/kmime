@@ -8,6 +8,7 @@
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 #include "parsers_p.h"
+#include "util_p.h"
 
 #include <QRegularExpression>
 
@@ -175,8 +176,8 @@ QByteArray NonMimeParser::guessMimeType(const QByteArray &fileName)
     return -1;
 }
 
-UUEncoded::UUEncoded(const QByteArray &src, const QByteArray &subject) :
-    NonMimeParser(src), m_subject(subject)
+UUEncoded::UUEncoded(const QByteArray &src, const QByteArray &head) :
+    NonMimeParser(src), m_head(head)
 {}
 
 bool UUEncoded::parse()
@@ -246,14 +247,15 @@ bool UUEncoded::parse()
                 break; //too many "non-M-Lines" found, we give up
             }
 
-            if ((!containsBegin || !containsEnd) && !m_subject.isNull()) {
+            const auto subject = KMime::extractHeader(m_head, "Subject");
+            if ((!containsBegin || !containsEnd) && !subject.isNull()) {
                 // message may be split up => parse subject
                 const QRegularExpression subjectRegex(QStringLiteral("[0-9]+/[0-9]+"));
-                const auto match = subjectRegex.match(QLatin1StringView(m_subject));
+                const auto match = subjectRegex.match(QLatin1StringView(subject));
                 pos = match.capturedStart(0);
                 len = match.capturedLength(0);
                 if (pos != -1) {
-                    tmp = m_subject.mid(pos, len);
+                    tmp = subject.mid(pos, len);
                     pos = tmp.indexOf('/');
                     m_partNr = tmp.left(pos).toInt();
                     m_totalNr = tmp.right(tmp.length() - pos - 1).toInt();
