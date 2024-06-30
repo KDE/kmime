@@ -700,11 +700,11 @@ bool parseDotAtom(const char *&scursor, const char *const send,
     // always points to just after the last atom parsed:
     const char *successfullyParsed;
 
-    QByteArray tmp;
-    if (!parseAtom(scursor, send, tmp, false /* no 8bit */)) {
+    QByteArray maybeAtom;
+    if (!parseAtom(scursor, send, maybeAtom, false /* no 8bit */)) {
         return false;
     }
-    result += tmp;
+    result += maybeAtom;
     successfullyParsed = scursor;
 
     while (scursor != send) {
@@ -724,7 +724,7 @@ bool parseDotAtom(const char *&scursor, const char *const send,
         }
 
         // try to parse the next atom:
-        QByteArray maybeAtom;
+        maybeAtom.clear();
         if (!parseAtom(scursor, send, maybeAtom, false /*no 8bit*/)) {
             scursor = successfullyParsed;
             return true;
