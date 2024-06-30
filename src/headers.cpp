@@ -1819,8 +1819,10 @@ bool ContentType::parse(const char *&scursor, const char *const send,
     }
 
     d->mimeType.reserve(maybeMimeType.second + maybeSubType.second + 1);
-    d->mimeType = QByteArray(maybeMimeType.first, maybeMimeType.second).toLower()
-                    + '/' + QByteArray(maybeSubType.first, maybeSubType.second).toLower();
+    d->mimeType.append(QByteArrayView(maybeMimeType.first, maybeMimeType.second));
+    d->mimeType.append('/');
+    d->mimeType.append(QByteArrayView(maybeSubType.first, maybeSubType.second));
+    d->mimeType = std::move(d->mimeType).toLower();
 
     // parameter list
     eatCFWS(scursor, send, isCRLF);
