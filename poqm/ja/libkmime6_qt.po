@@ -19,7 +19,7 @@ msgstr ""
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Accelerator-Marker: &\n"
-"X-Text-Markup: kde4\n"
+"X-Text-Markup: qtrich\n"
 
 #: mdn.cpp:53
 #, fuzzy
