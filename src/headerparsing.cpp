@@ -2086,7 +2086,7 @@ Headers::Base *extractHeader(QByteArrayView head, const qsizetype headerStart, q
         const auto unfoldedBody = unfoldHeader(head.constData() + startOfFieldBody, endOfFieldBody - startOfFieldBody);
         header->from7BitString(unfoldedBody);
     } else {
-        header->from7BitString(head.constData() + startOfFieldBody, endOfFieldBody - startOfFieldBody);
+        header->from7BitString(QByteArrayView(head.constData() + startOfFieldBody, endOfFieldBody - startOfFieldBody));
     }
 
     return header;

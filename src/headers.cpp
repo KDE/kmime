@@ -105,11 +105,6 @@ Base::~Base()
     d_ptr = nullptr;
 }
 
-void Base::from7BitString(const char *s, size_t len)
-{
-    from7BitString(QByteArray::fromRawData(s, len));
-}
-
 QByteArray Base::rfc2047Charset() const
 {
     if (d_ptr->encCS.isEmpty()) {
@@ -166,7 +161,7 @@ Unstructured::~Unstructured()
     d_ptr = nullptr;
 }
 
-void Unstructured::from7BitString(const QByteArray &s)
+void Unstructured::from7BitString(QByteArrayView s)
 {
     Q_D(Unstructured);
     d->decoded = KCodecs::decodeRFC2047String(s, &d->encCS, QByteArrayLiteral("UTF-8"));
@@ -225,27 +220,14 @@ Structured::~Structured()
 }
 
 
-void Structured::from7BitString(const char *s, size_t len)
+void Structured::from7BitString(QByteArrayView s)
 {
     Q_D(Structured);
     if (d->encCS.isEmpty()) {
         d->encCS = QByteArrayLiteral("UTF-8");
     }
-    parse(s, s + len);
-}
-
-void Structured::from7BitString(const QByteArray &s)
-{
-#if 0
-    Q_D(Structured);
-    //Bug about mailto with space which are replaced by "_" so it failed to parse
-    //=> we reconvert to correct encoding as RFC2047
-    const QString str = KCodecs::decodeRFC2047String(s, &d->encCS, Content::defaultCharset());
-    const QByteArray ba = KCodecs::encodeRFC2047String(str, d->encCS);
-    from7BitString(ba.constData(), ba.length());
-#else
-    from7BitString(s.constData(), s.length());
-#endif
+    auto p = s.data();
+    parse(p, p + s.size());
 }
 
 QString Structured::asUnicodeString() const
