@@ -9,3 +9,9 @@ Dependencies:
 
 Options:
   require-passing-tests-on: [ '@all' ]
+  cppcheck-arguments:
+    - --enable=warning,style,performance
+    - -DKMIME_VERSION_STRING="1.1"
+    - --suppress-xml=cppcheck-suppressions.xml
+  cppcheck-ignore-files:
+    - autotests
