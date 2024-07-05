@@ -879,8 +879,7 @@ bool ContentPrivate::parseUuencoded(Content *q)
         for (int i = 0; i < uup.binaryParts().count(); ++i) {
             auto c = new Content(q);
             c->contentType()->setMimeType(uup.mimeTypes().at(i));
-            c->contentType()->setName(QLatin1StringView(uup.filenames().at(i)),
-                                      QByteArray(/*charset*/));
+            c->contentType()->setName(QLatin1StringView(uup.filenames().at(i)));
             c->contentTransferEncoding()->setEncoding(Headers::CEuuenc);
             c->contentDisposition()->setDisposition(Headers::CDattachment);
             c->contentDisposition()->setFilename(
@@ -935,8 +934,7 @@ bool ContentPrivate::parseYenc(Content *q)
         for (int i = 0; i < yenc.binaryParts().count(); i++) {
             auto c = new Content(q);
             c->contentType()->setMimeType(yenc.mimeTypes().at(i));
-            c->contentType()->setName(QLatin1StringView(yenc.filenames().at(i)),
-                                      QByteArray(/*charset*/));
+            c->contentType()->setName(QLatin1StringView(yenc.filenames().at(i)));
             c->contentTransferEncoding()->setEncoding(Headers::CEbinary);
             c->contentDisposition()->setDisposition(Headers::CDattachment);
             c->contentDisposition()->setFilename(

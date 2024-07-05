@@ -156,7 +156,7 @@ void HeaderTest::testAddressListHeader()
     // a display name with non-latin1 content in both name components
     h = new Headers::Generics::AddressList();
     const QString testAddress = QString::fromUtf8("Ingö Klöcker <kloecker@kde.org>");
-    h->fromUnicodeString(testAddress, "utf-8");
+    h->fromUnicodeString(testAddress);
     QCOMPARE(h->asUnicodeString(), testAddress);
     delete h;
 
@@ -164,7 +164,7 @@ void HeaderTest::testAddressListHeader()
         // a display name with non-latin1 content in both name components
         h = new Headers::Generics::AddressList();
         const QString testAddress = QString::fromUtf8("\"Rüedi-Huser, Thomas\" <test@test.org>");
-        h->fromUnicodeString(testAddress, "utf-8");
+        h->fromUnicodeString(testAddress);
         QEXPECT_FAIL("", "AddressList::prettyAddresses() does not quote the mailbox correctly", Continue);
         QCOMPARE(h->asUnicodeString(), testAddress);
         delete h;
@@ -209,7 +209,7 @@ void HeaderTest::testAddressListHeader()
 
     // parsing from utf-8
     h = new Headers::Generics::AddressList();
-    h->fromUnicodeString(QString::fromUtf8("Ingo Klöcker <kloecker@kde.org>"), "utf-8");
+    h->fromUnicodeString(QString::fromUtf8("Ingo Klöcker <kloecker@kde.org>"));
     QCOMPARE(h->addresses().count(), 1);
     QCOMPARE(h->addresses().first(), QByteArray("kloecker@kde.org"));
     QCOMPARE(h->displayNames().first(), QString::fromUtf8("Ingo Klöcker"));
@@ -1130,7 +1130,7 @@ void HeaderTest::testBug271192()
         QLatin1StringView(" <") + addrSpec + QLatin1StringView(">");
 
     auto h = new Headers::Generics::SingleMailbox();
-    h->fromUnicodeString(mailbox, "utf-8");
+    h->fromUnicodeString(mailbox);
     QCOMPARE(h->displayNames().size(), 1);
     QCOMPARE(h->displayNames().first().toUtf8(),
              displayName.remove(QLatin1StringView("\\")).toUtf8());
@@ -1138,7 +1138,7 @@ void HeaderTest::testBug271192()
     h = nullptr;
 
     auto h2 = new Headers::Generics::MailboxList();
-    h2->fromUnicodeString(mailbox + QLatin1StringView(",") + mailbox, "utf-8");
+    h2->fromUnicodeString(mailbox + QLatin1StringView(",") + mailbox);
     QCOMPARE(h2->displayNames().size(), 2);
     QCOMPARE(h2->displayNames()[0].toUtf8(),
              displayName.remove(QLatin1StringView("\\")).toUtf8());

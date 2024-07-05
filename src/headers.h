@@ -136,11 +136,16 @@ public:
   void setRFC2047Charset(const QByteArray &cs);
 
   /**
-    Parses the given string and set the charset.
-    @param s The header data as unicode string.
-    @param b The charset preferred for encoding.
+    Parses the given Unicode representation of the header content.
+    @param s The header data as Unicode string.
   */
-  virtual void fromUnicodeString(const QString &s, const QByteArray &b) = 0;
+  virtual void fromUnicodeString(const QString &s) = 0;
+  [[deprecated("call setRFC2047Charset for the second argument if different from UTF-8, otherwise remove second argument")]]
+  inline void fromUnicodeString(const QString &s, const QByteArray &b)
+  {
+    setRFC2047Charset(b);
+    fromUnicodeString(s);
+  }
 
   /**
     Returns the decoded content of the header without the header-type.
@@ -228,7 +233,8 @@ public:
     void from7BitString(QByteArrayView s) override;
     QByteArray as7BitString(bool withHeaderType = true) const override;
 
-    void fromUnicodeString(const QString &s, const QByteArray &b) override;
+    void fromUnicodeString(const QString &s) override;
+    using Base::fromUnicodeString;
     QString asUnicodeString() const override;
 
     void clear() override;
@@ -279,7 +285,8 @@ public:
 
     void from7BitString(QByteArrayView s) override;
     QString asUnicodeString() const override;
-    void fromUnicodeString(const QString &s, const QByteArray &b) override;
+    void fromUnicodeString(const QString &s) override;
+    using Base::fromUnicodeString;
 
 protected:
     /**
@@ -335,7 +342,8 @@ class KMIME_EXPORT MailboxList : public Address
     //@endcond
 public:
     QByteArray as7BitString(bool withHeaderType = true) const override;
-    void fromUnicodeString(const QString &s, const QByteArray &b) override;
+    void fromUnicodeString(const QString &s) override;
+    using Base::fromUnicodeString;
     QString asUnicodeString() const override;
 
     void clear() override;
@@ -425,7 +433,8 @@ class KMIME_EXPORT AddressList : public Address
     //@endcond
 public:
     QByteArray as7BitString(bool withHeaderType = true) const override;
-    void fromUnicodeString(const QString &s, const QByteArray &b) override;
+    void fromUnicodeString(const QString &s) override;
+    using Base::fromUnicodeString;
     QString asUnicodeString() const override;
 
     void clear() override;
@@ -1055,9 +1064,15 @@ public:
     QString name() const;
 
     /**
-      Sets the name to @p s using charset @p cs.
+      Sets the name to @p s.
     */
-    void setName(const QString &s, const QByteArray &cs);
+    void setName(const QString &s);
+    [[deprecated("call setRFC2047Charset for the second argument if different from UTF-8, otherwise remove second argument")]]
+    inline void setName(const QString &s, const QByteArray &cs)
+    {
+        setRFC2047Charset(cs);
+        setName(s);
+    }
 
     /**
       Returns the identifier of the associated MIME entity.
@@ -1313,7 +1328,8 @@ class KMIME_EXPORT Newsgroups : public Generics::Structured
     //@endcond
 public:
     QByteArray as7BitString(bool withHeaderType = true) const override;
-    void fromUnicodeString(const QString &s, const QByteArray &b) override;
+    void fromUnicodeString(const QString &s) override;
+    using Base::fromUnicodeString;
     QString asUnicodeString() const override;
     void clear() override;
     bool isEmpty() const override;

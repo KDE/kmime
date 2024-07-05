@@ -35,11 +35,11 @@ class MessagePrivate;
  * cte->setEncoding(Headers::CE7Bit);
  *
  * // Set the headers.
- * m->from()->fromUnicodeString( "some@mailaddy.com", "utf-8" );
- * m->to()->fromUnicodeString( "someother@mailaddy.com", "utf-8" );
- * m->cc()->fromUnicodeString( "some@mailaddy.com", "utf-8" );
- * m->date()->setDateTime( QDateTime::currentLocalDateTime() );
- * m->subject()->fromUnicodeString( "My Subject", "utf-8" );
+ * m->from()->fromUnicodeString("some@mailaddy.com");
+ * m->to()->fromUnicodeString("someother@mailaddy.com");
+ * m->cc()->fromUnicodeString("some@mailaddy.com");
+ * m->date()->setDateTime(QDateTime::currentLocalDateTime());
+ * m->subject()->fromUnicodeString("My Subject");
  *
  * // Set the first multipart, the body message.
  * KMime::Content *b = new KMime::Content;

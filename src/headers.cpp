@@ -175,16 +175,15 @@ QByteArray Unstructured::as7BitString(bool withHeaderType) const
     if (withHeaderType) {
         result = typeIntro();
     }
-    result += encodeRFC2047String(d->decoded, d->encCS) ;
+    result += encodeRFC2047String(d->decoded, rfc2047Charset()) ;
 
     return result;
 }
 
-void Unstructured::fromUnicodeString(const QString &s, const QByteArray &b)
+void Unstructured::fromUnicodeString(const QString &s)
 {
     Q_D(Unstructured);
     d->decoded = s;
-    d->encCS = cachedCharset(b);
 }
 
 QString Unstructured::asUnicodeString() const
@@ -236,10 +235,9 @@ QString Structured::asUnicodeString() const
     return QString::fromLatin1(as7BitString(false));
 }
 
-void Structured::fromUnicodeString(const QString &s, const QByteArray &b)
+void Structured::fromUnicodeString(const QString &s)
 {
     Q_D(Structured);
-    d->encCS = cachedCharset(b);
     from7BitString(s.toLatin1());
 }
 
@@ -291,18 +289,17 @@ QByteArray MailboxList::as7BitString(bool withHeaderType) const
         rv = typeIntro();
     }
     for (const Types::Mailbox &mbox : std::as_const(d->mailboxList)) {
-        rv += mbox.as7BitString(d->encCS);
+        rv += mbox.as7BitString(rfc2047Charset());
         rv += ", ";
     }
     rv.resize(rv.length() - 2);
     return rv;
 }
 
-void MailboxList::fromUnicodeString(const QString &s, const QByteArray &b)
+void MailboxList::fromUnicodeString(const QString &s)
 {
     Q_D(MailboxList);
-    d->encCS = cachedCharset(b);
-    from7BitString(encodeRFC2047Sentence(s, b));
+    from7BitString(encodeRFC2047Sentence(s, rfc2047Charset()));
 }
 
 QString MailboxList::asUnicodeString() const
@@ -458,7 +455,7 @@ QByteArray AddressList::as7BitString(bool withHeaderType) const
     for (const Types::Address &addr : std::as_const(d->addressList)) {
         const auto mailBoxList = addr.mailboxList;
         for (const Types::Mailbox &mbox : mailBoxList) {
-            rv += mbox.as7BitString(d->encCS);
+            rv += mbox.as7BitString(rfc2047Charset());
             rv += ", ";
         }
     }
@@ -466,11 +463,10 @@ QByteArray AddressList::as7BitString(bool withHeaderType) const
     return rv;
 }
 
-void AddressList::fromUnicodeString(const QString &s, const QByteArray &b)
+void AddressList::fromUnicodeString(const QString &s)
 {
     Q_D(AddressList);
-    d->encCS = cachedCharset(b);
-    from7BitString(encodeRFC2047Sentence(s, b));
+    from7BitString(encodeRFC2047Sentence(s, rfc2047Charset()));
 }
 
 QString AddressList::asUnicodeString() const
@@ -669,7 +665,7 @@ QByteArray PhraseList::as7BitString(bool withHeaderType) const
 
     for (int i = 0; i < d->phraseList.count(); ++i) {
         // FIXME: only encode when needed, quote when needed, etc.
-        rv += encodeRFC2047String(d->phraseList[i], d->encCS, false);
+        rv += encodeRFC2047String(d->phraseList[i], rfc2047Charset(), false);
         if (i != d->phraseList.count() - 1) {
             rv += ", ";
         }
@@ -831,7 +827,7 @@ QByteArray Parametrized::as7BitString(bool withHeaderType) const
             rv += tmp;
         } else {
             rv += it.key().toLatin1() + "*=";
-            rv += encodeRFC2231String(it.value(), d->encCS);
+            rv += encodeRFC2231String(it.value(), rfc2047Charset());
         }
     }
 
@@ -1082,7 +1078,7 @@ QByteArray ReturnPath::as7BitString(bool withHeaderType) const
     if (withHeaderType) {
         rv += typeIntro();
     }
-    rv += '<' + d_func()->mailbox.as7BitString(d_func()->encCS) + '>';
+    rv += '<' + d_func()->mailbox.as7BitString(rfc2047Charset()) + '>';
     return rv;
 }
 
@@ -1484,8 +1480,7 @@ QByteArray Newsgroups::as7BitString(bool withHeaderType) const {
     return rv;
 }
 
-void Newsgroups::fromUnicodeString(const QString & s, const QByteArray & b) {
-    Q_UNUSED(b)
+void Newsgroups::fromUnicodeString(const QString & s) {
     Q_D(Newsgroups);
     from7BitString(s.toUtf8());
     d->encCS = cachedCharset("UTF-8");
@@ -1734,9 +1729,8 @@ QString ContentType::name() const {
     return parameter(QStringLiteral("name"));
 }
 
-void ContentType::setName(const QString & s, const QByteArray & cs) {
+void ContentType::setName(const QString & s) {
     Q_D(ContentType);
-    d->encCS = cs;
     setParameter(QStringLiteral("name"), s);
 }
 

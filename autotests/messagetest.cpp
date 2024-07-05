@@ -544,7 +544,7 @@ void MessageTest::testEncapsulatedMessages()
              encapsulated->storageSize());
 
     // Now change some properties on the encapsulated message
-    encapsulated->subject()->fromUnicodeString(QStringLiteral("New subject"), "us-ascii");
+    encapsulated->subject()->fromUnicodeString(QStringLiteral("New subject"));
     encapsulated->fromUnicodeString(QStringLiteral("New body string."));
 
     // Since we didn't assemble the encapsulated message yet, it should still have the old headers

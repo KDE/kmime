@@ -59,7 +59,7 @@ void AttachmentTest::testIsAttachment()
         c->contentType()->setMimeType(mimeType);
     }
     if (!name.isEmpty()) {
-        c->contentType()->setName(name, "utf-8");
+        c->contentType()->setName(name);
     }
     if (!fileName.isEmpty()) {
         c->contentDisposition()->setFilename(fileName);
@@ -142,7 +142,7 @@ void AttachmentTest::testHasAttachment()
 
     c1 = new KMime::Content;
     c1->contentType()->setMimeType("text/plain");
-    c1->contentType()->setName(QStringLiteral("file.txt"), "utf-8");
+    c1->contentType()->setName(QStringLiteral("file.txt"));
     root->prependContent(c1);
     QCOMPARE(KMime::isAttachment(c1), false);
     QCOMPARE(KMime::hasAttachment(c1), false);
@@ -161,7 +161,7 @@ void AttachmentTest::testNestedMultipart()
 
     auto sig = new KMime::Content;
     sig->contentType()->setMimeType("application/pgp-signature");
-    sig->contentType()->setName(QStringLiteral("signature.asc"), "utf-8");
+    sig->contentType()->setName(QStringLiteral("signature.asc"));
     root->appendContent(sig);
     root->contentType()->setMimeType("multipart/signed");
 
@@ -169,7 +169,7 @@ void AttachmentTest::testNestedMultipart()
 
     auto att = new KMime::Content;
     att->contentType()->setMimeType("image/jpeg");
-    att->contentType()->setName(QStringLiteral("attachment.jpg"), "utf-8");
+    att->contentType()->setName(QStringLiteral("attachment.jpg"));
     mixed->appendContent(att);
 
     mixed->contentType()->setMimeType("multipart/mixed");
