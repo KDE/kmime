@@ -86,12 +86,6 @@ class Message;
                         A call to parse() is required before the child multipart contents or the
                         encapsulated message is created.
 */
-/*
-  KDE5:
-  * Do not convert singlepart <-> multipart automatically.
-  * A bunch of methods probably don't need to be virtual (since they're not needed
-    in either Message or NewsArticle).
-*/
 class KMIME_EXPORT Content
 {
 public:
