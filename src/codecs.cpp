@@ -201,10 +201,9 @@ QByteArray encodeRFC2231String(QStringView str, const QByteArray &charset)
     for (l = latin.data(); *l; ++l) {
         bool needsQuoting = (*l & 0x80) || (*l == '%');
         if (!needsQuoting) {
-            const QByteArray especials = "()<>@,;:\"/[]?.= \033";
-            int len = especials.length();
-            for (int i = 0; i < len; i++) {
-                if (*l == especials[i]) {
+            constexpr const char especials[] = "()<>@,;:\"/[]?.= \033";
+            for (const auto especial :especials) {
+                if (*l == especial) {
                     needsQuoting = true;
                     break;
                 }
