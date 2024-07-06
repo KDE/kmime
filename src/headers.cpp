@@ -1153,7 +1153,7 @@ Generic::Generic() : Generics::Unstructured(new GenericPrivate)
 {
 }
 
-Generic::Generic(const char *t, int len) : Generics::Unstructured(new GenericPrivate)
+Generic::Generic(const char *t, qsizetype len) : Generics::Unstructured(new GenericPrivate)
 {
     setType(t, len);
 }
@@ -1183,14 +1183,14 @@ const char *Generic::type() const
     return d_func()->type;
 }
 
-void Generic::setType(const char *type, int len)
+void Generic::setType(const char *type, qsizetype len)
 {
     Q_D(Generic);
     if (d->type) {
         delete[] d->type;
     }
     if (type) {
-        const int l = (len < 0 ? strlen(type) : len) + 1;
+        const auto l = (len < 0 ? strlen(type) : len) + 1;
         d->type = new char[l];
         qstrncpy(d->type, type, l);
     } else {
@@ -1628,7 +1628,7 @@ QByteArray ContentType::mimeType() const {
 
 QByteArray ContentType::mediaType() const {
     Q_D(const ContentType);
-    const int pos = d->mimeType.indexOf('/');
+    const auto pos = d->mimeType.indexOf('/');
     if (pos < 0) {
         return d->mimeType;
     } else {
@@ -1638,7 +1638,7 @@ QByteArray ContentType::mediaType() const {
 
 QByteArray ContentType::subType() const {
     Q_D(const ContentType);
-    const int pos = d->mimeType.indexOf('/');
+    const auto pos = d->mimeType.indexOf('/');
     if (pos < 0) {
       return {};
     } else {
@@ -1653,18 +1653,18 @@ void ContentType::setMimeType(const QByteArray & mimeType) {
 
 bool ContentType::isMediatype(const char *mediatype) const {
     Q_D(const ContentType);
-    const int len = strlen(mediatype);
+    const auto len = (qsizetype)strlen(mediatype);
     return qstrnicmp(d->mimeType.constData(), mediatype, len) == 0 &&
             (d->mimeType.at(len) == '/' || d->mimeType.size() == len);
 }
 
 bool ContentType::isSubtype(const char *subtype) const {
     Q_D(const ContentType);
-    const int pos = d->mimeType.indexOf('/');
+    const auto pos = d->mimeType.indexOf('/');
     if (pos < 0) {
         return false;
     }
-    const int len = strlen(subtype);
+    const auto len = (qsizetype)strlen(subtype);
     return qstrnicmp(d->mimeType.constData() + pos + 1, subtype, len) == 0 &&
             d->mimeType.size() == pos + len + 1;
 }
@@ -1896,10 +1896,10 @@ kmime_mk_trivial_ctor_with_name_and_dptr(ContentTransferEncoding,
         Generics::Token, Content-Transfer-Encoding)
 //@endcond
 
-typedef struct {
+struct encTableType {
     const char *s;
     int e;
-} encTableType;
+};
 
 static const encTableType encTable[] = {
     { "7Bit", CE7Bit },

@@ -401,12 +401,12 @@ public:
     (If the encoding is quoted-printable, this is only an approximate size.)
     This will return 0 for multipart contents or for encapsulated messages.
   */
-  [[nodiscard]] int size() const;
+  [[nodiscard]] qsizetype size() const;
 
   /**
     Returns the size of this Content and all sub-Contents.
   */
-  [[nodiscard]] int storageSize() const;
+  [[nodiscard]] qsizetype storageSize() const;
 
   /**
     Returns the Content body raw data.
@@ -642,7 +642,7 @@ public:
 
     @param index The Content index.
   */
-  Content *content(const ContentIndex &index) const;
+  [[nodiscard]] Content *content(const ContentIndex &index) const;
 
   /**
     Returns the ContentIndex for the given Content, or an invalid index

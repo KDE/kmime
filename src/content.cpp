@@ -617,9 +617,9 @@ bool Content::hasHeader(const char* type) const
     return headerByType(type) != nullptr;
 }
 
-int Content::size() const
+qsizetype Content::size() const
 {
-    int ret = d_ptr->body.length();
+    const auto ret = d_ptr->body.size();
 
     if (const auto cte = contentTransferEncoding(); cte && cte->encoding() == Headers::CEbase64) {
         KCodecs::Codec *codec = KCodecs::Codec::codecForName("base64");
@@ -633,10 +633,10 @@ int Content::size() const
     return ret;
 }
 
-int Content::storageSize() const
+qsizetype Content::storageSize() const
 {
     const Q_D(Content);
-    int s = d->head.size();
+    auto s = d->head.size();
 
     if (d->contents().isEmpty()) {
         s += d->body.size();
@@ -710,7 +710,7 @@ Content *KMime::Content::content(const ContentIndex &index) const
 
 ContentIndex KMime::Content::indexForContent(Content *content) const
 {
-    int i = d_ptr->contents().indexOf(content);
+    const auto i = d_ptr->contents().indexOf(content);
     if (i >= 0) {
         ContentIndex ci;
         ci.push(i + 1);   // zero-based -> one-based index

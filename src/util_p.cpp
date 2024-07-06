@@ -243,7 +243,7 @@ QByteArray KMime::foldHeader(const QByteArray &header)
     }
 
     // fast forward to header body
-    int pos = header.indexOf(':') + 1;
+    auto pos = header.indexOf(':') + 1;
     if (pos <= 0 || pos >= header.length()) {
         return header;
     }
@@ -255,11 +255,11 @@ QByteArray KMime::foldHeader(const QByteArray &header)
     // (e.g. existing white space within a quoted string), and there are
     // positions which are recommended for inserting FWS (e.g. after comma
     // separator of an address list).
-    int eligible = pos;
-    int recommended = pos;
+    auto eligible = pos;
+    auto recommended = pos;
 
     // reflects start position of "current line" in byte array
-    int start = 0;
+    qsizetype start = 0;
 
     HeaderContext ctx;
 
@@ -267,7 +267,7 @@ QByteArray KMime::foldHeader(const QByteArray &header)
         if (pos - start > maxLen && eligible) {
             // Fold line preferably at recommended position, at eligible position
             // otherwise.
-            const int fws = recommended ? recommended : eligible;
+            const auto fws = recommended ? recommended : eligible;
             hdr.insert(fws, '\n');
             // We started a new line, so reset.
             if (eligible <= fws) {

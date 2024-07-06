@@ -205,7 +205,7 @@ bool parseEncodedWord(const char *&scursor, const char *const send,
     // qCDebug(KMIME_LOG) << "mimeName(): \"" << textCodec->name() << "\"";
 
     // allocate a temporary buffer to store the 8bit text:
-    int encodedTextLength = encodedTextEnd - encodedTextStart;
+    const auto encodedTextLength = encodedTextEnd - encodedTextStart;
     QByteArray buffer;
     buffer.resize(codec->maxDecodedSizeFor(encodedTextLength));
     char *bbegin = buffer.data();
@@ -1651,7 +1651,7 @@ static bool parseMonthName(const char *&scursor, const char *const send,
 
 static const struct {
     const char tzName[5];
-    long int secsEastOfGMT;
+    int secsEastOfGMT;
 } timeZones[] = {
     // rfc 822 timezones:
     { "GMT", 0 },

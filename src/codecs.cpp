@@ -54,7 +54,7 @@ QByteArray encodeRFC2047String(QStringView src, const QByteArray &charset,
         useQEncoding = true;
     }
 
-    int encoded8BitLength = encoded8Bit.length();
+    const auto encoded8BitLength = encoded8Bit.size();
     for (int i = 0; i < encoded8BitLength; i++) {
         if (encoded8Bit[i] == ' ') {   // encoding starts at word boundaries
             start = i + 1;
@@ -134,9 +134,9 @@ QByteArray encodeRFC2047Sentence(QStringView src, const QByteArray &charset)
 {
     QByteArray result;
     const QChar *ch = src.constData();
-    const int length = src.length();
-    int pos = 0;
-    int wordStart = 0;
+    const auto length = src.size();
+    qsizetype pos = 0;
+    qsizetype wordStart = 0;
 
     //qCDebug(KMIME_LOG) << "Input:" << src;
     // Loop over all characters of the string.
@@ -146,7 +146,7 @@ QByteArray encodeRFC2047Sentence(QStringView src, const QByteArray &charset)
         const bool isAscii = ch->unicode() < 127;
         const bool isReserved = (strchr(reservedCharacters, ch->toLatin1()) != nullptr);
         if (isAscii && isReserved) {
-            const int wordSize = pos - wordStart;
+            const auto wordSize = pos - wordStart;
             if (wordSize > 0) {
                 const auto word = src.mid(wordStart, wordSize);
                 result += encodeRFC2047String(word, charset);
@@ -160,7 +160,7 @@ QByteArray encodeRFC2047Sentence(QStringView src, const QByteArray &charset)
     }
 
     // Encode the last word
-    const int wordSize = pos - wordStart;
+    const auto wordSize = pos - wordStart;
     if (wordSize > 0) {
         const auto word = src.mid(wordStart, pos - wordStart);
         result += encodeRFC2047String(word, charset);
