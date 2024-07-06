@@ -31,7 +31,6 @@ static const char *tokenTypes[] = {
     "group",
     "address",
     "address-list",
-    "parameter-list",
     "time",
     "date-time"
 };
@@ -386,25 +385,6 @@ int main(int argc, char *argv[])
     }
     break;
     case 16: {
-        // parameter-list
-        QMap<QString, QString> result;
-        bool ok = parseParameterList(iit, iend, result, withCRLF);
-
-        cout << (ok ? "OK" : "BAD") << endl
-             << "result: " << result.count() << " parameters:"
-             << endl;
-        int i = 0;
-        for (QMap<QString, QString>::Iterator it = result.begin() ;
-                it != result.end() ; ++it, ++i) {
-            cout << "result[" << i << "].key() (attribute):\n"
-                 << it.key() << endl
-                 << "result[" << i << "].data() (value):\n"
-                 << it.value()
-                 << endl;
-        }
-    }
-    break;
-    case 17: {
         // time
         int hour;
         int mins;
@@ -424,7 +404,7 @@ int main(int argc, char *argv[])
              << endl;
     }
     break;
-    case 18: {
+    case 17: {
         // date-time
         QDateTime result;
         bool ok =  parseDateTime(iit, iend, result, withCRLF);

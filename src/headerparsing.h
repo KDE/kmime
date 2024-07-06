@@ -17,7 +17,6 @@
 
 #include <QDateTime>
 
-template <typename K, typename V> class QMap;
 #include <QStringList>
 
 namespace KMime
@@ -210,20 +209,6 @@ KMIME_EXPORT bool parseMailbox(const char *&scursor, const char *const send,
                                                  const char *const send,
                                                  Types::AddressList &result,
                                                  bool isCRLF = false);
-
-[[nodiscard]] KMIME_EXPORT bool
-parseParameterList(const char *&scursor, const char *const send,
-                   QMap<QString, QString> &result, bool isCRLF = false);
-
-/**
- * Extract the charset embedded in the parameter list if there is one.
- *
- * @since 4.5
- */
-[[nodiscard]] KMIME_EXPORT bool
-parseParameterListWithCharset(const char *&scursor, const char *const send,
-                              QMap<QString, QString> &result,
-                              QByteArray &charset, bool isCRLF = false);
 
 /**
   Parses an integer number.

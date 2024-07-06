@@ -26,6 +26,7 @@
 
 #include "headers.h"
 #include "headers_p.h"
+#include "headerparsing_p.h"
 
 #include "util.h"
 #include "util_p.h"
