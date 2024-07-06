@@ -22,9 +22,6 @@ namespace HeaderParsing
 
 [[nodiscard]] QList<KMime::Headers::Base *> parseHeaders(const QByteArray &head);
 
-[[nodiscard]] bool parseParameterList(const char *&scursor, const char *const send,
-                   QMap<QString, QString> &result, bool isCRLF = false);
-
 /**
  * Extract the charset embedded in the parameter list if there is one.
  *

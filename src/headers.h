@@ -1302,11 +1302,6 @@ public:
     */
     void setDateTime(const QDateTime &dt);
 
-    /**
-      Returns the age of the message.
-    */
-    int ageInDays() const;
-
 protected:
     bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
 

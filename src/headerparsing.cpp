@@ -1600,13 +1600,6 @@ bool parseParameterListWithCharset(const char *&scursor,
     return true;
 }
 
-bool parseParameterList(const char *&scursor, const char *const send,
-                        QMap<QString, QString> &result, bool isCRLF)
-{
-    QByteArray charset;
-    return parseParameterListWithCharset(scursor, send, result, charset, isCRLF);
-}
-
 static const char stdDayNames[][4] = {
     "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
 };

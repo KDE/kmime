@@ -1436,11 +1436,6 @@ void Date::setDateTime(const QDateTime & dt) {
     d->dateTime = dt;
 }
 
-int Date::ageInDays() const {
-    const QDate today = QDate::currentDate();
-    return dateTime().date().daysTo(today);
-}
-
 bool Date::parse(const char *&scursor, const char *const send, bool isCRLF) {
     Q_D(Date);
     const char *start = scursor;
