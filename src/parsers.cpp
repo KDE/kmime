@@ -10,6 +10,7 @@
 #include "parsers_p.h"
 #include "util_p.h"
 
+#include <QMimeDatabase>
 #include <QRegularExpression>
 
 #include <cctype>
@@ -108,55 +109,6 @@ NonMimeParser::NonMimeParser(const QByteArray &src) :
 }
 
 NonMimeParser::~NonMimeParser() = default;
-
-/**
- * try to guess the mimetype from the file-extension
- */
-
-QByteArray NonMimeParser::guessMimeType(const QByteArray &fileName)
-{
-    QByteArray tmp;
-    QByteArray mimeType;
-
-    if (!fileName.isEmpty()) {
-        auto pos = fileName.lastIndexOf('.');
-        if (pos++ != -1) {
-            tmp = fileName.mid(pos, fileName.length() - pos).toUpper();
-            if (tmp == "JPG" || tmp == "JPEG") {
-                mimeType = QByteArrayLiteral("image/jpeg");
-            } else if (tmp == "GIF") {
-                mimeType = QByteArrayLiteral("image/gif");
-            } else if (tmp == "PNG") {
-                mimeType = QByteArrayLiteral("image/png");
-            } else if (tmp == "TIFF" || tmp == "TIF") {
-                mimeType = QByteArrayLiteral("image/tiff");
-            } else if (tmp == "XPM") {
-                mimeType = QByteArrayLiteral("image/x-xpixmap");
-            } else if (tmp == "XBM") {
-                mimeType = QByteArrayLiteral("image/x-xbitmap");
-            } else if (tmp == "BMP") {
-                mimeType = QByteArrayLiteral("image/bmp");
-            } else if (tmp == "TXT" ||
-                       tmp == "ASC" ||
-                       tmp == "H" ||
-                       tmp == "C" ||
-                       tmp == "CC" ||
-                       tmp == "CPP") {
-                mimeType = QByteArrayLiteral("text/plain");
-            } else if (tmp == "HTML" || tmp == "HTM") {
-                mimeType = QByteArrayLiteral("text/html");
-            } else {
-                mimeType = QByteArrayLiteral("application/octet-stream");
-            }
-        } else {
-            mimeType = QByteArrayLiteral("application/octet-stream");
-        }
-    } else {
-        mimeType = QByteArrayLiteral("application/octet-stream");
-    }
-
-    return mimeType;
-}
 
 //==============================================================================
 
@@ -279,7 +231,8 @@ bool UUEncoded::parse()
             m_filenames.append(fileName);
             //everything between "begin" and "end" is uuencoded
             m_bins.append(m_src.mid(uuStart, endPos - uuStart + 1));
-            m_mimeTypes.append(guessMimeType(fileName));
+            QMimeDatabase db;
+            m_mimeTypes.append(db.mimeTypeForFile(QString::fromUtf8(fileName), QMimeDatabase::MatchExtension).name().toUtf8());
             firstIteration = false;
 
             auto next = m_src.indexOf('\n', endPos + 1);
@@ -511,7 +464,8 @@ bool YENCEncoded::parse()
             }
 
             m_filenames.append(fileName);
-            m_mimeTypes.append(guessMimeType(fileName));
+            QMimeDatabase db;
+            m_mimeTypes.append(db.mimeTypeForFile(QString::fromUtf8(fileName), QMimeDatabase::MatchExtension).name().toUtf8());
             m_bins.append(binary);
 
             //everything before "begin" is text

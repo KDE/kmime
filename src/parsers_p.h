@@ -62,8 +62,6 @@ protected:
     explicit NonMimeParser(const QByteArray &src);
     ~NonMimeParser();
 
-    static QByteArray guessMimeType(const QByteArray &fileName);
-
     QByteArray m_src, m_text;
     QList<QByteArray> m_bins, m_filenames, m_mimeTypes;
     int m_partNr, m_totalNr;
