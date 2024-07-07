@@ -6,7 +6,15 @@
 
 #pragma once
 
-#include <QMap>
+#include "headers.h"
+#include "types.h"
+
+#include <QByteArray>
+#include <QList>
+#include <QString>
+
+#include <map>
+
 //@cond PRIVATE
 
 #define kmime_mk_empty_private( subclass, base ) \
@@ -17,6 +25,19 @@ namespace KMime
 
 namespace Headers
 {
+
+// case-insensitive QByteArray comparator supporting heterogenous lookup
+// between QByteArray and QByteArrayView
+struct CaseInsitiveByteArrayLess {
+    using is_transparent = bool;
+    template <typename T1, typename T2>
+    bool operator()(T1 &&lhs, T2 &&rhs) const
+    {
+        return qstricmp(lhs.data(), rhs.data()) < 0;
+    }
+};
+
+using ParameterMap = std::map<QByteArray, QString, CaseInsitiveByteArrayLess>;
 
 // Note that this entire class hierarchy has no virtual dtor, in order to not
 // have a second set of vtables, as this is a rather high-volume class.
@@ -85,7 +106,7 @@ public:
 class ParametrizedPrivate : public StructuredPrivate
 {
 public:
-    QMap<QString, QString> parameterHash;
+    ParameterMap parameterHash;
 };
 
 } // namespace Generics

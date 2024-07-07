@@ -458,11 +458,8 @@ void MessageTest::testIssue3914()
     KMime::Content *attachedMail =  msg->contents().at(1);
     QCOMPARE(attachedMail->contentType()->mimeType().data(), "message/rfc822");
     QVERIFY(attachedMail->contentDisposition(false));
-    QVERIFY(attachedMail->contentDisposition()->hasParameter(
-        QLatin1StringView("filename")));
-    QVERIFY(attachedMail->contentDisposition()
-                ->parameter(QLatin1StringView("filename"))
-                .isEmpty());
+    QVERIFY(attachedMail->contentDisposition()->hasParameter("filename"));
+    QVERIFY(attachedMail->contentDisposition()->parameter("filename").isEmpty());
 }
 
 void MessageTest::testBug223509()

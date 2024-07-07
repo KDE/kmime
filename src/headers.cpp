@@ -813,46 +813,47 @@ QByteArray Parametrized::as7BitString(bool withHeaderType) const
     }
 
     bool first = true;
-    for (QMap<QString, QString>::ConstIterator it = d->parameterHash.constBegin();
-            it != d->parameterHash.constEnd(); ++it) {
+    for (const auto &it : d->parameterHash) {
         if (!first) {
             rv += "; ";
         } else {
             first = false;
         }
-        if (isUsAscii(it.value())) {
-            rv += it.key().toLatin1() + '=';
-            QByteArray tmp = it.value().toLatin1();
+        if (isUsAscii(it.second)) {
+            rv += it.first + '=';
+            QByteArray tmp = it.second.toLatin1();
             addQuotes(tmp, true);   // force quoting, e.g. for whitespaces in parameter value
             rv += tmp;
         } else {
-            rv += it.key().toLatin1() + "*=";
-            rv += encodeRFC2231String(it.value(), rfc2047Charset());
+            rv += it.first + "*=";
+            rv += encodeRFC2231String(it.second, rfc2047Charset());
         }
     }
 
     return rv;
 }
 
-QString Parametrized::parameter(const QString &key) const
+QString Parametrized::parameter(QByteArrayView key) const
 {
-    return d_func()->parameterHash.value(key.toLower());
+    Q_D(const Parametrized);
+    const auto it = d->parameterHash.find(key);
+    return it != d->parameterHash.end() ? (*it).second : QString();
 }
 
-bool Parametrized::hasParameter(const QString &key) const
+bool Parametrized::hasParameter(QByteArrayView key) const
 {
-    return d_func()->parameterHash.contains(key.toLower());
+    return d_func()->parameterHash.contains(key);
 }
 
-void Parametrized::setParameter(const QString &key, const QString &value)
+void Parametrized::setParameter(const QByteArray &key, const QString &value)
 {
     Q_D(Parametrized);
-    d->parameterHash.insert(key.toLower(), value);
+    d->parameterHash[key] = value;
 }
 
 bool Parametrized::isEmpty() const
 {
-    return d_func()->parameterHash.isEmpty();
+    return d_func()->parameterHash.empty();
 }
 
 void Parametrized::clear()
@@ -1700,7 +1701,7 @@ bool ContentType::isPartial() const {
 }
 
 QByteArray ContentType::charset() const {
-    QByteArray ret = parameter(QStringLiteral("charset")).toLatin1();
+    QByteArray ret = parameter("charset").toLatin1();
     if (ret.isEmpty()) {
         //return the default-charset if necessary
         ret = QByteArrayLiteral("UTF-8");
@@ -1709,36 +1710,36 @@ QByteArray ContentType::charset() const {
 }
 
 void ContentType::setCharset(const QByteArray & s) {
-    setParameter(QStringLiteral("charset"), QString::fromLatin1(s));
+    setParameter(QByteArrayLiteral("charset"), QString::fromLatin1(s));
 }
 
 QByteArray ContentType::boundary() const {
-    return parameter(QStringLiteral("boundary")).toLatin1();
+    return parameter("boundary").toLatin1();
 }
 
 void ContentType::setBoundary(const QByteArray & s) {
-    setParameter(QStringLiteral("boundary"), QString::fromLatin1(s));
+    setParameter(QByteArrayLiteral("boundary"), QString::fromLatin1(s));
 }
 
 QString ContentType::name() const {
-    return parameter(QStringLiteral("name"));
+    return parameter("name");
 }
 
 void ContentType::setName(const QString & s) {
     Q_D(ContentType);
-    setParameter(QStringLiteral("name"), s);
+    setParameter(QByteArrayLiteral("name"), s);
 }
 
 QByteArray ContentType::id() const {
-    return parameter(QStringLiteral("id")).toLatin1();
+    return parameter("id").toLatin1();
 }
 
 void ContentType::setId(const QByteArray & s) {
-    setParameter(QStringLiteral("id"), QString::fromLatin1(s));
+    setParameter(QByteArrayLiteral("id"), QString::fromLatin1(s));
 }
 
 int ContentType::partialNumber() const {
-    QByteArray p = parameter(QStringLiteral("number")).toLatin1();
+    QByteArray p = parameter("number").toLatin1();
     if (!p.isEmpty()) {
         return p.toInt();
     } else {
@@ -1747,7 +1748,7 @@ int ContentType::partialNumber() const {
 }
 
 int ContentType::partialCount() const {
-    QByteArray p = parameter(QStringLiteral("total")).toLatin1();
+    QByteArray p = parameter("total").toLatin1();
     if (!p.isEmpty()) {
         return p.toInt();
     } else {
@@ -1756,8 +1757,8 @@ int ContentType::partialCount() const {
 }
 
 void ContentType::setPartialParams(int total, int number) {
-    setParameter(QStringLiteral("number"), QString::number(number));
-    setParameter(QStringLiteral("total"), QString::number(total));
+    setParameter(QByteArrayLiteral("number"), QString::number(number));
+    setParameter(QByteArrayLiteral("total"), QString::number(total));
 }
 
 bool ContentType::parse(const char *&scursor, const char *const send,
@@ -2005,11 +2006,11 @@ void ContentDisposition::setDisposition(contentDisposition disp) {
 }
 
 QString KMime::Headers::ContentDisposition::filename() const {
-    return parameter(QStringLiteral("filename"));
+    return parameter("filename");
 }
 
 void ContentDisposition::setFilename(const QString & filename) {
-    setParameter(QStringLiteral("filename"), filename);
+    setParameter(QByteArrayLiteral("filename"), filename);
 }
 
 bool ContentDisposition::parse(const char  *&scursor, const char *const send,

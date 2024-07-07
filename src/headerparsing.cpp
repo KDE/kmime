@@ -11,6 +11,7 @@
 
 #include "headerfactory_p.h"
 #include "headers.h"
+#include "headers_p.h"
 #include "util.h"
 #include "util_p.h"
 #include "codecs_p.h"
@@ -19,7 +20,6 @@
 
 #include <KCodecs>
 
-#include <QMap>
 #include <QStringDecoder>
 #include <QTimeZone>
 
@@ -1222,7 +1222,7 @@ bool parseAddressList(const char *&scursor, const char *const send,
 }
 
 static bool parseParameter(const char *&scursor, const char *const send,
-                           QPair<QString, QStringOrQPair> &result, bool isCRLF)
+                           QPair<QByteArray, QStringOrQPair> &result, bool isCRLF)
 {
     // parameter = regular-parameter / extended-parameter
     // regular-parameter = regular-parameter-name "=" value
@@ -1242,12 +1242,10 @@ static bool parseParameter(const char *&scursor, const char *const send,
     //
     // parse the parameter name:
     //
-    QByteArray tmpAttr;
-    if (!parseToken(scursor, send, tmpAttr, ParseTokenNoFlag)) {
+    QByteArray maybeAttribute;
+    if (!parseToken(scursor, send, maybeAttribute, ParseTokenNoFlag)) {
         return false;
     }
-    // FIXME: we could use QMap<QByteArray, ...> in the API for parameters
-    QString maybeAttribute = QString::fromLatin1(tmpAttr);
 
     eatCFWS(scursor, send, isCRLF);
     // premature end: not OK (haven't seen '=' yet).
@@ -1259,7 +1257,7 @@ static bool parseParameter(const char *&scursor, const char *const send,
     eatCFWS(scursor, send, isCRLF);
     if (scursor == send) {
         // don't choke on attribute=, meaning the value was omitted:
-        if (maybeAttribute.endsWith(QLatin1Char('*'))) {
+        if (maybeAttribute.endsWith('*')) {
             KMIME_WARN << "attribute ends with \"*\", but value is empty!"
                        "Chopping away \"*\".";
             maybeAttribute.chop(1);
@@ -1277,7 +1275,7 @@ static bool parseParameter(const char *&scursor, const char *const send,
     if (*scursor == '"') {
         // value is a quoted-string:
         scursor++;
-        if (maybeAttribute.endsWith(QLatin1Char('*'))) {
+        if (maybeAttribute.endsWith('*')) {
             // attributes ending with "*" designate extended-parameters,
             // which cannot have quoted-strings as values. So we remove the
             // trailing "*" to not confuse upper layers.
@@ -1305,7 +1303,7 @@ static bool parseParameter(const char *&scursor, const char *const send,
 }
 
 static bool parseRawParameterList(const char *&scursor, const char *const send,
-                                  QMap<QString, QStringOrQPair> &result,
+                                  std::map<QByteArray, QStringOrQPair> &result,
                                   bool isCRLF)
 {
     // we use parseParameter() consecutively to obtain a map of raw
@@ -1328,7 +1326,7 @@ static bool parseRawParameterList(const char *&scursor, const char *const send,
             scursor++;
             continue;
         }
-        QPair<QString, QStringOrQPair> maybeParameter;
+        QPair<QByteArray, QStringOrQPair> maybeParameter;
         if (!parseParameter(scursor, send, maybeParameter, isCRLF)) {
             // we need to do a bit of work if the attribute is not
             // NULL. These are the cases marked with "needs further
@@ -1352,7 +1350,7 @@ static bool parseRawParameterList(const char *&scursor, const char *const send,
             continue;
         }
         // successful parsing brings us here:
-        result.insert(maybeParameter.first, maybeParameter.second);
+        result[maybeParameter.first] = maybeParameter.second;
 
         eatCFWS(scursor, send, isCRLF);
         // end of header: ends list.
@@ -1473,16 +1471,16 @@ static void decodeRFC2231Value(KCodecs::Codec *&rfc2231Codec,
 
 bool parseParameterListWithCharset(const char *&scursor,
                                    const char *const send,
-                                   QMap<QString, QString> &result,
+                                   Headers::ParameterMap &result,
                                    QByteArray &charset, bool isCRLF)
 {
-// parse the list into raw attribute-value pairs:
-    QMap<QString, QStringOrQPair> rawParameterList;
+    // parse the list into raw attribute-value pairs:
+    std::map<QByteArray, QStringOrQPair> rawParameterList;
     if (!parseRawParameterList(scursor, send, rawParameterList, isCRLF)) {
         return false;
     }
 
-    if (rawParameterList.isEmpty()) {
+    if (rawParameterList.empty()) {
         return true;
     }
 
@@ -1493,7 +1491,7 @@ bool parseParameterListWithCharset(const char *&scursor,
 
     KCodecs::Codec *rfc2231Codec = nullptr;
     QStringDecoder textcodec;
-    QString attribute;
+    QByteArray attribute;
     QString value;
     enum Mode {
         NoMode = 0x0, Continued = 0x1, Encoded = 0x2
@@ -1505,34 +1503,31 @@ bool parseParameterListWithCharset(const char *&scursor,
         RFC2231
     };
 
-    QMap<QString, QStringOrQPair>::Iterator it;
-    QMap<QString, QStringOrQPair>::Iterator end = rawParameterList.end();
-
-    for (it = rawParameterList.begin() ; it != end ; ++it) {
-        if (attribute.isNull() || !it.key().startsWith(attribute)) {
+    for (auto &it : rawParameterList) {
+        if (attribute.isNull() || !it.first.startsWith(attribute)) {
             //
             // new attribute:
             //
 
             // store the last attribute/value pair in the result map now:
             if (!attribute.isNull()) {
-                result.insert(attribute, value);
+                result[attribute] = value;
             }
             // and extract the information from the new raw attribute:
             value.clear();
-            attribute = it.key();
+            attribute = it.first;
             int mode = NoMode;
             EncodingMode encodingMode = NoEncoding;
 
             // is the value rfc2331-encoded?
-            if (attribute.endsWith(QLatin1Char('*'))) {
+            if (attribute.endsWith('*')) {
                 attribute.chop(1);
                 mode |= Encoded;
                 encodingMode = RFC2231;
             }
             // is the value rfc2047-encoded?
-            if (!(*it).qstring.isNull() &&
-                (*it).qstring.contains(QLatin1StringView("=?"))) {
+            if (!it.second.qstring.isNull() &&
+                it.second.qstring.contains(QLatin1StringView("=?"))) {
               mode |= Encoded;
               encodingMode = RFC2047;
             }
@@ -1548,16 +1543,16 @@ bool parseParameterListWithCharset(const char *&scursor,
                 if (encodingMode == RFC2231) {
                     decodeRFC2231Value(rfc2231Codec, textcodec,
                                        false, /* isn't continuation */
-                                       value, (*it).qpair, charset);
+                                       value, it.second.qpair, charset);
                 } else if (encodingMode == RFC2047) {
-                    value += KCodecs::decodeRFC2047String((*it).qstring.toLatin1(), &charset);
+                    value += KCodecs::decodeRFC2047String(it.second.qstring.toLatin1(), &charset);
                 }
             } else {
                 // not encoded.
-                if ((*it).qpair.first) {
-                    value += QString::fromLatin1((*it).qpair.first, (*it).qpair.second);
+                if (it.second.qpair.first) {
+                    value += QString::fromLatin1(it.second.qpair.first, it.second.qpair.second);
                 } else {
-                    value += (*it).qstring;
+                    value += it.second.qstring;
                 }
             }
 
@@ -1567,7 +1562,7 @@ bool parseParameterListWithCharset(const char *&scursor,
 
             if (!(mode & Continued)) {
                 // save result already:
-                result.insert(attribute, value);
+                result[attribute] = value;
                 // force begin of a new attribute:
                 attribute.clear();
             }
@@ -1577,24 +1572,24 @@ bool parseParameterListWithCharset(const char *&scursor,
             //
 
             // ignore the section and trust QMap to have sorted the keys:
-            if (it.key().endsWith(QLatin1Char('*'))) {
+            if (it.first.endsWith('*')) {
                 // encoded
                 decodeRFC2231Value(rfc2231Codec, textcodec,
                                    true, /* is continuation */
-                                   value, (*it).qpair, charset);
+                                   value, it.second.qpair, charset);
             } else {
                 // not encoded
-                if ((*it).qpair.first) {
-                    value += QString::fromLatin1((*it).qpair.first, (*it).qpair.second);
+                if (it.second.qpair.first) {
+                    value += QString::fromLatin1(it.second.qpair.first, it.second.qpair.second);
                 } else {
-                    value += (*it).qstring;
+                    value += it.second.qstring;
                 }
             }
         }
     }
     // write last attr/value pair:
     if (!attribute.isNull()) {
-        result.insert(attribute, value);
+        result[attribute] = value;
     }
 
     return true;

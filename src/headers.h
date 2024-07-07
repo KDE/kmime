@@ -662,28 +662,56 @@ public:
     bool isEmpty() const override;
     void clear() override;
 
-    //FIXME: Shouldn't the parameter keys be QByteArray and not QStrings? Only the values can be
-    //       non-ascii!
-
     /**
       Returns the value of the specified parameter.
       @param key The parameter name.
     */
-    QString parameter(const QString &key) const;
+    [[nodiscard]] QString parameter(QByteArrayView key) const;
+    [[deprecated("use QByteArrayView as argument")]] [[nodiscard]] inline QString parameter(const QString &key) const
+    {
+        return parameter(QByteArrayView(key.toUtf8()));
+    }
+    [[deprecated("use QByteArrayView as argument")]] [[nodiscard]] inline QString parameter(QLatin1StringView key) const
+    {
+        return parameter(QByteArrayView(key));
+    }
+    // overload resolution helper, remove once the above deprecated overloads are removed
+    template <std::size_t N>
+    [[nodiscard]] inline QString parameter(const char (&key)[N]) const
+    {
+        return parameter(QByteArrayView(key, N));
+    }
 
     /**
       @param key the key of the parameter to check for
       @return true if a parameter with the given @p key exists.
       @since 4.5
     */
-    bool hasParameter(const QString &key) const;
+    [[nodiscard]] bool hasParameter(QByteArrayView key) const;
+    [[deprecated("use QByteArrayView as argument")]] [[nodiscard]] inline bool hasParameter(const QString &key) const
+    {
+        return hasParameter(QByteArrayView(key.toUtf8()));
+    }
+    [[deprecated("use QByteArrayView as argument")]] [[nodiscard]] inline bool hasParameter(QLatin1StringView key) const
+    {
+        return hasParameter(QByteArrayView(key));
+    }
+    // overload resolution helper, remove once the above deprecated overloads are removed
+    template <std::size_t N>
+    [[nodiscard]] inline bool hasParameter(const char (&key)[N]) const {
+        return hasParameter(QByteArrayView(key, N));
+    }
 
     /**
       Sets the parameter @p key to @p value.
       @param key The parameter name.
       @param value The new value for @p key.
     */
-    void setParameter(const QString &key, const QString &value);
+    void setParameter(const QByteArray &key, const QString &value);
+    [[deprecated("use a QByteArray[Literal] key")]] inline void setParameter(const QString &key, const QString &value)
+    {
+        return setParameter(key.toUtf8(), value);
+    }
 
 protected:
     bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;

@@ -5,10 +5,11 @@
 */
 #pragma once
 
+#include "headers_p.h"
+
 #include <QList>
 
 class QByteArray;
-template <typename K, typename V> class QMap;
 
 namespace KMime
 {
@@ -28,7 +29,7 @@ namespace HeaderParsing
  * @since 4.5
  */
 [[nodiscard]] bool parseParameterListWithCharset(const char *&scursor, const char *const send,
-                              QMap<QString, QString> &result,
+                              KMime::Headers::ParameterMap &result,
                               QByteArray &charset, bool isCRLF = false);
 }
 

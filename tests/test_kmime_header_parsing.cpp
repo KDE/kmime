@@ -4,7 +4,6 @@
 
 #include <QFile>
 #include <QByteArray>
-#include <QMap>
 #include <iostream>
 #include <cstdlib>
 #include <cassert>

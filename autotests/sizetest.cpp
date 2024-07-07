@@ -81,7 +81,7 @@ private Q_SLOTS:
         VERIFYSIZE(TokenPrivate, sizeof(StructuredPrivate) + sizeof(QByteArray));
         VERIFYSIZE(PhraseListPrivate, sizeof(StructuredPrivate) + sizeof(QStringList));
         VERIFYSIZE(DotAtomPrivate, sizeof(StructuredPrivate) + sizeof(QByteArray));
-        VERIFYSIZE(ParametrizedPrivate, sizeof(StructuredPrivate) + sizeof(QMap<QString, QString>));
+        VERIFYSIZE(ParametrizedPrivate, sizeof(StructuredPrivate) + sizeof(std::map<QByteArray, QString>));
         VERIFYSIZE(ReturnPathPrivate, sizeof(AddressPrivate) + sizeof(Types::Mailbox));
         VERIFYSIZE(MailCopiesToPrivate, sizeof(AddressListPrivate) + 8);
         VERIFYSIZE(ContentTransferEncodingPrivate, sizeof(TokenPrivate) + 8);

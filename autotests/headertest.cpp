@@ -493,16 +493,16 @@ void HeaderTest::testParametrizedHeader()
     // empty header
     h = new Parametrized();
     QVERIFY(h->isEmpty());
-    QVERIFY(!h->hasParameter(QLatin1StringView("foo")));
+    QVERIFY(!h->hasParameter("foo"));
 
     // add a parameter
-    h->setParameter(QStringLiteral("filename"), QStringLiteral("bla.jpg"));
+    h->setParameter(QByteArrayLiteral("filename"), QStringLiteral("bla.jpg"));
     QVERIFY(!h->isEmpty());
-    QVERIFY(h->hasParameter(QLatin1StringView("filename")));
-    QVERIFY(h->hasParameter(QLatin1StringView("FiLeNaMe")));
-    QVERIFY(!h->hasParameter(QLatin1StringView("bla.jpg")));
-    QCOMPARE(h->parameter(QLatin1StringView("filename")),
-             QLatin1StringView("bla.jpg"));
+    QVERIFY(h->hasParameter("filename"));
+    QVERIFY(h->hasParameter("FiLeNaMe"));
+    QVERIFY(!h->hasParameter("bla.jpg"));
+    QCOMPARE(h->parameter("filename"), QLatin1StringView("bla.jpg"));
+    QCOMPARE(h->parameter("FILENAME"), QLatin1StringView("bla.jpg"));
     QCOMPARE(h->as7BitString(false), QByteArray("filename=\"bla.jpg\""));
 
     // clear again
@@ -513,17 +513,14 @@ void HeaderTest::testParametrizedHeader()
     // parse a parameter list
     h = new Parametrized;
     h->from7BitString("filename=genome.jpeg;\n modification-date=\"Wed, 12 Feb 1997 16:29:51 -0500\"");
-    QCOMPARE(h->parameter(QLatin1StringView("filename")),
-             QLatin1StringView("genome.jpeg"));
-    QCOMPARE(h->parameter(QLatin1StringView("modification-date")),
-             QLatin1StringView("Wed, 12 Feb 1997 16:29:51 -0500"));
+    QCOMPARE(h->parameter("filename"), QLatin1StringView("genome.jpeg"));
+    QCOMPARE(h->parameter("modification-date"), QLatin1StringView("Wed, 12 Feb 1997 16:29:51 -0500"));
     QCOMPARE(h->as7BitString(false), QByteArray("filename=\"genome.jpeg\"; modification-date=\"Wed, 12 Feb 1997 16:29:51 -0500\""));
     delete h;
 
     // quoting of whitespaces in parameter value
     h = new Parametrized();
-    h->setParameter(QLatin1StringView("boundary"),
-                    QLatin1StringView("simple boundary"));
+    h->setParameter(QByteArrayLiteral("boundary"), QLatin1StringView("simple boundary"));
     QCOMPARE(h->as7BitString(false), QByteArray("boundary=\"simple boundary\""));
     delete h;
 
@@ -1113,8 +1110,8 @@ void HeaderTest::testMissingQuotes()
     ct.from7BitString(str);
     QCOMPARE(ct.mimeType(), QByteArray{ "multipart/signed" });
     QCOMPARE(ct.boundary(), QByteArray{ "nextPart22807781.u8zn2zYrSU" });
-    QCOMPARE(ct.parameter(QStringLiteral("micalg")), QStringLiteral("pgp-sha1"));
-    QCOMPARE(ct.parameter(QStringLiteral("protocol")), QStringLiteral("application/pgp-signature"));
+    QCOMPARE(ct.parameter("micalg"), QStringLiteral("pgp-sha1"));
+    QCOMPARE(ct.parameter("protocol"), QStringLiteral("application/pgp-signature"));
 
 }
 
