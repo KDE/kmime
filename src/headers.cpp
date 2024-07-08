@@ -627,11 +627,11 @@ bool Token::parse(const char *&scursor, const char *const send, bool isCRLF)
         return false;
     }
 
-    QPair<const char *, int> maybeToken;
+    QByteArrayView maybeToken;
     if (!parseToken(scursor, send, maybeToken, ParseTokenNoFlag)) {
         return false;
     }
-    d->token = QByteArray(maybeToken.first, maybeToken.second);
+    d->token = maybeToken.toByteArray();
 
     // complain if trailing garbage is found:
     eatCFWS(scursor, send, isCRLF);
@@ -1772,7 +1772,7 @@ bool ContentType::parse(const char *&scursor, const char *const send,
     }
 
     // type
-    QPair<const char *, int> maybeMimeType;
+    QByteArrayView maybeMimeType;
     if (!parseToken(scursor, send, maybeMimeType, ParseTokenNoFlag)) {
         return false;
     }
@@ -1786,15 +1786,15 @@ bool ContentType::parse(const char *&scursor, const char *const send,
     if (scursor == send) {
         return false;
     }
-    QPair<const char *, int> maybeSubType;
+    QByteArrayView maybeSubType;
     if (!parseToken(scursor, send, maybeSubType, ParseTokenNoFlag)) {
         return false;
     }
 
-    d->mimeType.reserve(maybeMimeType.second + maybeSubType.second + 1);
-    d->mimeType.append(QByteArrayView(maybeMimeType.first, maybeMimeType.second));
+    d->mimeType.reserve(maybeMimeType.size() + maybeSubType.size() + 1);
+    d->mimeType.append(maybeMimeType);
     d->mimeType.append('/');
-    d->mimeType.append(QByteArrayView(maybeSubType.first, maybeSubType.second));
+    d->mimeType.append(maybeSubType);
     d->mimeType = std::move(d->mimeType).toLower();
 
     // parameter list
@@ -2019,21 +2019,19 @@ bool ContentDisposition::parse(const char  *&scursor, const char *const send,
     clear();
 
     // token
-    QByteArray token;
     eatCFWS(scursor, send, isCRLF);
     if (scursor == send) {
         return false;
     }
 
-    QPair<const char *, int> maybeToken;
-    if (!parseToken(scursor, send, maybeToken, ParseTokenNoFlag)) {
+    QByteArrayView token;
+    if (!parseToken(scursor, send, token, ParseTokenNoFlag)) {
         return false;
     }
 
-    token = QByteArray(maybeToken.first, maybeToken.second).toLower();
-    if (token == "inline") {
+    if (token.compare("inline", Qt::CaseInsensitive) == 0) {
         d->disposition = CDinline;
-    } else if (token == "attachment") {
+    } else if (token.compare("attachment", Qt::CaseInsensitive) == 0) {
         d->disposition = CDattachment;
     } else {
         return false;

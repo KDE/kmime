@@ -157,7 +157,7 @@ int main(int argc, char *argv[])
     case 1: {
         // atom
         cout << "with 8bit: " << endl;
-        QByteArray result;
+        QByteArrayView result;
         bool ok = parseAtom(iit, iend, result, true);
 
         cout << (ok ? "OK" : "BAD") << endl
@@ -170,29 +170,6 @@ int main(int argc, char *argv[])
 #else
         iit = indata.begin();
         ok = parseAtom(iit, iend, result, false);
-#endif
-
-        cout << (ok ? "OK" : "BAD") << endl
-             << "result:\n" << result.constData()
-             << endl;
-    }
-    break;
-    case 2: {
-        // token
-        cout << "with 8bit: " << endl;
-        QByteArray result;
-        bool ok = parseToken(iit, iend, result, ParseTokenAllow8Bit);
-
-        cout << (ok ? "OK" : "BAD") << endl
-             << "result:\n" << result.constData()
-             << endl;
-
-        cout << "without 8bit: " << endl;
-#ifdef COMPILE_FAIL
-        ok = parseToken(indata.begin(), iend, result, ParseTokenNoFlag);
-#else
-        iit = indata.begin();
-        ok = parseToken(iit, iend, result, ParseTokenNoFlag);
 #endif
 
         cout << (ok ? "OK" : "BAD") << endl

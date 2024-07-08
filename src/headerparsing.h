@@ -63,34 +63,17 @@ parseEncodedWord(const char *&scursor, const char *const send, QString &result,
  */
 [[nodiscard]] KMIME_EXPORT bool parseAtom(const char *&scursor,
                                           const char *const send,
-                                          QByteArray &result,
+                                          QByteArrayView &result,
                                           bool allow8Bit = false);
 
-/**
- * More efficient overload, to avoid a copy of the substring
- */
-[[nodiscard]] KMIME_EXPORT bool parseAtom(const char *&scursor,
-                                          const char *const send,
-                                          QPair<const char *, int> &result,
-                                          bool allow8Bit = false);
-
-enum ParseTokenFlag {
-    ParseTokenNoFlag = 0,
-    ParseTokenAllow8Bit = 1,
-    ParseTokenRelaxedTText = 2
-};
-Q_DECLARE_FLAGS(ParseTokenFlags, ParseTokenFlag)
-
-/** You may or may not have already started parsing into the
-    token. This function will go on where you left off. */
-[[nodiscard]] KMIME_EXPORT bool
-parseToken(const char *&scursor, const char *const send, QByteArray &result,
-           ParseTokenFlags flags = ParseTokenNoFlag);
-
-[[nodiscard]] KMIME_EXPORT bool
-parseToken(const char *&scursor, const char *const send,
-           QPair<const char *, int> &result,
-           ParseTokenFlags flags = ParseTokenNoFlag);
+[[deprecated("Use the QByteArrayView overload")]] [[nodiscard]]
+inline bool parseAtom(const char *&scursor, const char *const send, QByteArray &result, bool allow8Bit = false)
+{
+    QByteArrayView v;
+    const auto r = parseAtom(scursor, send, v, allow8Bit);
+    result = v.toByteArray();
+    return r;
+}
 
 /** @p scursor must be positioned after the opening openChar. */
 [[nodiscard]] KMIME_EXPORT bool
@@ -258,7 +241,3 @@ KMIME_EXPORT void extractHeaderAndBody(const QByteArray &content,
 } // namespace HeaderParsing
 
 } // namespace KMime
-
-Q_DECLARE_OPERATORS_FOR_FLAGS(KMime::HeaderParsing::ParseTokenFlags)
-
-
