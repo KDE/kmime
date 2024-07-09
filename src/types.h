@@ -110,12 +110,12 @@ public:
   /**
     Parses the given unicode string.
   */
-  void fromUnicodeString(const QString &s);
+  void fromUnicodeString(QStringView s);
 
   /**
     Parses the given 7bit encoded string.
   */
-  void from7BitString(const QByteArray &s);
+  void from7BitString(QByteArrayView s);
 
   /**
     Returns a 7bit transport encoded representation of this mailbox.
@@ -129,14 +129,14 @@ public:
    *
    * @since 5.14
    */
-  [[nodiscard]] static QList<Mailbox> listFromUnicodeString(const QString &s);
+  [[nodiscard]] static QList<Mailbox> listFromUnicodeString(QStringView s);
 
   /**
    * Returns a list of mailboxes from an encoded 7bit string.
    *
    * @since 5.14
    */
-  [[nodiscard]] static QList<Mailbox> listFrom7BitString(const QByteArray &s);
+  [[nodiscard]] static QList<Mailbox> listFrom7BitString(QByteArrayView s);
 
   /**
    * Returns a unicode string representing the given list of mailboxes.

@@ -168,15 +168,15 @@ QString Mailbox::prettyAddress(Quoting quoting) const
     return s;
 }
 
-void Mailbox::fromUnicodeString(const QString &s)
+void Mailbox::fromUnicodeString(QStringView s)
 {
     from7BitString(encodeRFC2047Sentence(s, "utf-8"));
 }
 
-void Mailbox::from7BitString(const QByteArray &s)
+void Mailbox::from7BitString(QByteArrayView s)
 {
     const char *cursor = s.constData();
-    HeaderParsing::parseMailbox(cursor, cursor + s.length(), *this);
+    HeaderParsing::parseMailbox(cursor, cursor + s.size(), *this);
 }
 
 QByteArray Mailbox::as7BitString(const QByteArray &encCharset) const
@@ -198,11 +198,11 @@ QByteArray Mailbox::as7BitString(const QByteArray &encCharset) const
     return rv;
 }
 
-QList<KMime::Types::Mailbox> Mailbox::listFromUnicodeString(const QString &s) {
+QList<KMime::Types::Mailbox> Mailbox::listFromUnicodeString(QStringView s) {
     return listFrom7BitString(encodeRFC2047Sentence(s, "utf-8"));
 }
 
-QList<KMime::Types::Mailbox> Mailbox::listFrom7BitString(const QByteArray &s) {
+QList<KMime::Types::Mailbox> Mailbox::listFrom7BitString(QByteArrayView s) {
     QList<KMime::Types::Mailbox> res;
     QList<KMime::Types::Address> maybeAddressList;
     const char *scursor = s.constData();
