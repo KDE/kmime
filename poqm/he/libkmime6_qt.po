@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kmime\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-20 01:59+0000\n"
-"PO-Revision-Date: 2024-03-19 08:09+0200\n"
+"PO-Revision-Date: 2024-07-09 08:21+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -16,15 +16,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 24.05.1\n"
 "X-Qt-Contexts: true\n"
 
 #: mdn.cpp:53
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "displayed. This is no guarantee that the message has been read or "
-#| "understood."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -34,11 +29,6 @@ msgstr ""
 "שההודעה נקראה או הופנמה."
 
 #: mdn.cpp:60
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "deleted unseen. This is no guarantee that the message will not be "
-#| "\"undeleted\" and nonetheless read later on."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -49,11 +39,6 @@ msgstr ""
 "לא אומר שאי אפשר לשחזר את ההודעה ולקרוא אותה לאחר מכן."
 
 #: mdn.cpp:68
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "dispatched. This is no guarantee that the message will not be read later "
-#| "on."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -63,10 +48,6 @@ msgstr ""
 "שההודעה לא תיקרא בהמשך."
 
 #: mdn.cpp:75
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "processed by some automatic means."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -76,11 +57,6 @@ msgstr ""
 "אוטומטיים. "
 
 #: mdn.cpp:81
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "acted upon. The sender does not wish to disclose more details to you than "
-#| "that."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -91,11 +67,6 @@ msgstr ""
 "לא רוצה לחשוף פרטים נוספים מעבר לכך."
 
 #: mdn.cpp:88
-#, fuzzy
-#| msgid ""
-#| "Generation of a Message Disposition Notification for the message sent on "
-#| "${date} to ${to} with subject \"${subject}\" failed. Reason is given in "
-#| "the Failure: header field below."
 msgctxt "DispositionModifier|"
 msgid ""
 "Generation of a Message Disposition Notification for the message sent on "
