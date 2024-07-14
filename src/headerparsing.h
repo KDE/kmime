@@ -107,23 +107,6 @@ parseComment(const char *&scursor, const char *const send, QString &result,
                                             bool isCRLF = false);
 
 /**
-  Parses into the initial atom.
-  You may or may not have already started parsing into the initial
-  atom, but not up to it's end.
-
-  @param scursor pointer to the first character beyond the initial '=' of
-  the input string.
-  @param send pointer to end of input buffer.
-  @param result the parsed string.
-
-  @return true if the input phrase was successfully parsed; false otherwise.
-*/
-[[nodiscard]] KMIME_EXPORT bool parseDotAtom(const char *&scursor,
-                                             const char *const send,
-                                             QByteArray &result,
-                                             bool isCRLF = false);
-
-/**
   Eats comment-folding-white-space, skips whitespace, folding and comments
   (even nested ones) and stops at the next non-CFWS character.  After
   calling this function, you should check whether @p scursor == @p send

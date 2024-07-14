@@ -665,7 +665,7 @@ bool parsePhrase(const char *&scursor, const char *const send,
 }
 
 bool parseDotAtom(const char *&scursor, const char *const send,
-                  QByteArray &result, bool isCRLF)
+                  QByteArrayView &result, bool isCRLF)
 {
     eatCFWS(scursor, send, isCRLF);
 
@@ -676,7 +676,7 @@ bool parseDotAtom(const char *&scursor, const char *const send,
     if (!parseAtom(scursor, send, maybeAtom, false /* no 8bit */)) {
         return false;
     }
-    result += maybeAtom;
+    result = maybeAtom;
     successfullyParsed = scursor;
 
     while (scursor != send) {
@@ -702,8 +702,7 @@ bool parseDotAtom(const char *&scursor, const char *const send,
             return true;
         }
 
-        result += '.';
-        result += maybeAtom;
+        result = QByteArrayView(result.constData(), result.size() + 1 + maybeAtom.size());
         successfullyParsed = scursor;
     }
 
@@ -785,11 +784,11 @@ bool parseDomain(const char *&scursor, const char *const send,
         }
     } else {
         // dot-atom:
-        QByteArray maybeDotAtom;
+        QByteArrayView maybeDotAtom;
         if (parseDotAtom(scursor, send, maybeDotAtom, isCRLF)) {
             // Domain may end with '.', if so preserve it'
             if (scursor != send && *scursor == '.') {
-                maybeDotAtom += '.';
+                maybeDotAtom = QByteArrayView(maybeDotAtom.constData(), maybeDotAtom.size() + 1);
                 scursor++;
             }
             result = QString::fromLatin1(maybeDotAtom);

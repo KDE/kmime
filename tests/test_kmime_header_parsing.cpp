@@ -223,16 +223,6 @@ int main(int argc, char *argv[])
              << endl;
     }
     break;
-    case 7: {
-        // dot-atom
-        QByteArray result;
-        bool ok = parseDotAtom(iit, iend, result, withCRLF);
-
-        cout << (ok ? "OK" : "BAD") << endl
-             << "result:\n" << result.constData()
-             << endl;
-    }
-    break;
     case 8: {
         // domain
         QString result;

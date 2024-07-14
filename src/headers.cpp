@@ -775,12 +775,12 @@ bool DotAtom::parse(const char *&scursor, const char *const send,
                     bool isCRLF)
 {
     Q_D(DotAtom);
-    QByteArray maybeDotAtom;
+    QByteArrayView maybeDotAtom;
     if (!parseDotAtom(scursor, send, maybeDotAtom, isCRLF)) {
         return false;
     }
 
-    d->dotAtom = maybeDotAtom;
+    d->dotAtom = maybeDotAtom.toByteArray();
 
     eatCFWS(scursor, send, isCRLF);
     if (scursor != send) {
@@ -1857,7 +1857,7 @@ bool ContentID::parse(const char *&scursor, const char *const send, bool isCRLF)
             }
 
             // Save chars until '>''
-            QByteArray result;
+            QByteArrayView result;
             if (!parseDotAtom(scursor, send, result, false)) {
                 return false;
             }
