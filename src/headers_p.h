@@ -132,11 +132,7 @@ public:
 class ContentTransferEncodingPrivate : public Generics::TokenPrivate
 {
 public:
-    ContentTransferEncodingPrivate() :
-        Generics::TokenPrivate(),
-        cte(CE7Bit)
-    {}
-    contentEncoding cte;
+    contentEncoding cte = CE7Bit;
 };
 
 class ContentTypePrivate : public Generics::ParametrizedPrivate

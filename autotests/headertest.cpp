@@ -718,18 +718,11 @@ void HeaderTest::testContentTransferEncoding()
 {
     ContentTransferEncoding *h;
 
-    // empty header
-    h = new ContentTransferEncoding();
-    QVERIFY(h->isEmpty());
-
     // set an encoding
+    h = new ContentTransferEncoding();
     h->setEncoding(CEbinary);
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->as7BitString(true), QByteArray("Content-Transfer-Encoding: binary"));
-
-    // clear again
-    h->clear();
-    QVERIFY(h->isEmpty());
     delete h;
 
     // parse a header

@@ -1897,58 +1897,81 @@ kmime_mk_trivial_ctor_with_name_and_dptr(ContentTransferEncoding,
         Generics::Token, Content-Transfer-Encoding)
 //@endcond
 
-struct encTableType {
+struct {
     const char *s;
-    int e;
-};
-
-static const encTableType encTable[] = {
+    contentEncoding e;
+} constexpr inline const encTable[] = {
     { "7Bit", CE7Bit },
     { "8Bit", CE8Bit },
     { "quoted-printable", CEquPr },
     { "base64", CEbase64 },
     { "x-uuencode", CEuuenc },
     { "binary", CEbinary },
-    { nullptr, 0}
 };
 
-void ContentTransferEncoding::clear() {
+void ContentTransferEncoding::clear()
+{
     Q_D(ContentTransferEncoding);
     d->cte = CE7Bit;
     Token::clear();
 }
 
-contentEncoding ContentTransferEncoding::encoding() const {
+bool ContentTransferEncoding::isEmpty() const
+{
+    return false;
+}
+
+QByteArray ContentTransferEncoding::as7BitString(bool withHeaderType) const
+{
+    Q_D(const ContentTransferEncoding);
+
+    if (d->token.isEmpty()) {
+        for (const auto &enc : encTable) {
+            if (d->cte == enc.e) {
+                return withHeaderType ? typeIntro() + enc.s : QByteArray(enc.s);
+            }
+        }
+    }
+
+    return withHeaderType ? typeIntro() + d->token : d->token;
+}
+
+contentEncoding ContentTransferEncoding::encoding() const
+{
     return d_func()->cte;
 }
 
-void ContentTransferEncoding::setEncoding(contentEncoding e) {
+void ContentTransferEncoding::setEncoding(contentEncoding e)
+{
     Q_D(ContentTransferEncoding);
     d->cte = e;
-
-    for (int i = 0; encTable[i].s != nullptr; ++i) {
-        if (d->cte == encTable[i].e) {
-            setToken(encTable[i].s);
-            break;
-        }
-    }
+    d->token.clear();
 }
 
-bool ContentTransferEncoding::parse(const char  *&scursor,
-                                    const char *const send, bool isCRLF) {
+bool ContentTransferEncoding::parse(const char  *&scursor, const char *const send, bool isCRLF)
+{
     Q_D(ContentTransferEncoding);
     clear();
-    if (!Token::parse(scursor, send, isCRLF)) {
+
+    eatCFWS(scursor, send, isCRLF);
+    // must not be empty:
+    if (scursor == send) {
         return false;
     }
 
-    // TODO: error handling in case of an unknown encoding?
-    for (int i = 0; encTable[i].s != nullptr; ++i) {
-        if (qstricmp(token().constData(), encTable[i].s) == 0) {
-            d->cte = (contentEncoding)encTable[i].e;
-            break;
+    QByteArrayView token;
+    if (!parseToken(scursor, send, token, ParseTokenNoFlag)) {
+        return false;
+    }
+
+    for (const auto &enc : encTable) {
+        if (token.compare(enc.s, Qt::CaseInsensitive) == 0) {
+            d->cte = enc.e;
+            return true;
         }
     }
+
+    d->token = token.toByteArray();
     return true;
 }
 

@@ -875,11 +875,13 @@ class KMIME_EXPORT ContentTransferEncoding : public Generics::Token
     //@endcond
 public:
     void clear() override;
+    [[nodiscard]] bool isEmpty() const override;
+    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
 
     /**
       Returns the encoding specified in this header.
     */
-    contentEncoding encoding() const;
+    [[nodiscard]] contentEncoding encoding() const;
 
     /**
       Sets the encoding to @p e.
