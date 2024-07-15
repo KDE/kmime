@@ -397,7 +397,7 @@ QString Content::decodedText(bool trimText, bool removeTrailingNewlines) const
         }
         s.truncate(i + 1);
     } else {
-        if (s.right(1) == QLatin1Char('\n')) {
+        if (s.endsWith(QLatin1Char('\n'))) {
             s.chop(1);   // remove trailing new-line
         }
     }
