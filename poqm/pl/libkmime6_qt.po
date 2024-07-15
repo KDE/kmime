@@ -1,13 +1,10 @@
-# Copyright (C) YEAR This_file_is_part_of_KDE
-# This file is distributed under the same license as the PACKAGE package.
-#
-# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2014.
+# SPDX-FileCopyrightText: 2024 Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-20 01:59+0000\n"
-"PO-Revision-Date: 2014-08-16 08:03+0200\n"
+"PO-Revision-Date: 2024-07-14 13:47+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -16,14 +13,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 23.08.5\n"
 "X-Qt-Contexts: true\n"
 
 #: mdn.cpp:53
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "displayed. This is no guarantee that the message has been read or "
-#| "understood."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -34,11 +27,6 @@ msgstr ""
 "zrozumiany."
 
 #: mdn.cpp:60
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "deleted unseen. This is no guarantee that the message will not be "
-#| "\"undeleted\" and nonetheless read later on."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -50,11 +38,6 @@ msgstr ""
 "\"odkasowana\" i przeczytana później."
 
 #: mdn.cpp:68
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "dispatched. This is no guarantee that the message will not be read later "
-#| "on."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -64,10 +47,6 @@ msgstr ""
 "przekazana. Nie ma gwarancji, że wiadomość nie zostanie później odczytana."
 
 #: mdn.cpp:75
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "processed by some automatic means."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -77,11 +56,6 @@ msgstr ""
 "przetworzona narzędziami automatycznymi."
 
 #: mdn.cpp:81
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "acted upon. The sender does not wish to disclose more details to you than "
-#| "that."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -93,11 +67,6 @@ msgstr ""
 "ten temat."
 
 #: mdn.cpp:88
-#, fuzzy
-#| msgid ""
-#| "Generation of a Message Disposition Notification for the message sent on "
-#| "${date} to ${to} with subject \"${subject}\" failed. Reason is given in "
-#| "the Failure: header field below."
 msgctxt "DispositionModifier|"
 msgid ""
 "Generation of a Message Disposition Notification for the message sent on "
