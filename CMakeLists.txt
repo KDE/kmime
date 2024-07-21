@@ -4,7 +4,7 @@ set(PIM_VERSION "6.2.40")
 project(KMime VERSION ${PIM_VERSION})
 
 # ECM setup
-set(KF_MIN_VERSION "6.3.0")
+set(KF_MIN_VERSION "6.4.0")
 
 find_package(ECM ${KF_MIN_VERSION} CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${KMime_SOURCE_DIR}/cmake ${ECM_MODULE_PATH})
@@ -28,7 +28,7 @@ include(ECMAddQch)
 include(ECMPoQmTools)
 
 set(KMIME_LIB_VERSION ${PIM_VERSION})
-set(QT_REQUIRED_VERSION "6.6.0")
+set(QT_REQUIRED_VERSION "6.7.0")
 
 
 find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED Core)
