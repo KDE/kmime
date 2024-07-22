@@ -375,7 +375,10 @@ QString Content::decodedText(bool trimText, bool removeTrailingNewlines) const
       return {};
     }
 
-    QStringDecoder codec(contentType()->charset().constData());
+    QStringDecoder codec;
+    if (const auto ct = contentType(); ct) {
+        codec = QStringDecoder(ct->charset().constData());
+    }
     if (!codec.isValid()) {   // no suitable codec found => try local settings and hope for the best ;-)
         codec = QStringDecoder(QStringDecoder::System);
     }
@@ -663,7 +666,7 @@ bool ContentPrivate::decodeText(const Content *q)
 {
     const Headers::ContentTransferEncoding *enc = q->contentTransferEncoding();
 
-    if (!q->contentType()->isText()) {
+    if (const auto ct = q->contentType(); ct && !ct->isText()) {
         return false; //non textual data cannot be decoded here => use decodedContent() instead
     }
     if (m_decoded) {
