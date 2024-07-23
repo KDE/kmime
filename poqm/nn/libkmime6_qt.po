@@ -1,20 +1,19 @@
 # Translation of libkmime6_qt to Norwegian Nynorsk
 #
-# Karl Ove Hufthammer <karl@huftis.org>, 2008, 2020.
 # Eirik U. Birkeland <eirbir@gmail.com>, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: libkmime\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-20 01:59+0000\n"
-"PO-Revision-Date: 2020-07-07 21:50+0200\n"
+"PO-Revision-Date: 2024-07-21 14:28+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
 "Language: nn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.07.70\n"
+"X-Generator: Lokalize 24.05.2\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Environment: kde\n"
@@ -22,7 +21,6 @@ msgstr ""
 "X-Text-Markup: qtrich\n"
 
 #: mdn.cpp:53
-#, fuzzy
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -32,7 +30,6 @@ msgstr ""
 "Dette er likevel ingen garanti for at meldinga er lesen eller forstått."
 
 #: mdn.cpp:60
-#, fuzzy
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -44,7 +41,6 @@ msgstr ""
 "gjenoppretta og lesen seinare."
 
 #: mdn.cpp:68
-#, fuzzy
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -54,7 +50,6 @@ msgstr ""
 "Dette er likevel ingen garanti for at meldinga vert lesen seinare."
 
 #: mdn.cpp:75
-#, fuzzy
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -64,7 +59,6 @@ msgstr ""
 "automatisk."
 
 #: mdn.cpp:81
-#, fuzzy
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -75,7 +69,6 @@ msgstr ""
 "Sendaren ønskjer ikkje å gje deg fleire opplysningar enn dette."
 
 #: mdn.cpp:88
-#, fuzzy
 msgctxt "DispositionModifier|"
 msgid ""
 "Generation of a Message Disposition Notification for the message sent on "
