@@ -58,6 +58,25 @@ Q_DECLARE_FLAGS(ParseTokenFlags, ParseTokenFlag)
 [[nodiscard]] bool parseParameterListWithCharset(const char *&scursor, const char *const send,
                               KMime::Headers::ParameterMap &result,
                               QByteArray &charset, bool isCRLF = false);
+
+/**
+  Parses an integer number.
+  @param scursor pointer to the first character of the input string
+  @param send pointer to end of input buffer
+  @param result the parsing result
+  @returns The number of parsed digits (don't confuse with @p result!)
+*/
+[[nodiscard]] int parseDigits(const char *&scursor, const char *const send, int &result);
+
+[[nodiscard]] bool parseTime(const char *&scursor, const char *const send, int &hour, int &min,
+          int &sec, long int &secsEastOfGMT, bool &timeZoneKnown,
+          bool isCRLF = false);
+
+[[nodiscard]] bool parseDateTime(const char *&scursor, const char *const send,
+                                QDateTime &result, bool isCRLF = false);
+[[nodiscard]] bool parseQDateTime(const char *&scursor, const char *const send,
+                                QDateTime &result, bool isCRLF = false);
+
 }
 
 }

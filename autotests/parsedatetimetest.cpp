@@ -6,9 +6,9 @@
 
 #include "parsedatetimetest.h"
 
-#include <QTest>
+#include <KMime/Headers>
 
-#include "headerparsing.h"
+#include <QTest>
 
 using namespace KMime;
 
@@ -56,13 +56,9 @@ void ParseDateTimeTest::testParseDateTime()
     QFETCH(QByteArray, input);
     QFETCH(QDateTime, expResult);
 
-    QDateTime result;
-    const char *scursor = input.constData();
-    const char *send = input.constData() + input.length();
-
-    const bool success = KMime::HeaderParsing::parseDateTime(scursor, send, result, false);
-    QCOMPARE(success, !result.isNull());
-    QCOMPARE(result, expResult);
+    KMime::Headers::Date hdr;
+    hdr.from7BitString(input);
+    QCOMPARE(hdr.dateTime(), expResult);
 }
 
 

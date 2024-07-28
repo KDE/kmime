@@ -176,30 +176,6 @@ KMIME_EXPORT bool parseMailbox(const char *&scursor, const char *const send,
                                                  Types::AddressList &result,
                                                  bool isCRLF = false);
 
-/**
-  Parses an integer number.
-  @param scursor pointer to the first character of the input string
-  @param send pointer to end of input buffer
-  @param result the parsing result
-  @returns The number of parsed digits (don't confuse with @p result!)
-*/
-[[nodiscard]] KMIME_EXPORT int parseDigits(const char *&scursor,
-                                           const char *const send, int &result);
-
-[[nodiscard]] KMIME_EXPORT bool
-parseTime(const char *&scursor, const char *const send, int &hour, int &min,
-          int &sec, long int &secsEastOfGMT, bool &timeZoneKnown,
-          bool isCRLF = false);
-
-[[nodiscard]] KMIME_EXPORT bool parseDateTime(const char *&scursor,
-                                              const char *const send,
-                                              QDateTime &result,
-                                              bool isCRLF = false);
-[[nodiscard]] KMIME_EXPORT bool parseQDateTime(const char *&scursor,
-                                               const char *const send,
-                                               QDateTime &result,
-                                               bool isCRLF = false);
-
 /** Parses the first header contained the given data.
  *  If a header is found @p head will be shortened to no longer
  *  include the corresponding data, ie. this method can be called

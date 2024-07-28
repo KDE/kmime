@@ -350,39 +350,6 @@ int main(int argc, char *argv[])
         }
     }
     break;
-    case 16: {
-        // time
-        int hour;
-        int mins;
-        int secs;
-        long int secsEastOfGMT;
-        bool timeZoneKnown = true;
-
-        bool ok = parseTime(iit, iend, hour, mins, secs,
-                            secsEastOfGMT, timeZoneKnown, withCRLF);
-
-        cout << (ok ? "OK" : "BAD") << endl
-             << "result.hour: " << hour << endl
-             << "result.mins: " << mins << endl
-             << "result.secs: " << secs << endl
-             << "result.secsEastOfGMT: " << secsEastOfGMT << endl
-             << "result.timeZoneKnown: " << timeZoneKnown
-             << endl;
-    }
-    break;
-    case 17: {
-        // date-time
-        QDateTime result;
-        bool ok =  parseDateTime(iit, iend, result, withCRLF);
-        time_t timet = result.toSecsSinceEpoch();
-
-        cout << (ok ? "OK" : "BAD") << endl
-             << "result.time (in local timezone): " << ctime(&timet)
-             << "result.secsEastOfGMT: " << result.offsetFromUtc()
-             << " (" << result.offsetFromUtc() / 60 << "mins)"
-             << endl;
-    }
-    break;
     default:
         assert(0);
     }
