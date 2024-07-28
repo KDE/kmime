@@ -1844,7 +1844,7 @@ bool parseQDateTime(const char *&scursor, const char *const send,
                    QDateTime &result, bool isCRLF)
 {
     eatCFWS(scursor, send, isCRLF);
-    if (scursor == send) {
+    if (scursor == send || std::distance(scursor, send) < 17) {
         return false;
     }
     // In qt6 yy == 1900 ! => for sure we use 2000 here.

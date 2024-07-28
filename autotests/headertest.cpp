@@ -925,6 +925,12 @@ void HeaderTest::testDateHeader()
     QCOMPARE(h->dateTime().time(), QTime(16, 05, 54));
     delete h;
 
+    //28/09/23 (invalid input)
+    h = new Date;
+    h->from7BitString("28/09/23");
+    QVERIFY(h->isEmpty());
+    delete h;
+
     // Wed, 12 Apr 2030
     h = new Date;
     h->from7BitString("Wed, 12 Apr 2030");
