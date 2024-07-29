@@ -238,7 +238,7 @@ public:
     @param type the header type to find
     @since 4.2
   */
-  Headers::Base *headerByType(const char *type) const;
+  [[nodiscard]] Headers::Base *headerByType(QByteArrayView type) const;
 
   /**
     Returns the first header of type T, if it exists.
@@ -266,7 +266,7 @@ public:
     @param type the header type to find
     @since 4.2
   */
-  [[nodiscard]] QList<Headers::Base *> headersByType(const char *type) const;
+  [[nodiscard]] QList<Headers::Base *> headersByType(QByteArrayView type) const;
 
   /**
     Sets the specified header to this Content.
@@ -294,7 +294,7 @@ public:
     @param type The type of the header to look for.
     @return true if a header was found and removed.
   */
-  bool removeHeader(const char *type);
+  bool removeHeader(QByteArrayView type);
 
   /**
     Searches for the first header of type @p T, and deletes it, removing
@@ -309,7 +309,7 @@ public:
     @param type The type of the header to look for.
   */
   // TODO probably provide hasHeader<T>() too.
-  [[nodiscard]] bool hasHeader(const char *type) const;
+  [[nodiscard]] bool hasHeader(QByteArrayView type) const;
 
   /**
     Returns the Content-Type header.

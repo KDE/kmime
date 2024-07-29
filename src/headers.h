@@ -174,12 +174,7 @@ public:
   /**
     Checks if this header is of type @p t.
   */
-  [[nodiscard]] bool is(const char *t) const;
-
-  /**
-    Checks if this header is a MIME header.
-  */
-  [[nodiscard]] bool isMimeHeader() const;
+  [[nodiscard]] bool is(QByteArrayView t) const;
 
 protected:
     /**

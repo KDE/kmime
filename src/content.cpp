@@ -559,10 +559,8 @@ void Content::changeEncoding(Headers::contentEncoding e)
 
 QList<Headers::Base *> Content::headers() const { return d_ptr->headers; }
 
-Headers::Base *Content::headerByType(const char *type) const
+Headers::Base *Content::headerByType(QByteArrayView type) const
 {
-    Q_ASSERT(type  && *type);
-
     for (Headers::Base *h : std::as_const(d_ptr->headers)) {
         if (h->is(type)) {
             return h; // Found.
@@ -572,9 +570,8 @@ Headers::Base *Content::headerByType(const char *type) const
     return nullptr; // Not found.
 }
 
-QList<Headers::Base *> Content::headersByType(const char *type) const {
-    Q_ASSERT(type && *type);
-
+QList<Headers::Base *> Content::headersByType(QByteArrayView type) const
+{
     QList<Headers::Base *> result;
 
     for (Headers::Base *h : std::as_const(d_ptr->headers)) {
@@ -599,7 +596,7 @@ void Content::appendHeader(Headers::Base *h)
     d->headers.append(h);
 }
 
-bool Content::removeHeader(const char *type)
+bool Content::removeHeader(QByteArrayView type)
 {
     Q_D(Content);
     const auto endIt = d->headers.end();
@@ -614,7 +611,7 @@ bool Content::removeHeader(const char *type)
     return false;
 }
 
-bool Content::hasHeader(const char* type) const
+bool Content::hasHeader(QByteArrayView type) const
 {
     return headerByType(type) != nullptr;
 }

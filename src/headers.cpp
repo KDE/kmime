@@ -125,14 +125,9 @@ const char *Base::type() const
     return "";
 }
 
-bool Base::is(const char *t) const
+bool Base::is(QByteArrayView t) const
 {
-    return qstricmp(t, type()) == 0;
-}
-
-bool Base::isMimeHeader() const
-{
-    return qstrnicmp(type(), "Content-", 8) == 0;
+    return t.compare(type(), Qt::CaseInsensitive) == 0;
 }
 
 QByteArray Base::typeIntro() const
