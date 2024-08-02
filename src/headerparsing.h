@@ -13,7 +13,6 @@
 #include "types.h"
 
 #include <QString>
-#include <QPair>
 
 #include <QDateTime>
 

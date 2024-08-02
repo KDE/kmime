@@ -28,7 +28,6 @@
 
 #include <KCodecs>
 
-#include <QDebug>
 #include <QStringDecoder>
 #include <QStringEncoder>
 

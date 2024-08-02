@@ -10,7 +10,6 @@
 
 #include "util.h"
 #include <codecs.cpp>
-#include <QDebug>
 using namespace KMime;
 
 QTEST_MAIN(RFC2231Test)

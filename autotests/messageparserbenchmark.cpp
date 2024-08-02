@@ -6,8 +6,7 @@
 #include <KMime/Message>
 
 #include <QFile>
-#include <QtTest/qtest.h>
-
+#include <QTest>
 using namespace Qt::Literals;
 
 class MessageParserBenchmark : public QObject

@@ -16,7 +16,6 @@
 
 #include "contentindex.h"
 
-#include <QHash>
 #include <QList>
 #include <QSharedData>
 #include <QStringList>
