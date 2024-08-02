@@ -50,6 +50,33 @@ Q_DECLARE_FLAGS(ParseTokenFlags, ParseTokenFlag)
 [[nodiscard]] bool parseDotAtom(const char *&scursor, const char *const send,
                                 QByteArrayView &result, bool isCRLF = false);
 
+/** @p scursor must be positioned after the opening openChar. */
+[[nodiscard]] bool parseGenericQuotedString(const char *&scursor, const char *const send,
+                         QString &result, bool isCRLF,
+                         const char openChar = '"', const char closeChar = '"');
+
+/** @p scursor must be positioned right after the opening '(' */
+[[nodiscard]] bool parseComment(const char *&scursor, const char *const send, QString &result,
+             bool isCRLF = false, bool reallySave = true);
+
+/**
+  Parses a phrase.
+
+  You may or may not have already started parsing into the phrase, but
+  only if it starts with atext. If you setup this function to parse a
+  phrase starting with an encoded-word or quoted-string, @p scursor has
+  to point to the char introducing the encoded-word or quoted-string, resp.
+
+  @param scursor pointer to the first character beyond the initial '=' of
+  the input string.
+  @param send pointer to end of input buffer.
+  @param result the parsed string.
+
+  @return true if the input phrase was successfully parsed; false otherwise.
+*/
+[[nodiscard]] bool parsePhrase(const char *&scursor, const char *const send,
+                               QString &result, bool isCRLF = false);
+
 /**
  * Extract the charset embedded in the parameter list if there is one.
  *
@@ -58,6 +85,19 @@ Q_DECLARE_FLAGS(ParseTokenFlags, ParseTokenFlag)
 [[nodiscard]] bool parseParameterListWithCharset(const char *&scursor, const char *const send,
                               KMime::Headers::ParameterMap &result,
                               QByteArray &charset, bool isCRLF = false);
+
+
+[[nodiscard]] bool parseDomain(const char *&scursor, const char *const send,
+                               QString &result, bool isCRLF = false);
+
+[[nodiscard]] bool parseObsRoute(const char *&scursor, const char *const send, QStringList &result,
+                                 bool isCRLF = false, bool save = false);
+
+[[nodiscard]] bool parseAddrSpec(const char *&scursor, const char *const send,
+                                 Types::AddrSpec &result, bool isCRLF = false);
+
+[[nodiscard]] bool parseAngleAddr(const char *&scursor, const char *const send,
+                                  Types::AddrSpec &result, bool isCRLF = false);
 
 /**
   Parses an integer number.

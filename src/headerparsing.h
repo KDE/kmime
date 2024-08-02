@@ -12,10 +12,8 @@
 #include "kmime_export.h"
 #include "types.h"
 
-#include <QString>
-
 #include <QDateTime>
-
+#include <QString>
 #include <QStringList>
 
 namespace KMime
@@ -25,11 +23,6 @@ namespace Headers
 {
 class Base;
 }
-
-namespace Types
-{
-
-} // namespace KMime::Types
 
 namespace HeaderParsing
 {
@@ -74,37 +67,6 @@ inline bool parseAtom(const char *&scursor, const char *const send, QByteArray &
     return r;
 }
 
-/** @p scursor must be positioned after the opening openChar. */
-[[nodiscard]] KMIME_EXPORT bool
-parseGenericQuotedString(const char *&scursor, const char *const send,
-                         QString &result, bool isCRLF,
-                         const char openChar = '"', const char closeChar = '"');
-
-/** @p scursor must be positioned right after the opening '(' */
-[[nodiscard]] KMIME_EXPORT bool
-parseComment(const char *&scursor, const char *const send, QString &result,
-             bool isCRLF = false, bool reallySave = true);
-
-/**
-  Parses a phrase.
-
-  You may or may not have already started parsing into the phrase, but
-  only if it starts with atext. If you setup this function to parse a
-  phrase starting with an encoded-word or quoted-string, @p scursor has
-  to point to the char introducing the encoded-word or quoted-string, resp.
-
-  @param scursor pointer to the first character beyond the initial '=' of
-  the input string.
-  @param send pointer to end of input buffer.
-  @param result the parsed string.
-
-  @return true if the input phrase was successfully parsed; false otherwise.
-*/
-[[nodiscard]] KMIME_EXPORT bool parsePhrase(const char *&scursor,
-                                            const char *const send,
-                                            QString &result,
-                                            bool isCRLF = false);
-
 /**
   Eats comment-folding-white-space, skips whitespace, folding and comments
   (even nested ones) and stops at the next non-CFWS character.  After
@@ -121,25 +83,6 @@ parseComment(const char *&scursor, const char *const send, QString &result,
 */
 KMIME_EXPORT void eatCFWS(const char *&scursor, const char *const send,
                           bool isCRLF);
-
-[[nodiscard]] KMIME_EXPORT bool parseDomain(const char *&scursor,
-                                            const char *const send,
-                                            QString &result,
-                                            bool isCRLF = false);
-
-[[nodiscard]] KMIME_EXPORT bool
-parseObsRoute(const char *&scursor, const char *const send, QStringList &result,
-              bool isCRLF = false, bool save = false);
-
-[[nodiscard]] KMIME_EXPORT bool parseAddrSpec(const char *&scursor,
-                                              const char *const send,
-                                              Types::AddrSpec &result,
-                                              bool isCRLF = false);
-
-[[nodiscard]] KMIME_EXPORT bool parseAngleAddr(const char *&scursor,
-                                               const char *const send,
-                                               Types::AddrSpec &result,
-                                               bool isCRLF = false);
 
 /**
   Parses a single mailbox.
