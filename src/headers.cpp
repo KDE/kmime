@@ -374,6 +374,12 @@ Types::Mailbox::List MailboxList::mailboxes() const
     return d_func()->mailboxList;
 }
 
+void MailboxList::setMailboxes(const Types::Mailbox::List &mailboxes)
+{
+    Q_D(MailboxList);
+    d->mailboxList = mailboxes;
+}
+
 bool MailboxList::parse(const char *&scursor, const char *const send,
                         bool isCRLF)
 {
@@ -555,6 +561,12 @@ Types::Mailbox::List AddressList::mailboxes() const
         }
     }
     return rv;
+}
+
+void AddressList::setAddressList(const Types::AddressList &addresses)
+{
+    Q_D(AddressList);
+    d->addressList = addresses;
 }
 
 bool AddressList::parse(const char *&scursor, const char *const send,

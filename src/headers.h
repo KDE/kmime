@@ -383,6 +383,12 @@ public:
     */
     Types::Mailbox::List mailboxes() const;
 
+    /**
+      Sets the mailboxes listed in this header, replacing the current content.
+      @since 24.12
+    */
+    void setMailboxes(const Types::Mailbox::List &mailboxes);
+
 protected:
     bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
 
@@ -471,6 +477,12 @@ public:
       Returns a list of mailboxes listed in this header.
     */
     Types::Mailbox::List mailboxes() const;
+
+    /**
+      Sets the list of addresses listed in this header, replacing the existing content.
+      @since 24.12
+    */
+    void setAddressList(const Types::AddressList &addresses);
 
 protected:
     bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
