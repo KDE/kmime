@@ -1088,17 +1088,13 @@ void HeaderTest::testInvalidQEncoding_data()
 
 void HeaderTest::testInvalidQEncoding()
 {
-    using namespace HeaderParsing;
     QFETCH(QString, encodedWord);
 
-    QByteArray tmp = encodedWord.toLatin1();
-    const char *data = tmp.data();
-    const char *start = data + 1;
-    const char *end = data + strlen(data);
-    QString result;
-    QByteArray language;
-    QByteArray usedCS;
-    QVERIFY(!parseEncodedWord(start, end, result, language, usedCS));
+    QByteArray tmp = encodedWord.toLatin1() + " <noreply@kde.org>";
+    Headers::From hdr;
+    hdr.from7BitString(tmp);
+    QCOMPARE(hdr.mailboxes().at(0).address(), "noreply@kde.org");
+    QCOMPARE(hdr.mailboxes().at(0).name(), encodedWord); // invalid name is not decoded and preserved as-is
 }
 
 void HeaderTest::testMissingQuotes()
