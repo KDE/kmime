@@ -31,11 +31,6 @@ void HeaderTest::testIdentHeader()
     QCOMPARE(h->identifiers().first(), QByteArray("1162746587.784559.5038.nullmailer@svn.kde.org"));
     QCOMPARE(h->asUnicodeString(), QString::fromLatin1("<1162746587.784559.5038.nullmailer@svn.kde.org>"));
     QVERIFY(!h->isEmpty());
-
-    // clearing a header
-    h->clear();
-    QVERIFY(h->isEmpty());
-    QVERIFY(h->identifiers().isEmpty());
     delete h;
 
     // parse multiple identifiers
@@ -88,10 +83,6 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->displayNames().first(), QLatin1StringView("joe@where.test"));
     QCOMPARE(h->displayString(), QLatin1StringView("joe@where.test"));
     QCOMPARE(h->asUnicodeString(), QLatin1StringView("joe@where.test"));
-
-    // clearing a header
-    h->clear();
-    QVERIFY(h->isEmpty());
     delete h;
 
     // parsing and re-assembling a single address with display name
@@ -434,10 +425,6 @@ void HeaderTest::testMailCopiesToHeader()
     QVERIFY(!h->alwaysCopy());
     QVERIFY(h->neverCopy());
     QCOMPARE(h->as7BitString(), QByteArray("Mail-Copies-To: nobody"));
-
-    // clear header
-    h->clear();
-    QVERIFY(h->isEmpty());
     delete h;
 
     // parse copy to poster
@@ -504,10 +491,6 @@ void HeaderTest::testParametrizedHeader()
     QCOMPARE(h->parameter("filename"), QLatin1StringView("bla.jpg"));
     QCOMPARE(h->parameter("FILENAME"), QLatin1StringView("bla.jpg"));
     QCOMPARE(h->as7BitString(false), QByteArray("filename=\"bla.jpg\""));
-
-    // clear again
-    h->clear();
-    QVERIFY(h->isEmpty());
     delete h;
 
     // parse a parameter list
@@ -634,10 +617,6 @@ void HeaderTest::testContentTypeHeader()
     h->setId("bla");
     h->setCharset("us-ascii");
     QCOMPARE(h->as7BitString(false), QByteArray("text/plain; charset=\"us-ascii\"; id=\"bla\""));
-
-    // clear header
-    h->clear();
-    QVERIFY(h->isEmpty());
     delete h;
 
     // parse a complete header
@@ -700,10 +679,6 @@ void HeaderTest::testTokenHeader()
     h->setToken("bla");
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->as7BitString(false), QByteArray("bla"));
-
-    // clear it again
-    h->clear();
-    QVERIFY(h->isEmpty());
     delete h;
 
     // parse a header
@@ -751,10 +726,6 @@ void HeaderTest::testPhraseListHeader()
     QCOMPARE(phrases.takeFirst(), QLatin1StringView("foo"));
     QCOMPARE(phrases.takeFirst(), QLatin1StringView("bar"));
     QCOMPARE(h->as7BitString(false), QByteArray("foo, bar"));
-
-    // clear header
-    h->clear();
-    QVERIFY(h->isEmpty());
     delete h;
 
     // TODO: encoded/quoted phrases
@@ -772,10 +743,6 @@ void HeaderTest::testDotAtomHeader()
     h->from7BitString("1.0 (mime version)");
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->asUnicodeString(), QLatin1StringView("1.0"));
-
-    // clear again
-    h->clear();
-    QVERIFY(h->isEmpty());
     delete h;
 
     // TODO: more complex atoms
@@ -796,10 +763,6 @@ void HeaderTest::testDateHeader()
     QCOMPARE(h->dateTime().time(), QTime(9, 55, 6));
     QCOMPARE(h->dateTime().offsetFromUtc(), -6 * 3600);
     QCOMPARE(h->as7BitString(), QByteArray("Date: Fri, 21 Nov 1997 09:55:06 -0600"));
-
-    // clear it again
-    h->clear();
-    QVERIFY(h->isEmpty());
     delete h;
 
     // white spaces and comment (from RFC 2822, Appendix A.5)
@@ -946,10 +909,6 @@ void HeaderTest::testLinesHeader()
     h->setNumberOfLines(5);
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->as7BitString(), QByteArray("Lines: 5"));
-
-    // clear again
-    h->clear();
-    QVERIFY(h->isEmpty());
     delete h;
 
     // parse header with comment
@@ -975,10 +934,6 @@ void HeaderTest::testNewsgroupsHeader()
     h->setGroups(groups);
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->as7BitString(), QByteArray("Newsgroups: gmane.comp.kde.devel.core,gmane.comp.kde.devel.buildsystem"));
-
-    // and clear again
-    h->clear();
-    QVERIFY(h->isEmpty());
     delete h;
 
     // parse a header
@@ -1014,10 +969,6 @@ void HeaderTest::testControlHeader()
     QVERIFY(!h->isEmpty());
     QVERIFY(h->isCancel());
     QCOMPARE(h->as7BitString(),  QByteArray("Control: cancel <foo@bar>"));
-
-    // clear again
-    h->clear();
-    QVERIFY(h->isEmpty());
     delete h;
 
     // parse a control header

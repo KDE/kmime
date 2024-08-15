@@ -186,12 +186,6 @@ QString Unstructured::asUnicodeString() const
     return d_func()->decoded;
 }
 
-void Unstructured::clear()
-{
-    Q_D(Unstructured);
-    d->decoded.truncate(0);
-}
-
 bool Unstructured::isEmpty() const
 {
     return d_func()->decoded.isEmpty();
@@ -301,12 +295,6 @@ QString MailboxList::asUnicodeString() const
 {
     Q_D(const MailboxList);
     return Mailbox::listToUnicodeString(d->mailboxList);
-}
-
-void MailboxList::clear()
-{
-    Q_D(MailboxList);
-    d->mailboxList.clear();
 }
 
 bool MailboxList::isEmpty() const
@@ -484,12 +472,6 @@ QString AddressList::asUnicodeString() const
     return rv.join(QLatin1StringView(", "));
 }
 
-void AddressList::clear()
-{
-    Q_D(AddressList);
-    d->addressList.clear();
-}
-
 bool AddressList::isEmpty() const
 {
     return d_func()->addressList.isEmpty();
@@ -602,12 +584,6 @@ QByteArray Token::as7BitString(bool withHeaderType) const
     return d_func()->token;
 }
 
-void Token::clear()
-{
-    Q_D(Token);
-    d->token.clear();
-}
-
 bool Token::isEmpty() const
 {
     return d_func()->token.isEmpty();
@@ -627,7 +603,7 @@ void Token::setToken(const QByteArray &t)
 bool Token::parse(const char *&scursor, const char *const send, bool isCRLF)
 {
     Q_D(Token);
-    clear();
+    d->token.clear();
     eatCFWS(scursor, send, isCRLF);
     // must not be empty:
     if (scursor == send) {
@@ -684,12 +660,6 @@ QByteArray PhraseList::as7BitString(bool withHeaderType) const
 QString PhraseList::asUnicodeString() const
 {
   return d_func()->phraseList.join(QLatin1StringView(", "));
-}
-
-void PhraseList::clear()
-{
-    Q_D(PhraseList);
-    d->phraseList.clear();
 }
 
 bool PhraseList::isEmpty() const
@@ -765,12 +735,6 @@ QByteArray DotAtom::as7BitString(bool withHeaderType) const
 QString DotAtom::asUnicodeString() const
 {
     return QString::fromLatin1(d_func()->dotAtom);
-}
-
-void DotAtom::clear()
-{
-    Q_D(DotAtom);
-    d->dotAtom.clear();
 }
 
 bool DotAtom::isEmpty() const
@@ -863,12 +827,6 @@ bool Parametrized::isEmpty() const
     return d_func()->parameterHash.empty();
 }
 
-void Parametrized::clear()
-{
-    Q_D(Parametrized);
-    d->parameterHash.clear();
-}
-
 bool Parametrized::parse(const char  *&scursor, const char *const send,
                          bool isCRLF)
 {
@@ -916,13 +874,6 @@ QByteArray Ident::as7BitString(bool withHeaderType) const
         rv.resize(rv.length() - 1);
     }
     return rv;
-}
-
-void Ident::clear()
-{
-    Q_D(Ident);
-    d->msgIdList.clear();
-    d->cachedIdentifier.clear();
 }
 
 bool Ident::isEmpty() const
@@ -1090,13 +1041,6 @@ QByteArray ReturnPath::as7BitString(bool withHeaderType) const
     return rv;
 }
 
-void ReturnPath::clear()
-{
-    Q_D(ReturnPath);
-    d->mailbox.setAddress(Types::AddrSpec());
-    d->mailbox.setName(QString());
-}
-
 bool ReturnPath::isEmpty() const
 {
     const Q_D(ReturnPath);
@@ -1173,14 +1117,6 @@ Generic::~Generic()
     d_ptr = nullptr;
 }
 
-void Generic::clear()
-{
-    Q_D(Generic);
-    delete[] d->type;
-    d->type = nullptr;
-    Unstructured::clear();
-}
-
 bool Generic::isEmpty() const
 {
     return d_func()->type == nullptr || Unstructured::isEmpty();
@@ -1246,13 +1182,6 @@ QByteArray Control::as7BitString(bool withHeaderType) const
     return rv;
 }
 
-void Control::clear()
-{
-    Q_D(Control);
-    d->name.clear();
-    d->parameter.clear();
-}
-
 bool Control::isEmpty() const
 {
     return d_func()->name.isEmpty();
@@ -1283,7 +1212,8 @@ void Control::setCancel(const QByteArray &msgid)
 bool Control::parse(const char *&scursor, const char *const send, bool isCRLF)
 {
     Q_D(Control);
-    clear();
+    d->name.clear();
+    d->parameter.clear();
     eatCFWS(scursor, send, isCRLF);
     if (scursor == send) {
         return false;
@@ -1339,14 +1269,6 @@ QString MailCopiesTo::asUnicodeString() const
     return {};
 }
 
-void MailCopiesTo::clear()
-{
-    Q_D(MailCopiesTo);
-    AddressList::clear();
-    d->alwaysCopy = false;
-    d->neverCopy = false;
-}
-
 bool MailCopiesTo::isEmpty() const
 {
     return AddressList::isEmpty() && !(d_func()->alwaysCopy || d_func()->neverCopy);
@@ -1360,7 +1282,8 @@ bool MailCopiesTo::alwaysCopy() const
 void MailCopiesTo::setAlwaysCopy()
 {
     Q_D(MailCopiesTo);
-    clear();
+    d->addressList.clear();
+    d->neverCopy = false;
     d->alwaysCopy = true;
 }
 
@@ -1372,7 +1295,8 @@ bool MailCopiesTo::neverCopy() const
 void MailCopiesTo::setNeverCopy()
 {
     Q_D(MailCopiesTo);
-    clear();
+    d->addressList.clear();
+    d->alwaysCopy = false;
     d->neverCopy = true;
 }
 
@@ -1380,7 +1304,9 @@ bool MailCopiesTo::parse(const char  *&scursor, const char *const send,
                          bool isCRLF)
 {
     Q_D(MailCopiesTo);
-    clear();
+    d->addressList.clear();
+    d->alwaysCopy = false;
+    d->neverCopy = false;
     if (send - scursor == 5) {
         if (qstrnicmp("never", scursor, 5) == 0) {
             d->neverCopy = true;
@@ -1424,11 +1350,6 @@ QByteArray Date::as7BitString(bool withHeaderType) const
     rv += d_func()->dateTime.toString(Qt::RFC2822Date).toLatin1();
 
     return rv;
-}
-
-void Date::clear() {
-    Q_D(Date);
-    d->dateTime = QDateTime();
 }
 
 bool Date::isEmpty() const {
@@ -1493,11 +1414,6 @@ QString Newsgroups::asUnicodeString() const {
     return QString::fromUtf8(as7BitString(false));
 }
 
-void Newsgroups::clear() {
-    Q_D(Newsgroups);
-    d->groups.clear();
-}
-
 bool Newsgroups::isEmpty() const {
     return d_func()->groups.isEmpty();
 }
@@ -1515,7 +1431,7 @@ bool Newsgroups::isCrossposted() const {
 
 bool Newsgroups::parse(const char *&scursor, const char *const send, bool isCRLF) {
     Q_D(Newsgroups);
-    clear();
+    d->groups.clear();
     while (true) {
       eatCFWS(scursor, send, isCRLF);
       if (scursor != send && *scursor == ',') {
@@ -1564,11 +1480,6 @@ QString Lines::asUnicodeString() const {
     return QString::number(d_func()->lines);
 }
 
-void Lines::clear() {
-    Q_D(Lines);
-    d->lines = -1;
-}
-
 bool Lines::isEmpty() const {
     return d_func()->lines == -1;
 }
@@ -1586,7 +1497,7 @@ bool Lines::parse(const char *&scursor, const char *const send, bool isCRLF) {
     Q_D(Lines);
     eatCFWS(scursor, send, isCRLF);
     if (parseDigits(scursor, send, d->lines)  == 0) {
-        clear();
+        d->lines = -1;
         return false;
     }
     return true;
@@ -1603,12 +1514,6 @@ kmime_mk_trivial_ctor_with_name_and_dptr(ContentType, Generics::Parametrized,
 
 bool ContentType::isEmpty() const {
     return d_func()->mimeType.isEmpty();
-}
-
-void ContentType::clear() {
-    Q_D(ContentType);
-    d->mimeType.clear();
-    Parametrized::clear();
 }
 
 QByteArray ContentType::as7BitString(bool withHeaderType) const {
@@ -1772,7 +1677,8 @@ bool ContentType::parse(const char *&scursor, const char *const send,
                         bool isCRLF) {
     Q_D(ContentType);
     // content-type: type "/" subtype *(";" parameter)
-    clear();
+    d->mimeType.clear();
+    d->parameterHash.clear();
     eatCFWS(scursor, send, isCRLF);
     if (scursor == send) {
         return false; // empty header
@@ -1916,13 +1822,6 @@ struct {
     { "binary", CEbinary },
 };
 
-void ContentTransferEncoding::clear()
-{
-    Q_D(ContentTransferEncoding);
-    d->cte = CE7Bit;
-    Token::clear();
-}
-
 bool ContentTransferEncoding::isEmpty() const
 {
     return false;
@@ -1958,7 +1857,7 @@ void ContentTransferEncoding::setEncoding(contentEncoding e)
 bool ContentTransferEncoding::parse(const char  *&scursor, const char *const send, bool isCRLF)
 {
     Q_D(ContentTransferEncoding);
-    clear();
+    setEncoding(CE7Bit);
 
     eatCFWS(scursor, send, isCRLF);
     // must not be empty:
@@ -2020,12 +1919,6 @@ bool ContentDisposition::isEmpty() const {
     return d_func()->disposition == CDInvalid;
 }
 
-void ContentDisposition::clear() {
-    Q_D(ContentDisposition);
-    d->disposition = CDInvalid;
-    Parametrized::clear();
-}
-
 contentDisposition ContentDisposition::disposition() const {
     return d_func()->disposition;
 }
@@ -2046,7 +1939,8 @@ void ContentDisposition::setFilename(const QString & filename) {
 bool ContentDisposition::parse(const char  *&scursor, const char *const send,
                                 bool isCRLF) {
     Q_D(ContentDisposition);
-    clear();
+    d->parameterHash.clear();
+    d->disposition = CDInvalid;
 
     // token
     eatCFWS(scursor, send, isCRLF);

@@ -845,8 +845,8 @@ bool ContentPrivate::parseUuencoded(Content *q)
         return false; // Parsing failed.
     }
 
+    q->removeHeader<Headers::ContentType>();
     Headers::ContentType *ct = q->contentType();
-    ct->clear();
 
     if (uup.isPartial()) {
         // This seems to be only a part of the message, so we treat it as "message/partial".
@@ -900,8 +900,8 @@ bool ContentPrivate::parseYenc(Content *q)
         return false; // Parsing failed.
     }
 
+    q->removeHeader<Headers::ContentType>();
     Headers::ContentType *ct = q->contentType();
-    ct->clear();
 
     if (yenc.isPartial()) {
         // Assume there is exactly one decoded part.  Treat this as "message/partial".

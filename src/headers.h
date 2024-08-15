@@ -157,11 +157,6 @@ public:
   [[nodiscard]] virtual QString asUnicodeString() const = 0;
 
   /**
-    Deletes.
-  */
-  virtual void clear() = 0;
-
-  /**
     Checks if this header contains any data.
   */
   [[nodiscard]] virtual bool isEmpty() const = 0;
@@ -231,8 +226,6 @@ public:
     void fromUnicodeString(const QString &s) override;
     using Base::fromUnicodeString;
     QString asUnicodeString() const override;
-
-    void clear() override;
 
     bool isEmpty() const override;
 
@@ -341,7 +334,6 @@ public:
     using Base::fromUnicodeString;
     QString asUnicodeString() const override;
 
-    void clear() override;
     bool isEmpty() const override;
 
     /**
@@ -438,7 +430,6 @@ public:
     using Base::fromUnicodeString;
     QString asUnicodeString() const override;
 
-    void clear() override;
     bool isEmpty() const override;
 
     /**
@@ -506,7 +497,6 @@ class KMIME_EXPORT Ident : public Address
     //@endcond
 public:
     QByteArray as7BitString(bool withHeaderType = true) const override;
-    void clear() override;
     bool isEmpty() const override;
 
     /**
@@ -581,7 +571,6 @@ class KMIME_EXPORT Token : public Structured
     //@endcond
 public:
     QByteArray as7BitString(bool withHeaderType = true) const override;
-    void clear() override;
     bool isEmpty() const override;
 
     /**
@@ -614,7 +603,6 @@ class KMIME_EXPORT PhraseList : public Structured
 public:
     QByteArray as7BitString(bool withHeaderType = true) const override;
     QString asUnicodeString() const override;
-    void clear() override;
     bool isEmpty() const override;
 
     /**
@@ -642,7 +630,6 @@ class KMIME_EXPORT DotAtom : public Structured
 public:
     QByteArray as7BitString(bool withHeaderType = true) const override;
     QString asUnicodeString() const override;
-    void clear() override;
     bool isEmpty() const override;
 
 protected:
@@ -667,7 +654,6 @@ public:
     QByteArray as7BitString(bool withHeaderType = true) const override;
 
     bool isEmpty() const override;
-    void clear() override;
 
     /**
       Returns the value of the specified parameter.
@@ -749,7 +735,6 @@ class KMIME_EXPORT ReturnPath : public Generics::Address
     //@endcond
 public:
     QByteArray as7BitString(bool withHeaderType = true) const override;
-    void clear() override;
     bool isEmpty() const override;
 
 protected:
@@ -838,7 +823,6 @@ public:
     QByteArray as7BitString(bool withHeaderType = true) const override;
     QString asUnicodeString() const override;
 
-    void clear() override;
     bool isEmpty() const override;
 
     /**
@@ -881,7 +865,6 @@ class KMIME_EXPORT ContentTransferEncoding : public Generics::Token
     kmime_mk_trivial_ctor_with_name(ContentTransferEncoding)
     //@endcond
 public:
-    void clear() override;
     [[nodiscard]] bool isEmpty() const override;
     [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
 
@@ -1004,7 +987,6 @@ class KMIME_EXPORT ContentType : public Generics::Parametrized
     //@endcond
 public:
     QByteArray as7BitString(bool withHeaderType = true) const override;
-    void clear() override;
     bool isEmpty() const override;
 
     /**
@@ -1162,7 +1144,6 @@ class KMIME_EXPORT ContentDisposition : public Generics::Parametrized
 public:
     QByteArray as7BitString(bool withHeaderType = true) const override;
     bool isEmpty() const override;
-    void clear() override;
 
     /**
       Returns the content disposition.
@@ -1216,8 +1197,6 @@ public:
     Generic();
     Generic(const char *t, qsizetype len = -1);
     ~Generic() override;
-
-    void clear() override;
 
     bool isEmpty() const override;
 
@@ -1280,7 +1259,6 @@ class KMIME_EXPORT Control : public Generics::Structured
     //@endcond
 public:
     QByteArray as7BitString(bool withHeaderType = true) const override;
-    void clear() override;
     bool isEmpty() const override;
 
     /**
@@ -1326,7 +1304,6 @@ class KMIME_EXPORT Date : public Generics::Structured
     //@endcond
 public:
     QByteArray as7BitString(bool withHeaderType = true) const override;
-    void clear() override;
     bool isEmpty() const override;
 
     /**
@@ -1363,7 +1340,6 @@ public:
     void fromUnicodeString(const QString &s) override;
     using Base::fromUnicodeString;
     QString asUnicodeString() const override;
-    void clear() override;
     bool isEmpty() const override;
 
     /**
@@ -1416,7 +1392,6 @@ class KMIME_EXPORT Lines : public Generics::Structured
 public:
     QByteArray as7BitString(bool withHeaderType = true) const override;
     QString asUnicodeString() const override;
-    void clear() override;
     bool isEmpty() const override;
 
     /**
