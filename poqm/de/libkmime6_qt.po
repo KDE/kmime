@@ -2,7 +2,7 @@
 # Thomas Reitelbach <tr@erdfunkstelle.de>, 2005, 2006, 2007, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: libkmime\n"
+"Project-Id-Version: libkmime6_qt\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-20 01:59+0000\n"
 "PO-Revision-Date: 2024-08-19 23:05+0200\n"
