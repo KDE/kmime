@@ -9,9 +9,9 @@
 */
 #pragma once
 
-#include "kmime_export.h"
-#include "headers.h"
 #include "content.h"
+#include "headers.h"
+#include "kmime_export.h"
 
 #include <QList>
 #include <QString>
@@ -136,4 +136,3 @@ KMIME_EXPORT bool isCryptoPart(const Content *content);
 KMIME_EXPORT bool isInvitation(const Content *content);
 
 } // namespace KMime
-

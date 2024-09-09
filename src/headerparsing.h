@@ -34,10 +34,7 @@ namespace HeaderParsing
 /** You may or may not have already started parsing into the
     atom. This function will go on where you left off.
  */
-[[nodiscard]] KMIME_EXPORT bool parseAtom(const char *&scursor,
-                                          const char *const send,
-                                          QByteArrayView &result,
-                                          bool allow8Bit = false);
+[[nodiscard]] KMIME_EXPORT bool parseAtom(const char *&scursor, const char *const send, QByteArrayView &result, bool allow8Bit = false);
 
 [[deprecated("Use the QByteArrayView overload")]] [[nodiscard]]
 inline bool parseAtom(const char *&scursor, const char *const send, QByteArray &result, bool allow8Bit = false)
@@ -62,8 +59,7 @@ inline bool parseAtom(const char *&scursor, const char *const send, QByteArray &
   @param send pointer to end of input buffer.
   @param isCRLF true if input string is terminated with a CRLF.
 */
-KMIME_EXPORT void eatCFWS(const char *&scursor, const char *const send,
-                          bool isCRLF);
+KMIME_EXPORT void eatCFWS(const char *&scursor, const char *const send, bool isCRLF);
 
 /**
   Parses a single mailbox.
@@ -81,23 +77,13 @@ KMIME_EXPORT void eatCFWS(const char *&scursor, const char *const send,
   @param result the parsing result
   @param isCRLF true if input string is terminated with a CRLF.
 */
-KMIME_EXPORT bool parseMailbox(const char *&scursor, const char *const send,
-                               Types::Mailbox &result, bool isCRLF = false);
+KMIME_EXPORT bool parseMailbox(const char *&scursor, const char *const send, Types::Mailbox &result, bool isCRLF = false);
 
-[[nodiscard]] KMIME_EXPORT bool parseGroup(const char *&scursor,
-                                           const char *const send,
-                                           Types::Address &result,
-                                           bool isCRLF = false);
+[[nodiscard]] KMIME_EXPORT bool parseGroup(const char *&scursor, const char *const send, Types::Address &result, bool isCRLF = false);
 
-[[nodiscard]] KMIME_EXPORT bool parseAddress(const char *&scursor,
-                                             const char *const send,
-                                             Types::Address &result,
-                                             bool isCRLF = false);
+[[nodiscard]] KMIME_EXPORT bool parseAddress(const char *&scursor, const char *const send, Types::Address &result, bool isCRLF = false);
 
-[[nodiscard]] KMIME_EXPORT bool parseAddressList(const char *&scursor,
-                                                 const char *const send,
-                                                 Types::AddressList &result,
-                                                 bool isCRLF = false);
+[[nodiscard]] KMIME_EXPORT bool parseAddressList(const char *&scursor, const char *const send, Types::AddressList &result, bool isCRLF = false);
 
 /** Parses the first header contained the given data.
  *  If a header is found @p head will be shortened to no longer
@@ -117,8 +103,7 @@ KMIME_EXPORT bool parseMailbox(const char *&scursor, const char *const send,
  * @param body return value for the extracted body
  * @since 4.6
  */
-KMIME_EXPORT void extractHeaderAndBody(const QByteArray &content,
-                                       QByteArray &header, QByteArray &body);
+KMIME_EXPORT void extractHeaderAndBody(const QByteArray &content, QByteArray &header, QByteArray &body);
 
 } // namespace HeaderParsing
 

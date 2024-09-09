@@ -9,9 +9,9 @@
 */
 #pragma once
 
-#include "kmime_export.h"
 #include "content.h"
 #include "headers.h"
+#include "kmime_export.h"
 
 #include <QMetaType>
 #include <QSharedPointer>
@@ -261,6 +261,5 @@ private:
 
 } // namespace KMime
 
-Q_DECLARE_METATYPE(KMime::Message*)
+Q_DECLARE_METATYPE(KMime::Message *)
 Q_DECLARE_METATYPE(KMime::Message::Ptr)
-

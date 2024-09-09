@@ -12,8 +12,8 @@
 #include "util_p.h"
 
 #include "charfreq_p.h"
-#include "kmime_debug.h"
 #include "headerparsing.h"
+#include "kmime_debug.h"
 #include "message.h"
 #include "warning_p.h"
 
@@ -40,29 +40,39 @@ QByteArray cachedCharset(const QByteArray &name)
     }
 
     c_harsetCache.append(name.toUpper());
-    //qCDebug(KMIME_LOG) << "KNMimeBase::cachedCharset() number of cs" << c_harsetCache.count();
+    // qCDebug(KMIME_LOG) << "KNMimeBase::cachedCharset() number of cs" << c_harsetCache.count();
     return c_harsetCache.last();
 }
 
 bool isUsAscii(QStringView s)
 {
-    return std::all_of(s.begin(), s.end(), [](QChar c) { return c.unicode() < 128; });
+    return std::all_of(s.begin(), s.end(), [](QChar c) {
+        return c.unicode() < 128;
+    });
 }
 
 QString nameForEncoding(Headers::contentEncoding enc)
 {
     switch (enc) {
-    case Headers::CE7Bit: return QStringLiteral("7bit");
-    case Headers::CE8Bit: return QStringLiteral("8bit");
-    case Headers::CEquPr: return QStringLiteral("quoted-printable");
-    case Headers::CEbase64: return QStringLiteral("base64");
-    case Headers::CEuuenc: return QStringLiteral("uuencode");
-    case Headers::CEbinary: return QStringLiteral("binary");
-    default: return QStringLiteral("unknown");
+    case Headers::CE7Bit:
+        return QStringLiteral("7bit");
+    case Headers::CE8Bit:
+        return QStringLiteral("8bit");
+    case Headers::CEquPr:
+        return QStringLiteral("quoted-printable");
+    case Headers::CEbase64:
+        return QStringLiteral("base64");
+    case Headers::CEuuenc:
+        return QStringLiteral("uuencode");
+    case Headers::CEbinary:
+        return QStringLiteral("binary");
+    default:
+        return QStringLiteral("unknown");
     }
 }
 
-QList<Headers::contentEncoding> encodingsForData(QByteArrayView data) {
+QList<Headers::contentEncoding> encodingsForData(QByteArrayView data)
+{
     QList<Headers::contentEncoding> allowed;
     CharFreq cf(data);
 
@@ -98,18 +108,42 @@ QList<Headers::contentEncoding> encodingsForData(QByteArrayView data) {
 
 // all except specials, CTLs, SPACE.
 const uchar aTextMap[16] = {
-    0x00, 0x00, 0x00, 0x00,
-    0x5F, 0x35, 0xFF, 0xC5,
-    0x7F, 0xFF, 0xFF, 0xE3,
-    0xFF, 0xFF, 0xFF, 0xFE
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    0x5F,
+    0x35,
+    0xFF,
+    0xC5,
+    0x7F,
+    0xFF,
+    0xFF,
+    0xE3,
+    0xFF,
+    0xFF,
+    0xFF,
+    0xFE,
 };
 
 // all except tspecials, CTLs, SPACE.
 const uchar tTextMap[16] = {
-    0x00, 0x00, 0x00, 0x00,
-    0x5F, 0x36, 0xFF, 0xC0,
-    0x7F, 0xFF, 0xFF, 0xE3,
-    0xFF, 0xFF, 0xFF, 0xFE
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    0x5F,
+    0x36,
+    0xFF,
+    0xC0,
+    0x7F,
+    0xFF,
+    0xFF,
+    0xE3,
+    0xFF,
+    0xFF,
+    0xFF,
+    0xFE,
 };
 
 QByteArray uniqueString()
@@ -127,7 +161,7 @@ QByteArray uniqueString()
 
     for (int i = 0; i < 10; i++) {
         int pos = (int)(61.0 * rand() / (RAND_MAX + 1.0));
-        //qCDebug(KMIME_LOG) << pos;
+        // qCDebug(KMIME_LOG) << pos;
         p[i] = chars[pos];
     }
 
@@ -181,12 +215,8 @@ bool isCryptoPart(const Content *content)
     }
 
     const QByteArray lowerSubType = ct->subType().toLower();
-    if (lowerSubType == "pgp-encrypted" ||
-        lowerSubType == "pgp-signature" ||
-        lowerSubType == "pkcs7-mime" ||
-        lowerSubType == "x-pkcs7-mime" ||
-        lowerSubType == "pkcs7-signature" ||
-        lowerSubType == "x-pkcs7-signature") {
+    if (lowerSubType == "pgp-encrypted" || lowerSubType == "pgp-signature" || lowerSubType == "pkcs7-mime" || lowerSubType == "x-pkcs7-mime"
+        || lowerSubType == "pkcs7-signature" || lowerSubType == "x-pkcs7-signature") {
         return true;
     }
 
@@ -196,14 +226,13 @@ bool isCryptoPart(const Content *content)
             return false;
         }
         const auto fileName = cd->filename().toLower();
-        return fileName == QLatin1StringView("msg.asc") ||
-               fileName == QLatin1StringView("encrypted.asc");
+        return fileName == QLatin1StringView("msg.asc") || fileName == QLatin1StringView("encrypted.asc");
     }
 
     return false;
 }
 
-bool isAttachment(const Content* content)
+bool isAttachment(const Content *content)
 {
     if (!content) {
         return false;
@@ -263,7 +292,7 @@ bool hasAttachment(const Content *content)
 
     // OK, content itself is not an attachment. Now we deal with multiparts
     const auto ct = content->contentType();
-    if (ct && ct->isMultipart() && !ct->isSubtype("related")) {// && !ct->isSubtype("alternative")) {
+    if (ct && ct->isMultipart() && !ct->isSubtype("related")) { // && !ct->isSubtype("alternative")) {
         const auto contents = content->contents();
         for (Content *child : contents) {
             if (hasAttachment(child)) {
@@ -306,14 +335,9 @@ bool isSigned(const Message *message)
     if (!contentType) {
         return false;
     }
-    if (contentType->isSubtype("signed") ||
-            contentType->isSubtype("pgp-signature") ||
-            contentType->isSubtype("pkcs7-signature") ||
-            contentType->isSubtype("x-pkcs7-signature") ||
-            message->mainBodyPart("multipart/signed") ||
-            message->mainBodyPart("application/pgp-signature") ||
-            message->mainBodyPart("application/pkcs7-signature") ||
-            message->mainBodyPart("application/x-pkcs7-signature")) {
+    if (contentType->isSubtype("signed") || contentType->isSubtype("pgp-signature") || contentType->isSubtype("pkcs7-signature")
+        || contentType->isSubtype("x-pkcs7-signature") || message->mainBodyPart("multipart/signed") || message->mainBodyPart("application/pgp-signature")
+        || message->mainBodyPart("application/pkcs7-signature") || message->mainBodyPart("application/x-pkcs7-signature")) {
         return true;
     }
     return false;
@@ -329,14 +353,9 @@ bool isEncrypted(const Message *message)
     if (!contentType) {
         return false;
     }
-    if (contentType->isSubtype("encrypted") ||
-            contentType->isSubtype("pgp-encrypted") ||
-            contentType->isSubtype("pkcs7-mime") ||
-            contentType->isSubtype("x-pkcs7-mime") ||
-            message->mainBodyPart("multipart/encrypted") ||
-            message->mainBodyPart("application/pgp-encrypted") ||
-            message->mainBodyPart("application/pkcs7-mime") ||
-            message->mainBodyPart("application/x-pkcs7-mime")) {
+    if (contentType->isSubtype("encrypted") || contentType->isSubtype("pgp-encrypted") || contentType->isSubtype("pkcs7-mime")
+        || contentType->isSubtype("x-pkcs7-mime") || message->mainBodyPart("multipart/encrypted") || message->mainBodyPart("application/pgp-encrypted")
+        || message->mainBodyPart("application/pkcs7-mime") || message->mainBodyPart("application/x-pkcs7-mime")) {
         return true;
     }
 

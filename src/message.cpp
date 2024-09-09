@@ -36,7 +36,7 @@ QByteArray Message::assembleHeaders()
 Content *Message::mainBodyPart(const QByteArray &type)
 {
     // ugly, but given we start from a non-const this we know the result will be safely const_castable as well
-    return const_cast<Content*>(static_cast<const Message*>(this)->mainBodyPart(type));
+    return const_cast<Content *>(static_cast<const Message *>(this)->mainBodyPart(type));
 }
 
 const Content *Message::mainBodyPart(const QByteArray &type) const
@@ -83,14 +83,17 @@ QString Message::mimeType()
 }
 
 // @cond PRIVATE
-#define kmime_mk_header_accessor( type, method ) \
-    Headers::type *Message::method( bool create ) { \
-        return header<Headers::type>( create ); \
-    } \
-    const Headers::type *Message::method() const { \
-        return header<Headers::type>(); \
+#define kmime_mk_header_accessor(type, method)                                                                                                                 \
+    Headers::type *Message::method(bool create)                                                                                                                \
+    {                                                                                                                                                          \
+        return header<Headers::type>(create);                                                                                                                  \
+    }                                                                                                                                                          \
+    const Headers::type *Message::method() const                                                                                                               \
+    {                                                                                                                                                          \
+        return header<Headers::type>();                                                                                                                        \
     }
 
+// clang-format off
 kmime_mk_header_accessor(MessageID, messageID)
 kmime_mk_header_accessor(Subject, subject)
 kmime_mk_header_accessor(Date, date)
@@ -104,9 +107,8 @@ kmime_mk_header_accessor(References, references)
 kmime_mk_header_accessor(UserAgent, userAgent)
 kmime_mk_header_accessor(InReplyTo, inReplyTo)
 kmime_mk_header_accessor(Sender, sender)
+// clang-format on
 
 #undef kmime_mk_header_accessor
 // @endcond
-
 }
-

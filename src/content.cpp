@@ -20,9 +20,9 @@
 */
 #include "content.h"
 #include "content_p.h"
-#include "message.h"
 #include "headerparsing.h"
 #include "headerparsing_p.h"
+#include "message.h"
 #include "parsers_p.h"
 #include "util_p.h"
 
@@ -135,7 +135,7 @@ void Content::parse()
     d->multipartContents.clear();
     d->clearBodyMessage();
     Headers::ContentType *ct = contentType();
-    if (ct->isEmpty()) { //Set default content-type as defined in https://tools.ietf.org/html/rfc2045#page-10 (5.2.  Content-Type Defaults)
+    if (ct->isEmpty()) { // Set default content-type as defined in https://tools.ietf.org/html/rfc2045#page-10 (5.2.  Content-Type Defaults)
         ct->setMimeType("text/plain");
         ct->setCharset("us-ascii");
     }
@@ -235,16 +235,15 @@ void Content::clearContents(bool del)
 
 QByteArray Content::encodedContent(bool useCrLf) const
 {
-    QByteArray encodedContentData = head();           // return value; initialize with the head data
+    QByteArray encodedContentData = head(); // return value; initialize with the head data
     const QByteArray encodedBodyData = encodedBody();
 
     /* Make sure that head and body have at least two newlines as separator, otherwise add one.
      * If we have enough newlines as separator, then we should not change the number of newlines
      * to not break digital signatures
      */
-    if (!encodedContentData.endsWith("\n\n") &&
-        !encodedBodyData.startsWith("\n\n") &&
-        !(encodedContentData.endsWith("\n") && encodedBodyData.startsWith("\n"))){
+    if (!encodedContentData.endsWith("\n\n") && !encodedBodyData.startsWith("\n\n")
+        && !(encodedContentData.endsWith("\n") && encodedBodyData.startsWith("\n"))) {
         encodedContentData += '\n';
     }
     encodedContentData += encodedBodyData;
@@ -302,12 +301,12 @@ QByteArray Content::encodedBody() const
             e += d->preamble;
         }
 
-        //add all (encoded) contents separated by boundaries
+        // add all (encoded) contents separated by boundaries
         for (Content *c : std::as_const(d->multipartContents)) {
             e += boundary + '\n';
-            e += c->encodedContent(false);    // don't convert LFs here, we do that later!!!!!
+            e += c->encodedContent(false); // don't convert LFs here, we do that later!!!!!
         }
-        //finally append the closing boundary
+        // finally append the closing boundary
         e += boundary + "--\n";
 
         if (!d->epilogue.isEmpty()) {
@@ -329,11 +328,11 @@ QByteArray Content::decodedContent() const
 
     if (!ec || d_ptr->m_decoded) {
         ret = d_ptr->body;
-        //Laurent Fix bug #311267
-        //removeTrailingNewline = true;
+        // Laurent Fix bug #311267
+        // removeTrailingNewline = true;
     } else {
         switch (ec->encoding()) {
-        case Headers::CEbase64 : {
+        case Headers::CEbase64: {
             KCodecs::Codec *codec = KCodecs::Codec::codecForName("base64");
             Q_ASSERT(codec);
             ret.resize(codec->maxDecodedSizeFor(d_ptr->body.size()));
@@ -344,18 +343,18 @@ QByteArray Content::decodedContent() const
             ret.truncate(resultIt - ret.begin());
             break;
         }
-        case Headers::CEquPr :
+        case Headers::CEquPr:
             ret = KCodecs::quotedPrintableDecode(d_ptr->body);
             removeTrailingNewline = true;
             break;
-        case Headers::CEuuenc :
+        case Headers::CEuuenc:
             KCodecs::uudecode(d_ptr->body, ret);
             break;
-        case Headers::CEbinary :
+        case Headers::CEbinary:
             ret = d_ptr->body;
             removeTrailingNewline = false;
             break;
-        default :
+        default:
             ret = d_ptr->body;
             removeTrailingNewline = true;
         }
@@ -370,15 +369,15 @@ QByteArray Content::decodedContent() const
 
 QString Content::decodedText(DecodedTextTrimOption trimOption) const
 {
-    if (!d_ptr->decodeText(this)) {   //this is not a text content !!
-      return {};
+    if (!d_ptr->decodeText(this)) { // this is not a text content !!
+        return {};
     }
 
     QStringDecoder codec;
     if (const auto ct = contentType(); ct) {
         codec = QStringDecoder(ct->charset().constData());
     }
-    if (!codec.isValid()) {   // no suitable codec found => try local settings and hope for the best ;-)
+    if (!codec.isValid()) { // no suitable codec found => try local settings and hope for the best ;-)
         codec = QStringDecoder(QStringDecoder::System);
     }
 
@@ -400,7 +399,7 @@ QString Content::decodedText(DecodedTextTrimOption trimOption) const
         s.truncate(i + 1);
     } else {
         if (s.endsWith(QLatin1Char('\n'))) {
-            s.chop(1);   // remove trailing new-line
+            s.chop(1); // remove trailing new-line
         }
     }
 
@@ -411,26 +410,26 @@ void Content::fromUnicodeString(const QString &s)
 {
     QStringEncoder codec(contentType()->charset().constData());
 
-    if (!codec.isValid()) {   // no suitable codec found => try local settings and hope for the best ;-)
+    if (!codec.isValid()) { // no suitable codec found => try local settings and hope for the best ;-)
         codec = QStringEncoder(QStringEncoder::System);
         QByteArray chset = codec.name();
         contentType()->setCharset(chset);
     }
 
     d_ptr->body = codec.encode(s);
-    d_ptr->m_decoded = true;   //text is always decoded
+    d_ptr->m_decoded = true; // text is always decoded
 }
 
 Content *Content::textContent()
 {
     // we start from a non-const this we know the result will be safely const_castable as well
-    return const_cast<Content*>(static_cast<const Content*>(this)->textContent());
+    return const_cast<Content *>(static_cast<const Content *>(this)->textContent());
 }
 
 const Content *Content::textContent() const
 {
-    //return the first content with mimetype=text/*
-    // see ContentType::isText, that's also true for an empty header
+    // return the first content with mimetype=text/*
+    //  see ContentType::isText, that's also true for an empty header
     if (const auto ct = contentType(); !ct || ct->isText()) {
         return this;
     }
@@ -445,12 +444,12 @@ const Content *Content::textContent() const
     return nullptr;
 }
 
-QList<Content *> Content::attachments() const {
+QList<Content *> Content::attachments() const
+{
     QList<Content *> result;
 
     auto ct = contentType();
-    if (ct && ct->isMultipart() &&
-        !ct->isSubtype("related") /* && !ct->isSubtype("alternative")*/) {
+    if (ct && ct->isMultipart() && !ct->isSubtype("related") /* && !ct->isSubtype("alternative")*/) {
         const QList<Content *> contentsList = contents();
         result.reserve(contentsList.count());
         for (Content *child : contentsList) {
@@ -459,30 +458,32 @@ QList<Content *> Content::attachments() const {
             } else {
                 result += child->attachments();
             }
-      }
+        }
     }
 
     return result;
 }
 
-QList<Content *> Content::contents() const { return d_ptr->contents(); }
+QList<Content *> Content::contents() const
+{
+    return d_ptr->contents();
+}
 
 void Content::replaceContent(Content *oldContent, Content *newContent)
 {
-    Q_D( Content );
-    if ( d->multipartContents.isEmpty() || !d->multipartContents.contains( oldContent ) ) {
-      return;
+    Q_D(Content);
+    if (d->multipartContents.isEmpty() || !d->multipartContents.contains(oldContent)) {
+        return;
     }
 
-    d->multipartContents.removeAll( oldContent );
+    d->multipartContents.removeAll(oldContent);
     delete oldContent;
-    d->multipartContents.append( newContent );
-    if( newContent->parent() != this ) {
-      // If the content was part of something else, this will remove it from there.
-      newContent->setParent( this );
+    d->multipartContents.append(newContent);
+    if (newContent->parent() != this) {
+        // If the content was part of something else, this will remove it from there.
+        newContent->setParent(this);
     }
 }
-
 
 void Content::appendContent(Content *c)
 {
@@ -557,7 +558,10 @@ void Content::changeEncoding(Headers::contentEncoding e)
     }
 }
 
-QList<Headers::Base *> Content::headers() const { return d_ptr->headers; }
+QList<Headers::Base *> Content::headers() const
+{
+    return d_ptr->headers;
+}
 
 Headers::Base *Content::headerByType(QByteArrayView type) const
 {
@@ -602,7 +606,7 @@ bool Content::removeHeader(QByteArrayView type)
     const auto endIt = d->headers.end();
     for (auto it = d->headers.begin(); it != endIt; ++it) {
         if ((*it)->is(type)) {
-            delete(*it);
+            delete (*it);
             d->headers.erase(it);
             return true;
         }
@@ -640,7 +644,6 @@ qsizetype Content::storageSize() const
     if (d->contents().isEmpty()) {
         s += d->body.size();
     } else {
-
         // FIXME: This should take into account the boundary headers that are added in
         //        encodedContent!
         const auto contents = d->contents();
@@ -663,26 +666,26 @@ bool ContentPrivate::decodeText(const Content *q)
     const Headers::ContentTransferEncoding *enc = q->contentTransferEncoding();
 
     if (const auto ct = q->contentType(); ct && !ct->isText()) {
-        return false; //non textual data cannot be decoded here => use decodedContent() instead
+        return false; // non textual data cannot be decoded here => use decodedContent() instead
     }
     if (m_decoded) {
-        return true; //nothing to do
+        return true; // nothing to do
     }
 
     if (enc) {
         switch (enc->encoding()) {
-        case Headers::CEbase64 :
+        case Headers::CEbase64:
             body = KCodecs::base64Decode(body);
             break;
-        case Headers::CEquPr :
+        case Headers::CEquPr:
             body = KCodecs::quotedPrintableDecode(body);
             break;
-        case Headers::CEuuenc :
+        case Headers::CEuuenc:
             body = KCodecs::uudecode(body);
             break;
-        case Headers::CEbinary :
+        case Headers::CEbinary:
             // nothing to decode
-        default :
+        default:
             break;
         }
     }
@@ -712,7 +715,7 @@ ContentIndex KMime::Content::indexForContent(Content *content) const
     const auto i = d_ptr->contents().indexOf(content);
     if (i >= 0) {
         ContentIndex ci;
-        ci.push(i + 1);   // zero-based -> one-based index
+        ci.push(i + 1); // zero-based -> one-based index
         return ci;
     }
     // not found, we need to search recursively
@@ -720,7 +723,7 @@ ContentIndex KMime::Content::indexForContent(Content *content) const
         ContentIndex ci = d_ptr->contents().at(i)->indexForContent(content);
         if (ci.isValid()) {
             // found it
-            ci.push(i + 1);   // zero-based -> one-based index
+            ci.push(i + 1); // zero-based -> one-based index
             return ci;
         }
     }
@@ -793,7 +796,7 @@ Message::Ptr Content::bodyAsMessage() const
     if (bodyIsMessage() && d_ptr->bodyAsMessage) {
         return d_ptr->bodyAsMessage;
     } else {
-      return {};
+        return {};
     }
 }
 
@@ -806,33 +809,38 @@ bool Content::bodyIsMessage() const
 }
 
 // @cond PRIVATE
-#define kmime_mk_header_accessor( type, method ) \
-    Headers::type *Content::method( bool create ) { \
-        return header<Headers::type>( create ); \
-    } \
-    const Headers::type *Content::method() const { \
-        return header<Headers::type>(); \
+#define kmime_mk_header_accessor(type, method)                                                                                                                 \
+    Headers::type *Content::method(bool create)                                                                                                                \
+    {                                                                                                                                                          \
+        return header<Headers::type>(create);                                                                                                                  \
+    }                                                                                                                                                          \
+    const Headers::type *Content::method() const                                                                                                               \
+    {                                                                                                                                                          \
+        return header<Headers::type>();                                                                                                                        \
     }
 
+// clang-format off
 kmime_mk_header_accessor(ContentType, contentType)
 kmime_mk_header_accessor(ContentTransferEncoding, contentTransferEncoding)
 kmime_mk_header_accessor(ContentDisposition, contentDisposition)
 kmime_mk_header_accessor(ContentDescription, contentDescription)
 kmime_mk_header_accessor(ContentLocation, contentLocation)
 kmime_mk_header_accessor(ContentID, contentID)
+// clang-format on
 
 #undef kmime_mk_header_accessor
-// @endcond
+    // @endcond
 
-void ContentPrivate::clearBodyMessage()
+    void ContentPrivate::clearBodyMessage()
 {
     bodyAsMessage.reset();
 }
 
-QList<Content *> ContentPrivate::contents() const {
+QList<Content *> ContentPrivate::contents() const
+{
     Q_ASSERT(multipartContents.isEmpty() || !bodyAsMessage);
     if (bodyAsMessage) {
-      return QList<Content *>() << bodyAsMessage.data();
+        return QList<Content *>() << bodyAsMessage.data();
     } else {
         return multipartContents;
     }
@@ -851,7 +859,7 @@ bool ContentPrivate::parseUuencoded(Content *q)
     if (uup.isPartial()) {
         // This seems to be only a part of the message, so we treat it as "message/partial".
         ct->setMimeType("message/partial");
-        //ct->setId( uniqueString() ); not needed yet
+        // ct->setId( uniqueString() ); not needed yet
         ct->setPartialParams(uup.partialCount(), uup.partialNumber());
         q->contentTransferEncoding()->setEncoding(Headers::CE7Bit);
     } else {
@@ -881,11 +889,10 @@ bool ContentPrivate::parseUuencoded(Content *q)
             c->contentType()->setName(QLatin1StringView(uup.filenames().at(i)));
             c->contentTransferEncoding()->setEncoding(Headers::CEuuenc);
             c->contentDisposition()->setDisposition(Headers::CDattachment);
-            c->contentDisposition()->setFilename(
-                QLatin1StringView(uup.filenames().at(i)));
+            c->contentDisposition()->setFilename(QLatin1StringView(uup.filenames().at(i)));
             // uup.binaryParts().at(i) does no longer have the uuencode header, which makes KCodecs fail since 5c66308c4786ef7fbf77b0e306e73f7d4ac3431b
             c->setEncodedBody(prevBody);
-            c->changeEncoding(Headers::CEbase64);   // Convert to base64.
+            c->changeEncoding(Headers::CEbase64); // Convert to base64.
             multipartContents.append(c);
         }
     }
@@ -906,10 +913,10 @@ bool ContentPrivate::parseYenc(Content *q)
     if (yenc.isPartial()) {
         // Assume there is exactly one decoded part.  Treat this as "message/partial".
         ct->setMimeType("message/partial");
-        //ct->setId( uniqueString() ); not needed yet
+        // ct->setId( uniqueString() ); not needed yet
         ct->setPartialParams(yenc.partialCount(), yenc.partialNumber());
         q->contentTransferEncoding()->setEncoding(Headers::CEbinary);
-        q->changeEncoding(Headers::CEbase64);   // Convert to base64.
+        q->changeEncoding(Headers::CEbase64); // Convert to base64.
     } else {
         // This is a complete message, so treat it as "multipart/mixed".
         body.clear();
@@ -936,10 +943,9 @@ bool ContentPrivate::parseYenc(Content *q)
             c->contentType()->setName(QLatin1StringView(yenc.filenames().at(i)));
             c->contentTransferEncoding()->setEncoding(Headers::CEbinary);
             c->contentDisposition()->setDisposition(Headers::CDattachment);
-            c->contentDisposition()->setFilename(
-                QLatin1StringView(yenc.filenames().at(i)));
-            c->setBody(yenc.binaryParts().at(i));     // Yenc bodies are binary.
-            c->changeEncoding(Headers::CEbase64);   // Convert to base64.
+            c->contentDisposition()->setFilename(QLatin1StringView(yenc.filenames().at(i)));
+            c->setBody(yenc.binaryParts().at(i)); // Yenc bodies are binary.
+            c->changeEncoding(Headers::CEbase64); // Convert to base64.
             multipartContents.append(c);
         }
     }

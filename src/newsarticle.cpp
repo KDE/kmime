@@ -29,20 +29,24 @@ QByteArray NewsArticle::assembleHeaders()
 }
 
 // @cond PRIVATE
-#define kmime_mk_header_accessor( type, method ) \
-    Headers::type* NewsArticle::method( bool create ) { \
-        return header<Headers::type>( create ); \
-    } \
-    const Headers::type* NewsArticle::method() const { \
-        return header<Headers::type>(); \
+#define kmime_mk_header_accessor(type, method)                                                                                                                 \
+    Headers::type *NewsArticle::method(bool create)                                                                                                            \
+    {                                                                                                                                                          \
+        return header<Headers::type>(create);                                                                                                                  \
+    }                                                                                                                                                          \
+    const Headers::type *NewsArticle::method() const                                                                                                           \
+    {                                                                                                                                                          \
+        return header<Headers::type>();                                                                                                                        \
     }
 
+// clang-format off
 kmime_mk_header_accessor(Control, control)
 kmime_mk_header_accessor(Lines, lines)
 kmime_mk_header_accessor(Supersedes, supersedes)
 kmime_mk_header_accessor(MailCopiesTo, mailCopiesTo)
 kmime_mk_header_accessor(Newsgroups, newsgroups)
 kmime_mk_header_accessor(FollowUpTo, followUpTo)
+// clang-format on
 
 #undef kmime_mk_header_accessor
 // @endcond

@@ -78,12 +78,12 @@ public:
       The different types of data.
     */
     enum Type {
-        None = 0,              /**< Unknown */
-        EightBitData,          /**< 8bit binary */
+        None = 0, /**< Unknown */
+        EightBitData, /**< 8bit binary */
         Binary = EightBitData, /**< 8bit binary */
-        SevenBitData,          /**< 7bit binary */
-        EightBitText,          /**< 8bit text */
-        SevenBitText           /**< 7bit text */
+        SevenBitData, /**< 7bit binary */
+        EightBitText, /**< 8bit text */
+        SevenBitText /**< 7bit text */
     };
 
     /**
@@ -134,18 +134,18 @@ public:
     */
     [[nodiscard]] float controlCodesRatio() const;
 
-  private:
-    uint mNUL = 0;       // count of NUL chars
-    uint mCTL = 0;       // count of CTLs (incl. DEL, excl. CR, LF, HT)
-    uint mCR = 0;        // count of CR chars
-    uint mLF = 0;        // count of LF chars
-    uint mCRLF = 0;      // count of LFs, preceded by CRs
+private:
+    uint mNUL = 0; // count of NUL chars
+    uint mCTL = 0; // count of CTLs (incl. DEL, excl. CR, LF, HT)
+    uint mCR = 0; // count of CR chars
+    uint mLF = 0; // count of LF chars
+    uint mCRLF = 0; // count of LFs, preceded by CRs
     uint mPrintable = 0; // count of printable US-ASCII chars (SPC..~)
-    uint mEightBit = 0;  // count of other latin1 chars (those with 8th bit set)
-    uint mTotal = 0;     // count of all chars
+    uint mEightBit = 0; // count of other latin1 chars (those with 8th bit set)
+    uint mTotal = 0; // count of all chars
     uint mLineMin = std::numeric_limits<uint>::max(); // minimum line length
-    uint mLineMax = 0;   // maximum line length
-    bool mTrailingWS = false;  // does the buffer contain trailing whitespace?
+    uint mLineMax = 0; // maximum line length
+    bool mTrailingWS = false; // does the buffer contain trailing whitespace?
     bool mLeadingFrom = false; // does the buffer contain lines starting with "From "?
 
     /**
@@ -158,4 +158,3 @@ public:
 };
 
 } // namespace KMime
-

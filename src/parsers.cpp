@@ -38,13 +38,12 @@ bool MultiPart::parse()
 
     m_parts.clear();
 
-    //find the first valid boundary
+    // find the first valid boundary
     while (true) {
-        if ((pos1 = m_src.indexOf(b, pos1)) == -1 || pos1 == 0 ||
-                m_src[pos1 - 1] == '\n') { //valid boundary found or no boundary at all
+        if ((pos1 = m_src.indexOf(b, pos1)) == -1 || pos1 == 0 || m_src[pos1 - 1] == '\n') { // valid boundary found or no boundary at all
             break;
         }
-        pos1 += blen; //boundary found but not valid => skip it;
+        pos1 += blen; // boundary found but not valid => skip it;
     }
 
     if (pos1 > -1) {
@@ -52,47 +51,45 @@ bool MultiPart::parse()
         if (m_src[pos1] == '-' && m_src[pos1 + 1] == '-') {
             // the only valid boundary is the end-boundary
             // this message is *really* broken
-            pos1 = -1; //we give up
-        } else if ((pos1 - blen) > 1) {     //preamble present
+            pos1 = -1; // we give up
+        } else if ((pos1 - blen) > 1) { // preamble present
             m_preamble = m_src.left(pos1 - blen - 1);
         }
     }
 
     while (pos1 > -1 && pos2 > -1) {
-
-        //skip the rest of the line for the first boundary - the message-part starts here
+        // skip the rest of the line for the first boundary - the message-part starts here
         if ((pos1 = m_src.indexOf('\n', pos1)) > -1) {
-            //now search the next linebreak
-            //now find the next valid boundary
-            pos2 = ++pos1; //pos1 and pos2 point now to the beginning of the next line after the boundary
+            // now search the next linebreak
+            // now find the next valid boundary
+            pos2 = ++pos1; // pos1 and pos2 point now to the beginning of the next line after the boundary
             while (true) {
-                if ((pos2 = m_src.indexOf(b, pos2)) == -1 ||
-                        m_src[pos2 - 1] == '\n') { //valid boundary or no more boundaries found
+                if ((pos2 = m_src.indexOf(b, pos2)) == -1 || m_src[pos2 - 1] == '\n') { // valid boundary or no more boundaries found
                     break;
                 }
-                pos2 += blen; //boundary is invalid => skip it;
+                pos2 += blen; // boundary is invalid => skip it;
             }
 
-            if (pos2 == -1) {   // no more boundaries found
-                part = m_src.mid(pos1, m_src.length() - pos1);   //take the rest of the string
+            if (pos2 == -1) { // no more boundaries found
+                part = m_src.mid(pos1, m_src.length() - pos1); // take the rest of the string
                 m_parts.append(part);
                 pos1 = -1;
-                pos2 = -1; //break;
+                pos2 = -1; // break;
             } else {
-                part = m_src.mid(pos1, pos2 - pos1 - 1);   // pos2 - 1 (\n) is part of the boundary (see RFC 2046, section 5.1.1)
+                part = m_src.mid(pos1, pos2 - pos1 - 1); // pos2 - 1 (\n) is part of the boundary (see RFC 2046, section 5.1.1)
                 m_parts.append(part);
-                pos2 += blen; //pos2 points now to the first character after the boundary
-                if (m_src[pos2] == '-' && m_src[pos2 + 1] == '-') { //end-boundary
-                    pos1 = pos2 + 2; //pos1 points now to the character directly after the end-boundary
+                pos2 += blen; // pos2 points now to the first character after the boundary
+                if (m_src[pos2] == '-' && m_src[pos2 + 1] == '-') { // end-boundary
+                    pos1 = pos2 + 2; // pos1 points now to the character directly after the end-boundary
 
-                    if ((pos1 = m_src.indexOf('\n', pos1)) > -1) {       //skip the rest of this line
-                        //everything after the end-boundary is considered as the epilouge
+                    if ((pos1 = m_src.indexOf('\n', pos1)) > -1) { // skip the rest of this line
+                        // everything after the end-boundary is considered as the epilouge
                         m_epilouge = m_src.mid(pos1 + 1, m_src.length() - pos1 - 1);
                     }
                     pos1 = -1;
-                    pos2 = -1; //break
+                    pos2 = -1; // break
                 } else {
-                    pos1 = pos2; //the search continues ...
+                    pos1 = pos2; // the search continues ...
                 }
             }
         }
@@ -103,8 +100,10 @@ bool MultiPart::parse()
 
 //=============================================================================
 
-NonMimeParser::NonMimeParser(const QByteArray &src) :
-    m_src(src), m_partNr(-1), m_totalNr(-1)
+NonMimeParser::NonMimeParser(const QByteArray &src)
+    : m_src(src)
+    , m_partNr(-1)
+    , m_totalNr(-1)
 {
 }
 
@@ -128,9 +127,11 @@ NonMimeParser::~NonMimeParser() = default;
     return -1;
 }
 
-UUEncoded::UUEncoded(const QByteArray &src, const QByteArray &head) :
-    NonMimeParser(src), m_head(head)
-{}
+UUEncoded::UUEncoded(const QByteArray &src, const QByteArray &head)
+    : NonMimeParser(src)
+    , m_head(head)
+{
+}
 
 bool UUEncoded::parse()
 {
@@ -151,30 +152,28 @@ bool UUEncoded::parse()
         QByteArray tmp;
         QByteArray fileName;
 
-        if ((beginPos = findUuencodeBeginMarker(m_src, currentPos)) > -1 &&
-                (beginPos == 0 || m_src.at(beginPos - 1) == '\n')) {
+        if ((beginPos = findUuencodeBeginMarker(m_src, currentPos)) > -1 && (beginPos == 0 || m_src.at(beginPos - 1) == '\n')) {
             containsBegin = true;
             uuStart = m_src.indexOf('\n', beginPos);
-            if (uuStart == -1) {  //no more line breaks found, we give up
+            if (uuStart == -1) { // no more line breaks found, we give up
                 success = false;
                 break;
             } else {
-                uuStart++; //points now at the beginning of the next line
+                uuStart++; // points now at the beginning of the next line
             }
         } else {
             beginPos = currentPos;
         }
 
         if (!containsBegin || (endPos = m_src.indexOf("\nend", (uuStart > 0) ? uuStart - 1 : 0)) == -1) {
-            endPos = m_src.length(); //no end found
+            endPos = m_src.length(); // no end found
         } else {
             containsEnd = true;
         }
 
         if ((containsBegin && containsEnd) || firstIteration) {
-
-            //printf("beginPos=%d , uuStart=%d , endPos=%d\n", beginPos, uuStart, endPos);
-            //all lines in a uuencoded text start with 'M'
+            // printf("beginPos=%d , uuStart=%d , endPos=%d\n", beginPos, uuStart, endPos);
+            // all lines in a uuencoded text start with 'M'
             for (auto idx = uuStart; idx < endPos; idx++) {
                 if (m_src.at(idx) == '\n') {
                     lineCount++;
@@ -192,11 +191,11 @@ bool UUEncoded::parse()
                 }
             }
 
-            //printf("lineCount=%d , MCount=%d\n", lineCount, MCount);
+            // printf("lineCount=%d , MCount=%d\n", lineCount, MCount);
             if (MCount == 0 || (lineCount - MCount) > 10 || ((!containsBegin || !containsEnd) && (MCount < 15))) {
                 // harder check for split-articles
                 success = false;
-                break; //too many "non-M-Lines" found, we give up
+                break; // too many "non-M-Lines" found, we give up
             }
 
             const auto subject = KMime::extractHeader(m_head, "Subject");
@@ -213,34 +212,34 @@ bool UUEncoded::parse()
                     m_totalNr = tmp.right(tmp.length() - pos - 1).toInt();
                 } else {
                     success = false;
-                    break; //no "part-numbers" found in the subject, we give up
+                    break; // no "part-numbers" found in the subject, we give up
                 }
             }
 
-            //everything before "begin" is text
+            // everything before "begin" is text
             if (beginPos > 0) {
                 m_text.append(m_src.mid(currentPos, beginPos - currentPos));
             }
 
             if (containsBegin) {
-                //everything between "begin ### " and the next LF is considered as the filename
+                // everything between "begin ### " and the next LF is considered as the filename
                 fileName = m_src.mid(beginPos + 10, uuStart - beginPos - 11);
             } else {
                 fileName = "";
             }
             m_filenames.append(fileName);
-            //everything between "begin" and "end" is uuencoded
+            // everything between "begin" and "end" is uuencoded
             m_bins.append(m_src.mid(uuStart, endPos - uuStart + 1));
             QMimeDatabase db;
             m_mimeTypes.append(db.mimeTypeForFile(QString::fromUtf8(fileName), QMimeDatabase::MatchExtension).name().toUtf8());
             firstIteration = false;
 
             auto next = m_src.indexOf('\n', endPos + 1);
-            if (next == -1) {   //no more line breaks found, we give up
+            if (next == -1) { // no more line breaks found, we give up
                 success = false;
                 break;
             } else {
-                next++; //points now at the beginning of the next line
+                next++; // points now at the beginning of the next line
             }
             currentPos = next;
 
@@ -260,8 +259,8 @@ bool UUEncoded::parse()
 
 //==============================================================================
 
-YENCEncoded::YENCEncoded(const QByteArray &src) :
-    NonMimeParser(src)
+YENCEncoded::YENCEncoded(const QByteArray &src)
+    : NonMimeParser(src)
 {
 }
 
@@ -307,10 +306,9 @@ bool YENCEncoded::parse()
         bool containsPart = false;
         QByteArray fileName;
 
-        if ((beginPos = m_src.indexOf("=ybegin ", currentPos)) > -1 &&
-                (beginPos == 0 || m_src.at(beginPos - 1) == '\n')) {
+        if ((beginPos = m_src.indexOf("=ybegin ", currentPos)) > -1 && (beginPos == 0 || m_src.at(beginPos - 1) == '\n')) {
             yencStart = m_src.indexOf('\n', beginPos);
-            if (yencStart == -1) {   // no more line breaks found, give up
+            if (yencStart == -1) { // no more line breaks found, give up
                 success = false;
                 break;
             } else {
@@ -363,8 +361,7 @@ bool YENCEncoded::parse()
                     success = false;
                     break;
                 }
-                if (!yencMeta(meta, "begin", &partBegin) ||
-                        !yencMeta(meta, "end", &partEnd)) {
+                if (!yencMeta(meta, "begin", &partBegin) || !yencMeta(meta, "end", &partEnd)) {
                     success = false;
                     break;
                 }
@@ -468,7 +465,7 @@ bool YENCEncoded::parse()
             m_mimeTypes.append(db.mimeTypeForFile(QString::fromUtf8(fileName), QMimeDatabase::MatchExtension).name().toUtf8());
             m_bins.append(binary);
 
-            //everything before "begin" is text
+            // everything before "begin" is text
             if (beginPos > 0) {
                 m_text.append(m_src.mid(currentPos, beginPos - currentPos));
             }

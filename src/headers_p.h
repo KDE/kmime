@@ -17,8 +17,10 @@
 
 //@cond PRIVATE
 
-#define kmime_mk_empty_private( subclass, base ) \
-    class subclass##Private : public base##Private {};
+#define kmime_mk_empty_private(subclass, base)                                                                                                                 \
+    class subclass##Private : public base##Private                                                                                                             \
+    {                                                                                                                                                          \
+    };
 
 namespace KMime
 {
@@ -30,7 +32,7 @@ namespace Headers
 // between QByteArray and QByteArrayView
 struct CaseInsitiveByteArrayLess {
     using is_transparent = bool;
-    template <typename T1, typename T2>
+    template<typename T1, typename T2>
     bool operator()(T1 &&lhs, T2 &&rhs) const
     {
         return qstricmp(lhs.data(), rhs.data()) < 0;
@@ -59,18 +61,17 @@ public:
     QString decoded;
 };
 
-kmime_mk_empty_private(Structured, Base)
-kmime_mk_empty_private(Address, Structured)
+kmime_mk_empty_private(Structured, Base) kmime_mk_empty_private(Address, Structured)
 
-class MailboxListPrivate : public AddressPrivate
+    class MailboxListPrivate : public AddressPrivate
 {
 public:
-  QList<Types::Mailbox> mailboxList;
+    QList<Types::Mailbox> mailboxList;
 };
 
 kmime_mk_empty_private(SingleMailbox, MailboxList)
 
-class AddressListPrivate : public AddressPrivate
+    class AddressListPrivate : public AddressPrivate
 {
 public:
     KMime::Types::AddressList addressList;
@@ -85,7 +86,7 @@ public:
 
 kmime_mk_empty_private(SingleIdent, Ident)
 
-class TokenPrivate : public StructuredPrivate
+    class TokenPrivate : public StructuredPrivate
 {
 public:
     QByteArray token;
@@ -120,11 +121,12 @@ public:
 class MailCopiesToPrivate : public Generics::AddressListPrivate
 {
 public:
-    MailCopiesToPrivate() :
-        Generics::AddressListPrivate(),
-        alwaysCopy(false),
-        neverCopy(false)
-    {}
+    MailCopiesToPrivate()
+        : Generics::AddressListPrivate()
+        , alwaysCopy(false)
+        , neverCopy(false)
+    {
+    }
     bool alwaysCopy;
     bool neverCopy;
 };
@@ -138,28 +140,31 @@ public:
 class ContentTypePrivate : public Generics::ParametrizedPrivate
 {
 public:
-    ContentTypePrivate() :
-        Generics::ParametrizedPrivate()
-    {}
+    ContentTypePrivate()
+        : Generics::ParametrizedPrivate()
+    {
+    }
     QByteArray mimeType;
 };
 
 class ContentDispositionPrivate : public Generics::ParametrizedPrivate
 {
 public:
-    ContentDispositionPrivate() :
-        Generics::ParametrizedPrivate(),
-        disposition(CDInvalid)
-    {}
+    ContentDispositionPrivate()
+        : Generics::ParametrizedPrivate()
+        , disposition(CDInvalid)
+    {
+    }
     contentDisposition disposition;
 };
 
 class GenericPrivate : public Generics::UnstructuredPrivate
 {
 public:
-    GenericPrivate() :
-        Generics::UnstructuredPrivate()
-    {}
+    GenericPrivate()
+        : Generics::UnstructuredPrivate()
+    {
+    }
     ~GenericPrivate()
     {
         delete[] type;
@@ -184,16 +189,17 @@ public:
 class NewsgroupsPrivate : public Generics::StructuredPrivate
 {
 public:
-  QList<QByteArray> groups;
+    QList<QByteArray> groups;
 };
 
 class LinesPrivate : public Generics::StructuredPrivate
 {
 public:
-    LinesPrivate() :
-        Generics::StructuredPrivate(),
-        lines(-1)
-    {}
+    LinesPrivate()
+        : Generics::StructuredPrivate()
+        , lines(-1)
+    {
+    }
     int lines;
 };
 
@@ -205,4 +211,3 @@ kmime_mk_empty_private(ContentID, Generics::SingleIdent)
 #undef kmime_mk_empty_private
 
 //@endcond
-

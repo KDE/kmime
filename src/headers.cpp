@@ -25,15 +25,15 @@
 */
 
 #include "headers.h"
-#include "headers_p.h"
 #include "headerparsing_p.h"
+#include "headers_p.h"
 
-#include "util.h"
-#include "util_p.h"
 #include "codecs_p.h"
 #include "content.h"
 #include "headerfactory_p.h"
 #include "kmime_debug.h"
+#include "util.h"
+#include "util_p.h"
 #include "warning_p.h"
 
 #include <KCodecs>
@@ -42,44 +42,61 @@
 #include <cctype>
 
 // macro to generate a default constructor implementation
-#define kmime_mk_trivial_ctor( subclass, baseclass )                  \
-    subclass::subclass() : baseclass()           \
-    {                                                                     \
-    }                                                                     \
-    \
-    subclass::~subclass() {}
+#define kmime_mk_trivial_ctor(subclass, baseclass)                                                                                                             \
+    subclass::subclass()                                                                                                                                       \
+        : baseclass()                                                                                                                                          \
+    {                                                                                                                                                          \
+    }                                                                                                                                                          \
+                                                                                                                                                               \
+    subclass::~subclass()                                                                                                                                      \
+    {                                                                                                                                                          \
+    }
 
 // end kmime_mk_trivial_ctor
 
-#define kmime_mk_trivial_ctor_with_dptr( subclass, baseclass ) \
-    subclass::subclass() : baseclass( new subclass##Private ) \
-    {                                                                     \
-    }                                                                     \
-    \
-	subclass::~subclass() { \
-		Q_D(subclass); \
-		delete d;  /* see comment above the BasePrivate class */ \
-		d_ptr = nullptr; \
-	}
+#define kmime_mk_trivial_ctor_with_dptr(subclass, baseclass)                                                                                                   \
+    subclass::subclass()                                                                                                                                       \
+        : baseclass(new subclass##Private)                                                                                                                     \
+    {                                                                                                                                                          \
+    }                                                                                                                                                          \
+                                                                                                                                                               \
+    subclass::~subclass()                                                                                                                                      \
+    {                                                                                                                                                          \
+        Q_D(subclass);                                                                                                                                         \
+        delete d; /* see comment above the BasePrivate class */                                                                                                \
+        d_ptr = nullptr;                                                                                                                                       \
+    }
 
 // end kmime_mk_trivial_ctor_with_dptr
 
-#define kmime_mk_trivial_ctor_with_name( subclass, baseclass, name )  \
-    kmime_mk_trivial_ctor( subclass, baseclass )                          \
-    \
-    const char *subclass::type() const                                    \
-    {                                                                     \
-        return staticType();                                                \
-    }                                                                     \
-    const char *subclass::staticType() { return #name; }
+#define kmime_mk_trivial_ctor_with_name(subclass, baseclass, name)                                                                                             \
+    kmime_mk_trivial_ctor(subclass, baseclass)                                                                                                                 \
+                                                                                                                                                               \
+        const char *                                                                                                                                           \
+        subclass::type() const                                                                                                                                 \
+    {                                                                                                                                                          \
+        return staticType();                                                                                                                                   \
+    }                                                                                                                                                          \
+    const char *subclass::staticType()                                                                                                                         \
+    {                                                                                                                                                          \
+        return #name;                                                                                                                                          \
+    }
 
-#define kmime_mk_trivial_ctor_with_name_and_dptr( subclass, baseclass, name ) \
-    kmime_mk_trivial_ctor_with_dptr( subclass, baseclass ) \
-    const char *subclass::type() const { return staticType(); } \
-    const char *subclass::staticType() { return #name; }
+#define kmime_mk_trivial_ctor_with_name_and_dptr(subclass, baseclass, name)                                                                                    \
+    kmime_mk_trivial_ctor_with_dptr(subclass, baseclass) const char *subclass::type() const                                                                    \
+    {                                                                                                                                                          \
+        return staticType();                                                                                                                                   \
+    }                                                                                                                                                          \
+    const char *subclass::staticType()                                                                                                                         \
+    {                                                                                                                                                          \
+        return #name;                                                                                                                                          \
+    }
 
-#define kmime_mk_dptr_ctor( subclass, baseclass ) \
-    subclass::subclass( subclass##Private *d ) : baseclass( d ) {}
+#define kmime_mk_dptr_ctor(subclass, baseclass)                                                                                                                \
+    subclass::subclass(subclass##Private *d)                                                                                                                   \
+        : baseclass(d)                                                                                                                                         \
+    {                                                                                                                                                          \
+    }
 
 using namespace KMime;
 using namespace KMime::Headers;
@@ -91,12 +108,13 @@ namespace KMime
 namespace Headers
 {
 //-----<Base>----------------------------------
-Base::Base() : d_ptr(new BasePrivate)
+Base::Base()
+    : d_ptr(new BasePrivate)
 {
 }
 
-Base::Base(BasePrivate *dd) :
-    d_ptr(dd)
+Base::Base(BasePrivate *dd)
+    : d_ptr(dd)
 {
 }
 
@@ -144,9 +162,10 @@ namespace Generics
 
 //@cond PRIVATE
 kmime_mk_dptr_ctor(Unstructured, Base)
-//@endcond
+    //@endcond
 
-Unstructured::Unstructured() : Base(new UnstructuredPrivate)
+    Unstructured::Unstructured()
+    : Base(new UnstructuredPrivate)
 {
 }
 
@@ -170,7 +189,7 @@ QByteArray Unstructured::as7BitString(bool withHeaderType) const
     if (withHeaderType) {
         result = typeIntro();
     }
-    result += encodeRFC2047String(d->decoded, rfc2047Charset()) ;
+    result += encodeRFC2047String(d->decoded, rfc2047Charset());
 
     return result;
 }
@@ -195,19 +214,19 @@ bool Unstructured::isEmpty() const
 
 //-----<Structured>-------------------------
 
-Structured::Structured() : Base(new StructuredPrivate)
+Structured::Structured()
+    : Base(new StructuredPrivate)
 {
 }
 
 kmime_mk_dptr_ctor(Structured, Base)
 
-Structured::~Structured()
+    Structured::~Structured()
 {
     Q_D(Structured);
     delete d;
     d_ptr = nullptr;
 }
-
 
 void Structured::from7BitString(QByteArrayView s)
 {
@@ -234,7 +253,8 @@ void Structured::fromUnicodeString(const QString &s)
 
 //-----<Address>-------------------------
 
-Address::Address() : Structured(new AddressPrivate)
+Address::Address()
+    : Structured(new AddressPrivate)
 {
 }
 
@@ -243,8 +263,7 @@ kmime_mk_dptr_ctor(Address, Structured)
     Address::~Address() = default;
 
 // helper method used in AddressList and MailboxList
-static bool stringToMailbox(const QByteArray &address,
-                            const QString &displayName, Types::Mailbox &mbox)
+static bool stringToMailbox(const QByteArray &address, const QString &displayName, Types::Mailbox &mbox)
 {
     Types::AddrSpec addrSpec;
     mbox.setName(displayName);
@@ -263,14 +282,13 @@ static bool stringToMailbox(const QByteArray &address,
 
 //-----<MailboxList>-------------------------
 
-kmime_mk_trivial_ctor_with_dptr(MailboxList, Address)
-kmime_mk_dptr_ctor(MailboxList, Address)
+kmime_mk_trivial_ctor_with_dptr(MailboxList, Address) kmime_mk_dptr_ctor(MailboxList, Address)
 
-QByteArray MailboxList::as7BitString(bool withHeaderType) const
+    QByteArray MailboxList::as7BitString(bool withHeaderType) const
 {
     const Q_D(MailboxList);
     if (isEmpty()) {
-      return {};
+        return {};
     }
 
     QByteArray rv;
@@ -308,8 +326,7 @@ void MailboxList::addAddress(const Types::Mailbox &mbox)
     d->mailboxList.append(mbox);
 }
 
-void MailboxList::addAddress(const QByteArray &address,
-                             const QString &displayName)
+void MailboxList::addAddress(const QByteArray &address, const QString &displayName)
 {
     Q_D(MailboxList);
     Types::Mailbox mbox;
@@ -318,7 +335,8 @@ void MailboxList::addAddress(const QByteArray &address,
     }
 }
 
-QList<QByteArray> MailboxList::addresses() const {
+QList<QByteArray> MailboxList::addresses() const
+{
     QList<QByteArray> rv;
     rv.reserve(d_func()->mailboxList.count());
     const auto mailboxList = d_func()->mailboxList;
@@ -347,7 +365,7 @@ QString MailboxList::displayString() const
 {
     Q_D(const MailboxList);
     if (d->mailboxList.size() == 1) { // fast-path to avoid temporary QStringList in the common case of just one From address
-        const auto& mbox = d->mailboxList.at(0);
+        const auto &mbox = d->mailboxList.at(0);
         if (mbox.hasName()) {
             return mbox.name();
         } else {
@@ -368,8 +386,7 @@ void MailboxList::setMailboxes(const Types::Mailbox::List &mailboxes)
     d->mailboxList = mailboxes;
 }
 
-bool MailboxList::parse(const char *&scursor, const char *const send,
-                        bool isCRLF)
+bool MailboxList::parse(const char *&scursor, const char *const send, bool isCRLF)
 {
     Q_D(MailboxList);
     // examples:
@@ -388,10 +405,7 @@ bool MailboxList::parse(const char *&scursor, const char *const send,
     // extract the mailboxes and complain if there are groups:
     for (const auto &it : std::as_const(maybeAddressList)) {
         if (!(it).displayName.isEmpty()) {
-            KMIME_WARN << "mailbox groups in header disallowing them! Name: \""
-                       << (it).displayName << "\""
-                       << Qt::endl
-                          ;
+            KMIME_WARN << "mailbox groups in header disallowing them! Name: \"" << (it).displayName << "\"" << Qt::endl;
         }
         d->mailboxList += (it).mailboxList;
     }
@@ -404,10 +418,9 @@ bool MailboxList::parse(const char *&scursor, const char *const send,
 
 //@cond PRIVATE
 kmime_mk_trivial_ctor_with_dptr(SingleMailbox, MailboxList)
-//@endcond
+    //@endcond
 
-bool SingleMailbox::parse(const char *&scursor, const char *const send,
-                          bool isCRLF)
+    bool SingleMailbox::parse(const char *&scursor, const char *const send, bool isCRLF)
 {
     Q_D(MailboxList);
     if (!MailboxList::parse(scursor, send, isCRLF)) {
@@ -415,8 +428,7 @@ bool SingleMailbox::parse(const char *&scursor, const char *const send,
     }
 
     if (d->mailboxList.count() > 1) {
-        KMIME_WARN << "multiple mailboxes in header allowing only a single one!"
-                   << Qt::endl;
+        KMIME_WARN << "multiple mailboxes in header allowing only a single one!" << Qt::endl;
     }
     return true;
 }
@@ -426,15 +438,14 @@ bool SingleMailbox::parse(const char *&scursor, const char *const send,
 //-----<AddressList>-------------------------
 
 //@cond PRIVATE
-kmime_mk_trivial_ctor_with_dptr(AddressList, Address)
-kmime_mk_dptr_ctor(AddressList, Address)
-//@endcond
+kmime_mk_trivial_ctor_with_dptr(AddressList, Address) kmime_mk_dptr_ctor(AddressList, Address)
+    //@endcond
 
-QByteArray AddressList::as7BitString(bool withHeaderType) const
+    QByteArray AddressList::as7BitString(bool withHeaderType) const
 {
     const Q_D(AddressList);
     if (d->addressList.isEmpty()) {
-      return {};
+        return {};
     }
 
     QByteArray rv;
@@ -485,8 +496,7 @@ void AddressList::addAddress(const Types::Mailbox &mbox)
     d->addressList.append(addr);
 }
 
-void AddressList::addAddress(const QByteArray &address,
-                             const QString &displayName)
+void AddressList::addAddress(const QByteArray &address, const QString &displayName)
 {
     Q_D(AddressList);
     Types::Address addr;
@@ -497,7 +507,8 @@ void AddressList::addAddress(const QByteArray &address,
     }
 }
 
-QList<QByteArray> AddressList::addresses() const {
+QList<QByteArray> AddressList::addresses() const
+{
     QList<QByteArray> rv;
     const auto addressList = d_func()->addressList;
     for (const Types::Address &addr : addressList) {
@@ -551,8 +562,7 @@ void AddressList::setAddressList(const Types::AddressList &addresses)
     d->addressList = addresses;
 }
 
-bool AddressList::parse(const char *&scursor, const char *const send,
-                        bool isCRLF)
+bool AddressList::parse(const char *&scursor, const char *const send, bool isCRLF)
 {
     Q_D(AddressList);
     QList<Types::Address> maybeAddressList;
@@ -569,14 +579,13 @@ bool AddressList::parse(const char *&scursor, const char *const send,
 //-----<Token>-------------------------
 
 //@cond PRIVATE
-kmime_mk_trivial_ctor_with_dptr(Token, Structured)
-kmime_mk_dptr_ctor(Token, Structured)
-//@endcond
+kmime_mk_trivial_ctor_with_dptr(Token, Structured) kmime_mk_dptr_ctor(Token, Structured)
+    //@endcond
 
-QByteArray Token::as7BitString(bool withHeaderType) const
+    QByteArray Token::as7BitString(bool withHeaderType) const
 {
     if (isEmpty()) {
-      return {};
+        return {};
     }
     if (withHeaderType) {
         return typeIntro() + d_func()->token;
@@ -620,7 +629,7 @@ bool Token::parse(const char *&scursor, const char *const send, bool isCRLF)
     eatCFWS(scursor, send, isCRLF);
     if (scursor != send) {
         KMIME_WARN << "trailing garbage after token in header allowing "
-                   "only a single token!"
+                      "only a single token!"
                    << Qt::endl;
     }
     return true;
@@ -632,13 +641,13 @@ bool Token::parse(const char *&scursor, const char *const send, bool isCRLF)
 
 //@cond PRIVATE
 kmime_mk_trivial_ctor_with_dptr(PhraseList, Structured)
-//@endcond
+    //@endcond
 
-QByteArray PhraseList::as7BitString(bool withHeaderType) const
+    QByteArray PhraseList::as7BitString(bool withHeaderType) const
 {
     const Q_D(PhraseList);
     if (isEmpty()) {
-      return {};
+        return {};
     }
 
     QByteArray rv;
@@ -659,7 +668,7 @@ QByteArray PhraseList::as7BitString(bool withHeaderType) const
 
 QString PhraseList::asUnicodeString() const
 {
-  return d_func()->phraseList.join(QLatin1StringView(", "));
+    return d_func()->phraseList.join(QLatin1StringView(", "));
 }
 
 bool PhraseList::isEmpty() const
@@ -672,8 +681,7 @@ QStringList PhraseList::phrases() const
     return d_func()->phraseList;
 }
 
-bool PhraseList::parse(const char *&scursor, const char *const send,
-                       bool isCRLF)
+bool PhraseList::parse(const char *&scursor, const char *const send, bool isCRLF)
 {
     Q_D(PhraseList);
     d->phraseList.clear();
@@ -715,12 +723,12 @@ bool PhraseList::parse(const char *&scursor, const char *const send,
 
 //@cond PRIVATE
 kmime_mk_trivial_ctor_with_dptr(DotAtom, Structured)
-//@endcond
+    //@endcond
 
-QByteArray DotAtom::as7BitString(bool withHeaderType) const
+    QByteArray DotAtom::as7BitString(bool withHeaderType) const
 {
     if (isEmpty()) {
-      return {};
+        return {};
     }
 
     QByteArray rv;
@@ -742,8 +750,7 @@ bool DotAtom::isEmpty() const
     return d_func()->dotAtom.isEmpty();
 }
 
-bool DotAtom::parse(const char *&scursor, const char *const send,
-                    bool isCRLF)
+bool DotAtom::parse(const char *&scursor, const char *const send, bool isCRLF)
 {
     Q_D(DotAtom);
     QByteArrayView maybeDotAtom;
@@ -756,7 +763,7 @@ bool DotAtom::parse(const char *&scursor, const char *const send,
     eatCFWS(scursor, send, isCRLF);
     if (scursor != send) {
         KMIME_WARN << "trailing garbage after dot-atom in header allowing "
-                   "only a single dot-atom!"
+                      "only a single dot-atom!"
                    << Qt::endl;
     }
     return true;
@@ -767,15 +774,14 @@ bool DotAtom::parse(const char *&scursor, const char *const send,
 //-----<Parametrized>-------------------------
 
 //@cond PRIVATE
-kmime_mk_trivial_ctor_with_dptr(Parametrized, Structured)
-kmime_mk_dptr_ctor(Parametrized, Structured)
-//@endcond
+kmime_mk_trivial_ctor_with_dptr(Parametrized, Structured) kmime_mk_dptr_ctor(Parametrized, Structured)
+    //@endcond
 
-QByteArray Parametrized::as7BitString(bool withHeaderType) const
+    QByteArray Parametrized::as7BitString(bool withHeaderType) const
 {
     const Q_D(Parametrized);
     if (isEmpty()) {
-      return {};
+        return {};
     }
 
     QByteArray rv;
@@ -793,7 +799,7 @@ QByteArray Parametrized::as7BitString(bool withHeaderType) const
         if (isUsAscii(it.second)) {
             rv += it.first + '=';
             QByteArray tmp = it.second.toLatin1();
-            addQuotes(tmp, true);   // force quoting, e.g. for whitespaces in parameter value
+            addQuotes(tmp, true); // force quoting, e.g. for whitespaces in parameter value
             rv += tmp;
         } else {
             rv += it.first + "*=";
@@ -827,8 +833,7 @@ bool Parametrized::isEmpty() const
     return d_func()->parameterHash.empty();
 }
 
-bool Parametrized::parse(const char  *&scursor, const char *const send,
-                         bool isCRLF)
+bool Parametrized::parse(const char *&scursor, const char *const send, bool isCRLF)
 {
     Q_D(Parametrized);
     d->parameterHash.clear();
@@ -845,15 +850,14 @@ bool Parametrized::parse(const char  *&scursor, const char *const send,
 //-----<Ident>-------------------------
 
 //@cond PRIVATE
-kmime_mk_trivial_ctor_with_dptr(Ident, Address)
-kmime_mk_dptr_ctor(Ident, Address)
-//@endcond
+kmime_mk_trivial_ctor_with_dptr(Ident, Address) kmime_mk_dptr_ctor(Ident, Address)
+    //@endcond
 
-QByteArray Ident::as7BitString(bool withHeaderType) const
+    QByteArray Ident::as7BitString(bool withHeaderType) const
 {
     const Q_D(Ident);
     if (d->msgIdList.isEmpty()) {
-      return {};
+        return {};
     }
 
     QByteArray rv;
@@ -925,21 +929,22 @@ bool Ident::parse(const char *&scursor, const char *const send, bool isCRLF)
     return true;
 }
 
-QList<QByteArray> Ident::identifiers() const {
+QList<QByteArray> Ident::identifiers() const
+{
     QList<QByteArray> rv;
     const auto msgIdList = d_func()->msgIdList;
     for (const Types::AddrSpec &addr : msgIdList) {
         if (!addr.isEmpty()) {
             const QString asString = addr.asString();
             if (!asString.isEmpty()) {
-                rv.append(asString.toLatin1());   // FIXME: change parsing to use QByteArrays
+                rv.append(asString.toLatin1()); // FIXME: change parsing to use QByteArrays
             }
         }
     }
     return rv;
 }
 
-void Ident::fromIdent(const Ident* ident)
+void Ident::fromIdent(const Ident *ident)
 {
     d_func()->encCS = ident->d_func()->encCS;
     d_func()->msgIdList = ident->d_func()->msgIdList;
@@ -970,14 +975,13 @@ void Ident::appendIdentifier(const QByteArray &id)
 //-----<SingleIdent>-------------------------
 
 //@cond PRIVATE
-kmime_mk_trivial_ctor_with_dptr(SingleIdent, Ident)
-kmime_mk_dptr_ctor(SingleIdent, Ident)
-//@endcond
+kmime_mk_trivial_ctor_with_dptr(SingleIdent, Ident) kmime_mk_dptr_ctor(SingleIdent, Ident)
+    //@endcond
 
-QByteArray SingleIdent::identifier() const
+    QByteArray SingleIdent::identifier() const
 {
     if (d_func()->msgIdList.isEmpty()) {
-      return {};
+        return {};
     }
 
     if (d_func()->cachedIdentifier.isEmpty()) {
@@ -985,7 +989,7 @@ QByteArray SingleIdent::identifier() const
         if (!addr.isEmpty()) {
             const QString asString = addr.asString();
             if (!asString.isEmpty()) {
-                d_func()->cachedIdentifier = asString.toLatin1();// FIXME: change parsing to use QByteArrays
+                d_func()->cachedIdentifier = asString.toLatin1(); // FIXME: change parsing to use QByteArrays
             }
         }
     }
@@ -1001,8 +1005,7 @@ void SingleIdent::setIdentifier(const QByteArray &id)
     appendIdentifier(id);
 }
 
-bool SingleIdent::parse(const char *&scursor, const char *const send,
-                        bool isCRLF)
+bool SingleIdent::parse(const char *&scursor, const char *const send, bool isCRLF)
 {
     Q_D(SingleIdent);
     if (!Ident::parse(scursor, send, isCRLF)) {
@@ -1011,8 +1014,7 @@ bool SingleIdent::parse(const char *&scursor, const char *const send,
 
     if (d->msgIdList.count() > 1) {
         KMIME_WARN << "more than one msg-id in header "
-                   << "allowing only a single one!"
-                   << Qt::endl;
+                   << "allowing only a single one!" << Qt::endl;
     }
     return true;
 }
@@ -1023,14 +1025,14 @@ bool SingleIdent::parse(const char *&scursor, const char *const send,
 
 //-----<ReturnPath>-------------------------
 
-//@cond PRIVATE
+// clang-format off
 kmime_mk_trivial_ctor_with_name_and_dptr(ReturnPath, Generics::Address, Return-Path)
-//@endcond
+    // clang-format on
 
-QByteArray ReturnPath::as7BitString(bool withHeaderType) const
+    QByteArray ReturnPath::as7BitString(bool withHeaderType) const
 {
     if (isEmpty()) {
-      return {};
+        return {};
     }
 
     QByteArray rv;
@@ -1047,8 +1049,7 @@ bool ReturnPath::isEmpty() const
     return !d->mailbox.hasAddress() && !d->mailbox.hasName();
 }
 
-bool ReturnPath::parse(const char *&scursor, const char *const send,
-                       bool isCRLF)
+bool ReturnPath::parse(const char *&scursor, const char *const send, bool isCRLF)
 {
     Q_D(ReturnPath);
     eatCFWS(scursor, send, isCRLF);
@@ -1079,8 +1080,7 @@ bool ReturnPath::parse(const char *&scursor, const char *const send,
     } else {
         // check that there was no display-name:
         if (maybeMailbox.hasName()) {
-            KMIME_WARN << "display-name \"" << maybeMailbox.name()
-                       << "\" in Return-Path!" << Qt::endl;
+            KMIME_WARN << "display-name \"" << maybeMailbox.name() << "\" in Return-Path!" << Qt::endl;
         }
     }
     d->mailbox = maybeMailbox;
@@ -1089,8 +1089,7 @@ bool ReturnPath::parse(const char *&scursor, const char *const send,
     eatCFWS(scursor, send, isCRLF);
     // and warn if it wasn't:
     if (scursor != send) {
-        KMIME_WARN << "trailing garbage after angle-addr in Return-Path!"
-                   << Qt::endl;
+        KMIME_WARN << "trailing garbage after angle-addr in Return-Path!" << Qt::endl;
     }
     return true;
 }
@@ -1101,11 +1100,13 @@ bool ReturnPath::parse(const char *&scursor, const char *const send,
 
 // NOTE: Do *not* register Generic with HeaderFactory, since its type() is changeable.
 
-Generic::Generic() : Generics::Unstructured(new GenericPrivate)
+Generic::Generic()
+    : Generics::Unstructured(new GenericPrivate)
 {
 }
 
-Generic::Generic(const char *t, qsizetype len) : Generics::Unstructured(new GenericPrivate)
+Generic::Generic(const char *t, qsizetype len)
+    : Generics::Unstructured(new GenericPrivate)
 {
     setType(t, len);
 }
@@ -1147,10 +1148,10 @@ void Generic::setType(const char *type, qsizetype len)
 //-----<MessageID>-----------------------------
 
 //@cond PRIVATE
-kmime_mk_trivial_ctor_with_name(MessageID, Generics::SingleIdent, Message-ID)
-//@endcond
+kmime_mk_trivial_ctor_with_name(MessageID, Generics::SingleIdent, Message - ID)
+    //@endcond
 
-void MessageID::generate(const QByteArray &fqdn)
+    void MessageID::generate(const QByteArray &fqdn)
 {
     setIdentifier('<' + uniqueString() + '@' + fqdn + '>');
 }
@@ -1160,14 +1161,16 @@ void MessageID::generate(const QByteArray &fqdn)
 //-----<Control>-------------------------------
 
 //@cond PRIVATE
+// clang-format off
 kmime_mk_trivial_ctor_with_name_and_dptr(Control, Generics::Structured, Control)
-//@endcond
+    // clang-format on
+    //@endcond
 
-QByteArray Control::as7BitString(bool withHeaderType) const
+    QByteArray Control::as7BitString(bool withHeaderType) const
 {
     const Q_D(Control);
     if (isEmpty()) {
-      return {};
+        return {};
     }
 
     QByteArray rv;
@@ -1233,11 +1236,12 @@ bool Control::parse(const char *&scursor, const char *const send, bool isCRLF)
 //-----<MailCopiesTo>--------------------------
 
 //@cond PRIVATE
-kmime_mk_trivial_ctor_with_name_and_dptr(MailCopiesTo,
-        Generics::AddressList, Mail-Copies-To)
-//@endcond
+// clang-format off
+kmime_mk_trivial_ctor_with_name_and_dptr(MailCopiesTo, Generics::AddressList, Mail-Copies-To)
+    // clang-format on
+    //@endcond
 
-QByteArray MailCopiesTo::as7BitString(bool withHeaderType) const
+    QByteArray MailCopiesTo::as7BitString(bool withHeaderType) const
 {
     QByteArray rv;
     if (withHeaderType) {
@@ -1300,8 +1304,7 @@ void MailCopiesTo::setNeverCopy()
     d->neverCopy = true;
 }
 
-bool MailCopiesTo::parse(const char  *&scursor, const char *const send,
-                         bool isCRLF)
+bool MailCopiesTo::parse(const char *&scursor, const char *const send, bool isCRLF)
 {
     Q_D(MailCopiesTo);
     d->addressList.clear();
@@ -1331,41 +1334,47 @@ bool MailCopiesTo::parse(const char  *&scursor, const char *const send,
 //-----<Date>----------------------------------
 
 //@cond PRIVATE
+// clang-format off
 kmime_mk_trivial_ctor_with_name_and_dptr(Date, Generics::Structured, Date)
-//@endcond
+    // clang-format on
+    //@endcond
 
-QByteArray Date::as7BitString(bool withHeaderType) const
+    QByteArray Date::as7BitString(bool withHeaderType) const
 {
     if (isEmpty()) {
-      return {};
+        return {};
     }
 
     QByteArray rv;
     if (withHeaderType) {
         rv += typeIntro();
     }
-    //QT5 fix port to QDateTime Qt::RFC2822Date is not enough we need to fix it. We need to use QLocale("C") + add "ddd, ";
-    //rv += d_func()->dateTime.toString(  Qt::RFC2822Date ).toLatin1();
+    // QT5 fix port to QDateTime Qt::RFC2822Date is not enough we need to fix it. We need to use QLocale("C") + add "ddd, ";
+    // rv += d_func()->dateTime.toString(  Qt::RFC2822Date ).toLatin1();
     rv += QLocale::c().toString(d_func()->dateTime, QStringLiteral("ddd, ")).toLatin1();
     rv += d_func()->dateTime.toString(Qt::RFC2822Date).toLatin1();
 
     return rv;
 }
 
-bool Date::isEmpty() const {
+bool Date::isEmpty() const
+{
     return d_func()->dateTime.isNull() || !d_func()->dateTime.isValid();
 }
 
-QDateTime Date::dateTime() const {
+QDateTime Date::dateTime() const
+{
     return d_func()->dateTime;
 }
 
-void Date::setDateTime(const QDateTime & dt) {
+void Date::setDateTime(const QDateTime &dt)
+{
     Q_D(Date);
     d->dateTime = dt;
 }
 
-bool Date::parse(const char *&scursor, const char *const send, bool isCRLF) {
+bool Date::parse(const char *&scursor, const char *const send, bool isCRLF)
+{
     Q_D(Date);
     const char *start = scursor;
     bool result = parseDateTime(scursor, send, d->dateTime, isCRLF);
@@ -1380,14 +1389,17 @@ bool Date::parse(const char *&scursor, const char *const send, bool isCRLF) {
 //-----<Newsgroups>----------------------------
 
 //@cond PRIVATE
+// clang-format off
 kmime_mk_trivial_ctor_with_name_and_dptr(Newsgroups, Generics::Structured, Newsgroups)
 kmime_mk_trivial_ctor_with_name(FollowUpTo, Newsgroups, Followup-To)
-//@endcond
+    // clang-format on
+    //@endcond
 
-QByteArray Newsgroups::as7BitString(bool withHeaderType) const {
+    QByteArray Newsgroups::as7BitString(bool withHeaderType) const
+{
     const Q_D(Newsgroups);
     if (isEmpty()) {
-      return {};
+        return {};
     }
 
     QByteArray rv;
@@ -1396,7 +1408,7 @@ QByteArray Newsgroups::as7BitString(bool withHeaderType) const {
     }
 
     for (int i = 0; i < d->groups.count(); ++i) {
-        rv += d->groups[ i ];
+        rv += d->groups[i];
         if (i != d->groups.count() - 1) {
             rv += ',';
         }
@@ -1404,49 +1416,58 @@ QByteArray Newsgroups::as7BitString(bool withHeaderType) const {
     return rv;
 }
 
-void Newsgroups::fromUnicodeString(const QString & s) {
+void Newsgroups::fromUnicodeString(const QString &s)
+{
     Q_D(Newsgroups);
     from7BitString(s.toUtf8());
     d->encCS = cachedCharset("UTF-8");
 }
 
-QString Newsgroups::asUnicodeString() const {
+QString Newsgroups::asUnicodeString() const
+{
     return QString::fromUtf8(as7BitString(false));
 }
 
-bool Newsgroups::isEmpty() const {
+bool Newsgroups::isEmpty() const
+{
     return d_func()->groups.isEmpty();
 }
 
-QList<QByteArray> Newsgroups::groups() const { return d_func()->groups; }
+QList<QByteArray> Newsgroups::groups() const
+{
+    return d_func()->groups;
+}
 
-void Newsgroups::setGroups(const QList<QByteArray> &groups) {
+void Newsgroups::setGroups(const QList<QByteArray> &groups)
+{
     Q_D(Newsgroups);
     d->groups = groups;
 }
 
-bool Newsgroups::isCrossposted() const {
+bool Newsgroups::isCrossposted() const
+{
     return d_func()->groups.count() >= 2;
 }
 
-bool Newsgroups::parse(const char *&scursor, const char *const send, bool isCRLF) {
+bool Newsgroups::parse(const char *&scursor, const char *const send, bool isCRLF)
+{
     Q_D(Newsgroups);
     d->groups.clear();
     while (true) {
-      eatCFWS(scursor, send, isCRLF);
-      if (scursor != send && *scursor == ',') {
-        ++scursor;
-      }
-      eatCFWS(scursor, send, isCRLF);
-      if (scursor == send) {
-        return true;
-      }
-      const char *start = scursor;
-      while (scursor != send && !isspace(*scursor) && *scursor != ',') {
-        ++scursor;
-      }
-      QByteArray group(start, scursor - start);
-      d->groups.append(group);
+        eatCFWS(scursor, send, isCRLF);
+        if (scursor != send && *scursor == ',') {
+            ++scursor;
+        }
+        eatCFWS(scursor, send, isCRLF);
+        if (scursor == send) {
+            return true;
+        }
+        const char *start = scursor;
+        while (scursor != send && !isspace(*scursor) && *scursor != ',') {
+            ++scursor;
+        }
+        QByteArray group(start, scursor - start);
+        d->groups.append(group);
     }
     return true;
 }
@@ -1456,12 +1477,15 @@ bool Newsgroups::parse(const char *&scursor, const char *const send, bool isCRLF
 //-----<Lines>---------------------------------
 
 //@cond PRIVATE
+// clang-format off
 kmime_mk_trivial_ctor_with_name_and_dptr(Lines, Generics::Structured, Lines)
-//@endcond
+    // clang-format on
+    //@endcond
 
-QByteArray Lines::as7BitString(bool withHeaderType) const {
+    QByteArray Lines::as7BitString(bool withHeaderType) const
+{
     if (isEmpty()) {
-      return {};
+        return {};
     }
 
     QByteArray num;
@@ -1473,30 +1497,35 @@ QByteArray Lines::as7BitString(bool withHeaderType) const {
     return num;
 }
 
-QString Lines::asUnicodeString() const {
+QString Lines::asUnicodeString() const
+{
     if (isEmpty()) {
-      return {};
+        return {};
     }
     return QString::number(d_func()->lines);
 }
 
-bool Lines::isEmpty() const {
+bool Lines::isEmpty() const
+{
     return d_func()->lines == -1;
 }
 
-int Lines::numberOfLines() const {
+int Lines::numberOfLines() const
+{
     return d_func()->lines;
 }
 
-void Lines::setNumberOfLines(int lines) {
+void Lines::setNumberOfLines(int lines)
+{
     Q_D(Lines);
     d->lines = lines;
 }
 
-bool Lines::parse(const char *&scursor, const char *const send, bool isCRLF) {
+bool Lines::parse(const char *&scursor, const char *const send, bool isCRLF)
+{
     Q_D(Lines);
     eatCFWS(scursor, send, isCRLF);
-    if (parseDigits(scursor, send, d->lines)  == 0) {
+    if (parseDigits(scursor, send, d->lines) == 0) {
         d->lines = -1;
         return false;
     }
@@ -1508,17 +1537,20 @@ bool Lines::parse(const char *&scursor, const char *const send, bool isCRLF) {
 //-----<Content-Type>--------------------------
 
 //@cond PRIVATE
-kmime_mk_trivial_ctor_with_name_and_dptr(ContentType, Generics::Parametrized,
-            Content-Type)
-//@endcond
+// clang-format off
+kmime_mk_trivial_ctor_with_name_and_dptr(ContentType, Generics::Parametrized, Content-Type)
+    // clang-format on
+    //@endcond
 
-bool ContentType::isEmpty() const {
+    bool ContentType::isEmpty() const
+{
     return d_func()->mimeType.isEmpty();
 }
 
-QByteArray ContentType::as7BitString(bool withHeaderType) const {
+QByteArray ContentType::as7BitString(bool withHeaderType) const
+{
     if (isEmpty()) {
-      return {};
+        return {};
     }
 
     QByteArray rv;
@@ -1534,12 +1566,14 @@ QByteArray ContentType::as7BitString(bool withHeaderType) const {
     return rv;
 }
 
-QByteArray ContentType::mimeType() const {
+QByteArray ContentType::mimeType() const
+{
     Q_D(const ContentType);
     return d->mimeType;
 }
 
-QByteArray ContentType::mediaType() const {
+QByteArray ContentType::mediaType() const
+{
     Q_D(const ContentType);
     const auto pos = d->mimeType.indexOf('/');
     if (pos < 0) {
@@ -1549,108 +1583,125 @@ QByteArray ContentType::mediaType() const {
     }
 }
 
-QByteArray ContentType::subType() const {
+QByteArray ContentType::subType() const
+{
     Q_D(const ContentType);
     const auto pos = d->mimeType.indexOf('/');
     if (pos < 0) {
-      return {};
+        return {};
     } else {
         return d->mimeType.mid(pos + 1);
     }
 }
 
-void ContentType::setMimeType(const QByteArray & mimeType) {
+void ContentType::setMimeType(const QByteArray &mimeType)
+{
     Q_D(ContentType);
     d->mimeType = mimeType;
 }
 
-bool ContentType::isMediatype(const char *mediatype) const {
+bool ContentType::isMediatype(const char *mediatype) const
+{
     Q_D(const ContentType);
     const auto len = (qsizetype)strlen(mediatype);
-    return qstrnicmp(d->mimeType.constData(), mediatype, len) == 0 &&
-            (d->mimeType.at(len) == '/' || d->mimeType.size() == len);
+    return qstrnicmp(d->mimeType.constData(), mediatype, len) == 0 && (d->mimeType.at(len) == '/' || d->mimeType.size() == len);
 }
 
-bool ContentType::isSubtype(const char *subtype) const {
+bool ContentType::isSubtype(const char *subtype) const
+{
     Q_D(const ContentType);
     const auto pos = d->mimeType.indexOf('/');
     if (pos < 0) {
         return false;
     }
     const auto len = (qsizetype)strlen(subtype);
-    return qstrnicmp(d->mimeType.constData() + pos + 1, subtype, len) == 0 &&
-            d->mimeType.size() == pos + len + 1;
+    return qstrnicmp(d->mimeType.constData() + pos + 1, subtype, len) == 0 && d->mimeType.size() == pos + len + 1;
 }
 
-bool ContentType::isMimeType(const char* mimeType) const
+bool ContentType::isMimeType(const char *mimeType) const
 {
     Q_D(const ContentType);
     return qstricmp(d->mimeType.constData(), mimeType) == 0;
 }
 
-bool ContentType::isText() const {
+bool ContentType::isText() const
+{
     return (isMediatype("text") || isEmpty());
 }
 
-bool ContentType::isPlainText() const {
+bool ContentType::isPlainText() const
+{
     return (qstricmp(d_func()->mimeType.constData(), "text/plain") == 0 || isEmpty());
 }
 
-bool ContentType::isHTMLText() const {
+bool ContentType::isHTMLText() const
+{
     return qstricmp(d_func()->mimeType.constData(), "text/html") == 0;
 }
 
-bool ContentType::isImage() const {
+bool ContentType::isImage() const
+{
     return isMediatype("image");
 }
 
-bool ContentType::isMultipart() const {
+bool ContentType::isMultipart() const
+{
     return isMediatype("multipart");
 }
 
-bool ContentType::isPartial() const {
+bool ContentType::isPartial() const
+{
     return qstricmp(d_func()->mimeType.constData(), "message/partial") == 0;
 }
 
-QByteArray ContentType::charset() const {
+QByteArray ContentType::charset() const
+{
     QByteArray ret = parameter("charset").toLatin1();
     if (ret.isEmpty()) {
-        //return the default-charset if necessary
+        // return the default-charset if necessary
         ret = QByteArrayLiteral("UTF-8");
     }
     return ret;
 }
 
-void ContentType::setCharset(const QByteArray & s) {
+void ContentType::setCharset(const QByteArray &s)
+{
     setParameter(QByteArrayLiteral("charset"), QString::fromLatin1(s));
 }
 
-QByteArray ContentType::boundary() const {
+QByteArray ContentType::boundary() const
+{
     return parameter("boundary").toLatin1();
 }
 
-void ContentType::setBoundary(const QByteArray & s) {
+void ContentType::setBoundary(const QByteArray &s)
+{
     setParameter(QByteArrayLiteral("boundary"), QString::fromLatin1(s));
 }
 
-QString ContentType::name() const {
+QString ContentType::name() const
+{
     return parameter("name");
 }
 
-void ContentType::setName(const QString & s) {
+void ContentType::setName(const QString &s)
+{
     Q_D(ContentType);
     setParameter(QByteArrayLiteral("name"), s);
 }
 
-QByteArray ContentType::id() const {
+QByteArray ContentType::id() const
+{
     return parameter("id").toLatin1();
 }
 
-void ContentType::setId(const QByteArray & s) {
+void ContentType::setId(const QByteArray &s)
+{
     setParameter(QByteArrayLiteral("id"), QString::fromLatin1(s));
 }
 
-int ContentType::partialNumber() const {
+int ContentType::partialNumber() const
+{
     QByteArray p = parameter("number").toLatin1();
     if (!p.isEmpty()) {
         return p.toInt();
@@ -1659,7 +1710,8 @@ int ContentType::partialNumber() const {
     }
 }
 
-int ContentType::partialCount() const {
+int ContentType::partialCount() const
+{
     QByteArray p = parameter("total").toLatin1();
     if (!p.isEmpty()) {
         return p.toInt();
@@ -1668,13 +1720,14 @@ int ContentType::partialCount() const {
     }
 }
 
-void ContentType::setPartialParams(int total, int number) {
+void ContentType::setPartialParams(int total, int number)
+{
     setParameter(QByteArrayLiteral("number"), QString::number(number));
     setParameter(QByteArrayLiteral("total"), QString::number(total));
 }
 
-bool ContentType::parse(const char *&scursor, const char *const send,
-                        bool isCRLF) {
+bool ContentType::parse(const char *&scursor, const char *const send, bool isCRLF)
+{
     Q_D(ContentType);
     // content-type: type "/" subtype *(";" parameter)
     d->mimeType.clear();
@@ -1731,10 +1784,13 @@ bool ContentType::parse(const char *&scursor, const char *const send,
 
 //-----<ContentID>----------------------
 
+// clang-format off
 kmime_mk_trivial_ctor_with_name_and_dptr(ContentID, SingleIdent, Content-ID)
 kmime_mk_dptr_ctor(ContentID, SingleIdent)
+    // clang-format on
 
-bool ContentID::parse(const char *&scursor, const char *const send, bool isCRLF) {
+    bool ContentID::parse(const char *&scursor, const char *const send, bool isCRLF)
+{
     Q_D(ContentID);
     // Content-id := "<" contentid ">"
     // contentid := now whitespaces
@@ -1805,21 +1861,20 @@ bool ContentID::parse(const char *&scursor, const char *const send, bool isCRLF)
 
 //-----<ContentTransferEncoding>----------------------------
 
-//@cond PRIVATE
-kmime_mk_trivial_ctor_with_name_and_dptr(ContentTransferEncoding,
-        Generics::Token, Content-Transfer-Encoding)
-//@endcond
+// clang-format off
+kmime_mk_trivial_ctor_with_name_and_dptr(ContentTransferEncoding, Generics::Token, Content-Transfer-Encoding)
+    // clang-format on
 
-struct {
+    struct {
     const char *s;
     contentEncoding e;
 } constexpr inline const encTable[] = {
-    { "7Bit", CE7Bit },
-    { "8Bit", CE8Bit },
-    { "quoted-printable", CEquPr },
-    { "base64", CEbase64 },
-    { "x-uuencode", CEuuenc },
-    { "binary", CEbinary },
+    {"7Bit", CE7Bit},
+    {"8Bit", CE8Bit},
+    {"quoted-printable", CEquPr},
+    {"base64", CEbase64},
+    {"x-uuencode", CEuuenc},
+    {"binary", CEbinary},
 };
 
 bool ContentTransferEncoding::isEmpty() const
@@ -1854,7 +1909,7 @@ void ContentTransferEncoding::setEncoding(contentEncoding e)
     d->token.clear();
 }
 
-bool ContentTransferEncoding::parse(const char  *&scursor, const char *const send, bool isCRLF)
+bool ContentTransferEncoding::parse(const char *&scursor, const char *const send, bool isCRLF)
 {
     Q_D(ContentTransferEncoding);
     setEncoding(CE7Bit);
@@ -1885,14 +1940,14 @@ bool ContentTransferEncoding::parse(const char  *&scursor, const char *const sen
 
 //-----<ContentDisposition>--------------------------
 
-//@cond PRIVATE
-kmime_mk_trivial_ctor_with_name_and_dptr(ContentDisposition,
-        Generics::Parametrized, Content-Disposition)
-//@endcond
+// clang-format off
+kmime_mk_trivial_ctor_with_name_and_dptr(ContentDisposition, Generics::Parametrized, Content-Disposition)
+    // clang-format on
 
-QByteArray ContentDisposition::as7BitString(bool withHeaderType) const {
+    QByteArray ContentDisposition::as7BitString(bool withHeaderType) const
+{
     if (isEmpty()) {
-      return {};
+        return {};
     }
 
     QByteArray rv;
@@ -1905,7 +1960,7 @@ QByteArray ContentDisposition::as7BitString(bool withHeaderType) const {
     } else if (d_func()->disposition == CDinline) {
         rv += "inline";
     } else {
-      return {};
+        return {};
     }
 
     if (!Parametrized::isEmpty()) {
@@ -1915,29 +1970,34 @@ QByteArray ContentDisposition::as7BitString(bool withHeaderType) const {
     return rv;
 }
 
-bool ContentDisposition::isEmpty() const {
+bool ContentDisposition::isEmpty() const
+{
     return d_func()->disposition == CDInvalid;
 }
 
-contentDisposition ContentDisposition::disposition() const {
+contentDisposition ContentDisposition::disposition() const
+{
     return d_func()->disposition;
 }
 
-void ContentDisposition::setDisposition(contentDisposition disp) {
+void ContentDisposition::setDisposition(contentDisposition disp)
+{
     Q_D(ContentDisposition);
     d->disposition = disp;
 }
 
-QString KMime::Headers::ContentDisposition::filename() const {
+QString KMime::Headers::ContentDisposition::filename() const
+{
     return parameter("filename");
 }
 
-void ContentDisposition::setFilename(const QString & filename) {
+void ContentDisposition::setFilename(const QString &filename)
+{
     setParameter(QByteArrayLiteral("filename"), filename);
 }
 
-bool ContentDisposition::parse(const char  *&scursor, const char *const send,
-                                bool isCRLF) {
+bool ContentDisposition::parse(const char *&scursor, const char *const send, bool isCRLF)
+{
     Q_D(ContentDisposition);
     d->parameterHash.clear();
     d->disposition = CDInvalid;
@@ -1977,19 +2037,16 @@ bool ContentDisposition::parse(const char  *&scursor, const char *const send,
 
 //-----</ContentDisposition>-------------------------
 
-//@cond PRIVATE
+// clang-format off
 kmime_mk_trivial_ctor_with_name(Subject, Generics::Unstructured, Subject)
-//@endcond
 
-Base *createHeader(const QByteArray & type) {
+Base *createHeader(const QByteArray &type)
+{
     return HeaderFactory::createHeader(type);
 }
 
-//@cond PRIVATE
-kmime_mk_trivial_ctor_with_name(ContentDescription,
-                                Generics::Unstructured, Content-Description)
-kmime_mk_trivial_ctor_with_name(ContentLocation,
-                                Generics::Unstructured, Content-Location)
+kmime_mk_trivial_ctor_with_name(ContentDescription, Generics::Unstructured, Content-Description)
+kmime_mk_trivial_ctor_with_name(ContentLocation, Generics::Unstructured, Content-Location)
 kmime_mk_trivial_ctor_with_name(From, Generics::MailboxList, From)
 kmime_mk_trivial_ctor_with_name(Sender, Generics::SingleMailbox, Sender)
 kmime_mk_trivial_ctor_with_name(To, Generics::AddressList, To)
@@ -2003,7 +2060,7 @@ kmime_mk_trivial_ctor_with_name(InReplyTo, Generics::Ident, In-Reply-To)
 kmime_mk_trivial_ctor_with_name(References, Generics::Ident, References)
 kmime_mk_trivial_ctor_with_name(Organization, Generics::Unstructured, Organization)
 kmime_mk_trivial_ctor_with_name(UserAgent, Generics::Unstructured, User-Agent)
-//@endcond
+// clang-format on
 
 } // namespace Headers
 

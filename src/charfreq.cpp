@@ -23,15 +23,16 @@
 using namespace KMime;
 
 CharFreq::CharFreq(QByteArrayView buf)
-    : mNUL(0),
-      mCTL(0),
-      mCR(0), mLF(0),
-      mCRLF(0),
-      mPrintable(0),
-      mEightBit(0),
-      mTotal(0),
-      mLineMin(0xffffffff),
-      mLineMax(0)
+    : mNUL(0)
+    , mCTL(0)
+    , mCR(0)
+    , mLF(0)
+    , mCRLF(0)
+    , mPrintable(0)
+    , mEightBit(0)
+    , mTotal(0)
+    , mLineMin(0xffffffff)
+    , mLineMax(0)
 {
     if (!buf.isEmpty()) {
         count(buf.data(), buf.size());
@@ -52,14 +53,20 @@ void CharFreq::count(const char *it, size_t len)
     char prevChar = '\n';
     char prevPrevChar = 0;
 
-    for (; it != end ; ++it) {
+    for (; it != end; ++it) {
         ++currentLineLength;
         switch (*it) {
-        case '\0': ++mNUL; break;
-        case '\r': ++mCR;  break;
-        case '\n': ++mLF;
+        case '\0':
+            ++mNUL;
+            break;
+        case '\r':
+            ++mCR;
+            break;
+        case '\n':
+            ++mLF;
             if (prevChar == '\r') {
-                --currentLineLength; ++mCRLF;
+                --currentLineLength;
+                ++mCRLF;
             }
             if (currentLineLength >= mLineMax) {
                 mLineMax = currentLineLength - 1;
@@ -68,8 +75,7 @@ void CharFreq::count(const char *it, size_t len)
                 mLineMin = currentLineLength - 1;
             }
             if (!mTrailingWS) {
-                if (isWS(prevChar) ||
-                        (prevChar == '\r' && isWS(prevPrevChar))) {
+                if (isWS(prevChar) || (prevChar == '\r' && isWS(prevPrevChar))) {
                     mTrailingWS = true;
                 }
             }
@@ -77,8 +83,7 @@ void CharFreq::count(const char *it, size_t len)
             break;
         case 'F': // check for lines starting with From_ if not found already:
             if (!mLeadingFrom) {
-                if (prevChar == '\n' && end - it >= 5 &&
-                        !qstrncmp("From ", it, 5)) {
+                if (prevChar == '\n' && end - it >= 5 && !qstrncmp("From ", it, 5)) {
                     mLeadingFrom = true;
                 }
             }
@@ -158,7 +163,7 @@ CharFreq::Type CharFreq::type() const
            printable, eightBit,
            mTrailingWS ? "yes" : "no" , mLeadingFrom ? "yes" : "no");
 #endif
-    if (mNUL) {   // must be binary
+    if (mNUL) { // must be binary
         return Binary;
     }
 
@@ -202,4 +207,3 @@ float CharFreq::controlCodesRatio() const
         return 0;
     }
 }
-

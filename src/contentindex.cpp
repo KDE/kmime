@@ -26,17 +26,23 @@ using namespace KMime;
 class ContentIndex::Private : public QSharedData
 {
 public:
-  Private() = default;
-  Private(const Private &other) : QSharedData(other) { index = other.index; }
+    Private() = default;
+    Private(const Private &other)
+        : QSharedData(other)
+    {
+        index = other.index;
+    }
 
-  QList<unsigned int> index;
+    QList<unsigned int> index;
 };
 
-KMime::ContentIndex::ContentIndex() : d(new Private)
+KMime::ContentIndex::ContentIndex()
+    : d(new Private)
 {
 }
 
-KMime::ContentIndex::ContentIndex(QStringView index) : d(new Private)
+KMime::ContentIndex::ContentIndex(QStringView index)
+    : d(new Private)
 {
     for (auto s : QStringTokenizer{index, QLatin1Char('.')}) {
         bool ok;
@@ -84,18 +90,18 @@ QString KMime::ContentIndex::toString() const
     return l.join(QLatin1Char('.'));
 }
 
-bool KMime::ContentIndex::operator ==(const ContentIndex &index) const
+bool KMime::ContentIndex::operator==(const ContentIndex &index) const
 {
     return d->index == index.d->index;
 }
 
-bool KMime::ContentIndex::operator !=(const ContentIndex &index) const
+bool KMime::ContentIndex::operator!=(const ContentIndex &index) const
 {
     return d->index != index.d->index;
 }
 
-ContentIndex &ContentIndex::operator =(const ContentIndex &other) = default;
-ContentIndex &ContentIndex::operator =(ContentIndex &&) noexcept = default;
+ContentIndex &ContentIndex::operator=(const ContentIndex &other) = default;
+ContentIndex &ContentIndex::operator=(ContentIndex &&) noexcept = default;
 
 size_t KMime::qHash(const KMime::ContentIndex &index, size_t seed) noexcept
 {

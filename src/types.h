@@ -37,114 +37,112 @@ using AddrSpecList = QList<AddrSpec>;
 class KMIME_EXPORT Mailbox
 {
 public:
-  typedef QList<Mailbox> List;
+    typedef QList<Mailbox> List;
 
-  /**
-    Returns a string representation of the email address, without
-    the angle brackets.
-  */
-  [[nodiscard]] QByteArray address() const;
+    /**
+      Returns a string representation of the email address, without
+      the angle brackets.
+    */
+    [[nodiscard]] QByteArray address() const;
 
-  [[nodiscard]] AddrSpec addrSpec() const;
+    [[nodiscard]] AddrSpec addrSpec() const;
 
-  /**
-    Returns the display name.
-  */
-  [[nodiscard]] QString name() const;
+    /**
+      Returns the display name.
+    */
+    [[nodiscard]] QString name() const;
 
-  /**
-    Sets the email address.
-  */
-  void setAddress(const AddrSpec &addr);
+    /**
+      Sets the email address.
+    */
+    void setAddress(const AddrSpec &addr);
 
-  /**
-    Sets the email address.
-  */
-  void setAddress(const QByteArray &addr);
+    /**
+      Sets the email address.
+    */
+    void setAddress(const QByteArray &addr);
 
-  /**
-    Sets the name.
-  */
-  void setName(const QString &name);
+    /**
+      Sets the name.
+    */
+    void setName(const QString &name);
 
-  /**
-    Sets the name based on a 7bit encoded string.
-  */
-  void setNameFrom7Bit(const QByteArray &name,
-                       const QByteArray &defaultCharset = QByteArray());
+    /**
+      Sets the name based on a 7bit encoded string.
+    */
+    void setNameFrom7Bit(const QByteArray &name, const QByteArray &defaultCharset = QByteArray());
 
-  /**
-    Returns true if this mailbox has an address.
-  */
-  [[nodiscard]] bool hasAddress() const;
+    /**
+      Returns true if this mailbox has an address.
+    */
+    [[nodiscard]] bool hasAddress() const;
 
-  /**
-    Returns true if this mailbox has a display name.
-  */
-  [[nodiscard]] bool hasName() const;
+    /**
+      Returns true if this mailbox has a display name.
+    */
+    [[nodiscard]] bool hasName() const;
 
-  /**
-   * Describes how display names should be quoted
-   * @since 4.5
-   */
-  // AK_REVIEW: remove this enum
-  enum Quoting {
-    QuoteNever, ///< Don't quote display names at all. Such an unquoted display
-                ///< name can not
-    ///  be machine-processed anymore in some cases, for example when it
-    ///  contains commas, like in "Lastname, Firstname".
-    QuoteWhenNecessary, ///< Only quote display names when they contain
-                        ///< characters that need to be
-    ///  quoted, like commas or quote signs.
-    QuoteAlways ///< Always quote the display name
-  };
+    /**
+     * Describes how display names should be quoted
+     * @since 4.5
+     */
+    // AK_REVIEW: remove this enum
+    enum Quoting {
+        QuoteNever, ///< Don't quote display names at all. Such an unquoted display
+                    ///< name can not
+        ///  be machine-processed anymore in some cases, for example when it
+        ///  contains commas, like in "Lastname, Firstname".
+        QuoteWhenNecessary, ///< Only quote display names when they contain
+                            ///< characters that need to be
+        ///  quoted, like commas or quote signs.
+        QuoteAlways ///< Always quote the display name
+    };
 
-  /**
-   * Overloaded method that gives more control over the quoting of the display
-   * name
-   * @param quoting describes how the display name should be quoted
-   * @since 4.5
-   */
-  [[nodiscard]] QString prettyAddress(Quoting quoting = QuoteNever) const;
+    /**
+     * Overloaded method that gives more control over the quoting of the display
+     * name
+     * @param quoting describes how the display name should be quoted
+     * @since 4.5
+     */
+    [[nodiscard]] QString prettyAddress(Quoting quoting = QuoteNever) const;
 
-  /**
-    Parses the given unicode string.
-  */
-  void fromUnicodeString(QStringView s);
+    /**
+      Parses the given unicode string.
+    */
+    void fromUnicodeString(QStringView s);
 
-  /**
-    Parses the given 7bit encoded string.
-  */
-  void from7BitString(QByteArrayView s);
+    /**
+      Parses the given 7bit encoded string.
+    */
+    void from7BitString(QByteArrayView s);
 
-  /**
-    Returns a 7bit transport encoded representation of this mailbox.
+    /**
+      Returns a 7bit transport encoded representation of this mailbox.
 
-    @param encCharset The charset used for encoding.
-  */
-  [[nodiscard]] QByteArray as7BitString(const QByteArray &encCharset) const;
+      @param encCharset The charset used for encoding.
+    */
+    [[nodiscard]] QByteArray as7BitString(const QByteArray &encCharset) const;
 
-  /**
-   * Returns a list of mailboxes from an unicode string.
-   *
-   * @since 5.14
-   */
-  [[nodiscard]] static QList<Mailbox> listFromUnicodeString(QStringView s);
+    /**
+     * Returns a list of mailboxes from an unicode string.
+     *
+     * @since 5.14
+     */
+    [[nodiscard]] static QList<Mailbox> listFromUnicodeString(QStringView s);
 
-  /**
-   * Returns a list of mailboxes from an encoded 7bit string.
-   *
-   * @since 5.14
-   */
-  [[nodiscard]] static QList<Mailbox> listFrom7BitString(QByteArrayView s);
+    /**
+     * Returns a list of mailboxes from an encoded 7bit string.
+     *
+     * @since 5.14
+     */
+    [[nodiscard]] static QList<Mailbox> listFrom7BitString(QByteArrayView s);
 
-  /**
-   * Returns a unicode string representing the given list of mailboxes.
-   *
-   * @since 5.15
-   */
-  [[nodiscard]] static QString
-  listToUnicodeString(const QList<Mailbox> &mailboxes);
+    /**
+     * Returns a unicode string representing the given list of mailboxes.
+     *
+     * @since 5.15
+     */
+    [[nodiscard]] static QString listToUnicodeString(const QList<Mailbox> &mailboxes);
 
 private:
     QString mDisplayName;
@@ -166,5 +164,3 @@ typedef QList<Address> AddressList;
 Q_DECLARE_TYPEINFO(KMime::Types::Mailbox, Q_RELOCATABLE_TYPE);
 Q_DECLARE_TYPEINFO(KMime::Types::Address, Q_RELOCATABLE_TYPE);
 Q_DECLARE_TYPEINFO(KMime::Types::AddrSpec, Q_RELOCATABLE_TYPE);
-
-

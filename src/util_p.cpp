@@ -8,8 +8,8 @@
 
 #include <config-kmime.h>
 
-#include "util_p.h"
 #include "kmime_debug.h"
+#include "util_p.h"
 
 #include <QByteArray>
 #include <QChar>
@@ -41,24 +41,21 @@ qsizetype KMime::findHeaderLineEnd(QByteArrayView src, qsizetype &dataBegin, boo
     // If the first line contains nothing, but the next line starts with a space
     // or a tab, that means a stupid mail client has made the first header field line
     // entirely empty, and has folded the rest to the next line(s).
-    if (src.at(end) == '\n' && end + 1 < len &&
-            (src[end + 1] == ' ' || src[end + 1] == '\t')) {
-
+    if (src.at(end) == '\n' && end + 1 < len && (src[end + 1] == ' ' || src[end + 1] == '\t')) {
         // Skip \n and first whitespace
         dataBegin += 2;
         end += 2;
     }
 
-    if (src.at(end) != '\n') {      // check if the header is not empty
+    if (src.at(end) != '\n') { // check if the header is not empty
         while (true) {
             end = src.indexOf('\n', end + 1);
             if (end == -1 || end == len) {
                 // end of string
                 break;
-            } else if (src[end + 1] == ' ' || src[end + 1] == '\t' ||
-                       (src[end + 1] == '=' && end + 3 <= len &&
-                        ((src[end + 2] == '0' && src[end + 3] == '9') ||
-                         (src[end + 2] == '2' && src[end + 3] == '0')))) {
+            } else if (src[end + 1] == ' ' || src[end + 1] == '\t'
+                       || (src[end + 1] == '=' && end + 3 <= len
+                           && ((src[end + 2] == '0' && src[end + 3] == '9') || (src[end + 2] == '2' && src[end + 3] == '0')))) {
                 // next line is header continuation or starts with =09/=20 (bug #86302)
                 if (folded) {
                     *folded = true;
@@ -71,7 +68,7 @@ qsizetype KMime::findHeaderLineEnd(QByteArrayView src, qsizetype &dataBegin, boo
     }
 
     if (end < 0) {
-        end = len + 1; //take the rest of the string
+        end = len + 1; // take the rest of the string
     }
     return end;
 }
@@ -113,8 +110,8 @@ qsizetype KMime::indexOfHeader(const QByteArray &src, const QByteArray &name, qs
         }
     }
 
-    if (begin > -1) {       //there is a header with the given name
-        dataBegin = begin + name.length() + 1; //skip the name
+    if (begin > -1) { // there is a header with the given name
+        dataBegin = begin + name.length() + 1; // skip the name
         // skip the usual space after the colon
         if (dataBegin < src.length() && src.at(dataBegin) == ' ') {
             ++dataBegin;
@@ -125,7 +122,7 @@ qsizetype KMime::indexOfHeader(const QByteArray &src, const QByteArray &name, qs
     } else {
         end = -1;
         dataBegin = -1;
-        return -1; //header not found
+        return -1; // header not found
     }
 }
 
@@ -180,12 +177,8 @@ QByteArray KMime::unfoldHeader(const char *header, size_t headerSize)
         while (foldEnd <= end - 1) {
             if (QChar::isSpace(*foldEnd)) {
                 ++foldEnd;
-            } else if (foldEnd && *(foldEnd - 1) == '\n' &&
-                       *foldEnd == '=' && foldEnd + 2 < (header + headerSize - 1) &&
-                       ((*(foldEnd + 1) == '0' &&
-                         *(foldEnd + 2) == '9') ||
-                        (*(foldEnd + 1) == '2' &&
-                         *(foldEnd + 2) == '0'))) {
+            } else if (foldEnd && *(foldEnd - 1) == '\n' && *foldEnd == '=' && foldEnd + 2 < (header + headerSize - 1)
+                       && ((*(foldEnd + 1) == '0' && *(foldEnd + 2) == '9') || (*(foldEnd + 1) == '2' && *(foldEnd + 2) == '0'))) {
                 // bug #86302: malformed header continuation starting with =09/=20
                 foldEnd += 3;
             } else {
@@ -210,17 +203,20 @@ QByteArray KMime::unfoldHeader(const QByteArray &header)
     return unfoldHeader(header.constData(), header.size());
 }
 
-namespace {
+namespace
+{
 // state machine used by foldHeader()
 struct HeaderContext {
     unsigned int isEscapePair : 1;
     unsigned int isQuotedStr : 1;
 
-    HeaderContext() {
+    HeaderContext()
+    {
         isEscapePair = isQuotedStr = 0;
     }
 
-    void push(char c) {
+    void push(char c)
+    {
         if (c == '\"' && !isEscapePair) {
             ++isQuotedStr;
         } else if (c == '\\' || isEscapePair) {
@@ -276,7 +272,7 @@ QByteArray KMime::foldHeader(const QByteArray &header)
                 ++eligible; // LF
             }
             recommended = 0;
-            start = fws + 1/* LF */;
+            start = fws + 1 /* LF */;
             continue;
         }
 
@@ -288,7 +284,7 @@ QByteArray KMime::foldHeader(const QByteArray &header)
         // (NOTE: we are not caring about broken ones here)
         if (hdr[pos] == '\n') {
             recommended = eligible = 0;
-            start = pos + 1/* LF */;
+            start = pos + 1 /* LF */;
         }
 
         // Any white space character position is eligible for folding, except of
@@ -308,7 +304,8 @@ QByteArray KMime::foldHeader(const QByteArray &header)
 
 namespace
 {
-template < typename StringType, typename CharType > void removeQuotesGeneric(StringType &str)
+template<typename StringType, typename CharType>
+void removeQuotesGeneric(StringType &str)
 {
     bool inQuote = false;
     for (int i = 0; i < str.length(); ++i) {
@@ -335,7 +332,8 @@ void KMime::removeQuotes(QString &str)
     removeQuotesGeneric<QString, QLatin1Char>(str);
 }
 
-namespace {
+namespace
+{
 template<class StringType, class CharConverterType>
 void addQuotes_impl(StringType &str, bool forceQuotes)
 {

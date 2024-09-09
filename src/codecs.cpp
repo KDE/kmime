@@ -13,12 +13,12 @@
 
 #include <QStringEncoder>
 
-namespace KMime {
+namespace KMime
+{
 
 static const char reservedCharacters[] = "\"()<>@,.;:\\[]=";
 
-QByteArray encodeRFC2047String(QStringView src, const QByteArray &charset,
-                               bool addressHeader)
+QByteArray encodeRFC2047String(QStringView src, const QByteArray &charset, bool addressHeader)
 {
     QByteArray result;
     int start = 0;
@@ -31,7 +31,7 @@ QByteArray encodeRFC2047String(QStringView src, const QByteArray &charset,
 
     QByteArray usedCS;
     if (!codec.isValid()) {
-        //no codec available => try local8Bit and hope the best ;-)
+        // no codec available => try local8Bit and hope the best ;-)
         codec = QStringEncoder(QStringEncoder::System);
         usedCS = codec.name();
     } else {
@@ -49,20 +49,19 @@ QByteArray encodeRFC2047String(QStringView src, const QByteArray &charset,
         encoded8Bit = codec.encode(src);
     }
 
-    if (usedCS.contains("8859-")) {     // use "B"-Encoding for non iso-8859-x charsets
+    if (usedCS.contains("8859-")) { // use "B"-Encoding for non iso-8859-x charsets
         useQEncoding = true;
     }
 
     const auto encoded8BitLength = encoded8Bit.size();
     for (int i = 0; i < encoded8BitLength; i++) {
-        if (encoded8Bit[i] == ' ') {   // encoding starts at word boundaries
+        if (encoded8Bit[i] == ' ') { // encoding starts at word boundaries
             start = i + 1;
         }
 
         // encode escape character, for japanese encodings...
-        if (((signed char)encoded8Bit[i] < 0) || (encoded8Bit[i] == '\033') ||
-                (addressHeader && (strchr("\"()<>@,.;:\\[]=", encoded8Bit[i]) != nullptr))) {
-            end = start;   // non us-ascii char found. Now we determine where to stop encoding
+        if (((signed char)encoded8Bit[i] < 0) || (encoded8Bit[i] == '\033') || (addressHeader && (strchr("\"()<>@,.;:\\[]=", encoded8Bit[i]) != nullptr))) {
+            end = start; // non us-ascii char found. Now we determine where to stop encoding
             nonAscii = true;
             break;
         }
@@ -75,9 +74,8 @@ QByteArray encodeRFC2047String(QStringView src, const QByteArray &charset,
         }
 
         for (int x = end; x < encoded8Bit.length(); x++) {
-            if (((signed char)encoded8Bit[x] < 0) || (encoded8Bit[x] == '\033') ||
-                    (addressHeader && (strchr(reservedCharacters, encoded8Bit[x]) != nullptr))) {
-                end = x;     // we found another non-ascii word
+            if (((signed char)encoded8Bit[x] < 0) || (encoded8Bit[x] == '\033') || (addressHeader && (strchr(reservedCharacters, encoded8Bit[x]) != nullptr))) {
+                end = x; // we found another non-ascii word
 
                 while ((end < encoded8Bit.length()) && (encoded8Bit[end] != ' ')) {
                     // we encode complete words
@@ -94,15 +92,15 @@ QByteArray encodeRFC2047String(QStringView src, const QByteArray &charset,
             char hexcode; // "Q"-encoding implementation described in RFC 2047
             for (int i = start; i < end; i++) {
                 char c = encoded8Bit[i];
-                if (c == ' ') {   // make the result readable with not MIME-capable readers
+                if (c == ' ') { // make the result readable with not MIME-capable readers
                     result += '_';
                 } else {
-                    if (((c >= 'a') && (c <= 'z')) ||        // paranoid mode, encode *all* special chars to avoid problems
-                            ((c >= 'A') && (c <= 'Z')) ||        // with "From" & "To" headers
-                            ((c >= '0') && (c <= '9'))) {
+                    if (((c >= 'a') && (c <= 'z')) || // paranoid mode, encode *all* special chars to avoid problems
+                        ((c >= 'A') && (c <= 'Z')) || // with "From" & "To" headers
+                        ((c >= '0') && (c <= '9'))) {
                         result += c;
                     } else {
-                        result += '=';                 // "stolen" from KMail ;-)
+                        result += '='; // "stolen" from KMail ;-)
                         hexcode = ((c & 0xF0) >> 4) + 48;
                         if (hexcode >= 58) {
                             hexcode += 7;
@@ -137,11 +135,11 @@ QByteArray encodeRFC2047Sentence(QStringView src, const QByteArray &charset)
     qsizetype pos = 0;
     qsizetype wordStart = 0;
 
-    //qCDebug(KMIME_LOG) << "Input:" << src;
-    // Loop over all characters of the string.
-    // When encountering a split character, RFC-2047-encode the word before it, and add it to the result.
+    // qCDebug(KMIME_LOG) << "Input:" << src;
+    //  Loop over all characters of the string.
+    //  When encountering a split character, RFC-2047-encode the word before it, and add it to the result.
     while (pos < length) {
-        //qCDebug(KMIME_LOG) << "Pos:" << pos << "Result:" << result << "Char:" << ch->toLatin1();
+        // qCDebug(KMIME_LOG) << "Pos:" << pos << "Result:" << result << "Char:" << ch->toLatin1();
         const bool isAscii = ch->unicode() < 127;
         const bool isReserved = (strchr(reservedCharacters, ch->toLatin1()) != nullptr);
         if (isAscii && isReserved) {
@@ -172,7 +170,7 @@ QByteArray encodeRFC2047Sentence(QStringView src, const QByteArray &charset)
 QByteArray encodeRFC2231String(QStringView str, const QByteArray &charset)
 {
     if (str.isEmpty()) {
-      return {};
+        return {};
     }
 
     QStringEncoder codec(charset.constData());
@@ -201,7 +199,7 @@ QByteArray encodeRFC2231String(QStringView str, const QByteArray &charset)
         bool needsQuoting = (*l & 0x80) || (*l == '%');
         if (!needsQuoting) {
             constexpr const char especials[] = "()<>@,;:\"/[]?.= \033";
-            for (const auto especial :especials) {
+            for (const auto especial : especials) {
                 if (*l == especial) {
                     needsQuoting = true;
                     break;

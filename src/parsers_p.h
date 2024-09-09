@@ -28,11 +28,20 @@ public:
     MultiPart(const QByteArray &src, const QByteArray &boundary);
 
     [[nodiscard]] bool parse();
-    [[nodiscard]] QList<QByteArray> parts() const { return m_parts; }
-    [[nodiscard]] QByteArray preamble() const { return m_preamble; }
-    [[nodiscard]] QByteArray epilouge() const { return m_epilouge; }
+    [[nodiscard]] QList<QByteArray> parts() const
+    {
+        return m_parts;
+    }
+    [[nodiscard]] QByteArray preamble() const
+    {
+        return m_preamble;
+    }
+    [[nodiscard]] QByteArray epilouge() const
+    {
+        return m_epilouge;
+    }
 
-  private:
+private:
     const QByteArray m_src;
     const QByteArray m_boundary;
     QByteArray m_preamble;
@@ -47,16 +56,38 @@ public:
 class NonMimeParser
 {
 public:
-    [[nodiscard]] bool isPartial() const {
-      return (m_partNr > -1 && m_totalNr > -1 && m_totalNr != 1);
+    [[nodiscard]] bool isPartial() const
+    {
+        return (m_partNr > -1 && m_totalNr > -1 && m_totalNr != 1);
     }
-    [[nodiscard]] int partialNumber() const { return m_partNr; }
-    [[nodiscard]] int partialCount() const { return m_totalNr; }
-    [[nodiscard]] bool hasTextPart() const { return (m_text.length() > 1); }
-    [[nodiscard]] QByteArray textPart() const { return m_text; }
-    [[nodiscard]] QList<QByteArray> binaryParts() const { return m_bins; }
-    [[nodiscard]] QList<QByteArray> filenames() const { return m_filenames; }
-    [[nodiscard]] QList<QByteArray> mimeTypes() const { return m_mimeTypes; }
+    [[nodiscard]] int partialNumber() const
+    {
+        return m_partNr;
+    }
+    [[nodiscard]] int partialCount() const
+    {
+        return m_totalNr;
+    }
+    [[nodiscard]] bool hasTextPart() const
+    {
+        return (m_text.length() > 1);
+    }
+    [[nodiscard]] QByteArray textPart() const
+    {
+        return m_text;
+    }
+    [[nodiscard]] QList<QByteArray> binaryParts() const
+    {
+        return m_bins;
+    }
+    [[nodiscard]] QList<QByteArray> filenames() const
+    {
+        return m_filenames;
+    }
+    [[nodiscard]] QList<QByteArray> mimeTypes() const
+    {
+        return m_mimeTypes;
+    }
 
 protected:
     explicit NonMimeParser(const QByteArray &src);
@@ -78,7 +109,7 @@ public:
 
     [[nodiscard]] bool parse();
 
-  private:
+private:
     QByteArray m_head;
 };
 
@@ -93,11 +124,10 @@ public:
 
     [[nodiscard]] bool parse();
 
-  private:
+private:
     static bool yencMeta(QByteArray &src, const QByteArray &name, int *value);
 };
 
 } // namespace Parser
 
 } // namespace KMime
-

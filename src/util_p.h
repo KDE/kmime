@@ -174,7 +174,7 @@ extern const unsigned char tTextMap[16];
 
 inline bool isOfSet(const unsigned char map[16], unsigned char ch)
 {
-    return (ch < 128) && (map[ ch / 8 ] & 0x80 >> ch % 8);
+    return (ch < 128) && (map[ch / 8] & 0x80 >> ch % 8);
 }
 inline bool isAText(char ch)
 {
@@ -189,4 +189,3 @@ inline bool isTText(char ch)
 }
 
 // @endcond
-

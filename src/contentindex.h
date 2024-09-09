@@ -22,9 +22,9 @@
 
 #include "kmime_export.h"
 
+#include <QMetaType>
 #include <QSharedDataPointer>
 #include <QString>
-#include <QMetaType>
 
 namespace KMime
 {
@@ -130,7 +130,6 @@ private:
 
 KMIME_EXPORT size_t qHash(const KMime::ContentIndex &, size_t seed = 0) noexcept;
 
-}  //namespace KMime
+} // namespace KMime
 
 Q_DECLARE_METATYPE(KMime::ContentIndex)
-

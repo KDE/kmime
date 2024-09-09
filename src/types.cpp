@@ -11,9 +11,9 @@
 #include "codecs_p.h"
 #include "headerparsing.h"
 #include "headerparsing_p.h"
+#include "kmime_debug.h"
 #include "util.h"
 #include "util_p.h"
-#include "kmime_debug.h"
 
 #include <KCodecs>
 
@@ -30,17 +30,17 @@ namespace Types
 // Fortunately, the presence of IDNA is readily detected with a substring match...
 static inline QString QUrl_fromAce_wrapper(const QString &domain)
 {
-  if (domain.contains(QLatin1StringView("xn--"))) {
-    return QUrl::fromAce(domain.toLatin1());
-  } else {
-    return domain;
-  }
+    if (domain.contains(QLatin1StringView("xn--"))) {
+        return QUrl::fromAce(domain.toLatin1());
+    } else {
+        return domain;
+    }
 }
 
 static QString addr_spec_as_string(const AddrSpec &as, bool pretty)
 {
     if (as.isEmpty()) {
-      return {};
+        return {};
     }
 
     static const QChar dotChar = QLatin1Char('.');
@@ -50,7 +50,7 @@ static QString addr_spec_as_string(const AddrSpec &as, bool pretty)
     bool needsQuotes = false;
     QString result;
     result.reserve(as.localPart.length() + as.domain.length() + 1);
-    for (int i = 0 ; i < as.localPart.length() ; ++i) {
+    for (int i = 0; i < as.localPart.length(); ++i) {
         const QChar ch = as.localPart.at(i);
         if (ch == dotChar || isAText(ch.toLatin1())) {
             result += ch;
@@ -62,7 +62,7 @@ static QString addr_spec_as_string(const AddrSpec &as, bool pretty)
             result += ch;
         }
     }
-    const QString dom = pretty ? QUrl_fromAce_wrapper(as.domain) : as.domain ;
+    const QString dom = pretty ? QUrl_fromAce_wrapper(as.domain) : as.domain;
     if (needsQuotes) {
         result = quoteChar + result + quoteChar;
     }
@@ -98,7 +98,7 @@ QByteArray Mailbox::address() const
         result = asString.toLatin1();
     }
     return result;
-    //return mAddrSpec.asString().toLatin1();
+    // return mAddrSpec.asString().toLatin1();
 }
 
 AddrSpec Mailbox::addrSpec() const
@@ -119,10 +119,8 @@ void Mailbox::setAddress(const AddrSpec &addr)
 void Mailbox::setAddress(const QByteArray &addr)
 {
     const char *cursor = addr.constData();
-    if (!HeaderParsing::parseAngleAddr(cursor,
-                                       cursor + addr.length(), mAddrSpec)) {
-        if (!HeaderParsing::parseAddrSpec(cursor, cursor + addr.length(),
-                                          mAddrSpec)) {
+    if (!HeaderParsing::parseAngleAddr(cursor, cursor + addr.length(), mAddrSpec)) {
+        if (!HeaderParsing::parseAddrSpec(cursor, cursor + addr.length(), mAddrSpec)) {
             qCWarning(KMIME_LOG) << "Mailbox: Invalid address";
             return;
         }
@@ -134,8 +132,7 @@ void Mailbox::setName(const QString &name)
     mDisplayName = removeBidiControlChars(name);
 }
 
-void Mailbox::setNameFrom7Bit(const QByteArray &name,
-                              const QByteArray &defaultCharset)
+void Mailbox::setNameFrom7Bit(const QByteArray &name, const QByteArray &defaultCharset)
 {
     QByteArray cs;
     setName(KCodecs::decodeRFC2047String(name, &cs, defaultCharset));
@@ -154,7 +151,7 @@ bool Mailbox::hasName() const
 QString Mailbox::prettyAddress(Quoting quoting) const
 {
     if (!hasName()) {
-      return QLatin1StringView(address());
+        return QLatin1StringView(address());
     }
     QString s = name();
     if (quoting != QuoteNever) {
@@ -162,8 +159,7 @@ QString Mailbox::prettyAddress(Quoting quoting) const
     }
 
     if (hasAddress()) {
-      s +=
-          QLatin1StringView(" <") + QLatin1StringView(address()) + QLatin1Char('>');
+        s += QLatin1StringView(" <") + QLatin1StringView(address()) + QLatin1Char('>');
     }
     return s;
 }
@@ -198,11 +194,13 @@ QByteArray Mailbox::as7BitString(const QByteArray &encCharset) const
     return rv;
 }
 
-QList<KMime::Types::Mailbox> Mailbox::listFromUnicodeString(QStringView s) {
+QList<KMime::Types::Mailbox> Mailbox::listFromUnicodeString(QStringView s)
+{
     return listFrom7BitString(encodeRFC2047Sentence(s, "utf-8"));
 }
 
-QList<KMime::Types::Mailbox> Mailbox::listFrom7BitString(QByteArrayView s) {
+QList<KMime::Types::Mailbox> Mailbox::listFrom7BitString(QByteArrayView s)
+{
     QList<KMime::Types::Mailbox> res;
     QList<KMime::Types::Address> maybeAddressList;
     const char *scursor = s.constData();
@@ -217,7 +215,8 @@ QList<KMime::Types::Mailbox> Mailbox::listFrom7BitString(QByteArrayView s) {
     return res;
 }
 
-QString Mailbox::listToUnicodeString(const QList<Mailbox> &mailboxes) {
+QString Mailbox::listToUnicodeString(const QList<Mailbox> &mailboxes)
+{
     if (mailboxes.size() == 1) { // QStringList free fast-path for the common case
         return mailboxes.at(0).prettyAddress();
     }

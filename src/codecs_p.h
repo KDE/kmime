@@ -31,17 +31,14 @@ namespace KMime
 
   @return the encoded string.
 */
-[[nodiscard]] QByteArray encodeRFC2047String(QStringView src,
-                                             const QByteArray &charset,
-                                             bool addressHeader = false);
+[[nodiscard]] QByteArray encodeRFC2047String(QStringView src, const QByteArray &charset, bool addressHeader = false);
 
 /**
  * Same as encodeRFC2047String(), but with a crucial difference: Instead of encoding the complete
  * string as a single encoded word, the string will be split up at control characters, and only parts of
  * the sentence that really need to be encoded will be encoded.
  */
-[[nodiscard]] QByteArray encodeRFC2047Sentence(QStringView src,
-                                               const QByteArray &charset);
+[[nodiscard]] QByteArray encodeRFC2047Sentence(QStringView src, const QByteArray &charset);
 
 /**
   Encodes string @p src according to RFC2231 using charset @p charset.
@@ -50,8 +47,6 @@ namespace KMime
   @param charset       charset to use.
   @return the encoded string.
 */
-[[nodiscard]] QByteArray encodeRFC2231String(QStringView src,
-                                             const QByteArray &charset);
+[[nodiscard]] QByteArray encodeRFC2231String(QStringView src, const QByteArray &charset);
 
 } // namespace KMime
-

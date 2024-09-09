@@ -33,13 +33,11 @@ class Base;
 
 namespace HeaderFactory
 {
-    Headers::Base *createHeader(const char *type, size_t typeLen);
-    inline Headers::Base *createHeader(const QByteArray &type)
-    {
-        return createHeader(type.constData(), type.size());
-    }
-
+Headers::Base *createHeader(const char *type, size_t typeLen);
+inline Headers::Base *createHeader(const QByteArray &type)
+{
+    return createHeader(type.constData(), type.size());
+}
 }
 
 } // namespace KMime
-

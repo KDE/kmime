@@ -118,4 +118,3 @@ protected:
 }; // class NewsArticle
 
 } // namespace KMime
-
