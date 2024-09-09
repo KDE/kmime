@@ -15,6 +15,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings NO_POLICY_SCOPE)
+include(KDEClangFormat)
+include(KDEGitCommitHooks)
 
 include(ECMGenerateExportHeader)
 
@@ -103,5 +105,10 @@ install(FILES
 
 ecm_install_po_files_as_qm(poqm)
 ecm_feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
-file(GLOB_RECURSE ALL_SOURCE_FILES src/*.cpp src/*.h autotests/*.cpp autotests/*.h)
+
 ecm_check_outbound_license(LICENSES GPL-2.0-only  FILES ${ALL_SOURCE_FILES})
+
+file(GLOB_RECURSE ALL_SOURCE_FILES src/*.cpp src/*.h autotests/*.cpp autotests/*.h)
+kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
+
+kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
