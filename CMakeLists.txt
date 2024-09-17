@@ -45,7 +45,7 @@ add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt 
 ########### Find packages ###########
 find_package(KF6Codecs ${KF_MIN_VERSION} CONFIG REQUIRED)
 add_definitions(-DQT_NO_CONTEXTLESS_CONNECT)
-ecm_set_disabled_deprecation_versions(QT 6.7.2  KF 6.6.0)
+ecm_set_disabled_deprecation_versions(QT 6.7.2  KF 6.7.0)
 
 option(USE_UNITY_CMAKE_SUPPORT "Use UNITY cmake support (speedup compile time)" OFF)
 
