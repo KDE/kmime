@@ -81,17 +81,3 @@ msgstr ""
 "Генерирането на съобщение за получаване/прочитане на съобщението, което бе "
 "изпратено до ${to} на ${date} с тема \"${subject}\", се провали. Причината "
 "за грешката е дадена в полето \"Грешка\" по-долу."
-
-#~ msgctxt "invalid time specified"
-#~ msgid "unknown"
-#~ msgstr "неизвестно"
-
-#~ msgid "Today %1"
-#~ msgstr "днес %1"
-
-#~ msgid "Yesterday %1"
-#~ msgstr "вчера %1"
-
-#~ msgctxt "1. weekday, 2. time"
-#~ msgid "%1 %2"
-#~ msgstr "%1 %2"
