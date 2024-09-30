@@ -25,6 +25,7 @@ include(ECMQtDeclareLoggingCategory)
 include(ECMDeprecationSettings)
 include(ECMFeatureSummary)
 include(ECMAddQch)
+include(ECMCheckOutboundLicense)
 include(ECMPoQmTools)
 
 set(KMIME_LIB_VERSION ${PIM_VERSION})
@@ -102,3 +103,5 @@ install(FILES
 
 ecm_install_po_files_as_qm(poqm)
 ecm_feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
+file(GLOB_RECURSE ALL_SOURCE_FILES src/*.cpp src/*.h autotests/*.cpp autotests/*.h)
+ecm_check_outbound_license(LICENSES GPL-2.0-only  FILES ${ALL_SOURCE_FILES})
