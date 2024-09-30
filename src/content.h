@@ -526,6 +526,27 @@ public:
   // to make this const.
   [[nodiscard]] QByteArray decodedContent() const;
 
+  /** Options for Content::decodedText().
+   *  @since 24.12
+   */
+  enum DecodedTextTrimOption {
+    NoTrim, ///< do not trim text content.
+    TrimNewlines, ///< trim trailing newlines
+    TrimSpaces, ///< trim any trailing whitespaces
+  };
+
+  /**
+    Returns the decoded text. Additional to decodedContent(), this also
+    applies charset decoding. If this is not a text Content, decodedText()
+    returns an empty QString.
+
+    @param trimOption Control how to trim trailing white spaces.
+    The last trailing new line of the decoded text is always removed.
+
+    @since 24.12
+  */
+  [[nodiscard]] QString decodedText(DecodedTextTrimOption trimOption = NoTrim) const;
+
   /**
     Returns the decoded text. Additional to decodedContent(), this also
     applies charset decoding. If this is not a text Content, decodedText()
@@ -538,12 +559,13 @@ public:
 
     The last trailing new line of the decoded text is always removed.
 
+    @deprecated since 24.12, use decodedText(DecodedTextTrimOption) instead.
   */
-  // TODO: KDE5: BIC: Convert to enums. Also, what if trimText = true but
-  // removeTrailingNewlines
-  //                  is false?
-  [[nodiscard]] QString decodedText(bool trimText = false,
-                                    bool removeTrailingNewlines = false) const;
+  [[deprecated("use decodedText(DecodedTextTrimOption) instead")]]
+  [[nodiscard]] inline QString decodedText(bool trimText, bool removeTrailingNewlines = false) const
+  {
+    return decodedText(trimText ? TrimSpaces : removeTrailingNewlines ? TrimNewlines : NoTrim);
+  }
 
   /**
     Sets the Content body to the given string using charset of the content type.

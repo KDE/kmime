@@ -302,7 +302,7 @@ void MessageTest::testUtf16()
     QCOMPARE(msg.from()->asUnicodeString(), QLatin1StringView("foo@bar.com"));
     QCOMPARE(msg.subject()->asUnicodeString(),
              QLatin1StringView("UTF-16 Test"));
-    QCOMPARE(msg.decodedText(false, true),
+    QCOMPARE(msg.decodedText(Content::TrimNewlines),
              QLatin1StringView("This is UTF-16 Text."));
 
     // Add a new To header, for testings
@@ -340,11 +340,9 @@ void MessageTest::testDecodedText()
     msg.setContent(data);
     msg.parse();
 
-    QCOMPARE(msg.decodedText(true, false),
+    QCOMPARE(msg.decodedText(Content::TrimSpaces),
              QLatin1StringView("Testing Whitespace"));
-    QCOMPARE(msg.decodedText(true, true),
-             QLatin1StringView("Testing Whitespace"));
-    QCOMPARE(msg.decodedText(false, true),
+    QCOMPARE(msg.decodedText(Content::TrimNewlines),
              QLatin1StringView("Testing Whitespace   \n  \n "));
 
     QByteArray data2 =
@@ -356,11 +354,9 @@ void MessageTest::testDecodedText()
     msg2.setContent(data2);
     msg2.parse();
 
-    QCOMPARE(msg2.decodedText(true, false),
+    QCOMPARE(msg2.decodedText(Content::TrimSpaces),
              QLatin1StringView("Testing Whitespace"));
-    QCOMPARE(msg2.decodedText(true, true),
-             QLatin1StringView("Testing Whitespace"));
-    QCOMPARE(msg2.decodedText(false, true),
+    QCOMPARE(msg2.decodedText(Content::TrimNewlines),
              QLatin1StringView("Testing Whitespace   \n  \n \n\n\n "));
 }
 
@@ -484,7 +480,7 @@ void MessageTest::testBug223509()
     QCOMPARE(msg2.contentTransferEncoding()->encoding(), KMime::Headers::CEbinary);
 
     QCOMPARE(msg2.decodedText().toLatin1().data(), "Bla Bla Bla");
-    QCOMPARE(msg2.decodedText(true, true /* remove newlines at end */).toLatin1().data(),
+    QCOMPARE(msg2.decodedText(Content::TrimSpaces).toLatin1().data(),
              "Bla Bla Bla");
 }
 
@@ -505,7 +501,7 @@ void MessageTest::testEncapsulatedMessages()
     QVERIFY(!textContent->bodyAsMessage());
     QVERIFY(!textContent->isTopLevel());
     QCOMPARE(
-        textContent->decodedText(true, true),
+        textContent->decodedText(Content::TrimSpaces),
         QLatin1StringView(
             "Hi Hans!\nLook at this interesting mail I forwarded to you!"));
     QCOMPARE(textContent->index().toString().toLatin1().data(), "1");
@@ -525,7 +521,7 @@ void MessageTest::testEncapsulatedMessages()
     QVERIFY(!encapsulated->bodyIsMessage());
     QVERIFY(!encapsulated->bodyAsMessage());
     QCOMPARE(encapsulated->subject()->as7BitString(false).data(), "Foo");
-    QCOMPARE(encapsulated->decodedText(false, false),
+    QCOMPARE(encapsulated->decodedText(Content::NoTrim),
              QLatin1StringView("This is the encapsulated message body."));
     QCOMPARE(encapsulated.data(), messageContent->bodyAsMessage().data());
     QCOMPARE(encapsulated.data(), messageContent->contents().constFirst());

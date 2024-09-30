@@ -368,7 +368,7 @@ QByteArray Content::decodedContent() const
     return ret;
 }
 
-QString Content::decodedText(bool trimText, bool removeTrailingNewlines) const
+QString Content::decodedText(DecodedTextTrimOption trimOption) const
 {
     if (!d_ptr->decodeText(this)) {   //this is not a text content !!
       return {};
@@ -384,10 +384,10 @@ QString Content::decodedText(bool trimText, bool removeTrailingNewlines) const
 
     QString s = codec.decode(d_ptr->body);
 
-    if (trimText || removeTrailingNewlines) {
+    if (trimOption != NoTrim) {
         qsizetype i;
         for (i = s.length() - 1; i >= 0; --i) {
-            if (trimText) {
+            if (trimOption == TrimSpaces) {
                 if (!s[i].isSpace()) {
                     break;
                 }
