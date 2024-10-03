@@ -163,7 +163,7 @@ enum SendingMode {
 /**
   Generates the content of the message/disposition-notification body part.
 */
-KMIME_EXPORT extern QByteArray dispositionNotificationBodyContent(
+[[nodiscard]] KMIME_EXPORT QByteArray dispositionNotificationBodyContent(
     const QString &finalRecipient, const QByteArray &originalRecipient,
     const QByteArray &originalMsgID, DispositionType disposition,
     ActionMode actionMode, SendingMode sendingMode,
@@ -171,7 +171,7 @@ KMIME_EXPORT extern QByteArray dispositionNotificationBodyContent(
         QList<DispositionModifier>(),
     const QString &special = QString());
 
-KMIME_EXPORT extern QString descriptionFor(
+[[nodiscard]] KMIME_EXPORT QString descriptionFor(
     DispositionType d,
     const QList<DispositionModifier> &m = QList<DispositionModifier>());
 

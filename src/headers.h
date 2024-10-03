@@ -81,8 +81,8 @@ enum contentDisposition {
 
 #define kmime_mk_trivial_ctor_with_name( subclass )     \
     kmime_mk_trivial_ctor( subclass )                     \
-    const char *type() const override;                           \
-    static const char *staticType();
+    [[nodiscard]] const char *type() const override;                           \
+    [[nodiscard]] static const char *staticType();
 //@endcond
 
 //
@@ -175,7 +175,7 @@ protected:
     /**
       Helper method, returns the header prefix including ":".
     */
-    QByteArray typeIntro() const;
+    [[nodiscard]] QByteArray typeIntro() const;
 
     //@cond PRIVATE
     BasePrivate *d_ptr;
@@ -221,13 +221,13 @@ public:
     ~Unstructured() override;
 
     void from7BitString(QByteArrayView s) override;
-    QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
 
     void fromUnicodeString(const QString &s) override;
     using Base::fromUnicodeString;
-    QString asUnicodeString() const override;
+    [[nodiscard]] QString asUnicodeString() const override;
 
-    bool isEmpty() const override;
+    [[nodiscard]] bool isEmpty() const override;
 
 private:
     Q_DECLARE_PRIVATE(Unstructured)
@@ -272,7 +272,7 @@ public:
     ~Structured() override;
 
     void from7BitString(QByteArrayView s) override;
-    QString asUnicodeString() const override;
+    [[nodiscard]] QString asUnicodeString() const override;
     void fromUnicodeString(const QString &s) override;
     using Base::fromUnicodeString;
 
@@ -329,12 +329,12 @@ class KMIME_EXPORT MailboxList : public Address
     kmime_mk_dptr_ctor(MailboxList)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
     void fromUnicodeString(const QString &s) override;
     using Base::fromUnicodeString;
-    QString asUnicodeString() const override;
+    [[nodiscard]] QString asUnicodeString() const override;
 
-    bool isEmpty() const override;
+    [[nodiscard]] bool isEmpty() const override;
 
     /**
       Adds an address to this header.
@@ -354,26 +354,26 @@ public:
     /**
       Returns a list of all addresses in this header, regardless of groups.
     */
-    QList<QByteArray> addresses() const;
+    [[nodiscard]] QList<QByteArray> addresses() const;
 
     /**
       Returns a list of all display names associated with the addresses in
       this header. The address is added for addresses that do not have
       a display name.
     */
-    QStringList displayNames() const;
+    [[nodiscard]] QStringList displayNames() const;
 
     /**
       Returns a single string for user-facing display of this mailbox list.
       This is equivalent to displayNames().join(", ").
       @since 5.14
     */
-    QString displayString() const;
+    [[nodiscard]] QString displayString() const;
 
     /**
       Returns a list of mailboxes listed in this header.
     */
-    Types::Mailbox::List mailboxes() const;
+    [[nodiscard]] Types::Mailbox::List mailboxes() const;
 
     /**
       Sets the mailboxes listed in this header, replacing the current content.
@@ -425,12 +425,12 @@ class KMIME_EXPORT AddressList : public Address
     kmime_mk_dptr_ctor(AddressList)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
     void fromUnicodeString(const QString &s) override;
     using Base::fromUnicodeString;
-    QString asUnicodeString() const override;
+    [[nodiscard]] QString asUnicodeString() const override;
 
-    bool isEmpty() const override;
+    [[nodiscard]] bool isEmpty() const override;
 
     /**
       Adds an address to this header.
@@ -449,25 +449,25 @@ public:
     /**
       Returns a list of all addresses in this header, regardless of groups.
     */
-    QList<QByteArray> addresses() const;
+    [[nodiscard]] QList<QByteArray> addresses() const;
 
     /**
       Returns a list of all display names associated with the addresses in this header.
       The address is added for addresses that don't have a display name.
     */
-    QStringList displayNames() const;
+    [[nodiscard]] QStringList displayNames() const;
 
     /**
       Returns a single string for user-facing display of this address list.
       This is equivalent to displayNames().join(", ").
       @since 5.14
     */
-    QString displayString() const;
+    [[nodiscard]] QString displayString() const;
 
     /**
       Returns a list of mailboxes listed in this header.
     */
-    Types::Mailbox::List mailboxes() const;
+    [[nodiscard]] Types::Mailbox::List mailboxes() const;
 
     /**
       Sets the list of addresses listed in this header, replacing the existing content.
@@ -496,8 +496,8 @@ class KMIME_EXPORT Ident : public Address
     kmime_mk_dptr_ctor(Ident)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const override;
-    bool isEmpty() const override;
+    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] bool isEmpty() const override;
 
     /**
       Initialize this identifier Copy the data from
@@ -510,7 +510,7 @@ public:
       - Identifiers are not enclosed in angle-brackets.
       - Identifiers are listed in the same order as in the header.
     */
-    QList<QByteArray> identifiers() const;
+    [[nodiscard]] QList<QByteArray> identifiers() const;
 
     /**
       Appends a new identifier to this header.
@@ -543,7 +543,7 @@ public:
       Returns the identifier contained in this header.
       Note: The identifiers is not enclosed in angle-brackets.
     */
-    QByteArray identifier() const;
+    [[nodiscard]] QByteArray identifier() const;
 
     /**
       Sets the identifier.
@@ -570,13 +570,13 @@ class KMIME_EXPORT Token : public Structured
     kmime_mk_dptr_ctor(Token)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const override;
-    bool isEmpty() const override;
+    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] bool isEmpty() const override;
 
     /**
       Returns the token.
     */
-    QByteArray token() const;
+    [[nodiscard]] QByteArray token() const;
 
     /**
       Sets the token to @p t,
@@ -601,14 +601,14 @@ class KMIME_EXPORT PhraseList : public Structured
     kmime_mk_trivial_ctor(PhraseList)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const override;
-    QString asUnicodeString() const override;
-    bool isEmpty() const override;
+    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QString asUnicodeString() const override;
+    [[nodiscard]] bool isEmpty() const override;
 
     /**
       Returns the list of phrases contained in this header.
     */
-    QStringList phrases() const;
+    [[nodiscard]] QStringList phrases() const;
 
 protected:
     bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
@@ -628,9 +628,9 @@ class KMIME_EXPORT DotAtom : public Structured
     kmime_mk_trivial_ctor(DotAtom)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const override;
-    QString asUnicodeString() const override;
-    bool isEmpty() const override;
+    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QString asUnicodeString() const override;
+    [[nodiscard]] bool isEmpty() const override;
 
 protected:
     bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
@@ -651,9 +651,9 @@ class KMIME_EXPORT Parametrized : public Structured
     kmime_mk_dptr_ctor(Parametrized)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
 
-    bool isEmpty() const override;
+    [[nodiscard]] bool isEmpty() const override;
 
     /**
       Returns the value of the specified parameter.
@@ -734,8 +734,8 @@ class KMIME_EXPORT ReturnPath : public Generics::Address
     kmime_mk_trivial_ctor_with_name(ReturnPath)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const override;
-    bool isEmpty() const override;
+    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] bool isEmpty() const override;
 
 protected:
     bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
@@ -820,15 +820,15 @@ class KMIME_EXPORT MailCopiesTo : public Generics::AddressList
     kmime_mk_trivial_ctor_with_name(MailCopiesTo)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const override;
-    QString asUnicodeString() const override;
+    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QString asUnicodeString() const override;
 
-    bool isEmpty() const override;
+    [[nodiscard]] bool isEmpty() const override;
 
     /**
       Returns true if a mail copy was explicitly requested.
     */
-    bool alwaysCopy() const;
+    [[nodiscard]] bool alwaysCopy() const;
 
     /**
       Sets the header to "poster".
@@ -838,7 +838,7 @@ public:
     /**
       Returns true if a mail copy was explicitly denied.
     */
-    bool neverCopy() const;
+    [[nodiscard]] bool neverCopy() const;
 
     /**
       Sets the header to "never".
@@ -986,24 +986,24 @@ class KMIME_EXPORT ContentType : public Generics::Parametrized
     kmime_mk_trivial_ctor_with_name(ContentType)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const override;
-    bool isEmpty() const override;
+    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] bool isEmpty() const override;
 
     /**
       Returns the mimetype.
     */
-    QByteArray mimeType() const;
+    [[nodiscard]] QByteArray mimeType() const;
 
     /**
       Returns the media type (first part of the mimetype).
     */
 
-    QByteArray mediaType() const;
+    [[nodiscard]] QByteArray mediaType() const;
 
     /**
       Returns the mime sub-type (second part of the mimetype).
     */
-    QByteArray subType() const;
+    [[nodiscard]] QByteArray subType() const;
 
     /**
       Sets the mimetype.
@@ -1014,53 +1014,53 @@ public:
     /**
       Tests if the media type equals @p mediatype.
     */
-    bool isMediatype(const char *mediatype) const;
+    [[nodiscard]] bool isMediatype(const char *mediatype) const;
 
     /**
       Tests if the mime sub-type equals @p subtype.
     */
-    bool isSubtype(const char *subtype) const;
+    [[nodiscard]] bool isSubtype(const char *subtype) const;
 
     /**
       Tests if the mime type is @p mimeType.
     */
-    bool isMimeType(const char *mimeType) const;
+    [[nodiscard]] bool isMimeType(const char *mimeType) const;
 
     /**
       Returns true if the associated MIME entity is a text.
     */
-    bool isText() const;
+    [[nodiscard]] bool isText() const;
 
     /**
       Returns true if the associated MIME entity is a plain text.
     */
-    bool isPlainText() const;
+    [[nodiscard]] bool isPlainText() const;
 
     /**
       Returns true if the associated MIME entity is a HTML file.
     */
-    bool isHTMLText() const;
+    [[nodiscard]] bool isHTMLText() const;
 
     /**
       Returns true if the associated MIME entity is an image.
     */
-    bool isImage() const;
+    [[nodiscard]] bool isImage() const;
 
     /**
       Returns true if the associated MIME entity is a multipart container.
     */
-    bool isMultipart() const;
+    [[nodiscard]] bool isMultipart() const;
 
     /**
       Returns true if the associated MIME entity contains partial data.
       @see partialNumber(), partialCount()
     */
-    bool isPartial() const;
+    [[nodiscard]] bool isPartial() const;
 
     /**
       Returns the charset for the associated MIME entity.
     */
-    QByteArray charset() const;
+    [[nodiscard]] QByteArray charset() const;
 
     /**
       Sets the charset.
@@ -1070,7 +1070,7 @@ public:
     /**
       Returns the boundary (for multipart containers).
     */
-    QByteArray boundary() const;
+    [[nodiscard]] QByteArray boundary() const;
 
     /**
       Sets the multipart container boundary.
@@ -1080,7 +1080,7 @@ public:
     /**
       Returns the name of the associated MIME entity.
     */
-    QString name() const;
+    [[nodiscard]] QString name() const;
 
     /**
       Sets the name to @p s.
@@ -1096,7 +1096,7 @@ public:
     /**
       Returns the identifier of the associated MIME entity.
     */
-    QByteArray id() const;
+    [[nodiscard]] QByteArray id() const;
 
     /**
       Sets the identifier.
@@ -1107,13 +1107,13 @@ public:
       Returns the position of this part in a multi-part set.
       @see isPartial(), partialCount()
     */
-    int partialNumber() const;
+    [[nodiscard]] int partialNumber() const;
 
     /**
       Returns the total number of parts in a multi-part set.
       @see isPartial(), partialNumber()
     */
-    int partialCount() const;
+    [[nodiscard]] int partialCount() const;
 
     /**
       Sets parameters of a partial MIME entity.
@@ -1142,13 +1142,13 @@ class KMIME_EXPORT ContentDisposition : public Generics::Parametrized
     kmime_mk_trivial_ctor_with_name(ContentDisposition)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const override;
-    bool isEmpty() const override;
+    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] bool isEmpty() const override;
 
     /**
       Returns the content disposition.
     */
-    contentDisposition disposition() const;
+    [[nodiscard]] contentDisposition disposition() const;
 
     /**
       Sets the content disposition.
@@ -1161,7 +1161,7 @@ public:
       This is just a convenience function, it is equivalent to calling
       parameter( "filename" );
     */
-    QString filename() const;
+    [[nodiscard]] QString filename() const;
 
     /**
       Sets the suggested filename for the associated MIME part.
@@ -1198,9 +1198,9 @@ public:
     Generic(const char *t, qsizetype len = -1);
     ~Generic() override;
 
-    bool isEmpty() const override;
+    [[nodiscard]] bool isEmpty() const override;
 
-    const char *type() const override;
+    [[nodiscard]] const char *type() const override;
 
     void setType(const char *type, qsizetype len = -1);
 
@@ -1258,24 +1258,24 @@ class KMIME_EXPORT Control : public Generics::Structured
     kmime_mk_trivial_ctor_with_name(Control)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const override;
-    bool isEmpty() const override;
+    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] bool isEmpty() const override;
 
     /**
       Returns the control message type.
     */
-    QByteArray controlType() const;
+    [[nodiscard]] QByteArray controlType() const;
 
     /**
       Returns the control message parameter.
     */
-    QByteArray parameter() const;
+    [[nodiscard]] QByteArray parameter() const;
 
     /**
       Returns true if this is a cancel control message.
       @see RFC 1036, section 3.1.
     */
-    bool isCancel() const;
+    [[nodiscard]] bool isCancel() const;
 
     /**
       Changes this header into a cancel control message for the given message-id.
@@ -1303,13 +1303,13 @@ class KMIME_EXPORT Date : public Generics::Structured
     kmime_mk_trivial_ctor_with_name(Date)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const override;
-    bool isEmpty() const override;
+    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] bool isEmpty() const override;
 
     /**
       Returns the date contained in this header.
     */
-    QDateTime dateTime() const;
+    [[nodiscard]] QDateTime dateTime() const;
 
     /**
       Sets the date.
@@ -1336,16 +1336,16 @@ class KMIME_EXPORT Newsgroups : public Generics::Structured
     kmime_mk_trivial_ctor_with_name(Newsgroups)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
     void fromUnicodeString(const QString &s) override;
     using Base::fromUnicodeString;
-    QString asUnicodeString() const override;
-    bool isEmpty() const override;
+    [[nodiscard]] QString asUnicodeString() const override;
+    [[nodiscard]] bool isEmpty() const override;
 
     /**
       Returns the list of newsgroups.
     */
-    QList<QByteArray> groups() const;
+    [[nodiscard]] QList<QByteArray> groups() const;
 
     /**
       Sets the newsgroup list.
@@ -1356,7 +1356,7 @@ public:
       Returns true if this message has been cross-posted, i.e. if it has been
       posted to multiple groups.
     */
-    bool isCrossposted() const;
+    [[nodiscard]] bool isCrossposted() const;
 
 protected:
     bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
@@ -1390,14 +1390,14 @@ class KMIME_EXPORT Lines : public Generics::Structured
     kmime_mk_trivial_ctor_with_name(Lines)
     //@endcond
 public:
-    QByteArray as7BitString(bool withHeaderType = true) const override;
-    QString asUnicodeString() const override;
-    bool isEmpty() const override;
+    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QString asUnicodeString() const override;
+    [[nodiscard]] bool isEmpty() const override;
 
     /**
       Returns the number of lines, undefined if isEmpty() returns true.
     */
-    int numberOfLines() const;
+    [[nodiscard]] int numberOfLines() const;
 
     /**
       Sets the number of lines to @p lines.

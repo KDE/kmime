@@ -25,7 +25,7 @@ class Message;
   Checks whether @p s contains any non-us-ascii characters.
   @param s
 */
-KMIME_EXPORT bool isUsAscii(QStringView s);
+[[nodiscard]] KMIME_EXPORT bool isUsAscii(QStringView s);
 
 /**
   Returns a user-visible string for a contentEncoding, for example
@@ -34,7 +34,7 @@ KMIME_EXPORT bool isUsAscii(QStringView s);
   @ since 4.4
   TODO should they be i18n'ed?
 */
-KMIME_EXPORT extern QString nameForEncoding(KMime::Headers::contentEncoding enc);
+[[nodiscard]] KMIME_EXPORT QString nameForEncoding(KMime::Headers::contentEncoding enc);
 
 /**
   Returns a list of encodings that can correctly encode the @p data.
@@ -51,7 +51,7 @@ KMIME_EXPORT extern QString nameForEncoding(KMime::Headers::contentEncoding enc)
   @return the randomized string.
   @see uniqueString
 */
-KMIME_EXPORT extern QByteArray multiPartBoundary();
+[[nodiscard]] KMIME_EXPORT QByteArray multiPartBoundary();
 
 /**
   Converts all occurrences of "\r\n" (CRLF) in @p s to "\n" (LF).
@@ -65,7 +65,7 @@ KMIME_EXPORT extern QByteArray multiPartBoundary();
   @return the string with CRLF's substituted for LF's
   @see LFtoCRLF
 */
-KMIME_EXPORT extern QByteArray CRLFtoLF(const QByteArray &s);
+[[nodiscard]] KMIME_EXPORT QByteArray CRLFtoLF(const QByteArray &s);
 
 /**
   Converts all occurrences of "\n" (LF) in @p s to "\r\n" (CRLF).
@@ -80,14 +80,14 @@ KMIME_EXPORT extern QByteArray CRLFtoLF(const QByteArray &s);
   @return the string with CRLF's substituted for LF's
   @see CRLFtoLF(const QByteArray&) LFtoCRLF
 */
-KMIME_EXPORT extern QByteArray LFtoCRLF(const QByteArray &s);
+[[nodiscard]] KMIME_EXPORT QByteArray LFtoCRLF(const QByteArray &s);
 
 /**
  * Returns whether or not the given MIME node is an attachment part.
  * @param content the MIME node to parse
  * @see hasAttachment()
  */
-KMIME_EXPORT bool isAttachment(const Content *content);
+[[nodiscard]] KMIME_EXPORT bool isAttachment(const Content *content);
 
 /**
  * Returns whether or not the given MIME node contains an attachment part. This function will
@@ -95,7 +95,7 @@ KMIME_EXPORT bool isAttachment(const Content *content);
  * @param content the MIME node to parse
  * @see isAttachment()
  */
-KMIME_EXPORT bool hasAttachment(const Content *content);
+[[nodiscard]] KMIME_EXPORT bool hasAttachment(const Content *content);
 
 /**
  * Returns whether or not the given MIME node contains an invitation part. This function will
@@ -103,7 +103,7 @@ KMIME_EXPORT bool hasAttachment(const Content *content);
  * @param content the MIME node to parse
  * @since 4.14.6
  */
-KMIME_EXPORT bool hasInvitation(const Content *content);
+[[nodiscard]] KMIME_EXPORT bool hasInvitation(const Content *content);
 
 /**
  * Returns whether or not the given @p message is partly or fully signed.
@@ -111,7 +111,7 @@ KMIME_EXPORT bool hasInvitation(const Content *content);
  * @param message the message to check for being signed
  * @since 4.6
  */
-KMIME_EXPORT bool isSigned(const Message *message);
+[[nodiscard]] KMIME_EXPORT bool isSigned(const Message *message);
 
 /**
  * Returns whether or not the given @p message is partly or fully encrypted.
@@ -119,13 +119,13 @@ KMIME_EXPORT bool isSigned(const Message *message);
  * @param message the message to check for being encrypted
  * @since 4.6
  */
-KMIME_EXPORT bool isEncrypted(const Message *message);
+[[nodiscard]] KMIME_EXPORT bool isEncrypted(const Message *message);
 
 /**
  * Determines if the MIME part @p content is a crypto part.
  * This is, is either an encrypted part or a signature part.
  */
-KMIME_EXPORT bool isCryptoPart(const Content *content);
+[[nodiscard]] KMIME_EXPORT bool isCryptoPart(const Content *content);
 
 /**
  * Returns whether or not the given MIME @p content is an invitation
@@ -133,7 +133,7 @@ KMIME_EXPORT bool isCryptoPart(const Content *content);
  *
  * @since 4.6
  */
-KMIME_EXPORT bool isInvitation(const Content *content);
+[[nodiscard]] KMIME_EXPORT bool isInvitation(const Content *content);
 
 } // namespace KMime
 

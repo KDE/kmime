@@ -21,10 +21,10 @@ namespace Types
 {
 
 struct KMIME_EXPORT AddrSpec {
-    QString asString() const;
+    [[nodiscard]] QString asString() const;
     /*! This is the same as asString(), except it decodes IDNs for display */
-    QString asPrettyString() const;
-    bool isEmpty() const;
+    [[nodiscard]] QString asPrettyString() const;
+    [[nodiscard]] bool isEmpty() const;
     QString localPart;
     QString domain;
 };

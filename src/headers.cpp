@@ -31,7 +31,6 @@
 #include "util.h"
 #include "util_p.h"
 #include "codecs_p.h"
-#include "content.h"
 #include "headerfactory_p.h"
 #include "kmime_debug.h"
 #include "warning_p.h"
