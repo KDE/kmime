@@ -42,7 +42,7 @@
 
 // macro to generate a default constructor implementation
 #define kmime_mk_trivial_ctor( subclass, baseclass )                  \
-    subclass::subclass() : baseclass()           \
+    subclass::subclass()           \
     {                                                                     \
     }                                                                     \
     \
@@ -1980,7 +1980,7 @@ bool ContentDisposition::parse(const char  *&scursor, const char *const send,
 kmime_mk_trivial_ctor_with_name(Subject, Generics::Unstructured, Subject)
 //@endcond
 
-Base *createHeader(const QByteArray & type) {
+Base *createHeader(QByteArrayView type) {
     return HeaderFactory::createHeader(type);
 }
 

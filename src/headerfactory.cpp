@@ -27,13 +27,13 @@ using namespace KMime;
 using namespace KMime::Headers;
 
 #define mk_header(hdr) \
-    if (qstrnicmp(type, hdr ::staticType(), std::max(typeLen, strlen(hdr::staticType()))) == 0) \
+    if (type.compare(hdr::staticType(), Qt::CaseInsensitive) == 0) \
         return new hdr;
 
-Headers::Base *HeaderFactory::createHeader(const char *type, size_t typeLen)
+Headers::Base *HeaderFactory::createHeader(QByteArrayView type)
 {
-    Q_ASSERT(type && *type);
-    switch (*type) {
+    Q_ASSERT(!type.isEmpty());
+    switch (type[0]) {
         case 'b':
         case 'B':
             mk_header(Bcc);

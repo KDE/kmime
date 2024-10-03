@@ -2032,7 +2032,7 @@ Headers::Base *extractHeader(QByteArrayView head, const qsizetype headerStart, q
 
     // We might get an invalid mail without a field name, don't crash on that.
     if (rawTypeLen > 0) {
-        header = HeaderFactory::createHeader(rawType, rawTypeLen);
+        header = HeaderFactory::createHeader(QByteArrayView(rawType, rawTypeLen));
     }
     if (!header) {
         //qCWarning(KMIME_LOG)() << "Returning Generic header of type" << rawType;
