@@ -61,6 +61,9 @@ ecm_generate_export_header(KPim6Mime
 
 target_include_directories(KPim6Mime INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim6/KMime>")
 target_include_directories(KPim6Mime PUBLIC "$<BUILD_INTERFACE:${KMime_SOURCE_DIR}/src;${KMime_BINARY_DIR}/src;${KMime_BINARY_DIR}>")
+if (_has_cxx_std_23)
+    target_compile_features(KPim6Mime PUBLIC cxx_std_23)
+endif()
 
 if(WIN32)
     set(_kmime_extra_libs ws2_32)

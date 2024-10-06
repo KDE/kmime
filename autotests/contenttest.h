@@ -31,5 +31,6 @@ private Q_SLOTS:
     void testFreezing();
     void testContentTypeMimetype_data();
     void testContentTypeMimetype();
+    void testConstChildren();
 };
 

@@ -265,7 +265,7 @@ bool hasAttachment(const Content *content)
     const auto ct = content->contentType();
     if (ct && ct->isMultipart() && !ct->isSubtype("related")) {// && !ct->isSubtype("alternative")) {
         const auto contents = content->contents();
-        for (Content *child : contents) {
+        for (auto child : contents) {
             if (hasAttachment(child)) {
                 return true;
             }
@@ -287,7 +287,7 @@ bool hasInvitation(const Content *content)
     // OK, content itself is not an invitation. Now we deal with multiparts
     if (auto ct = content->contentType(); ct && ct->isMultipart()) {
         const auto contents = content->contents();
-        for (Content *child : contents) {
+        for (auto child : contents) {
             if (hasInvitation(child)) {
                 return true;
             }

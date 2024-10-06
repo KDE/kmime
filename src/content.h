@@ -42,6 +42,8 @@ TODO: possible glossary terms:
 #include <QMetaType>
 #include <QSharedPointer>
 
+#include <ranges>
+
 namespace KMime
 {
 
@@ -230,7 +232,15 @@ public:
    * Returns all headers.
    * @since 5.7
    */
-  [[nodiscard]] QList<Headers::Base *> headers() const;
+  [[nodiscard]] QList<Headers::Base *> headers();
+  [[nodiscard]] inline auto headers() const -> auto
+  {
+#ifdef __cpp_lib_ranges_as_const
+      return const_cast<Content*>(this)->headers() | std::views::transform([](auto c) -> const Headers::Base* { return c; }) | std::views::as_const;
+#else
+      return const_cast<Content*>(this)->headers() | std::views::transform([](auto c) -> const Headers::Base* { return c; });
+#endif
+  }
 
   /**
     Returns the first header of type @p type, if it exists.  Otherwise returns
@@ -603,7 +613,14 @@ public:
    * multipart nodes, or the primary body part (see textContent()).
    * @see KMime::isAttachment(), KMime::hasAttachment()
    */
-  [[nodiscard]] QList<Content *> attachments() const;
+  [[nodiscard]] QList<Content *> attachments();
+  [[nodiscard]] inline auto attachments() const -> auto {
+#ifdef __cpp_lib_ranges_as_const
+      return const_cast<Content*>(this)->attachments() | std::views::transform([](auto c) -> const Content* { return c; }) | std::views::as_const;
+#else
+      return const_cast<Content*>(this)->attachments() | std::views::transform([](auto c) -> const Content* { return c; });
+#endif
+  }
 
   /**
    * For multipart contents, this will return a list of all multipart child
@@ -611,7 +628,14 @@ public:
    * return a list with one entry, and that entry is the encapsulated message,
    * as it would be returned by bodyAsMessage().
    */
-  [[nodiscard]] QList<Content *> contents() const;
+  [[nodiscard]] QList<Content *> contents();
+  [[nodiscard]] inline auto contents() const -> auto {
+#ifdef __cpp_lib_ranges_as_const
+      return const_cast<Content*>(this)->contents() | std::views::transform([](auto c) -> const Content* { return c; }) | std::views::as_const;
+#else
+      return const_cast<Content*>(this)->contents() | std::views::transform([](auto c) -> const Content* { return c; });
+#endif
+  }
 
   /**
     Appends a new sub-Content. If the sub-Content is already part of another

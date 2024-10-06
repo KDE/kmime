@@ -445,15 +445,15 @@ const Content *Content::textContent() const
     return nullptr;
 }
 
-QList<Content *> Content::attachments() const {
+QList<Content *> Content::attachments() {
     QList<Content *> result;
 
     auto ct = contentType();
     if (ct && ct->isMultipart() &&
         !ct->isSubtype("related") /* && !ct->isSubtype("alternative")*/) {
-        const QList<Content *> contentsList = contents();
-        result.reserve(contentsList.count());
-        for (Content *child : contentsList) {
+        const auto contentsList = contents();
+        result.reserve(contentsList.size());
+        for (auto child : contentsList) {
             if (isAttachment(child)) {
                 result.push_back(child);
             } else {
@@ -465,7 +465,10 @@ QList<Content *> Content::attachments() const {
     return result;
 }
 
-QList<Content *> Content::contents() const { return d_ptr->contents(); }
+QList<Content *> Content::contents()
+{
+    return d_ptr->contents();
+}
 
 void Content::replaceContent(Content *oldContent, Content *newContent)
 {
@@ -557,7 +560,10 @@ void Content::changeEncoding(Headers::contentEncoding e)
     }
 }
 
-QList<Headers::Base *> Content::headers() const { return d_ptr->headers; }
+QList<Headers::Base *> Content::headers()
+{
+    return d_ptr->headers;
+}
 
 Headers::Base *Content::headerByType(QByteArrayView type) const
 {
