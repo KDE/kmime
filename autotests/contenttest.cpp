@@ -13,6 +13,8 @@
 #include "headers.h"
 #include "message.h"
 
+#include <type_traits>
+
 using namespace KMime;
 
 QTEST_MAIN(ContentTest)
@@ -848,6 +850,44 @@ void ContentTest::testContentTypeMimetype()
         QVERIFY(msg.contents().at(i)->contentType(false));
         QCOMPARE(contentMimeType.count(), contentCount);
         QCOMPARE(msg.contents().at(i)->contentType(false)->mimeType(), contentMimeType.at(i));
+    }
+}
+
+void ContentTest::testConstChildren()
+{
+    QFile file(QLatin1StringView(TEST_DATA_DIR "/mails/simple-encapsulated.mbox"));
+    QVERIFY(file.open(QIODevice::ReadOnly));
+    const QByteArray data = KMime::CRLFtoLF(file.readAll());
+
+    auto msg = std::make_unique<KMime::Message>();
+    msg->setContent(data);
+    msg->parse();
+    QVERIFY(!msg->contents().isEmpty());
+    QVERIFY(!msg->attachments().isEmpty());
+    QVERIFY(!msg->headers().isEmpty());
+
+    // iteration over non-const Content
+    for (auto content : msg->contents()) {
+        static_assert(std::is_same_v<decltype(content), KMime::Content*>);
+        content->contentTransferEncoding(false); // using the non-const API if this compiles
+    }
+
+    // iteration over const Content
+    const KMime::Content* const constMsg = msg.get();
+    QVERIFY(!msg->contents().empty());
+    QVERIFY(!msg->attachments().empty());
+    QVERIFY(!msg->headers().empty());
+    for (auto content : constMsg->contents()) {
+        static_assert(std::is_same_v<decltype(content), const KMime::Content*>);
+        // content->contentTransferEncoding(false); // must not compile
+        QCOMPARE(content->contentLocation(), nullptr); // using the const API if this doesn't create
+    }
+
+    // non-const attachments() returns a temporary, test if the const view keeps that alive
+    const auto constAtt = constMsg->attachments();
+    QCOMPARE(constAtt.size(), 1);
+    for (auto content : constAtt) {
+        static_assert(std::is_same_v<decltype(content), const KMime::Content*>);
     }
 }
 

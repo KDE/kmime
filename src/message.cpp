@@ -53,17 +53,17 @@ const Content *Message::mainBodyPart(const QByteArray &type) const
         }
 
         // empty multipart
-        if (c->contents().isEmpty()) {
+        if (c->contents().empty()) {
             return nullptr;
         }
 
         // multipart/alternative
         if (contentType && contentType->subType() == "alternative") {
             if (type.isEmpty()) {
-                return c->contents().at(0);
+                return c->contents()[0];
             }
             const auto contents = c->contents();
-            for (Content *c1 : contents) {
+            for  (auto c1 : contents) {
                 if (c1->contentType()->mimeType() == type) {
                     return c1;
                 }
@@ -71,7 +71,7 @@ const Content *Message::mainBodyPart(const QByteArray &type) const
             return nullptr;
         }
 
-        c = c->contents().at(0);
+        c = c->contents()[0];
     }
 
     return nullptr;
