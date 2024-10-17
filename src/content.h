@@ -764,8 +764,11 @@ public:
    *
    * @since 4.5
    */
-  // AK_REVIEW: move to MessageViewer/ObjectTreeParser
-  [[nodiscard]] QSharedPointer<Message> bodyAsMessage() const;
+  [[nodiscard]] QSharedPointer<Message> bodyAsMessage();
+  [[nodiscard]] inline QSharedPointer<const Message> bodyAsMessage() const
+  {
+      return qSharedPointerCast<const Message>(const_cast<Content*>(this)->bodyAsMessage());
+  }
 
 protected:
     /**
