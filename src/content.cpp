@@ -794,13 +794,12 @@ ContentIndex Content::index() const
     return indexForContent(const_cast<Content *>(this));
 }
 
-Message::Ptr Content::bodyAsMessage() const
+Message::Ptr Content::bodyAsMessage()
 {
     if (bodyIsMessage() && d_ptr->bodyAsMessage) {
         return d_ptr->bodyAsMessage;
-    } else {
-      return {};
     }
+    return {};
 }
 
 bool Content::bodyIsMessage() const
