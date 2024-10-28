@@ -133,4 +133,4 @@ KMIME_EXPORT size_t qHash(const KMime::ContentIndex &, size_t seed = 0) noexcept
 }  //namespace KMime
 
 Q_DECLARE_METATYPE(KMime::ContentIndex)
-
+Q_DECLARE_TYPEINFO(KMime::ContentIndex, Q_RELOCATABLE_TYPE);
