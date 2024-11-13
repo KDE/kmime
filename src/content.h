@@ -42,10 +42,26 @@ TODO: possible glossary terms:
 #include <QMetaType>
 #include <QSharedPointer>
 
-#include <ranges>
+#include <span>
 
 namespace KMime
 {
+
+///@cond internal
+namespace Internal {
+
+template <typename T>
+class OwningConstPtrSpan : public std::span<const T *const> {
+public:
+    explicit inline OwningConstPtrSpan(const QList<T*> &list)
+      : std::span<const T *const>(static_cast<const T* const*>(list.constData()), list.size())
+      , m_list(list)
+    {}
+private:
+    QList<T*> m_list;
+};
+}
+///@endcond
 
 class ContentPrivate;
 class Message;
@@ -235,11 +251,7 @@ public:
   [[nodiscard]] QList<Headers::Base *> headers();
   [[nodiscard]] inline auto headers() const -> auto
   {
-#ifdef __cpp_lib_ranges_as_const
-      return const_cast<Content*>(this)->headers() | std::views::transform([](auto c) -> const Headers::Base* { return c; }) | std::views::as_const;
-#else
-      return const_cast<Content*>(this)->headers() | std::views::transform([](auto c) -> const Headers::Base* { return c; });
-#endif
+      return Internal::OwningConstPtrSpan<Headers::Base>(const_cast<Content*>(this)->headers());
   }
 
   /**
@@ -615,11 +627,7 @@ public:
    */
   [[nodiscard]] QList<Content *> attachments();
   [[nodiscard]] inline auto attachments() const -> auto {
-#ifdef __cpp_lib_ranges_as_const
-      return const_cast<Content*>(this)->attachments() | std::views::transform([](auto c) -> const Content* { return c; }) | std::views::as_const;
-#else
-      return const_cast<Content*>(this)->attachments() | std::views::transform([](auto c) -> const Content* { return c; });
-#endif
+      return Internal::OwningConstPtrSpan<Content>(const_cast<Content*>(this)->attachments());
   }
 
   /**
@@ -630,11 +638,7 @@ public:
    */
   [[nodiscard]] QList<Content *> contents();
   [[nodiscard]] inline auto contents() const -> auto {
-#ifdef __cpp_lib_ranges_as_const
-      return const_cast<Content*>(this)->contents() | std::views::transform([](auto c) -> const Content* { return c; }) | std::views::as_const;
-#else
-      return const_cast<Content*>(this)->contents() | std::views::transform([](auto c) -> const Content* { return c; });
-#endif
+      return Internal::OwningConstPtrSpan<Content>(const_cast<Content*>(this)->contents());
   }
 
   /**
