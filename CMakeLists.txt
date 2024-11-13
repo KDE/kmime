@@ -10,10 +10,6 @@ find_package(ECM ${KF_MIN_VERSION} CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${KMime_SOURCE_DIR}/cmake ${ECM_MODULE_PATH})
 
 set(CMAKE_CXX_STANDARD 20)
-list(FIND CMAKE_CXX_COMPILE_FEATURES cxx_std_23 _has_cxx_std_23)
-if (_has_cxx_std_23)
-    set(CMAKE_CXX_STANDARD 23)
-endif()
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 include(KDEInstallDirs)
