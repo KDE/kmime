@@ -57,9 +57,8 @@ public:
 };
 
 class StructuredPrivate : public BasePrivate {};
-class AddressPrivate : public StructuredPrivate {};
 
-class MailboxListPrivate : public AddressPrivate
+class MailboxListPrivate : public StructuredPrivate
 {
 public:
   QList<Types::Mailbox> mailboxList;
@@ -67,13 +66,13 @@ public:
 
 class SingleMailboxPrivate : public MailboxListPrivate {};
 
-class AddressListPrivate : public AddressPrivate
+class AddressListPrivate : public StructuredPrivate
 {
 public:
     KMime::Types::AddressList addressList;
 };
 
-class IdentPrivate : public AddressPrivate
+class IdentPrivate : public StructuredPrivate
 {
 public:
     KMime::Types::AddrSpecList msgIdList;
@@ -108,7 +107,7 @@ public:
 
 } // namespace Generics
 
-class ReturnPathPrivate : public Generics::AddressPrivate
+class ReturnPathPrivate : public Generics::StructuredPrivate
 {
 public:
     Types::Mailbox mailbox;

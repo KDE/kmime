@@ -40,7 +40,6 @@ private Q_SLOTS:
         QVERIFY(sizeof(Base) <= 16);
         QCOMPARE(sizeof(Unstructured), sizeof(Base));
         QCOMPARE(sizeof(Structured), sizeof(Base));
-        QCOMPARE(sizeof(Address), sizeof(Base));
         QCOMPARE(sizeof(MailboxList), sizeof(Base));
         QCOMPARE(sizeof(SingleMailbox), sizeof(Base));
         QCOMPARE(sizeof(AddressList), sizeof(Base));
@@ -71,7 +70,6 @@ private Q_SLOTS:
         VERIFYSIZE(BasePrivate, sizeof(QByteArray));
         VERIFYSIZE(UnstructuredPrivate, sizeof(BasePrivate) + sizeof(QString));
         VERIFYSIZE(StructuredPrivate, sizeof(BasePrivate));     // empty
-        VERIFYSIZE(AddressPrivate, sizeof(StructuredPrivate));
         VERIFYSIZE(MailboxListPrivate,
                    sizeof(BasePrivate) + sizeof(QList<Types::Mailbox>));
         VERIFYSIZE(SingleMailboxPrivate, sizeof(MailboxListPrivate));
@@ -82,7 +80,7 @@ private Q_SLOTS:
         VERIFYSIZE(PhraseListPrivate, sizeof(StructuredPrivate) + sizeof(QStringList));
         VERIFYSIZE(DotAtomPrivate, sizeof(StructuredPrivate) + sizeof(QByteArray));
         VERIFYSIZE(ParametrizedPrivate, sizeof(StructuredPrivate) + sizeof(std::map<QByteArray, QString>));
-        VERIFYSIZE(ReturnPathPrivate, sizeof(AddressPrivate) + sizeof(Types::Mailbox));
+        VERIFYSIZE(ReturnPathPrivate, sizeof(StructuredPrivate) + sizeof(Types::Mailbox));
         VERIFYSIZE(MailCopiesToPrivate, sizeof(AddressListPrivate) + 8);
         VERIFYSIZE(ContentTransferEncodingPrivate, sizeof(TokenPrivate) + 8);
         VERIFYSIZE(ContentIDPrivate, sizeof(SingleIdentPrivate));

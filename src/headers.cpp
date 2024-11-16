@@ -228,16 +228,6 @@ void Structured::fromUnicodeString(const QString &s)
 
 //-----</Structured>-------------------------
 
-//-----<Address>-------------------------
-
-Address::Address() : Structured(new AddressPrivate)
-{
-}
-
-kmime_mk_dptr_ctor(Address, Structured)
-
-    Address::~Address() = default;
-
 // helper method used in AddressList and MailboxList
 static bool stringToMailbox(const QByteArray &address,
                             const QString &displayName, Types::Mailbox &mbox)
@@ -255,12 +245,10 @@ static bool stringToMailbox(const QByteArray &address,
     return true;
 }
 
-//-----</Address>-------------------------
-
 //-----<MailboxList>-------------------------
 
-kmime_mk_trivial_ctor_with_dptr(MailboxList, Address)
-kmime_mk_dptr_ctor(MailboxList, Address)
+kmime_mk_trivial_ctor_with_dptr(MailboxList, Structured)
+kmime_mk_dptr_ctor(MailboxList, Structured)
 
 QByteArray MailboxList::as7BitString(bool withHeaderType) const
 {
@@ -422,8 +410,8 @@ bool SingleMailbox::parse(const char *&scursor, const char *const send,
 //-----<AddressList>-------------------------
 
 //@cond PRIVATE
-kmime_mk_trivial_ctor_with_dptr(AddressList, Address)
-kmime_mk_dptr_ctor(AddressList, Address)
+kmime_mk_trivial_ctor_with_dptr(AddressList, Structured)
+kmime_mk_dptr_ctor(AddressList, Structured)
 //@endcond
 
 QByteArray AddressList::as7BitString(bool withHeaderType) const
@@ -841,8 +829,8 @@ bool Parametrized::parse(const char  *&scursor, const char *const send,
 //-----<Ident>-------------------------
 
 //@cond PRIVATE
-kmime_mk_trivial_ctor_with_dptr(Ident, Address)
-kmime_mk_dptr_ctor(Ident, Address)
+kmime_mk_trivial_ctor_with_dptr(Ident, Structured)
+kmime_mk_dptr_ctor(Ident, Structured)
 //@endcond
 
 QByteArray Ident::as7BitString(bool withHeaderType) const
@@ -1020,7 +1008,7 @@ bool SingleIdent::parse(const char *&scursor, const char *const send,
 //-----<ReturnPath>-------------------------
 
 //@cond PRIVATE
-kmime_mk_trivial_ctor_with_name_and_dptr(ReturnPath, Generics::Address, Return-Path)
+kmime_mk_trivial_ctor_with_name_and_dptr(ReturnPath, Generics::Structured, Return-Path)
 //@endcond
 
 QByteArray ReturnPath::as7BitString(bool withHeaderType) const

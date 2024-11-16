@@ -296,24 +296,6 @@ private:
     Q_DECLARE_PRIVATE(Structured)
 };
 
-class AddressPrivate;
-
-/**
-  Base class for all address related headers.
-*/
-class KMIME_EXPORT Address : public Structured
-{
-public:
-    Address();
-    ~Address() override;
-protected:
-    //@cond PRIVATE
-    kmime_mk_dptr_ctor(Address)
-    //@endcond
-private:
-    Q_DECLARE_PRIVATE(Address)
-};
-
 class MailboxListPrivate;
 
 /**
@@ -322,7 +304,7 @@ class MailboxListPrivate;
 
   @see RFC 2822, section 3.4
 */
-class KMIME_EXPORT MailboxList : public Address
+class KMIME_EXPORT MailboxList : public Structured
 {
     //@cond PRIVATE
     kmime_mk_trivial_ctor(MailboxList)
@@ -418,7 +400,7 @@ class AddressListPrivate;
 
   @see RFC 2822, section 3.4
 */
-class KMIME_EXPORT AddressList : public Address
+class KMIME_EXPORT AddressList : public Structured
 {
     //@cond PRIVATE
     kmime_mk_trivial_ctor(AddressList)
@@ -489,7 +471,7 @@ class IdentPrivate;
 
   @see RFC 2822, section 3.6.4
 */
-class KMIME_EXPORT Ident : public Address
+class KMIME_EXPORT Ident : public Structured
 {
     //@cond PRIVATE
     kmime_mk_trivial_ctor(Ident)
@@ -728,7 +710,7 @@ class ReturnPathPrivate;
 
   @see RFC 2822, section 3.6.7
 */
-class KMIME_EXPORT ReturnPath : public Generics::Address
+class KMIME_EXPORT ReturnPath : public Generics::Structured
 {
     //@cond PRIVATE
     kmime_mk_trivial_ctor_with_name(ReturnPath)
