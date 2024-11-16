@@ -17,9 +17,6 @@
 
 //@cond PRIVATE
 
-#define kmime_mk_empty_private( subclass, base ) \
-    class subclass##Private : public base##Private {};
-
 namespace KMime
 {
 
@@ -59,8 +56,8 @@ public:
     QString decoded;
 };
 
-kmime_mk_empty_private(Structured, Base)
-kmime_mk_empty_private(Address, Structured)
+class StructuredPrivate : public BasePrivate {};
+class AddressPrivate : public StructuredPrivate {};
 
 class MailboxListPrivate : public AddressPrivate
 {
@@ -68,7 +65,7 @@ public:
   QList<Types::Mailbox> mailboxList;
 };
 
-kmime_mk_empty_private(SingleMailbox, MailboxList)
+class SingleMailboxPrivate : public MailboxListPrivate {};
 
 class AddressListPrivate : public AddressPrivate
 {
@@ -83,7 +80,7 @@ public:
     mutable QByteArray cachedIdentifier;
 };
 
-kmime_mk_empty_private(SingleIdent, Ident)
+class SingleIdentPrivate : public IdentPrivate {};
 
 class TokenPrivate : public StructuredPrivate
 {
@@ -120,13 +117,8 @@ public:
 class MailCopiesToPrivate : public Generics::AddressListPrivate
 {
 public:
-    MailCopiesToPrivate() :
-        Generics::AddressListPrivate(),
-        alwaysCopy(false),
-        neverCopy(false)
-    {}
-    bool alwaysCopy;
-    bool neverCopy;
+    bool alwaysCopy = false;
+    bool neverCopy = false;
 };
 
 class ContentTransferEncodingPrivate : public Generics::TokenPrivate
@@ -138,28 +130,18 @@ public:
 class ContentTypePrivate : public Generics::ParametrizedPrivate
 {
 public:
-    ContentTypePrivate() :
-        Generics::ParametrizedPrivate()
-    {}
     QByteArray mimeType;
 };
 
 class ContentDispositionPrivate : public Generics::ParametrizedPrivate
 {
 public:
-    ContentDispositionPrivate() :
-        Generics::ParametrizedPrivate(),
-        disposition(CDInvalid)
-    {}
-    contentDisposition disposition;
+    contentDisposition disposition = CDInvalid;
 };
 
 class GenericPrivate : public Generics::UnstructuredPrivate
 {
 public:
-    GenericPrivate() :
-        Generics::UnstructuredPrivate()
-    {}
     ~GenericPrivate()
     {
         delete[] type;
@@ -190,14 +172,10 @@ public:
 class LinesPrivate : public Generics::StructuredPrivate
 {
 public:
-    LinesPrivate() :
-        Generics::StructuredPrivate(),
-        lines(-1)
-    {}
-    int lines;
+    int lines = -1;
 };
 
-kmime_mk_empty_private(ContentID, Generics::SingleIdent)
+class ContentIDPrivate : public Generics::SingleIdentPrivate {};
 }
 
 }

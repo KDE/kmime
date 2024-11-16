@@ -42,11 +42,8 @@
 
 // macro to generate a default constructor implementation
 #define kmime_mk_trivial_ctor( subclass, baseclass )                  \
-    subclass::subclass()           \
-    {                                                                     \
-    }                                                                     \
-    \
-    subclass::~subclass() {}
+    subclass::subclass() = default;          \
+    subclass::~subclass() = default;
 
 // end kmime_mk_trivial_ctor
 
