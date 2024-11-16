@@ -130,7 +130,7 @@ void MessageTest::testWillsAndTillsCrash()
     QCOMPARE(msg->cc()->mailboxes().count(), 0);
     QCOMPARE(msg->bcc()->mailboxes().count(), 0);
     QCOMPARE(msg->inReplyTo()->identifiers().count(), 0);
-    QCOMPARE(msg->messageID()->identifiers().count(), 0);
+    QVERIFY(msg->messageID()->identifier().isEmpty());
     delete msg;
 }
 

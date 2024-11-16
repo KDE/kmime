@@ -514,13 +514,16 @@ class SingleIdentPrivate;
 
   @see RFC 2822, section 3.6.4
 */
-class KMIME_EXPORT SingleIdent : public Ident
+class KMIME_EXPORT SingleIdent : public Structured
 {
     //@cond PRIVATE
     kmime_mk_trivial_ctor(SingleIdent)
     kmime_mk_dptr_ctor(SingleIdent)
     //@endcond
 public:
+    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] bool isEmpty() const override;
+
     /**
       Returns the identifier contained in this header.
       Note: The identifiers is not enclosed in angle-brackets.

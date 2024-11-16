@@ -876,7 +876,6 @@ bool Ident::parse(const char *&scursor, const char *const send, bool isCRLF)
     // msg-id   := angle-addr
 
     d->msgIdList.clear();
-    d->cachedIdentifier.clear();
 
     while (scursor != send) {
         eatCFWS(scursor, send, isCRLF);
@@ -927,7 +926,6 @@ void Ident::fromIdent(const Ident* ident)
 {
     d_func()->encCS = ident->d_func()->encCS;
     d_func()->msgIdList = ident->d_func()->msgIdList;
-    d_func()->cachedIdentifier = ident->d_func()->cachedIdentifier;
 }
 
 void Ident::appendIdentifier(const QByteArray &id)
@@ -954,51 +952,93 @@ void Ident::appendIdentifier(const QByteArray &id)
 //-----<SingleIdent>-------------------------
 
 //@cond PRIVATE
-kmime_mk_trivial_ctor_with_dptr(SingleIdent, Ident)
-kmime_mk_dptr_ctor(SingleIdent, Ident)
+kmime_mk_trivial_ctor_with_dptr(SingleIdent, Structured)
+kmime_mk_dptr_ctor(SingleIdent, Structured)
 //@endcond
 
-QByteArray SingleIdent::identifier() const
+QByteArray SingleIdent::as7BitString(bool withHeaderType) const
 {
-    if (d_func()->msgIdList.isEmpty()) {
+    Q_D(const SingleIdent);
+    if (d->msgId.isEmpty()) {
       return {};
     }
 
-    if (d_func()->cachedIdentifier.isEmpty()) {
-        const Types::AddrSpec &addr = d_func()->msgIdList.first();
-        if (!addr.isEmpty()) {
-            const QString asString = addr.asString();
-            if (!asString.isEmpty()) {
-                d_func()->cachedIdentifier = asString.toLatin1();// FIXME: change parsing to use QByteArrays
-            }
+    QByteArray rv;
+    if (withHeaderType) {
+        rv = typeIntro();
+    }
+    const QString asString = d->msgId.asString();
+    rv += '<';
+    if (!asString.isEmpty()) {
+        rv += asString.toLatin1(); // FIXME: change parsing to use QByteArrays
+    }
+    rv += '>';
+    return rv;
+}
+
+bool SingleIdent::isEmpty() const
+{
+    Q_D(const SingleIdent);
+    return d->msgId.isEmpty();
+}
+
+QByteArray SingleIdent::identifier() const
+{
+    Q_D(const SingleIdent);
+    if (d->msgId.isEmpty()) {
+        return {};
+    }
+    if (d->cachedIdentifier.isEmpty()) {
+        const QString asString = d->msgId.asString();
+        if (!asString.isEmpty()) {
+            d->cachedIdentifier = asString.toLatin1();// FIXME: change parsing to use QByteArrays
         }
     }
 
-    return d_func()->cachedIdentifier;
+    return d->cachedIdentifier;
 }
 
 void SingleIdent::setIdentifier(const QByteArray &id)
 {
     Q_D(SingleIdent);
-    d->msgIdList.clear();
+    d->msgId = {};
     d->cachedIdentifier.clear();
-    appendIdentifier(id);
+
+    QByteArray tmp = id;
+    if (!tmp.startsWith('<')) {
+        tmp.prepend('<');
+    }
+    if (!tmp.endsWith('>')) {
+        tmp.append('>');
+    }
+    AddrSpec msgId;
+    const char *cursor = tmp.constData();
+    if (parseAngleAddr(cursor, cursor + tmp.length(), msgId)) {
+        d->msgId = msgId;
+    } else {
+        qCWarning(KMIME_LOG) << "Unable to parse address spec!";
+    }
 }
 
-bool SingleIdent::parse(const char *&scursor, const char *const send,
-                        bool isCRLF)
+bool SingleIdent::parse(const char *&scursor, const char *const send, bool isCRLF)
 {
     Q_D(SingleIdent);
-    if (!Ident::parse(scursor, send, isCRLF)) {
+
+    d->msgId = {};
+    d->cachedIdentifier.clear();
+
+    AddrSpec maybeMsgId;
+    if (!parseAngleAddr(scursor, send, maybeMsgId, isCRLF)) {
         return false;
     }
-
-    if (d->msgIdList.count() > 1) {
-        KMIME_WARN << "more than one msg-id in header "
-                   << "allowing only a single one!"
-                   << Qt::endl;
+    eatCFWS(scursor, send, isCRLF);
+    // header end ending the list: OK.
+    if (scursor == send) {
+        d->msgId = maybeMsgId;
+        return true;
     }
-    return true;
+
+    return false;
 }
 
 //-----</SingleIdent>-------------------------
@@ -1726,7 +1766,7 @@ bool ContentID::parse(const char *&scursor, const char *const send, bool isCRLF)
     const char *origscursor = scursor;
     if (!SingleIdent::parse(scursor, send, isCRLF)) {
         scursor = origscursor;
-        d->msgIdList.clear();
+        d->msgId = {};
         d->cachedIdentifier.clear();
 
         while (scursor != send) {
@@ -1767,7 +1807,7 @@ bool ContentID::parse(const char *&scursor, const char *const send, bool isCRLF)
             // /Almost parseAngleAddr
 
             maybeContentId.localPart = QString::fromLatin1(result); // FIXME: just use QByteArray instead of AddrSpec in msgIdList?
-            d->msgIdList.append(maybeContentId);
+            d->msgId = maybeContentId;
 
             eatCFWS(scursor, send, isCRLF);
             // header end ending the list: OK.

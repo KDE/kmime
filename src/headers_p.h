@@ -76,10 +76,14 @@ class IdentPrivate : public StructuredPrivate
 {
 public:
     KMime::Types::AddrSpecList msgIdList;
-    mutable QByteArray cachedIdentifier;
 };
 
-class SingleIdentPrivate : public IdentPrivate {};
+class SingleIdentPrivate : public StructuredPrivate
+{
+public:
+    KMime::Types::AddrSpec msgId;
+    mutable QByteArray cachedIdentifier;
+};
 
 class TokenPrivate : public StructuredPrivate
 {
