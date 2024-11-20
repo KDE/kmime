@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: fc57ad16a28d02dea100ceb1c60de14e\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-20 01:59+0000\n"
-"PO-Revision-Date: 2024-06-10 20:10\n"
+"PO-Revision-Date: 2024-06-30 08:07\n"
 "Last-Translator: Darafei Praliaskouski <komzpa@licei2.com>\n"
 "Language-Team: Belarusian\n"
 "Language: be\n"
@@ -19,15 +19,10 @@ msgstr ""
 "X-Crowdin-Project: fc57ad16a28d02dea100ceb1c60de14e\n"
 "X-Crowdin-Project-ID: 136\n"
 "X-Crowdin-Language: be\n"
-"X-Crowdin-File: /[antikruk.KDE] main/KDE6/be/messages/kmime/libkmime6.po\n"
-"X-Crowdin-File-ID: 10202\n"
+"X-Crowdin-File: /[antikruk.KDE] main/KDE6/be/messages/kmime/libkmime6_qt.po\n"
+"X-Crowdin-File-ID: 17994\n"
 
 #: mdn.cpp:53
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "displayed. This is no guarantee that the message has been read or "
-#| "understood."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -37,11 +32,6 @@ msgstr ""
 "паказаны. Няма гарантыі, што ліст быў прачытаны або ўспрыняты."
 
 #: mdn.cpp:60
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "deleted unseen. This is no guarantee that the message will not be "
-#| "\"undeleted\" and nonetheless read later on."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -53,11 +43,6 @@ msgstr ""
 "пазней."
 
 #: mdn.cpp:68
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "dispatched. This is no guarantee that the message will not be read later "
-#| "on."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -67,10 +52,6 @@ msgstr ""
 "накіраваны. Няма гарантыі, што ліст не будзе прачытаны пазней."
 
 #: mdn.cpp:75
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "processed by some automatic means."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -80,11 +61,6 @@ msgstr ""
 "апрацаваны аўтаматычнымі сродкамі."
 
 #: mdn.cpp:81
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "acted upon. The sender does not wish to disclose more details to you than "
-#| "that."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -95,11 +71,6 @@ msgstr ""
 "апрацаваны. Адпраўнік не хоча раскрываць дадатковыя звесткі."
 
 #: mdn.cpp:88
-#, fuzzy
-#| msgid ""
-#| "Generation of a Message Disposition Notification for the message sent on "
-#| "${date} to ${to} with subject \"${subject}\" failed. Reason is given in "
-#| "the Failure: header field below."
 msgctxt "DispositionModifier|"
 msgid ""
 "Generation of a Message Disposition Notification for the message sent on "
