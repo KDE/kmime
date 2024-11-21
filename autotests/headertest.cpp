@@ -10,6 +10,7 @@
 
 #include "headers.h"
 
+using namespace Qt::Literals;
 using namespace KMime;
 using namespace KMime::Headers;
 using namespace KMime::Headers::Generics;
@@ -344,6 +345,7 @@ void HeaderTest::testSingleMailboxHeader()
     QCOMPARE(h->displayNames().count(), 1);
     QCOMPARE(h->displayNames().first(),
              QLatin1StringView("joe_smith@where.test"));
+    QCOMPARE(h->mailbox().prettyAddress(), "joe_smith@where.test"_L1);
     QCOMPARE(h->asUnicodeString(), QLatin1StringView("joe_smith@where.test"));
 
     // parse single simple address with display name
@@ -353,10 +355,10 @@ void HeaderTest::testSingleMailboxHeader()
     QCOMPARE(h->addresses().first(), QByteArray("joe_smith@where.test"));
     QCOMPARE(h->displayNames().count(), 1);
     QCOMPARE(h->displayNames().first(), QLatin1StringView("John Smith"));
+    QCOMPARE(h->mailbox().name(), "John Smith"_L1);
     QCOMPARE(h->asUnicodeString(),
              QLatin1StringView("John Smith <joe_smith@where.test>"));
-    QCOMPARE(h->mailboxes().first().prettyAddress(Types::Mailbox::QuoteAlways),
-             QLatin1StringView("\"John Smith\" <joe_smith@where.test>"));
+    QCOMPARE(h->mailbox().prettyAddress(Types::Mailbox::QuoteAlways), "\"John Smith\" <joe_smith@where.test>"_L1);
 
     // parse quoted display name with \ in it
     h->from7BitString(R"("Lastname\, Firstname" <firstname.lastname@example.com>)");
@@ -368,10 +370,8 @@ void HeaderTest::testSingleMailboxHeader()
              QLatin1StringView("Lastname, Firstname"));
     QCOMPARE(h->asUnicodeString().toLatin1().data(),
              "Lastname, Firstname <firstname.lastname@example.com>");
-    QCOMPARE(h->mailboxes().first().prettyAddress().toLatin1().data(),
-             "Lastname, Firstname <firstname.lastname@example.com>");
-    QCOMPARE(h->mailboxes().first().prettyAddress(Types::Mailbox::QuoteWhenNecessary).toLatin1().data(),
-             "\"Lastname, Firstname\" <firstname.lastname@example.com>");
+    QCOMPARE(h->mailbox().prettyAddress(), "Lastname, Firstname <firstname.lastname@example.com>"_L1);
+    QCOMPARE(h->mailbox().prettyAddress(Types::Mailbox::QuoteWhenNecessary), "\"Lastname, Firstname\" <firstname.lastname@example.com>"_L1);
 
     // parse quoted display name with " in it
     h->from7BitString(R"("John \"the guru\" Smith" <john.smith@mail.domain>)");
@@ -379,8 +379,7 @@ void HeaderTest::testSingleMailboxHeader()
     QCOMPARE(h->addresses().count(), 1);
     QCOMPARE(h->addresses().first().data(), "john.smith@mail.domain");
     QCOMPARE(h->displayNames().first().toLatin1().data(), "John \"the guru\" Smith");
-    QCOMPARE(h->mailboxes().first().prettyAddress(Types::Mailbox::QuoteWhenNecessary).toLatin1().data(),
-             "\"John \\\"the guru\\\" Smith\" <john.smith@mail.domain>");
+    QCOMPARE(h->mailbox().prettyAddress(Types::Mailbox::QuoteWhenNecessary), "\"John \\\"the guru\\\" Smith\" <john.smith@mail.domain>"_L1);
     QCOMPARE(h->as7BitString(false).data(),
              "\"John \\\"the guru\\\" Smith\" <john.smith@mail.domain>");
 
@@ -389,15 +388,15 @@ void HeaderTest::testSingleMailboxHeader()
     h->from7BitString("=?iso-8859-1?Q?=22Andre_Woebbeking=22?= <woebbeking@example.com>");
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->addresses().count(), 1);
-    QCOMPARE(h->mailboxes().first().name().toLatin1().data(), "Andre Woebbeking");
+    QCOMPARE(h->mailbox().name(), "Andre Woebbeking"_L1);
     h->from7BitString("=?iso-8859-1?Q?=22Andre_=22Mr._Tall=22_Woebbeking=22?= <woebbeking@example.com>");
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->addresses().count(), 1);
-    QCOMPARE(h->mailboxes().first().name().toLatin1().data(), "Andre \"Mr. Tall\" Woebbeking");
+    QCOMPARE(h->mailbox().name(), "Andre \"Mr. Tall\" Woebbeking"_L1);
     h->from7BitString("=?iso-8859-1?Q?=22Andre_=22?= =?iso-8859-1?Q?Mr._Tall?= =?iso-8859-1?Q?=22_Woebbeking=22?= <woebbeking@example.com>");
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->addresses().count(), 1);
-    QCOMPARE(h->mailboxes().first().name().toLatin1().data(), "Andre \"Mr. Tall\" Woebbeking");
+    QCOMPARE(h->mailbox().name(), "Andre \"Mr. Tall\" Woebbeking"_L1);
 
     delete h;
 }
@@ -1077,6 +1076,7 @@ void HeaderTest::testBug271192()
     QCOMPARE(h->displayNames().size(), 1);
     QCOMPARE(h->displayNames().first().toUtf8(),
              displayName.remove(QLatin1StringView("\\")).toUtf8());
+    QCOMPARE(h->mailbox().name(), displayName.remove(QLatin1StringView("\\")));
     delete h;
     h = nullptr;
 

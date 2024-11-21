@@ -381,6 +381,19 @@ class KMIME_EXPORT SingleMailbox : public MailboxList
     //@cond PRIVATE
     kmime_mk_trivial_ctor(SingleMailbox)
     //@endcond
+public:
+    /**
+      Returns the mailbox in this header.
+      @since 25.04
+    */
+    [[nodiscard]] Types::Mailbox mailbox() const;
+
+    /**
+      Sets the mailboxes in this header, replacing the current content.
+      @since 25.04
+    */
+    void setMailbox(const Types::Mailbox &mailbox);
+
 protected:
     bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
 private:

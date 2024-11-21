@@ -124,7 +124,7 @@ void MessageTest::testWillsAndTillsCrash()
     QVERIFY(!msg->date()->isEmpty());
     QCOMPARE(msg->subject()->as7BitString(false), QByteArray("[censored] Birthday Reminder"));
     QCOMPARE(msg->from()->mailboxes().count(), 1);
-    QCOMPARE(msg->sender()->mailboxes().count(), 1);
+    QCOMPARE(msg->sender()->mailbox().address(), "censored@yahoogroups.com");
     QCOMPARE(msg->replyTo()->mailboxes().count(), 1);
     QCOMPARE(msg->to()->mailboxes().count(), 1);
     QCOMPARE(msg->cc()->mailboxes().count(), 0);

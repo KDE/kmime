@@ -390,6 +390,18 @@ bool MailboxList::parse(const char *&scursor, const char *const send,
 kmime_mk_trivial_ctor_with_dptr(SingleMailbox, MailboxList)
 //@endcond
 
+Types::Mailbox SingleMailbox::mailbox() const
+{
+    Q_D(const SingleMailbox);
+    return d->mailboxList.isEmpty() ? Types::Mailbox() : d->mailboxList.constFirst();
+}
+
+void SingleMailbox::setMailbox(const Types::Mailbox &mailbox)
+{
+    Q_D(SingleMailbox);
+    d->mailboxList = {mailbox};
+}
+
 bool SingleMailbox::parse(const char *&scursor, const char *const send,
                           bool isCRLF)
 {
