@@ -64,7 +64,10 @@ public:
   QList<Types::Mailbox> mailboxList;
 };
 
-class SingleMailboxPrivate : public MailboxListPrivate {};
+class SingleMailboxPrivate : public StructuredPrivate {
+public:
+    Types::Mailbox mailbox;
+};
 
 class AddressListPrivate : public StructuredPrivate
 {

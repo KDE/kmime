@@ -387,33 +387,66 @@ bool MailboxList::parse(const char *&scursor, const char *const send,
 //-----<SingleMailbox>-------------------------
 
 //@cond PRIVATE
-kmime_mk_trivial_ctor_with_dptr(SingleMailbox, MailboxList)
+kmime_mk_trivial_ctor_with_dptr(SingleMailbox, Structured)
 //@endcond
+
+QByteArray SingleMailbox::as7BitString(bool withHeaderType) const
+{
+    const Q_D(SingleMailbox);
+    if (isEmpty()) {
+        return {};
+    }
+
+    QByteArray rv;
+    if (withHeaderType) {
+        rv = typeIntro();
+    }
+    rv += d->mailbox.as7BitString(rfc2047Charset());
+    return rv;
+}
+
+void SingleMailbox::fromUnicodeString(const QString &s)
+{
+    Q_D(SingleMailbox);
+    from7BitString(encodeRFC2047Sentence(s, rfc2047Charset()));
+}
+
+QString SingleMailbox::asUnicodeString() const
+{
+    Q_D(const SingleMailbox);
+    return d->mailbox.prettyAddress();
+}
+
+bool SingleMailbox::isEmpty() const
+{
+    Q_D(const SingleMailbox);
+    return !d->mailbox.hasAddress() && !d->mailbox.hasName();
+}
 
 Types::Mailbox SingleMailbox::mailbox() const
 {
     Q_D(const SingleMailbox);
-    return d->mailboxList.isEmpty() ? Types::Mailbox() : d->mailboxList.constFirst();
+    return d->mailbox;
 }
 
 void SingleMailbox::setMailbox(const Types::Mailbox &mailbox)
 {
     Q_D(SingleMailbox);
-    d->mailboxList = {mailbox};
+    d->mailbox = mailbox;
 }
 
-bool SingleMailbox::parse(const char *&scursor, const char *const send,
-                          bool isCRLF)
+bool SingleMailbox::parse(const char *&scursor, const char *const send, bool isCRLF)
 {
-    Q_D(MailboxList);
-    if (!MailboxList::parse(scursor, send, isCRLF)) {
+    Q_D(SingleMailbox);
+    Types::Mailbox maybeMailbox;
+    if (!parseMailbox(scursor, send, maybeMailbox)) {
         return false;
     }
-
-    if (d->mailboxList.count() > 1) {
-        KMIME_WARN << "multiple mailboxes in header allowing only a single one!"
-                   << Qt::endl;
+    eatCFWS(scursor, send, isCRLF);
+    if (scursor != send) {
+        return false;
     }
+    d->mailbox = maybeMailbox;
     return true;
 }
 

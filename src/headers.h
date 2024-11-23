@@ -376,12 +376,18 @@ class SingleMailboxPrivate;
    Base class for headers that deal with exactly one mailbox
    (e.g. Sender).
 */
-class KMIME_EXPORT SingleMailbox : public MailboxList
+class KMIME_EXPORT SingleMailbox : public Structured
 {
     //@cond PRIVATE
     kmime_mk_trivial_ctor(SingleMailbox)
     //@endcond
 public:
+    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    void fromUnicodeString(const QString &s) override;
+    using Base::fromUnicodeString;
+    [[nodiscard]] QString asUnicodeString() const override;
+    [[nodiscard]] bool isEmpty() const override;
+
     /**
       Returns the mailbox in this header.
       @since 25.04
@@ -396,6 +402,7 @@ public:
 
 protected:
     bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
+
 private:
     Q_DECLARE_PRIVATE(SingleMailbox)
 };
