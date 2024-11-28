@@ -4,19 +4,20 @@
 # Andrey Cherepanov <sibskull@mail.ru>, 2004.
 # Andrey Cherepanov <skull@kde.ru>, 2009.
 # Alexander Potashev <aspotashev@gmail.com>, 2010.
+# SPDX-FileCopyrightText: 2024 Olesya Gerasimenko <translation-team@basealt.ru>
 msgid ""
 msgstr ""
 "Project-Id-Version: libkmime\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-20 01:59+0000\n"
-"PO-Revision-Date: 2010-12-04 22:33+0300\n"
-"Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
-"Language-Team: Russian <kde-russian@lists.kde.ru>\n"
+"PO-Revision-Date: 2024-11-27 15:20+0300\n"
+"Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
+"Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.1\n"
+"X-Generator: Lokalize 23.08.5\n"
 "X-Qt-Contexts: true\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
@@ -25,11 +26,6 @@ msgstr ""
 "X-Text-Markup: kde4\n"
 
 #: mdn.cpp:53
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "displayed. This is no guarantee that the message has been read or "
-#| "understood."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -39,11 +35,6 @@ msgstr ""
 "гарантии, что письмо было прочитано или понято."
 
 #: mdn.cpp:60
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "deleted unseen. This is no guarantee that the message will not be "
-#| "\"undeleted\" and nonetheless read later on."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -51,28 +42,19 @@ msgid ""
 "\" and nonetheless read later on."
 msgstr ""
 "Было удалено непрочитанное письмо, отправленное ${date} ${to} с темой "
-"«${subject}». Нет гарантии, что удалённое письмо будет позднее восстановлено "
-"и прочитано."
+"«${subject}». Нет гарантии, что удалённое письмо не будет впоследствии "
+"восстановлено и всё равно прочитано."
 
 #: mdn.cpp:68
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "dispatched. This is no guarantee that the message will not be read later "
-#| "on."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "dispatched. This is no guarantee that the message will not be read later on."
 msgstr ""
 "Было обработано письмо, отправленное ${date} ${to} с темой «${subject}». Нет "
-"гарантии, что письмо будет позднее прочитано."
+"гарантии, что письмо не будет впоследствии прочитано."
 
 #: mdn.cpp:75
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "processed by some automatic means."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -82,11 +64,6 @@ msgstr ""
 "автоматически."
 
 #: mdn.cpp:81
-#, fuzzy
-#| msgid ""
-#| "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
-#| "acted upon. The sender does not wish to disclose more details to you than "
-#| "that."
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
@@ -94,24 +71,19 @@ msgid ""
 "that."
 msgstr ""
 "Над письмом, отправленным ${date} ${to} с темой «${subject}», были "
-"произведены какие-то действия. Отправитель не хотел, чтобы было раскрыто "
-"больше информации о действиях над письмом."
+"произведены какие-то действия. Отправитель не хотел предоставлять более "
+"подробную информацию о действиях над письмом."
 
 #: mdn.cpp:88
-#, fuzzy
-#| msgid ""
-#| "Generation of a Message Disposition Notification for the message sent on "
-#| "${date} to ${to} with subject \"${subject}\" failed. Reason is given in "
-#| "the Failure: header field below."
 msgctxt "DispositionModifier|"
 msgid ""
 "Generation of a Message Disposition Notification for the message sent on "
 "${date} to ${to} with subject \"${subject}\" failed. Reason is given in the "
 "Failure: header field below."
 msgstr ""
-"Ошибка создания уведомления о прочтении для письма, отправленного ${date} "
-"${to} с темой «${subject}». Причину вы можете найти в поле заголовка "
-"'Failure:'."
+"Ошибка создания уведомления о состоянии для письма, отправленного ${date} "
+"${to} с темой «${subject}». Причина указана в расположенном ниже поле "
+"заголовка «Failure»."
 
 #~ msgctxt "invalid time specified"
 #~ msgid "unknown"
