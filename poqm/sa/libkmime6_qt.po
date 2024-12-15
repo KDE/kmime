@@ -105,17 +105,3 @@ msgid ""
 msgstr ""
 "${date} इत्यत्र ${to} इत्यस्मै प्रेषितस्य सन्देशस्य जननम् \"${subject}\" इति विषयेण सह "
 "विफलम् । कारणं अधः Failure: header क्षेत्रे दत्तम् अस्ति ।."
-
-#~ msgctxt "invalid time specified"
-#~ msgid "unknown"
-#~ msgstr "अज्ञात"
-
-#~ msgid "Today %1"
-#~ msgstr "अद्य %1"
-
-#~ msgid "Yesterday %1"
-#~ msgstr "श्वः %1"
-
-#~ msgctxt "1. weekday, 2. time"
-#~ msgid "%1 %2"
-#~ msgstr "%1 %2"
