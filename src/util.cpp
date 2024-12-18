@@ -316,6 +316,7 @@ bool isSigned(const Message *message)
             message->mainBodyPart("application/x-pkcs7-signature")) {
         return true;
     }
+
     return false;
 }
 
@@ -338,6 +339,17 @@ bool isEncrypted(const Message *message)
             message->mainBodyPart("application/pkcs7-mime") ||
             message->mainBodyPart("application/x-pkcs7-mime")) {
         return true;
+    }
+
+    if (message->contentType()->mimeType() == QByteArrayLiteral("multipart/mixed")) {
+        // Outlook/EWS will convert multipart/encrypted to multipart/mixed, so also check subparts :/
+        const auto contents = message->contents();
+        for (const auto &content : std::as_const(contents)) {
+            if (content->contentType()->mimeType() == QByteArrayLiteral("application/pgp-encrypted")
+                || content->contentType()->mimeType() == QByteArrayLiteral("application/pkcs7-mime")) {
+                return true;
+            }
+        }
     }
 
     return false;
