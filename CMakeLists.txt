@@ -20,7 +20,6 @@ include(ECMGenerateExportHeader)
 
 include(ECMGenerateHeaders)
 include(ECMSetupVersion)
-include(FeatureSummary)
 include(ECMQtDeclareLoggingCategory)
 include(ECMDeprecationSettings)
 include(ECMFeatureSummary)
