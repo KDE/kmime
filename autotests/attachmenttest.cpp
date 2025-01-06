@@ -4,9 +4,6 @@
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#undef QT_USE_FAST_CONCATENATION
-#undef QT_USE_FAST_OPERATOR_PLUS
-
 #include <QTest>
 
 #include "attachmenttest.h"
