@@ -2,16 +2,16 @@
 # SPDX-License-Identifier: CC0-1.0
 
 Dependencies:
-- 'on': ['Linux', 'FreeBSD', 'Windows', 'Android']
-  'require':
+ - 'on': ['Linux', 'FreeBSD', 'Windows', 'Android']
+   'require':
     'frameworks/extra-cmake-modules': '@latest-kf6'
-    'frameworks/kcodecs' : '@latest-kf6'
+    'frameworks/kcodecs': '@latest-kf6'
 
 Options:
-  require-passing-tests-on: [ '@all' ]
-  cppcheck-arguments:
-    - --enable=warning,style,performance
-    - -DKMIME_VERSION_STRING=\"1.1\"
-    - --suppress-xml=cppcheck-suppressions.xml
-  cppcheck-ignore-files:
-    - autotests
+ require-passing-tests-on: ['@all']
+ cppcheck-arguments:
+  - --enable=warning,style,performance
+  - -DKMIME_VERSION_STRING=\"1.1\"
+  - --suppress-xml=cppcheck-suppressions.xml
+ cppcheck-ignore-files:
+  - autotests

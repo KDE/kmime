@@ -1,5 +1,5 @@
 maintainer: vkrause
-description: The KMime Library 
+description: The KMime Library
 tier: 3
 type: functional
 platforms:
@@ -7,12 +7,12 @@ platforms:
     - name: FreeBSD
     - name: Windows
     - name: macOS
-    - name: Android  
+    - name: Android
 portingAid: false
 deprecated: false
 release: false
 libraries:
- - cmake: "KPim6::Mime"
+    - cmake: "KPim6::Mime"
 cmakename: KPim6Mime
 
 public_lib: true
