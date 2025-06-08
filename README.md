@@ -1111,9 +1111,6 @@ When modifying messages, the message is first parsed into a broken-down represen
 representation can then be accessed and modified with the appropriate functions. After changing the broken-down
 structure, it needs to be assembled again to get the modified string representation.
 
-KMime also comes with some codes for handling base64 and quoted-printable encoding, with `KMime::Codec`
-as the base class.
-
 # RFCs # {#rfcs}
 
 * [RFC 5322](https://tools.ietf.org/html/rfc5322): Internet Message Format
