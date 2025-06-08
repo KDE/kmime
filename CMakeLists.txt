@@ -102,5 +102,5 @@ install(FILES
 
 ecm_install_po_files_as_qm(poqm)
 ecm_feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
-file(GLOB_RECURSE ALL_SOURCE_FILES src/*.cpp src/*.h autotests/*.cpp autotests/*.h)
-ecm_check_outbound_license(LICENSES GPL-2.0-only  FILES ${ALL_SOURCE_FILES})
+file(GLOB_RECURSE ALL_SOURCE_FILES src/*.cpp src/*.h)
+ecm_check_outbound_license(LICENSES LGPL-2.0-only LGPL-3.0-only FILES ${ALL_SOURCE_FILES})
