@@ -855,7 +855,7 @@ void ContentTest::testContentTypeMimetype()
 
 void ContentTest::testConstChildren()
 {
-    QFile file(QLatin1StringView(TEST_DATA_DIR "/mails/simple-encapsulated.mbox"));
+    QFile file(QLatin1StringView(TEST_DATA_DIR "/simple-encapsulated.mbox"));
     QVERIFY(file.open(QIODevice::ReadOnly));
     const QByteArray data = KMime::CRLFtoLF(file.readAll());
 

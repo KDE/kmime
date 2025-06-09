@@ -15,7 +15,7 @@ class MessageParserBenchmark : public QObject
 private Q_SLOTS:
     void testPlainTextParse()
     {
-        QFile file(QLatin1StringView(TEST_DATA_DIR "/mails/plain-text-body.mbox"));
+        QFile file(QLatin1StringView(TEST_DATA_DIR "/plain-text-body.mbox"));
         QVERIFY(file.open(QIODevice::ReadOnly));
         const QByteArray data = KMime::CRLFtoLF(file.readAll());
 

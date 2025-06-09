@@ -605,8 +605,7 @@ void MessageTest::testEncryptedMails()
 void MessageTest::testReturnSameMail()
 {
     KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("dontchangemail.mbox"));
-    QFile file(QLatin1StringView(TEST_DATA_DIR) +
-               QLatin1StringView("/mails/dontchangemail.mbox"));
+    QFile file(QLatin1StringView(TEST_DATA_DIR) + QLatin1StringView("/dontchangemail.mbox"));
     QVERIFY(file.open(QIODevice::ReadOnly | QIODevice::Text));
     QByteArray fileContent = file.readAll();
     QCOMPARE(msg->encodedContent(), fileContent);
@@ -637,7 +636,7 @@ void MessageTest::testReplyHeader()
 
 KMime::Message::Ptr MessageTest::readAndParseMail(const QString &mailFile) const
 {
-  QFile file(QLatin1StringView(TEST_DATA_DIR) + QLatin1StringView("/mails/") +
+  QFile file(QLatin1StringView(TEST_DATA_DIR) + QLatin1StringView("/") +
              mailFile);
   const bool ok = file.open(QIODevice::ReadOnly);
   if (!ok) {
