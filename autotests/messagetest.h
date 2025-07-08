@@ -38,7 +38,7 @@ private Q_SLOTS:
     void testBug392239();
     void testBugAttachment387423();
     void testCrashReplyInvalidEmail();
+    void testHeadersWithNullBytes();
 private:
     KMime::Message::Ptr readAndParseMail(const QString &mailFile) const;
 };
-

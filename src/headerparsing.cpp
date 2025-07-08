@@ -2035,8 +2035,27 @@ Headers::Base *extractHeader(QByteArrayView head, const qsizetype headerStart, q
         header = HeaderFactory::createHeader(QByteArrayView(rawType, rawTypeLen));
     }
     if (!header) {
-        //qCWarning(KMIME_LOG)() << "Returning Generic header of type" << rawType;
-        header = new Headers::Generic(rawType, rawTypeLen);
+        const char* typeData = rawType;
+        int typeLen = rawTypeLen;
+        QByteArray cleanedType;
+
+        // Check for null bytes in rawType
+        if (memchr(rawType, '\0', rawTypeLen)) {
+            cleanedType = QByteArray(rawType, rawTypeLen);
+            cleanedType.replace('\0', "");
+
+            typeData = cleanedType.constData();
+            typeLen = cleanedType.size();
+
+            if (typeLen > 0) {
+                header = HeaderFactory::createHeader(QByteArrayView(typeData, typeLen));
+            }
+        }
+
+        if (!header) {
+            //qCWarning(KMIME_LOG)() << "Returning Generic header of type" << QByteArrayView(typeData, typeLen);
+            header = new Headers::Generic(typeData, typeLen);
+        }
     }
     if (folded) {
         const auto unfoldedBody = unfoldHeader(head.constData() + startOfFieldBody, endOfFieldBody - startOfFieldBody);

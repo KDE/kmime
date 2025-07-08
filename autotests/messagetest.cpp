@@ -687,5 +687,12 @@ void MessageTest::testCrashReplyInvalidEmail()
     QVERIFY(msg->isTopLevel());
 }
 
+void MessageTest::testHeadersWithNullBytes()
+{
+    KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("headers-with-nullbytes.mbox"));
+    QCOMPARE(msg->subject()->as7BitString().data(), "Subject: This header type has a trailing null byte");
+    QCOMPARE(msg->headerByType("SubjectInvalid")->as7BitString().data(), "SubjectInvalid: This header type contains a null byte");
+}
+
 
 #include "moc_messagetest.cpp"
