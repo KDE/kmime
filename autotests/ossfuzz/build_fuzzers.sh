@@ -15,12 +15,6 @@ cd $SRC/qtbase
     -no-feature-dbus -no-feature-printsupport
 ninja install -j$(nproc)
 
-cd $SRC/qttools
-cmake . -G Ninja \
-  -DBUILD_SHARED_LIBS=OFF \
-  -DCMAKE_INSTALL_PREFIX=/usr
-ninja install -j$(nproc)
-
 cd $SRC/kcodecs
 rm -rf poqm
 cmake . -G Ninja \

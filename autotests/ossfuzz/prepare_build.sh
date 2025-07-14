@@ -7,6 +7,5 @@ apt-get update && \
     apt-get install -y cmake ninja-build gperf
 
 git clone --depth 1 --branch=dev git://code.qt.io/qt/qtbase.git
-git clone --depth 1 --branch=dev git://code.qt.io/qt/qttools.git
 git clone --depth 1 -b master https://invent.kde.org/frameworks/extra-cmake-modules.git
 git clone --depth 1 -b master https://invent.kde.org/frameworks/kcodecs.git
