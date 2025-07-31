@@ -42,6 +42,8 @@ ecm_setup_version(PROJECT VARIABLE_PREFIX KMIME
 option(BUILD_QCH "Build API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
 add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
 
+option(BUILD_FUZZERS "Build KMime fuzzers" OFF)
+
 ########### Find packages ###########
 find_package(KF6Codecs ${KF_MIN_VERSION} CONFIG REQUIRED)
 add_definitions(-DQT_NO_CONTEXTLESS_CONNECT)
@@ -60,6 +62,10 @@ add_subdirectory(src)
 if(BUILD_TESTING)
     add_subdirectory(autotests)
     add_subdirectory(tests)
+endif()
+
+if(BUILD_FUZZERS)
+    add_subdirectory(autotests/ossfuzz)
 endif()
 
 ########### CMake Config Files ###########
