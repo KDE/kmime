@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2025 Azhar Momin <azhar.momin@kdemail.net>
+# SPDX-License-Identifier: BSD-2-Clause
+
 if(DEFINED ENV{LIB_FUZZING_ENGINE})
     set(fuzzing_engine $ENV{LIB_FUZZING_ENGINE})
 else()

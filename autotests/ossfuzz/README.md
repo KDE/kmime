@@ -1,3 +1,6 @@
+<!-- SPDX-FileCopyrightText: 2025 Azhar Momin <azhar.momin@kdemail.net> -->
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+
 # KMime OSS-Fuzz Integration
 
 ## Fuzzing Locally
