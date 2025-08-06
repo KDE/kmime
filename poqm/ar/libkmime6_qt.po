@@ -1,5 +1,5 @@
 # translation of libkmime.po to
-# SPDX-FileCopyrightText: 2021, 2024 Zayed Al-Saidi <zayed.alsaidi@gmail.com>
+# SPDX-FileCopyrightText: 2021, 2024, 2025 Zayed Al-Saidi <zayed.alsaidi@gmail.com>
 # محمد سعد  Mohamed SAAD <metehyi@free.fr>, 2006.
 # Youssef Chahibi <chahibi@gmail.com>, 2007.
 # Safa Alfulaij <safa1996alfulaij@gmail.com>, 2018.
@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: libkmime\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-20 01:59+0000\n"
-"PO-Revision-Date: 2024-06-26 22:33+0400\n"
+"PO-Revision-Date: 2025-08-05 12:46+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -74,7 +74,7 @@ msgid ""
 "${date} to ${to} with subject \"${subject}\" failed. Reason is given in the "
 "Failure: header field below."
 msgstr ""
-"فشل توليد إخطار ترتيب رسالة للرّسالة المرسلة في ${date} إلى ${to} وموضوعها "
+"فشل توليد إشعار ترتيب رسالة للرّسالة المرسلة في ${date} إلى ${to} وموضوعها "
 "”${subject}“. السّبب موجود في حقل ترويسة ”فشل:“ أدناه."
 
 #~ msgctxt "invalid time specified"
