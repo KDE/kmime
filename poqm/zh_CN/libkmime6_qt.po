@@ -21,6 +21,8 @@ msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "displayed. This is no guarantee that the message has been read or understood."
 msgstr ""
+"在 ${date} 发送给 ${to} 主题为“${subject}”的信件已经显示。无法保证信件是否已"
+"被阅读或理解。"
 
 #: mdn.cpp:60
 msgctxt "DispositionModifier|"
@@ -29,6 +31,8 @@ msgid ""
 "deleted unseen. This is no guarantee that the message will not be \"undeleted"
 "\" and nonetheless read later on."
 msgstr ""
+"在 ${date} 发送给 ${to} 主题为“${subject}”的信件在没有看过的情况下被删除。无"
+"法保证信件是否会被“取消删除”并被阅读。"
 
 #: mdn.cpp:68
 msgctxt "DispositionModifier|"
@@ -36,13 +40,15 @@ msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "dispatched. This is no guarantee that the message will not be read later on."
 msgstr ""
+"在 ${date} 发送给 ${to} 主题为“${subject}”的信件已被发出。无法保证信件是否稍"
+"后会被阅读。"
 
 #: mdn.cpp:75
 msgctxt "DispositionModifier|"
 msgid ""
 "The message sent on ${date} to ${to} with subject \"${subject}\" has been "
 "processed by some automatic means."
-msgstr ""
+msgstr "在 ${date} 发送给 ${to} 主题为“${subject}”的信件已被某些自动方式处理。"
 
 #: mdn.cpp:81
 msgctxt "DispositionModifier|"
@@ -51,6 +57,8 @@ msgid ""
 "acted upon. The sender does not wish to disclose more details to you than "
 "that."
 msgstr ""
+"在 ${date} 发送给 ${to} 主题为“${subject}”的信件已经被执行操作。发送者并不想"
+"透露给您更多细节。"
 
 #: mdn.cpp:88
 msgctxt "DispositionModifier|"
@@ -59,3 +67,5 @@ msgid ""
 "${date} to ${to} with subject \"${subject}\" failed. Reason is given in the "
 "Failure: header field below."
 msgstr ""
+"对在 ${date} 发送给 ${to} 主题为“${subject}”的信件生成信件投递通知失败。原因"
+"在下面的 Failure: 头字段中已给出。"
