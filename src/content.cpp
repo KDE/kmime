@@ -668,7 +668,8 @@ bool ContentPrivate::decodeText(const Content *q)
 {
     const Headers::ContentTransferEncoding *enc = q->contentTransferEncoding();
 
-    if (const auto ct = q->contentType(); ct && !ct->isText()) {
+    if (const auto ct = q->contentType(); ct && (!ct->isText() || ct->isSubtype("pgp"))) {
+        // content of type text/pgp might be a binary blob of encrypted text; it must not be decoded as text
         return false; //non textual data cannot be decoded here => use decodedContent() instead
     }
     if (m_decoded) {

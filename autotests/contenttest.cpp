@@ -16,6 +16,7 @@
 #include <type_traits>
 
 using namespace KMime;
+using namespace Qt::Literals;
 
 QTEST_MAIN(ContentTest)
 
@@ -273,6 +274,38 @@ void ContentTest::testDecodedContent()
     c->setBody(" ");
     QVERIFY(c->decodedContent() == QByteArray(" "));
     delete c;
+}
+
+void ContentTest::testDecodedText()
+{
+    {
+        Content c{};
+        c.setEncodedBody("plain text");
+        QCOMPARE(c.decodedText(), u"plain text"_s);
+    }
+    {
+        Content c{};
+        auto cte = std::make_unique<Headers::ContentTransferEncoding>();
+        cte->setEncoding(Headers::CEbase64);
+        c.setHeader(cte.release());
+        c.setEncodedBody("YmFzZTY0LWVuY29kZWQgdGV4dA==");
+        QCOMPARE(c.decodedText(), u"base64-encoded text"_s);
+        QCOMPARE(c.decodedContent(), "base64-encoded text\n");
+    }
+    {
+        Content c{};
+        auto cte = std::make_unique<Headers::ContentTransferEncoding>();
+        cte->setEncoding(Headers::CEbase64);
+        c.setHeader(cte.release());
+        auto ct = std::make_unique<Headers::ContentType>();
+        ct->setMimeType("text/pgp");
+        c.setHeader(ct.release());
+        c.setEncodedBody("YmFzZTY0LWVuY29kZWQgYmluYXJ5IGJsb2Igb2YgZW5jcnlwdGVkIHRleHQ=");
+        // content of type text/pgp might be a binary blob of encrypted text; it must not be decoded as text
+        QCOMPARE(c.decodedText(), QString{});
+        QCOMPARE(c.decodedContent(), "base64-encoded binary blob of encrypted text");
+    }
+
 }
 
 void ContentTest::testMultipleHeaderExtraction()

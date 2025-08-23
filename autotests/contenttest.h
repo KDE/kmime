@@ -18,6 +18,7 @@ private Q_SLOTS:
     void testSetContent();
     void testEncodedContent();
     void testDecodedContent();
+    void testDecodedText();
     void testMultipartMixed();
     void testMultipleHeaderExtraction();
     /**
