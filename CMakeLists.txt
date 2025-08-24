@@ -4,7 +4,7 @@ set(PIM_VERSION "6.5.40")
 project(KMime VERSION ${PIM_VERSION})
 
 # ECM setup
-set(KF_MIN_VERSION "6.15.0")
+set(KF_MIN_VERSION "6.16.0")
 
 find_package(ECM ${KF_MIN_VERSION} CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${KMime_SOURCE_DIR}/cmake ${ECM_MODULE_PATH})
