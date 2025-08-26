@@ -1753,6 +1753,7 @@ static bool parseTimeOfDay(const char *&scursor, const char *const send,
 
     eatCFWS(scursor, send, isCRLF);
     if (scursor == send) {
+        sec = 0;
         return true; // seconds are optional
     }
 
