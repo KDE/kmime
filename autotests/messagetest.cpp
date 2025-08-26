@@ -694,5 +694,9 @@ void MessageTest::testHeadersWithNullBytes()
     QCOMPARE(msg->headerByType("SubjectInvalid")->as7BitString().data(), "SubjectInvalid: This header type contains a null byte");
 }
 
+void MessageTest::testMultipartParseAbort()
+{
+    KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("multipart-parse-abort.mbox"));
+}
 
 #include "moc_messagetest.cpp"

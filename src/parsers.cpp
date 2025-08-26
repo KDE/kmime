@@ -49,7 +49,7 @@ bool MultiPart::parse()
 
     if (pos1 > -1) {
         pos1 += blen;
-        if (m_src[pos1] == '-' && m_src[pos1 + 1] == '-') {
+        if ((pos1 + 1) < m_src.length() && m_src[pos1] == '-' && m_src[pos1 + 1] == '-') {
             // the only valid boundary is the end-boundary
             // this message is *really* broken
             pos1 = -1; //we give up
