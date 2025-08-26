@@ -699,4 +699,9 @@ void MessageTest::testMultipartParseAbort()
     KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("multipart-parse-abort.mbox"));
 }
 
+void MessageTest::testParseDigitsOverflow()
+{
+    KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("read-digits-overflow.mbox"));
+}
+
 #include "moc_messagetest.cpp"

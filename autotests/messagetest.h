@@ -40,6 +40,7 @@ private Q_SLOTS:
     void testCrashReplyInvalidEmail();
     void testHeadersWithNullBytes();
     void testMultipartParseAbort();
+    void testParseDigitsOverflow();
 private:
     KMime::Message::Ptr readAndParseMail(const QString &mailFile) const;
 };
