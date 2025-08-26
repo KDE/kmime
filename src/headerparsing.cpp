@@ -1705,14 +1705,19 @@ static bool parseAlphaNumericTimeZone(const char *&scursor,
 }
 
 // parse a number and return the number of digits parsed:
-int parseDigits(const char *&scursor, const char *const send, int &result)
+int parseDigits(const char *&scursor, const char *const send, int &finalResult)
 {
-    result = 0;
+    int64_t result = 0;
+    finalResult = 0;
     int digits = 0;
     for (; scursor != send && isdigit(*scursor) ; scursor++, digits++) {
         result *= 10;
         result += int(*scursor - '0');
+        if (result > std::numeric_limits<int>::max()) {
+            return 0;
+        }
     }
+    finalResult = result;
     return digits;
 }
 
