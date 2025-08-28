@@ -41,6 +41,7 @@ private Q_SLOTS:
     void testHeadersWithNullBytes();
     void testMultipartParseAbort();
     void testParseDigitsOverflow();
+    void testBigAllocation();
 private:
     KMime::Message::Ptr readAndParseMail(const QString &mailFile) const;
 };

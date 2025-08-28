@@ -704,4 +704,13 @@ void MessageTest::testParseDigitsOverflow()
     KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("read-digits-overflow.mbox"));
 }
 
+void MessageTest::testBigAllocation()
+{
+    KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("big-allocation.mbox"));
+    QCOMPARE(msg->contents().size(), 20);
+    for (const auto &part : msg->contents()) {
+        QVERIFY(part->contents().empty());
+    }
+}
+
 #include "moc_messagetest.cpp"
