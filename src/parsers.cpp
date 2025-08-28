@@ -79,8 +79,10 @@ bool MultiPart::parse()
                 pos1 = -1;
                 pos2 = -1; //break;
             } else {
-                part = m_src.mid(pos1, pos2 - pos1 - 1);   // pos2 - 1 (\n) is part of the boundary (see RFC 2046, section 5.1.1)
-                m_parts.append(part);
+                if (pos1 != pos2) { // skip entirely empty parts
+                    part = m_src.mid(pos1, pos2 - pos1 - 1);   // pos2 - 1 (\n) is part of the boundary (see RFC 2046, section 5.1.1)
+                    m_parts.append(part);
+                }
                 pos2 += blen; //pos2 points now to the first character after the boundary
                 if (m_src[pos2] == '-' && m_src[pos2 + 1] == '-') { //end-boundary
                     pos1 = pos2 + 2; //pos1 points now to the character directly after the end-boundary
