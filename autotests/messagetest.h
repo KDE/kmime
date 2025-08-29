@@ -40,6 +40,7 @@ private Q_SLOTS:
     void testCrashReplyInvalidEmail();
     void testHeadersWithNullBytes();
     void testMultipartParseAbort();
+    void testUninitializedMemoryUse();
     void testParseDigitsOverflow();
     void testBigAllocation();
 private:

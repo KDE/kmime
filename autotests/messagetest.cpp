@@ -700,6 +700,11 @@ void MessageTest::testMultipartParseAbort()
     msg = readAndParseMail(QStringLiteral("multipart-parse-abort-2.mbox"));
 }
 
+void MessageTest::testUninitializedMemoryUse()
+{
+    KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("uninitialized-memory-use.mbox"));
+}
+
 void MessageTest::testParseDigitsOverflow()
 {
     KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("read-digits-overflow.mbox"));
