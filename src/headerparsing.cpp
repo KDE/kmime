@@ -1685,7 +1685,6 @@ static bool parseAlphaNumericTimeZone(const char *&scursor,
     }
     for (int i = 0 ; i < timeZonesLen ; ++i) {
         if (maybeTimeZone.compare(timeZones[i].tzName, Qt::CaseInsensitive) == 0) {
-            scursor += maybeTimeZone.size();
             secsEastOfGMT = timeZones[i].secsEastOfGMT;
             timeZoneKnown = true;
 
