@@ -84,7 +84,7 @@ bool MultiPart::parse()
                     m_parts.append(part);
                 }
                 pos2 += blen; //pos2 points now to the first character after the boundary
-                if (m_src[pos2] == '-' && m_src[pos2 + 1] == '-') { //end-boundary
+                if ((pos2 + 1) < m_src.length() && m_src[pos2] == '-' && m_src[pos2 + 1] == '-') { //end-boundary
                     pos1 = pos2 + 2; //pos1 points now to the character directly after the end-boundary
 
                     if ((pos1 = m_src.indexOf('\n', pos1)) > -1) {       //skip the rest of this line
