@@ -69,9 +69,9 @@ QByteArray encodeRFC2047String(QStringView src, const QByteArray &charset,
     }
 
     if (nonAscii) {
-        while ((end < encoded8Bit.length()) && (encoded8Bit[end] != ' ')) {
-            // we encode complete words
-            end++;
+        end = encoded8Bit.indexOf(' ', end);
+        if (end == -1) {
+            end = encoded8Bit.length();
         }
 
         for (int x = end; x < encoded8Bit.length(); x++) {
@@ -79,9 +79,9 @@ QByteArray encodeRFC2047String(QStringView src, const QByteArray &charset,
                     (addressHeader && (strchr(reservedCharacters, encoded8Bit[x]) != nullptr))) {
                 end = x;     // we found another non-ascii word
 
-                while ((end < encoded8Bit.length()) && (encoded8Bit[end] != ' ')) {
-                    // we encode complete words
-                    end++;
+                end = encoded8Bit.indexOf(' ', end);
+                if (end == -1) {
+                    end = encoded8Bit.length();
                 }
             }
         }
