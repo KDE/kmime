@@ -724,6 +724,8 @@ void eatCFWS(const char *&scursor, const char *const send, bool isCRLF)
         case '\t': // whitespace
         case '\r':
         case '\n': // folding
+        case '\f': // things that shouldn't occure but we need to match isspace()
+        case '\v':
             continue;
 
         case '(': // comment
