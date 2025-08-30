@@ -10,6 +10,7 @@
 #include <QFile>
 #include <codecs.cpp>
 
+using namespace Qt::Literals;
 using namespace KMime;
 
 QTEST_MAIN(MessageTest)
@@ -694,22 +695,6 @@ void MessageTest::testHeadersWithNullBytes()
     QCOMPARE(msg->headerByType("SubjectInvalid")->as7BitString().data(), "SubjectInvalid: This header type contains a null byte");
 }
 
-void MessageTest::testMultipartParseAbort()
-{
-    KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("multipart-parse-abort.mbox"));
-    msg = readAndParseMail(QStringLiteral("multipart-parse-abort-2.mbox"));
-}
-
-void MessageTest::testUninitializedMemoryUse()
-{
-    KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("uninitialized-memory-use.mbox"));
-}
-
-void MessageTest::testParseDigitsOverflow()
-{
-    KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("read-digits-overflow.mbox"));
-}
-
 void MessageTest::testBigAllocation()
 {
     KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("big-allocation.mbox"));
@@ -717,6 +702,24 @@ void MessageTest::testBigAllocation()
     for (const auto &part : msg->contents()) {
         QVERIFY(part->contents().empty());
     }
+}
+
+void MessageTest::testGarbage_data()
+{
+    QTest::addColumn<QString>("filename");
+    QTest::newRow("multipart-parse-abort-1") << u"multipart-parse-abort.mbox"_s;
+    QTest::newRow("multipart-parse-abort-2") << u"multipart-parse-abort-2.mbox"_s;
+    QTest::newRow("digits-overflow") << u"read-digits-overflow.mbox"_s;
+    QTest::newRow("uninitialized-memory") << u"uninitialized-memory-use.mbox"_s;
+    QTest::newRow("infinite-memory") << u"clusterfuzz-testcase-minimized-kmime_fuzzer-5255984894509056"_s;
+}
+
+void MessageTest::testGarbage()
+{
+    // all this does is to ensure parsing the input file doesn't crash, trigger ASAN or infinitely loop
+    QFETCH(QString, filename);
+    KMime::Message::Ptr msg = readAndParseMail(filename);
+    QVERIFY(msg);
 }
 
 #include "moc_messagetest.cpp"
