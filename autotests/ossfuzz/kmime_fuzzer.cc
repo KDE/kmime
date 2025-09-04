@@ -6,6 +6,7 @@
 #include "message.h"
 
 #include <QCoreApplication>
+#include <QtEnvironmentVariables>
 
 void traverseContent(KMime::Content *content) {
   for (KMime::Content *c : content->contents()) {
@@ -22,6 +23,8 @@ void traverseContent(KMime::Content *content) {
 }
 
 extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
+  qputenv("QT_ENABLE_REGEXP_JIT", "1");
+
   int argc = 0;
   QCoreApplication a(argc, nullptr);
 
