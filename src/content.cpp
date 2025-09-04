@@ -883,7 +883,7 @@ bool ContentPrivate::parseUuencoded(Content *q)
         // Now add each of the binary parts as sub-Contents.
         for (int i = 0; i < uup.binaryParts().count(); ++i) {
             auto c = new Content(q);
-            c->contentType()->setMimeType(uup.mimeTypes().at(i));
+            c->contentType()->setMimeType(uup.mimeTypes().at(i) == "message/rfc822" ? "text/plain" : uup.mimeTypes().at(i));
             c->contentType()->setName(QLatin1StringView(uup.filenames().at(i)));
             c->contentTransferEncoding()->setEncoding(Headers::CEuuenc);
             c->contentDisposition()->setDisposition(Headers::CDattachment);
