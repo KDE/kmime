@@ -269,34 +269,27 @@ YENCEncoded::YENCEncoded(const QByteArray &src) :
 
 bool YENCEncoded::yencMeta(QByteArrayView src, QByteArrayView name, int *value)
 {
-    bool found = false;
-    QByteArray sought = name + '=';
+    for (qsizetype idx = 0; idx < src.size() - name.size() - 2;) {
+        idx = src.indexOf(name, idx);
+        if (idx < 0 || idx >= src.size() - name.size() - 2) {
+            return false;
+        }
+        idx += name.size();
+        if (src[idx] != '=') {
+            continue;
+        }
+        ++idx;
+        auto endIdx = idx;
+        for (; endIdx < src.size() && std::isdigit(src[endIdx]); ++endIdx) {}
+        if (endIdx <= idx) {
+            continue;
+        }
 
-    auto iPos = src.indexOf(sought);
-    if (iPos > -1) {
-        auto pos1 = src.indexOf(' ', iPos);
-        auto pos2 = src.indexOf('\r', iPos);
-        auto pos3 = src.indexOf('\t', iPos);
-        auto pos4 = src.indexOf('\n', iPos);
-        if (pos2 >= 0 && (pos1 < 0 || pos1 > pos2)) {
-            pos1 = pos2;
-        }
-        if (pos3 >= 0 && (pos1 < 0 || pos1 > pos3)) {
-            pos1 = pos3;
-        }
-        if (pos4 >= 0 && (pos1 < 0 || pos1 > pos4)) {
-            pos1 = pos4;
-        }
-        iPos = src.lastIndexOf('=', pos1) + 1;
-        if (iPos < pos1) {
-            char c = src.at(iPos);
-            if (c >= '0' && c <= '9') {
-                found = true;
-                *value = src.mid(iPos, pos1 - iPos).toInt();
-            }
-        }
+        *value = src.mid(idx, endIdx - idx).toInt();
+        return true;
     }
-    return found;
+
+    return false;
 }
 
 bool YENCEncoded::parse()
