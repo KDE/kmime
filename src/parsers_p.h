@@ -94,7 +94,7 @@ public:
     [[nodiscard]] bool parse();
 
   private:
-    static bool yencMeta(QByteArray &src, const QByteArray &name, int *value);
+    static bool yencMeta(QByteArrayView src, QByteArrayView name, int *value);
 };
 
 } // namespace Parser

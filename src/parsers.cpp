@@ -267,7 +267,7 @@ YENCEncoded::YENCEncoded(const QByteArray &src) :
 {
 }
 
-bool YENCEncoded::yencMeta(QByteArray &src, const QByteArray &name, int *value)
+bool YENCEncoded::yencMeta(QByteArrayView src, QByteArrayView name, int *value)
 {
     bool found = false;
     QByteArray sought = name + '=';
@@ -307,7 +307,7 @@ bool YENCEncoded::parse()
         qsizetype beginPos = currentPos;
         qsizetype yencStart = currentPos;
         bool containsPart = false;
-        QByteArray fileName;
+        QByteArrayView fileName;
 
         if ((beginPos = m_src.indexOf("=ybegin ", currentPos)) > -1 &&
                 (beginPos == 0 || m_src.at(beginPos - 1) == '\n')) {
@@ -330,7 +330,7 @@ bool YENCEncoded::parse()
             // Try to identify yenc meta data
 
             // Filenames can contain any embedded chars until end of line
-            QByteArray meta = m_src.mid(beginPos, yencStart - beginPos);
+            auto meta = QByteArrayView(m_src).mid(beginPos, yencStart - beginPos);
             qsizetype namePos = meta.indexOf("name=");
             if (namePos == -1) {
                 success = false;
@@ -455,7 +455,7 @@ bool YENCEncoded::parse()
                 success = false;
                 break;
             }
-            meta = m_src.mid(pos, eolPos - pos);
+            meta = QByteArrayView(m_src).mid(pos, eolPos - pos);
             if (!yencMeta(meta, "size", &totalSize)) {
                 success = false;
                 break;
@@ -465,7 +465,7 @@ bool YENCEncoded::parse()
                 break;
             }
 
-            m_filenames.append(fileName);
+            m_filenames.append(fileName.toByteArray());
             QMimeDatabase db;
             m_mimeTypes.append(db.mimeTypeForFile(QString::fromUtf8(fileName), QMimeDatabase::MatchExtension).name().toUtf8());
             m_bins.append(binary);
