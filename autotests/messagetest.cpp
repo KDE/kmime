@@ -723,4 +723,16 @@ void MessageTest::testGarbage()
     QVERIFY(msg);
 }
 
+void MessageTest::testYenc()
+{
+    KMime::Message::Ptr msg = readAndParseMail(u"yenc-single-part.yenc"_s);
+    QVERIFY(msg);
+
+    QFile refFile(QLatin1StringView(TEST_DATA_DIR) + "/yenc-single-part.txt"_L1);
+    QVERIFY(refFile.open(QFile::ReadOnly));
+    QCOMPARE(msg->subject()->asUnicodeString(), "yEnc-Prefix: \"testfile.txt\" 584 yEnc bytes - yEnc test (1)"_L1);
+    QCOMPARE(msg->contents().size(), 2);
+    QCOMPARE(msg->contents()[1]->decodedContent(), refFile.readAll());
+}
+
 #include "moc_messagetest.cpp"

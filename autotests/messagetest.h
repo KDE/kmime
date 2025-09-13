@@ -43,6 +43,8 @@ private Q_SLOTS:
 
     void testGarbage_data();
     void testGarbage();
+
+    void testYenc();
 private:
     KMime::Message::Ptr readAndParseMail(const QString &mailFile) const;
 };
