@@ -155,7 +155,7 @@ typedef QList<Mailbox> MailboxList;
 
 struct KMIME_EXPORT Address {
     QString displayName;
-    MailboxList mailboxList;
+    QList<Mailbox> mailboxList;
 };
 typedef QList<Address> AddressList;
 

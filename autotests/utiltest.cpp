@@ -253,7 +253,7 @@ void UtilTest::testIsSigned()
     QFETCH(QByteArray, input);
     QFETCH(bool, hasSignature);
 
-    KMime::Message::Ptr msg(new KMime::Message);
+    auto msg = QSharedPointer<KMime::Message>::create();
     msg->setContent(input);
     msg->parse();
     QCOMPARE(isSigned(msg.data()), hasSignature);
