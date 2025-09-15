@@ -214,13 +214,9 @@ public:
 
   /**
     Removes all sub-Contents from this content.  Deletes them if @p del is true.
-    This is different from calling removeContent() on each sub-Content, because
-    removeContent() will convert this to a single-part Content if only one
-    sub-Content is left.  Calling clearContents() does NOT make this Content
-    single-part.
+    Calling clearContents() does NOT make this Content single-part.
 
     @param del Whether to delete the sub-Contents.
-    @see removeContent()
     @since 4.4
   */
   void clearContents(bool del = true);
