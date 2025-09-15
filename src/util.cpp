@@ -175,6 +175,9 @@ QByteArray LFtoCRLF(const QByteArray &s)
 
 bool isCryptoPart(const Content *content)
 {
+    if (!content) {
+        return false;
+    }
     const auto ct = content->contentType();
     if (!ct || !ct->isMediatype("application")) {
         return false;
