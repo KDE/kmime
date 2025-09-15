@@ -381,7 +381,8 @@ bool YENCEncoded::parse()
             int lineLength = 0;
             bool containsEnd = false;
             QByteArray binary;
-            binary.resize(yencSize);
+            // don't allocate more memory than the data we actually have can at most expand to
+            binary.reserve(std::max<qsizetype>(0, std::min<qsizetype>(m_src.size() * 2, yencSize)));
             while (pos < len) {
                 int ch = m_src.at(pos);
                 if (ch < 0) {
@@ -412,7 +413,8 @@ bool YENCEncoded::parse()
                             if (totalSize >= yencSize) {
                                 break;
                             }
-                            binary[totalSize++] = ch;
+                            binary.push_back(ch);
+                            ++totalSize;
                             lineLength++;
                         } else {
                             break;
@@ -425,7 +427,8 @@ bool YENCEncoded::parse()
                         if (totalSize >= yencSize) {
                             break;
                         }
-                        binary[totalSize++] = ch;
+                        binary.push_back(ch);
+                        ++totalSize;
                         lineLength++;
                         pos++;
                     }

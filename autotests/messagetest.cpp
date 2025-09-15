@@ -714,6 +714,7 @@ void MessageTest::testGarbage_data()
     QTest::newRow("infinite-memory") << u"clusterfuzz-testcase-minimized-kmime_fuzzer-5255984894509056"_s;
     QTest::newRow("assert") << u"clusterfuzz-testcase-minimized-kmime_fuzzer-5617955779182592"_s;
     QTest::newRow("yenc-large-alloc") << u"clusterfuzz-testcase-minimized-kmime_fuzzer-4804196479336448"_s;
+    QTest::newRow("yenc-corrupt-size") << u"yenc-single-part.yenc"_s;
 }
 
 void MessageTest::testGarbage()
