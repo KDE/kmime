@@ -100,7 +100,7 @@ public:
     /**
       A vector of headers.
     */
-  typedef QList<KMime::Headers::Base *> List;
+  KMIME_DEPRECATED typedef QList<KMime::Headers::Base *> List;
 
   /**
     Creates an empty header.

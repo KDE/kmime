@@ -43,7 +43,7 @@ using AddrSpecList = QList<AddrSpec>;
 class KMIME_EXPORT Mailbox
 {
 public:
-  typedef QList<Mailbox> List;
+  KMIME_DEPRECATED typedef QList<Mailbox> List;
 
   /**
     Returns a string representation of the email address, without
@@ -157,7 +157,7 @@ private:
     AddrSpec mAddrSpec;
 };
 
-typedef QList<Mailbox> MailboxList;
+KMIME_DEPRECATED typedef QList<Mailbox> MailboxList;
 
 /**
   Represents an address as defined in RFC 2822 §3.4.
@@ -181,7 +181,7 @@ public:
 private:
     QString m_displayName;
 };
-typedef QList<Address> AddressList;
+KMIME_DEPRECATED typedef QList<Address> AddressList;
 
 } // namespace KMime::Types
 
