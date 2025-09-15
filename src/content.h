@@ -111,7 +111,7 @@ public:
     /**
       Describes a list of Content objects.
     */
-  typedef QList<KMime::Content *> List;
+  KMIME_DEPRECATED typedef QList<KMime::Content *> List;
 
   /**
     Creates an empty Content object with a specified parent.

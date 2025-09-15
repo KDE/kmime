@@ -67,7 +67,7 @@ public:
     /**
       A shared pointer to a message object.
     */
-    typedef QSharedPointer<Message> Ptr;
+    KMIME_DEPRECATED typedef QSharedPointer<Message> Ptr;
     /**
       Creates an empty Message.
     */

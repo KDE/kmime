@@ -24,7 +24,7 @@ public:
     /**
       A shared pointer to a news article.
     */
-    typedef QSharedPointer<NewsArticle> Ptr;
+    KMIME_DEPRECATED typedef QSharedPointer<NewsArticle> Ptr;
 
     ///@cond PRIVATE
     // needed for Akonadi polymorphic payload support
