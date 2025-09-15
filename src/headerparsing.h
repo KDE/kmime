@@ -96,7 +96,7 @@ KMIME_EXPORT bool parseMailbox(const char *&scursor, const char *const send,
 
 [[nodiscard]] KMIME_EXPORT bool parseAddressList(const char *&scursor,
                                                  const char *const send,
-                                                 Types::AddressList &result,
+                                                 QList<Types::Address> &result,
                                                  bool isCRLF = false);
 
 /** Parses the first header contained the given data.

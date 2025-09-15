@@ -327,12 +327,12 @@ QString MailboxList::displayString() const
     return displayNames().join(QLatin1StringView(", "));
 }
 
-Types::Mailbox::List MailboxList::mailboxes() const
+QList<Types::Mailbox> MailboxList::mailboxes() const
 {
     return d_func()->mailboxList;
 }
 
-void MailboxList::setMailboxes(const Types::Mailbox::List &mailboxes)
+void MailboxList::setMailboxes(const QList<Types::Mailbox> &mailboxes)
 {
     Q_D(MailboxList);
     d->mailboxList = mailboxes;
@@ -536,9 +536,9 @@ QString AddressList::displayString() const
     return displayNames().join(QLatin1StringView(", "));
 }
 
-Types::Mailbox::List AddressList::mailboxes() const
+QList<Types::Mailbox> AddressList::mailboxes() const
 {
-    Types::Mailbox::List rv;
+    QList<Types::Mailbox> rv;
     const auto addressList = d_func()->addressList;
     for (const Types::Address &addr : addressList) {
         const auto mailboxList = addr.mailboxList;
@@ -549,7 +549,7 @@ Types::Mailbox::List AddressList::mailboxes() const
     return rv;
 }
 
-void AddressList::setAddressList(const Types::AddressList &addresses)
+void AddressList::setAddressList(const QList<Types::Address> &addresses)
 {
     Q_D(AddressList);
     d->addressList = addresses;

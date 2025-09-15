@@ -73,8 +73,8 @@ private Q_SLOTS:
         VERIFYSIZE(MailboxListPrivate,
                    sizeof(BasePrivate) + sizeof(QList<Types::Mailbox>));
         VERIFYSIZE(SingleMailboxPrivate, sizeof(StructuredPrivate) + sizeof(Types::Mailbox));
-        VERIFYSIZE(AddressListPrivate, sizeof(BasePrivate) + sizeof(KMime::Types::AddressList));
-        VERIFYSIZE(IdentPrivate, sizeof(AddressListPrivate) + sizeof(KMime::Types::AddrSpecList));
+        VERIFYSIZE(AddressListPrivate, sizeof(BasePrivate) + sizeof(QList<KMime::Types::Address>));
+        VERIFYSIZE(IdentPrivate, sizeof(AddressListPrivate) + sizeof(QList<KMime::Types::AddrSpec>));
         VERIFYSIZE(SingleIdentPrivate, sizeof(StructuredPrivate) + sizeof(KMime::Types::AddrSpec) + sizeof(QByteArray));
         VERIFYSIZE(TokenPrivate, sizeof(StructuredPrivate) + sizeof(QByteArray));
         VERIFYSIZE(PhraseListPrivate, sizeof(StructuredPrivate) + sizeof(QStringList));

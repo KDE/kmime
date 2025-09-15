@@ -177,7 +177,7 @@ public:
     void setDisplayName(const QString &displayName);
 
     /** Either a single mailbox or the mailboxes in the named group. */
-    MailboxList mailboxList;
+    QList<Mailbox> mailboxList;
 private:
     QString m_displayName;
 };

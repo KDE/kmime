@@ -1168,7 +1168,7 @@ bool parseAddress(const char *&scursor, const char *const send,
 }
 
 bool parseAddressList(const char *&scursor, const char *const send,
-                      AddressList &result, bool isCRLF)
+                      QList<Address> &result, bool isCRLF)
 {
     while (scursor != send) {
         eatCFWS(scursor, send, isCRLF);

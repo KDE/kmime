@@ -72,7 +72,7 @@ public:
 class AddressListPrivate : public StructuredPrivate
 {
 public:
-    KMime::Types::AddressList addressList;
+    QList<KMime::Types::Address> addressList;
 };
 
 class IdentPrivate : public StructuredPrivate

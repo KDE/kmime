@@ -357,13 +357,13 @@ public:
     /**
       Returns a list of mailboxes listed in this header.
     */
-    [[nodiscard]] Types::Mailbox::List mailboxes() const;
+    [[nodiscard]] QList<Types::Mailbox> mailboxes() const;
 
     /**
       Sets the mailboxes listed in this header, replacing the current content.
       @since 24.12
     */
-    void setMailboxes(const Types::Mailbox::List &mailboxes);
+    void setMailboxes(const QList<Types::Mailbox> &mailboxes);
 
 protected:
     bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
@@ -471,13 +471,13 @@ public:
     /**
       Returns a list of mailboxes listed in this header.
     */
-    [[nodiscard]] Types::Mailbox::List mailboxes() const;
+    [[nodiscard]] QList<Types::Mailbox> mailboxes() const;
 
     /**
       Sets the list of addresses listed in this header, replacing the existing content.
       @since 24.12
     */
-    void setAddressList(const Types::AddressList &addresses);
+    void setAddressList(const QList<Types::Address> &addresses);
 
 protected:
     bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;

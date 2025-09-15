@@ -163,7 +163,7 @@ void Content::parse()
         // This content is something else, like an encapsulated message or a binary attachment
         // or something like that
         if (bodyIsMessage()) {
-            d->bodyAsMessage = Message::Ptr(new Message);
+            d->bodyAsMessage = QSharedPointer<Message>::create();
             d->bodyAsMessage->setContent(d->body);
             d->bodyAsMessage->setFrozen(d->frozen);
 
@@ -828,7 +828,7 @@ ContentIndex Content::index() const
     return indexForContent(const_cast<Content *>(this));
 }
 
-Message::Ptr Content::bodyAsMessage()
+QSharedPointer<Message> Content::bodyAsMessage()
 {
     if (bodyIsMessage() && d_ptr->bodyAsMessage) {
         return d_ptr->bodyAsMessage;

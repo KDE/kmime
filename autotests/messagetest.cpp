@@ -137,7 +137,7 @@ void MessageTest::testWillsAndTillsCrash()
 
 void MessageTest::testDavidsParseCrash()
 {
-    KMime::Message::Ptr mail = readAndParseMail(QStringLiteral("dfaure-crash.mbox"));
+    QSharedPointer<KMime::Message> mail = readAndParseMail(QStringLiteral("dfaure-crash.mbox"));
     QCOMPARE(mail->to()->asUnicodeString().toLatin1(), "frank@domain.com");
 }
 
@@ -429,7 +429,7 @@ void MessageTest::testInlineImages()
 
 void MessageTest::testIssue3908()
 {
-    KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("issue3908.mbox"));
+    QSharedPointer<KMime::Message> msg = readAndParseMail(QStringLiteral("issue3908.mbox"));
     QCOMPARE(msg->contents().size(), 2);
     KMime::Content *attachment = msg->contents().at(1);
     QVERIFY(attachment);
@@ -448,7 +448,7 @@ void MessageTest::testIssue3914()
 {
     // This loads a mail which has a content-disposition of which the filename parameter is empty.
     // Check that the parser doesn't choke on this.
-    KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("broken-content-disposition.mbox"));
+    QSharedPointer<KMime::Message> msg = readAndParseMail(QStringLiteral("broken-content-disposition.mbox"));
 
     QCOMPARE(msg->subject()->as7BitString(), "Fwd: test broken mail");
     QCOMPARE(msg->contents().size(), 2);
@@ -461,7 +461,7 @@ void MessageTest::testIssue3914()
 
 void MessageTest::testBug223509()
 {
-    KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("encoding-crash.mbox"));
+    QSharedPointer<KMime::Message> msg = readAndParseMail(QStringLiteral("encoding-crash.mbox"));
 
     QCOMPARE(msg->subject()->as7BitString(), "Blub");
     QCOMPARE(msg->contents().size(), 0);
@@ -490,7 +490,7 @@ void MessageTest::testEncapsulatedMessages()
     //
     // First, test some basic properties to check that the parsing was correct
     //
-    KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("simple-encapsulated.mbox"));
+    QSharedPointer<KMime::Message> msg = readAndParseMail(QStringLiteral("simple-encapsulated.mbox"));
     QCOMPARE(msg->contentType()->mimeType(), "multipart/mixed");
     QCOMPARE(msg->contents().size(), 2);
     QVERIFY(msg->isTopLevel());
@@ -516,7 +516,7 @@ void MessageTest::testEncapsulatedMessages()
     QVERIFY(!messageContent->isTopLevel());
     QCOMPARE(messageContent->index().toString().toLatin1(), "2");
 
-    KMime::Message::Ptr encapsulated = messageContent->bodyAsMessage();
+    QSharedPointer<KMime::Message> encapsulated = messageContent->bodyAsMessage();
     QCOMPARE(encapsulated->contents().size(), 0);
     QCOMPARE(encapsulated->contentType()->mimeType(), "text/plain");
     QVERIFY(!encapsulated->bodyIsMessage());
@@ -572,7 +572,7 @@ void MessageTest::testEncapsulatedMessages()
 void MessageTest::testOutlookAttachmentNaming()
 {
     // Try and decode
-    KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("outlook-attachment.mbox"));
+    QSharedPointer<KMime::Message> msg = readAndParseMail(QStringLiteral("outlook-attachment.mbox"));
     QVERIFY(msg->attachments().count() == 1);
 
     KMime::Content *attachment = msg->contents()[1];
@@ -595,7 +595,7 @@ void MessageTest::testOutlookAttachmentNaming()
 
 void MessageTest::testEncryptedMails()
 {
-    KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("x-pkcs7.mbox"));
+    QSharedPointer<KMime::Message> msg = readAndParseMail(QStringLiteral("x-pkcs7.mbox"));
     QVERIFY(msg->contents().size() == 0);
     QVERIFY(msg->attachments().count() == 0);
     QVERIFY(KMime::isEncrypted(msg.data()) == true);
@@ -605,7 +605,7 @@ void MessageTest::testEncryptedMails()
 
 void MessageTest::testReturnSameMail()
 {
-    KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("dontchangemail.mbox"));
+    QSharedPointer<KMime::Message> msg = readAndParseMail(QStringLiteral("dontchangemail.mbox"));
     QFile file(QLatin1StringView(TEST_DATA_DIR) + QLatin1StringView("/dontchangemail.mbox"));
     QVERIFY(file.open(QIODevice::ReadOnly | QIODevice::Text));
     QByteArray fileContent = file.readAll();
@@ -635,7 +635,7 @@ void MessageTest::testReplyHeader()
     QVERIFY(msg->headerByType("Reply"));
 }
 
-KMime::Message::Ptr MessageTest::readAndParseMail(const QString &mailFile) const
+QSharedPointer<KMime::Message> MessageTest::readAndParseMail(const QString &mailFile) const
 {
   QFile file(QLatin1StringView(TEST_DATA_DIR) + QLatin1StringView("/") +
              mailFile);
@@ -646,7 +646,7 @@ KMime::Message::Ptr MessageTest::readAndParseMail(const QString &mailFile) const
     Q_ASSERT(ok);
     const QByteArray data = KMime::CRLFtoLF(file.readAll());
     Q_ASSERT(!data.isEmpty());
-    KMime::Message::Ptr msg(new KMime::Message);
+    auto msg = QSharedPointer<KMime::Message>::create();
     msg->setContent(data);
     msg->parse();
     return msg;
@@ -681,7 +681,7 @@ void MessageTest::testBugAttachment387423()
 
 void MessageTest::testCrashReplyInvalidEmail()
 {
-    KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("crash-invalid-email-reply.mbox"));
+    QSharedPointer<KMime::Message> msg = readAndParseMail(QStringLiteral("crash-invalid-email-reply.mbox"));
     QCOMPARE(msg->subject()->as7BitString(), "Re: Authorization required to post to gmane.network.wireguard (b96565298414a43aabcf9fbedf5e7e27)");
     QCOMPARE(msg->contentType()->mimeType(), "text/plain");
     QCOMPARE(msg->contentType()->charset(), "us-ascii");
@@ -690,14 +690,14 @@ void MessageTest::testCrashReplyInvalidEmail()
 
 void MessageTest::testHeadersWithNullBytes()
 {
-    KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("headers-with-nullbytes.mbox"));
+    QSharedPointer<KMime::Message> msg = readAndParseMail(QStringLiteral("headers-with-nullbytes.mbox"));
     QCOMPARE(msg->subject()->as7BitString(), "This header type has a trailing null byte");
     QCOMPARE(msg->headerByType("SubjectInvalid")->as7BitString(), "This header type contains a null byte");
 }
 
 void MessageTest::testBigAllocation()
 {
-    KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("big-allocation.mbox"));
+    QSharedPointer<KMime::Message> msg = readAndParseMail(QStringLiteral("big-allocation.mbox"));
     QCOMPARE(msg->contents().size(), 20);
     for (const auto &part : msg->contents()) {
         QVERIFY(part->contents().empty());
@@ -722,13 +722,13 @@ void MessageTest::testGarbage()
 {
     // all this does is to ensure parsing the input file doesn't crash, trigger ASAN or infinitely loop
     QFETCH(QString, filename);
-    KMime::Message::Ptr msg = readAndParseMail(filename);
+    QSharedPointer<KMime::Message> msg = readAndParseMail(filename);
     QVERIFY(msg);
 }
 
 void MessageTest::testYenc()
 {
-    KMime::Message::Ptr msg = readAndParseMail(u"yenc-single-part.yenc"_s);
+    QSharedPointer<KMime::Message> msg = readAndParseMail(u"yenc-single-part.yenc"_s);
     QVERIFY(msg);
 
     QFile refFile(QLatin1StringView(TEST_DATA_DIR) + "/yenc-single-part.txt"_L1);

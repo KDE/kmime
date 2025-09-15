@@ -262,5 +262,5 @@ private:
 } // namespace KMime
 
 Q_DECLARE_METATYPE(KMime::Message*)
-Q_DECLARE_METATYPE(KMime::Message::Ptr)
+Q_DECLARE_METATYPE(QSharedPointer<KMime::Message>)
 
