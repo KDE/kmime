@@ -1113,19 +1113,36 @@ public:
       @see isPartial(), partialCount()
     */
     [[nodiscard]] int partialNumber() const;
+    /**
+      Sets the position of this part in a multi-part set.
+      @see partialCount()
+      @since 25.12
+    */
+    void setPartialNumber(int number);
 
     /**
       Returns the total number of parts in a multi-part set.
       @see isPartial(), partialNumber()
     */
     [[nodiscard]] int partialCount() const;
+    /**
+      Sets the total number of parts in a multi-part set.
+      @see partialCount()
+      @since 25.12
+    */
+    void setPartialCount(int total);
 
     /**
       Sets parameters of a partial MIME entity.
       @param total The total number of entities in the multi-part set.
       @param number The number of this entity in a multi-part set.
+      @deprecated since 25.12, use setPartialCount/setPartialNumber instead.
     */
-    void setPartialParams(int total, int number);
+    [[deprecated("Use setPartialCount/setPartialNumber instead")]]
+    void setPartialParams(int total, int number) {
+        setPartialNumber(number);
+        setPartialCount(total);
+    }
 
 protected:
     bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;

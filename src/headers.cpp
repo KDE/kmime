@@ -1728,6 +1728,11 @@ int ContentType::partialNumber() const {
     }
 }
 
+void ContentType::setPartialNumber(int number)
+{
+    setParameter(QByteArrayLiteral("number"), QString::number(number));
+}
+
 int ContentType::partialCount() const {
     QByteArray p = parameter("total").toLatin1();
     if (!p.isEmpty()) {
@@ -1737,8 +1742,8 @@ int ContentType::partialCount() const {
     }
 }
 
-void ContentType::setPartialParams(int total, int number) {
-    setParameter(QByteArrayLiteral("number"), QString::number(number));
+void ContentType::setPartialCount(int total)
+{
     setParameter(QByteArrayLiteral("total"), QString::number(total));
 }
 

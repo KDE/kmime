@@ -858,7 +858,8 @@ bool ContentPrivate::parseUuencoded(Content *q)
         // This seems to be only a part of the message, so we treat it as "message/partial".
         ct->setMimeType("message/partial");
         //ct->setId( uniqueString() ); not needed yet
-        ct->setPartialParams(uup.partialCount(), uup.partialNumber());
+        ct->setPartialCount(uup.partialCount());
+        ct->setPartialNumber(uup.partialNumber());
         q->contentTransferEncoding()->setEncoding(Headers::CE7Bit);
     } else {
         // This is a complete message, so treat it as "multipart/mixed".
@@ -913,7 +914,8 @@ bool ContentPrivate::parseYenc(Content *q)
         // Assume there is exactly one decoded part.  Treat this as "message/partial".
         ct->setMimeType("message/partial");
         //ct->setId( uniqueString() ); not needed yet
-        ct->setPartialParams(yenc.partialCount(), yenc.partialNumber());
+        ct->setPartialCount(yenc.partialCount());
+        ct->setPartialNumber(yenc.partialNumber());
         q->contentTransferEncoding()->setEncoding(Headers::CEbinary);
         q->changeEncoding(Headers::CEbase64);   // Convert to base64.
     } else {
