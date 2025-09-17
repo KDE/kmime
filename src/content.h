@@ -213,13 +213,12 @@ public:
   void clear();
 
   /**
-    Removes all sub-Contents from this content.  Deletes them if @p del is true.
+    Removes all sub-Contents from this content. sub-Contents will be deleted.
     Calling clearContents() does NOT make this Content single-part.
 
-    @param del Whether to delete the sub-Contents.
     @since 4.4
   */
-  void clearContents(bool del = true);
+  void clearContents();
 
   /**
     Returns the Content header raw data.

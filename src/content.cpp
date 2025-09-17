@@ -223,12 +223,10 @@ void Content::clear()
     d->body.clear();
 }
 
-void Content::clearContents(bool del)
+void Content::clearContents()
 {
     Q_D(Content);
-    if (del) {
-        qDeleteAll(d->multipartContents);
-    }
+    qDeleteAll(d->multipartContents);
     d->multipartContents.clear();
     d->clearBodyMessage();
 }
