@@ -502,9 +502,13 @@ public:
     [[nodiscard]] bool isEmpty() const override;
 
     /**
-      Initialize this identifier Copy the data from
+      Initialize this identifier by copying the data from @p ident.
      */
-    void fromIdent(const Ident* ident);
+    void fromIdent(const Ident &ident);
+    [[deprecated("Use fromIdent(const Ident&) instead")]]
+    void fromIdent(const Ident *ident) {
+        fromIdent(*ident);
+    }
 
     /**
       Returns the list of identifiers contained in this header.
