@@ -657,6 +657,7 @@ public:
   */
   void prependContent(Content *content);
 
+  [[deprecated("Use takeContent/appendContent instead")]]
   void replaceContent(Content *oldContent, Content *newContent);
   /**
     Removes the given sub-Content and, if that actually was a sub-content
