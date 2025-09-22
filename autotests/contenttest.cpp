@@ -268,11 +268,11 @@ void ContentTest::testDecodedContent()
 {
     auto c = new Content();
     c->setBody("\0");
-    QVERIFY(c->decodedContent() == QByteArray());
+    QVERIFY(c->decodedBody() == QByteArray());
     c->setBody(QByteArray());
-    QVERIFY(c->decodedContent() == QByteArray());
+    QVERIFY(c->decodedBody() == QByteArray());
     c->setBody(" ");
-    QVERIFY(c->decodedContent() == QByteArray(" "));
+    QVERIFY(c->decodedBody() == QByteArray(" "));
     delete c;
 }
 
@@ -290,7 +290,7 @@ void ContentTest::testDecodedText()
         c.setHeader(cte.release());
         c.setEncodedBody("YmFzZTY0LWVuY29kZWQgdGV4dA==");
         QCOMPARE(c.decodedText(), u"base64-encoded text"_s);
-        QCOMPARE(c.decodedContent(), "base64-encoded text\n");
+        QCOMPARE(c.decodedBody(), "base64-encoded text\n");
     }
     {
         Content c{};
@@ -303,7 +303,7 @@ void ContentTest::testDecodedText()
         c.setEncodedBody("YmFzZTY0LWVuY29kZWQgYmluYXJ5IGJsb2Igb2YgZW5jcnlwdGVkIHRleHQ=");
         // content of type text/pgp might be a binary blob of encrypted text; it must not be decoded as text
         QCOMPARE(c.decodedText(), QString{});
-        QCOMPARE(c.decodedContent(), "base64-encoded binary blob of encrypted text");
+        QCOMPARE(c.decodedBody(), "base64-encoded binary blob of encrypted text");
     }
 
 }

@@ -315,7 +315,7 @@ QByteArray Content::encodedBody() const
     return e;
 }
 
-QByteArray Content::decodedContent() const
+QByteArray Content::decodedBody() const
 {
     QByteArray ret;
     const Headers::ContentTransferEncoding *ec = contentTransferEncoding();
@@ -364,6 +364,11 @@ QByteArray Content::decodedContent() const
     }
 
     return ret;
+}
+
+QByteArray Content::decodedContent() const
+{
+    return decodedBody();
 }
 
 QString Content::decodedText(DecodedTextTrimOption trimOption) const
@@ -548,7 +553,7 @@ void Content::changeEncoding(Headers::contentEncoding e)
     } else {
         // This is non-textual content.  Re-encode it.
         if (e == Headers::CEbase64) {
-            KCodecs::base64Encode(decodedContent(), d_ptr->body, true);
+            KCodecs::base64Encode(decodedBody(), d_ptr->body, true);
             enc->setEncoding(e);
             d_ptr->m_decoded = false;
         } else {
@@ -668,7 +673,7 @@ bool ContentPrivate::decodeText(const Content *q)
 
     if (const auto ct = q->contentType(); ct && (!ct->isText() || ct->isSubtype("pgp"))) {
         // content of type text/pgp might be a binary blob of encrypted text; it must not be decoded as text
-        return false; //non textual data cannot be decoded here => use decodedContent() instead
+        return false; //non textual data cannot be decoded here => use decodedBody() instead
     }
     if (m_decoded) {
         return true; //nothing to do

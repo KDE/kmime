@@ -90,7 +90,7 @@ class Message;
                     message. Because of this, it will not have any children, it has no sub-contents
                     and is therefore a leaf content.
                     Only leaf contents have a body that is not empty, i.e. functions that operate
-                    on the body, such as body(), size() and decodedContent(), will work only on
+                    on the body, such as body(), size() and decodedBody(), will work only on
                     leaf contents.
   - A non-leaf Content: This is a content that itself doesn't have any body, but that does have
                         sub-contents.
@@ -537,10 +537,10 @@ public:
    *
    * Note that this will be empty for multipart contents or for encapsulated
    * messages, after parse() has been called.
+   * @since 25.12 (previously decodedContent())
    */
-  // TODO: KDE5: BIC: Rename this to decodedBody(), since only the body is
-  // returned. In contrast, setContent() sets the head and the body! Also, try
-  // to make this const.
+  [[nodiscard]] QByteArray decodedBody() const;
+  [[deprecated("Use decodedBody() instead")]]
   [[nodiscard]] QByteArray decodedContent() const;
 
   /** Options for Content::decodedText().
@@ -553,7 +553,7 @@ public:
   };
 
   /**
-    Returns the decoded text. Additional to decodedContent(), this also
+    Returns the decoded text. Additional to decodedBody(), this also
     applies charset decoding. If this is not a text Content, decodedText()
     returns an empty QString.
 
@@ -565,7 +565,7 @@ public:
   [[nodiscard]] QString decodedText(DecodedTextTrimOption trimOption = NoTrim) const;
 
   /**
-    Returns the decoded text. Additional to decodedContent(), this also
+    Returns the decoded text. Additional to decodedBody(), this also
     applies charset decoding. If this is not a text Content, decodedText()
     returns an empty QString.
 

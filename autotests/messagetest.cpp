@@ -732,7 +732,7 @@ void MessageTest::testYenc()
     QVERIFY(refFile.open(QFile::ReadOnly));
     QCOMPARE(msg->subject()->asUnicodeString(), "yEnc-Prefix: \"testfile.txt\" 584 yEnc bytes - yEnc test (1)"_L1);
     QCOMPARE(msg->contents().size(), 2);
-    QCOMPARE(msg->contents()[1]->decodedContent(), refFile.readAll());
+    QCOMPARE(msg->contents()[1]->decodedBody(), refFile.readAll());
 }
 
 #include "moc_messagetest.cpp"
