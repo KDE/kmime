@@ -17,9 +17,15 @@
 namespace KMime
 {
 
+/** Basic data types defined in RFC 2822. */
 namespace Types
 {
 
+/**
+ * Represents an addr-spec according to RFC 2822 §3.4.1.
+ * That's what you might commonly call an email address (but addressing
+ * emails is slightly more complex than that).
+*/
 struct KMIME_EXPORT AddrSpec {
     [[nodiscard]] QString asString() const;
     /*! This is the same as asString(), except it decodes IDNs for display */
@@ -153,6 +159,11 @@ private:
 
 typedef QList<Mailbox> MailboxList;
 
+/**
+  Represents an address as defined in RFC 2822 §3.4.
+  That is, a mailbox or a named group, ie. a named list
+  of mailboxes.
+*/
 struct KMIME_EXPORT Address {
     QString displayName;
     MailboxList mailboxList;
