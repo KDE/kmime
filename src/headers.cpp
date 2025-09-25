@@ -371,11 +371,8 @@ bool MailboxList::parse(const char *&scursor, const char *const send,
 
     // extract the mailboxes and complain if there are groups:
     for (const auto &it : std::as_const(maybeAddressList)) {
-        if (!(it).displayName.isEmpty()) {
-            KMIME_WARN << "mailbox groups in header disallowing them! Name: \""
-                       << (it).displayName << "\""
-                       << Qt::endl
-                          ;
+        if (!(it).displayName().isEmpty()) {
+            KMIME_WARN << "mailbox groups in header disallowing them! Name:" << (it).displayName();
         }
         d->mailboxList += (it).mailboxList;
     }

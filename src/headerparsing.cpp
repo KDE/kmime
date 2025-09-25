@@ -1073,9 +1073,7 @@ bool parseGroup(const char *&scursor, const char *const send,
         return false;
     }
 
-    // KDE5 TODO: Don't expose displayName as public, but rather add setter for it that
-    //            automatically calls removeBidiControlChars
-    result.displayName = removeBidiControlChars(maybeDisplayName);
+    result.setDisplayName(maybeDisplayName);
 
     // get obs-mbox-list (may contain empty entries):
     scursor++;
@@ -1136,7 +1134,7 @@ bool parseAddress(const char *&scursor, const char *const send,
     const char *oldscursor = scursor;
     if (parseMailbox(scursor, send, maybeMailbox, isCRLF)) {
         // yes, it is:
-        result.displayName.clear();
+        result.setDisplayName({});
         result.mailboxList.append(maybeMailbox);
         return true;
     }

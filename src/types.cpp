@@ -230,6 +230,16 @@ QString Mailbox::listToUnicodeString(const QList<Mailbox> &mailboxes) {
     return rv.join(QLatin1StringView(", "));
 }
 
+QString Address::displayName() const
+{
+    return m_displayName;
+}
+
+void Address::setDisplayName(const QString &displayName)
+{
+    m_displayName = removeBidiControlChars(displayName);
+}
+
 } // namespace Types
 
 } // namespace KMime

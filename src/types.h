@@ -164,9 +164,22 @@ typedef QList<Mailbox> MailboxList;
   That is, a mailbox or a named group, ie. a named list
   of mailboxes.
 */
-struct KMIME_EXPORT Address {
-    QString displayName;
+class KMIME_EXPORT Address {
+public:
+    /** The display name, in case this is a named group.
+     *  @since 25.12 (previously a public member with the same name)
+     */
+    [[nodiscard]] QString displayName() const;
+    /** Set the group name.
+     *  This strips bidi control characters.
+     *  @since 25.12
+     */
+    void setDisplayName(const QString &displayName);
+
+    /** Either a single mailbox or the mailboxes in the named group. */
     MailboxList mailboxList;
+private:
+    QString m_displayName;
 };
 typedef QList<Address> AddressList;
 
