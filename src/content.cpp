@@ -717,7 +717,7 @@ Content *KMime::Content::content(const ContentIndex &index) const
     }
 }
 
-ContentIndex KMime::Content::indexForContent(Content *content) const
+ContentIndex KMime::Content::indexForContent(const Content *content) const
 {
     const auto i = d_ptr->contents().indexOf(content);
     if (i >= 0) {

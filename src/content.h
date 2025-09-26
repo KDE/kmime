@@ -695,7 +695,7 @@ public:
     if the Content is not found within the hierarchy.
     @param content the Content object to search.
   */
-  [[nodiscard]] ContentIndex indexForContent(Content *content) const;
+  [[nodiscard]] ContentIndex indexForContent(const Content *content) const;
 
   /**
     Returns true if this is the top-level node in the MIME tree. The top-level
