@@ -224,7 +224,7 @@ bool UUEncoded::parse()
                 m_text.append(m_src.mid(currentPos, beginPos - currentPos));
             }
 
-            if (containsBegin) {
+            if (containsBegin && (uuStart - beginPos) > 11) {
                 //everything between "begin ### " and the next LF is considered as the filename
                 fileName = m_src.mid(beginPos + 10, uuStart - beginPos - 11);
             } else {
