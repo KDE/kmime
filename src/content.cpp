@@ -166,12 +166,16 @@ void Content::parse()
             d->bodyAsMessage = Message::Ptr(new Message);
             d->bodyAsMessage->setContent(d->body);
             d->bodyAsMessage->setFrozen(d->frozen);
-            d->bodyAsMessage->parse();
-            d->bodyAsMessage->d_ptr->parent = this;
 
             // Clear the body, as it is now represented by d->bodyAsMessage. This is the same behavior
             // as with multipart contents, since parseMultipart() clears the body as well
+            // We do this before parsing the nested message as that can recurse and thus temporarily multiply
+            // the amount of memory we need. While that is generally not an issue, you (or rather oss-fuzz) can
+            // create synthetic inputs with hundreds of nested messages with quadratic memory growth.
             d->body.clear();
+
+            d->bodyAsMessage->parse();
+            d->bodyAsMessage->d_ptr->parent = this;
         }
     }
 }
