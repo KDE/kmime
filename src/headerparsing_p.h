@@ -69,7 +69,7 @@ Q_DECLARE_FLAGS(ParseTokenFlags, ParseTokenFlag)
 /** @p scursor must be positioned after the opening openChar. */
 [[nodiscard]] bool parseGenericQuotedString(const char *&scursor, const char *const send,
                          QString &result, bool isCRLF,
-                         const char openChar = '"', const char closeChar = '"');
+                         const char openChar = '"', const char closeChar = '"', bool fillResult = true);
 
 /** @p scursor must be positioned right after the opening '(' */
 [[nodiscard]] bool parseComment(const char *&scursor, const char *const send, QString &result,
