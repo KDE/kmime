@@ -309,7 +309,7 @@ bool parseToken(const char*&scursor, const char *const send,
 
 bool parseGenericQuotedString(const char *&scursor, const char *const send,
                               QString &result, bool isCRLF,
-                              const char openChar, const char closeChar)
+                              const char openChar, const char closeChar, bool fillResult)
 {
     // We are in a quoted-string or domain-literal or comment and the
     // cursor points to the first char after the openChar.
@@ -332,7 +332,9 @@ bool parseGenericQuotedString(const char *&scursor, const char *const send,
             // misses "\" CRLF LWSP-char handling, see rfc822, 3.4.5
             READ_ch_OR_FAIL;
             KMIME_WARN_IF_8BIT(ch);
-            result += QLatin1Char(ch);
+            if (fillResult) {
+                result += QLatin1Char(ch);
+            }
             break;
         case '\r':
             // ###
@@ -346,7 +348,9 @@ bool parseGenericQuotedString(const char *&scursor, const char *const send,
             if (ch != '\n') {
                 // CR on its own...
                 KMIME_WARN_LONE(CR);
-                result += QLatin1Char('\r');
+                if (fillResult) {
+                    result += QLatin1Char('\r');
+                }
                 scursor--; // points to after the '\r' again
             } else {
                 // CRLF encountered.
@@ -356,13 +360,17 @@ bool parseGenericQuotedString(const char *&scursor, const char *const send,
                     // correct folding;
                     // position cursor behind the CRLF WSP (unfolding)
                     // and add the WSP to the result
-                    result += QLatin1Char(ch);
+                    if (fillResult) {
+                        result += QLatin1Char(ch);
+                    }
                 } else {
                     // this is the "shouldn't happen"-case. There is a CRLF
                     // inside a quoted-string without it being part of FWS.
                     // We take it verbatim.
                     KMIME_WARN_NON_FOLDING(CRLF);
-                    result += QLatin1StringView("\r\n");
+                    if (fillResult) {
+                        result += QLatin1StringView("\r\n");
+                    }
                     // the cursor is decremented again, we need not
                     // duplicate the whole switch here. "ch" could've been
                     // everything (incl. openChar or closeChar).
@@ -382,11 +390,15 @@ bool parseGenericQuotedString(const char *&scursor, const char *const send,
             if (!isCRLF && (ch == ' ' || ch == '\t')) {
                 // folding
                 // correct folding
-                result += QLatin1Char(ch);
+                if (fillResult) {
+                    result += QLatin1Char(ch);
+                }
             } else {
                 // non-folding
                 KMIME_WARN_LONE(LF);
-                result += QLatin1Char('\n');
+                if (fillResult) {
+                    result += QLatin1Char('\n');
+                }
                 // pos is decremented, so's we need not duplicate the whole
                 // switch here. ch could've been everything (incl. <">, "\").
                 scursor--;
@@ -406,7 +418,9 @@ bool parseGenericQuotedString(const char *&scursor, const char *const send,
             if (*scursor++ == '?') {
                 --scursor;
                 if (parseEncodedWord(scursor, send, tmp, lang, charset)) {
-                    result += tmp;
+                    if (fillResult) {
+                        result += tmp;
+                    }
                     //qDebug() << " tmp " << tmp;
                     if (scursor == send) {
                         break;
@@ -444,7 +458,9 @@ bool parseGenericQuotedString(const char *&scursor, const char *const send,
         }
         default:
             KMIME_WARN_IF_8BIT(ch);
-            result += QLatin1Char(ch);
+            if (fillResult) {
+                result += QLatin1Char(ch);
+            }
         }
     }
 
@@ -467,7 +483,7 @@ bool parseComment(const char *&scursor, const char *const send,
 
     while (commentNestingDepth) {
         QString cmntPart;
-        if (parseGenericQuotedString(scursor, send, cmntPart, isCRLF, '(', ')')) {
+        if (parseGenericQuotedString(scursor, send, cmntPart, isCRLF, '(', ')', reallySave)) {
             assert(*(scursor - 1) == ')' || *(scursor - 1) == '(');
             // see the kdoc for the above function for the possible conditions
             // we have to check:
