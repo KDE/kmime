@@ -275,7 +275,7 @@ public:
     Can be @c nullptr if such a header doesn't exist.
     @since 24.08
   */
-  template <typename T> [[nodiscard]] T *header() const;
+  template <typename T> [[nodiscard]] const std::remove_cv_t<T> *header() const;
 
   /**
     Returns all @p type headers in the Content.
@@ -800,7 +800,7 @@ template <typename T> T *Content::header(bool create)
     return static_cast<T *>(h);
 }
 
-template <typename T> T *Content::header() const
+template <typename T> const std::remove_cv_t<T> *Content::header() const
 {
     Headers::Base *h = headerByType(T::staticType());
     if (h) {
