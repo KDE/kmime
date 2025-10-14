@@ -415,7 +415,7 @@ bool parseGenericQuotedString(const char *&scursor, const char *const send,
             QString tmp;
             QByteArray lang;
             QByteArray charset;
-            if (*scursor++ == '?') {
+            if (*scursor++ == '?' && scursor != send && *(scursor+1) != '?') {
                 --scursor;
                 if (parseEncodedWord(scursor, send, tmp, lang, charset)) {
                     if (fillResult) {
