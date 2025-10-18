@@ -3,10 +3,10 @@
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
-# Albert Astals Cid <aacid@kde.org>, 2004.
-# Sebastià Pla i Sanz <sps@sastia.com>, 2006.
-# Josep M. Ferrer <txemaq@gmail.com>, 2008, 2010, 2014, 2024.
-# Antoni Bella Pérez <antonibella5@yahoo.com>, 2014.
+# SPDX-FileCopyrightText: 2004 Albert Astals Cid <aacid@kde.org>
+# SPDX-FileCopyrightText: 2006 Sebastià Pla i Sanz <sps@sastia.com>
+# SPDX-FileCopyrightText: 2008, 2010, 2014, 2024 Josep M. Ferrer <txemaq@gmail.com>
+# SPDX-FileCopyrightText: 2014 Antoni Bella Pérez <antonibella5@yahoo.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kmime\n"
@@ -31,7 +31,7 @@ msgid ""
 "displayed. This is no guarantee that the message has been read or understood."
 msgstr ""
 "El missatge enviat el ${date} a ${to} amb l'assumpte «${subject}» s'ha "
-"mostrat. Açò no és garantia que este haja estat llegit o comprés."
+"mostrat. Açò no és garantia que este haja sigut llegit o comprés."
 
 #: mdn.cpp:60
 msgctxt "DispositionModifier|"
@@ -41,7 +41,7 @@ msgid ""
 "\" and nonetheless read later on."
 msgstr ""
 "El missatge enviat el ${date} a ${to} amb l'assumpte «${subject}» s'ha "
-"suprimit sense veure'l. Açò no és garantia que este no haja estat "
+"suprimit sense veure'l. Açò no és garantia que este no haja sigut "
 "«recuperat» i llegit més tard."
 
 #: mdn.cpp:68
@@ -51,7 +51,7 @@ msgid ""
 "dispatched. This is no guarantee that the message will not be read later on."
 msgstr ""
 "El missatge enviat el ${date} a ${to} amb l'assumpte «${subject}» s'ha "
-"despatxat. Açò no és garantia que este no haja estat llegit més tard."
+"despatxat. Açò no és garantia que este no haja sigut llegit més tard."
 
 #: mdn.cpp:75
 msgctxt "DispositionModifier|"
