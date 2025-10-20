@@ -364,6 +364,10 @@ bool YENCEncoded::parse()
                     break;
                 }
                 if (!yencMeta(meta, "total", &m_totalNr)) {
+                    if (m_partNr == std::numeric_limits<int>::max()) {
+                        success = false;
+                        break;
+                    }
                     m_totalNr = m_partNr + 1;
                 }
                 if (yencSize == partEnd - partBegin + 1) {
