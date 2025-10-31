@@ -11,6 +11,8 @@
 #include "codecs_p.h"
 #include "kmime_debug.h"
 
+#include <KCodecs>
+
 #include <QStringEncoder>
 
 namespace KMime {
@@ -20,6 +22,7 @@ static const char reservedCharacters[] = "\"()<>@,.;:\\[]=";
 QByteArray encodeRFC2047String(QStringView src, const QByteArray &charset,
                                bool addressHeader)
 {
+#if KCODECS_VERSION < QT_VERSION_CHECK(6, 20, 0)
     QByteArray result;
     int start = 0;
     int end = 0;
@@ -127,6 +130,9 @@ QByteArray encodeRFC2047String(QStringView src, const QByteArray &charset,
     }
 
     return result;
+#else
+    return KCodecs::encodeRFC2047String(src, charset, addressHeader ? KCodecs::RFC2047EncodingOption::EncodeReservedCharcters : KCodecs::RFC2047EncodingOption::NoOption);
+#endif
 }
 
 QByteArray encodeRFC2047Sentence(QStringView src, const QByteArray &charset)

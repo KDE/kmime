@@ -16,6 +16,7 @@ QTEST_MAIN(RFC2047Test)
 
 void RFC2047Test::testRFC2047encode()
 {
+#if KCODECS_VERSION < QT_VERSION_CHECK(6, 20, 0)
     // empty
     QCOMPARE(KMime::encodeRFC2047String(QString(), "utf-8"), QByteArray());
     // identity
@@ -31,6 +32,7 @@ void RFC2047Test::testRFC2047encode()
     const QByteArray result = KMime::encodeRFC2047String(input, "latin1");
     QCOMPARE(KCodecs::decodeRFC2047String(QString::fromUtf8(result)), input);
     QVERIFY(result.contains("utf-8"));
+#endif
 }
 
 #include "moc_rfc2047test.cpp"
