@@ -358,8 +358,7 @@ bool YENCEncoded::parse()
                     success = false;
                     break;
                 }
-                if (!yencMeta(meta, "begin", &partBegin) ||
-                        !yencMeta(meta, "end", &partEnd)) {
+                if (!yencMeta(meta, "begin", &partBegin) || !yencMeta(meta, "end", &partEnd) || partEnd < partBegin || partEnd == std::numeric_limits<int>::max()) {
                     success = false;
                     break;
                 }
