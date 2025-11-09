@@ -12,8 +12,8 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf6-trunk/messages/kmime/libkmime6_qt.pot\n"
-"X-Crowdin-File-ID: 54400\n"
+"X-Crowdin-File: /kf6-stable/messages/kmime/libkmime6_qt.pot\n"
+"X-Crowdin-File-ID: 54690\n"
 
 #: mdn.cpp:53
 msgctxt "DispositionModifier|"
