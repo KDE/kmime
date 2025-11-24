@@ -596,11 +596,24 @@ QList<Headers::Base *> Content::headersByType(QByteArrayView type) const
     return result;
 }
 
+void Content::setHeader(std::unique_ptr<Headers::Base> &&h)
+{
+    Q_ASSERT(h);
+    removeHeader(h->type());
+    appendHeader(std::move(h));
+}
+
 void Content::setHeader(Headers::Base *h)
 {
     Q_ASSERT(h);
     removeHeader(h->type());
-    appendHeader(h);
+    appendHeader(std::unique_ptr<Headers::Base>(h));
+}
+
+void Content::appendHeader(std::unique_ptr<Headers::Base> &&h)
+{
+    Q_D(Content);
+    d->headers.append(h.release());
 }
 
 void Content::appendHeader(Headers::Base *h)

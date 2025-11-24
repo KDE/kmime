@@ -305,13 +305,13 @@ void MessageTest::testUtf16()
              QLatin1StringView("This is UTF-16 Text."));
 
     // Add a new To header, for testings
-    auto to = new KMime::Headers::To;
+    auto to = std::make_unique<KMime::Headers::To>();
     KMime::Types::Mailbox address;
     address.setAddress("test@test.de");
     address.setName(QStringLiteral("Fränz Töster"));
     to->addAddress(address);
     to->setRFC2047Charset("ISO-8859-1"); // default changed to UTF-8 in KF6, which is fine, but breaks the test
-    msg.appendHeader(to);
+    msg.appendHeader(std::move(to));
     msg.assemble();
 
     QByteArray newData =

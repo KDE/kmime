@@ -291,16 +291,18 @@ public:
     @param h The header to set.
     @see appendHeader()
     @see removeHeader()
-    @since 4.4
+    @since 4.4 (took a raw pointer before 26.04)
   */
-  void setHeader(Headers::Base *h);
+  void setHeader(std::unique_ptr<Headers::Base> &&h);
+  [[deprecated("use the unique_ptr overload instead")]] void setHeader(Headers::Base *h);
 
   /**
     Appends the specified header to the headers of this Content.
     @param h The header to append.
-    @since 4.4
+    @since 4.4 (took a raw pointer before 26.04)
   */
-  void appendHeader(Headers::Base *h);
+  void appendHeader(std::unique_ptr<Headers::Base> &&h);
+  [[deprecated("use the unique_ptr overload instead")]] void appendHeader(Headers::Base *h);
 
   /**
     Searches for the first header of type @p type, and deletes it, removing
@@ -786,15 +788,19 @@ private:
 
 template <typename T> T *Content::header(bool create)
 {
-    Headers::Base *h = headerByType(T::staticType());
-    if (h) {
+
+    if (auto h = headerByType(T::staticType()); h) {
         // Make sure the header is actually of the right type.
         Q_ASSERT(dynamic_cast<T *>(h));
-    } else if (create) {
-        h = new T;
-        appendHeader(h); // we already know the header doesn't exist yet
+        return static_cast<T *>(h);
     }
-    return static_cast<T *>(h);
+    if (create) {
+        auto hptr = std::make_unique<T>();
+        auto h = hptr.get();
+        appendHeader(std::move(hptr)); // we already know the header doesn't exist yet
+        return h;
+    }
+    return nullptr;
 }
 
 template <typename T> const std::remove_cv_t<T> *Content::header() const

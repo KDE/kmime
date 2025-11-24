@@ -93,20 +93,20 @@ void ContentTest::testHeaderAppend()
     auto c = new Content;
     QByteArray d1("Resent-From: test1@example.com");
     QByteArray d2("Resent-From: test2@example.com");
-    auto h1 = new Headers::Generic("Resent-From");
+    auto h1 = std::make_unique<Headers::Generic>("Resent-From");
     h1->from7BitString("test1@example.com");
-    auto h2 = new Headers::Generic("Resent-From");
+    auto h2 = std::make_unique<Headers::Generic>("Resent-From");
     h2->from7BitString("test2@example.com");
-    c->appendHeader(h1);
-    c->appendHeader(h2);
+    c->appendHeader(std::move(h1));
+    c->appendHeader(std::move(h2));
     c->assemble();
     QByteArray head = d1 + '\n' + d2 + '\n';
     QCOMPARE(c->head(), head);
 
     QByteArray d3("Resent-From: test3@example.com");
-    auto h3 = new Headers::Generic("Resent-From");
+    auto h3 = std::make_unique<Headers::Generic>("Resent-From");
     h3->from7BitString("test3@example.com");
-    c->appendHeader(h3);
+    c->appendHeader(std::move(h3));
     c->assemble();
     head.append(d3 + '\n');
     QCOMPARE(c->head(), head);
@@ -287,7 +287,7 @@ void ContentTest::testDecodedText()
         Content c{};
         auto cte = std::make_unique<Headers::ContentTransferEncoding>();
         cte->setEncoding(Headers::CEbase64);
-        c.setHeader(cte.release());
+        c.setHeader(std::move(cte));
         c.setEncodedBody("YmFzZTY0LWVuY29kZWQgdGV4dA==");
         QCOMPARE(c.decodedText(), u"base64-encoded text"_s);
         QCOMPARE(c.decodedBody(), "base64-encoded text\n");
@@ -296,10 +296,10 @@ void ContentTest::testDecodedText()
         Content c{};
         auto cte = std::make_unique<Headers::ContentTransferEncoding>();
         cte->setEncoding(Headers::CEbase64);
-        c.setHeader(cte.release());
+        c.setHeader(std::move(cte));
         auto ct = std::make_unique<Headers::ContentType>();
         ct->setMimeType("text/pgp");
-        c.setHeader(ct.release());
+        c.setHeader(std::move(ct));
         c.setEncodedBody("YmFzZTY0LWVuY29kZWQgYmluYXJ5IGJsb2Igb2YgZW5jcnlwdGVkIHRleHQ=");
         // content of type text/pgp might be a binary blob of encrypted text; it must not be decoded as text
         QCOMPARE(c.decodedText(), QString{});
@@ -450,9 +450,9 @@ void ContentTest::testMultipartMixed()
     msg->date()->from7BitString("Sun, 21 Mar 1993 23:56:48 -0800 (PST)");
     msg->subject()->from7BitString("Sample message");
     // HACK to make MIME-Version appear before Content-Type, as in the expected message.
-    auto header = new Headers::MIMEVersion;
+    auto header = std::make_unique<Headers::MIMEVersion>();
     header->from7BitString("1.234");
-    msg->setHeader(header);
+    msg->setHeader(std::move(header));
     msg->contentType()->from7BitString("multipart/mixed");
     msg->contentTransferEncoding()->setEncoding(KMime::Headers::CE7Bit);
 
