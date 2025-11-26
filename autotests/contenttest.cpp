@@ -115,19 +115,21 @@ void ContentTest::testHeaderAppend()
 
 void ContentTest::testExplicitMultipartGeneration()
 {
-    auto c1 = new Content();
+    auto c1 = std::make_unique<Content>();
     c1->contentType()->from7BitString("multipart/mixed");
 
-    auto c2 = new Content();
-    c2->contentType()->from7BitString("text/plain");
-    c2->setBody("textpart");
+    auto c2ptr = std::make_unique<Content>();
+    c2ptr->contentType()->from7BitString("text/plain");
+    c2ptr->setBody("textpart");
+    const auto c2 = c2ptr.get();
 
-    auto c3 = new Content();
-    c3->contentType()->from7BitString("text/html");
-    c3->setBody("htmlpart");
+    auto c3ptr = std::make_unique<Content>();
+    c3ptr->contentType()->from7BitString("text/html");
+    c3ptr->setBody("htmlpart");
+    const auto c3 = c3ptr.get();
 
-    c1->appendContent(c2);
-    c1->appendContent(c3);
+    c1->appendContent(std::move(c2ptr));
+    c1->appendContent(std::move(c3ptr));
 
     // c1 should not have been changed.
     QCOMPARE(c1->contentType()->mimeType(), QByteArray("multipart/mixed"));
@@ -137,18 +139,13 @@ void ContentTest::testExplicitMultipartGeneration()
     QCOMPARE(c1->contents().at(0), c2);
     QCOMPARE(c1->contents().at(1), c3);
 
-    c1->takeContent(c3);
+    c3ptr = c1->takeContent(c3);
     QCOMPARE(c1->contents().count(), 1);
     QCOMPARE(c1->contentType()->mimeType(), QByteArray("multipart/mixed"));
     QVERIFY(c1->body().isEmpty());
     QCOMPARE(c1->contents().at(0), c2);
     QCOMPARE(c2->body(), QByteArray("textpart"));
     QCOMPARE(c3->parent(), nullptr);
-
-    // Clean up.
-    delete c1;
-    // c2 was deleted when c1 turned itself single-part.
-    delete c3;
 }
 
 void ContentTest::testSetContent()
@@ -456,15 +453,15 @@ void ContentTest::testMultipartMixed()
     msg->contentType()->from7BitString("multipart/mixed");
     msg->contentTransferEncoding()->setEncoding(KMime::Headers::CE7Bit);
 
-    c = new Content();
-    c->setBody(part1);
-    msg->appendContent(c);
+    auto cptr = std::make_unique<Content>();
+    cptr->setBody(part1);
+    msg->appendContent(std::move(cptr));
 
-    c = new Content();
-    c->setBody(part2);
-    c->contentType()->setMimeType("text/plain");
-    c->contentType()->setCharset("us-ascii");
-    msg->appendContent(c);
+    cptr = std::make_unique<Content>();
+    cptr->setBody(part2);
+    cptr->contentType()->setMimeType("text/plain");
+    cptr->contentType()->setCharset("us-ascii");
+    msg->appendContent(std::move(cptr));
     msg->contentType()->setBoundary("simple boundary");
 
     list = msg->contents();
@@ -601,45 +598,48 @@ void ContentTest::testParsingUuencoded()
 
 void ContentTest::testParent()
 {
-    auto c1 = new Content();
+    auto c1 = std::make_unique<Content>();
     c1->contentType()->from7BitString("multipart/mixed");
 
-    auto c2 = new Content();
-    c2->contentType()->from7BitString("text/plain");
-    c2->setBody("textpart");
+    auto c2ptr = std::make_unique<Content>();
+    c2ptr->contentType()->from7BitString("text/plain");
+    c2ptr->setBody("textpart");
+    const auto c2 = c2ptr.get();
 
-    auto c3 = new Content();
-    c3->contentType()->from7BitString("text/html");
-    c3->setBody("htmlpart");
+    auto c3ptr = std::make_unique<Content>();
+    c3ptr->contentType()->from7BitString("text/html");
+    c3ptr->setBody("htmlpart");
+    const auto c3 = c3ptr.get();
 
-    auto c4 = new Content();
-    c4->contentType()->from7BitString("text/html");
-    c4->setBody("htmlpart2");
+    auto c4ptr = std::make_unique<Content>();
+    c4ptr->contentType()->from7BitString("text/html");
+    c4ptr->setBody("htmlpart2");
+    const auto c4 = c4ptr.get();
 
-    auto c5 = new Content();
+    auto c5 = std::make_unique<Content>();
     c5->contentType()->from7BitString("multipart/mixed");
 
     //c2 doesn't have a parent yet
     QCOMPARE(c2->parent(), (Content *)nullptr);
 
-    c1->appendContent(c2);
-    c1->appendContent(c3);
-    c1->appendContent(c4);
+    c1->appendContent(std::move(c2ptr));
+    c1->appendContent(std::move(c3ptr));
+    c1->appendContent(std::move(c4ptr));
     QCOMPARE(c1->contents().size(), 3);
 
     // c1 is the parent of those
-    QCOMPARE(c2->parent(), c1);
-    QCOMPARE(c3->parent(), c1);
+    QCOMPARE(c2->parent(), c1.get());
+    QCOMPARE(c3->parent(), c1.get());
 
     //test removal
-    c1->takeContent(c2);
+    c2ptr = c1->takeContent(c2);
     QCOMPARE(c2->parent(), (Content *)nullptr);
     QCOMPARE(c1->contents().at(0), c3);
     QCOMPARE(c1->contents().size(), 2);
 
 //check if the content is moved correctly to another parent
-    c5->appendContent(c4);
-    QCOMPARE(c4->parent(), c5);
+    c5->appendContent(c1->takeContent(c4));
+    QCOMPARE(c4->parent(), c5.get());
     QCOMPARE(c1->contents().size(), 1);
     QCOMPARE(c1->contents().at(0), c3);
     QCOMPARE(c5->contents().size(), 1);
@@ -680,10 +680,6 @@ void ContentTest::testParent()
     QCOMPARE(msg->contents().at(0)->parent(), msg);
     QCOMPARE(msg->contents().at(1)->parent(), msg);
     delete msg;
-
-    delete c1;
-    delete c2;
-    delete c5;
 }
 
 void ContentTest::testFreezing()

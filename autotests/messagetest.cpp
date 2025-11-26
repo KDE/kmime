@@ -17,40 +17,42 @@ QTEST_MAIN(MessageTest)
 
 void MessageTest::testMainBodyPart()
 {
-    auto msg = new Message();
+    auto msg = std::make_unique<Message>();
     auto msg2 = new Message();
-    auto text = new Content();
-    text->contentType()->setMimeType("text/plain");
-    auto html = new Content();
-    html->contentType()->setMimeType("text/html");
+    auto textPtr = std::make_unique<Content>();
+    textPtr->contentType()->setMimeType("text/plain");
+    const auto text = textPtr.get();
+    auto htmlPtr = std::make_unique<Content>();
+    htmlPtr->contentType()->setMimeType("text/html");
+    const auto html = htmlPtr.get();
 
     // empty message
-    QCOMPARE(msg->mainBodyPart(), msg);
+    QCOMPARE(msg->mainBodyPart(), msg.get());
     QCOMPARE(msg->mainBodyPart("text/plain"), (Content *)nullptr);
 
     // non-multipart
     msg->contentType()->setMimeType("text/html");
 
-    QCOMPARE(msg->mainBodyPart(), msg);
+    QCOMPARE(msg->mainBodyPart(), msg.get());
     QCOMPARE(msg->mainBodyPart("text/plain"), (Content *)nullptr);
-    QCOMPARE(msg->mainBodyPart("text/html"), msg);
+    QCOMPARE(msg->mainBodyPart("text/html"), msg.get());
 
     // multipart/mixed
     msg2->contentType()->setMimeType("multipart/mixed");
-    msg2->appendContent(text);
-    msg2->appendContent(html);
+    msg2->appendContent(std::move(textPtr));
+    msg2->appendContent(std::move(htmlPtr));
 
     QCOMPARE(msg2->mainBodyPart(), text);
     QCOMPARE(msg2->mainBodyPart("text/plain"), text);
     QCOMPARE(msg2->mainBodyPart("text/html"), (Content *)nullptr);
 
-    msg2->takeContent(text);
-    msg2->takeContent(html);
+    textPtr = msg2->takeContent(text);
+    htmlPtr = msg2->takeContent(html);
 
     // multipart/alternative
     msg->contentType()->setMimeType("multipart/alternative");
-    msg->appendContent(html);
-    msg->appendContent(text);
+    msg->appendContent(std::move(htmlPtr));
+    msg->appendContent(std::move(textPtr));
 
     QCOMPARE(msg->mainBodyPart(), html);
     QCOMPARE(msg->mainBodyPart("text/plain"), text);
@@ -59,7 +61,7 @@ void MessageTest::testMainBodyPart()
     // multipart/alternative inside multipart/mixed
     auto msg3 = new Message();
     msg3->contentType()->setMimeType("multipart/mixed");
-    msg3->appendContent(msg);
+    msg3->appendContent(std::move(msg));
     auto attach = new Content();
     attach->contentType()->setMimeType("text/plain");
 

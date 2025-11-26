@@ -52,8 +52,9 @@ void ContentIndexTest::testContent()
     QCOMPARE(c1->content(ContentIndex(u"1")), (Content *)nullptr);
     QCOMPARE(c1->indexForContent(c1), ContentIndex());
 
-    auto c11 = new Content();
-    c1->appendContent(c11);
+    auto c11ptr = std::make_unique<Content>();
+    const auto c11 = c11ptr.get();
+    c1->appendContent(std::move(c11ptr));
     QCOMPARE(c1->content(ContentIndex(u"1")), c11);
     QCOMPARE(c1->content(ContentIndex(u"3")), (Content *)nullptr);
     QCOMPARE(c1->content(ContentIndex(u"2.1")), (Content *)nullptr);
@@ -61,10 +62,12 @@ void ContentIndexTest::testContent()
     QCOMPARE(c1->indexForContent(c11), ContentIndex(u"1"));
     QCOMPARE(c1->indexForContent(c1->contents().first()), ContentIndex(u"1"));
 
-    auto c12 = new Content();
-    c1->appendContent(c12);
-    auto c121 = new Content();
-    c12->appendContent(c121);
+    auto c12ptr = std::make_unique<Content>();
+    const auto c12 = c12ptr.get();
+    c1->appendContent(std::move(c12ptr));
+    auto c121ptr = std::make_unique<Content>();
+    const auto c121 = c121ptr.get();
+    c12->appendContent(std::move(c121ptr));
     QCOMPARE(c1->content(ContentIndex(u"2")), c12);
     QCOMPARE(c1->content(ContentIndex(u"2.1")), c121);
     QCOMPARE(c1->indexForContent(c121), ContentIndex(u"2.1"));

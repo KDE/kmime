@@ -477,22 +477,20 @@ QList<Content *> Content::contents()
     return d_ptr->contents();
 }
 
-void Content::replaceContent(Content *oldContent, Content *newContent)
+void Content::appendContent(std::unique_ptr<KMime::Content> &&content)
 {
-    Q_D( Content );
-    if ( d->multipartContents.isEmpty() || !d->multipartContents.contains( oldContent ) ) {
-      return;
-    }
+    // This method makes no sense for encapsulated messages
+    Q_ASSERT(!bodyIsMessage());
 
-    d->multipartContents.removeAll( oldContent );
-    delete oldContent;
-    d->multipartContents.append( newContent );
-    if( newContent->parent() != this ) {
-      // If the content was part of something else, this will remove it from there.
-      newContent->setParent( this );
+    Q_D(Content);
+    auto c = content.release();
+    d->multipartContents.append(c);
+
+    if (c->parent() != this) {
+        // If the content was part of something else, this will remove it from there.
+        c->setParent(this);
     }
 }
-
 
 void Content::appendContent(Content *c)
 {
@@ -501,6 +499,21 @@ void Content::appendContent(Content *c)
 
     Q_D(Content);
     d->multipartContents.append(c);
+
+    if (c->parent() != this) {
+        // If the content was part of something else, this will remove it from there.
+        c->setParent(this);
+    }
+}
+
+void Content::prependContent(std::unique_ptr<KMime::Content> &&content)
+{
+    // This method makes no sense for encapsulated messages
+    Q_ASSERT(!bodyIsMessage());
+
+    Q_D(Content);
+    auto c = content.release();
+    d->multipartContents.prepend(c);
 
     if (c->parent() != this) {
         // If the content was part of something else, this will remove it from there.
@@ -522,7 +535,7 @@ void Content::prependContent(Content *c)
     }
 }
 
-Content *Content::takeContent(Content *c)
+std::unique_ptr<Content> Content::takeContent(Content *c)
 {
     // This method makes no sense for encapsulated messages.
     // Should be covered by the above assert already, though.
@@ -535,7 +548,7 @@ Content *Content::takeContent(Content *c)
 
     d->multipartContents.removeAll(c);
     c->d_ptr->parent = nullptr;
-    return c;
+    return std::unique_ptr<Content>(c);
 }
 
 void Content::changeEncoding(Headers::contentEncoding e)
@@ -765,14 +778,14 @@ void Content::setParent(Content *parent)
     Content *oldParent = d_ptr->parent;
     if (oldParent) {
         if (!oldParent->contents().isEmpty() && oldParent->contents().contains(this)) {
-            oldParent->takeContent(this);
+            oldParent->takeContent(this).release();
         }
     }
 
     d_ptr->parent = parent;
     if (parent) {
         if (!parent->contents().isEmpty() && !parent->contents().contains(this)) {
-            parent->appendContent(this);
+            parent->d_ptr->multipartContents.append(this);
         }
     }
 }

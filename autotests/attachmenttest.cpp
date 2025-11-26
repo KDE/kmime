@@ -48,10 +48,11 @@ void AttachmentTest::testIsAttachment()
     auto root = new KMime::Message;
     root->contentType()->from7BitString("multipart/mixed");
     root->contentTransferEncoding()->setEncoding(KMime::Headers::CE7Bit);
-    auto c0 = new KMime::Content;
-    root->appendContent(c0);
-    auto c = new KMime::Content;
-    root->appendContent(c);
+    auto c0 = std::make_unique<KMime::Content>();
+    root->appendContent(std::move(c0));
+    auto cptr = std::make_unique<KMime::Content>();
+    auto c = cptr.get();
+    root->appendContent(std::move(cptr));
     if (!mimeType.isEmpty()) {
         c->contentType()->setMimeType(mimeType);
     }
@@ -94,14 +95,15 @@ void AttachmentTest::testHasAttachment()
     auto root = new KMime::Message;
     root->contentType()->setMimeType("multipart/related");
 
-    auto c1 = new KMime::Content;
+    auto c1 = std::make_unique<KMime::Content>();
     c1->contentType()->setMimeType("text/plain");
-    root->appendContent(c1);
+    root->appendContent(std::move(c1));
 
-    auto c2 = new KMime::Content;
-    c2->contentType()->setMimeType("image/jpeg");
-    c2->contentDisposition()->setFilename(QStringLiteral("image.jpg"));
-    root->appendContent(c2);
+    auto c2ptr = std::make_unique<KMime::Content>();
+    c2ptr->contentType()->setMimeType("image/jpeg");
+    c2ptr->contentDisposition()->setFilename(QStringLiteral("image.jpg"));
+    auto c2 = c2ptr.get();
+    root->appendContent(std::move(c2ptr));
 
     QCOMPARE(KMime::hasAttachment(root), false);
     QCOMPARE(root->attachments().size(), 0);
@@ -118,13 +120,14 @@ void AttachmentTest::testHasAttachment()
     root = new KMime::Message;
     root->contentType()->setMimeType("multipart/alternative");
 
-    c1 = new KMime::Content;
+    c1 = std::make_unique<KMime::Content>();
     c1->contentType()->setMimeType("text/plain");
-    root->appendContent(c1);
+    root->appendContent(std::move(c1));
 
-    c2 = new KMime::Content;
-    c2->contentType()->setMimeType("text/html");
-    root->appendContent(c2);
+    c2ptr = std::make_unique<KMime::Content>();
+    c2ptr->contentType()->setMimeType("text/html");
+    c2 = c2ptr.get();
+    root->appendContent(std::move(c2ptr));
 
     QCOMPARE(KMime::hasAttachment(root), false);
     QCOMPARE(root->attachments().size(), 0);
@@ -134,15 +137,16 @@ void AttachmentTest::testHasAttachment()
     root = new KMime::Message;
     root->contentType()->from7BitString("multipart/mixed");
     root->contentTransferEncoding()->setEncoding(KMime::Headers::CE7Bit);
-    auto c0 = new KMime::Content;
-    root->appendContent(c0);
+    auto c0 = std::make_unique<KMime::Content>();
+    root->appendContent(std::move(c0));
 
-    c1 = new KMime::Content;
+    c1 = std::make_unique<KMime::Content>();
     c1->contentType()->setMimeType("text/plain");
     c1->contentType()->setName(QStringLiteral("file.txt"));
-    root->prependContent(c1);
-    QCOMPARE(KMime::isAttachment(c1), false);
-    QCOMPARE(KMime::hasAttachment(c1), false);
+    const auto c1raw = c1.get();
+    root->prependContent(std::move(c1));
+    QCOMPARE(KMime::isAttachment(c1raw), false);
+    QCOMPARE(KMime::hasAttachment(c1raw), false);
     QCOMPARE(KMime::hasAttachment(root), false);
     QCOMPARE(root->attachments().size(), 0);
     delete root;
@@ -153,28 +157,29 @@ void AttachmentTest::testNestedMultipart()
     auto root = new KMime::Message;
     root->contentType()->from7BitString("multipart/mixed");
     root->contentTransferEncoding()->setEncoding(KMime::Headers::CE7Bit);
-    auto c0 = new KMime::Content;
-    root->appendContent(c0);
+    auto c0 = std::make_unique<KMime::Content>();;
+    root->appendContent(std::move(c0));
 
-    auto sig = new KMime::Content;
+    auto sig = std::make_unique<KMime::Content>();;
     sig->contentType()->setMimeType("application/pgp-signature");
     sig->contentType()->setName(QStringLiteral("signature.asc"));
-    root->appendContent(sig);
+    root->appendContent(std::move(sig));
     root->contentType()->setMimeType("multipart/signed");
 
     auto mixed = root->contents().at(0);
 
-    auto att = new KMime::Content;
+    auto att = std::make_unique<KMime::Content>();
     att->contentType()->setMimeType("image/jpeg");
     att->contentType()->setName(QStringLiteral("attachment.jpg"));
-    mixed->appendContent(att);
+    const auto attRaw = att.get();
+    mixed->appendContent(std::move(att));
 
     mixed->contentType()->setMimeType("multipart/mixed");
 
     QVERIFY(KMime::hasAttachment(root));
     QVERIFY(KMime::hasAttachment(mixed));
     QCOMPARE(root->attachments().size(), 1);
-    QCOMPARE(root->attachments().at(0), att);
+    QCOMPARE(root->attachments().at(0), attRaw);
 
     delete root;
 }

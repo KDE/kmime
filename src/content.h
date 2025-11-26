@@ -642,9 +642,11 @@ public:
     @param content The new sub-Content.
     @see prependContent()
     @see takeContent()
-    @since 6.0
+    @since 6.0 (took a raw pointer until 26.04)
   */
-  void appendContent(Content *content);
+  void appendContent(std::unique_ptr<KMime::Content> &&content);
+  [[deprecated("use the unique_ptr overload instead")]] void appendContent(Content *content);
+
   /**
     Prepends a new sub-Content. If the sub-Content is already part of another
     Content object, it is removed from there and its parent is updated.
@@ -652,12 +654,11 @@ public:
     @param content The new sub-Content.
     @see appendContent()
     @see takeContent()
-    @since 6.0
+    @since 6.0 (took a raw pointer until 26.04)
   */
-  void prependContent(Content *content);
+  void prependContent(std::unique_ptr<KMime::Content> &&content);
+  [[deprecated("use the unique_ptr overload instead")]] void prependContent(Content *content);
 
-  [[deprecated("Use takeContent/appendContent instead")]]
-  void replaceContent(Content *oldContent, Content *newContent);
   /**
     Removes the given sub-Content and, if that actually was a sub-content
     returns that.
@@ -668,9 +669,9 @@ public:
     @see appendContent()
     @see prependContent()
     @see clearContents()
-    @since 6.0
+    @since 6.0 (returned a raw pointer until 26.04)
   */
-  Content *takeContent(Content *content);
+  std::unique_ptr<Content> takeContent(Content *content);
 
   /**
     Changes the encoding of this Content to @p e.  If the Content is binary,
