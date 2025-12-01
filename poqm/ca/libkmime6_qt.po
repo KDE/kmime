@@ -82,17 +82,3 @@ msgstr ""
 "Ha fallat la generació d'una Notificació de processament del missatge (MDN) "
 "per al missatge enviat el ${date} a ${to} amb l'assumpte «${subject}». El "
 "motiu s'especifica a la capçalera «Failure:» de sota."
-
-#~ msgctxt "invalid time specified"
-#~ msgid "unknown"
-#~ msgstr "desconegut"
-
-#~ msgid "Today %1"
-#~ msgstr "Avui %1"
-
-#~ msgid "Yesterday %1"
-#~ msgstr "Ahir %1"
-
-#~ msgctxt "1. weekday, 2. time"
-#~ msgid "%1 %2"
-#~ msgstr "%1 %2"
