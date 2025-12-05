@@ -57,7 +57,7 @@ void HeaderTest::testIdentHeader()
     QCOMPARE(h->identifiers().count(), 4);
 
     // assemble the final header
-    QCOMPARE(h->as7BitString(false), QByteArray("<1234@local.machine.example> <3456@example.net> <abcd.1234@local.machine.tld> <78910@example.net>"));
+    QCOMPARE(h->as7BitString(), QByteArray("<1234@local.machine.example> <3456@example.net> <abcd.1234@local.machine.tld> <78910@example.net>"));
     delete h;
 
     // parsing of ident with literal domain
@@ -65,7 +65,7 @@ void HeaderTest::testIdentHeader()
     const QByteArray ident = QByteArray("<O55F3Y9E5MmKFwBN@[127.0.0.1]>");
     h->appendIdentifier(ident);
     QEXPECT_FAIL("", "Parsing strips square brackets.", Continue);
-    QCOMPARE(h->as7BitString(false), QByteArray(ident));
+    QCOMPARE(h->as7BitString(), QByteArray(ident));
     delete h;
 }
 
@@ -95,7 +95,7 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->displayString(), QLatin1StringView("Pete"));
     QCOMPARE(h->asUnicodeString(),
              QLatin1StringView("Pete <pete@silly.example>"));
-    QCOMPARE(h->as7BitString(false), QByteArray("Pete <pete@silly.example>"));
+    QCOMPARE(h->as7BitString(), QByteArray("Pete <pete@silly.example>"));
     delete h;
 
     // parsing a single address with legacy comment style display name
@@ -118,7 +118,7 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(names.takeFirst(), QLatin1StringView("Who?"));
     QCOMPARE(h->displayString(),
              QLatin1StringView("Mary Smith, jdoe@example.org, Who?"));
-    QCOMPARE(h->as7BitString(false), QByteArray("Mary Smith <mary@x.test>, jdoe@example.org, Who? <one@y.test>"));
+    QCOMPARE(h->as7BitString(), QByteArray("Mary Smith <mary@x.test>, jdoe@example.org, Who? <one@y.test>"));
     delete h;
 
     // same again with some interesting quoting
@@ -129,7 +129,7 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(names.takeFirst(), QLatin1StringView("Joe Q. Public"));
     QCOMPARE(names.takeFirst(), QLatin1StringView("boss@nil.test"));
     QCOMPARE(names.takeFirst(), QLatin1StringView("Giant; \"Big\" Box"));
-    QCOMPARE(h->as7BitString(false), QByteArray("\"Joe Q. Public\" <john.q.public@example.com>, boss@nil.test, \"Giant; \\\"Big\\\" Box\" <sysservices@example.net>"));
+    QCOMPARE(h->as7BitString(), QByteArray("\"Joe Q. Public\" <john.q.public@example.com>, boss@nil.test, \"Giant; \\\"Big\\\" Box\" <sysservices@example.net>"));
     delete h;
 
     // a display name with non-latin1 content
@@ -139,9 +139,9 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->addresses().first(), QByteArray("kloecker@kde.org"));
     QCOMPARE(h->displayNames().first(), QString::fromUtf8("Ingo Klöcker"));
     QCOMPARE(h->asUnicodeString(), QString::fromUtf8("Ingo Klöcker <kloecker@kde.org>"));
-    QCOMPARE(h->as7BitString(false), "Ingo =?UTF-8?B?S2zDtmNrZXI=?= <kloecker@kde.org>");
+    QCOMPARE(h->as7BitString(), "Ingo =?UTF-8?B?S2zDtmNrZXI=?= <kloecker@kde.org>");
     h->setRFC2047Charset("iso-8859-1");
-    QCOMPARE(h->as7BitString(false), QByteArray("Ingo =?ISO-8859-1?Q?Kl=F6cker?= <kloecker@kde.org>"));
+    QCOMPARE(h->as7BitString(), QByteArray("Ingo =?ISO-8859-1?Q?Kl=F6cker?= <kloecker@kde.org>"));
     delete h;
 
 
@@ -184,7 +184,7 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(names.takeFirst(), QLatin1StringView("Chris Jones"));
     QCOMPARE(names.takeFirst(), QLatin1StringView("joe@where.test"));
     QCOMPARE(names.takeFirst(), QLatin1StringView("John"));
-    QCOMPARE(h->as7BitString(false), QByteArray("Chris Jones <c@a.test>, joe@where.test, John <jdoe@one.test>"));
+    QCOMPARE(h->as7BitString(), QByteArray("Chris Jones <c@a.test>, joe@where.test, John <jdoe@one.test>"));
     delete h;
 
     // modifying a header
@@ -194,9 +194,9 @@ void HeaderTest::testAddressListHeader()
     h->addAddress("c@a.test");
     QCOMPARE(h->addresses().count(), 3);
     QCOMPARE(h->asUnicodeString(), QString::fromUtf8("John <jdoe@one.test>, Ingo Klöcker <kloecker@kde.org>, c@a.test"));
-    QCOMPARE(h->as7BitString(false), QByteArray("John <jdoe@one.test>, Ingo =?UTF-8?B?S2zDtmNrZXI=?= <kloecker@kde.org>, c@a.test"));
+    QCOMPARE(h->as7BitString(), QByteArray("John <jdoe@one.test>, Ingo =?UTF-8?B?S2zDtmNrZXI=?= <kloecker@kde.org>, c@a.test"));
     h->setRFC2047Charset("ISO-8859-1");
-    QCOMPARE(h->as7BitString(false), QByteArray("John <jdoe@one.test>, Ingo =?ISO-8859-1?Q?Kl=F6cker?= <kloecker@kde.org>, c@a.test"));
+    QCOMPARE(h->as7BitString(), QByteArray("John <jdoe@one.test>, Ingo =?ISO-8859-1?Q?Kl=F6cker?= <kloecker@kde.org>, c@a.test"));
     delete h;
 
     // parsing from utf-8
@@ -233,7 +233,7 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->addresses().count(), 1);
     QCOMPARE(h->addresses().first(), QByteArray("censored@censored.dy"));
     QCOMPARE(h->displayNames().first(), QLatin1StringView("|<onrad"));
-    QCOMPARE(h->as7BitString(false), QByteArray("\"|<onrad\" <censored@censored.dy>"));
+    QCOMPARE(h->as7BitString(), QByteArray("\"|<onrad\" <censored@censored.dy>"));
     delete h;
 
     // based on bug #93790 (legacy display name with nested comments)
@@ -242,7 +242,7 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->displayNames().count(), 1);
     QCOMPARE(h->displayNames().first(),
              QLatin1StringView("first name (nickname)"));
-    QCOMPARE(h->as7BitString(false), QByteArray("\"first name (nickname)\" <first.name@domain.tld>"));
+    QCOMPARE(h->as7BitString(), QByteArray("\"first name (nickname)\" <first.name@domain.tld>"));
     delete h;
 
     // rfc 2047 encoding in quoted name (it is not allowed there as per the RFC, but it happens)
@@ -257,14 +257,14 @@ void HeaderTest::testAddressListHeader()
     h = new Headers::Generics::AddressList();
     h->from7BitString("\"Some =Use ?r\" <user@example.com>");
     QCOMPARE(h->mailboxes().count(), 1);
-    QCOMPARE(h->as7BitString(false), QByteArray("\"Some =Use ?r\" <user@example.com>"));
+    QCOMPARE(h->as7BitString(), QByteArray("\"Some =Use ?r\" <user@example.com>"));
     delete h;
 
     // corner case of almost-rfc2047 encoded string in quoted string but not
     h = new Headers::Generics::AddressList();
     h->from7BitString("\"Some ?=U=?se =?r\" <user@example.com>");
     QCOMPARE(h->mailboxes().count(), 1);
-    QCOMPARE(h->as7BitString(false), QByteArray("\"Some ?=U=?se =?r\" <user@example.com>"));
+    QCOMPARE(h->as7BitString(), QByteArray("\"Some ?=U=?se =?r\" <user@example.com>"));
     delete h;
 
     // based on bug #139477, trailing '.' in domain name (RFC 3696, section 2 - https://tools.ietf.org/html/rfc3696#page-4)
@@ -285,7 +285,7 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(names.takeFirst(), QLatin1StringView("Mary Smith"));
     QCOMPARE(names.takeFirst(), QLatin1StringView("jdoe@example.org."));
     QCOMPARE(names.takeFirst(), QLatin1StringView("Who?"));
-    QCOMPARE(h->as7BitString(false), QByteArray("Mary Smith <mary@x.test>, jdoe@example.org., Who? <one@y.test>"));
+    QCOMPARE(h->as7BitString(), QByteArray("Mary Smith <mary@x.test>, jdoe@example.org., Who? <one@y.test>"));
     delete h;
 
     //Bug 421251
@@ -296,9 +296,9 @@ void HeaderTest::testAddressListHeader()
     QCOMPARE(h->addresses().first(), QByteArray("xalba@clientes.euskaltel.es"));
     QCOMPARE(h->displayNames().first(), QString::fromUtf8("I\u00F1igo Salvador Azurmendi"));
     QCOMPARE(h->asUnicodeString(), QString::fromUtf8("I\u00F1igo Salvador Azurmendi <xalba@clientes.euskaltel.es>"));
-    QCOMPARE(h->as7BitString(false), QByteArray("=?UTF-8?B?ScOxaWdv?= Salvador Azurmendi <xalba@clientes.euskaltel.es>"));
+    QCOMPARE(h->as7BitString(), QByteArray("=?UTF-8?B?ScOxaWdv?= Salvador Azurmendi <xalba@clientes.euskaltel.es>"));
     h->setRFC2047Charset("ISO-8859-1");
-    QCOMPARE(h->as7BitString(false), QByteArray("=?ISO-8859-1?Q?I=F1igo?= Salvador Azurmendi <xalba@clientes.euskaltel.es>"));
+    QCOMPARE(h->as7BitString(), QByteArray("=?ISO-8859-1?Q?I=F1igo?= Salvador Azurmendi <xalba@clientes.euskaltel.es>"));
     delete h;
 }
 
@@ -363,7 +363,7 @@ void HeaderTest::testSingleMailboxHeader()
     h->from7BitString(R"("John \"the guru\" Smith" <john.smith@mail.domain>)");
     QVERIFY(!h->isEmpty());
     QCOMPARE(h->mailbox().prettyAddress(Types::Mailbox::QuoteWhenNecessary), "\"John \\\"the guru\\\" Smith\" <john.smith@mail.domain>"_L1);
-    QCOMPARE(h->as7BitString(false).data(),
+    QCOMPARE(h->as7BitString().data(),
              "\"John \\\"the guru\\\" Smith\" <john.smith@mail.domain>");
 
     // The following tests are for broken clients that by accident add quotes inside of encoded words that enclose the
@@ -396,14 +396,14 @@ void HeaderTest::testMailCopiesToHeader()
     QVERIFY(!h->isEmpty());
     QVERIFY(h->alwaysCopy());
     QVERIFY(!h->neverCopy());
-    QCOMPARE(h->as7BitString(), QByteArray("Mail-Copies-To: poster"));
+    QCOMPARE(h->as7BitString(), QByteArray("poster"));
 
     // set to never copy
     h->setNeverCopy();
     QVERIFY(!h->isEmpty());
     QVERIFY(!h->alwaysCopy());
     QVERIFY(h->neverCopy());
-    QCOMPARE(h->as7BitString(), QByteArray("Mail-Copies-To: nobody"));
+    QCOMPARE(h->as7BitString(), QByteArray("nobody"));
     delete h;
 
     // parse copy to poster
@@ -448,7 +448,7 @@ void HeaderTest::testMailCopiesToHeader()
     QVERIFY(!h->addresses().isEmpty());
     QVERIFY(h->alwaysCopy());
     QVERIFY(!h->neverCopy());
-    QCOMPARE(h->as7BitString(), QByteArray("Mail-Copies-To: vkrause@kde.org"));
+    QCOMPARE(h->as7BitString(), QByteArray("vkrause@kde.org"));
     delete h;
 }
 
@@ -469,7 +469,7 @@ void HeaderTest::testParametrizedHeader()
     QVERIFY(!h->hasParameter("bla.jpg"));
     QCOMPARE(h->parameter("filename"), QLatin1StringView("bla.jpg"));
     QCOMPARE(h->parameter("FILENAME"), QLatin1StringView("bla.jpg"));
-    QCOMPARE(h->as7BitString(false), QByteArray("filename=\"bla.jpg\""));
+    QCOMPARE(h->as7BitString(), QByteArray("filename=\"bla.jpg\""));
     delete h;
 
     // parse a parameter list
@@ -477,13 +477,13 @@ void HeaderTest::testParametrizedHeader()
     h->from7BitString("filename=genome.jpeg;\n modification-date=\"Wed, 12 Feb 1997 16:29:51 -0500\"");
     QCOMPARE(h->parameter("filename"), QLatin1StringView("genome.jpeg"));
     QCOMPARE(h->parameter("modification-date"), QLatin1StringView("Wed, 12 Feb 1997 16:29:51 -0500"));
-    QCOMPARE(h->as7BitString(false), QByteArray("filename=\"genome.jpeg\"; modification-date=\"Wed, 12 Feb 1997 16:29:51 -0500\""));
+    QCOMPARE(h->as7BitString(), QByteArray("filename=\"genome.jpeg\"; modification-date=\"Wed, 12 Feb 1997 16:29:51 -0500\""));
     delete h;
 
     // quoting of whitespaces in parameter value
     h = new Parametrized();
     h->setParameter(QByteArrayLiteral("boundary"), QLatin1StringView("simple boundary"));
-    QCOMPARE(h->as7BitString(false), QByteArray("boundary=\"simple boundary\""));
+    QCOMPARE(h->as7BitString(), QByteArray("boundary=\"simple boundary\""));
     delete h;
 
     // TODO: test RFC 2047 encoded values
@@ -501,10 +501,10 @@ void HeaderTest::testContentDispositionHeader()
     // set some values
     h->setFilename(QLatin1StringView("test.jpg"));
     QVERIFY(h->isEmpty());
-    QVERIFY(h->as7BitString(false).isEmpty());
+    QVERIFY(h->as7BitString().isEmpty());
     h->setDisposition(CDattachment);
     QVERIFY(!h->isEmpty());
-    QCOMPARE(h->as7BitString(false), QByteArray("attachment; filename=\"test.jpg\""));
+    QCOMPARE(h->as7BitString(), QByteArray("attachment; filename=\"test.jpg\""));
     delete h;
 
     // parse parameter-less header
@@ -512,7 +512,7 @@ void HeaderTest::testContentDispositionHeader()
     h->from7BitString("inline");
     QCOMPARE(h->disposition(), CDinline);
     QVERIFY(h->filename().isEmpty());
-    QCOMPARE(h->as7BitString(true), QByteArray("Content-Disposition: inline"));
+    QCOMPARE(h->as7BitString(), QByteArray("inline"));
     delete h;
 
     // parse header with parameter
@@ -590,12 +590,12 @@ void HeaderTest::testContentTypeHeader()
     QVERIFY(!h->isPartial());
     QVERIFY(h->isMediatype("text"));
     QVERIFY(h->isSubtype("plain"));
-    QCOMPARE(h->as7BitString(true), QByteArray("Content-Type: text/plain"));
+    QCOMPARE(h->as7BitString(), QByteArray("text/plain"));
 
     // add some parameters
     h->setId("bla");
     h->setCharset("us-ascii");
-    QCOMPARE(h->as7BitString(false), QByteArray("text/plain; charset=\"us-ascii\"; id=\"bla\""));
+    QCOMPARE(h->as7BitString(), QByteArray("text/plain; charset=\"us-ascii\"; id=\"bla\""));
     delete h;
 
     // parse a complete header
@@ -657,14 +657,14 @@ void HeaderTest::testTokenHeader()
     // set a token
     h->setToken("bla");
     QVERIFY(!h->isEmpty());
-    QCOMPARE(h->as7BitString(false), QByteArray("bla"));
+    QCOMPARE(h->as7BitString(), QByteArray("bla"));
     delete h;
 
     // parse a header
     h = new Token;
     h->from7BitString("value (comment)");
     QCOMPARE(h->token(), QByteArray("value"));
-    QCOMPARE(h->as7BitString(false), QByteArray("value"));
+    QCOMPARE(h->as7BitString(), QByteArray("value"));
     delete h;
 }
 
@@ -676,14 +676,14 @@ void HeaderTest::testContentTransferEncoding()
     h = new ContentTransferEncoding();
     h->setEncoding(CEbinary);
     QVERIFY(!h->isEmpty());
-    QCOMPARE(h->as7BitString(true), QByteArray("Content-Transfer-Encoding: binary"));
+    QCOMPARE(h->as7BitString(), QByteArray("binary"));
     delete h;
 
     // parse a header
     h = new ContentTransferEncoding;
     h->from7BitString("(comment) base64");
     QCOMPARE(h->encoding(), CEbase64);
-    QCOMPARE(h->as7BitString(false), QByteArray("base64"));
+    QCOMPARE(h->as7BitString(), QByteArray("base64"));
     delete h;
 }
 
@@ -704,7 +704,7 @@ void HeaderTest::testPhraseListHeader()
     QStringList phrases = h->phrases();
     QCOMPARE(phrases.takeFirst(), QLatin1StringView("foo"));
     QCOMPARE(phrases.takeFirst(), QLatin1StringView("bar"));
-    QCOMPARE(h->as7BitString(false), QByteArray("foo, bar"));
+    QCOMPARE(h->as7BitString(), QByteArray("foo, bar"));
     delete h;
 
     // TODO: encoded/quoted phrases
@@ -741,7 +741,7 @@ void HeaderTest::testDateHeader()
     QCOMPARE(h->dateTime().date(), QDate(1997, 11, 21));
     QCOMPARE(h->dateTime().time(), QTime(9, 55, 6));
     QCOMPARE(h->dateTime().offsetFromUtc(), -6 * 3600);
-    QCOMPARE(h->as7BitString(), QByteArray("Date: Fri, 21 Nov 1997 09:55:06 -0600"));
+    QCOMPARE(h->as7BitString(), QByteArray("Fri, 21 Nov 1997 09:55:06 -0600"));
     delete h;
 
     // white spaces and comment (from RFC 2822, Appendix A.5)
@@ -751,7 +751,7 @@ void HeaderTest::testDateHeader()
     QCOMPARE(h->dateTime().date(), QDate(1969, 2, 13));
     QCOMPARE(h->dateTime().time(), QTime(23, 32));
     QCOMPARE(h->dateTime().offsetFromUtc(), -12600);
-    QCOMPARE(h->as7BitString(false), QByteArray("Thu, 13 Feb 1969 23:32:00 -0330"));
+    QCOMPARE(h->as7BitString(), QByteArray("Thu, 13 Feb 1969 23:32:00 -0330"));
     delete h;
 
     // obsolete date format (from RFC 2822, Appendix A.6.2)
@@ -887,7 +887,7 @@ void HeaderTest::testLinesHeader()
     // set some content
     h->setNumberOfLines(5);
     QVERIFY(!h->isEmpty());
-    QCOMPARE(h->as7BitString(), QByteArray("Lines: 5"));
+    QCOMPARE(h->as7BitString(), QByteArray("5"));
     delete h;
 
     // parse header with comment
@@ -912,7 +912,7 @@ void HeaderTest::testNewsgroupsHeader()
     groups << "gmane.comp.kde.devel.core" << "gmane.comp.kde.devel.buildsystem";
     h->setGroups(groups);
     QVERIFY(!h->isEmpty());
-    QCOMPARE(h->as7BitString(), QByteArray("Newsgroups: gmane.comp.kde.devel.core,gmane.comp.kde.devel.buildsystem"));
+    QCOMPARE(h->as7BitString(), QByteArray("gmane.comp.kde.devel.core,gmane.comp.kde.devel.buildsystem"));
     delete h;
 
     // parse a header
@@ -947,7 +947,7 @@ void HeaderTest::testControlHeader()
     h->setCancel("<foo@bar>");
     QVERIFY(!h->isEmpty());
     QVERIFY(h->isCancel());
-    QCOMPARE(h->as7BitString(),  QByteArray("Control: cancel <foo@bar>"));
+    QCOMPARE(h->as7BitString(),  QByteArray("cancel <foo@bar>"));
     delete h;
 
     // parse a control header
@@ -970,7 +970,7 @@ void HeaderTest::testReturnPath()
 
     h->from7BitString("<foo@bar>");
     QVERIFY(!h->isEmpty());
-    QCOMPARE(h->as7BitString(true), QByteArray("Return-Path: <foo@bar>"));
+    QCOMPARE(h->as7BitString(), QByteArray("<foo@bar>"));
 
     delete h;
 }
@@ -1003,7 +1003,7 @@ void HeaderTest::testInvalidButOkQEncoding()
     // A stray '?' should not confuse the parser
     Subject subject;
     subject.from7BitString("=?us-ascii?q?Why?_Why_do_some_clients_violate_the_RFC?" "?=");
-    QCOMPARE(subject.as7BitString(false), QByteArray("Why? Why do some clients violate the RFC?"));
+    QCOMPARE(subject.as7BitString(), QByteArray("Why? Why do some clients violate the RFC?"));
 }
 
 void HeaderTest::testInvalidQEncoding_data()

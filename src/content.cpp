@@ -210,7 +210,7 @@ QByteArray Content::assembleHeaders()
     QByteArray newHead;
     for (const Headers::Base *h : std::as_const(d->headers)) {
         if (!h->isEmpty()) {
-            newHead += foldHeader(h->as7BitString()) + '\n';
+            newHead += foldHeader(QByteArrayView(h->type()) + ": " + h->as7BitString()) + '\n';
         }
     }
 
