@@ -73,7 +73,8 @@ enum contentDisposition {
 #define kmime_mk_trivial_ctor( subclass )                               \
     public:                                                               \
     subclass();                           \
-    ~subclass() override;
+    ~subclass() override; \
+    using KMime::Headers::Base::as7BitString; // TODO drop this when the deprecated as7BitString overload is removed
 
 #define kmime_mk_dptr_ctor( subclass ) \
     protected: \
@@ -118,11 +119,17 @@ public:
   virtual void from7BitString(QByteArrayView s) = 0;
 
   /**
+    Returns the encoded header content.
+    This does not include the header type or separating colon.
+    @since 26.04 (previously with an additional bool argument to include the header type).
+  */
+  [[nodiscard]] virtual QByteArray as7BitString() const = 0;
+  /**
     Returns the encoded header.
     @param withHeaderType Specifies whether the header-type should be included.
   */
-  [[nodiscard]] virtual QByteArray
-  as7BitString(bool withHeaderType = true) const = 0;
+  [[deprecated("use as7BitString() instead")]]
+  [[nodiscard]] QByteArray as7BitString(bool) const { return as7BitString(); }
 
   /**
     Returns the charset that is used for RFC2047-encoding.
@@ -172,11 +179,6 @@ public:
   [[nodiscard]] bool is(QByteArrayView t) const;
 
 protected:
-    /**
-      Helper method, returns the header prefix including ":".
-    */
-    [[nodiscard]] QByteArray typeIntro() const;
-
     //@cond PRIVATE
     BasePrivate *d_ptr;
     kmime_mk_dptr_ctor(Base)
@@ -221,7 +223,7 @@ public:
     ~Unstructured() override;
 
     void from7BitString(QByteArrayView s) override;
-    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QByteArray as7BitString() const override;
 
     void fromUnicodeString(const QString &s) override;
     using Base::fromUnicodeString;
@@ -311,7 +313,7 @@ class KMIME_EXPORT MailboxList : public Structured
     kmime_mk_dptr_ctor(MailboxList)
     //@endcond
 public:
-    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QByteArray as7BitString() const override;
     void fromUnicodeString(const QString &s) override;
     using Base::fromUnicodeString;
     [[nodiscard]] QString asUnicodeString() const override;
@@ -382,7 +384,7 @@ class KMIME_EXPORT SingleMailbox : public Structured
     kmime_mk_trivial_ctor(SingleMailbox)
     //@endcond
 public:
-    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QByteArray as7BitString() const override;
     void fromUnicodeString(const QString &s) override;
     using Base::fromUnicodeString;
     [[nodiscard]] QString asUnicodeString() const override;
@@ -427,7 +429,7 @@ class KMIME_EXPORT AddressList : public Structured
     kmime_mk_dptr_ctor(AddressList)
     //@endcond
 public:
-    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QByteArray as7BitString() const override;
     void fromUnicodeString(const QString &s) override;
     using Base::fromUnicodeString;
     [[nodiscard]] QString asUnicodeString() const override;
@@ -498,7 +500,7 @@ class KMIME_EXPORT Ident : public Structured
     kmime_mk_dptr_ctor(Ident)
     //@endcond
 public:
-    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QByteArray as7BitString() const override;
     [[nodiscard]] bool isEmpty() const override;
 
     /**
@@ -545,7 +547,7 @@ class KMIME_EXPORT SingleIdent : public Structured
     kmime_mk_dptr_ctor(SingleIdent)
     //@endcond
 public:
-    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QByteArray as7BitString() const override;
     [[nodiscard]] bool isEmpty() const override;
 
     /**
@@ -579,7 +581,7 @@ class KMIME_EXPORT Token : public Structured
     kmime_mk_dptr_ctor(Token)
     //@endcond
 public:
-    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QByteArray as7BitString() const override;
     [[nodiscard]] bool isEmpty() const override;
 
     /**
@@ -610,7 +612,7 @@ class KMIME_EXPORT PhraseList : public Structured
     kmime_mk_trivial_ctor(PhraseList)
     //@endcond
 public:
-    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QByteArray as7BitString() const override;
     [[nodiscard]] QString asUnicodeString() const override;
     [[nodiscard]] bool isEmpty() const override;
 
@@ -637,7 +639,7 @@ class KMIME_EXPORT DotAtom : public Structured
     kmime_mk_trivial_ctor(DotAtom)
     //@endcond
 public:
-    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QByteArray as7BitString() const override;
     [[nodiscard]] QString asUnicodeString() const override;
     [[nodiscard]] bool isEmpty() const override;
 
@@ -660,7 +662,7 @@ class KMIME_EXPORT Parametrized : public Structured
     kmime_mk_dptr_ctor(Parametrized)
     //@endcond
 public:
-    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QByteArray as7BitString() const override;
 
     [[nodiscard]] bool isEmpty() const override;
 
@@ -743,7 +745,7 @@ class KMIME_EXPORT ReturnPath : public Generics::Structured
     kmime_mk_trivial_ctor_with_name(ReturnPath)
     //@endcond
 public:
-    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QByteArray as7BitString() const override;
     [[nodiscard]] bool isEmpty() const override;
 
 protected:
@@ -829,7 +831,7 @@ class KMIME_EXPORT MailCopiesTo : public Generics::AddressList
     kmime_mk_trivial_ctor_with_name(MailCopiesTo)
     //@endcond
 public:
-    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QByteArray as7BitString() const override;
     [[nodiscard]] QString asUnicodeString() const override;
 
     [[nodiscard]] bool isEmpty() const override;
@@ -875,7 +877,7 @@ class KMIME_EXPORT ContentTransferEncoding : public Generics::Token
     //@endcond
 public:
     [[nodiscard]] bool isEmpty() const override;
-    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QByteArray as7BitString() const override;
 
     /**
       Returns the encoding specified in this header.
@@ -995,7 +997,7 @@ class KMIME_EXPORT ContentType : public Generics::Parametrized
     kmime_mk_trivial_ctor_with_name(ContentType)
     //@endcond
 public:
-    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QByteArray as7BitString() const override;
     [[nodiscard]] bool isEmpty() const override;
 
     /**
@@ -1168,7 +1170,7 @@ class KMIME_EXPORT ContentDisposition : public Generics::Parametrized
     kmime_mk_trivial_ctor_with_name(ContentDisposition)
     //@endcond
 public:
-    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QByteArray as7BitString() const override;
     [[nodiscard]] bool isEmpty() const override;
 
     /**
@@ -1284,7 +1286,7 @@ class KMIME_EXPORT Control : public Generics::Structured
     kmime_mk_trivial_ctor_with_name(Control)
     //@endcond
 public:
-    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QByteArray as7BitString() const override;
     [[nodiscard]] bool isEmpty() const override;
 
     /**
@@ -1329,7 +1331,7 @@ class KMIME_EXPORT Date : public Generics::Structured
     kmime_mk_trivial_ctor_with_name(Date)
     //@endcond
 public:
-    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QByteArray as7BitString() const override;
     [[nodiscard]] bool isEmpty() const override;
 
     /**
@@ -1362,7 +1364,7 @@ class KMIME_EXPORT Newsgroups : public Generics::Structured
     kmime_mk_trivial_ctor_with_name(Newsgroups)
     //@endcond
 public:
-    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QByteArray as7BitString() const override;
     void fromUnicodeString(const QString &s) override;
     using Base::fromUnicodeString;
     [[nodiscard]] QString asUnicodeString() const override;
@@ -1416,7 +1418,7 @@ class KMIME_EXPORT Lines : public Generics::Structured
     kmime_mk_trivial_ctor_with_name(Lines)
     //@endcond
 public:
-    [[nodiscard]] QByteArray as7BitString(bool withHeaderType = true) const override;
+    [[nodiscard]] QByteArray as7BitString() const override;
     [[nodiscard]] QString asUnicodeString() const override;
     [[nodiscard]] bool isEmpty() const override;
 

@@ -46,7 +46,7 @@ void ContentTest::testHeaderAddRemove()
 
     // The content must now have the header.
     QVERIFY(c->contentDescription(false));
-    QCOMPARE(c->contentDescription()->as7BitString(false), QByteArray("description"));
+    QCOMPARE(c->contentDescription()->as7BitString(), QByteArray("description"));
 
     // The content's head must also have the header.  Save the head.
     c->assemble();

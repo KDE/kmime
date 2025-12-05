@@ -123,7 +123,7 @@ void MessageTest::testWillsAndTillsCrash()
     msg->setContent(deadlyMail);
     msg->parse();
     QVERIFY(!msg->date()->isEmpty());
-    QCOMPARE(msg->subject()->as7BitString(false), QByteArray("[censored] Birthday Reminder"));
+    QCOMPARE(msg->subject()->as7BitString(), QByteArray("[censored] Birthday Reminder"));
     QCOMPARE(msg->from()->mailboxes().count(), 1);
     QCOMPARE(msg->sender()->mailbox().address(), "censored@yahoogroups.com");
     QCOMPARE(msg->replyTo()->mailboxes().count(), 1);
@@ -138,7 +138,7 @@ void MessageTest::testWillsAndTillsCrash()
 void MessageTest::testDavidsParseCrash()
 {
     KMime::Message::Ptr mail = readAndParseMail(QStringLiteral("dfaure-crash.mbox"));
-    QCOMPARE(mail->to()->asUnicodeString().toLatin1().data(), "frank@domain.com");
+    QCOMPARE(mail->to()->asUnicodeString().toLatin1(), "frank@domain.com");
 }
 
 void MessageTest::testHeaderFieldWithoutSpace()
@@ -178,7 +178,7 @@ void MessageTest::testWronglyFoldedHeaders()
 
     QCOMPARE(msg.subject()->asUnicodeString(),
              QLatin1StringView("Hello World"));
-    QCOMPARE(msg.body().data(), "<Body>");
+    QCOMPARE(msg.body(), "<Body>");
     QCOMPARE(msg.to()->asUnicodeString(), QLatin1StringView("test@test.de"));
 }
 
@@ -239,10 +239,10 @@ void MessageTest::testBug219749()
 
     QCOMPARE(msg.contents().size(), 2);
     KMime::Content *attachment = msg.contents()[1];
-    QCOMPARE(attachment->contentType(false)->mediaType().data(), "application");
-    QCOMPARE(attachment->contentType(false)->subType().data(), "octet-stream");
-    QCOMPARE(attachment->contentID()->identifier().data(), "jaselka1.docx4AECA1F9@9230725.3CDBB752");
-    QCOMPARE(attachment->contentID()->as7BitString(false).data(), "<jaselka1.docx4AECA1F9@9230725.3CDBB752>");
+    QCOMPARE(attachment->contentType(false)->mediaType(), "application");
+    QCOMPARE(attachment->contentType(false)->subType(), "octet-stream");
+    QCOMPARE(attachment->contentID()->identifier(), "jaselka1.docx4AECA1F9@9230725.3CDBB752");
+    QCOMPARE(attachment->contentID()->as7BitString(), "<jaselka1.docx4AECA1F9@9230725.3CDBB752>");
     Headers::ContentDisposition *cd = attachment->contentDisposition(false);
     QVERIFY(cd);
     QCOMPARE(cd->filename(), QLatin1StringView("jaselka 1.docx"));
@@ -278,7 +278,7 @@ void MessageTest::testBidiSpoofing()
     QCOMPARE(msg.from()->asUnicodeString(), expectedMailbox);
     QCOMPARE(msg.from()->displayNames().first(), expectedDisplayName);
     QCOMPARE(msg.from()->mailboxes().first().name(), expectedDisplayName);
-    QCOMPARE(msg.from()->mailboxes().first().address().data(), "sender@test.org");
+    QCOMPARE(msg.from()->mailboxes().first().address(), "sender@test.org");
 }
 
 // Test to see if header fields of mails with an UTF-16 body are properly read
@@ -327,7 +327,7 @@ void MessageTest::testUtf16()
         "//5UAGgAaQBzACAAaQBzACAAVQBUAEYALQAxADYAIABUAGUAeAB0AC4ACgAKAAo=\n"
         "\n";
 
-    QCOMPARE(msg.encodedContent().data(), newData.data());
+    QCOMPARE(msg.encodedContent(), newData);
 }
 
 void MessageTest::testDecodedText()
@@ -418,13 +418,13 @@ void MessageTest::testInlineImages()
 
     QCOMPARE(msg.contents().size(), 2);
     QCOMPARE(msg.contents()[0]->contentType()->isMultipart(), true);
-    QCOMPARE(msg.contents()[0]->contentType()->subType().data(), "alternative");
+    QCOMPARE(msg.contents()[0]->contentType()->subType(), "alternative");
 
     QCOMPARE(msg.contents()[1]->contentType()->isImage(), true);
     QCOMPARE(msg.contents()[1]->contentType()->name(),
              QLatin1StringView("inlineimage.png"));
-    QCOMPARE(msg.contents()[1]->contentID()->identifier().data(), "740439759");
-    QCOMPARE(msg.contents()[1]->contentID()->as7BitString(false).data(), "<740439759>");
+    QCOMPARE(msg.contents()[1]->contentID()->identifier(), "740439759");
+    QCOMPARE(msg.contents()[1]->contentID()->as7BitString(), "<740439759>");
 }
 
 void MessageTest::testIssue3908()
@@ -450,10 +450,10 @@ void MessageTest::testIssue3914()
     // Check that the parser doesn't choke on this.
     KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("broken-content-disposition.mbox"));
 
-    QCOMPARE(msg->subject()->as7BitString().data(), "Subject: Fwd: test broken mail");
+    QCOMPARE(msg->subject()->as7BitString(), "Fwd: test broken mail");
     QCOMPARE(msg->contents().size(), 2);
     KMime::Content *attachedMail =  msg->contents().at(1);
-    QCOMPARE(attachedMail->contentType()->mimeType().data(), "message/rfc822");
+    QCOMPARE(attachedMail->contentType()->mimeType(), "message/rfc822");
     QVERIFY(attachedMail->contentDisposition(false));
     QVERIFY(attachedMail->contentDisposition()->hasParameter("filename"));
     QVERIFY(attachedMail->contentDisposition()->parameter("filename").isEmpty());
@@ -463,11 +463,11 @@ void MessageTest::testBug223509()
 {
     KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("encoding-crash.mbox"));
 
-    QCOMPARE(msg->subject()->as7BitString().data(), "Subject: Blub");
+    QCOMPARE(msg->subject()->as7BitString(), "Blub");
     QCOMPARE(msg->contents().size(), 0);
     QCOMPARE(msg->contentTransferEncoding()->encoding(), KMime::Headers::CEbinary);
-    QCOMPARE(msg->decodedText().toLatin1().data(), "Bla Bla Bla");
-    QCOMPARE(msg->encodedBody().data(), "Bla Bla Bla\n");
+    QCOMPARE(msg->decodedText().toLatin1(), "Bla Bla Bla");
+    QCOMPARE(msg->encodedBody(), "Bla Bla Bla\n");
 
     // encodedContent() was crashing in this bug because of an invalid assert
     QVERIFY(!msg->encodedContent().isEmpty());
@@ -476,12 +476,12 @@ void MessageTest::testBug223509()
     KMime::Message msg2;
     msg2.setContent(msg->encodedContent());
     msg2.parse();
-    QCOMPARE(msg2.subject()->as7BitString().data(), "Subject: Blub");
+    QCOMPARE(msg2.subject()->as7BitString(), "Blub");
     QCOMPARE(msg2.contents().size(), 0);
     QCOMPARE(msg2.contentTransferEncoding()->encoding(), KMime::Headers::CEbinary);
 
-    QCOMPARE(msg2.decodedText().toLatin1().data(), "Bla Bla Bla");
-    QCOMPARE(msg2.decodedText(Content::TrimSpaces).toLatin1().data(),
+    QCOMPARE(msg2.decodedText().toLatin1(), "Bla Bla Bla");
+    QCOMPARE(msg2.decodedText(Content::TrimSpaces).toLatin1(),
              "Bla Bla Bla");
 }
 
@@ -491,12 +491,12 @@ void MessageTest::testEncapsulatedMessages()
     // First, test some basic properties to check that the parsing was correct
     //
     KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("simple-encapsulated.mbox"));
-    QCOMPARE(msg->contentType()->mimeType().data(), "multipart/mixed");
+    QCOMPARE(msg->contentType()->mimeType(), "multipart/mixed");
     QCOMPARE(msg->contents().size(), 2);
     QVERIFY(msg->isTopLevel());
 
     KMime::Content *const textContent = msg->contents().at(0);
-    QCOMPARE(textContent->contentType()->mimeType().data(), "text/plain");
+    QCOMPARE(textContent->contentType()->mimeType(), "text/plain");
     QVERIFY(textContent->contents().isEmpty());
     QVERIFY(!textContent->bodyIsMessage());
     QVERIFY(!textContent->bodyAsMessage());
@@ -505,31 +505,31 @@ void MessageTest::testEncapsulatedMessages()
         textContent->decodedText(Content::TrimSpaces),
         QLatin1StringView(
             "Hi Hans!\nLook at this interesting mail I forwarded to you!"));
-    QCOMPARE(textContent->index().toString().toLatin1().data(), "1");
+    QCOMPARE(textContent->index().toString().toLatin1(), "1");
 
     KMime::Content *messageContent = msg->contents().at(1);
-    QCOMPARE(messageContent->contentType()->mimeType().data(), "message/rfc822");
+    QCOMPARE(messageContent->contentType()->mimeType(), "message/rfc822");
     QVERIFY(messageContent->body().isEmpty());
     QCOMPARE(messageContent->contents().count(), 1);
     QVERIFY(messageContent->bodyIsMessage());
-    QVERIFY(messageContent->bodyAsMessage().data());
+    QVERIFY(messageContent->bodyAsMessage());
     QVERIFY(!messageContent->isTopLevel());
-    QCOMPARE(messageContent->index().toString().toLatin1().data(), "2");
+    QCOMPARE(messageContent->index().toString().toLatin1(), "2");
 
     KMime::Message::Ptr encapsulated = messageContent->bodyAsMessage();
     QCOMPARE(encapsulated->contents().size(), 0);
-    QCOMPARE(encapsulated->contentType()->mimeType().data(), "text/plain");
+    QCOMPARE(encapsulated->contentType()->mimeType(), "text/plain");
     QVERIFY(!encapsulated->bodyIsMessage());
     QVERIFY(!encapsulated->bodyAsMessage());
-    QCOMPARE(encapsulated->subject()->as7BitString(false).data(), "Foo");
+    QCOMPARE(encapsulated->subject()->as7BitString(), "Foo");
     QCOMPARE(encapsulated->decodedText(Content::NoTrim),
              QLatin1StringView("This is the encapsulated message body."));
-    QCOMPARE(encapsulated.data(), messageContent->bodyAsMessage().data());
+    QCOMPARE(encapsulated.data(), messageContent->bodyAsMessage());
     QCOMPARE(encapsulated.data(), messageContent->contents().constFirst());
     QCOMPARE(encapsulated->parent(), messageContent);
     QVERIFY(!encapsulated->isTopLevel());
     QCOMPARE(encapsulated->topLevel(), msg.data());
-    QCOMPARE(encapsulated->index().toString().toLatin1().data(), "2.1");
+    QCOMPARE(encapsulated->index().toString().toLatin1(), "2.1");
 
     // Now test some misc functions
     QCOMPARE(msg->storageSize(), msg->head().size() + textContent->storageSize() +
@@ -551,13 +551,13 @@ void MessageTest::testEncapsulatedMessages()
     // Assembling the container message should have assembled the encapsulated message as well.
     QVERIFY(!encapsulated->encodedContent().contains("Foo"));
     QVERIFY(encapsulated->encodedContent().contains("New subject"));
-    QCOMPARE(encapsulated->body().data(), "New body string.");
+    QCOMPARE(encapsulated->body(), "New body string.");
     QVERIFY(msg->encodedContent().contains(encapsulated->body()));
-    QCOMPARE(msg->contentType()->mimeType().data(), "multipart/mixed");
+    QCOMPARE(msg->contentType()->mimeType(), "multipart/mixed");
     QCOMPARE(msg->contents().size(), 2);
     messageContent = msg->contents().at(1);
-    QCOMPARE(messageContent->contentType()->mimeType().data(), "message/rfc822");
-    QVERIFY(encapsulated.data() == messageContent->bodyAsMessage().data());
+    QCOMPARE(messageContent->contentType()->mimeType(), "message/rfc822");
+    QVERIFY(encapsulated.data() == messageContent->bodyAsMessage());
 
     // Setting a new body and then parsing it should discard the encapsulated message
     messageContent->contentType()->setMimeType("text/plain");
@@ -576,8 +576,8 @@ void MessageTest::testOutlookAttachmentNaming()
     QVERIFY(msg->attachments().count() == 1);
 
     KMime::Content *attachment = msg->contents()[1];
-    QCOMPARE(attachment->contentType(false)->mediaType().data(), "text");
-    QCOMPARE(attachment->contentType(false)->subType().data(), "x-patch");
+    QCOMPARE(attachment->contentType(false)->mediaType(), "text");
+    QCOMPARE(attachment->contentType(false)->subType(), "x-patch");
 
     Headers::ContentDisposition *cd = attachment->contentDisposition(false);
     QVERIFY(cd);
@@ -589,8 +589,8 @@ void MessageTest::testOutlookAttachmentNaming()
     attachment->contentDisposition()->setFilename(QStringLiteral("å.diff"));
     attachment->contentDisposition()->setRFC2047Charset("ISO-8859-1"); // default changed to UTF-8 in KF6, which is fine, but breaks the test
     attachment->assemble();
-    qDebug() << "got:" << attachment->contentDisposition()->as7BitString(false);
-    QCOMPARE(attachment->contentDisposition()->as7BitString(false), QByteArray("attachment; filename*=ISO-8859-1''%E5%2Ediff"));
+    qDebug() << "got:" << attachment->contentDisposition()->as7BitString();
+    QCOMPARE(attachment->contentDisposition()->as7BitString(), QByteArray("attachment; filename*=ISO-8859-1''%E5%2Ediff"));
 }
 
 void MessageTest::testEncryptedMails()
@@ -656,25 +656,25 @@ void MessageTest::testBug392239()
 {
     auto msg = readAndParseMail(QStringLiteral("bug392239.mbox"));
 
-    QCOMPARE(msg->subject()->as7BitString().data(), "Subject: ");
+    QCOMPARE(msg->subject()->as7BitString(), QByteArray());
     QCOMPARE(msg->contents().size(), 0);
     QCOMPARE(msg->contentTransferEncoding()->encoding(), KMime::Headers::CEbase64);
-    QCOMPARE(msg->decodedText().toUtf8().data(), "Following this paragraph there is a double line break which should result in vertical spacing.\r\rPreceding this paragraph there is a double line break which should result in vertical spacing.\r");
+    QCOMPARE(msg->decodedText().toUtf8(), "Following this paragraph there is a double line break which should result in vertical spacing.\r\rPreceding this paragraph there is a double line break which should result in vertical spacing.\r");
 }
 
 void MessageTest::testBugAttachment387423()
 {
     auto msg = readAndParseMail(QStringLiteral("kmail-attachmentstatus.mbox"));
 
-    QCOMPARE(msg->subject()->as7BitString().data(), "Subject: XXXXXXXXXXXXXXXXXXXXX");
+    QCOMPARE(msg->subject()->as7BitString(), "XXXXXXXXXXXXXXXXXXXXX");
     QEXPECT_FAIL("", "Problem with searching attachment", Continue);
     QCOMPARE(msg->attachments().count(), 1);
     QCOMPARE(msg->contents().count(), 2);
 
     KMime::Content *attachment = msg->contents()[1];
-    QCOMPARE(attachment->contentType(false)->mediaType().data(), "image");
-    QCOMPARE(attachment->contentType(false)->subType().data(), "gif");
-    QCOMPARE(attachment->contentType(false)->subType().data(), "gif");
+    QCOMPARE(attachment->contentType(false)->mediaType(), "image");
+    QCOMPARE(attachment->contentType(false)->subType(), "gif");
+    QCOMPARE(attachment->contentType(false)->subType(), "gif");
     QCOMPARE(attachment->contentDisposition(false)->filename(), QStringLiteral("new.gif"));
     QCOMPARE(attachment->contentDisposition(false)->disposition(), Headers::CDattachment);
 }
@@ -682,17 +682,17 @@ void MessageTest::testBugAttachment387423()
 void MessageTest::testCrashReplyInvalidEmail()
 {
     KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("crash-invalid-email-reply.mbox"));
-    QCOMPARE(msg->subject()->as7BitString().data(), "Subject: Re: Authorization required to post to gmane.network.wireguard (b96565298414a43aabcf9fbedf5e7e27)");
-    QCOMPARE(msg->contentType()->mimeType().data(), "text/plain");
-    QCOMPARE(msg->contentType()->charset().data(), "us-ascii");
+    QCOMPARE(msg->subject()->as7BitString(), "Re: Authorization required to post to gmane.network.wireguard (b96565298414a43aabcf9fbedf5e7e27)");
+    QCOMPARE(msg->contentType()->mimeType(), "text/plain");
+    QCOMPARE(msg->contentType()->charset(), "us-ascii");
     QVERIFY(msg->isTopLevel());
 }
 
 void MessageTest::testHeadersWithNullBytes()
 {
     KMime::Message::Ptr msg = readAndParseMail(QStringLiteral("headers-with-nullbytes.mbox"));
-    QCOMPARE(msg->subject()->as7BitString().data(), "Subject: This header type has a trailing null byte");
-    QCOMPARE(msg->headerByType("SubjectInvalid")->as7BitString().data(), "SubjectInvalid: This header type contains a null byte");
+    QCOMPARE(msg->subject()->as7BitString(), "This header type has a trailing null byte");
+    QCOMPARE(msg->headerByType("SubjectInvalid")->as7BitString(), "This header type contains a null byte");
 }
 
 void MessageTest::testBigAllocation()
