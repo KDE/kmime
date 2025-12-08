@@ -23,6 +23,8 @@
 
 #include <QByteArrayView>
 
+#include <memory>
+
 namespace KMime
 {
 
@@ -33,7 +35,7 @@ class Base;
 
 namespace HeaderFactory
 {
-    [[nodiscard]] Headers::Base *createHeader(QByteArrayView type);
+    [[nodiscard]] std::unique_ptr<Headers::Base> createHeader(QByteArrayView type);
 }
 
 } // namespace KMime

@@ -2031,9 +2031,9 @@ bool parseDateTime(const char *&scursor, const char *const send,
 
 namespace {
 
-Headers::Base *extractHeader(QByteArrayView head, const qsizetype headerStart, qsizetype &endOfFieldBody)
+std::unique_ptr<Headers::Base> extractHeader(QByteArrayView head, const qsizetype headerStart, qsizetype &endOfFieldBody)
 {
-    Headers::Base *header = {};
+    std::unique_ptr<Headers::Base> header;
 
     auto startOfFieldBody = head.indexOf(':', headerStart);
     if (startOfFieldBody < 0) {
@@ -2075,7 +2075,7 @@ Headers::Base *extractHeader(QByteArrayView head, const qsizetype headerStart, q
 
         if (!header) {
             //qCWarning(KMIME_LOG)() << "Returning Generic header of type" << QByteArrayView(typeData, typeLen);
-            header = new Headers::Generic(typeData, typeLen);
+            header = std::make_unique<Headers::Generic>(typeData, typeLen);
         }
     }
     if (folded) {
@@ -2134,7 +2134,7 @@ QList<Headers::Base *> parseHeaders(const QByteArray &head) {
         const auto headerStart = cursor;
         qsizetype endOfFieldBody;
         if (auto header = extractHeader(head, headerStart, endOfFieldBody)) {
-            ret << header;
+            ret << header.release();
             cursor = endOfFieldBody + 1;
         } else {
             break;

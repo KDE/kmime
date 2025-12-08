@@ -28,9 +28,9 @@ using namespace KMime::Headers;
 
 #define mk_header(hdr) \
     if (type.compare(hdr::staticType(), Qt::CaseInsensitive) == 0) \
-        return new hdr;
+        return std::make_unique<hdr>();
 
-Headers::Base *HeaderFactory::createHeader(QByteArrayView type)
+std::unique_ptr<Headers::Base> HeaderFactory::createHeader(QByteArrayView type)
 {
     Q_ASSERT(!type.isEmpty());
     switch (type[0]) {
@@ -105,7 +105,7 @@ Headers::Base *HeaderFactory::createHeader(QByteArrayView type)
             mk_header(UserAgent);
             break;
     }
-    return nullptr;
+    return {};
 }
 
 #undef mk_header

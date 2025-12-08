@@ -1979,7 +1979,7 @@ bool ContentDisposition::parse(const char  *&scursor, const char *const send,
 kmime_mk_trivial_ctor_with_name(Subject, Generics::Unstructured, Subject)
 //@endcond
 
-Base *createHeader(QByteArrayView type) {
+std::unique_ptr<Base> createHeader(QByteArrayView type) {
     return HeaderFactory::createHeader(type);
 }
 

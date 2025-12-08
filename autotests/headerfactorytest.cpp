@@ -23,12 +23,8 @@ template <typename T>
 bool isHeaderRegistered()
 {
     T dummy;
-    Base *h = Headers::createHeader(dummy.type());
-    if (h) {
-        delete h;
-        return true;
-    }
-    return false;
+    auto h = Headers::createHeader(dummy.type());
+    return (bool)h;
 }
 
 void HeaderFactoryTest::testBuiltInHeaders()
