@@ -1167,7 +1167,13 @@ kmime_mk_trivial_ctor_with_name(MessageID, Generics::SingleIdent, Message-ID)
 
 void MessageID::generate(const QByteArray &fqdn)
 {
-    setIdentifier('<' + uniqueString() + '@' + fqdn + '>');
+    QByteArray suffix = fqdn;
+    if (suffix.isEmpty()) {
+        qCWarning(KMIME_LOG) << "Unable to generate a Message-ID, falling back to 'localhost.localdomain'.";
+        suffix = "local.domain";
+    }
+
+    setIdentifier('<' + uniqueString() + '@' + suffix + '>');
 }
 
 //-----</MessageID>----------------------------
