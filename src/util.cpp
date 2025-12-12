@@ -12,17 +12,12 @@
 #include "util_p.h"
 
 #include "charfreq_p.h"
-#include "kmime_debug.h"
-#include "headerparsing.h"
 #include "message.h"
-#include "warning_p.h"
 
 #include <QCoreApplication>
+#include <QUuid>
 
 #include <algorithm>
-#include <cctype>
-#include <cstdlib>
-#include <ctime>
 
 using namespace KMime;
 
@@ -114,29 +109,10 @@ const uchar tTextMap[16] = {
 
 QByteArray uniqueString()
 {
-    static const char chars[] = "0123456789abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    time_t now;
-    char p[11];
-    int ran;
-    unsigned int timeval;
-
-    p[10] = '\0';
-    now = time(nullptr);
-    ran = 1 + (int)(1000.0 * rand() / (RAND_MAX + 1.0));
-    timeval = (now / ran) + QCoreApplication::applicationPid();
-
-    for (int i = 0; i < 10; i++) {
-        int pos = (int)(61.0 * rand() / (RAND_MAX + 1.0));
-        //qCDebug(KMIME_LOG) << pos;
-        p[i] = chars[pos];
-    }
-
-    QByteArray ret;
-    ret.setNum(timeval);
-    ret += '.';
-    ret += p;
-
-    return ret;
+    QByteArray uuidData(16, Qt::Uninitialized);
+    const auto uuid = QUuid::createUuid().toBytes();
+    std::memcpy(uuidData.data(), &uuid, 16);
+    return uuidData.toBase64(QByteArray::Base64UrlEncoding | QByteArray::OmitTrailingEquals);
 }
 
 QByteArray multiPartBoundary()
