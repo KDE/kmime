@@ -43,9 +43,12 @@ public:
 
     /**
       Returns the Control header.
-      @param create If true, create the header if it doesn't exist yet.
+      @param create Whether to create the header if it doesn't exist yet.
     */
-    KMime::Headers::Control *control(bool create = true);
+    KMime::Headers::Control *control(CreatePolicy create = Create);
+    [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::Control *control(bool create) {
+        return control(create ? Create : DontCreate);
+    }
     /**
       Returns the Control header.
       Can be @c nullptr if the header doesn't exist.
@@ -55,9 +58,12 @@ public:
 
     /**
       Returns the Supersedes header.
-      @param create If true, create the header if it doesn't exist yet.
+      @param create Whether to create the header if it doesn't exist yet.
     */
-    KMime::Headers::Supersedes *supersedes(bool create = true);
+    KMime::Headers::Supersedes *supersedes(CreatePolicy create = Create);
+    [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::Supersedes *supersedes(bool create) {
+        return supersedes(create ? Create : DontCreate);
+    }
     /**
       Returns the Supersedes header.
       Can be @c nullptr if the header doesn't exist.
@@ -67,9 +73,12 @@ public:
 
     /**
       Returns the Mail-Copies-To header.
-      @param create If true, create the header if it doesn't exist yet.
+      @param create Whether to create the header if it doesn't exist yet.
     */
-    KMime::Headers::MailCopiesTo *mailCopiesTo(bool create = true);
+    KMime::Headers::MailCopiesTo *mailCopiesTo(CreatePolicy create = Create);
+    [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::MailCopiesTo *mailCopiesTo(bool create) {
+        return mailCopiesTo(create ? Create : DontCreate);
+    }
     /**
       Returns the Mail-Copies-To header.
       Can be @c nullptr if the header doesn't exist.
@@ -79,9 +88,12 @@ public:
 
     /**
       Returns the Newsgroups header.
-      @param create If true, create the header if it doesn't exist yet.
+      @param create Whether to create the header if it doesn't exist yet.
     */
-    KMime::Headers::Newsgroups *newsgroups(bool create = true);
+    KMime::Headers::Newsgroups *newsgroups(CreatePolicy create = Create);
+    [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::Newsgroups *newsgroups(bool create) {
+        return newsgroups(create ? Create : DontCreate);
+    }
     /**
       Returns the Newsgroups header.
       Can be @c nullptr if the header doesn't exist.
@@ -91,9 +103,12 @@ public:
 
     /**
       Returns the Follow-Up-To header.
-      @param create If true, create the header if it doesn't exist yet.
+      @param create Whether to create the header if it doesn't exist yet.
     */
-    KMime::Headers::FollowUpTo *followUpTo(bool create = true);
+    KMime::Headers::FollowUpTo *followUpTo(CreatePolicy create = Create);
+    [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::FollowUpTo *followUpTo(bool create) {
+        return followUpTo(create ? Create : DontCreate);
+    }
     /**
       Returns the Follow-Up-To header.
       Can be @c nullptr if the header doesn't exist.
@@ -103,9 +118,12 @@ public:
 
     /**
       Returns the Lines header.
-      @param create If true, create the header if it doesn't exist yet.
+      @param create Whether to create the header if it doesn't exist yet.
     */
-    KMime::Headers::Lines *lines(bool create = true);
+    KMime::Headers::Lines *lines(CreatePolicy create = Create);
+    [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::Lines *lines(bool create) {
+        return lines(create ? Create : DontCreate);
+    }
     /**
       Returns the Lines header.
       Can be @c nullptr if the header doesn't exist.

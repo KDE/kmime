@@ -47,6 +47,19 @@ TODO: possible glossary terms:
 namespace KMime
 {
 
+/*!
+ * Controls whether to create a header that does not exist.
+ *
+ * \value DontCreate Do not create header
+ * \value Create Create header
+ *
+ * \since 26.04
+ */
+enum CreatePolicy {
+    DontCreate,
+    Create,
+};
+
 ///@cond internal
 namespace Internal {
 
@@ -259,13 +272,16 @@ public:
 
   /**
     Returns the first header of type T, if it exists.
-    If the header does not exist and @p create is true, creates an empty header
-    and returns it. Otherwise returns 0.
+    If the header does not exist and \p create is \c Create, creates an empty header
+    and returns it. Otherwise returns \c nullptr.
     Note that the returned header may be empty.
     @param create Whether to create the header if it does not exist.
-    @since 4.4.
+    @since 4.4 (took a bool before 26.04)
   */
-  template <typename T> T *header(bool create = true);
+  template <typename T> T *header(CreatePolicy create = Create);
+  template <typename T> [[deprecated("use the CreatePolicy overload instead")]] inline T *header(bool create) {
+      return header<T>(create ? Create : DontCreate);
+  }
   /**
     Returns the first header of type @tparam T.
 
@@ -330,9 +346,12 @@ public:
   /**
     Returns the Content-Type header.
 
-    @param create If true, create the header if it doesn't exist yet.
+    @param create Whether to create the header if it doesn't exist yet.
   */
-  Headers::ContentType *contentType(bool create = true);
+  Headers::ContentType *contentType(CreatePolicy create = Create);
+  [[deprecated("use the CreatePolicy overload instead")]] inline Headers::ContentType *contentType(bool create) {
+      return contentType(create ? Create : DontCreate);
+  }
   /**
     Returns the Content-Type header.
 
@@ -344,9 +363,12 @@ public:
   /**
     Returns the Content-Transfer-Encoding header.
 
-    @param create If true, create the header if it doesn't exist yet.
+    @param create Whether to create the header if it doesn't exist yet.
   */
-  Headers::ContentTransferEncoding *contentTransferEncoding(bool create = true);
+  Headers::ContentTransferEncoding *contentTransferEncoding(CreatePolicy create = Create);
+  [[deprecated("use the CreatePolicy overload instead")]] inline Headers::ContentTransferEncoding *contentTransferEncoding(bool create) {
+      return contentTransferEncoding(create ? Create : DontCreate);
+  }
   /**
     Returns the Content-Transfer-Encoding header.
 
@@ -358,9 +380,12 @@ public:
   /**
     Returns the Content-Disposition header.
 
-    @param create If true, create the header if it doesn't exist yet.
+    @param create Whether to create the header if it doesn't exist yet.
   */
-  Headers::ContentDisposition *contentDisposition(bool create = true);
+  Headers::ContentDisposition *contentDisposition(CreatePolicy create = Create);
+  [[deprecated("use the CreatePolicy overload instead")]] inline Headers::ContentDisposition *contentDisposition(bool create) {
+      return contentDisposition(create ? Create : DontCreate);
+  }
   /**
     Returns the Content-Disposition header.
 
@@ -372,9 +397,12 @@ public:
   /**
     Returns the Content-Description header.
 
-    @param create If true, create the header if it doesn't exist yet.
+    @param create Whether to create the header if it doesn't exist yet.
   */
-  Headers::ContentDescription *contentDescription(bool create = true);
+  Headers::ContentDescription *contentDescription(CreatePolicy create = Create);
+  [[deprecated("use the CreatePolicy overload instead")]] inline Headers::ContentDescription *contentDescription(bool create) {
+      return contentDescription(create ? Create : DontCreate);
+  }
   /**
     Returns the Content-Description header.
 
@@ -386,10 +414,13 @@ public:
   /**
     Returns the Content-Location header.
 
-    @param create If true, create the header if it doesn't exist yet.
+    @param create Whether to create the header if it doesn't exist yet.
     @since 4.2
   */
-  Headers::ContentLocation *contentLocation(bool create = true);
+  Headers::ContentLocation *contentLocation(CreatePolicy create = Create);
+  [[deprecated("use the CreatePolicy overload instead")]] inline Headers::ContentLocation *contentLocation(bool create) {
+      return contentLocation(create ? Create : DontCreate);
+  }
   /**
     Returns the Content-Location header.
 
@@ -400,10 +431,13 @@ public:
 
   /**
     Returns the Content-ID header.
-    @param create if true, create the header if it does not exist yet.
+    @param create Whether to create the header if it doesn't exist yet.
     @since 4.4
   */
-  Headers::ContentID *contentID(bool create = true);
+  Headers::ContentID *contentID(CreatePolicy create = Create);
+  [[deprecated("use the CreatePolicy overload instead")]] inline Headers::ContentID *contentID(bool create) {
+      return contentID(create ? Create : DontCreate);
+  }
   /**
     Returns the Content-ID header.
 
@@ -787,7 +821,7 @@ private:
     Q_DISABLE_COPY(Content)
 };
 
-template <typename T> T *Content::header(bool create)
+template <typename T> T *Content::header(CreatePolicy create)
 {
 
     if (auto h = headerByType(T::staticType()); h) {
@@ -795,7 +829,7 @@ template <typename T> T *Content::header(bool create)
         Q_ASSERT(dynamic_cast<T *>(h));
         return static_cast<T *>(h);
     }
-    if (create) {
+    if (create == Create) {
         auto hptr = std::make_unique<T>();
         auto h = hptr.get();
         appendHeader(std::move(hptr)); // we already know the header doesn't exist yet

@@ -31,8 +31,8 @@ void ContentTest::testGetHeaderInstance()
 
     // getHeaderInstance() is protected, so we need to test it via KMime::Message
     auto c = new Message();
-    Headers::From *f1 = c->from(true);
-    Headers::From *f2 = c->from(true);
+    Headers::From *f1 = c->from(Create);
+    Headers::From *f2 = c->from(Create);
     QCOMPARE(f1, f2);
     delete c;
 }
@@ -41,11 +41,11 @@ void ContentTest::testHeaderAddRemove()
 {
     // Add a Content-Description header to a content.
     auto c = new Content;
-    QVERIFY(!c->contentDescription(false));
+    QVERIFY(!c->contentDescription(DontCreate));
     c->contentDescription()->from7BitString("description");
 
     // The content must now have the header.
-    QVERIFY(c->contentDescription(false));
+    QVERIFY(c->contentDescription(DontCreate));
     QCOMPARE(c->contentDescription()->as7BitString(), QByteArray("description"));
 
     // The content's head must also have the header.  Save the head.
@@ -55,13 +55,13 @@ void ContentTest::testHeaderAddRemove()
     // Clear the content.  It must now forget the cached header.
     c->clear();
     QVERIFY(c->head().isEmpty());
-    QVERIFY(!c->contentDescription(false));
+    QVERIFY(!c->contentDescription(DontCreate));
 
     // Put the head back.  It must now remember the header.
     c->setHead(head);
-    QVERIFY(!c->contentDescription(false));
+    QVERIFY(!c->contentDescription(DontCreate));
     c->parse();
-    QVERIFY(c->contentDescription(false));
+    QVERIFY(c->contentDescription(DontCreate));
     c->contentDescription()->from7BitString("description");
 
     // Now remove the header explicitly.
@@ -69,20 +69,20 @@ void ContentTest::testHeaderAddRemove()
     QVERIFY(ret);
 
     // The content must have forgotten the header now.
-    QVERIFY(!c->contentDescription(false));
+    QVERIFY(!c->contentDescription(DontCreate));
 
     // And after assembly, the header should stay gone.
     c->assemble();
     //QVERIFY(c->head().isEmpty());
-    QVERIFY(!c->contentDescription(false));
+    QVERIFY(!c->contentDescription(DontCreate));
 
     delete c;
 
     // test template versions
     Content c2;
     QVERIFY(!c2.hasHeader(KMime::Headers::Lines::staticType()));
-    QVERIFY(!c2.header<KMime::Headers::Lines>(false));
-    QVERIFY(c2.header<KMime::Headers::Lines>(true));
+    QVERIFY(!c2.header<KMime::Headers::Lines>(DontCreate));
+    QVERIFY(c2.header<KMime::Headers::Lines>(Create));
     QVERIFY(c2.hasHeader(KMime::Headers::Lines::staticType()));
     c2.removeHeader<KMime::Headers::Lines>();
     QVERIFY(!c2.hasHeader(KMime::Headers::Lines::staticType()));
@@ -873,12 +873,12 @@ void ContentTest::testContentTypeMimetype()
     msg.setContent(data);
     msg.parse();
     //QEXPECT_FAIL("broken", "Problem with content type", Continue);
-    QCOMPARE(msg.contentType(false)->mimeType(), mimetype);
+    QCOMPARE(msg.contentType(DontCreate)->mimeType(), mimetype);
     QCOMPARE(msg.contents().count(), contentCount);
     for (int i = 0; i < msg.contents().count(); ++i) {
-        QVERIFY(msg.contents().at(i)->contentType(false));
+        QVERIFY(msg.contents().at(i)->contentType(DontCreate));
         QCOMPARE(contentMimeType.count(), contentCount);
-        QCOMPARE(msg.contents().at(i)->contentType(false)->mimeType(), contentMimeType.at(i));
+        QCOMPARE(msg.contents().at(i)->contentType(DontCreate)->mimeType(), contentMimeType.at(i));
     }
 }
 
@@ -898,7 +898,7 @@ void ContentTest::testConstChildren()
     // iteration over non-const Content
     for (auto content : msg->contents()) {
         static_assert(std::is_same_v<decltype(content), KMime::Content*>);
-        content->contentTransferEncoding(false); // using the non-const API if this compiles
+        content->contentTransferEncoding(DontCreate); // using the non-const API if this compiles
     }
 
     // iteration over const Content
@@ -908,7 +908,7 @@ void ContentTest::testConstChildren()
     QVERIFY(!msg->headers().empty());
     for (auto content : constMsg->contents()) {
         static_assert(std::is_same_v<decltype(content), const KMime::Content*>);
-        // content->contentTransferEncoding(false); // must not compile
+        // content->contentTransferEncoding(DontCreate); // must not compile
         QCOMPARE(content->contentLocation(), nullptr); // using the const API if this doesn't create
     }
 

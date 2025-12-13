@@ -239,11 +239,11 @@ void MessageTest::testBug219749()
 
     QCOMPARE(msg.contents().size(), 2);
     KMime::Content *attachment = msg.contents()[1];
-    QCOMPARE(attachment->contentType(false)->mediaType(), "application");
-    QCOMPARE(attachment->contentType(false)->subType(), "octet-stream");
+    QCOMPARE(attachment->contentType(DontCreate)->mediaType(), "application");
+    QCOMPARE(attachment->contentType(DontCreate)->subType(), "octet-stream");
     QCOMPARE(attachment->contentID()->identifier(), "jaselka1.docx4AECA1F9@9230725.3CDBB752");
     QCOMPARE(attachment->contentID()->as7BitString(), "<jaselka1.docx4AECA1F9@9230725.3CDBB752>");
-    Headers::ContentDisposition *cd = attachment->contentDisposition(false);
+    Headers::ContentDisposition *cd = attachment->contentDisposition(DontCreate);
     QVERIFY(cd);
     QCOMPARE(cd->filename(), QLatin1StringView("jaselka 1.docx"));
 }
@@ -433,7 +433,7 @@ void MessageTest::testIssue3908()
     QCOMPARE(msg->contents().size(), 2);
     KMime::Content *attachment = msg->contents().at(1);
     QVERIFY(attachment);
-    QVERIFY(attachment->contentDescription(false));
+    QVERIFY(attachment->contentDescription(DontCreate));
     QCOMPARE(attachment->contentDescription()->asUnicodeString(), QString::fromUtf8(
                  "Kontact oder auch KDE-PIM ist der Groupware-Client aus der KDE Software Compilation 4.Eine der Besonderheiten von Kontact "
                  "gegenüber anderen Groupware-Clients ist, dass die Teil-Programme auch weiterhin unabhängig von Kontact gestartet werden "
@@ -454,7 +454,7 @@ void MessageTest::testIssue3914()
     QCOMPARE(msg->contents().size(), 2);
     KMime::Content *attachedMail =  msg->contents().at(1);
     QCOMPARE(attachedMail->contentType()->mimeType(), "message/rfc822");
-    QVERIFY(attachedMail->contentDisposition(false));
+    QVERIFY(attachedMail->contentDisposition(DontCreate));
     QVERIFY(attachedMail->contentDisposition()->hasParameter("filename"));
     QVERIFY(attachedMail->contentDisposition()->parameter("filename").isEmpty());
 }
@@ -576,10 +576,10 @@ void MessageTest::testOutlookAttachmentNaming()
     QVERIFY(msg->attachments().count() == 1);
 
     KMime::Content *attachment = msg->contents()[1];
-    QCOMPARE(attachment->contentType(false)->mediaType(), "text");
-    QCOMPARE(attachment->contentType(false)->subType(), "x-patch");
+    QCOMPARE(attachment->contentType(DontCreate)->mediaType(), "text");
+    QCOMPARE(attachment->contentType(DontCreate)->subType(), "x-patch");
 
-    Headers::ContentDisposition *cd = attachment->contentDisposition(false);
+    Headers::ContentDisposition *cd = attachment->contentDisposition(DontCreate);
     QVERIFY(cd);
     QCOMPARE(cd->filename(), QString::fromUtf8("å.diff"));
 
@@ -629,7 +629,7 @@ void MessageTest::testReplyHeader()
 {
     auto msg = readAndParseMail(QStringLiteral("reply-header.mbox"));
     QVERIFY(msg);
-    QVERIFY(!msg->replyTo(false));
+    QVERIFY(!msg->replyTo(DontCreate));
     QCOMPARE(msg->hasHeader("Reply-To"), false);
     QCOMPARE(msg->hasHeader("Reply"), true);
     QVERIFY(msg->headerByType("Reply"));
@@ -672,11 +672,11 @@ void MessageTest::testBugAttachment387423()
     QCOMPARE(msg->contents().count(), 2);
 
     KMime::Content *attachment = msg->contents()[1];
-    QCOMPARE(attachment->contentType(false)->mediaType(), "image");
-    QCOMPARE(attachment->contentType(false)->subType(), "gif");
-    QCOMPARE(attachment->contentType(false)->subType(), "gif");
-    QCOMPARE(attachment->contentDisposition(false)->filename(), QStringLiteral("new.gif"));
-    QCOMPARE(attachment->contentDisposition(false)->disposition(), Headers::CDattachment);
+    QCOMPARE(attachment->contentType(DontCreate)->mediaType(), "image");
+    QCOMPARE(attachment->contentType(DontCreate)->subType(), "gif");
+    QCOMPARE(attachment->contentType(DontCreate)->subType(), "gif");
+    QCOMPARE(attachment->contentDisposition(DontCreate)->filename(), QStringLiteral("new.gif"));
+    QCOMPARE(attachment->contentDisposition(DontCreate)->disposition(), Headers::CDattachment);
 }
 
 void MessageTest::testCrashReplyInvalidEmail()

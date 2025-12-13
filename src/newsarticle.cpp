@@ -22,7 +22,7 @@ NewsArticle::~NewsArticle() = default;
 QByteArray NewsArticle::assembleHeaders()
 {
     // Create the mandatory Lines: field.
-    lines(true);
+    lines(Create);
 
     // Assemble all header fields.
     return Message::assembleHeaders();
@@ -30,7 +30,7 @@ QByteArray NewsArticle::assembleHeaders()
 
 // @cond PRIVATE
 #define kmime_mk_header_accessor( type, method ) \
-    Headers::type* NewsArticle::method( bool create ) { \
+    Headers::type* NewsArticle::method( CreatePolicy create ) { \
         return header<Headers::type>( create ); \
     } \
     const Headers::type* NewsArticle::method() const { \

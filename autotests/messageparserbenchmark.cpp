@@ -23,7 +23,7 @@ private Q_SLOTS:
             auto msg = std::make_unique<KMime::Message>();
             msg->setContent(data);
             msg->parse();
-            QVERIFY(msg->subject(false));
+            QVERIFY(msg->subject(KMime::DontCreate));
             QCOMPARE(msg->subject()->asUnicodeString(), "New Project: Kool Desktop Environment (KDE)"_L1);
             QVERIFY(msg->decodedText().contains("Kool Desktop Environment"_L1));
         }

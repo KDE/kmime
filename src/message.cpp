@@ -22,11 +22,11 @@ Message::~Message() = default;
 QByteArray Message::assembleHeaders()
 {
     // Create the mandatory fields (RFC5322) if they do not exist already.
-    date(true);
-    from(true);
+    date(Create);
+    from(Create);
 
     // Make sure the mandatory MIME-Version field (RFC2045) is present and valid.
-    auto *mimeVersion = header<Headers::MIMEVersion>(true);
+    auto *mimeVersion = header<Headers::MIMEVersion>(Create);
     mimeVersion->from7BitString("1.0");
 
     // Assemble all header fields.
@@ -84,7 +84,7 @@ QString Message::mimeType()
 
 // @cond PRIVATE
 #define kmime_mk_header_accessor( type, method ) \
-    Headers::type *Message::method( bool create ) { \
+    Headers::type *Message::method( CreatePolicy create ) { \
         return header<Headers::type>( create ); \
     } \
     const Headers::type *Message::method() const { \

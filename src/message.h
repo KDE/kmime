@@ -80,9 +80,12 @@ public:
 
     /**
       Returns the Message-ID header.
-      @param create If true, create the header if it doesn't exist yet.
+      @param create Whether to create the header if it doesn't exist yet.
     */
-    KMime::Headers::MessageID *messageID(bool create = true);
+    KMime::Headers::MessageID *messageID(CreatePolicy create = Create);
+    [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::MessageID *messageID(bool create) {
+        return messageID(create ? Create : DontCreate);
+    }
     /**
       Returns the Message-ID header.
       Can be @c nullptr if the header doesn't exist.
@@ -92,9 +95,12 @@ public:
 
     /**
       Returns the Subject header.
-      @param create If true, create the header if it doesn't exist yet.
+      @param create Whether to create the header if it doesn't exist yet.
     */
-    KMime::Headers::Subject *subject(bool create = true);
+    KMime::Headers::Subject *subject(CreatePolicy create = Create);
+    [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::Subject *subject(bool create) {
+        return subject(create ? Create : DontCreate);
+    }
     /**
       Returns the Subject header.
       Can be @c nullptr if the header doesn't exist.
@@ -104,9 +110,12 @@ public:
 
     /**
       Returns the Date header.
-      @param create If true, create the header if it doesn't exist yet.
+      @param create Whether to create the header if it doesn't exist yet.
     */
-    KMime::Headers::Date *date(bool create = true);
+    KMime::Headers::Date *date(CreatePolicy create = Create);
+    [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::Date *date(bool create) {
+        return date(create ? Create : DontCreate);
+    }
     /**
       Returns the Date header.
       Can be @c nullptr if the header doesn't exist.
@@ -116,9 +125,12 @@ public:
 
     /**
       Returns the From header.
-      @param create If true, create the header if it doesn't exist yet.
+      @param create Whether to create the header if it doesn't exist yet.
     */
-    KMime::Headers::From *from(bool create = true);
+    KMime::Headers::From *from(CreatePolicy create = Create);
+    [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::From *from(bool create) {
+        return from(create ? Create : DontCreate);
+    }
     /**
       Returns the From header.
       Can be @c nullptr if the header doesn't exist.
@@ -128,9 +140,12 @@ public:
 
     /**
       Returns the Organization header.
-      @param create If true, create the header if it doesn't exist yet.
+      @param create Whether to create the header if it doesn't exist yet.
     */
-    KMime::Headers::Organization *organization(bool create = true);
+    KMime::Headers::Organization *organization(CreatePolicy create = Create);
+    [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::Organization *organization(bool create) {
+        return organization(create ? Create : DontCreate);
+    }
     /**
       Returns the Organization header.
       Can be @c nullptr if the header doesn't exist.
@@ -140,9 +155,12 @@ public:
 
     /**
       Returns the Reply-To header.
-      @param create If true, create the header if it doesn't exist yet.
+      @param create Whether to create the header if it doesn't exist yet.
     */
-    KMime::Headers::ReplyTo *replyTo(bool create = true);
+    KMime::Headers::ReplyTo *replyTo(CreatePolicy create = Create);
+    [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::ReplyTo *replyTo(bool create) {
+        return replyTo(create ? Create : DontCreate);
+    }
     /**
       Returns the Reply-To header.
       Can be @c nullptr if the header doesn't exist.
@@ -152,9 +170,12 @@ public:
 
     /**
       Returns the To header.
-      @param create If true, create the header if it doesn't exist yet.
+      @param create Whether to create the header if it doesn't exist yet.
     */
-    KMime::Headers::To *to(bool create = true);
+    KMime::Headers::To *to(CreatePolicy create = Create);
+    [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::To *to(bool create) {
+        return to(create ? Create : DontCreate);
+    }
     /**
       Returns the To header.
       Can be @c nullptr if the header doesn't exist.
@@ -164,9 +185,12 @@ public:
 
     /**
       Returns the Cc header.
-      @param create If true, create the header if it doesn't exist yet.
+      @param create Whether to create the header if it doesn't exist yet.
     */
-    KMime::Headers::Cc *cc(bool create = true);
+    KMime::Headers::Cc *cc(CreatePolicy create = Create);
+    [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::Cc *cc(bool create) {
+        return cc(create ? Create : DontCreate);
+    }
     /**
       Returns the Cc header.
       Can be @c nullptr if the header doesn't exist.
@@ -176,9 +200,12 @@ public:
 
     /**
       Returns the Bcc header.
-      @param create If true, create the header if it doesn't exist yet.
+      @param create Whether to create the header if it doesn't exist yet.
     */
-    KMime::Headers::Bcc *bcc(bool create = true);
+    KMime::Headers::Bcc *bcc(CreatePolicy create = Create);
+    [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::Bcc *bcc(bool create) {
+        return bcc(create ? Create : DontCreate);
+    }
     /**
       Returns the Bcc header.
       Can be @c nullptr if the header doesn't exist.
@@ -188,9 +215,12 @@ public:
 
     /**
       Returns the References header.
-      @param create If true, create the header if it doesn't exist yet.
+      @param create Whether to create the header if it doesn't exist yet.
     */
-    KMime::Headers::References *references(bool create = true);
+    KMime::Headers::References *references(CreatePolicy create = Create);
+    [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::References *references(bool create) {
+        return references(create ? Create : DontCreate);
+    }
     /**
       Returns the References header.
       Can be @c nullptr if the header doesn't exist.
@@ -200,9 +230,12 @@ public:
 
     /**
       Returns the User-Agent header.
-      @param create If true, create the header if it doesn't exist yet.
+      @param create Whether to create the header if it doesn't exist yet.
     */
-    KMime::Headers::UserAgent *userAgent(bool create = true);
+    KMime::Headers::UserAgent *userAgent(CreatePolicy create = Create);
+    [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::UserAgent *userAgent(bool create) {
+        return userAgent(create ? Create : DontCreate);
+    }
     /**
       Returns the User-Agent header.
       Can be @c nullptr if the header doesn't exist.
@@ -212,9 +245,12 @@ public:
 
     /**
       Returns the In-Reply-To header.
-      @param create If true, create the header if it doesn't exist yet.
+      @param create Whether to create the header if it doesn't exist yet.
     */
-    KMime::Headers::InReplyTo *inReplyTo(bool create = true);
+    KMime::Headers::InReplyTo *inReplyTo(CreatePolicy create = Create);
+    [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::InReplyTo *inReplyTo(bool create) {
+        return inReplyTo(create ? Create : DontCreate);
+    }
     /**
       Returns the In-Reply-To header.
       Can be @c nullptr if the header doesn't exist.
@@ -224,9 +260,12 @@ public:
 
     /**
       Returns the Sender header.
-      @param create If true, create the header if it doesn't exist yet.
+      @param create Whether to create the header if it doesn't exist yet.
     */
-    KMime::Headers::Sender *sender(bool create = true);
+    KMime::Headers::Sender *sender(CreatePolicy create = Create);
+    [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::Sender *sender(bool create) {
+        return sender(create ? Create : DontCreate);
+    }
     /**
       Returns the Sender header.
       Can be @c nullptr if the header doesn't exist.

@@ -120,7 +120,7 @@ void Content::parse()
     qDeleteAll(d->headers);
     d->headers.clear();
     d->headers = HeaderParsing::parseHeaders(d->head);
-    if (const auto cte = contentTransferEncoding(false); cte) {
+    if (const auto cte = contentTransferEncoding(DontCreate); cte) {
         d->m_decoded = (cte->encoding() == Headers::CE7Bit || cte->encoding() == Headers::CE8Bit);
     }
 
@@ -846,7 +846,7 @@ bool Content::bodyIsMessage() const
 
 // @cond PRIVATE
 #define kmime_mk_header_accessor( type, method ) \
-    Headers::type *Content::method( bool create ) { \
+    Headers::type *Content::method( CreatePolicy create ) { \
         return header<Headers::type>( create ); \
     } \
     const Headers::type *Content::method() const { \
