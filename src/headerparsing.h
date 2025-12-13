@@ -27,6 +27,19 @@ class Base;
 namespace HeaderParsing
 {
 
+/*!
+ * Policy for parseAtom().
+ *
+ * \value Allow7BitOnly Stop parsing if an 8-bit character is encountered
+ * \value Allow8Bit Accept 8-bit characters
+ *
+ * \since 26.04
+ */
+enum class ParsingPolicy {
+    Allow7BitOnly,
+    Allow8Bit,
+};
+
 //
 // The parsing squad:
 //
@@ -37,13 +50,18 @@ namespace HeaderParsing
 [[nodiscard]] KMIME_EXPORT bool parseAtom(const char *&scursor,
                                           const char *const send,
                                           QByteArrayView &result,
-                                          bool allow8Bit = false);
+                                          ParsingPolicy parsingPolicy = ParsingPolicy::Allow7BitOnly);
+[[deprecated("Use the QByteArrayView overload")]] [[nodiscard]]
+inline bool parseAtom(const char *&scursor, const char *const send, QByteArrayView &result, bool allow8Bit)
+{
+    return parseAtom(scursor, send, result, allow8Bit ? ParsingPolicy::Allow8Bit : ParsingPolicy::Allow7BitOnly);
+}
 
 [[deprecated("Use the QByteArrayView overload")]] [[nodiscard]]
 inline bool parseAtom(const char *&scursor, const char *const send, QByteArray &result, bool allow8Bit = false)
 {
     QByteArrayView v;
-    const auto r = parseAtom(scursor, send, v, allow8Bit);
+    const auto r = parseAtom(scursor, send, v, allow8Bit ? ParsingPolicy::Allow8Bit : ParsingPolicy::Allow7BitOnly);
     result = v.toByteArray();
     return r;
 }

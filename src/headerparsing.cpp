@@ -241,7 +241,7 @@ static inline void eatWhiteSpace(const char *&scursor, const char *const send)
 }
 
 bool parseAtom(const char*&scursor, const char *const send,
-               QByteArrayView &result, bool allow8Bit)
+               QByteArrayView &result, ParsingPolicy parsingPolicy)
 {
     bool success = false;
     const char *start = scursor;
@@ -251,13 +251,13 @@ bool parseAtom(const char*&scursor, const char *const send,
         if (ch > 0 && isAText(ch)) {
             // AText: OK
             success = true;
-        } else if (allow8Bit && ch < 0) {
+        } else if (parsingPolicy == ParsingPolicy::Allow8Bit && ch < 0) {
             // 8bit char: not OK, but be tolerant.
             KMIME_WARN_8BIT(ch);
             success = true;
         } else {
             // CTL or special - marking the end of the atom:
-            // re-set sursor to point to the offending
+            // reset scursor to point to the offending
             // char and return:
             scursor--;
             break;
@@ -647,7 +647,7 @@ bool parsePhrase(const char *&scursor, const char *const send,
 
         default: //atom
             scursor--;
-            if (parseAtom(scursor, send, tmpAtom, true /* allow 8bit */)) {
+            if (parseAtom(scursor, send, tmpAtom, ParsingPolicy::Allow8Bit)) {
                 successfullyParsed = scursor;
                 switch (found) {
                 case None:
@@ -689,7 +689,7 @@ bool parseDotAtom(const char *&scursor, const char *const send,
     const char *successfullyParsed;
 
     QByteArrayView maybeAtom;
-    if (!parseAtom(scursor, send, maybeAtom, false /* no 8bit */)) {
+    if (!parseAtom(scursor, send, maybeAtom, ParsingPolicy::Allow7BitOnly)) {
         return false;
     }
     result = maybeAtom;
@@ -713,7 +713,7 @@ bool parseDotAtom(const char *&scursor, const char *const send,
 
         // try to parse the next atom:
         maybeAtom = {};
-        if (!parseAtom(scursor, send, maybeAtom, false /*no 8bit*/)) {
+        if (!parseAtom(scursor, send, maybeAtom, ParsingPolicy::Allow7BitOnly)) {
             scursor = successfullyParsed;
             return true;
         }
@@ -914,7 +914,7 @@ bool parseAddrSpec(const char *&scursor, const char *const send,
 
         default: // atom
             scursor--; // re-set scursor to point to ch again
-            if (parseAtom(scursor, send, tmpAtom, false /* no 8bit */)) {
+            if (parseAtom(scursor, send, tmpAtom, ParsingPolicy::Allow7BitOnly)) {
               maybeLocalPart += QLatin1StringView(tmpAtom);
             } else {
                 return false; // parseAtom can only fail if the first char is non-atext.
