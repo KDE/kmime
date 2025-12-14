@@ -253,10 +253,10 @@ void UtilTest::testIsSigned()
     QFETCH(QByteArray, input);
     QFETCH(bool, hasSignature);
 
-    auto msg = QSharedPointer<KMime::Message>::create();
+    auto msg = std::make_unique<KMime::Message>();
     msg->setContent(input);
     msg->parse();
-    QCOMPARE(isSigned(msg.data()), hasSignature);
+    QCOMPARE(isSigned(msg.get()), hasSignature);
 }
 
 void UtilTest::testIsCryptoPart_data()

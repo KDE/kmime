@@ -46,5 +46,5 @@ private Q_SLOTS:
 
     void testYenc();
 private:
-    QSharedPointer<KMime::Message> readAndParseMail(const QString &mailFile) const;
+    std::shared_ptr<KMime::Message> readAndParseMail(const QString &mailFile) const;
 };

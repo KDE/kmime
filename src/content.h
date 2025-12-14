@@ -800,10 +800,10 @@ public:
    *
    * @since 4.5
    */
-  [[nodiscard]] QSharedPointer<Message> bodyAsMessage();
-  [[nodiscard]] inline QSharedPointer<const Message> bodyAsMessage() const
+  [[nodiscard]] std::shared_ptr<Message> bodyAsMessage();
+  [[nodiscard]] inline std::shared_ptr<const Message> bodyAsMessage() const
   {
-      return qSharedPointerCast<const Message>(const_cast<Content*>(this)->bodyAsMessage());
+      return const_cast<Content*>(this)->bodyAsMessage();
   }
 
 protected:

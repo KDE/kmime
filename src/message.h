@@ -67,7 +67,7 @@ public:
     /**
       A shared pointer to a message object.
     */
-    KMIME_DEPRECATED typedef QSharedPointer<Message> Ptr;
+    KMIME_DEPRECATED typedef std::shared_ptr<Message> Ptr;
     /**
       Creates an empty Message.
     */
@@ -301,5 +301,5 @@ private:
 } // namespace KMime
 
 Q_DECLARE_METATYPE(KMime::Message*)
-Q_DECLARE_METATYPE(QSharedPointer<KMime::Message>)
+Q_DECLARE_METATYPE(std::shared_ptr<KMime::Message>)
 

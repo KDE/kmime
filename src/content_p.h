@@ -14,7 +14,7 @@ namespace KMime
 {
 class Content;
 class Message;
-using MessagePtr = QSharedPointer<Message>;
+using MessagePtr = std::shared_ptr<Message>;
 
 class ContentPrivate
 {

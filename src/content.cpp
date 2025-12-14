@@ -163,7 +163,7 @@ void Content::parse()
         // This content is something else, like an encapsulated message or a binary attachment
         // or something like that
         if (bodyIsMessage()) {
-            d->bodyAsMessage = QSharedPointer<Message>::create();
+            d->bodyAsMessage = std::make_shared<Message>();
             d->bodyAsMessage->setContent(d->body);
             d->bodyAsMessage->setFrozen(d->frozen);
 
@@ -833,7 +833,7 @@ ContentIndex Content::index() const
     return indexForContent(const_cast<Content *>(this));
 }
 
-QSharedPointer<Message> Content::bodyAsMessage()
+std::shared_ptr<Message> Content::bodyAsMessage()
 {
     if (bodyIsMessage() && d_ptr->bodyAsMessage) {
         return d_ptr->bodyAsMessage;
@@ -876,7 +876,7 @@ void ContentPrivate::clearBodyMessage()
 QList<Content *> ContentPrivate::contents() const {
     Q_ASSERT(multipartContents.isEmpty() || !bodyAsMessage);
     if (bodyAsMessage) {
-      return QList<Content *>() << bodyAsMessage.data();
+      return QList<Content *>() << bodyAsMessage.get();
     } else {
         return multipartContents;
     }
