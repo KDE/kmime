@@ -553,9 +553,11 @@ public:
     true, then encodedContent() will use the message returned by bodyAsMessage()
     as the body of the result, calling encodedContent() on the message.
 
-    @param useCrLf If true, use @ref CRLF instead of @ref LF for linefeeds.
+    \a newline whether to use CRLF for linefeeds, or LF (default is LF).
   */
-  [[nodiscard]] QByteArray encodedContent(bool useCrLf = false) const;
+  [[nodiscard]] QByteArray encodedContent(NewlineType newline = NewlineType::LF) const;
+  [[deprecated("use the NewlineType overload instead")]]
+  [[nodiscard]] QByteArray encodedContent(bool useCrLf) const;
 
   /**
    * Like encodedContent(), with the difference that only the body will be

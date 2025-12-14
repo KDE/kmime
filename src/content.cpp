@@ -237,6 +237,11 @@ void Content::clearContents()
 
 QByteArray Content::encodedContent(bool useCrLf) const
 {
+    return encodedContent(useCrLf ? NewlineType::CRLF : NewlineType::LF);
+}
+
+QByteArray Content::encodedContent(NewlineType newline) const
+{
     QByteArray encodedContentData = head();           // return value; initialize with the head data
     const QByteArray encodedBodyData = encodedBody();
 
@@ -251,7 +256,7 @@ QByteArray Content::encodedContent(bool useCrLf) const
     }
     encodedContentData += encodedBodyData;
 
-    if (useCrLf) {
+    if (newline == NewlineType::CRLF) {
         return LFtoCRLF(encodedContentData);
     } else {
         return encodedContentData;
@@ -307,7 +312,7 @@ QByteArray Content::encodedBody() const
         //add all (encoded) contents separated by boundaries
         for (Content *c : std::as_const(d->multipartContents)) {
             e += boundary + '\n';
-            e += c->encodedContent(false);    // don't convert LFs here, we do that later!!!!!
+            e += c->encodedContent(NewlineType::LF);    // don't convert LFs here, we do that later!!!!!
         }
         //finally append the closing boundary
         e += boundary + "--\n";

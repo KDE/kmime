@@ -248,7 +248,7 @@ void ContentTest::testEncodedContent()
         "\n\n"
         "body\n";
     msg->setContent(data);
-    QByteArray content = msg->encodedContent(true /* use CRLF */);
+    QByteArray content = msg->encodedContent(NewlineType::CRLF);
     const QStringList lines = QString::fromLatin1(content).split(QStringLiteral("\r\n"));
     for (const QString &line : lines) {
         QEXPECT_FAIL("", "KMime does not fold lines longer than 998 characters", Continue);
