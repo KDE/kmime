@@ -285,10 +285,14 @@ protected:
 
       @param scursor Pointer to the start of the data still to parse.
       @param send Pointer to the end of the data.
-      @param isCRLF true if input string is terminated with a CRLF.
+      @param newline whether the input string is terminated with CRLF or LF.
     */
     virtual bool parse(const char *&scursor, const char *const send,
-                       bool isCRLF = false) = 0;
+                       NewlineType newline = NewlineType::LF) = 0;
+    [[deprecated("use the NewlineType overload instead")]]
+    inline bool parse(const char *&scursor, const char *const send, bool isCRLF) {
+        return parse(scursor, send, isCRLF ? NewlineType::CRLF : NewlineType::LF);
+    }
 
     //@cond PRIVATE
     kmime_mk_dptr_ctor(Structured)
@@ -366,7 +370,7 @@ public:
     void setMailboxes(const QList<Types::Mailbox> &mailboxes);
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
+    bool parse(const char *&scursor, const char *const send, NewlineType newline = NewlineType::LF) override;
 
 private:
     Q_DECLARE_PRIVATE(MailboxList)
@@ -403,7 +407,7 @@ public:
     void setMailbox(const Types::Mailbox &mailbox);
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
+    bool parse(const char *&scursor, const char *const send, NewlineType newline = NewlineType::LF) override;
 
 private:
     Q_DECLARE_PRIVATE(SingleMailbox)
@@ -480,7 +484,7 @@ public:
     void setAddressList(const QList<Types::Address> &addresses);
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
+    bool parse(const char *&scursor, const char *const send, NewlineType newline = NewlineType::LF) override;
 
 private:
     Q_DECLARE_PRIVATE(AddressList)
@@ -527,7 +531,7 @@ public:
     void appendIdentifier(const QByteArray &id);
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
+    bool parse(const char *&scursor, const char *const send, NewlineType newline = NewlineType::LF) override;
 
 private:
     Q_DECLARE_PRIVATE(Ident)
@@ -563,7 +567,7 @@ public:
     void setIdentifier(const QByteArray &id);
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
+    bool parse(const char *&scursor, const char *const send, NewlineType newline = NewlineType::LF) override;
 
 private:
     Q_DECLARE_PRIVATE(SingleIdent)
@@ -595,7 +599,7 @@ public:
     void setToken(const QByteArray &t);
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
+    bool parse(const char *&scursor, const char *const send, NewlineType newline = NewlineType::LF) override;
 
 private:
     Q_DECLARE_PRIVATE(Token)
@@ -622,7 +626,7 @@ public:
     [[nodiscard]] QStringList phrases() const;
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
+    bool parse(const char *&scursor, const char *const send, NewlineType newline = NewlineType::LF) override;
 
 private:
     Q_DECLARE_PRIVATE(PhraseList)
@@ -644,7 +648,7 @@ public:
     [[nodiscard]] bool isEmpty() const override;
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
+    bool parse(const char *&scursor, const char *const send, NewlineType newline = NewlineType::LF) override;
 
 private:
     Q_DECLARE_PRIVATE(DotAtom)
@@ -718,7 +722,7 @@ public:
     }
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
+    bool parse(const char *&scursor, const char *const send, NewlineType newline = NewlineType::LF) override;
 
 private:
     Q_DECLARE_PRIVATE(Parametrized)
@@ -749,7 +753,7 @@ public:
     [[nodiscard]] bool isEmpty() const override;
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
+    bool parse(const char *&scursor, const char *const send, NewlineType newline = NewlineType::LF) override;
 
 private:
     Q_DECLARE_PRIVATE(ReturnPath)
@@ -857,7 +861,7 @@ public:
     void setNeverCopy();
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
+    bool parse(const char *&scursor, const char *const send, NewlineType newline = NewlineType::LF) override;
 
 private:
     Q_DECLARE_PRIVATE(MailCopiesTo)
@@ -890,7 +894,7 @@ public:
     void setEncoding(contentEncoding e);
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
+    bool parse(const char *&scursor, const char *const send, NewlineType newline = NewlineType::LF) override;
 
 private:
     Q_DECLARE_PRIVATE(ContentTransferEncoding)
@@ -951,7 +955,7 @@ class KMIME_EXPORT ContentID : public Generics::SingleIdent
     //@endcond
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
+    bool parse(const char *&scursor, const char *const send, NewlineType newline = NewlineType::LF) override;
 private:
     Q_DECLARE_PRIVATE(ContentID)
 };
@@ -1151,7 +1155,7 @@ public:
     }
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
+    bool parse(const char *&scursor, const char *const send, NewlineType newline = NewlineType::LF) override;
 
 private:
     Q_DECLARE_PRIVATE(ContentType)
@@ -1200,7 +1204,7 @@ public:
     void setFilename(const QString &filename);
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
+    bool parse(const char *&scursor, const char *const send, NewlineType newline = NewlineType::LF) override;
 
 private:
     Q_DECLARE_PRIVATE(ContentDisposition)
@@ -1312,7 +1316,7 @@ public:
     void setCancel(const QByteArray &msgid);
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
+    bool parse(const char *&scursor, const char *const send, NewlineType newline = NewlineType::LF) override;
 
 private:
     Q_DECLARE_PRIVATE(Control)
@@ -1345,7 +1349,7 @@ public:
     void setDateTime(const QDateTime &dt);
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
+    bool parse(const char *&scursor, const char *const send, NewlineType newline = NewlineType::LF) override;
 
 private:
     Q_DECLARE_PRIVATE(Date)
@@ -1387,7 +1391,7 @@ public:
     [[nodiscard]] bool isCrossposted() const;
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
+    bool parse(const char *&scursor, const char *const send, NewlineType newline = NewlineType::LF) override;
 
 private:
     Q_DECLARE_PRIVATE(Newsgroups)
@@ -1433,7 +1437,7 @@ public:
     void setNumberOfLines(int lines);
 
 protected:
-    bool parse(const char *&scursor, const char *const send, bool isCRLF = false) override;
+    bool parse(const char *&scursor, const char *const send, NewlineType newline = NewlineType::LF) override;
 
 private:
     Q_DECLARE_PRIVATE(Lines)

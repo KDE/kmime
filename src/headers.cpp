@@ -339,7 +339,7 @@ void MailboxList::setMailboxes(const QList<Types::Mailbox> &mailboxes)
 }
 
 bool MailboxList::parse(const char *&scursor, const char *const send,
-                        bool isCRLF)
+                        NewlineType newline)
 {
     Q_D(MailboxList);
     // examples:
@@ -348,7 +348,7 @@ bool MailboxList::parse(const char *&scursor, const char *const send,
 
     // parse an address-list:
     QList<Types::Address> maybeAddressList;
-    if (!parseAddressList(scursor, send, maybeAddressList, isCRLF)) {
+    if (!parseAddressList(scursor, send, maybeAddressList, newline)) {
         return false;
     }
 
@@ -413,14 +413,14 @@ void SingleMailbox::setMailbox(const Types::Mailbox &mailbox)
     d->mailbox = mailbox;
 }
 
-bool SingleMailbox::parse(const char *&scursor, const char *const send, bool isCRLF)
+bool SingleMailbox::parse(const char *&scursor, const char *const send, NewlineType newline)
 {
     Q_D(SingleMailbox);
     Types::Mailbox maybeMailbox;
     if (!parseMailbox(scursor, send, maybeMailbox)) {
         return false;
     }
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor != send) {
         return false;
     }
@@ -556,11 +556,11 @@ void AddressList::setAddressList(const QList<Types::Address> &addresses)
 }
 
 bool AddressList::parse(const char *&scursor, const char *const send,
-                        bool isCRLF)
+                        NewlineType newline)
 {
     Q_D(AddressList);
     QList<Types::Address> maybeAddressList;
-    if (!parseAddressList(scursor, send, maybeAddressList, isCRLF)) {
+    if (!parseAddressList(scursor, send, maybeAddressList, newline)) {
         return false;
     }
 
@@ -601,11 +601,11 @@ void Token::setToken(const QByteArray &t)
     d->token = t;
 }
 
-bool Token::parse(const char *&scursor, const char *const send, bool isCRLF)
+bool Token::parse(const char *&scursor, const char *const send, NewlineType newline)
 {
     Q_D(Token);
     d->token.clear();
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     // must not be empty:
     if (scursor == send) {
         return false;
@@ -618,7 +618,7 @@ bool Token::parse(const char *&scursor, const char *const send, bool isCRLF)
     d->token = maybeToken.toByteArray();
 
     // complain if trailing garbage is found:
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor != send) {
         KMIME_WARN << "trailing garbage after token in header allowing "
                    "only a single token!"
@@ -670,13 +670,13 @@ QStringList PhraseList::phrases() const
 }
 
 bool PhraseList::parse(const char *&scursor, const char *const send,
-                       bool isCRLF)
+                       NewlineType newline)
 {
     Q_D(PhraseList);
     d->phraseList.clear();
 
     while (scursor != send) {
-        eatCFWS(scursor, send, isCRLF);
+        eatCFWS(scursor, send, newline);
         // empty entry ending the list: OK.
         if (scursor == send) {
             return true;
@@ -688,12 +688,12 @@ bool PhraseList::parse(const char *&scursor, const char *const send,
         }
 
         QString maybePhrase;
-        if (!parsePhrase(scursor, send, maybePhrase, isCRLF)) {
+        if (!parsePhrase(scursor, send, maybePhrase, newline)) {
             return false;
         }
         d->phraseList.append(maybePhrase);
 
-        eatCFWS(scursor, send, isCRLF);
+        eatCFWS(scursor, send, newline);
         // non-empty entry ending the list: OK.
         if (scursor == send) {
             return true;
@@ -733,17 +733,17 @@ bool DotAtom::isEmpty() const
 }
 
 bool DotAtom::parse(const char *&scursor, const char *const send,
-                    bool isCRLF)
+                    NewlineType newline)
 {
     Q_D(DotAtom);
     QByteArrayView maybeDotAtom;
-    if (!parseDotAtom(scursor, send, maybeDotAtom, isCRLF)) {
+    if (!parseDotAtom(scursor, send, maybeDotAtom, newline)) {
         return false;
     }
 
     d->dotAtom = maybeDotAtom.toByteArray();
 
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor != send) {
         KMIME_WARN << "trailing garbage after dot-atom in header allowing "
                    "only a single dot-atom!"
@@ -814,12 +814,12 @@ bool Parametrized::isEmpty() const
 }
 
 bool Parametrized::parse(const char  *&scursor, const char *const send,
-                         bool isCRLF)
+                         NewlineType newline)
 {
     Q_D(Parametrized);
     d->parameterHash.clear();
     QByteArray charset;
-    if (!parseParameterListWithCharset(scursor, send, d->parameterHash, charset, isCRLF)) {
+    if (!parseParameterListWithCharset(scursor, send, d->parameterHash, charset, newline)) {
         return false;
     }
     d->encCS = charset;
@@ -864,7 +864,7 @@ bool Ident::isEmpty() const
     return d_func()->msgIdList.isEmpty();
 }
 
-bool Ident::parse(const char *&scursor, const char *const send, bool isCRLF)
+bool Ident::parse(const char *&scursor, const char *const send, NewlineType newline)
 {
     Q_D(Ident);
     // msg-id   := "<" id-left "@" id-right ">"
@@ -877,7 +877,7 @@ bool Ident::parse(const char *&scursor, const char *const send, bool isCRLF)
     d->msgIdList.clear();
 
     while (scursor != send) {
-        eatCFWS(scursor, send, isCRLF);
+        eatCFWS(scursor, send, newline);
         // empty entry ending the list: OK.
         if (scursor == send) {
             return true;
@@ -889,12 +889,12 @@ bool Ident::parse(const char *&scursor, const char *const send, bool isCRLF)
         }
 
         AddrSpec maybeMsgId;
-        if (!parseAngleAddr(scursor, send, maybeMsgId, isCRLF)) {
+        if (!parseAngleAddr(scursor, send, maybeMsgId, newline)) {
             return false;
         }
         d->msgIdList.append(maybeMsgId);
 
-        eatCFWS(scursor, send, isCRLF);
+        eatCFWS(scursor, send, newline);
         // header end ending the list: OK.
         if (scursor == send) {
             return true;
@@ -1016,7 +1016,7 @@ void SingleIdent::setIdentifier(const QByteArray &id)
     }
 }
 
-bool SingleIdent::parse(const char *&scursor, const char *const send, bool isCRLF)
+bool SingleIdent::parse(const char *&scursor, const char *const send, NewlineType newline)
 {
     Q_D(SingleIdent);
 
@@ -1024,10 +1024,10 @@ bool SingleIdent::parse(const char *&scursor, const char *const send, bool isCRL
     d->cachedIdentifier.clear();
 
     AddrSpec maybeMsgId;
-    if (!parseAngleAddr(scursor, send, maybeMsgId, isCRLF)) {
+    if (!parseAngleAddr(scursor, send, maybeMsgId, newline)) {
         return false;
     }
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     // header end ending the list: OK.
     if (scursor == send) {
         d->msgId = maybeMsgId;
@@ -1063,10 +1063,10 @@ bool ReturnPath::isEmpty() const
 }
 
 bool ReturnPath::parse(const char *&scursor, const char *const send,
-                       bool isCRLF)
+                       NewlineType newline)
 {
     Q_D(ReturnPath);
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor == send) {
         return false;
     }
@@ -1074,14 +1074,14 @@ bool ReturnPath::parse(const char *&scursor, const char *const send,
     const char *oldscursor = scursor;
 
     Mailbox maybeMailbox;
-    if (!parseMailbox(scursor, send, maybeMailbox, isCRLF)) {
+    if (!parseMailbox(scursor, send, maybeMailbox, newline)) {
         // mailbox parsing failed, but check for empty brackets:
         scursor = oldscursor;
         if (*scursor != '<') {
             return false;
         }
         scursor++;
-        eatCFWS(scursor, send, isCRLF);
+        eatCFWS(scursor, send, newline);
         if (scursor == send || *scursor != '>') {
             return false;
         }
@@ -1101,7 +1101,7 @@ bool ReturnPath::parse(const char *&scursor, const char *const send,
     d->mailbox = maybeMailbox;
 
     // see if that was all:
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     // and warn if it wasn't:
     if (scursor != send) {
         KMIME_WARN << "trailing garbage after angle-addr in Return-Path!"
@@ -1226,12 +1226,12 @@ void Control::setCancel(const QByteArray &msgid)
     d->parameter = msgid;
 }
 
-bool Control::parse(const char *&scursor, const char *const send, bool isCRLF)
+bool Control::parse(const char *&scursor, const char *const send, NewlineType newline)
 {
     Q_D(Control);
     d->name.clear();
     d->parameter.clear();
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor == send) {
         return false;
     }
@@ -1240,7 +1240,7 @@ bool Control::parse(const char *&scursor, const char *const send, bool isCRLF)
         ++scursor;
     }
     d->name = QByteArray(start, scursor - start);
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     d->parameter = QByteArray(scursor, send - scursor);
     return true;
 }
@@ -1315,7 +1315,7 @@ void MailCopiesTo::setNeverCopy()
 }
 
 bool MailCopiesTo::parse(const char  *&scursor, const char *const send,
-                         bool isCRLF)
+                         NewlineType newline)
 {
     Q_D(MailCopiesTo);
     d->addressList.clear();
@@ -1337,7 +1337,7 @@ bool MailCopiesTo::parse(const char  *&scursor, const char *const send,
             return true;
         }
     }
-    return AddressList::parse(scursor, send, isCRLF);
+    return AddressList::parse(scursor, send, newline);
 }
 
 //-----</MailCopiesTo>-------------------------
@@ -1373,12 +1373,12 @@ void Date::setDateTime(const QDateTime & dt) {
     d->dateTime = dt;
 }
 
-bool Date::parse(const char *&scursor, const char *const send, bool isCRLF) {
+bool Date::parse(const char *&scursor, const char *const send, NewlineType newline) {
     Q_D(Date);
     const char *start = scursor;
-    bool result = parseDateTime(scursor, send, d->dateTime, isCRLF);
+    bool result = parseDateTime(scursor, send, d->dateTime, newline);
     if (!result) {
-        result = parseQDateTime(start, send, d->dateTime, isCRLF);
+        result = parseQDateTime(start, send, d->dateTime, newline);
     }
     return result;
 }
@@ -1434,15 +1434,15 @@ bool Newsgroups::isCrossposted() const {
     return d_func()->groups.count() >= 2;
 }
 
-bool Newsgroups::parse(const char *&scursor, const char *const send, bool isCRLF) {
+bool Newsgroups::parse(const char *&scursor, const char *const send, NewlineType newline) {
     Q_D(Newsgroups);
     d->groups.clear();
     while (true) {
-        eatCFWS(scursor, send, isCRLF);
+        eatCFWS(scursor, send, newline);
         if (scursor != send && *scursor == ',') {
             ++scursor;
         }
-        eatCFWS(scursor, send, isCRLF);
+        eatCFWS(scursor, send, newline);
         if (scursor == send) {
             return true;
         }
@@ -1494,9 +1494,9 @@ void Lines::setNumberOfLines(int lines) {
     d->lines = lines;
 }
 
-bool Lines::parse(const char *&scursor, const char *const send, bool isCRLF) {
+bool Lines::parse(const char *&scursor, const char *const send, NewlineType newline) {
     Q_D(Lines);
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (parseDigits(scursor, send, d->lines)  == 0) {
         d->lines = -1;
         return false;
@@ -1676,12 +1676,12 @@ void ContentType::setPartialCount(int total)
 }
 
 bool ContentType::parse(const char *&scursor, const char *const send,
-                        bool isCRLF) {
+                        NewlineType newline) {
     Q_D(ContentType);
     // content-type: type "/" subtype *(";" parameter)
     d->mimeType.clear();
     d->parameterHash.clear();
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor == send) {
         return false; // empty header
     }
@@ -1692,12 +1692,12 @@ bool ContentType::parse(const char *&scursor, const char *const send,
         return false;
     }
     // subtype
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor == send || *scursor != '/') {
         return false;
     }
     scursor++;
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor == send) {
         return false;
     }
@@ -1713,7 +1713,7 @@ bool ContentType::parse(const char *&scursor, const char *const send,
     d->mimeType = std::move(d->mimeType).toLower();
 
     // parameter list
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor == send) {
         return true; // no parameters
     }
@@ -1722,7 +1722,7 @@ bool ContentType::parse(const char *&scursor, const char *const send,
     }
     scursor++;
 
-    if (!Parametrized::parse(scursor, send, isCRLF)) {
+    if (!Parametrized::parse(scursor, send, newline)) {
         return false;
     }
 
@@ -1736,19 +1736,19 @@ bool ContentType::parse(const char *&scursor, const char *const send,
 kmime_mk_trivial_ctor_with_name_and_dptr(ContentID, SingleIdent, Content-ID)
 kmime_mk_dptr_ctor(ContentID, SingleIdent)
 
-bool ContentID::parse(const char *&scursor, const char *const send, bool isCRLF) {
+bool ContentID::parse(const char *&scursor, const char *const send, NewlineType newline) {
     Q_D(ContentID);
     // Content-id := "<" contentid ">"
     // contentid := now whitespaces
 
     const char *origscursor = scursor;
-    if (!SingleIdent::parse(scursor, send, isCRLF)) {
+    if (!SingleIdent::parse(scursor, send, newline)) {
         scursor = origscursor;
         d->msgId = {};
         d->cachedIdentifier.clear();
 
         while (scursor != send) {
-            eatCFWS(scursor, send, isCRLF);
+            eatCFWS(scursor, send, newline);
             // empty entry ending the list: OK.
             if (scursor == send) {
                 return true;
@@ -1766,18 +1766,18 @@ bool ContentID::parse(const char *&scursor, const char *const send, bool isCRLF)
             }
             scursor++; // eat '<'
 
-            eatCFWS(scursor, send, isCRLF);
+            eatCFWS(scursor, send, newline);
             if (scursor == send) {
                 return false;
             }
 
             // Save chars until '>''
             QByteArrayView result;
-            if (!parseDotAtom(scursor, send, result, false)) {
+            if (!parseDotAtom(scursor, send, result, NewlineType::LF)) {
                 return false;
             }
 
-            eatCFWS(scursor, send, isCRLF);
+            eatCFWS(scursor, send, newline);
             if (scursor == send || *scursor != '>') {
                 return false;
             }
@@ -1787,7 +1787,7 @@ bool ContentID::parse(const char *&scursor, const char *const send, bool isCRLF)
             maybeContentId.localPart = QString::fromLatin1(result); // FIXME: just use QByteArray instead of AddrSpec in msgIdList?
             d->msgId = maybeContentId;
 
-            eatCFWS(scursor, send, isCRLF);
+            eatCFWS(scursor, send, newline);
             // header end ending the list: OK.
             if (scursor == send) {
                 return true;
@@ -1856,12 +1856,12 @@ void ContentTransferEncoding::setEncoding(contentEncoding e)
     d->token.clear();
 }
 
-bool ContentTransferEncoding::parse(const char  *&scursor, const char *const send, bool isCRLF)
+bool ContentTransferEncoding::parse(const char  *&scursor, const char *const send, NewlineType newline)
 {
     Q_D(ContentTransferEncoding);
     setEncoding(CE7Bit);
 
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     // must not be empty:
     if (scursor == send) {
         return false;
@@ -1935,13 +1935,13 @@ void ContentDisposition::setFilename(const QString & filename) {
 }
 
 bool ContentDisposition::parse(const char  *&scursor, const char *const send,
-                                bool isCRLF) {
+                                NewlineType newline) {
     Q_D(ContentDisposition);
     d->parameterHash.clear();
     d->disposition = CDInvalid;
 
     // token
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor == send) {
         return false;
     }
@@ -1960,7 +1960,7 @@ bool ContentDisposition::parse(const char  *&scursor, const char *const send,
     }
 
     // parameter list
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor == send) {
         return true; // no parameters
     }
@@ -1970,7 +1970,7 @@ bool ContentDisposition::parse(const char  *&scursor, const char *const send,
     }
     scursor++;
 
-    return Parametrized::parse(scursor, send, isCRLF);
+    return Parametrized::parse(scursor, send, newline);
 }
 
 //-----</ContentDisposition>-------------------------

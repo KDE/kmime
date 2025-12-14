@@ -64,16 +64,16 @@ Q_DECLARE_FLAGS(ParseTokenFlags, ParseTokenFlag)
   @return true if the input phrase was successfully parsed; false otherwise.
 */
 [[nodiscard]] bool parseDotAtom(const char *&scursor, const char *const send,
-                                QByteArrayView &result, bool isCRLF = false);
+                                QByteArrayView &result, NewlineType newline = NewlineType::LF);
 
 /** @p scursor must be positioned after the opening openChar. */
 [[nodiscard]] bool parseGenericQuotedString(const char *&scursor, const char *const send,
-                         QString &result, bool isCRLF,
+                         QString &result, NewlineType newline,
                          const char openChar = '"', const char closeChar = '"', bool fillResult = true);
 
 /** @p scursor must be positioned right after the opening '(' */
 [[nodiscard]] bool parseComment(const char *&scursor, const char *const send, QString &result,
-             bool isCRLF = false, bool reallySave = true);
+             NewlineType newline = NewlineType::LF, bool reallySave = true);
 
 /**
   Parses a phrase.
@@ -91,7 +91,7 @@ Q_DECLARE_FLAGS(ParseTokenFlags, ParseTokenFlag)
   @return true if the input phrase was successfully parsed; false otherwise.
 */
 [[nodiscard]] bool parsePhrase(const char *&scursor, const char *const send,
-                               QString &result, bool isCRLF = false);
+                               QString &result, NewlineType newline = NewlineType::LF);
 
 /**
  * Extract the charset embedded in the parameter list if there is one.
@@ -100,20 +100,20 @@ Q_DECLARE_FLAGS(ParseTokenFlags, ParseTokenFlag)
  */
 [[nodiscard]] bool parseParameterListWithCharset(const char *&scursor, const char *const send,
                               KMime::Headers::ParameterMap &result,
-                              QByteArray &charset, bool isCRLF = false);
+                              QByteArray &charset, NewlineType newline = NewlineType::LF);
 
 
 [[nodiscard]] bool parseDomain(const char *&scursor, const char *const send,
-                               QString &result, bool isCRLF = false);
+                               QString &result, NewlineType newline = NewlineType::LF);
 
 [[nodiscard]] bool parseObsRoute(const char *&scursor, const char *const send, QStringList &result,
-                                 bool isCRLF = false, bool save = false);
+                                 NewlineType newline = NewlineType::LF, bool save = false);
 
 [[nodiscard]] bool parseAddrSpec(const char *&scursor, const char *const send,
-                                 Types::AddrSpec &result, bool isCRLF = false);
+                                 Types::AddrSpec &result, NewlineType newline = NewlineType::LF);
 
 [[nodiscard]] bool parseAngleAddr(const char *&scursor, const char *const send,
-                                  Types::AddrSpec &result, bool isCRLF = false);
+                                  Types::AddrSpec &result, NewlineType newline = NewlineType::LF);
 
 /**
   Parses an integer number.
@@ -126,12 +126,12 @@ Q_DECLARE_FLAGS(ParseTokenFlags, ParseTokenFlag)
 
 [[nodiscard]] bool parseTime(const char *&scursor, const char *const send, int &hour, int &min,
           int &sec, long int &secsEastOfGMT, bool &timeZoneKnown,
-          bool isCRLF = false);
+          NewlineType newline = NewlineType::LF);
 
 [[nodiscard]] bool parseDateTime(const char *&scursor, const char *const send,
-                                QDateTime &result, bool isCRLF = false);
+                                QDateTime &result, NewlineType newline = NewlineType::LF);
 [[nodiscard]] bool parseQDateTime(const char *&scursor, const char *const send,
-                                QDateTime &result, bool isCRLF = false);
+                                QDateTime &result, NewlineType newline = NewlineType::LF);
 
 }
 

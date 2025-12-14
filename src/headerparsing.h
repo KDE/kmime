@@ -24,6 +24,19 @@ namespace Headers
 class Base;
 }
 
+/*!
+ * Line endings to use.
+ *
+ * \value LF
+ * \value CRLF
+ *
+ * \since 26.04
+ */
+enum class NewlineType {
+    LF,
+    CRLF,
+};
+
 namespace HeaderParsing
 {
 
@@ -78,8 +91,11 @@ inline bool parseAtom(const char *&scursor, const char *const send, QByteArray &
   @param scursor pointer to the first character beyond the initial '=' of
   the input string.
   @param send pointer to end of input buffer.
-  @param isCRLF true if input string is terminated with a CRLF.
+  @param newline whether the input string is terminated with CRLF or LF.
 */
+KMIME_EXPORT void eatCFWS(const char *&scursor, const char *const send,
+                          NewlineType newline);
+[[deprecated("use the NewlineType overload instead")]]
 KMIME_EXPORT void eatCFWS(const char *&scursor, const char *const send,
                           bool isCRLF);
 
@@ -97,25 +113,43 @@ KMIME_EXPORT void eatCFWS(const char *&scursor, const char *const send,
   @param scursor pointer to the first character of the input string
   @param send pointer to end of input buffer
   @param result the parsing result
-  @param isCRLF true if input string is terminated with a CRLF.
+  @param newline whether the input string is terminated with CRLF or LF.
 */
 KMIME_EXPORT bool parseMailbox(const char *&scursor, const char *const send,
-                               Types::Mailbox &result, bool isCRLF = false);
+                               Types::Mailbox &result, NewlineType newline = NewlineType::LF);
+[[deprecated("use the NewlineType overload instead")]]
+KMIME_EXPORT bool parseMailbox(const char *&scursor, const char *const send,
+                               Types::Mailbox &result, bool isCRLF);
 
 [[nodiscard]] KMIME_EXPORT bool parseGroup(const char *&scursor,
                                            const char *const send,
                                            Types::Address &result,
-                                           bool isCRLF = false);
+                                           NewlineType newline = NewlineType::LF);
+[[deprecated("use the NewlineType overload instead")]]
+[[nodiscard]] KMIME_EXPORT bool parseGroup(const char *&scursor,
+                                           const char *const send,
+                                           Types::Address &result,
+                                           bool isCRLF);
 
 [[nodiscard]] KMIME_EXPORT bool parseAddress(const char *&scursor,
                                              const char *const send,
                                              Types::Address &result,
-                                             bool isCRLF = false);
+                                             NewlineType newline = NewlineType::LF);
+[[deprecated("use the NewlineType overload instead")]]
+[[nodiscard]] KMIME_EXPORT bool parseAddress(const char *&scursor,
+                                             const char *const send,
+                                             Types::Address &result,
+                                             bool isCRLF);
 
 [[nodiscard]] KMIME_EXPORT bool parseAddressList(const char *&scursor,
                                                  const char *const send,
                                                  QList<Types::Address> &result,
-                                                 bool isCRLF = false);
+                                                 NewlineType newline = NewlineType::LF);
+[[deprecated("use the NewlineType overload instead")]]
+[[nodiscard]] KMIME_EXPORT bool parseAddressList(const char *&scursor,
+                                                 const char *const send,
+                                                 QList<Types::Address> &result,
+                                                 bool isCRLF);
 
 /** Parses the first header contained the given data.
  *  If a header is found @p head will be shortened to no longer

@@ -308,7 +308,7 @@ bool parseToken(const char*&scursor, const char *const send,
 // - doesn't handle quoted CRLF
 
 bool parseGenericQuotedString(const char *&scursor, const char *const send,
-                              QString &result, bool isCRLF,
+                              QString &result, NewlineType newline,
                               const char openChar, const char closeChar, bool fillResult)
 {
     // We are in a quoted-string or domain-literal or comment and the
@@ -380,14 +380,14 @@ bool parseGenericQuotedString(const char *&scursor, const char *const send,
             break;
         case '\n':
             // Note: CRLF has been handled above already!
-            // ### LF needs special treatment, depending on whether isCRLF
-            // is true (we can be sure a lonely '\n' was meant this way) or
-            // false ('\n' alone could have meant LF or CRLF in the original
+            // ### LF needs special treatment, depending on whether newline
+            // is LF (we can be sure a lonely '\n' was meant this way) or
+            // CRLF ('\n' alone could have meant LF or CRLF in the original
             // message. This parser assumes CRLF iff the LF is followed by
             // either WSP (folding) or NULL (premature end of quoted-string;
             // Should be fixed, since NULL is allowed as per rfc822).
             READ_ch_OR_FAIL;
-            if (!isCRLF && (ch == ' ' || ch == '\t')) {
+            if ((newline == NewlineType::LF) && (ch == ' ' || ch == '\t')) {
                 // folding
                 // correct folding
                 if (fillResult) {
@@ -472,7 +472,7 @@ bool parseGenericQuotedString(const char *&scursor, const char *const send,
 // - doesn't handle encoded-word inside comments.
 
 bool parseComment(const char *&scursor, const char *const send,
-                  QString &result, bool isCRLF, bool reallySave)
+                  QString &result, NewlineType newline, bool reallySave)
 {
     int commentNestingDepth = 1;
     const char *afterLastClosingParenPos = nullptr;
@@ -483,7 +483,7 @@ bool parseComment(const char *&scursor, const char *const send,
 
     while (commentNestingDepth) {
         QString cmntPart;
-        if (parseGenericQuotedString(scursor, send, cmntPart, isCRLF, '(', ')', reallySave)) {
+        if (parseGenericQuotedString(scursor, send, cmntPart, newline, '(', ')', reallySave)) {
             assert(*(scursor - 1) == ')' || *(scursor - 1) == '(');
             // see the kdoc for the above function for the possible conditions
             // we have to check:
@@ -530,7 +530,7 @@ bool parseComment(const char *&scursor, const char *const send,
 // known issues: none.
 
 bool parsePhrase(const char *&scursor, const char *const send,
-                 QString &result, bool isCRLF)
+                 QString &result, NewlineType newline)
 {
     enum {
         None, Phrase, Atom, EncodedWord, QuotedString
@@ -565,7 +565,7 @@ bool parsePhrase(const char *&scursor, const char *const send,
             break;
         case '"': // quoted-string
             tmp.clear();
-            if (parseGenericQuotedString(scursor, send, tmp, isCRLF, '"', '"')) {
+            if (parseGenericQuotedString(scursor, send, tmp, newline, '"', '"')) {
                 successfullyParsed = scursor;
                 assert(*(scursor - 1) == '"');
                 switch (found) {
@@ -600,7 +600,7 @@ bool parsePhrase(const char *&scursor, const char *const send,
         case '(': // comment
             // parse it, but ignore content:
             tmp.clear();
-            if (parseComment(scursor, send, tmp, isCRLF,
+            if (parseComment(scursor, send, tmp, newline,
                              false /*don't bother with the content*/)) {
                 successfullyParsed = scursor;
                 lastWasEncodedWord = false; // strictly interpreting rfc2047, 6.2
@@ -681,9 +681,9 @@ bool parsePhrase(const char *&scursor, const char *const send,
 }
 
 bool parseDotAtom(const char *&scursor, const char *const send,
-                  QByteArrayView &result, bool isCRLF)
+                  QByteArrayView &result, NewlineType newline)
 {
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
 
     // always points to just after the last atom parsed:
     const char *successfullyParsed;
@@ -728,6 +728,11 @@ bool parseDotAtom(const char *&scursor, const char *const send,
 
 void eatCFWS(const char *&scursor, const char *const send, bool isCRLF)
 {
+    eatCFWS(scursor, send, isCRLF ? NewlineType::CRLF : NewlineType::LF);
+}
+
+void eatCFWS(const char *&scursor, const char *const send, NewlineType newline)
+{
     QString dummy;
 
     while (scursor != send) {
@@ -745,7 +750,7 @@ void eatCFWS(const char *&scursor, const char *const send, bool isCRLF)
             continue;
 
         case '(': // comment
-            if (parseComment(scursor, send, dummy, isCRLF, false /*don't save*/)) {
+            if (parseComment(scursor, send, dummy, newline, false /*don't save*/)) {
                 continue;
             }
             scursor = oldscursor;
@@ -759,9 +764,9 @@ void eatCFWS(const char *&scursor, const char *const send, bool isCRLF)
 }
 
 bool parseDomain(const char *&scursor, const char *const send,
-                 QString &result, bool isCRLF)
+                 QString &result, NewlineType newline)
 {
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor == send) {
         return false;
     }
@@ -778,7 +783,7 @@ bool parseDomain(const char *&scursor, const char *const send,
         // eat '[':
         scursor++;
         while (parseGenericQuotedString(scursor, send, maybeDomainLiteral,
-                                        isCRLF, '[', ']')) {
+                                        newline, '[', ']')) {
             if (scursor == send) {
                 // end of header: check for closing ']':
                 if (*(scursor - 1) == ']') {
@@ -803,7 +808,7 @@ bool parseDomain(const char *&scursor, const char *const send,
     } else {
         // dot-atom:
         QByteArrayView maybeDotAtom;
-        if (parseDotAtom(scursor, send, maybeDotAtom, isCRLF)) {
+        if (parseDotAtom(scursor, send, maybeDotAtom, newline)) {
             // Domain may end with '.', if so preserve it'
             if (scursor != send && *scursor == '.') {
                 maybeDotAtom = QByteArrayView(maybeDotAtom.constData(), maybeDotAtom.size() + 1);
@@ -817,10 +822,10 @@ bool parseDomain(const char *&scursor, const char *const send,
 }
 
 bool parseObsRoute(const char *&scursor, const char *const send,
-                   QStringList &result, bool isCRLF, bool save)
+                   QStringList &result, NewlineType newline, bool save)
 {
     while (scursor != send) {
-        eatCFWS(scursor, send, isCRLF);
+        eatCFWS(scursor, send, newline);
         if (scursor == send) {
             return false;
         }
@@ -851,7 +856,7 @@ bool parseObsRoute(const char *&scursor, const char *const send,
         }
 
         QString maybeDomain;
-        if (!parseDomain(scursor, send, maybeDomain, isCRLF)) {
+        if (!parseDomain(scursor, send, maybeDomain, newline)) {
             return false;
         }
         if (save) {
@@ -859,7 +864,7 @@ bool parseObsRoute(const char *&scursor, const char *const send,
         }
 
         // eat the following (optional) comma:
-        eatCFWS(scursor, send, isCRLF);
+        eatCFWS(scursor, send, newline);
         if (scursor == send) {
             return false;
         }
@@ -876,7 +881,7 @@ bool parseObsRoute(const char *&scursor, const char *const send,
 }
 
 bool parseAddrSpec(const char *&scursor, const char *const send,
-                   AddrSpec &result, bool isCRLF)
+                   AddrSpec &result, NewlineType newline)
 {
     //
     // STEP 1:
@@ -891,7 +896,7 @@ bool parseAddrSpec(const char *&scursor, const char *const send,
 
     while (scursor != send) {
         // first, eat any whitespace
-        eatCFWS(scursor, send, isCRLF);
+        eatCFWS(scursor, send, newline);
 
         char ch = *scursor++;
         switch (ch) {
@@ -905,7 +910,7 @@ bool parseAddrSpec(const char *&scursor, const char *const send,
 
         case '"': // quoted-string
             tmp.clear();
-            if (parseGenericQuotedString(scursor, send, tmp, isCRLF, '"', '"')) {
+            if (parseGenericQuotedString(scursor, send, tmp, newline, '"', '"')) {
                 maybeLocalPart += tmp;
             } else {
                 return false;
@@ -935,7 +940,7 @@ SAW_AT_SIGN:
     assert(*(scursor - 1) == '@');
 
     QString maybeDomain;
-    if (!parseDomain(scursor, send, maybeDomain, isCRLF)) {
+    if (!parseDomain(scursor, send, maybeDomain, newline)) {
         return false;
     }
 
@@ -946,16 +951,16 @@ SAW_AT_SIGN:
 }
 
 bool parseAngleAddr(const char *&scursor, const char *const send,
-                    AddrSpec &result, bool isCRLF)
+                    AddrSpec &result, NewlineType newline)
 {
     // first, we need an opening angle bracket:
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor == send || *scursor != '<') {
         return false;
     }
     scursor++; // eat '<'
 
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor == send) {
         return false;
     }
@@ -965,7 +970,7 @@ bool parseAngleAddr(const char *&scursor, const char *const send,
         KMIME_WARN << "obsolete source route found! ignoring.";
         QStringList dummy;
         if (!parseObsRoute(scursor, send, dummy,
-                           isCRLF, false /* don't save */)) {
+                           newline, false /* don't save */)) {
             return false;
         }
         // angle-addr isn't complete until after the '>':
@@ -976,11 +981,11 @@ bool parseAngleAddr(const char *&scursor, const char *const send,
 
     // parse addr-spec:
     AddrSpec maybeAddrSpec;
-    if (!parseAddrSpec(scursor, send, maybeAddrSpec, isCRLF)) {
+    if (!parseAddrSpec(scursor, send, maybeAddrSpec, newline)) {
         return false;
     }
 
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor == send || *scursor != '>') {
         return false;
     }
@@ -1005,7 +1010,13 @@ static QString stripQuotes(const QString &input)
 bool parseMailbox(const char *&scursor, const char *const send,
                   Mailbox &result, bool isCRLF)
 {
-    eatCFWS(scursor, send, isCRLF);
+    return parseMailbox(scursor, send, result, isCRLF ? NewlineType::CRLF : NewlineType::LF);
+}
+
+bool parseMailbox(const char *&scursor, const char *const send,
+                  Mailbox &result, NewlineType newline)
+{
+    eatCFWS(scursor, send, newline);
     if (scursor == send) {
         return false;
     }
@@ -1015,13 +1026,13 @@ bool parseMailbox(const char *&scursor, const char *const send,
 
     // first, try if it's a vanilla addr-spec:
     const char *oldscursor = scursor;
-    if (parseAddrSpec(scursor, send, maybeAddrSpec, isCRLF)) {
+    if (parseAddrSpec(scursor, send, maybeAddrSpec, newline)) {
         result.setAddress(maybeAddrSpec);
         // check for the obsolete form of display-name (as comment):
         eatWhiteSpace(scursor, send);
         if (scursor != send && *scursor == '(') {
             scursor++;
-            if (!parseComment(scursor, send, maybeDisplayName, isCRLF, true /*keep*/)) {
+            if (!parseComment(scursor, send, maybeDisplayName, newline, true /*keep*/)) {
                 return false;
             }
         }
@@ -1031,20 +1042,20 @@ bool parseMailbox(const char *&scursor, const char *const send,
     scursor = oldscursor;
 
     // second, see if there's a display-name:
-    if (!parsePhrase(scursor, send, maybeDisplayName, isCRLF)) {
+    if (!parsePhrase(scursor, send, maybeDisplayName, newline)) {
         // failed: reset cursor, note absent display-name
         maybeDisplayName.clear();
         scursor = oldscursor;
     } else {
         // succeeded: eat CFWS
-        eatCFWS(scursor, send, isCRLF);
+        eatCFWS(scursor, send, newline);
         if (scursor == send) {
             return false;
         }
     }
 
     // third, parse the angle-addr:
-    if (!parseAngleAddr(scursor, send, maybeAddrSpec, isCRLF)) {
+    if (!parseAngleAddr(scursor, send, maybeAddrSpec, newline)) {
         return false;
     }
 
@@ -1053,7 +1064,7 @@ bool parseMailbox(const char *&scursor, const char *const send,
         eatWhiteSpace(scursor, send);
         if (scursor != send && *scursor == '(') {
             scursor++;
-            if (!parseComment(scursor, send, maybeDisplayName, isCRLF, true /*keep*/)) {
+            if (!parseComment(scursor, send, maybeDisplayName, newline, true /*keep*/)) {
                 return false;
             }
         }
@@ -1067,24 +1078,30 @@ bool parseMailbox(const char *&scursor, const char *const send,
 bool parseGroup(const char *&scursor, const char *const send,
                 Address &result, bool isCRLF)
 {
+    return parseGroup(scursor, send, result, isCRLF ? NewlineType::CRLF : NewlineType::LF);
+}
+
+bool parseGroup(const char *&scursor, const char *const send,
+                Address &result, NewlineType newline)
+{
     // group         := display-name ":" [ mailbox-list / CFWS ] ";" [CFWS]
     //
     // equivalent to:
     // group   := display-name ":" [ obs-mbox-list ] ";"
 
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor == send) {
         return false;
     }
 
     // get display-name:
     QString maybeDisplayName;
-    if (!parsePhrase(scursor, send, maybeDisplayName, isCRLF)) {
+    if (!parsePhrase(scursor, send, maybeDisplayName, newline)) {
         return false;
     }
 
     // get ":":
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor == send || *scursor != ':') {
         return false;
     }
@@ -1094,7 +1111,7 @@ bool parseGroup(const char *&scursor, const char *const send,
     // get obs-mbox-list (may contain empty entries):
     scursor++;
     while (scursor != send) {
-        eatCFWS(scursor, send, isCRLF);
+        eatCFWS(scursor, send, newline);
         if (scursor == send) {
             return false;
         }
@@ -1112,12 +1129,12 @@ bool parseGroup(const char *&scursor, const char *const send,
         }
 
         Mailbox maybeMailbox;
-        if (!parseMailbox(scursor, send, maybeMailbox, isCRLF)) {
+        if (!parseMailbox(scursor, send, maybeMailbox, newline)) {
             return false;
         }
         result.mailboxList.append(maybeMailbox);
 
-        eatCFWS(scursor, send, isCRLF);
+        eatCFWS(scursor, send, newline);
         // premature end:
         if (scursor == send) {
             return false;
@@ -1138,9 +1155,15 @@ bool parseGroup(const char *&scursor, const char *const send,
 bool parseAddress(const char *&scursor, const char *const send,
                   Address &result, bool isCRLF)
 {
+    return parseAddress(scursor, send, result, isCRLF ? NewlineType::CRLF : NewlineType::LF);
+}
+
+bool parseAddress(const char *&scursor, const char *const send,
+                  Address &result, NewlineType newline)
+{
     // address       := mailbox / group
 
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor == send) {
         return false;
     }
@@ -1148,7 +1171,7 @@ bool parseAddress(const char *&scursor, const char *const send,
     // first try if it's a single mailbox:
     Mailbox maybeMailbox;
     const char *oldscursor = scursor;
-    if (parseMailbox(scursor, send, maybeMailbox, isCRLF)) {
+    if (parseMailbox(scursor, send, maybeMailbox, newline)) {
         // yes, it is:
         result.setDisplayName({});
         result.mailboxList.append(maybeMailbox);
@@ -1159,7 +1182,7 @@ bool parseAddress(const char *&scursor, const char *const send,
     Address maybeAddress;
 
     // no, it's not a single mailbox. Try if it's a group:
-    if (!parseGroup(scursor, send, maybeAddress, isCRLF)) {
+    if (!parseGroup(scursor, send, maybeAddress, newline)) {
         return false;
     }
 
@@ -1170,8 +1193,14 @@ bool parseAddress(const char *&scursor, const char *const send,
 bool parseAddressList(const char *&scursor, const char *const send,
                       QList<Address> &result, bool isCRLF)
 {
+    return parseAddressList(scursor, send, result, isCRLF ? NewlineType::CRLF : NewlineType::LF);
+}
+
+bool parseAddressList(const char *&scursor, const char *const send,
+                      QList<Address> &result, NewlineType newline)
+{
     while (scursor != send) {
-        eatCFWS(scursor, send, isCRLF);
+        eatCFWS(scursor, send, newline);
         // end of header: this is OK.
         if (scursor == send) {
             return true;
@@ -1189,12 +1218,12 @@ bool parseAddressList(const char *&scursor, const char *const send,
 
         // parse one entry
         Address maybeAddress;
-        if (!parseAddress(scursor, send, maybeAddress, isCRLF)) {
+        if (!parseAddress(scursor, send, maybeAddress, newline)) {
             return false;
         }
         result.append(maybeAddress);
 
-        eatCFWS(scursor, send, isCRLF);
+        eatCFWS(scursor, send, newline);
         // end of header: this is OK.
         if (scursor == send) {
             return true;
@@ -1208,7 +1237,7 @@ bool parseAddressList(const char *&scursor, const char *const send,
 }
 
 static bool parseParameter(const char *&scursor, const char *const send,
-                           QPair<QByteArray, QStringOrQPair> &result, bool isCRLF)
+                           QPair<QByteArray, QStringOrQPair> &result, NewlineType newline)
 {
     // parameter = regular-parameter / extended-parameter
     // regular-parameter = regular-parameter-name "=" value
@@ -1220,7 +1249,7 @@ static bool parseParameter(const char *&scursor, const char *const send,
     // (start,length) tuple if we see that the value is encoded
     // (trailing asterisk), for parseParameterList to decode...
 
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor == send) {
         return false;
     }
@@ -1233,14 +1262,14 @@ static bool parseParameter(const char *&scursor, const char *const send,
         return false;
     }
 
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     // premature end: not OK (haven't seen '=' yet).
     if (scursor == send || *scursor != '=') {
         return false;
     }
     scursor++; // eat '='
 
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor == send) {
         // don't choke on attribute=, meaning the value was omitted:
         if (maybeAttribute.endsWith('*')) {
@@ -1270,7 +1299,7 @@ static bool parseParameter(const char *&scursor, const char *const send,
             maybeAttribute.chop(1);
         }
 
-        if (!parseGenericQuotedString(scursor, send, maybeValue.qstring, isCRLF)) {
+        if (!parseGenericQuotedString(scursor, send, maybeValue.qstring, newline)) {
             scursor = oldscursor;
             result = qMakePair(maybeAttribute.toByteArray().toLower(), QStringOrQPair());
             return false; // this case needs further processing by upper layers!!
@@ -1290,7 +1319,7 @@ static bool parseParameter(const char *&scursor, const char *const send,
 
 static bool parseRawParameterList(const char *&scursor, const char *const send,
                                   std::map<QByteArray, QStringOrQPair> &result,
-                                  bool isCRLF)
+                                  NewlineType newline)
 {
     // we use parseParameter() consecutively to obtain a map of raw
     // attributes to raw values. "Raw" here means that we don't do
@@ -1302,7 +1331,7 @@ static bool parseRawParameterList(const char *&scursor, const char *const send,
     // _here_ and leave the rfc2231 handling solely to
     // parseParameterList(), which will still be enough work.
     while (scursor != send) {
-        eatCFWS(scursor, send, isCRLF);
+        eatCFWS(scursor, send, newline);
         // empty entry ending the list: OK.
         if (scursor == send) {
             return true;
@@ -1313,7 +1342,7 @@ static bool parseRawParameterList(const char *&scursor, const char *const send,
             continue;
         }
         QPair<QByteArray, QStringOrQPair> maybeParameter;
-        if (!parseParameter(scursor, send, maybeParameter, isCRLF)) {
+        if (!parseParameter(scursor, send, maybeParameter, newline)) {
             // we need to do a bit of work if the attribute is not
             // NULL. These are the cases marked with "needs further
             // processing" in parseParameter(). Specifically, parsing of the
@@ -1338,7 +1367,7 @@ static bool parseRawParameterList(const char *&scursor, const char *const send,
         // successful parsing brings us here:
         result[maybeParameter.first] = maybeParameter.second;
 
-        eatCFWS(scursor, send, isCRLF);
+        eatCFWS(scursor, send, newline);
         // end of header: ends list.
         if (scursor == send) {
             return true;
@@ -1458,11 +1487,11 @@ static void decodeRFC2231Value(KCodecs::Codec *&rfc2231Codec,
 bool parseParameterListWithCharset(const char *&scursor,
                                    const char *const send,
                                    Headers::ParameterMap &result,
-                                   QByteArray &charset, bool isCRLF)
+                                   QByteArray &charset, NewlineType newline)
 {
     // parse the list into raw attribute-value pairs:
     std::map<QByteArray, QStringOrQPair> rawParameterList;
-    if (!parseRawParameterList(scursor, send, rawParameterList, isCRLF)) {
+    if (!parseRawParameterList(scursor, send, rawParameterList, newline)) {
         return false;
     }
 
@@ -1737,7 +1766,7 @@ int parseDigits(const char *&scursor, const char *const send, int &finalResult)
 }
 
 static bool parseTimeOfDay(const char *&scursor, const char *const send,
-                           int &hour, int &min, int &sec, bool isCRLF = false)
+                           int &hour, int &min, int &sec, NewlineType newline)
 {
     // time-of-day := 2DIGIT [CFWS] ":" [CFWS] 2DIGIT [ [CFWS] ":" 2DIGIT ]
 
@@ -1748,13 +1777,13 @@ static bool parseTimeOfDay(const char *&scursor, const char *const send,
         return false;
     }
 
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor == send || *scursor != ':') {
         return false;
     }
     scursor++; // eat ':'
 
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor == send) {
         return false;
     }
@@ -1766,7 +1795,7 @@ static bool parseTimeOfDay(const char *&scursor, const char *const send,
         return false;
     }
 
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor == send) {
         sec = 0;
         return true; // seconds are optional
@@ -1778,7 +1807,7 @@ static bool parseTimeOfDay(const char *&scursor, const char *const send,
     if (*scursor == ':') {
         // yepp, there are seconds:
         scursor++; // eat ':'
-        eatCFWS(scursor, send, isCRLF);
+        eatCFWS(scursor, send, newline);
         if (scursor == send) {
             return false;
         }
@@ -1795,7 +1824,7 @@ static bool parseTimeOfDay(const char *&scursor, const char *const send,
 
 bool parseTime(const char *&scursor, const char *send,
                int &hour, int &min, int &sec, long int &secsEastOfGMT,
-               bool &timeZoneKnown, bool isCRLF)
+               bool &timeZoneKnown, NewlineType newline)
 {
     // time := time-of-day CFWS ( zone / obs-zone )
     //
@@ -1807,16 +1836,16 @@ bool parseTime(const char *&scursor, const char *send,
     //                "A"-"I" / "a"-"i" /
     //                "K"-"Z" / "k"-"z"
 
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor == send) {
         return false;
     }
 
-    if (!parseTimeOfDay(scursor, send, hour, min, sec, isCRLF)) {
+    if (!parseTimeOfDay(scursor, send, hour, min, sec, newline)) {
         return false;
     }
 
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     // there might be no timezone but a year following
     if ((scursor == send) || isdigit(*scursor)) {
         timeZoneKnown = false;
@@ -1861,9 +1890,9 @@ bool parseTime(const char *&scursor, const char *send,
 }
 
 bool parseQDateTime(const char *&scursor, const char *const send,
-                   QDateTime &result, bool isCRLF)
+                   QDateTime &result, NewlineType newline)
 {
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor == send || std::distance(scursor, send) < 17) {
         return false;
     }
@@ -1876,7 +1905,7 @@ bool parseQDateTime(const char *&scursor, const char *const send,
 }
 
 bool parseDateTime(const char *&scursor, const char *const send,
-                   QDateTime &result, bool isCRLF)
+                   QDateTime &result, NewlineType newline)
 {
     // Parsing date-time; strict mode:
     //
@@ -1890,7 +1919,7 @@ bool parseDateTime(const char *&scursor, const char *const send,
 
     result = QDateTime();
 
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor == send) {
         return false;
     }
@@ -1899,14 +1928,14 @@ bool parseDateTime(const char *&scursor, const char *const send,
     // let's see if there's a day-of-week:
     //
     if (parseDayName(scursor, send)) {
-        eatCFWS(scursor, send, isCRLF);
+        eatCFWS(scursor, send, newline);
         if (scursor == send) {
             return false;
         }
         // day-name should be followed by ',' but we treat it as optional:
         if (*scursor == ',') {
             scursor++; // eat ','
-            eatCFWS(scursor, send, isCRLF);
+            eatCFWS(scursor, send, newline);
         }
     }
 
@@ -1916,7 +1945,7 @@ bool parseDateTime(const char *&scursor, const char *const send,
     // ANSI-C asctime() format is: Wed Jun 30 21:49:08 1993
     if (!isdigit(*scursor) && parseMonthName(scursor, send, maybeMonth)) {
         asctimeFormat = true;
-        eatCFWS(scursor, send, isCRLF);
+        eatCFWS(scursor, send, newline);
     }
 
     //
@@ -1927,7 +1956,7 @@ bool parseDateTime(const char *&scursor, const char *const send,
         return false;
     }
 
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor == send) {
         return false;
     }
@@ -1949,7 +1978,7 @@ bool parseDateTime(const char *&scursor, const char *const send,
     assert(maybeMonth >= 0); assert(maybeMonth <= 11);
     ++maybeMonth; // 0-11 -> 1-12
 
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     if (scursor == send) {
         return false;
     }
@@ -1969,7 +1998,7 @@ bool parseDateTime(const char *&scursor, const char *const send,
         return false;
     }
 
-    eatCFWS(scursor, send, isCRLF);
+    eatCFWS(scursor, send, newline);
     int maybeHour;
     int maybeMinute;
     int maybeSecond;
@@ -1984,13 +2013,13 @@ bool parseDateTime(const char *&scursor, const char *const send,
 
         if (!parseTime(scursor, send,
                        maybeHour, maybeMinute, maybeSecond,
-                       secsEastOfGMT, timeZoneKnown, isCRLF)) {
+                       secsEastOfGMT, timeZoneKnown, newline)) {
             return false;
         }
 
         // in asctime() the year follows the time
         if (!timeAfterYear) {
-            eatCFWS(scursor, send, isCRLF);
+            eatCFWS(scursor, send, newline);
             if (scursor == send) {
                 return false;
             }
