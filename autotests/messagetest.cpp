@@ -137,7 +137,7 @@ void MessageTest::testWillsAndTillsCrash()
 
 void MessageTest::testDavidsParseCrash()
 {
-    std::shared_ptr<KMime::Message> mail = readAndParseMail(QStringLiteral("dfaure-crash.mbox"));
+    auto mail = readAndParseMail(QStringLiteral("dfaure-crash.mbox"));
     QCOMPARE(mail->to()->asUnicodeString().toLatin1(), "frank@domain.com");
 }
 
@@ -238,12 +238,12 @@ void MessageTest::testBug219749()
     msg.parse();
 
     QCOMPARE(msg.contents().size(), 2);
-    KMime::Content *attachment = msg.contents()[1];
-    QCOMPARE(attachment->contentType(DontCreate)->mediaType(), "application");
-    QCOMPARE(attachment->contentType(DontCreate)->subType(), "octet-stream");
+    auto attachment = msg.contents()[1];
+    QCOMPARE(attachment->contentType()->mediaType(), "application");
+    QCOMPARE(attachment->contentType()->subType(), "octet-stream");
     QCOMPARE(attachment->contentID()->identifier(), "jaselka1.docx4AECA1F9@9230725.3CDBB752");
     QCOMPARE(attachment->contentID()->as7BitString(), "<jaselka1.docx4AECA1F9@9230725.3CDBB752>");
-    Headers::ContentDisposition *cd = attachment->contentDisposition(DontCreate);
+    Headers::ContentDisposition *cd = attachment->contentDisposition();
     QVERIFY(cd);
     QCOMPARE(cd->filename(), QLatin1StringView("jaselka 1.docx"));
 }
@@ -429,11 +429,11 @@ void MessageTest::testInlineImages()
 
 void MessageTest::testIssue3908()
 {
-    std::shared_ptr<KMime::Message> msg = readAndParseMail(QStringLiteral("issue3908.mbox"));
+    auto msg = readAndParseMail(QStringLiteral("issue3908.mbox"));
     QCOMPARE(msg->contents().size(), 2);
-    KMime::Content *attachment = msg->contents().at(1);
+    auto attachment = msg->contents()[1];
     QVERIFY(attachment);
-    QVERIFY(attachment->contentDescription(DontCreate));
+    QVERIFY(attachment->contentDescription());
     QCOMPARE(attachment->contentDescription()->asUnicodeString(), QString::fromUtf8(
                  "Kontact oder auch KDE-PIM ist der Groupware-Client aus der KDE Software Compilation 4.Eine der Besonderheiten von Kontact "
                  "gegenüber anderen Groupware-Clients ist, dass die Teil-Programme auch weiterhin unabhängig von Kontact gestartet werden "
@@ -448,20 +448,20 @@ void MessageTest::testIssue3914()
 {
     // This loads a mail which has a content-disposition of which the filename parameter is empty.
     // Check that the parser doesn't choke on this.
-    std::shared_ptr<KMime::Message> msg = readAndParseMail(QStringLiteral("broken-content-disposition.mbox"));
+    auto msg = readAndParseMail(QStringLiteral("broken-content-disposition.mbox"));
 
     QCOMPARE(msg->subject()->as7BitString(), "Fwd: test broken mail");
     QCOMPARE(msg->contents().size(), 2);
-    KMime::Content *attachedMail =  msg->contents().at(1);
+    auto attachedMail =  msg->contents()[1];
     QCOMPARE(attachedMail->contentType()->mimeType(), "message/rfc822");
-    QVERIFY(attachedMail->contentDisposition(DontCreate));
+    QVERIFY(attachedMail->contentDisposition());
     QVERIFY(attachedMail->contentDisposition()->hasParameter("filename"));
     QVERIFY(attachedMail->contentDisposition()->parameter("filename").isEmpty());
 }
 
 void MessageTest::testBug223509()
 {
-    std::shared_ptr<KMime::Message> msg = readAndParseMail(QStringLiteral("encoding-crash.mbox"));
+    auto msg = readAndParseMail(QStringLiteral("encoding-crash.mbox"));
 
     QCOMPARE(msg->subject()->as7BitString(), "Blub");
     QCOMPARE(msg->contents().size(), 0);
@@ -490,12 +490,12 @@ void MessageTest::testEncapsulatedMessages()
     //
     // First, test some basic properties to check that the parsing was correct
     //
-    std::shared_ptr<KMime::Message> msg = readAndParseMail(QStringLiteral("simple-encapsulated.mbox"));
+    auto msg = readAndParseMailMut(QStringLiteral("simple-encapsulated.mbox"));
     QCOMPARE(msg->contentType()->mimeType(), "multipart/mixed");
     QCOMPARE(msg->contents().size(), 2);
     QVERIFY(msg->isTopLevel());
 
-    KMime::Content *const textContent = msg->contents().at(0);
+    auto const textContent = msg->contents()[0];
     QCOMPARE(textContent->contentType()->mimeType(), "text/plain");
     QVERIFY(textContent->contents().isEmpty());
     QVERIFY(!textContent->bodyIsMessage());
@@ -507,7 +507,7 @@ void MessageTest::testEncapsulatedMessages()
             "Hi Hans!\nLook at this interesting mail I forwarded to you!"));
     QCOMPARE(textContent->index().toString().toLatin1(), "1");
 
-    KMime::Content *messageContent = msg->contents().at(1);
+    auto messageContent = msg->contents()[1];
     QCOMPARE(messageContent->contentType()->mimeType(), "message/rfc822");
     QVERIFY(messageContent->body().isEmpty());
     QCOMPARE(messageContent->contents().count(), 1);
@@ -555,7 +555,7 @@ void MessageTest::testEncapsulatedMessages()
     QVERIFY(msg->encodedContent().contains(encapsulated->body()));
     QCOMPARE(msg->contentType()->mimeType(), "multipart/mixed");
     QCOMPARE(msg->contents().size(), 2);
-    messageContent = msg->contents().at(1);
+    messageContent = msg->contents()[1];
     QCOMPARE(messageContent->contentType()->mimeType(), "message/rfc822");
     QVERIFY(encapsulated == messageContent->bodyAsMessage());
 
@@ -572,10 +572,10 @@ void MessageTest::testEncapsulatedMessages()
 void MessageTest::testOutlookAttachmentNaming()
 {
     // Try and decode
-    std::shared_ptr<KMime::Message> msg = readAndParseMail(QStringLiteral("outlook-attachment.mbox"));
-    QVERIFY(msg->attachments().count() == 1);
+    auto msg = readAndParseMailMut(QStringLiteral("outlook-attachment.mbox"));
+    QVERIFY(msg->attachments().size() == 1);
 
-    KMime::Content *attachment = msg->contents()[1];
+    auto attachment = msg->contents()[1];
     QCOMPARE(attachment->contentType(DontCreate)->mediaType(), "text");
     QCOMPARE(attachment->contentType(DontCreate)->subType(), "x-patch");
 
@@ -595,9 +595,9 @@ void MessageTest::testOutlookAttachmentNaming()
 
 void MessageTest::testEncryptedMails()
 {
-    std::shared_ptr<KMime::Message> msg = readAndParseMail(QStringLiteral("x-pkcs7.mbox"));
+    auto msg = readAndParseMail(QStringLiteral("x-pkcs7.mbox"));
     QVERIFY(msg->contents().size() == 0);
-    QVERIFY(msg->attachments().count() == 0);
+    QVERIFY(msg->attachments().size() == 0);
     QVERIFY(KMime::isEncrypted(msg.get()) == true);
     QVERIFY(KMime::isInvitation(msg.get()) == false);
     QVERIFY(KMime::isSigned(msg.get()) == false);
@@ -605,7 +605,7 @@ void MessageTest::testEncryptedMails()
 
 void MessageTest::testReturnSameMail()
 {
-    std::shared_ptr<KMime::Message> msg = readAndParseMail(QStringLiteral("dontchangemail.mbox"));
+    auto msg = readAndParseMail(QStringLiteral("dontchangemail.mbox"));
     QFile file(QLatin1StringView(TEST_DATA_DIR) + QLatin1StringView("/dontchangemail.mbox"));
     QVERIFY(file.open(QIODevice::ReadOnly | QIODevice::Text));
     QByteArray fileContent = file.readAll();
@@ -629,19 +629,18 @@ void MessageTest::testReplyHeader()
 {
     auto msg = readAndParseMail(QStringLiteral("reply-header.mbox"));
     QVERIFY(msg);
-    QVERIFY(!msg->replyTo(DontCreate));
+    QVERIFY(!msg->replyTo());
     QCOMPARE(msg->hasHeader("Reply-To"), false);
     QCOMPARE(msg->hasHeader("Reply"), true);
     QVERIFY(msg->headerByType("Reply"));
 }
 
-std::shared_ptr<KMime::Message> MessageTest::readAndParseMail(const QString &mailFile) const
+std::shared_ptr<KMime::Message> MessageTest::readAndParseMailMut(const QString &mailFile) const
 {
-  QFile file(QLatin1StringView(TEST_DATA_DIR) + QLatin1StringView("/") +
-             mailFile);
-  const bool ok = file.open(QIODevice::ReadOnly);
-  if (!ok) {
-    qWarning() << file.fileName() << "not found";
+    QFile file(QLatin1StringView(TEST_DATA_DIR) + QLatin1StringView("/") + mailFile);
+    const bool ok = file.open(QIODevice::ReadOnly);
+    if (!ok) {
+        qWarning() << file.fileName() << "not found";
     }
     Q_ASSERT(ok);
     const QByteArray data = KMime::CRLFtoLF(file.readAll());
@@ -650,6 +649,11 @@ std::shared_ptr<KMime::Message> MessageTest::readAndParseMail(const QString &mai
     msg->setContent(data);
     msg->parse();
     return msg;
+}
+
+std::shared_ptr<const KMime::Message> MessageTest::readAndParseMail(const QString &mailFile) const
+{
+    return static_pointer_cast<const KMime::Message>(readAndParseMailMut(mailFile));
 }
 
 void MessageTest::testBug392239()
@@ -668,20 +672,20 @@ void MessageTest::testBugAttachment387423()
 
     QCOMPARE(msg->subject()->as7BitString(), "XXXXXXXXXXXXXXXXXXXXX");
     QEXPECT_FAIL("", "Problem with searching attachment", Continue);
-    QCOMPARE(msg->attachments().count(), 1);
-    QCOMPARE(msg->contents().count(), 2);
+    QCOMPARE(msg->attachments().size(), 1);
+    QCOMPARE(msg->contents().size(), 2);
 
-    KMime::Content *attachment = msg->contents()[1];
-    QCOMPARE(attachment->contentType(DontCreate)->mediaType(), "image");
-    QCOMPARE(attachment->contentType(DontCreate)->subType(), "gif");
-    QCOMPARE(attachment->contentType(DontCreate)->subType(), "gif");
-    QCOMPARE(attachment->contentDisposition(DontCreate)->filename(), QStringLiteral("new.gif"));
-    QCOMPARE(attachment->contentDisposition(DontCreate)->disposition(), Headers::CDattachment);
+    auto attachment = msg->contents()[1];
+    QCOMPARE(attachment->contentType()->mediaType(), "image");
+    QCOMPARE(attachment->contentType()->subType(), "gif");
+    QCOMPARE(attachment->contentType()->subType(), "gif");
+    QCOMPARE(attachment->contentDisposition()->filename(), QStringLiteral("new.gif"));
+    QCOMPARE(attachment->contentDisposition()->disposition(), Headers::CDattachment);
 }
 
 void MessageTest::testCrashReplyInvalidEmail()
 {
-    std::shared_ptr<KMime::Message> msg = readAndParseMail(QStringLiteral("crash-invalid-email-reply.mbox"));
+    auto msg = readAndParseMail(QStringLiteral("crash-invalid-email-reply.mbox"));
     QCOMPARE(msg->subject()->as7BitString(), "Re: Authorization required to post to gmane.network.wireguard (b96565298414a43aabcf9fbedf5e7e27)");
     QCOMPARE(msg->contentType()->mimeType(), "text/plain");
     QCOMPARE(msg->contentType()->charset(), "us-ascii");
@@ -690,14 +694,14 @@ void MessageTest::testCrashReplyInvalidEmail()
 
 void MessageTest::testHeadersWithNullBytes()
 {
-    std::shared_ptr<KMime::Message> msg = readAndParseMail(QStringLiteral("headers-with-nullbytes.mbox"));
+    auto msg = readAndParseMail(QStringLiteral("headers-with-nullbytes.mbox"));
     QCOMPARE(msg->subject()->as7BitString(), "This header type has a trailing null byte");
     QCOMPARE(msg->headerByType("SubjectInvalid")->as7BitString(), "This header type contains a null byte");
 }
 
 void MessageTest::testBigAllocation()
 {
-    std::shared_ptr<KMime::Message> msg = readAndParseMail(QStringLiteral("big-allocation.mbox"));
+    auto msg = readAndParseMail(QStringLiteral("big-allocation.mbox"));
     QCOMPARE(msg->contents().size(), 20);
     for (const auto &part : msg->contents()) {
         QVERIFY(part->contents().empty());
@@ -722,13 +726,13 @@ void MessageTest::testGarbage()
 {
     // all this does is to ensure parsing the input file doesn't crash, trigger ASAN or infinitely loop
     QFETCH(QString, filename);
-    std::shared_ptr<KMime::Message> msg = readAndParseMail(filename);
+    auto msg = readAndParseMail(filename);
     QVERIFY(msg);
 }
 
 void MessageTest::testYenc()
 {
-    std::shared_ptr<KMime::Message> msg = readAndParseMail(u"yenc-single-part.yenc"_s);
+    auto msg = readAndParseMail(u"yenc-single-part.yenc"_s);
     QVERIFY(msg);
 
     QFile refFile(QLatin1StringView(TEST_DATA_DIR) + "/yenc-single-part.txt"_L1);
