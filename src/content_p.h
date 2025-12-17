@@ -14,7 +14,6 @@ namespace KMime
 {
 class Content;
 class Message;
-using MessagePtr = std::shared_ptr<Message>;
 
 class ContentPrivate
 {
@@ -52,7 +51,7 @@ public:
     Content *parent = nullptr;
 
     QList<Content *> multipartContents;
-    MessagePtr bodyAsMessage;
+    std::shared_ptr<Message> bodyAsMessage;
 
     QList<Headers::Base *> headers;
 
