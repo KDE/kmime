@@ -635,7 +635,7 @@ void MessageTest::testReplyHeader()
     QVERIFY(msg->headerByType("Reply"));
 }
 
-std::shared_ptr<KMime::Message> MessageTest::readAndParseMailMut(const QString &mailFile) const
+std::unique_ptr<KMime::Message> MessageTest::readAndParseMailMut(const QString &mailFile) const
 {
     QFile file(QLatin1StringView(TEST_DATA_DIR) + QLatin1StringView("/") + mailFile);
     const bool ok = file.open(QIODevice::ReadOnly);
@@ -645,15 +645,15 @@ std::shared_ptr<KMime::Message> MessageTest::readAndParseMailMut(const QString &
     Q_ASSERT(ok);
     const QByteArray data = KMime::CRLFtoLF(file.readAll());
     Q_ASSERT(!data.isEmpty());
-    auto msg = std::make_shared<KMime::Message>();
+    auto msg = std::make_unique<KMime::Message>();
     msg->setContent(data);
     msg->parse();
     return msg;
 }
 
-std::shared_ptr<const KMime::Message> MessageTest::readAndParseMail(const QString &mailFile) const
+std::unique_ptr<const KMime::Message> MessageTest::readAndParseMail(const QString &mailFile) const
 {
-    return static_pointer_cast<const KMime::Message>(readAndParseMailMut(mailFile));
+    return readAndParseMailMut(mailFile);
 }
 
 void MessageTest::testBug392239()
