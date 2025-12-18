@@ -235,10 +235,12 @@ void Content::clearContents()
     d->clearBodyMessage();
 }
 
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
 QByteArray Content::encodedContent(bool useCrLf) const
 {
     return encodedContent(useCrLf ? NewlineType::CRLF : NewlineType::LF);
 }
+#endif
 
 QByteArray Content::encodedContent(NewlineType newline) const
 {
@@ -375,10 +377,12 @@ QByteArray Content::decodedBody() const
     return ret;
 }
 
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
 QByteArray Content::decodedContent() const
 {
     return decodedBody();
 }
+#endif
 
 QString Content::decodedText(DecodedTextTrimOption trimOption) const
 {
@@ -496,7 +500,7 @@ void Content::appendContent(std::unique_ptr<KMime::Content> &&content)
         c->setParent(this);
     }
 }
-
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
 void Content::appendContent(Content *c)
 {
     // This method makes no sense for encapsulated messages
@@ -510,7 +514,7 @@ void Content::appendContent(Content *c)
         c->setParent(this);
     }
 }
-
+#endif
 void Content::prependContent(std::unique_ptr<KMime::Content> &&content)
 {
     // This method makes no sense for encapsulated messages
@@ -525,7 +529,7 @@ void Content::prependContent(std::unique_ptr<KMime::Content> &&content)
         c->setParent(this);
     }
 }
-
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
 void Content::prependContent(Content *c)
 {
     // This method makes no sense for encapsulated messages
@@ -539,6 +543,7 @@ void Content::prependContent(Content *c)
         c->setParent(this);
     }
 }
+#endif
 
 std::unique_ptr<Content> Content::takeContent(Content *c)
 {
@@ -620,25 +625,27 @@ void Content::setHeader(std::unique_ptr<Headers::Base> &&h)
     removeHeader(h->type());
     appendHeader(std::move(h));
 }
-
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
 void Content::setHeader(Headers::Base *h)
 {
     Q_ASSERT(h);
     removeHeader(h->type());
     appendHeader(std::unique_ptr<Headers::Base>(h));
 }
-
+#endif
 void Content::appendHeader(std::unique_ptr<Headers::Base> &&h)
 {
     Q_D(Content);
     d->headers.append(h.release());
 }
 
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
 void Content::appendHeader(Headers::Base *h)
 {
     Q_D(Content);
     d->headers.append(h);
 }
+#endif
 
 bool Content::removeHeader(QByteArrayView type)
 {

@@ -64,12 +64,15 @@ enum class ParsingPolicy {
                                           const char *const send,
                                           QByteArrayView &result,
                                           ParsingPolicy parsingPolicy = ParsingPolicy::Allow7BitOnly);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
 [[deprecated("Use the QByteArrayView overload")]] [[nodiscard]]
 inline bool parseAtom(const char *&scursor, const char *const send, QByteArrayView &result, bool allow8Bit)
 {
     return parseAtom(scursor, send, result, allow8Bit ? ParsingPolicy::Allow8Bit : ParsingPolicy::Allow7BitOnly);
 }
+#endif
 
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
 [[deprecated("Use the QByteArrayView overload")]] [[nodiscard]]
 inline bool parseAtom(const char *&scursor, const char *const send, QByteArray &result, bool allow8Bit = false)
 {
@@ -78,7 +81,7 @@ inline bool parseAtom(const char *&scursor, const char *const send, QByteArray &
     result = v.toByteArray();
     return r;
 }
-
+#endif
 /**
   Eats comment-folding-white-space, skips whitespace, folding and comments
   (even nested ones) and stops at the next non-CFWS character.  After
@@ -95,9 +98,11 @@ inline bool parseAtom(const char *&scursor, const char *const send, QByteArray &
 */
 KMIME_EXPORT void eatCFWS(const char *&scursor, const char *const send,
                           NewlineType newline);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
 [[deprecated("use the NewlineType overload instead")]]
 KMIME_EXPORT void eatCFWS(const char *&scursor, const char *const send,
                           bool isCRLF);
+#endif
 
 /**
   Parses a single mailbox.
@@ -117,40 +122,45 @@ KMIME_EXPORT void eatCFWS(const char *&scursor, const char *const send,
 */
 KMIME_EXPORT bool parseMailbox(const char *&scursor, const char *const send,
                                Types::Mailbox &result, NewlineType newline = NewlineType::LF);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
 [[deprecated("use the NewlineType overload instead")]]
 KMIME_EXPORT bool parseMailbox(const char *&scursor, const char *const send,
                                Types::Mailbox &result, bool isCRLF);
+#endif
 
 [[nodiscard]] KMIME_EXPORT bool parseGroup(const char *&scursor,
                                            const char *const send,
                                            Types::Address &result,
                                            NewlineType newline = NewlineType::LF);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
 [[deprecated("use the NewlineType overload instead")]]
 [[nodiscard]] KMIME_EXPORT bool parseGroup(const char *&scursor,
                                            const char *const send,
                                            Types::Address &result,
                                            bool isCRLF);
-
+#endif
 [[nodiscard]] KMIME_EXPORT bool parseAddress(const char *&scursor,
                                              const char *const send,
                                              Types::Address &result,
                                              NewlineType newline = NewlineType::LF);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
 [[deprecated("use the NewlineType overload instead")]]
 [[nodiscard]] KMIME_EXPORT bool parseAddress(const char *&scursor,
                                              const char *const send,
                                              Types::Address &result,
                                              bool isCRLF);
-
+#endif
 [[nodiscard]] KMIME_EXPORT bool parseAddressList(const char *&scursor,
                                                  const char *const send,
                                                  QList<Types::Address> &result,
                                                  NewlineType newline = NewlineType::LF);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
 [[deprecated("use the NewlineType overload instead")]]
 [[nodiscard]] KMIME_EXPORT bool parseAddressList(const char *&scursor,
                                                  const char *const send,
                                                  QList<Types::Address> &result,
                                                  bool isCRLF);
-
+#endif
 /** Parses the first header contained the given data.
  *  If a header is found @p head will be shortened to no longer
  *  include the corresponding data, ie. this method can be called

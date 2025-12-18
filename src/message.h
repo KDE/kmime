@@ -64,10 +64,12 @@ class MessagePrivate;
 class KMIME_EXPORT Message : public Content
 {
 public:
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
     /**
       A shared pointer to a message object.
     */
     KMIME_DEPRECATED typedef std::shared_ptr<Message> Ptr;
+#endif
     /**
       Creates an empty Message.
     */
@@ -83,9 +85,11 @@ public:
       @param create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::MessageID *messageID(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
     [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::MessageID *messageID(bool create) {
         return messageID(create ? Create : DontCreate);
     }
+#endif
     /**
       Returns the Message-ID header.
       Can be @c nullptr if the header doesn't exist.
@@ -98,9 +102,11 @@ public:
       @param create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Subject *subject(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
     [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::Subject *subject(bool create) {
         return subject(create ? Create : DontCreate);
     }
+#endif
     /**
       Returns the Subject header.
       Can be @c nullptr if the header doesn't exist.
@@ -113,9 +119,11 @@ public:
       @param create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Date *date(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
     [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::Date *date(bool create) {
         return date(create ? Create : DontCreate);
     }
+#endif
     /**
       Returns the Date header.
       Can be @c nullptr if the header doesn't exist.
@@ -128,9 +136,11 @@ public:
       @param create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::From *from(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
     [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::From *from(bool create) {
         return from(create ? Create : DontCreate);
     }
+#endif
     /**
       Returns the From header.
       Can be @c nullptr if the header doesn't exist.
@@ -143,9 +153,11 @@ public:
       @param create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Organization *organization(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
     [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::Organization *organization(bool create) {
         return organization(create ? Create : DontCreate);
     }
+#endif
     /**
       Returns the Organization header.
       Can be @c nullptr if the header doesn't exist.
@@ -158,9 +170,11 @@ public:
       @param create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::ReplyTo *replyTo(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
     [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::ReplyTo *replyTo(bool create) {
         return replyTo(create ? Create : DontCreate);
     }
+#endif
     /**
       Returns the Reply-To header.
       Can be @c nullptr if the header doesn't exist.
@@ -173,9 +187,11 @@ public:
       @param create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::To *to(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
     [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::To *to(bool create) {
         return to(create ? Create : DontCreate);
     }
+#endif
     /**
       Returns the To header.
       Can be @c nullptr if the header doesn't exist.
@@ -188,9 +204,11 @@ public:
       @param create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Cc *cc(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
     [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::Cc *cc(bool create) {
         return cc(create ? Create : DontCreate);
     }
+#endif
     /**
       Returns the Cc header.
       Can be @c nullptr if the header doesn't exist.
@@ -203,9 +221,11 @@ public:
       @param create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Bcc *bcc(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
     [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::Bcc *bcc(bool create) {
         return bcc(create ? Create : DontCreate);
     }
+#endif
     /**
       Returns the Bcc header.
       Can be @c nullptr if the header doesn't exist.
@@ -218,9 +238,11 @@ public:
       @param create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::References *references(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
     [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::References *references(bool create) {
         return references(create ? Create : DontCreate);
     }
+#endif
     /**
       Returns the References header.
       Can be @c nullptr if the header doesn't exist.
@@ -233,9 +255,11 @@ public:
       @param create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::UserAgent *userAgent(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
     [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::UserAgent *userAgent(bool create) {
         return userAgent(create ? Create : DontCreate);
     }
+#endif
     /**
       Returns the User-Agent header.
       Can be @c nullptr if the header doesn't exist.
@@ -248,9 +272,11 @@ public:
       @param create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::InReplyTo *inReplyTo(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
     [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::InReplyTo *inReplyTo(bool create) {
         return inReplyTo(create ? Create : DontCreate);
     }
+#endif
     /**
       Returns the In-Reply-To header.
       Can be @c nullptr if the header doesn't exist.
@@ -263,9 +289,11 @@ public:
       @param create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Sender *sender(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
     [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::Sender *sender(bool create) {
         return sender(create ? Create : DontCreate);
     }
+#endif
     /**
       Returns the Sender header.
       Can be @c nullptr if the header doesn't exist.

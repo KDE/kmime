@@ -120,12 +120,12 @@ class Message;
 class KMIME_EXPORT Content
 {
 public:
-
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
     /**
       Describes a list of Content objects.
     */
   KMIME_DEPRECATED typedef QList<KMime::Content *> List;
-
+#endif
   /**
     Creates an empty Content object with a specified parent.
     @param parent the parent Content object
@@ -279,9 +279,11 @@ public:
     @since 4.4 (took a bool before 26.04)
   */
   template <typename T> T *header(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
   template <typename T> [[deprecated("use the CreatePolicy overload instead")]] inline T *header(bool create) {
       return header<T>(create ? Create : DontCreate);
   }
+#endif
   /**
     Returns the first header of type @tparam T.
 
@@ -310,7 +312,9 @@ public:
     @since 4.4 (took a raw pointer before 26.04)
   */
   void setHeader(std::unique_ptr<Headers::Base> &&h);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
   [[deprecated("use the unique_ptr overload instead")]] void setHeader(Headers::Base *h);
+#endif
 
   /**
     Appends the specified header to the headers of this Content.
@@ -318,7 +322,9 @@ public:
     @since 4.4 (took a raw pointer before 26.04)
   */
   void appendHeader(std::unique_ptr<Headers::Base> &&h);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
   [[deprecated("use the unique_ptr overload instead")]] void appendHeader(Headers::Base *h);
+#endif
 
   /**
     Searches for the first header of type @p type, and deletes it, removing
@@ -349,9 +355,11 @@ public:
     @param create Whether to create the header if it doesn't exist yet.
   */
   Headers::ContentType *contentType(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
   [[deprecated("use the CreatePolicy overload instead")]] inline Headers::ContentType *contentType(bool create) {
       return contentType(create ? Create : DontCreate);
   }
+#endif
   /**
     Returns the Content-Type header.
 
@@ -366,9 +374,11 @@ public:
     @param create Whether to create the header if it doesn't exist yet.
   */
   Headers::ContentTransferEncoding *contentTransferEncoding(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
   [[deprecated("use the CreatePolicy overload instead")]] inline Headers::ContentTransferEncoding *contentTransferEncoding(bool create) {
       return contentTransferEncoding(create ? Create : DontCreate);
   }
+#endif
   /**
     Returns the Content-Transfer-Encoding header.
 
@@ -383,9 +393,11 @@ public:
     @param create Whether to create the header if it doesn't exist yet.
   */
   Headers::ContentDisposition *contentDisposition(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
   [[deprecated("use the CreatePolicy overload instead")]] inline Headers::ContentDisposition *contentDisposition(bool create) {
       return contentDisposition(create ? Create : DontCreate);
   }
+#endif
   /**
     Returns the Content-Disposition header.
 
@@ -400,9 +412,11 @@ public:
     @param create Whether to create the header if it doesn't exist yet.
   */
   Headers::ContentDescription *contentDescription(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
   [[deprecated("use the CreatePolicy overload instead")]] inline Headers::ContentDescription *contentDescription(bool create) {
       return contentDescription(create ? Create : DontCreate);
   }
+#endif
   /**
     Returns the Content-Description header.
 
@@ -418,9 +432,11 @@ public:
     @since 4.2
   */
   Headers::ContentLocation *contentLocation(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
   [[deprecated("use the CreatePolicy overload instead")]] inline Headers::ContentLocation *contentLocation(bool create) {
       return contentLocation(create ? Create : DontCreate);
   }
+#endif
   /**
     Returns the Content-Location header.
 
@@ -435,9 +451,11 @@ public:
     @since 4.4
   */
   Headers::ContentID *contentID(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
   [[deprecated("use the CreatePolicy overload instead")]] inline Headers::ContentID *contentID(bool create) {
       return contentID(create ? Create : DontCreate);
   }
+#endif
   /**
     Returns the Content-ID header.
 
@@ -556,8 +574,10 @@ public:
     \a newline whether to use CRLF for linefeeds, or LF (default is LF).
   */
   [[nodiscard]] QByteArray encodedContent(NewlineType newline = NewlineType::LF) const;
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
   [[deprecated("use the NewlineType overload instead")]]
   [[nodiscard]] QByteArray encodedContent(bool useCrLf) const;
+#endif
 
   /**
    * Like encodedContent(), with the difference that only the body will be
@@ -575,8 +595,10 @@ public:
    * @since 25.12 (previously decodedContent())
    */
   [[nodiscard]] QByteArray decodedBody() const;
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
   [[deprecated("Use decodedBody() instead")]]
   [[nodiscard]] QByteArray decodedContent() const;
+#endif
 
   /** Options for Content::decodedText().
    *  @since 24.12
@@ -613,11 +635,13 @@ public:
 
     @deprecated since 24.12, use decodedText(DecodedTextTrimOption) instead.
   */
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
   [[deprecated("use decodedText(DecodedTextTrimOption) instead")]]
   [[nodiscard]] inline QString decodedText(bool trimText, bool removeTrailingNewlines = false) const
   {
     return decodedText(trimText ? TrimSpaces : removeTrailingNewlines ? TrimNewlines : NoTrim);
   }
+#endif
 
   /**
     Sets the Content body to the given string using charset of the content type.
@@ -681,7 +705,9 @@ public:
     @since 6.0 (took a raw pointer until 26.04)
   */
   void appendContent(std::unique_ptr<KMime::Content> &&content);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
   [[deprecated("use the unique_ptr overload instead")]] void appendContent(Content *content);
+#endif
 
   /**
     Prepends a new sub-Content. If the sub-Content is already part of another
@@ -693,7 +719,9 @@ public:
     @since 6.0 (took a raw pointer until 26.04)
   */
   void prependContent(std::unique_ptr<KMime::Content> &&content);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
   [[deprecated("use the unique_ptr overload instead")]] void prependContent(Content *content);
+#endif
 
   /**
     Removes the given sub-Content and, if that actually was a sub-content

@@ -21,11 +21,12 @@ namespace KMime
 class KMIME_EXPORT NewsArticle : public Message
 {
 public:
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
     /**
       A shared pointer to a news article.
     */
     KMIME_DEPRECATED typedef std::shared_ptr<NewsArticle> Ptr;
-
+#endif
     ///@cond PRIVATE
     // needed for Akonadi polymorphic payload support
     typedef Message SuperClass;
@@ -46,9 +47,11 @@ public:
       @param create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Control *control(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
     [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::Control *control(bool create) {
         return control(create ? Create : DontCreate);
     }
+#endif
     /**
       Returns the Control header.
       Can be @c nullptr if the header doesn't exist.
@@ -61,9 +64,11 @@ public:
       @param create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Supersedes *supersedes(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
     [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::Supersedes *supersedes(bool create) {
         return supersedes(create ? Create : DontCreate);
     }
+#endif
     /**
       Returns the Supersedes header.
       Can be @c nullptr if the header doesn't exist.
@@ -76,9 +81,11 @@ public:
       @param create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::MailCopiesTo *mailCopiesTo(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
     [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::MailCopiesTo *mailCopiesTo(bool create) {
         return mailCopiesTo(create ? Create : DontCreate);
     }
+#endif
     /**
       Returns the Mail-Copies-To header.
       Can be @c nullptr if the header doesn't exist.
@@ -91,9 +98,11 @@ public:
       @param create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Newsgroups *newsgroups(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
     [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::Newsgroups *newsgroups(bool create) {
         return newsgroups(create ? Create : DontCreate);
     }
+#endif
     /**
       Returns the Newsgroups header.
       Can be @c nullptr if the header doesn't exist.
@@ -106,9 +115,11 @@ public:
       @param create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::FollowUpTo *followUpTo(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
     [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::FollowUpTo *followUpTo(bool create) {
         return followUpTo(create ? Create : DontCreate);
     }
+#endif
     /**
       Returns the Follow-Up-To header.
       Can be @c nullptr if the header doesn't exist.
@@ -121,9 +132,11 @@ public:
       @param create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Lines *lines(CreatePolicy create = Create);
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
     [[deprecated("use the CreatePolicy overload instead")]] inline KMime::Headers::Lines *lines(bool create) {
         return lines(create ? Create : DontCreate);
     }
+#endif
     /**
       Returns the Lines header.
       Can be @c nullptr if the header doesn't exist.

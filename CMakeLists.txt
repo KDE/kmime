@@ -33,6 +33,7 @@ set(QT_REQUIRED_VERSION "6.7.0")
 
 find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED Core)
 
+set(EXCLUDE_DEPRECATED_BEFORE_AND_AT 0 CACHE STRING "Control the range of deprecated API excluded from the build [default=0].")
 ecm_setup_version(PROJECT VARIABLE_PREFIX KMIME
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kmime_version.h"
                         PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KPim6MimeConfigVersion.cmake"
