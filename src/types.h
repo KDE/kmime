@@ -34,7 +34,9 @@ struct KMIME_EXPORT AddrSpec {
     QString localPart;
     QString domain;
 };
+#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
 using AddrSpecList = QList<AddrSpec>;
+#endif
 
 /**
   Represents an (email address, display name) pair according RFC 2822,
