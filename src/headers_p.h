@@ -78,7 +78,7 @@ public:
 class IdentPrivate : public StructuredPrivate
 {
 public:
-    KMime::Types::AddrSpecList msgIdList;
+    QList<KMime::Types::AddrSpec> msgIdList;
 };
 
 class SingleIdentPrivate : public StructuredPrivate
