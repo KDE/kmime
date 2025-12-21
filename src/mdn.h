@@ -137,7 +137,7 @@ enum DispositionModifier {
 
   IOW:
   \a ManualAction for user-driven actions,
-  \a AutomanticAction for filtering.
+  \a AutomaticAction for filtering.
 */
 enum ActionMode {
     ManualAction,

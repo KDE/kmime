@@ -127,7 +127,6 @@ public:
   [[nodiscard]] virtual QByteArray as7BitString() const = 0;
   /*!
     Returns the encoded header.
-    \a withHeaderType Specifies whether the header-type should be included.
   */
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
   [[deprecated("use as7BitString() instead")]]

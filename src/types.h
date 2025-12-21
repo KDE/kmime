@@ -124,6 +124,7 @@ public:
 
   /*!
     Parses the given 7bit encoded string.
+    \a s The given 7bit encoded string
   */
   void from7BitString(QByteArrayView s);
 
