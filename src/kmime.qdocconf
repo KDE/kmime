@@ -1,0 +1,33 @@
+include($KDE_DOCS/global/qt-module-defaults.qdocconf)
+
+project = KMime
+description = The KMime Library.
+
+
+documentationinheaders = true
+
+headerdirs += .
+sourcedirs += .
+
+outputformats = HTML
+
+depends += \
+    qtcore
+
+navigation.landingpage = "KMime"
+
+qhp.projects            = kmime
+
+qhp.kmime.file                = kmime.qhp
+qhp.kmime.namespace           = org.kde.kmime.$QT_VERSION_TAG
+qhp.kmime.virtualFolder       = kmime
+qhp.kmime.indexTitle          = kmime
+qhp.kmime.indexRoot           =
+
+qhp.kmime.subprojects         = classes
+qhp.kmime.subprojects.classes.title = C++ Classes
+qhp.kmime.subprojects.classes.indexTitle = KMime C++ Classes
+qhp.kmime.subprojects.classes.selectors = class fake:headerfile
+qhp.kmime.subprojects.classes.sortPages = true
+
+tagfile = kmime.tags

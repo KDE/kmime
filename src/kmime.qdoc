@@ -1,0 +1,9 @@
+/*!
+    \module KMime
+    \title KMime C++ Classes
+    \ingroup modules
+    \cmakepackage KPim6
+    \cmakecomponent Mime
+
+    \brief The KMime Library.
+*/

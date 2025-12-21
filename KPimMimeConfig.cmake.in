@@ -3,4 +3,3 @@ include(CMakeFindDependencyMacro)
 find_dependency(Qt6Core @QT_REQUIRED_VERSION@)
 find_dependency(KF6Codecs @KF_MIN_VERSION@)
 include("${CMAKE_CURRENT_LIST_DIR}/KPim6MimeTargets.cmake")
-@PACKAGE_INCLUDE_QCHTARGETS@

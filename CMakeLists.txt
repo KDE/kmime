@@ -23,7 +23,7 @@ include(ECMSetupVersion)
 include(ECMQtDeclareLoggingCategory)
 include(ECMDeprecationSettings)
 include(ECMFeatureSummary)
-include(ECMAddQch)
+include(ECMGenerateQDoc)
 include(ECMCheckOutboundLicense)
 include(ECMPoQmTools)
 
@@ -39,9 +39,6 @@ ecm_setup_version(PROJECT VARIABLE_PREFIX KMIME
                         PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KPim6MimeConfigVersion.cmake"
                         SOVERSION 6
 )
-
-option(BUILD_QCH "Build API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
-add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
 
 option(BUILD_FUZZERS "Build KMime fuzzers" OFF)
 
@@ -71,16 +68,6 @@ endif()
 
 ########### CMake Config Files ###########
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KPim6Mime")
-if(BUILD_QCH)
-    ecm_install_qch_export(
-        TARGETS KPim6Mime_QCH
-        FILE KPim6MimeQchTargets.cmake
-        DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
-        COMPONENT Devel
-    )
-    set(PACKAGE_INCLUDE_QCHTARGETS "include(\"\${CMAKE_CURRENT_LIST_DIR}/KPim6MimeQchTargets.cmake\")")
-endif()
-
 
 configure_package_config_file(
     "${KMime_SOURCE_DIR}/KPimMimeConfig.cmake.in"
