@@ -856,7 +856,6 @@ bool Content::bodyIsMessage() const
     return false;
 }
 
-// @cond PRIVATE
 #define kmime_mk_header_accessor( type, method ) \
     Headers::type *Content::method( CreatePolicy create ) { \
         return header<Headers::type>( create ); \

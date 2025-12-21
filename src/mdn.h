@@ -6,24 +6,24 @@
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
-/**
+/*!
   @file
-  This file is part of the API for handling @ref MIME data and
+  This file is part of the API for handling \ MIME data and
   provides functions for supporting Message Disposition Notifications (MDNs),
   also known as email return receipts.
 
-  @brief
+  \brief
   Provides support for Message Disposition Notifications.
 
   @authors Marc Mutz \<mutz@kde.org\>
 
   @glossary @anchor MDN @b MDN:
-  see @ref Message_Disposition_Notification
+  see \ Message_Disposition_Notification
 
   @glossary @anchor Message_Disposition_Notification
   @b Message @b Disposition @b Notification:
   Return receipts for email are called message disposition notifications.
-  Their format and usage is outlined in @ref RFC2298.
+  Their format and usage is outlined in \ RFC2298.
 
   @glossary @anchor RFC2298 @anchor rfc2298 @b RFC @b 2298:
   RFC that defines the <a href="https://tools.ietf.org/html/rfc2298">
@@ -44,7 +44,7 @@ namespace KMime
 namespace MDN
 {
 
-/**
+/*!
   The following disposition-types are defined:
 
   @li Displayed    The message has been displayed by the UA to someone
@@ -77,14 +77,14 @@ namespace MDN
   such situations.
 
   IOW:
-  @p Displayed when - well -displayed
-  @p Dispatched when forwarding unseen ( == new )
-  @p Processed (maybe) when piping unseen, but probably never used
-  @p Deleted when deleting unseen
-  @p Denied on user command
-  @p Failed on Disposition-Notification-Options containing
+  \a Displayed when - well -displayed
+  \a Dispatched when forwarding unseen ( == new )
+  \a Processed (maybe) when piping unseen, but probably never used
+  \a Deleted when deleting unseen
+  \a Denied on user command
+  \a Failed on Disposition-Notification-Options containing
   unknown required options. ( == @em any required options )
-  @p Failed needs a description in the @p special parameter.
+  \a Failed needs a description in the \a special parameter.
 */
 enum DispositionType {
     Displayed, Read = Displayed,
@@ -95,7 +95,7 @@ enum DispositionType {
     Failed
 };
 
-/**
+/*!
   The following disposition modifiers are defined:
 
   @li Error               An error of some sort occurred that prevented
@@ -124,7 +124,7 @@ enum DispositionModifier {
     MailboxTerminated
 };
 
-/**
+/*!
   The following disposition modes are defined:
 
   @li ManualAction    The disposition described by the disposition type
@@ -136,15 +136,15 @@ enum DispositionModifier {
   user for this message.
 
   IOW:
-  @p ManualAction for user-driven actions,
-  @p AutomanticAction for filtering.
+  \a ManualAction for user-driven actions,
+  \a AutomanticAction for filtering.
 */
 enum ActionMode {
     ManualAction,
     AutomaticAction
 };
 
-/**
+/*!
   @li SentManually      The user explicitly gave permission for this
   particular MDN to be sent.
 
@@ -152,15 +152,15 @@ enum ActionMode {
   been configured to do so automatically.
 
   IOW:
-  @p SentManually for when we have asked the user
-  @p SentAutomatically when we use the default specified by the user
+  \a SentManually for when we have asked the user
+  \a SentAutomatically when we use the default specified by the user
 */
 enum SendingMode {
     SentManually,
     SentAutomatically
 };
 
-/**
+/*!
   Generates the content of the message/disposition-notification body part.
 */
 [[nodiscard]] KMIME_EXPORT QByteArray dispositionNotificationBodyContent(

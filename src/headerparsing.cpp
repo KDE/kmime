@@ -379,7 +379,7 @@ bool parseGenericQuotedString(const char *&scursor, const char *const send,
             }
             break;
         case '\n':
-            // Note: CRLF has been handled above already!
+            // Note CRLF has been handled above already!
             // ### LF needs special treatment, depending on whether newline
             // is LF (we can be sure a lonely '\n' was meant this way) or
             // CRLF ('\n' alone could have meant LF or CRLF in the original
@@ -1501,7 +1501,7 @@ bool parseParameterListWithCharset(const char *&scursor,
 
     // decode rfc 2231 continuations and alternate charset encoding:
 
-    // NOTE: this code assumes that what QMapIterator delivers is sorted
+    // Note this code assumes that what QMapIterator delivers is sorted
     // by the key!
 
     KCodecs::Codec *rfc2231Codec = nullptr;

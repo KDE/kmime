@@ -21,7 +21,7 @@ namespace KMime
 
 class MessagePrivate;
 
-/**
+/*!
  * Represents a (email) message.
  *
  * Sample how to create a multipart message:
@@ -65,24 +65,24 @@ class KMIME_EXPORT Message : public Content
 {
 public:
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
-    /**
+    /*!
       A shared pointer to a message object.
     */
     KMIME_DEPRECATED typedef std::shared_ptr<Message> Ptr;
 #endif
-    /**
+    /*!
       Creates an empty Message.
     */
     Message();
 
-    /**
+    /*!
       Destroys this Message.
     */
     ~Message() override;
 
-    /**
+    /*!
       Returns the Message-ID header.
-      @param create Whether to create the header if it doesn't exist yet.
+      \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::MessageID *messageID(CreatePolicy create = Create);
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
@@ -90,16 +90,16 @@ public:
         return messageID(create ? Create : DontCreate);
     }
 #endif
-    /**
+    /*!
       Returns the Message-ID header.
-      Can be @c nullptr if the header doesn't exist.
-      @since 24.08
+      Can be nullptr if the header doesn't exist.
+      \since 24.08
     */
     [[nodiscard]] const KMime::Headers::MessageID *messageID() const;
 
-    /**
+    /*!
       Returns the Subject header.
-      @param create Whether to create the header if it doesn't exist yet.
+      \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Subject *subject(CreatePolicy create = Create);
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
@@ -107,16 +107,16 @@ public:
         return subject(create ? Create : DontCreate);
     }
 #endif
-    /**
+    /*!
       Returns the Subject header.
-      Can be @c nullptr if the header doesn't exist.
-      @since 24.08
+      Can be nullptr if the header doesn't exist.
+      \since 24.08
     */
     [[nodiscard]] const KMime::Headers::Subject *subject() const;
 
-    /**
+    /*!
       Returns the Date header.
-      @param create Whether to create the header if it doesn't exist yet.
+      \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Date *date(CreatePolicy create = Create);
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
@@ -124,16 +124,16 @@ public:
         return date(create ? Create : DontCreate);
     }
 #endif
-    /**
+    /*!
       Returns the Date header.
-      Can be @c nullptr if the header doesn't exist.
-      @since 24.08
+      Can be nullptr if the header doesn't exist.
+      \since 24.08
     */
     [[nodiscard]] const KMime::Headers::Date *date() const;
 
-    /**
+    /*!
       Returns the From header.
-      @param create Whether to create the header if it doesn't exist yet.
+      \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::From *from(CreatePolicy create = Create);
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
@@ -141,16 +141,16 @@ public:
         return from(create ? Create : DontCreate);
     }
 #endif
-    /**
+    /*!
       Returns the From header.
-      Can be @c nullptr if the header doesn't exist.
-      @since 24.08
+      Can be nullptr if the header doesn't exist.
+      \since 24.08
     */
     [[nodiscard]] const KMime::Headers::From *from() const;
 
-    /**
+    /*!
       Returns the Organization header.
-      @param create Whether to create the header if it doesn't exist yet.
+      \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Organization *organization(CreatePolicy create = Create);
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
@@ -158,16 +158,16 @@ public:
         return organization(create ? Create : DontCreate);
     }
 #endif
-    /**
+    /*!
       Returns the Organization header.
-      Can be @c nullptr if the header doesn't exist.
-      @since 24.08
+      Can be nullptr if the header doesn't exist.
+      \since 24.08
     */
     [[nodiscard]] const KMime::Headers::Organization *organization() const;
 
-    /**
+    /*!
       Returns the Reply-To header.
-      @param create Whether to create the header if it doesn't exist yet.
+      \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::ReplyTo *replyTo(CreatePolicy create = Create);
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
@@ -175,16 +175,16 @@ public:
         return replyTo(create ? Create : DontCreate);
     }
 #endif
-    /**
+    /*!
       Returns the Reply-To header.
-      Can be @c nullptr if the header doesn't exist.
-      @since 24.08
+      Can be nullptr if the header doesn't exist.
+      \since 24.08
     */
     [[nodiscard]] const KMime::Headers::ReplyTo *replyTo() const;
 
-    /**
+    /*!
       Returns the To header.
-      @param create Whether to create the header if it doesn't exist yet.
+      \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::To *to(CreatePolicy create = Create);
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
@@ -192,16 +192,16 @@ public:
         return to(create ? Create : DontCreate);
     }
 #endif
-    /**
+    /*!
       Returns the To header.
-      Can be @c nullptr if the header doesn't exist.
-      @since 24.08
+      Can be nullptr if the header doesn't exist.
+      \since 24.08
     */
     [[nodiscard]] const KMime::Headers::To *to() const;
 
-    /**
+    /*!
       Returns the Cc header.
-      @param create Whether to create the header if it doesn't exist yet.
+      \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Cc *cc(CreatePolicy create = Create);
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
@@ -209,16 +209,16 @@ public:
         return cc(create ? Create : DontCreate);
     }
 #endif
-    /**
+    /*!
       Returns the Cc header.
-      Can be @c nullptr if the header doesn't exist.
-      @since 24.08
+      Can be nullptr if the header doesn't exist.
+      \since 24.08
     */
     [[nodiscard]] const KMime::Headers::Cc *cc() const;
 
-    /**
+    /*!
       Returns the Bcc header.
-      @param create Whether to create the header if it doesn't exist yet.
+      \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Bcc *bcc(CreatePolicy create = Create);
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
@@ -226,16 +226,16 @@ public:
         return bcc(create ? Create : DontCreate);
     }
 #endif
-    /**
+    /*!
       Returns the Bcc header.
-      Can be @c nullptr if the header doesn't exist.
-      @since 24.08
+      Can be nullptr if the header doesn't exist.
+      \since 24.08
     */
     [[nodiscard]] const KMime::Headers::Bcc *bcc() const;
 
-    /**
+    /*!
       Returns the References header.
-      @param create Whether to create the header if it doesn't exist yet.
+      \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::References *references(CreatePolicy create = Create);
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
@@ -243,16 +243,16 @@ public:
         return references(create ? Create : DontCreate);
     }
 #endif
-    /**
+    /*!
       Returns the References header.
-      Can be @c nullptr if the header doesn't exist.
-      @since 24.08
+      Can be nullptr if the header doesn't exist.
+      \since 24.08
     */
     [[nodiscard]] const KMime::Headers::References *references() const;
 
-    /**
+    /*!
       Returns the User-Agent header.
-      @param create Whether to create the header if it doesn't exist yet.
+      \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::UserAgent *userAgent(CreatePolicy create = Create);
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
@@ -260,16 +260,16 @@ public:
         return userAgent(create ? Create : DontCreate);
     }
 #endif
-    /**
+    /*!
       Returns the User-Agent header.
-      Can be @c nullptr if the header doesn't exist.
-      @since 24.08
+      Can be nullptr if the header doesn't exist.
+      \since 24.08
     */
     [[nodiscard]] const KMime::Headers::UserAgent *userAgent() const;
 
-    /**
+    /*!
       Returns the In-Reply-To header.
-      @param create Whether to create the header if it doesn't exist yet.
+      \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::InReplyTo *inReplyTo(CreatePolicy create = Create);
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
@@ -277,16 +277,16 @@ public:
         return inReplyTo(create ? Create : DontCreate);
     }
 #endif
-    /**
+    /*!
       Returns the In-Reply-To header.
-      Can be @c nullptr if the header doesn't exist.
-      @since 24.08
+      Can be nullptr if the header doesn't exist.
+      \since 24.08
     */
     [[nodiscard]] const KMime::Headers::InReplyTo *inReplyTo() const;
 
-    /**
+    /*!
       Returns the Sender header.
-      @param create Whether to create the header if it doesn't exist yet.
+      \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Sender *sender(CreatePolicy create = Create);
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
@@ -294,26 +294,26 @@ public:
         return sender(create ? Create : DontCreate);
     }
 #endif
-    /**
+    /*!
       Returns the Sender header.
-      Can be @c nullptr if the header doesn't exist.
-      @since 24.08
+      Can be nullptr if the header doesn't exist.
+      \since 24.08
     */
     [[nodiscard]] const KMime::Headers::Sender *sender() const;
 
-    /**
+    /*!
       Returns the first main body part of a given type, taking multipart/mixed
       and multipart/alternative nodes into consideration.
       Eg. \c bodyPart("text/html") will return a html content object if that is
       provided in a multipart/alternative node, but not if it's the non-first
       child node of a multipart/mixed node (ie. an attachment).
-      @param type The mimetype of the body part, if not given, the first
+      \a type The mimetype of the body part, if not given, the first
       body part will be returned, regardless of it's type.
     */
     [[nodiscard]] Content *mainBodyPart(const QByteArray &type = QByteArray());
     [[nodiscard]] const Content *mainBodyPart(const QByteArray &type = QByteArray()) const;
 
-    /**
+    /*!
       Returns the MIME type used for Messages
     */
     [[nodiscard]] static QString mimeType();

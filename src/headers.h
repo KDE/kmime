@@ -8,16 +8,16 @@
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
-/**
+/*!
   @file
-  This file is part of the API for handling @ref MIME data and
+  This file is part of the API for handling \ MIME data and
   defines the various header classes:
    - header's base class defining the common interface
    - generic base classes for different types of fields
    - incompatible, Structured-based field classes
    - compatible, Unstructured-based field classes
 
-  @brief
+  \brief
   Defines the various headers classes.
 
   @authors the KMime authors (see AUTHORS file),
@@ -46,7 +46,7 @@ namespace Headers
 
 class BasePrivate;
 
-/**
+/*!
   Various possible values for the "Content-Transfer-Encoding" header.
 */
 enum contentEncoding {
@@ -58,7 +58,7 @@ enum contentEncoding {
     CEbinary             ///< binary
 };
 
-/**
+/*!
   Various possible values for the "Content-Disposition" header.
 */
 enum contentDisposition {
@@ -68,7 +68,7 @@ enum contentDisposition {
     CDparallel           ///< parallel (invalid, do not use)
 };
 
-//@cond PRIVATE
+
 // internal macro to generate default constructors
 #define kmime_mk_trivial_ctor( subclass )                               \
     public:                                                               \
@@ -92,62 +92,62 @@ enum contentDisposition {
 //
 //
 
-/** Baseclass of all header-classes. It represents a
+/*! Baseclass of all header-classes. It represents a
     header-field as described in RFC-822.  */
 class KMIME_EXPORT Base
 {
 public:
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
-    /**
+    /*!
       A vector of headers.
     */
   KMIME_DEPRECATED typedef QList<KMime::Headers::Base *> List;
 #endif
-  /**
+  /*!
     Creates an empty header.
   */
   Base();
 
-  /**
+  /*!
     Destructor.
   */
   virtual ~Base();
 
-  /**
+  /*!
     Parses the given string. Take care of RFC2047-encoded strings.
-    @param s The encoded header data.
+    \a s The encoded header data.
   */
   virtual void from7BitString(QByteArrayView s) = 0;
 
-  /**
+  /*!
     Returns the encoded header content.
     This does not include the header type or separating colon.
-    @since 26.04 (previously with an additional bool argument to include the header type).
+    \since 26.04 (previously with an additional bool argument to include the header type).
   */
   [[nodiscard]] virtual QByteArray as7BitString() const = 0;
-  /**
+  /*!
     Returns the encoded header.
-    @param withHeaderType Specifies whether the header-type should be included.
+    \a withHeaderType Specifies whether the header-type should be included.
   */
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
   [[deprecated("use as7BitString() instead")]]
   [[nodiscard]] QByteArray as7BitString(bool) const { return as7BitString(); }
 #endif
 
-  /**
+  /*!
     Returns the charset that is used for RFC2047-encoding.
   */
   [[nodiscard]] QByteArray rfc2047Charset() const;
 
-  /**
+  /*!
     Sets the charset for RFC2047-encoding.
-    @param cs The new charset used for RFC2047 encoding.
+    \a cs The new charset used for RFC2047 encoding.
   */
   void setRFC2047Charset(const QByteArray &cs);
 
-  /**
+  /*!
     Parses the given Unicode representation of the header content.
-    @param s The header data as Unicode string.
+    \a s The header data as Unicode string.
   */
   virtual void fromUnicodeString(const QString &s) = 0;
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
@@ -159,32 +159,32 @@ public:
   }
 #endif
 
-  /**
+  /*!
     Returns the decoded content of the header without the header-type.
 
-    @note The return value of this method should only be used when showing an
+    Note The return value of this method should only be used when showing an
     address to the user. It is not guaranteed that fromUnicodeString(
     asUnicodeString(), ... ) will return the original string.
   */
   [[nodiscard]] virtual QString asUnicodeString() const = 0;
 
-  /**
+  /*!
     Checks if this header contains any data.
   */
   [[nodiscard]] virtual bool isEmpty() const = 0;
 
-  /**
+  /*!
     Returns the type of this header (e.g. "From").
   */
   [[nodiscard]] virtual const char *type() const;
 
-  /**
-    Checks if this header is of type @p t.
+  /*!
+    Checks if this header is of type \a t.
   */
   [[nodiscard]] bool is(QByteArrayView t) const;
 
 protected:
-    //@cond PRIVATE
+
     BasePrivate *d_ptr;
     kmime_mk_dptr_ctor(Base)
     //@endcond
@@ -205,14 +205,14 @@ namespace Generics
 
 class UnstructuredPrivate;
 
-/**
+/*!
   Abstract base class for unstructured header fields
   (e.g. "Subject", "Comment", "Content-description").
 
   Features: Decodes the header according to RFC2047, incl. RFC2231
   extensions to encoded-words.
 
-  Subclasses need only re-implement @p const @p char* @p type().
+  Subclasses need only re-implement \a const \a char* \a type().
 */
 
 // known issues:
@@ -220,7 +220,7 @@ class UnstructuredPrivate;
 
 class KMIME_EXPORT Unstructured : public Base
 {
-    //@cond PRIVATE
+
     kmime_mk_dptr_ctor(Unstructured)
     //@endcond
 public:
@@ -242,8 +242,8 @@ private:
 
 class StructuredPrivate;
 
-/**
-  @brief
+/*!
+  \brief
   Base class for structured header fields.
 
   This is the base class for all structured header fields.
@@ -284,13 +284,13 @@ public:
     using Base::fromUnicodeString;
 
 protected:
-    /**
+    /*!
       This method parses the raw header and needs to be implemented in
       every sub-class.
 
-      @param scursor Pointer to the start of the data still to parse.
-      @param send Pointer to the end of the data.
-      @param newline whether the input string is terminated with CRLF or LF.
+      \a scursor Pointer to the start of the data still to parse.
+      \a send Pointer to the end of the data.
+      \a newline whether the input string is terminated with CRLF or LF.
     */
     virtual bool parse(const char *&scursor, const char *const send,
                        NewlineType newline = NewlineType::LF) = 0;
@@ -301,7 +301,7 @@ protected:
     }
 #endif
 
-    //@cond PRIVATE
+
     kmime_mk_dptr_ctor(Structured)
     //@endcond
 
@@ -311,15 +311,15 @@ private:
 
 class MailboxListPrivate;
 
-/**
+/*!
   Base class for headers that deal with (possibly multiple)
   addresses, but don't allow groups.
 
-  @see RFC 2822, section 3.4
+  \sa RFC 2822, section 3.4
 */
 class KMIME_EXPORT MailboxList : public Structured
 {
-    //@cond PRIVATE
+
     kmime_mk_trivial_ctor(MailboxList)
     kmime_mk_dptr_ctor(MailboxList)
     //@endcond
@@ -331,48 +331,48 @@ public:
 
     [[nodiscard]] bool isEmpty() const override;
 
-    /**
+    /*!
       Adds an address to this header.
 
-      @param mbox A Mailbox object specifying the address.
+      \a mbox A Mailbox object specifying the address.
     */
     void addAddress(const Types::Mailbox &mbox);
 
-    /**
+    /*!
       Adds an address to this header.
-      @param address The actual email address, with or without angle brackets.
-      @param displayName An optional name associated with the address.
+      \a address The actual email address, with or without angle brackets.
+      \a displayName An optional name associated with the address.
     */
     void addAddress(const QByteArray &address,
                     const QString &displayName = QString());
 
-    /**
+    /*!
       Returns a list of all addresses in this header, regardless of groups.
     */
     [[nodiscard]] QList<QByteArray> addresses() const;
 
-    /**
+    /*!
       Returns a list of all display names associated with the addresses in
       this header. The address is added for addresses that do not have
       a display name.
     */
     [[nodiscard]] QStringList displayNames() const;
 
-    /**
+    /*!
       Returns a single string for user-facing display of this mailbox list.
       This is equivalent to displayNames().join(", ").
-      @since 5.14
+      \since 5.14
     */
     [[nodiscard]] QString displayString() const;
 
-    /**
+    /*!
       Returns a list of mailboxes listed in this header.
     */
     [[nodiscard]] QList<Types::Mailbox> mailboxes() const;
 
-    /**
+    /*!
       Sets the mailboxes listed in this header, replacing the current content.
-      @since 24.12
+      \since 24.12
     */
     void setMailboxes(const QList<Types::Mailbox> &mailboxes);
 
@@ -385,13 +385,13 @@ private:
 
 class SingleMailboxPrivate;
 
-/**
+/*!
    Base class for headers that deal with exactly one mailbox
    (e.g. Sender).
 */
 class KMIME_EXPORT SingleMailbox : public Structured
 {
-    //@cond PRIVATE
+
     kmime_mk_trivial_ctor(SingleMailbox)
     //@endcond
 public:
@@ -401,15 +401,15 @@ public:
     [[nodiscard]] QString asUnicodeString() const override;
     [[nodiscard]] bool isEmpty() const override;
 
-    /**
+    /*!
       Returns the mailbox in this header.
-      @since 25.04
+      \since 25.04
     */
     [[nodiscard]] Types::Mailbox mailbox() const;
 
-    /**
+    /*!
       Sets the mailboxes in this header, replacing the current content.
-      @since 25.04
+      \since 25.04
     */
     void setMailbox(const Types::Mailbox &mailbox);
 
@@ -422,20 +422,20 @@ private:
 
 class AddressListPrivate;
 
-/**
+/*!
   Base class for headers that deal with (possibly multiple)
   addresses, allowing groups.
 
-  Note: Groups are parsed but not represented in the API yet. All addresses in
+  Note Groups are parsed but not represented in the API yet. All addresses in
   groups are listed as if they would not be part of a group.
 
   @todo Add API for groups?
 
-  @see RFC 2822, section 3.4
+  \sa RFC 2822, section 3.4
 */
 class KMIME_EXPORT AddressList : public Structured
 {
-    //@cond PRIVATE
+
     kmime_mk_trivial_ctor(AddressList)
     kmime_mk_dptr_ctor(AddressList)
     //@endcond
@@ -447,46 +447,46 @@ public:
 
     [[nodiscard]] bool isEmpty() const override;
 
-    /**
+    /*!
       Adds an address to this header.
 
-      @param mbox A Mailbox object specifying the address.
+      \a mbox A Mailbox object specifying the address.
     */
     void addAddress(const Types::Mailbox &mbox);
 
-    /**
+    /*!
       Adds an address to this header.
-      @param address The actual email address, with or without angle brackets.
-      @param displayName An optional name associated with the address.
+      \a address The actual email address, with or without angle brackets.
+      \a displayName An optional name associated with the address.
     */
     void addAddress(const QByteArray &address, const QString &displayName = QString());
 
-    /**
+    /*!
       Returns a list of all addresses in this header, regardless of groups.
     */
     [[nodiscard]] QList<QByteArray> addresses() const;
 
-    /**
+    /*!
       Returns a list of all display names associated with the addresses in this header.
       The address is added for addresses that don't have a display name.
     */
     [[nodiscard]] QStringList displayNames() const;
 
-    /**
+    /*!
       Returns a single string for user-facing display of this address list.
       This is equivalent to displayNames().join(", ").
-      @since 5.14
+      \since 5.14
     */
     [[nodiscard]] QString displayString() const;
 
-    /**
+    /*!
       Returns a list of mailboxes listed in this header.
     */
     [[nodiscard]] QList<Types::Mailbox> mailboxes() const;
 
-    /**
+    /*!
       Sets the list of addresses listed in this header, replacing the existing content.
-      @since 24.12
+      \since 24.12
     */
     void setAddressList(const QList<Types::Address> &addresses);
 
@@ -499,14 +499,14 @@ private:
 
 class IdentPrivate;
 
-/**
+/*!
   Base class for headers which deal with a list of msg-id's.
 
-  @see RFC 2822, section 3.6.4
+  \sa RFC 2822, section 3.6.4
 */
 class KMIME_EXPORT Ident : public Structured
 {
-    //@cond PRIVATE
+
     kmime_mk_trivial_ctor(Ident)
     kmime_mk_dptr_ctor(Ident)
     //@endcond
@@ -514,8 +514,8 @@ public:
     [[nodiscard]] QByteArray as7BitString() const override;
     [[nodiscard]] bool isEmpty() const override;
 
-    /**
-      Initialize this identifier by copying the data from @p ident.
+    /*!
+      Initialize this identifier by copying the data from \a ident.
      */
     void fromIdent(const Ident &ident);
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
@@ -525,17 +525,17 @@ public:
     }
 #endif
 
-    /**
+    /*!
       Returns the list of identifiers contained in this header.
-      Note:
+      Note
       - Identifiers are not enclosed in angle-brackets.
       - Identifiers are listed in the same order as in the header.
     */
     [[nodiscard]] QList<QByteArray> identifiers() const;
 
-    /**
+    /*!
       Appends a new identifier to this header.
-      @param id The identifier to append, with or without angle-brackets.
+      \a id The identifier to append, with or without angle-brackets.
     */
     void appendIdentifier(const QByteArray &id);
 
@@ -548,14 +548,14 @@ private:
 
 class SingleIdentPrivate;
 
-/**
+/*!
   Base class for headers which deal with a single msg-id.
 
-  @see RFC 2822, section 3.6.4
+  \sa RFC 2822, section 3.6.4
 */
 class KMIME_EXPORT SingleIdent : public Structured
 {
-    //@cond PRIVATE
+
     kmime_mk_trivial_ctor(SingleIdent)
     kmime_mk_dptr_ctor(SingleIdent)
     //@endcond
@@ -563,15 +563,15 @@ public:
     [[nodiscard]] QByteArray as7BitString() const override;
     [[nodiscard]] bool isEmpty() const override;
 
-    /**
+    /*!
       Returns the identifier contained in this header.
-      Note: The identifiers is not enclosed in angle-brackets.
+      Note The identifiers is not enclosed in angle-brackets.
     */
     [[nodiscard]] QByteArray identifier() const;
 
-    /**
+    /*!
       Sets the identifier.
-      @param id The new identifier with or without angle-brackets.
+      \a id The new identifier with or without angle-brackets.
     */
     void setIdentifier(const QByteArray &id);
 
@@ -584,12 +584,12 @@ private:
 
 class TokenPrivate;
 
-/**
+/*!
   Base class for headers which deal with a single atom.
 */
 class KMIME_EXPORT Token : public Structured
 {
-    //@cond PRIVATE
+
     kmime_mk_trivial_ctor(Token)
     kmime_mk_dptr_ctor(Token)
     //@endcond
@@ -597,13 +597,13 @@ public:
     [[nodiscard]] QByteArray as7BitString() const override;
     [[nodiscard]] bool isEmpty() const override;
 
-    /**
+    /*!
       Returns the token.
     */
     [[nodiscard]] QByteArray token() const;
 
-    /**
-      Sets the token to @p t,
+    /*!
+      Sets the token to \a t,
     */
     void setToken(const QByteArray &t);
 
@@ -616,12 +616,12 @@ private:
 
 class PhraseListPrivate;
 
-/**
+/*!
   Base class for headers containing a list of phrases.
 */
 class KMIME_EXPORT PhraseList : public Structured
 {
-    //@cond PRIVATE
+
     kmime_mk_trivial_ctor(PhraseList)
     //@endcond
 public:
@@ -629,7 +629,7 @@ public:
     [[nodiscard]] QString asUnicodeString() const override;
     [[nodiscard]] bool isEmpty() const override;
 
-    /**
+    /*!
       Returns the list of phrases contained in this header.
     */
     [[nodiscard]] QStringList phrases() const;
@@ -643,12 +643,12 @@ private:
 
 class DotAtomPrivate;
 
-/**
+/*!
   Base class for headers containing a dot atom.
 */
 class KMIME_EXPORT DotAtom : public Structured
 {
-    //@cond PRIVATE
+
     kmime_mk_trivial_ctor(DotAtom)
     //@endcond
 public:
@@ -665,12 +665,12 @@ private:
 
 class ParametrizedPrivate;
 
-/**
+/*!
   Base class for headers containing a parameter list such as "Content-Type".
 */
 class KMIME_EXPORT Parametrized : public Structured
 {
-    //@cond PRIVATE
+
     kmime_mk_trivial_ctor(Parametrized)
     kmime_mk_dptr_ctor(Parametrized)
     //@endcond
@@ -679,9 +679,9 @@ public:
 
     [[nodiscard]] bool isEmpty() const override;
 
-    /**
+    /*!
       Returns the value of the specified parameter.
-      @param key The parameter name.
+      \a key The parameter name.
     */
     [[nodiscard]] QString parameter(QByteArrayView key) const;
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
@@ -701,10 +701,10 @@ public:
         return parameter(QByteArrayView(key, N));
     }
 
-    /**
-      @param key the key of the parameter to check for
-      @return true if a parameter with the given @p key exists.
-      @since 4.5
+    /*!
+      \a key the key of the parameter to check for
+      Returns true if a parameter with the given \a key exists.
+      \since 4.5
     */
     [[nodiscard]] bool hasParameter(QByteArrayView key) const;
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
@@ -723,10 +723,10 @@ public:
         return hasParameter(QByteArrayView(key, N));
     }
 
-    /**
-      Sets the parameter @p key to @p value.
-      @param key The parameter name.
-      @param value The new value for @p key.
+    /*!
+      Sets the parameter \a key to \a value.
+      \a key The parameter name.
+      \a value The new value for \a key.
     */
     void setParameter(const QByteArray &key, const QString &value);
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
@@ -753,14 +753,14 @@ private:
 
 class ReturnPathPrivate;
 
-/**
+/*!
   Represents the Return-Path header field.
 
-  @see RFC 2822, section 3.6.7
+  \sa RFC 2822, section 3.6.7
 */
 class KMIME_EXPORT ReturnPath : public Generics::Structured
 {
-    //@cond PRIVATE
+
     kmime_mk_trivial_ctor_with_name(ReturnPath)
     //@endcond
 public:
@@ -777,60 +777,60 @@ private:
 // Address et al.:
 
 // rfc(2)822 headers:
-/**
+/*!
    Represent a "From" header.
 
-   @see RFC 2822, section 3.6.2.
+   \sa RFC 2822, section 3.6.2.
 */
 class KMIME_EXPORT From : public Generics::MailboxList
 {
     kmime_mk_trivial_ctor_with_name(From)
 };
 
-/**
+/*!
   Represents a "Sender" header.
 
-  @see RFC 2822, section 3.6.2.
+  \sa RFC 2822, section 3.6.2.
 */
 class KMIME_EXPORT Sender : public Generics::SingleMailbox
 {
     kmime_mk_trivial_ctor_with_name(Sender)
 };
 
-/**
+/*!
   Represents a "To" header.
 
-  @see RFC 2822, section 3.6.3.
+  \sa RFC 2822, section 3.6.3.
 */
 class KMIME_EXPORT To : public Generics::AddressList
 {
     kmime_mk_trivial_ctor_with_name(To)
 };
 
-/**
+/*!
   Represents a "Cc" header.
 
-  @see RFC 2822, section 3.6.3.
+  \sa RFC 2822, section 3.6.3.
 */
 class KMIME_EXPORT Cc : public Generics::AddressList
 {
     kmime_mk_trivial_ctor_with_name(Cc)
 };
 
-/**
+/*!
   Represents a "Bcc" header.
 
-  @see RFC 2822, section 3.6.3.
+  \sa RFC 2822, section 3.6.3.
 */
 class KMIME_EXPORT Bcc : public Generics::AddressList
 {
     kmime_mk_trivial_ctor_with_name(Bcc)
 };
 
-/**
+/*!
   Represents a "ReplyTo" header.
 
-  @see RFC 2822, section 3.6.2.
+  \sa RFC 2822, section 3.6.2.
 */
 class KMIME_EXPORT ReplyTo : public Generics::AddressList
 {
@@ -839,14 +839,14 @@ class KMIME_EXPORT ReplyTo : public Generics::AddressList
 
 class MailCopiesToPrivate;
 
-/**
+/*!
   Represents a "Mail-Copies-To" header.
 
-  @see http://www.newsreaders.com/misc/mail-copies-to.html
+  \sa http://www.newsreaders.com/misc/mail-copies-to.html
 */
 class KMIME_EXPORT MailCopiesTo : public Generics::AddressList
 {
-    //@cond PRIVATE
+
     kmime_mk_trivial_ctor_with_name(MailCopiesTo)
     //@endcond
 public:
@@ -855,22 +855,22 @@ public:
 
     [[nodiscard]] bool isEmpty() const override;
 
-    /**
+    /*!
       Returns true if a mail copy was explicitly requested.
     */
     [[nodiscard]] bool alwaysCopy() const;
 
-    /**
+    /*!
       Sets the header to "poster".
     */
     void setAlwaysCopy();
 
-    /**
+    /*!
       Returns true if a mail copy was explicitly denied.
     */
     [[nodiscard]] bool neverCopy() const;
 
-    /**
+    /*!
       Sets the header to "never".
     */
     void setNeverCopy();
@@ -884,27 +884,27 @@ private:
 
 class ContentTransferEncodingPrivate;
 
-/**
+/*!
   Represents a "Content-Transfer-Encoding" header.
 
-  @see RFC 2045, section 6.
+  \sa RFC 2045, section 6.
 */
 class KMIME_EXPORT ContentTransferEncoding : public Generics::Token
 {
-    //@cond PRIVATE
+
     kmime_mk_trivial_ctor_with_name(ContentTransferEncoding)
     //@endcond
 public:
     [[nodiscard]] bool isEmpty() const override;
     [[nodiscard]] QByteArray as7BitString() const override;
 
-    /**
+    /*!
       Returns the encoding specified in this header.
     */
     [[nodiscard]] contentEncoding encoding() const;
 
-    /**
-      Sets the encoding to @p e.
+    /*!
+      Sets the encoding to \a e.
     */
     void setEncoding(contentEncoding e);
 
@@ -915,10 +915,10 @@ private:
     Q_DECLARE_PRIVATE(ContentTransferEncoding)
 };
 
-/**
+/*!
   Represents a "Keywords" header.
 
-  @see RFC 2822, section 3.6.5.
+  \sa RFC 2822, section 3.6.5.
 */
 class KMIME_EXPORT Keywords : public Generics::PhraseList
 {
@@ -927,10 +927,10 @@ class KMIME_EXPORT Keywords : public Generics::PhraseList
 
 // DotAtom:
 
-/**
+/*!
   Represents a "MIME-Version" header.
 
-  @see RFC 2045, section 4.
+  \sa RFC 2045, section 4.
 */
 class KMIME_EXPORT MIMEVersion : public Generics::DotAtom
 {
@@ -939,32 +939,32 @@ class KMIME_EXPORT MIMEVersion : public Generics::DotAtom
 
 // Ident:
 
-/**
+/*!
   Represents a "Message-ID" header.
 
-  @see RFC 2822, section 3.6.4.
+  \sa RFC 2822, section 3.6.4.
 */
 class KMIME_EXPORT MessageID : public Generics::SingleIdent
 {
-    //@cond PRIVATE
+
     kmime_mk_trivial_ctor_with_name(MessageID)
     //@endcond
 public:
-    /**
+    /*!
       Generate a message identifier.
-      @param fqdn A fully qualified domain name.
+      \a fqdn A fully qualified domain name.
     */
     void generate(const QByteArray &fqdn);
 };
 
 class ContentIDPrivate;
 
-/**
+/*!
   Represents a "Content-ID" header.
 */
 class KMIME_EXPORT ContentID : public Generics::SingleIdent
 {
-    //@cond PRIVATE
+
     kmime_mk_trivial_ctor_with_name(ContentID)
     kmime_mk_dptr_ctor(ContentID)
     //@endcond
@@ -975,7 +975,7 @@ private:
     Q_DECLARE_PRIVATE(ContentID)
 };
 
-/**
+/*!
   Represents a "Supersedes" header.
 */
 class KMIME_EXPORT Supersedes : public Generics::SingleIdent
@@ -983,20 +983,20 @@ class KMIME_EXPORT Supersedes : public Generics::SingleIdent
     kmime_mk_trivial_ctor_with_name(Supersedes)
 };
 
-/**
+/*!
   Represents a "In-Reply-To" header.
 
-  @see RFC 2822, section 3.6.4.
+  \sa RFC 2822, section 3.6.4.
 */
 class KMIME_EXPORT InReplyTo : public Generics::Ident
 {
     kmime_mk_trivial_ctor_with_name(InReplyTo)
 };
 
-/**
+/*!
   Represents a "References" header.
 
-  @see RFC 2822, section 3.6.4.
+  \sa RFC 2822, section 3.6.4.
 */
 class KMIME_EXPORT References : public Generics::Ident
 {
@@ -1005,115 +1005,115 @@ class KMIME_EXPORT References : public Generics::Ident
 
 class ContentTypePrivate;
 
-/**
+/*!
   Represents a "Content-Type" header.
 
-  @see RFC 2045, section 5.
+  \sa RFC 2045, section 5.
 */
 class KMIME_EXPORT ContentType : public Generics::Parametrized
 {
-    //@cond PRIVATE
+
     kmime_mk_trivial_ctor_with_name(ContentType)
     //@endcond
 public:
     [[nodiscard]] QByteArray as7BitString() const override;
     [[nodiscard]] bool isEmpty() const override;
 
-    /**
+    /*!
       Returns the mimetype.
     */
     [[nodiscard]] QByteArray mimeType() const;
 
-    /**
+    /*!
       Returns the media type (first part of the mimetype).
     */
 
     [[nodiscard]] QByteArray mediaType() const;
 
-    /**
+    /*!
       Returns the mime sub-type (second part of the mimetype).
     */
     [[nodiscard]] QByteArray subType() const;
 
-    /**
+    /*!
       Sets the mimetype.
-      @param mimeType The new mimetype.
+      \a mimeType The new mimetype.
     */
     void setMimeType(const QByteArray &mimeType);
 
-    /**
-      Tests if the media type equals @p mediatype.
+    /*!
+      Tests if the media type equals \a mediatype.
     */
     [[nodiscard]] bool isMediatype(const char *mediatype) const;
 
-    /**
-      Tests if the mime sub-type equals @p subtype.
+    /*!
+      Tests if the mime sub-type equals \a subtype.
     */
     [[nodiscard]] bool isSubtype(const char *subtype) const;
 
-    /**
-      Tests if the mime type is @p mimeType.
+    /*!
+      Tests if the mime type is \a mimeType.
     */
     [[nodiscard]] bool isMimeType(const char *mimeType) const;
 
-    /**
+    /*!
       Returns true if the associated MIME entity is a text.
     */
     [[nodiscard]] bool isText() const;
 
-    /**
+    /*!
       Returns true if the associated MIME entity is a plain text.
     */
     [[nodiscard]] bool isPlainText() const;
 
-    /**
+    /*!
       Returns true if the associated MIME entity is a HTML file.
     */
     [[nodiscard]] bool isHTMLText() const;
 
-    /**
+    /*!
       Returns true if the associated MIME entity is an image.
     */
     [[nodiscard]] bool isImage() const;
 
-    /**
+    /*!
       Returns true if the associated MIME entity is a multipart container.
     */
     [[nodiscard]] bool isMultipart() const;
 
-    /**
+    /*!
       Returns true if the associated MIME entity contains partial data.
-      @see partialNumber(), partialCount()
+      \sa partialNumber(), partialCount()
     */
     [[nodiscard]] bool isPartial() const;
 
-    /**
+    /*!
       Returns the charset for the associated MIME entity.
     */
     [[nodiscard]] QByteArray charset() const;
 
-    /**
+    /*!
       Sets the charset.
     */
     void setCharset(const QByteArray &s);
 
-    /**
+    /*!
       Returns the boundary (for multipart containers).
     */
     [[nodiscard]] QByteArray boundary() const;
 
-    /**
+    /*!
       Sets the multipart container boundary.
     */
     void setBoundary(const QByteArray &s);
 
-    /**
+    /*!
       Returns the name of the associated MIME entity.
     */
     [[nodiscard]] QString name() const;
 
-    /**
-      Sets the name to @p s.
+    /*!
+      Sets the name to \a s.
     */
     void setName(const QString &s);
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
@@ -1125,45 +1125,45 @@ public:
     }
 #endif
 
-    /**
+    /*!
       Returns the identifier of the associated MIME entity.
     */
     [[nodiscard]] QByteArray id() const;
 
-    /**
+    /*!
       Sets the identifier.
     */
     void setId(const QByteArray &s);
 
-    /**
+    /*!
       Returns the position of this part in a multi-part set.
-      @see isPartial(), partialCount()
+      \sa isPartial(), partialCount()
     */
     [[nodiscard]] int partialNumber() const;
-    /**
+    /*!
       Sets the position of this part in a multi-part set.
-      @see partialCount()
-      @since 25.12
+      \sa partialCount()
+      \since 25.12
     */
     void setPartialNumber(int number);
 
-    /**
+    /*!
       Returns the total number of parts in a multi-part set.
-      @see isPartial(), partialNumber()
+      \sa isPartial(), partialNumber()
     */
     [[nodiscard]] int partialCount() const;
-    /**
+    /*!
       Sets the total number of parts in a multi-part set.
-      @see partialCount()
-      @since 25.12
+      \sa partialCount()
+      \since 25.12
     */
     void setPartialCount(int total);
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
-    /**
+    /*!
       Sets parameters of a partial MIME entity.
-      @param total The total number of entities in the multi-part set.
-      @param number The number of this entity in a multi-part set.
-      @deprecated since 25.12, use setPartialCount/setPartialNumber instead.
+      \a total The total number of entities in the multi-part set.
+      \a number The number of this entity in a multi-part set.
+      \deprecated since 25.12, use setPartialCount/setPartialNumber instead.
     */
     [[deprecated("Use setPartialCount/setPartialNumber instead")]]
     void setPartialParams(int total, int number) {
@@ -1181,43 +1181,43 @@ private:
 
 class ContentDispositionPrivate;
 
-/**
+/*!
   Represents a "Content-Disposition" header.
 
-  @see RFC 2183
+  \sa RFC 2183
 */
 class KMIME_EXPORT ContentDisposition : public Generics::Parametrized
 {
-    //@cond PRIVATE
+
     kmime_mk_trivial_ctor_with_name(ContentDisposition)
     //@endcond
 public:
     [[nodiscard]] QByteArray as7BitString() const override;
     [[nodiscard]] bool isEmpty() const override;
 
-    /**
+    /*!
       Returns the content disposition.
     */
     [[nodiscard]] contentDisposition disposition() const;
 
-    /**
+    /*!
       Sets the content disposition.
-      @param disp The new content disposition.
+      \a disp The new content disposition.
     */
     void setDisposition(contentDisposition disp);
 
-    /**
+    /*!
       Returns the suggested filename for the associated MIME part.
       This is just a convenience function, it is equivalent to calling
       parameter( "filename" );
     */
     [[nodiscard]] QString filename() const;
 
-    /**
+    /*!
       Sets the suggested filename for the associated MIME part.
       This is just a convenience function, it is equivalent to calling
       setParameter( "filename", filename );
-      @param filename The filename.
+      \a filename The filename.
     */
     void setFilename(const QString &filename);
 
@@ -1236,10 +1236,10 @@ private:
 
 class GenericPrivate;
 
-/**
+/*!
   Represents an arbitrary header, that can contain any header-field.
   Adds a type over Unstructured.
-  @see Unstructured
+  \sa Unstructured
 */
 class KMIME_EXPORT Generic : public Generics::Unstructured
 {
@@ -1258,19 +1258,19 @@ private:
     Q_DECLARE_PRIVATE(Generic)
 };
 
-/**
+/*!
   Represents a "Subject" header.
 
-  @see RFC 2822, section 3.6.5.
+  \sa RFC 2822, section 3.6.5.
 */
 class KMIME_EXPORT Subject : public Generics::Unstructured
 {
-    //@cond PRIVATE
+
     kmime_mk_trivial_ctor_with_name(Subject)
     //@endcond
 };
 
-/**
+/*!
   Represents a "Organization" header.
 */
 class KMIME_EXPORT Organization : public Generics::Unstructured
@@ -1278,7 +1278,7 @@ class KMIME_EXPORT Organization : public Generics::Unstructured
     kmime_mk_trivial_ctor_with_name(Organization)
 };
 
-/**
+/*!
   Represents a "Content-Description" header.
 */
 class KMIME_EXPORT ContentDescription : public Generics::Unstructured
@@ -1286,9 +1286,9 @@ class KMIME_EXPORT ContentDescription : public Generics::Unstructured
     kmime_mk_trivial_ctor_with_name(ContentDescription)
 };
 
-/**
+/*!
   Represents a "Content-Location" header.
-  @since 4.2
+  \since 4.2
 */
 class KMIME_EXPORT ContentLocation : public Generics::Unstructured
 {
@@ -1297,39 +1297,39 @@ class KMIME_EXPORT ContentLocation : public Generics::Unstructured
 
 class ControlPrivate;
 
-/**
+/*!
   Represents a "Control" header.
 
-  @see RFC 1036, section 3.
+  \sa RFC 1036, section 3.
 */
 class KMIME_EXPORT Control : public Generics::Structured
 {
-    //@cond PRIVATE
+
     kmime_mk_trivial_ctor_with_name(Control)
     //@endcond
 public:
     [[nodiscard]] QByteArray as7BitString() const override;
     [[nodiscard]] bool isEmpty() const override;
 
-    /**
+    /*!
       Returns the control message type.
     */
     [[nodiscard]] QByteArray controlType() const;
 
-    /**
+    /*!
       Returns the control message parameter.
     */
     [[nodiscard]] QByteArray parameter() const;
 
-    /**
+    /*!
       Returns true if this is a cancel control message.
-      @see RFC 1036, section 3.1.
+      \sa RFC 1036, section 3.1.
     */
     [[nodiscard]] bool isCancel() const;
 
-    /**
+    /*!
       Changes this header into a cancel control message for the given message-id.
-      @param msgid The message-id of the article that should be canceled.
+      \a msgid The message-id of the article that should be canceled.
     */
     void setCancel(const QByteArray &msgid);
 
@@ -1342,26 +1342,26 @@ private:
 
 class DatePrivate;
 
-/**
+/*!
   Represents a "Date" header.
 
-  @see RFC 2822, section 3.3.
+  \sa RFC 2822, section 3.3.
 */
 class KMIME_EXPORT Date : public Generics::Structured
 {
-    //@cond PRIVATE
+
     kmime_mk_trivial_ctor_with_name(Date)
     //@endcond
 public:
     [[nodiscard]] QByteArray as7BitString() const override;
     [[nodiscard]] bool isEmpty() const override;
 
-    /**
+    /*!
       Returns the date contained in this header.
     */
     [[nodiscard]] QDateTime dateTime() const;
 
-    /**
+    /*!
       Sets the date.
     */
     void setDateTime(const QDateTime &dt);
@@ -1375,14 +1375,14 @@ private:
 
 class NewsgroupsPrivate;
 
-/**
+/*!
   Represents a "Newsgroups" header.
 
-  @see RFC 1036, section 2.1.3.
+  \sa RFC 1036, section 2.1.3.
 */
 class KMIME_EXPORT Newsgroups : public Generics::Structured
 {
-    //@cond PRIVATE
+
     kmime_mk_trivial_ctor_with_name(Newsgroups)
     //@endcond
 public:
@@ -1392,17 +1392,17 @@ public:
     [[nodiscard]] QString asUnicodeString() const override;
     [[nodiscard]] bool isEmpty() const override;
 
-    /**
+    /*!
       Returns the list of newsgroups.
     */
     [[nodiscard]] QList<QByteArray> groups() const;
 
-    /**
+    /*!
       Sets the newsgroup list.
     */
     void setGroups(const QList<QByteArray> &groups);
 
-    /**
+    /*!
       Returns true if this message has been cross-posted, i.e. if it has been
       posted to multiple groups.
     */
@@ -1415,28 +1415,28 @@ private:
     Q_DECLARE_PRIVATE(Newsgroups)
 };
 
-/**
+/*!
   Represents a "Followup-To" header.
 
-  @see RFC 1036, section 2.2.3.
+  \sa RFC 1036, section 2.2.3.
 */
 class KMIME_EXPORT FollowUpTo : public Newsgroups
 {
-    //@cond PRIVATE
+
     kmime_mk_trivial_ctor_with_name(FollowUpTo)
     //@endcond
 };
 
 class LinesPrivate;
 
-/**
+/*!
   Represents a "Lines" header.
 
-  @see RFC 1036, section 2.2.12.
+  \sa RFC 1036, section 2.2.12.
 */
 class KMIME_EXPORT Lines : public Generics::Structured
 {
-    //@cond PRIVATE
+
     kmime_mk_trivial_ctor_with_name(Lines)
     //@endcond
 public:
@@ -1444,13 +1444,13 @@ public:
     [[nodiscard]] QString asUnicodeString() const override;
     [[nodiscard]] bool isEmpty() const override;
 
-    /**
+    /*!
       Returns the number of lines, undefined if isEmpty() returns true.
     */
     [[nodiscard]] int numberOfLines() const;
 
-    /**
-      Sets the number of lines to @p lines.
+    /*!
+      Sets the number of lines to \a lines.
     */
     void setNumberOfLines(int lines);
 
@@ -1461,7 +1461,7 @@ private:
     Q_DECLARE_PRIVATE(Lines)
 };
 
-/**
+/*!
   Represents a "User-Agent" header.
 */
 class KMIME_EXPORT UserAgent : public Generics::Unstructured
@@ -1469,7 +1469,7 @@ class KMIME_EXPORT UserAgent : public Generics::Unstructured
     kmime_mk_trivial_ctor_with_name(UserAgent)
 };
 
-/** Creates a header based on @param type. If @param type is a known header type,
+/*! Creates a header based on \a type. If \a type is a known header type,
  * the right object type will be created, otherwise a null pointer is returned. */
 [[nodiscard]] KMIME_EXPORT std::unique_ptr<Base> createHeader(QByteArrayView type);
 

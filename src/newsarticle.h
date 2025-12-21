@@ -17,34 +17,33 @@
 namespace KMime
 {
 
-/** NNTP news article. */
+/*! NNTP news article. */
 class KMIME_EXPORT NewsArticle : public Message
 {
 public:
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
-    /**
+    /*!
       A shared pointer to a news article.
     */
     KMIME_DEPRECATED typedef std::shared_ptr<NewsArticle> Ptr;
 #endif
-    ///@cond PRIVATE
     // needed for Akonadi polymorphic payload support
     typedef Message SuperClass;
     ///@endcond
 
-    /**
+    /*!
       Creates a NewsArticle object.
     */
     NewsArticle();
 
-    /**
+    /*!
       Destroys this NewsArticle.
     */
     ~NewsArticle() override;
 
-    /**
+    /*!
       Returns the Control header.
-      @param create Whether to create the header if it doesn't exist yet.
+      \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Control *control(CreatePolicy create = Create);
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
@@ -52,16 +51,16 @@ public:
         return control(create ? Create : DontCreate);
     }
 #endif
-    /**
+    /*!
       Returns the Control header.
-      Can be @c nullptr if the header doesn't exist.
-      @since 24.08
+      Can be nullptr if the header doesn't exist.
+      \since 24.08
     */
     [[nodiscard]] const KMime::Headers::Control *control() const;
 
-    /**
+    /*!
       Returns the Supersedes header.
-      @param create Whether to create the header if it doesn't exist yet.
+      \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Supersedes *supersedes(CreatePolicy create = Create);
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
@@ -69,16 +68,16 @@ public:
         return supersedes(create ? Create : DontCreate);
     }
 #endif
-    /**
+    /*!
       Returns the Supersedes header.
-      Can be @c nullptr if the header doesn't exist.
-      @since 24.08
+      Can be nullptr if the header doesn't exist.
+      \since 24.08
     */
     [[nodiscard]] const KMime::Headers::Supersedes *supersedes() const;
 
-    /**
+    /*!
       Returns the Mail-Copies-To header.
-      @param create Whether to create the header if it doesn't exist yet.
+      \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::MailCopiesTo *mailCopiesTo(CreatePolicy create = Create);
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
@@ -86,16 +85,16 @@ public:
         return mailCopiesTo(create ? Create : DontCreate);
     }
 #endif
-    /**
+    /*!
       Returns the Mail-Copies-To header.
-      Can be @c nullptr if the header doesn't exist.
-      @since 24.08
+      Can be nullptr if the header doesn't exist.
+      \since 24.08
     */
     [[nodiscard]] const KMime::Headers::MailCopiesTo *mailCopiesTo() const;
 
-    /**
+    /*!
       Returns the Newsgroups header.
-      @param create Whether to create the header if it doesn't exist yet.
+      \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Newsgroups *newsgroups(CreatePolicy create = Create);
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
@@ -103,16 +102,16 @@ public:
         return newsgroups(create ? Create : DontCreate);
     }
 #endif
-    /**
+    /*!
       Returns the Newsgroups header.
-      Can be @c nullptr if the header doesn't exist.
-      @since 24.08
+      Can be nullptr if the header doesn't exist.
+      \since 24.08
     */
     [[nodiscard]] const KMime::Headers::Newsgroups *newsgroups() const;
 
-    /**
+    /*!
       Returns the Follow-Up-To header.
-      @param create Whether to create the header if it doesn't exist yet.
+      \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::FollowUpTo *followUpTo(CreatePolicy create = Create);
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
@@ -120,16 +119,16 @@ public:
         return followUpTo(create ? Create : DontCreate);
     }
 #endif
-    /**
+    /*!
       Returns the Follow-Up-To header.
-      Can be @c nullptr if the header doesn't exist.
-      @since 24.08
+      Can be nullptr if the header doesn't exist.
+      \since 24.08
     */
     [[nodiscard]] const KMime::Headers::FollowUpTo *followUpTo() const;
 
-    /**
+    /*!
       Returns the Lines header.
-      @param create Whether to create the header if it doesn't exist yet.
+      \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Lines *lines(CreatePolicy create = Create);
 #if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
@@ -137,10 +136,10 @@ public:
         return lines(create ? Create : DontCreate);
     }
 #endif
-    /**
+    /*!
       Returns the Lines header.
-      Can be @c nullptr if the header doesn't exist.
-      @since 24.08
+      Can be nullptr if the header doesn't exist.
+      \since 24.08
     */
     [[nodiscard]] const KMime::Headers::Lines *lines() const;
 

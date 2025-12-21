@@ -3,12 +3,12 @@
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
-/**
+/*!
   @file
-  This file is part of the API for handling @ref MIME data and
+  This file is part of the API for handling \ MIME data and
   defines the ContentIndex class.
 
-  @brief
+  \brief
   Defines the ContentIndex class.
 
   @authors Volker Krause \<vkrause@kde.org\>
@@ -29,103 +29,101 @@
 namespace KMime
 {
 
-/**
-  @brief
+/*!
+  \brief
   A class to uniquely identify message parts (Content) in a hierarchy.
 
   This class is implicitly shared.
 
-  Based on @ref RFC3501 section 6.4.5 and thus compatible with @acronym IMAP.
+  Based on \ RFC3501 section 6.4.5 and thus compatible with @acronym IMAP.
 */
 class KMIME_EXPORT ContentIndex
 {
 public:
-    /**
+    /*!
       Creates an empty content index.
     */
     ContentIndex();
 
-    /**
+    /*!
       Creates a content index based on the specified string representation.
 
-      @param index is a string representation of a message part index according
-      to @ref RFC3501 section 6.4.5.
+      \a index is a string representation of a message part index according
+      to \ RFC3501 section 6.4.5.
     */
     explicit ContentIndex(QStringView index);
 
-    /**
+    /*!
       Copy constructor.
     */
     ContentIndex(const ContentIndex &other);
     ContentIndex(ContentIndex &&) noexcept;
 
-    /**
+    /*!
       Destructor.
     */
     ~ContentIndex();
 
-    /**
+    /*!
       Returns true if this index is non-empty (valid).
     */
     [[nodiscard]] bool isValid() const;
 
-    /**
+    /*!
       Removes and returns the top-most index. Used to recursively
       descend into the message part hierarchy.
 
-      @see push(), up().
+      \sa push(), up().
     */
     [[nodiscard]] unsigned int pop();
 
-    /**
-      Adds @p index to the content index. Used when ascending the message
+    /*!
+      Adds \a index to the content index. Used when ascending the message
       part hierarchy.
 
-      @param index is the top-most content index part.
+      \a index is the top-most content index part.
 
-      @see pop(), up().
+      \sa pop(), up().
     */
     void push(unsigned int index);
 
-    /**
+    /*!
       Removes and returns the bottom-most index. Used to navigate to
       the parent part.
 
-      @see push(), pop().
+      \sa push(), pop().
     */
     unsigned int up();
 
-    /**
+    /*!
       Returns a string representation of this content index according
-      to @ref RFC3501 section 6.4.5.
+      to \ RFC3501 section 6.4.5.
     */
     [[nodiscard]] QString toString() const;
 
-    /**
-      Compares this with @p index for equality.
+    /*!
+      Compares this with \a index for equality.
 
-      @param index is the content index to compare.
+      \a index is the content index to compare.
     */
     [[nodiscard]] bool operator==(const ContentIndex &index) const;
 
-    /**
-      Compares this with @p index for inequality.
+    /*!
+      Compares this with \a index for inequality.
 
-      @param index is the content index to compare.
+      \a index is the content index to compare.
     */
     [[nodiscard]] bool operator!=(const ContentIndex &index) const;
 
-    /**
+    /*!
       Assignment operator.
     */
     ContentIndex &operator=(const ContentIndex &other);
     ContentIndex &operator=(ContentIndex &&) noexcept;
 
 private:
-    //@cond PRIVATE
     class Private;
     QSharedDataPointer<Private> d;
-    //@endcond
 };
 
 KMIME_EXPORT size_t qHash(const KMime::ContentIndex &, size_t seed = 0) noexcept;
