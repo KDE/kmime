@@ -726,11 +726,6 @@ bool parseDotAtom(const char *&scursor, const char *const send,
     return true;
 }
 
-void eatCFWS(const char *&scursor, const char *const send, bool isCRLF)
-{
-    eatCFWS(scursor, send, isCRLF ? NewlineType::CRLF : NewlineType::LF);
-}
-
 void eatCFWS(const char *&scursor, const char *const send, NewlineType newline)
 {
     QString dummy;
@@ -1008,12 +1003,6 @@ static QString stripQuotes(const QString &input)
 }
 
 bool parseMailbox(const char *&scursor, const char *const send,
-                  Mailbox &result, bool isCRLF)
-{
-    return parseMailbox(scursor, send, result, isCRLF ? NewlineType::CRLF : NewlineType::LF);
-}
-
-bool parseMailbox(const char *&scursor, const char *const send,
                   Mailbox &result, NewlineType newline)
 {
     eatCFWS(scursor, send, newline);
@@ -1073,12 +1062,6 @@ bool parseMailbox(const char *&scursor, const char *const send,
     result.setName(stripQuotes(maybeDisplayName));
     result.setAddress(maybeAddrSpec);
     return true;
-}
-
-bool parseGroup(const char *&scursor, const char *const send,
-                Address &result, bool isCRLF)
-{
-    return parseGroup(scursor, send, result, isCRLF ? NewlineType::CRLF : NewlineType::LF);
 }
 
 bool parseGroup(const char *&scursor, const char *const send,
@@ -1153,12 +1136,6 @@ bool parseGroup(const char *&scursor, const char *const send,
 }
 
 bool parseAddress(const char *&scursor, const char *const send,
-                  Address &result, bool isCRLF)
-{
-    return parseAddress(scursor, send, result, isCRLF ? NewlineType::CRLF : NewlineType::LF);
-}
-
-bool parseAddress(const char *&scursor, const char *const send,
                   Address &result, NewlineType newline)
 {
     // address       := mailbox / group
@@ -1188,12 +1165,6 @@ bool parseAddress(const char *&scursor, const char *const send,
 
     result = maybeAddress;
     return true;
-}
-
-bool parseAddressList(const char *&scursor, const char *const send,
-                      QList<Address> &result, bool isCRLF)
-{
-    return parseAddressList(scursor, send, result, isCRLF ? NewlineType::CRLF : NewlineType::LF);
 }
 
 bool parseAddressList(const char *&scursor, const char *const send,

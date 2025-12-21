@@ -74,7 +74,6 @@ enum contentDisposition {
     public:                                                               \
     subclass();                           \
     ~subclass() override; \
-    using KMime::Headers::Base::as7BitString; // TODO drop this when the deprecated as7BitString overload is removed
 
 #define kmime_mk_dptr_ctor( subclass ) \
     protected: \
@@ -97,12 +96,6 @@ enum contentDisposition {
 class KMIME_EXPORT Base
 {
 public:
-#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
-    /*!
-      A vector of headers.
-    */
-  KMIME_DEPRECATED typedef QList<KMime::Headers::Base *> List;
-#endif
   /*!
     Creates an empty header.
   */
@@ -125,13 +118,6 @@ public:
     \since 26.04 (previously with an additional bool argument to include the header type).
   */
   [[nodiscard]] virtual QByteArray as7BitString() const = 0;
-  /*!
-    Returns the encoded header.
-  */
-#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
-  [[deprecated("use as7BitString() instead")]]
-  [[nodiscard]] QByteArray as7BitString(bool) const { return as7BitString(); }
-#endif
 
   /*!
     Returns the charset that is used for RFC2047-encoding.
@@ -149,14 +135,6 @@ public:
     \a s The header data as Unicode string.
   */
   virtual void fromUnicodeString(const QString &s) = 0;
-#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
-  [[deprecated("call setRFC2047Charset for the second argument if different from UTF-8, otherwise remove second argument")]]
-  inline void fromUnicodeString(const QString &s, const QByteArray &b)
-  {
-    setRFC2047Charset(b);
-    fromUnicodeString(s);
-  }
-#endif
 
   /*!
     Returns the decoded content of the header without the header-type.
@@ -293,12 +271,6 @@ protected:
     */
     virtual bool parse(const char *&scursor, const char *const send,
                        NewlineType newline = NewlineType::LF) = 0;
-#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
-    [[deprecated("use the NewlineType overload instead")]]
-    inline bool parse(const char *&scursor, const char *const send, bool isCRLF) {
-        return parse(scursor, send, isCRLF ? NewlineType::CRLF : NewlineType::LF);
-    }
-#endif
 
 
     kmime_mk_dptr_ctor(Structured)
@@ -517,12 +489,6 @@ public:
       Initialize this identifier by copying the data from \a ident.
      */
     void fromIdent(const Ident &ident);
-#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
-    [[deprecated("Use fromIdent(const Ident&) instead")]]
-    void fromIdent(const Ident *ident) {
-        fromIdent(*ident);
-    }
-#endif
 
     /*!
       Returns the list of identifiers contained in this header.
@@ -683,22 +649,6 @@ public:
       \a key The parameter name.
     */
     [[nodiscard]] QString parameter(QByteArrayView key) const;
-#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
-    [[deprecated("use QByteArrayView as argument")]] [[nodiscard]] inline QString parameter(const QString &key) const
-    {
-        return parameter(QByteArrayView(key.toUtf8()));
-    }
-    [[deprecated("use QByteArrayView as argument")]] [[nodiscard]] inline QString parameter(QLatin1StringView key) const
-    {
-        return parameter(QByteArrayView(key));
-    }
-#endif
-    // overload resolution helper, remove once the above deprecated overloads are removed
-    template <std::size_t N>
-    [[nodiscard]] inline QString parameter(const char (&key)[N]) const
-    {
-        return parameter(QByteArrayView(key, N));
-    }
 
     /*!
       \a key the key of the parameter to check for
@@ -706,21 +656,6 @@ public:
       \since 4.5
     */
     [[nodiscard]] bool hasParameter(QByteArrayView key) const;
-#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
-    [[deprecated("use QByteArrayView as argument")]] [[nodiscard]] inline bool hasParameter(const QString &key) const
-    {
-        return hasParameter(QByteArrayView(key.toUtf8()));
-    }
-    [[deprecated("use QByteArrayView as argument")]] [[nodiscard]] inline bool hasParameter(QLatin1StringView key) const
-    {
-        return hasParameter(QByteArrayView(key));
-    }
-#endif
-    // overload resolution helper, remove once the above deprecated overloads are removed
-    template <std::size_t N>
-    [[nodiscard]] inline bool hasParameter(const char (&key)[N]) const {
-        return hasParameter(QByteArrayView(key, N));
-    }
 
     /*!
       Sets the parameter \a key to \a value.
@@ -728,12 +663,6 @@ public:
       \a value The new value for \a key.
     */
     void setParameter(const QByteArray &key, const QString &value);
-#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
-    [[deprecated("use a QByteArray[Literal] key")]] inline void setParameter(const QString &key, const QString &value)
-    {
-        return setParameter(key.toUtf8(), value);
-    }
-#endif
 
 protected:
     bool parse(const char *&scursor, const char *const send, NewlineType newline = NewlineType::LF) override;
@@ -1115,14 +1044,6 @@ public:
       Sets the name to \a s.
     */
     void setName(const QString &s);
-#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
-    [[deprecated("call setRFC2047Charset for the second argument if different from UTF-8, otherwise remove second argument")]]
-    inline void setName(const QString &s, const QByteArray &cs)
-    {
-        setRFC2047Charset(cs);
-        setName(s);
-    }
-#endif
 
     /*!
       Returns the identifier of the associated MIME entity.
@@ -1157,19 +1078,6 @@ public:
       \since 25.12
     */
     void setPartialCount(int total);
-#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
-    /*!
-      Sets parameters of a partial MIME entity.
-      \a total The total number of entities in the multi-part set.
-      \a number The number of this entity in a multi-part set.
-      \deprecated since 25.12, use setPartialCount/setPartialNumber instead.
-    */
-    [[deprecated("Use setPartialCount/setPartialNumber instead")]]
-    void setPartialParams(int total, int number) {
-        setPartialNumber(number);
-        setPartialCount(total);
-    }
-#endif
 
 protected:
     bool parse(const char *&scursor, const char *const send, NewlineType newline = NewlineType::LF) override;
