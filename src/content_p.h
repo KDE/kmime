@@ -47,6 +47,15 @@ public:
     // That makes it possible to handle encapsulated messages in a transparent way.
     QList<Content *> contents() const;
 
+    template <typename T>
+    [[nodiscard]] static std::unique_ptr<T> clone(const T *content)
+    {
+        auto c = std::make_unique<T>();
+        cloneInto(c.get(), content->d_ptr.get());
+        return c;
+    }
+    static void cloneInto(Content *content, const ContentPrivate *other);
+
     QByteArray head;
     QByteArray body;
     QByteArray frozenBody;

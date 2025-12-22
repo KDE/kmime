@@ -88,7 +88,7 @@ void MessageTest::testBrunosMultiAssembleBug()
         "\n"
         "body";
 
-    auto msg = new Message;
+    auto msg = std::make_unique<Message>();
     msg->setContent(data);
     msg->parse();
     msg->assemble();
@@ -98,7 +98,8 @@ void MessageTest::testBrunosMultiAssembleBug()
     msg->assemble();
     QCOMPARE(msg->encodedContent(), data);
 
-    delete msg;
+    const auto clone = msg->clone();
+    QCOMPARE(clone->encodedContent(), data);
 }
 
 void MessageTest::testWillsAndTillsCrash()
@@ -425,6 +426,10 @@ void MessageTest::testInlineImages()
              QLatin1StringView("inlineimage.png"));
     QCOMPARE(msg.contents()[1]->contentID()->identifier(), "740439759");
     QCOMPARE(msg.contents()[1]->contentID()->as7BitString(), "<740439759>");
+
+    const auto clone = msg.clone();
+    QCOMPARE(msg.contents().size(), 2);
+    QCOMPARE(msg.encodedContent(), clone->encodedContent());
 }
 
 void MessageTest::testIssue3908()

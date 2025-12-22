@@ -319,6 +319,7 @@ public:
     [[nodiscard]] static QString mimeType();
 
     void assemble() override;
+    [[nodiscard]] std::unique_ptr<Content> clone() const override;
 private:
     Q_DECLARE_PRIVATE(Message)
 

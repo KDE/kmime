@@ -9,6 +9,7 @@
 */
 
 #include "message.h"
+#include "content_p.h"
 #include "util_p.h"
 
 using namespace KMime;
@@ -83,6 +84,11 @@ const Content *Message::mainBodyPart(const QByteArray &type) const
 QString Message::mimeType()
 {
     return QStringLiteral("message/rfc822");
+}
+
+std::unique_ptr<Content> Message::clone() const
+{
+    return ContentPrivate::clone(this);
 }
 
 // @cond PRIVATE

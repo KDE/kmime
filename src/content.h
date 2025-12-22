@@ -832,6 +832,15 @@ public:
       return const_cast<Content*>(this)->bodyAsMessage();
   }
 
+  /*!
+   * Create a copy of this content object.
+   * This is recursive, ie. all child content objects are also cloned.
+   * Prefer this over serializing and deserializing conetent as this is
+   * is more efficient due to making use of copy-on-write.
+   *
+   * \since 26.04
+   */
+  [[nodiscard]] virtual std::unique_ptr<Content> clone() const;
 protected:
     std::unique_ptr<ContentPrivate> d_ptr;
 

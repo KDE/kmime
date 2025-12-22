@@ -144,6 +144,7 @@ public:
     [[nodiscard]] const KMime::Headers::Lines *lines() const;
 
     void assemble() override;
+    [[nodiscard]] std::unique_ptr<Content> clone() const override;
 }; // class NewsArticle
 
 } // namespace KMime

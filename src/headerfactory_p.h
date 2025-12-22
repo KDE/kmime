@@ -19,8 +19,6 @@
 
 #pragma once
 
-#include "kmime_export.h"
-
 #include <QByteArrayView>
 
 #include <memory>
@@ -36,6 +34,7 @@ class Base;
 namespace HeaderFactory
 {
     [[nodiscard]] std::unique_ptr<Headers::Base> createHeader(QByteArrayView type);
+    [[nodiscard]] std::unique_ptr<Headers::Base> clone(const Headers::Base *header);
 }
 
 } // namespace KMime

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
-set(PIM_VERSION "6.6.44")
+set(PIM_VERSION "6.6.45")
 
 project(KMime VERSION ${PIM_VERSION})
 

@@ -21,6 +21,7 @@
 #include "content.h"
 #include "content_p.h"
 #include "message.h"
+#include "headerfactory_p.h"
 #include "headerparsing.h"
 #include "headerparsing_p.h"
 #include "parsers_p.h"
@@ -847,6 +848,11 @@ bool Content::bodyIsMessage() const
     return false;
 }
 
+std::unique_ptr<Content> Content::clone() const
+{
+    return ContentPrivate::clone(this);
+}
+
 #define kmime_mk_header_accessor( type, method ) \
     Headers::type *Content::method( CreatePolicy create ) { \
         return header<Headers::type>( create ); \
@@ -1018,6 +1024,20 @@ bool ContentPrivate::parseMultipart(Content *q)
     }
 
     return true; // Parsing successful.
+}
+
+void ContentPrivate::cloneInto(Content *content, const ContentPrivate *other)
+{
+    *content->d_ptr = *other;
+    content->d_ptr->parent = nullptr;
+    content->d_ptr->multipartContents.clear();
+    for (const auto &p : other->multipartContents) {
+        content->appendContent(p->clone());
+    }
+    content->d_ptr->headers.clear();
+    for (const auto h : other->headers) {
+        content->appendHeader(HeaderFactory::clone(h));
+    }
 }
 
 } // namespace KMime

@@ -9,6 +9,7 @@
 */
 
 #include "newsarticle.h"
+#include "content_p.h"
 
 using namespace KMime;
 
@@ -28,6 +29,11 @@ void NewsArticle::assemble()
     lines(Create);
 
     return Message::assemble();
+}
+
+std::unique_ptr<Content> NewsArticle::clone() const
+{
+    return ContentPrivate::clone(this);
 }
 
 // @cond PRIVATE

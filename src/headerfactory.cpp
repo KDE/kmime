@@ -108,4 +108,14 @@ std::unique_ptr<Headers::Base> HeaderFactory::createHeader(QByteArrayView type)
     return {};
 }
 
+std::unique_ptr<Headers::Base> HeaderFactory::clone(const Headers::Base *header)
+{
+    auto h = createHeader(header->type());
+    if (!h) {
+        h = std::make_unique<Headers::Generic>(header->type());
+    }
+    h->from7BitString(header->as7BitString());
+    return h;
+}
+
 #undef mk_header
