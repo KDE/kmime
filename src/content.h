@@ -216,7 +216,7 @@ public:
     signature verification, so you should *ONLY* call assemble() when you
     have actually modified the content.
   */
-  void assemble();
+  virtual void assemble();
 
   /*!
     Clears the content, deleting all headers and sub-Contents.
@@ -833,13 +833,6 @@ public:
   }
 
 protected:
-    /*!
-      Reimplement this method if you need to assemble additional headers in a
-      derived class. Don't forget to call the implementation of the base class.
-      Returns The raw, assembled headers.
-    */
-    virtual QByteArray assembleHeaders();
-
     ContentPrivate *d_ptr;
 
 private:

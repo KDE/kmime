@@ -197,24 +197,17 @@ void Content::assemble()
         return;
     }
 
-    d->head = assembleHeaders();
+    d->head.clear();
+    for (const Headers::Base *h : std::as_const(d->headers)) {
+        if (!h->isEmpty()) {
+            d->head += foldHeader(QByteArrayView(h->type()) + ": " + h->as7BitString()) + '\n';
+        }
+    }
+
     const auto contentsList = contents();
     for (Content *c : contentsList) {
         c->assemble();
     }
-}
-
-QByteArray Content::assembleHeaders()
-{
-    Q_D(Content);
-    QByteArray newHead;
-    for (const Headers::Base *h : std::as_const(d->headers)) {
-        if (!h->isEmpty()) {
-            newHead += foldHeader(QByteArrayView(h->type()) + ": " + h->as7BitString()) + '\n';
-        }
-    }
-
-    return newHead;
 }
 
 void Content::clear()

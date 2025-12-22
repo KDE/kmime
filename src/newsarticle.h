@@ -143,8 +143,7 @@ public:
     */
     [[nodiscard]] const KMime::Headers::Lines *lines() const;
 
-protected:
-    QByteArray assembleHeaders() override;
+    void assemble() override;
 }; // class NewsArticle
 
 } // namespace KMime

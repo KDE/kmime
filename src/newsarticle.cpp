@@ -9,7 +9,6 @@
 */
 
 #include "newsarticle.h"
-#include "util_p.h"
 
 using namespace KMime;
 
@@ -19,13 +18,16 @@ namespace KMime
 NewsArticle::NewsArticle() = default;
 NewsArticle::~NewsArticle() = default;
 
-QByteArray NewsArticle::assembleHeaders()
+void NewsArticle::assemble()
 {
+    if (isFrozen()) {
+        return;
+    }
+
     // Create the mandatory Lines: field.
     lines(Create);
 
-    // Assemble all header fields.
-    return Message::assembleHeaders();
+    return Message::assemble();
 }
 
 // @cond PRIVATE

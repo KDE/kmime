@@ -19,8 +19,12 @@ namespace KMime
 Message::Message() = default;
 Message::~Message() = default;
 
-QByteArray Message::assembleHeaders()
+void Message::assemble()
 {
+    if (isFrozen()) {
+        return;
+    }
+
     // Create the mandatory fields (RFC5322) if they do not exist already.
     date(Create);
     from(Create);
@@ -29,8 +33,7 @@ QByteArray Message::assembleHeaders()
     auto *mimeVersion = header<Headers::MIMEVersion>(Create);
     mimeVersion->from7BitString("1.0");
 
-    // Assemble all header fields.
-    return Content::assembleHeaders();
+    Content::assemble();
 }
 
 Content *Message::mainBodyPart(const QByteArray &type)

@@ -318,9 +318,7 @@ public:
     */
     [[nodiscard]] static QString mimeType();
 
-protected:
-    QByteArray assembleHeaders() override;
-
+    void assemble() override;
 private:
     Q_DECLARE_PRIVATE(Message)
 
