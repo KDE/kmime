@@ -6,14 +6,18 @@
 
 #pragma once
 
-//@cond PRIVATE
+#include <QByteArray>
+#include <QList>
 
-#include <QSharedPointer>
+//@cond PRIVATE
 
 namespace KMime
 {
 class Content;
 class Message;
+namespace Headers {
+class Base;
+}
 
 class ContentPrivate
 {

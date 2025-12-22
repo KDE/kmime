@@ -40,8 +40,8 @@ TODO: possible glossary terms:
 #include <QByteArray>
 #include <QList>
 #include <QMetaType>
-#include <QSharedPointer>
 
+#include <memory>
 #include <span>
 
 namespace KMime
@@ -833,7 +833,7 @@ public:
   }
 
 protected:
-    ContentPrivate *d_ptr;
+    std::unique_ptr<ContentPrivate> d_ptr;
 
 private:
     Q_DECLARE_PRIVATE(Content)
