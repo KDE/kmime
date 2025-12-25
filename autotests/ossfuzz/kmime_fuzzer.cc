@@ -10,7 +10,7 @@
 
 void traverseContent(KMime::Content *content) {
   for (KMime::Content *c : content->contents()) {
-    auto decodedBody = c->decodedContent();
+    auto decodedBody = c->decodedBody();
     auto decodedText = c->decodedText();
 
     for (const auto &header : c->headers()) {
