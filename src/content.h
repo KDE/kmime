@@ -638,9 +638,6 @@ public:
     \since 6.0 (took a raw pointer until 26.04)
   */
   void appendContent(std::unique_ptr<KMime::Content> &&content);
-#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
-  [[deprecated("use the unique_ptr overload instead")]] void appendContent(Content *content);
-#endif
 
   /*!
     Prepends a new sub-Content. If the sub-Content is already part of another
