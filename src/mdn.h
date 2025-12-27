@@ -75,16 +75,16 @@ namespace MDN
   other than interpreting the request for an MDN.  The "processed" or other
   disposition type with appropriate disposition modifiers is to be used in
   such situations.
-
-  IOW:
-  \a Displayed when - well -displayed
-  \a Dispatched when forwarding unseen ( == new )
-  \a Processed (maybe) when piping unseen, but probably never used
-  \a Deleted when deleting unseen
-  \a Denied on user command
-  \a Failed on Disposition-Notification-Options containing
+*/
+/*!
+  \value Displayed when - well -displayed
+  \value Dispatched when forwarding unseen ( == new )
+  \value Processed (maybe) when piping unseen, but probably never used
+  \value Deleted when deleting unseen
+  \value Denied on user command
+  \value Failed on Disposition-Notification-Options containing
   unknown required options. ( == @em any required options )
-  \a Failed needs a description in the \a special parameter.
+  \value Failed needs a description in the \a special parameter.
 */
 enum DispositionType {
     Displayed, Read = Displayed,
@@ -136,8 +136,8 @@ enum DispositionModifier {
   user for this message.
 
   IOW:
-  \a ManualAction for user-driven actions,
-  \a AutomaticAction for filtering.
+  \value ManualAction for user-driven actions,
+  \value AutomaticAction for filtering.
 */
 enum ActionMode {
     ManualAction,
@@ -152,8 +152,8 @@ enum ActionMode {
   been configured to do so automatically.
 
   IOW:
-  \a SentManually for when we have asked the user
-  \a SentAutomatically when we use the default specified by the user
+  \value SentManually for when we have asked the user
+  \value SentAutomatically when we use the default specified by the user
 */
 enum SendingMode {
     SentManually,

@@ -545,11 +545,14 @@ public:
 
   /*! Options for Content::decodedText().
    *  \since 24.12
+   *  \value NoTrim do not trim text content.
+   *  \value TrimNewlines trim trailing newlines
+   *  \value TrimSpaces trim any trailing whitespaces
    */
   enum DecodedTextTrimOption {
-    NoTrim, ///< do not trim text content.
-    TrimNewlines, ///< trim trailing newlines
-    TrimSpaces, ///< trim any trailing whitespaces
+    NoTrim,
+    TrimNewlines,
+    TrimSpaces,
   };
 
   /*!

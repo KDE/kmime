@@ -48,24 +48,34 @@ class BasePrivate;
 
 /*!
   Various possible values for the "Content-Transfer-Encoding" header.
+  \value CE7Bit 7bit
+  \value CE8Bit 8bit
+  \value CEquPr quoted-printable
+  \value CEbase64 base64
+  \value CEuuenc uuencode
+  \value CEbinary binary
 */
 enum contentEncoding {
-    CE7Bit,              ///< 7bit
-    CE8Bit,              ///< 8bit
-    CEquPr,              ///< quoted-printable
-    CEbase64,            ///< base64
-    CEuuenc,             ///< uuencode
-    CEbinary             ///< binary
+    CE7Bit,
+    CE8Bit,
+    CEquPr,
+    CEbase64,
+    CEuuenc,
+    CEbinary
 };
 
 /*!
   Various possible values for the "Content-Disposition" header.
+  \value CDInvalid Default, invalid value
+  \value CDinline inline
+  \value CDattachment attachment
+  \value CDparallel parallel (invalid, do not use)
 */
 enum contentDisposition {
-    CDInvalid,           ///< Default, invalid value
-    CDinline,            ///< inline
-    CDattachment,        ///< attachment
-    CDparallel           ///< parallel (invalid, do not use)
+    CDInvalid,
+    CDinline,
+    CDattachment,
+    CDparallel
 };
 
 
