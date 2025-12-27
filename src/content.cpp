@@ -478,21 +478,7 @@ void Content::appendContent(std::unique_ptr<KMime::Content> &&content)
         c->setParent(this);
     }
 }
-#if KMIME_ENABLE_DEPRECATED_SINCE(6, 7)
-void Content::appendContent(Content *c)
-{
-    // This method makes no sense for encapsulated messages
-    Q_ASSERT(!bodyIsMessage());
 
-    Q_D(Content);
-    d->multipartContents.append(c);
-
-    if (c->parent() != this) {
-        // If the content was part of something else, this will remove it from there.
-        c->setParent(this);
-    }
-}
-#endif
 void Content::prependContent(std::unique_ptr<KMime::Content> &&content)
 {
     // This method makes no sense for encapsulated messages
