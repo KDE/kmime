@@ -19,6 +19,11 @@
 namespace KMime
 {
 
+/*!
+ * \namespace KMime::HeaderParsing
+ * \inmodule KMime
+ * \inheaderfile KMime/HeaderParsing
+ */
 namespace Headers
 {
 class Base;
@@ -76,7 +81,9 @@ enum class ParsingPolicy {
 
   \a scursor pointer to the first character beyond the initial '=' of
   the input string.
+
   \a send pointer to end of input buffer.
+
   \a newline whether the input string is terminated with CRLF or LF.
 */
 KMIME_EXPORT void eatCFWS(const char *&scursor, const char *const send,
@@ -86,48 +93,68 @@ KMIME_EXPORT void eatCFWS(const char *&scursor, const char *const send,
   Parses a single mailbox.
 
   RFC 2822, section 3.4 defines a mailbox as follows:
-  <pre>mailbox := addr-spec / ([ display-name ] angle-addr)</pre>
+  \badcode
+  mailbox := addr-spec / ([ display-name ] angle-addr)
+  \endcode
 
   KMime also accepts the legacy format of specifying display names:
-  <pre>mailbox := (addr-spec [ "(" display-name ")" ])
+  \badcode
+  mailbox := (addr-spec [ "(" display-name ")" ])
   / ([ display-name ] angle-addr)
-  / (angle-addr "(" display-name ")")</pre>
+  / (angle-addr "(" display-name ")")
+  \endcode
 
   \a scursor pointer to the first character of the input string
+
   \a send pointer to end of input buffer
+
   \a result the parsing result
+
   \a newline whether the input string is terminated with CRLF or LF.
 */
 KMIME_EXPORT bool parseMailbox(const char *&scursor, const char *const send,
                                Types::Mailbox &result, NewlineType newline = NewlineType::LF);
 
+/*!
+ */
 [[nodiscard]] KMIME_EXPORT bool parseGroup(const char *&scursor,
                                            const char *const send,
                                            Types::Address &result,
                                            NewlineType newline = NewlineType::LF);
+
+/*!
+ */
 [[nodiscard]] KMIME_EXPORT bool parseAddress(const char *&scursor,
                                              const char *const send,
                                              Types::Address &result,
                                              NewlineType newline = NewlineType::LF);
+
+/*!
+ */
 [[nodiscard]] KMIME_EXPORT bool parseAddressList(const char *&scursor,
                                                  const char *const send,
                                                  QList<Types::Address> &result,
                                                  NewlineType newline = NewlineType::LF);
+
 /*! Parses the first header contained the given data.
+ *
  *  If a header is found \a head will be shortened to no longer
  *  include the corresponding data, ie. this method can be called
- *  iteratively on the same data until it returns \\ null.
+ *  iteratively on the same data until it returns \nullptr.
  *  \since 6.0
  */
 [[nodiscard]] KMIME_EXPORT std::unique_ptr<KMime::Headers::Base> parseNextHeader(QByteArrayView &head);
 
 /*!
  * Extract the header header and the body from a complete content.
+ *
  * Internally, it will simply look for the first newline and use that as a
  * separator between the header and the body.
  *
  * \a content the complete mail
+ *
  * \a header return value for the extracted header
+ *
  * \a body return value for the extracted body
  * \since 4.6
  */

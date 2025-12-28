@@ -17,26 +17,59 @@
 namespace KMime
 {
 
-/*! Basic data types defined in RFC 2822. */
+/*!
+ * \namespace KMime::Types
+ * \inmodule KMime
+ * \inheaderfile KMime/Types
+ *
+ * \brief Basic data types defined in RFC 2822.
+ */
 namespace Types
 {
 
 /*!
- * Represents an addr-spec according to RFC 2822 §3.4.1.
+ * \class KMime::Types::AddrSpec
+ * \inmodule KMime
+ * \inheaderfile KMime/Types
+ *
+ * \brief Represents an addr-spec according to RFC 2822 §3.4.1.
+ *
  * That's what you might commonly call an email address (but addressing
  * emails is slightly more complex than that).
-*/
+ */
 struct KMIME_EXPORT AddrSpec {
+    /*!
+     *
+     */
     [[nodiscard]] QString asString() const;
-    /*! This is the same as asString(), except it decodes IDNs for display */
+
+    /*!
+     * This is the same as asString(), except it decodes IDNs for display
+     */
     [[nodiscard]] QString asPrettyString() const;
+
+    /*!
+     *
+     */
     [[nodiscard]] bool isEmpty() const;
+
+    /*!
+     *
+     */
     QString localPart;
+
+    /*!
+     *
+     */
     QString domain;
 };
 
 /*!
-  Represents an (email address, display name) pair according RFC 2822,
+  \class KMime::Types::Mailbox
+  \inmodule KMime
+  \inheaderfile KMime/Types
+
+  \brief Represents an (email address, display name) pair according RFC 2822,
   section 3.4.
 */
 class KMIME_EXPORT Mailbox
@@ -48,6 +81,8 @@ public:
   */
   [[nodiscard]] QByteArray address() const;
 
+  /*!
+   */
   [[nodiscard]] AddrSpec addrSpec() const;
 
   /*!
@@ -88,23 +123,23 @@ public:
 
   /*!
    * Describes how display names should be quoted
+   *
+   * \value QuoteNever Don't quote display names at all. Such an unquoted display name can not be machine-processed anymore in some cases, for example when it contains commas, like in "Lastname, Firstname"
+   * \value QuoteWhenNecessary Only quote display names when they contain characters that need to be quoted, like commas or quote signs
+   * \value QuoteAlways Always quote the display name
+   *
    * \since 4.5
    */
-  // AK_REVIEW: remove this enum
   enum Quoting {
-    QuoteNever, ///< Don't quote display names at all. Such an unquoted display
-                ///< name can not
-    ///  be machine-processed anymore in some cases, for example when it
-    ///  contains commas, like in "Lastname, Firstname".
-    QuoteWhenNecessary, ///< Only quote display names when they contain
-                        ///< characters that need to be
-    ///  quoted, like commas or quote signs.
-    QuoteAlways ///< Always quote the display name
+    QuoteNever,
+    QuoteWhenNecessary,
+    QuoteAlways
   };
 
   /*!
    * Overloaded method that gives more control over the quoting of the display
    * name
+   *
    * \a quoting describes how the display name should be quoted
    * \since 4.5
    */
@@ -117,6 +152,7 @@ public:
 
   /*!
     Parses the given 7bit encoded string.
+
     \a s The given 7bit encoded string
   */
   void from7BitString(QByteArrayView s);
@@ -156,19 +192,27 @@ private:
 };
 
 /*!
-  Represents an address as defined in RFC 2822 §3.4.
+  \class KMime::Types::Address
+  \inmodule KMime
+  \inheaderfile KMime/Types
+
+  \brief Represents an address as defined in RFC 2822 §3.4.
+
   That is, a mailbox or a named group, ie. a named list
   of mailboxes.
 */
 class KMIME_EXPORT Address {
 public:
-    /*! The display name, in case this is a named group.
-     *  \since 25.12 (previously a public member with the same name)
+    /*!
+     * The display name, in case this is a named group.
+     * \since 25.12 (previously a public member with the same name)
      */
     [[nodiscard]] QString displayName() const;
-    /*! Set the group name.
-     *  This strips bidi control characters.
-     *  \since 25.12
+    /*!
+     * Set the group name.
+     *
+     * This strips bidi control characters.
+     * \since 25.12
      */
     void setDisplayName(const QString &displayName);
 

@@ -22,7 +22,11 @@ namespace KMime
 class MessagePrivate;
 
 /*!
- * Represents a (email) message.
+ * \class KMime::Message
+ * \inmodule KMime
+ * \inheaderfile KMime/Message
+ *
+ * \brief Represents a (email) message.
  *
  * Sample how to create a multipart message:
  * \code
@@ -69,163 +73,186 @@ public:
     */
     Message();
 
-    /*!
-      Destroys this Message.
-    */
     ~Message() override;
 
     /*!
       Returns the Message-ID header.
+
       \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::MessageID *messageID(CreatePolicy create = Create);
     /*!
       Returns the Message-ID header.
-      Can be nullptr if the header doesn't exist.
+
+      Can be \nullptr if the header doesn't exist.
       \since 24.08
     */
     [[nodiscard]] const KMime::Headers::MessageID *messageID() const;
 
     /*!
       Returns the Subject header.
+
       \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Subject *subject(CreatePolicy create = Create);
     /*!
       Returns the Subject header.
-      Can be nullptr if the header doesn't exist.
+
+      Can be \nullptr if the header doesn't exist.
       \since 24.08
     */
     [[nodiscard]] const KMime::Headers::Subject *subject() const;
 
     /*!
       Returns the Date header.
+
       \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Date *date(CreatePolicy create = Create);
     /*!
       Returns the Date header.
-      Can be nullptr if the header doesn't exist.
+
+      Can be \nullptr if the header doesn't exist.
       \since 24.08
     */
     [[nodiscard]] const KMime::Headers::Date *date() const;
 
     /*!
       Returns the From header.
+
       \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::From *from(CreatePolicy create = Create);
     /*!
       Returns the From header.
-      Can be nullptr if the header doesn't exist.
+
+      Can be \nullptr if the header doesn't exist.
       \since 24.08
     */
     [[nodiscard]] const KMime::Headers::From *from() const;
 
     /*!
       Returns the Organization header.
+
       \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Organization *organization(CreatePolicy create = Create);
     /*!
       Returns the Organization header.
-      Can be nullptr if the header doesn't exist.
+
+      Can be \nullptr if the header doesn't exist.
       \since 24.08
     */
     [[nodiscard]] const KMime::Headers::Organization *organization() const;
 
     /*!
       Returns the Reply-To header.
+
       \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::ReplyTo *replyTo(CreatePolicy create = Create);
     /*!
       Returns the Reply-To header.
-      Can be nullptr if the header doesn't exist.
+
+      Can be \nullptr if the header doesn't exist.
       \since 24.08
     */
     [[nodiscard]] const KMime::Headers::ReplyTo *replyTo() const;
 
     /*!
       Returns the To header.
+
       \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::To *to(CreatePolicy create = Create);
     /*!
       Returns the To header.
-      Can be nullptr if the header doesn't exist.
+
+      Can be \nullptr if the header doesn't exist.
       \since 24.08
     */
     [[nodiscard]] const KMime::Headers::To *to() const;
 
     /*!
       Returns the Cc header.
+
       \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Cc *cc(CreatePolicy create = Create);
     /*!
       Returns the Cc header.
-      Can be nullptr if the header doesn't exist.
+
+      Can be \nullptr if the header doesn't exist.
       \since 24.08
     */
     [[nodiscard]] const KMime::Headers::Cc *cc() const;
 
     /*!
       Returns the Bcc header.
+
       \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Bcc *bcc(CreatePolicy create = Create);
     /*!
       Returns the Bcc header.
-      Can be nullptr if the header doesn't exist.
+
+      Can be \nullptr if the header doesn't exist.
       \since 24.08
     */
     [[nodiscard]] const KMime::Headers::Bcc *bcc() const;
 
     /*!
       Returns the References header.
+
       \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::References *references(CreatePolicy create = Create);
     /*!
       Returns the References header.
-      Can be nullptr if the header doesn't exist.
+
+      Can be \nullptr if the header doesn't exist.
       \since 24.08
     */
     [[nodiscard]] const KMime::Headers::References *references() const;
 
     /*!
       Returns the User-Agent header.
+
       \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::UserAgent *userAgent(CreatePolicy create = Create);
     /*!
       Returns the User-Agent header.
-      Can be nullptr if the header doesn't exist.
+
+      Can be \nullptr if the header doesn't exist.
       \since 24.08
     */
     [[nodiscard]] const KMime::Headers::UserAgent *userAgent() const;
 
     /*!
       Returns the In-Reply-To header.
+
       \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::InReplyTo *inReplyTo(CreatePolicy create = Create);
     /*!
       Returns the In-Reply-To header.
-      Can be nullptr if the header doesn't exist.
+
+      Can be \nullptr if the header doesn't exist.
       \since 24.08
     */
     [[nodiscard]] const KMime::Headers::InReplyTo *inReplyTo() const;
 
     /*!
       Returns the Sender header.
+
       \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Sender *sender(CreatePolicy create = Create);
     /*!
       Returns the Sender header.
-      Can be nullptr if the header doesn't exist.
+
+      Can be \nullptr if the header doesn't exist.
       \since 24.08
     */
     [[nodiscard]] const KMime::Headers::Sender *sender() const;
@@ -233,9 +260,11 @@ public:
     /*!
       Returns the first main body part of a given type, taking multipart/mixed
       and multipart/alternative nodes into consideration.
+
       Eg. \c bodyPart("text/html") will return a html content object if that is
       provided in a multipart/alternative node, but not if it's the non-first
       child node of a multipart/mixed node (ie. an attachment).
+
       \a type The mimetype of the body part, if not given, the first
       body part will be returned, regardless of it's type.
     */

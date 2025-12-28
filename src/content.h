@@ -7,28 +7,6 @@
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
-/*!
-  @file
-  This file is part of the API for handling \ MIME data and
-  defines the Content class.
-
-  \brief
-  Defines the Content class.
-
-  @authors the KMime authors (see AUTHORS file),
-  Volker Krause \<vkrause@kde.org\>
-
-TODO: possible glossary terms:
- content
-   encoding, transfer type, disposition, description
- header
- body
- attachment
- charset
- article
- string representation
- broken-down object representation
-*/
 
 #pragma once
 
@@ -78,15 +56,20 @@ class ContentPrivate;
 class Message;
 
 /*!
-  \brief
-  A class that encapsulates \ MIME encoded Content.
+  \class KMime::Content
+  \inmodule KMime
+  \inheaderfile KMime/Content
+
+  \brief A class that encapsulates MIME encoded Content.
 
   A Content object holds two representations of a content:
-  - the string representation: This is the content encoded as a string ready
+  \list
+  \li the string representation: This is the content encoded as a string ready
     for transport.  Accessible through the encodedContent() method.
-  - the broken-down representation: This is the tree of objects (headers,
+  \li the broken-down representation: This is the tree of objects (headers,
     sub-Contents and (if present) the encapsulated message) that this Content is made of.
     Accessible through methods like header(), contents() and bodyAsMessage().
+  \endlist
 
   The parse() function updates the broken-down representation of the Content
   from its string representation.  Calling it is necessary to access the
@@ -97,13 +80,14 @@ class Message;
   encodedContent() to reflect any changes made to the broken-down representation of the Content.
 
   There are two basic types of a Content:
-  - A leaf Content: This is a content that is neither a multipart content nor an encapsulated
+  \list
+  \li A leaf Content: This is a content that is neither a multipart content nor an encapsulated
                     message. Because of this, it will not have any children, it has no sub-contents
                     and is therefore a leaf content.
                     Only leaf contents have a body that is not empty, i.e. functions that operate
                     on the body, such as body(), size() and decodedBody(), will work only on
                     leaf contents.
-  - A non-leaf Content: This is a content that itself doesn't have any body, but that does have
+  \li A non-leaf Content: This is a content that itself doesn't have any body, but that does have
                         sub-contents.
                         This is the case for contents that are of mimetype multipart/ or of mimetype
                         message/rfc822. In case of a multipart content, contents() will return the
@@ -114,6 +98,7 @@ class Message;
                         functions working on the body will not work.
                         A call to parse() is required before the child multipart contents or the
                         encapsulated message is created.
+  \endlist
 */
 class KMIME_EXPORT Content
 {
@@ -125,13 +110,10 @@ public:
   */
   explicit Content(Content *parent = nullptr);
 
-  /*!
-    Destroys this Content object.
-  */
   virtual ~Content();
 
   /*!
-    Returns true if this Content object is not empty.
+    Returns \c true if this Content object is not empty.
   */
   [[nodiscard]] bool hasContent() const;
 
@@ -143,7 +125,7 @@ public:
     parse() if you want to access individual headers, sub-Contents or the
     encapsulated message.
 
-    Note The passed data must not contain any CRLF sequences, only LF.
+    \note The passed data must not contain any CRLF sequences, only LF.
           Use CRLFtoLF for conversion before passing in the data.
 
     \a s is a QByteArray containing the raw Content data.
@@ -164,7 +146,7 @@ public:
    * the first parse() will delete the body, so there is no body to work on for
    * the second call of parse().
    *
-   * Note Calling this will reset the message returned by bodyAsMessage(), as
+   * \note Calling this will reset the message returned by bodyAsMessage(), as
    *       the message is re-parsed as well.
    *       Also, all old sub-contents will be deleted, so any old Content
    * pointer will become invalid.
@@ -173,6 +155,7 @@ public:
 
   /*!
     Returns whether this Content is frozen.
+
     A frozen content is immutable, i.e. calling assemble() will never modify
     its head or body, and encodedContent() will return the same data before
     and after parsing.
@@ -183,8 +166,9 @@ public:
   [[nodiscard]] bool isFrozen() const;
 
   /*!
-    Freezes this Content if \a frozen is true; otherwise unfreezes it.
-    \a frozen freeze content if \\ true, otherwise unfreeze
+    Freezes this Content if \a frozen is \c true; otherwise unfreezes it.
+
+    \a frozen freeze content if \c true, otherwise unfreeze
     \since 4.4
     \sa isFrozen().
   */
@@ -192,6 +176,7 @@ public:
 
   /*!
     Generates the MIME content.
+
     This means the string representation of this Content is updated from the
     broken-down object representation.
     Call this if you have made changes to the content, and want
@@ -218,7 +203,10 @@ public:
   void clear();
 
   /*!
-    Removes all sub-Contents from this content. sub-Contents will be deleted.
+    Removes all sub-Contents from this content.
+
+    sub-Contents will be deleted.
+
     Calling clearContents() does NOT make this Content single-part.
 
     \since 4.4
@@ -255,45 +243,58 @@ public:
   }
 
   /*!
-    Returns the first header of type \a type, if it exists.  Otherwise returns
-    0. Note that the returned header may be empty.
+    Returns the first header of type \a type, if it exists.
+
+    Otherwise returns \nullptr. Note that the returned header may be empty.
+
     \a type the header type to find
+
     \since 4.2
   */
   [[nodiscard]] Headers::Base *headerByType(QByteArrayView type) const;
 
   /*!
     Returns the first header of type T, if it exists.
+
     If the header does not exist and \a create is \c Create, creates an empty header
-    and returns it. Otherwise returns \c nullptr.
+    and returns it. Otherwise returns \nullptr.
+
     Note that the returned header may be empty.
+
     \a create Whether to create the header if it does not exist.
+
     \since 4.4 (took a bool before 26.04)
   */
   template <typename T> T *header(CreatePolicy create = Create);
   /*!
-    Returns the first header of type @tparam T.
+    Returns the first header of type \c T.
 
-    Can be nullptr if such a header doesn't exist.
+    Can be \nullptr if such a header doesn't exist.
     \since 24.08
   */
   template <typename T> [[nodiscard]] const std::remove_cv_t<T> *header() const;
 
   /*!
     Returns all \a type headers in the Content.
+
     Take care that this result is not cached, so could be slow.
+
     \a type the header type to find
+
     \since 4.2
   */
   [[nodiscard]] QList<Headers::Base *> headersByType(QByteArrayView type) const;
 
   /*!
     Sets the specified header to this Content.
+
     Any previous header of the same type is removed.
+
     If you need multiple headers of the same type, use appendHeader() or
     prependHeader().
 
     \a h The header to set.
+
     \sa appendHeader()
     \sa removeHeader()
     \since 4.4 (took a raw pointer before 26.04)
@@ -302,7 +303,9 @@ public:
 
   /*!
     Appends the specified header to the headers of this Content.
+
     \a h The header to append.
+
     \since 4.4 (took a raw pointer before 26.04)
   */
   void appendHeader(std::unique_ptr<Headers::Base> &&h);
@@ -310,24 +313,27 @@ public:
   /*!
     Searches for the first header of type \a type, and deletes it, removing
     it from this Content.
+
     \a type The type of the header to look for.
-    Returns true if a header was found and removed.
+
+    Returns \c true if a header was found and removed.
   */
   bool removeHeader(QByteArrayView type);
 
   /*!
-    Searches for the first header of type \a T, and deletes it, removing
+    Searches for the first header of type \c T, and deletes it, removing
     it from this Content.
-    @tparam T The type of the header to look for.
-    Returns true if a header was found and removed.
+
+    \c T The type of the header to look for.
+
+    Returns \c true if a header was found and removed.
   */
   template <typename T> bool removeHeader();
 
+  // TODO probably provide hasHeader<T>() too.
   /*!
     Returns true if this Content has a header of type \a type.
-    \a type The type of the header to look for.
   */
-  // TODO probably provide hasHeader<T>() too.
   [[nodiscard]] bool hasHeader(QByteArrayView type) const;
 
   /*!
@@ -339,7 +345,7 @@ public:
   /*!
     Returns the Content-Type header.
 
-    Can be nullptr if the header doesn't exist.
+    Can be \nullptr if the header doesn't exist.
     \since 24.08
   */
   [[nodiscard]] const Headers::ContentType *contentType() const;
@@ -353,7 +359,7 @@ public:
   /*!
     Returns the Content-Transfer-Encoding header.
 
-    Can be nullptr if the header doesn't exist.
+    Can be \nullptr if the header doesn't exist.
     \since 24.08
   */
   [[nodiscard]] const Headers::ContentTransferEncoding *contentTransferEncoding() const;
@@ -367,7 +373,7 @@ public:
   /*!
     Returns the Content-Disposition header.
 
-    Can be nullptr if the header doesn't exist.
+    Can be \nullptr if the header doesn't exist.
     \since 24.08
   */
   [[nodiscard]] const Headers::ContentDisposition *contentDisposition() const;
@@ -381,7 +387,7 @@ public:
   /*!
     Returns the Content-Description header.
 
-    Can be nullptr if the header doesn't exist.
+    Can be \nullptr if the header doesn't exist.
     \since 24.08
   */
   [[nodiscard]] const Headers::ContentDescription *contentDescription() const;
@@ -396,7 +402,7 @@ public:
   /*!
     Returns the Content-Location header.
 
-    Can be nullptr if the header doesn't exist.
+    Can be \nullptr if the header doesn't exist.
     \since 24.08
   */
   [[nodiscard]] const Headers::ContentLocation *contentLocation() const;
@@ -410,14 +416,16 @@ public:
   /*!
     Returns the Content-ID header.
 
-    Can be nullptr if the header doesn't exist.
+    Can be \nullptr if the header doesn't exist.
     \since 24.08
   */
   [[nodiscard]] const Headers::ContentID *contentID() const;
 
   /*!
     Returns the size of the Content body after encoding.
+
     (If the encoding is quoted-printable, this is only an approximate size.)
+
     This will return 0 for multipart contents or for encapsulated messages.
   */
   [[nodiscard]] qsizetype size() const;
@@ -474,8 +482,6 @@ public:
   /*!
     Returns the MIME preamble.
 
-    Returns a QByteArray containing the MIME preamble.
-
     \since 4.9
    */
   [[nodiscard]] QByteArray preamble() const;
@@ -488,11 +494,10 @@ public:
 
     \since 4.9
    */
-
   void setPreamble(const QByteArray &preamble);
 
   /*!
-    Returns the MIME preamble.
+    Returns the MIME epilogue.
 
     Returns a QByteArray containing the MIME epilogue.
 
@@ -501,7 +506,7 @@ public:
   [[nodiscard]] QByteArray epilogue() const;
 
   /*!
-    Sets the MIME preamble.
+    Sets the MIME epilogue.
 
     \a epilogue a QByteArray containing what will be used as the
     MIME epilogue.
@@ -545,9 +550,9 @@ public:
 
   /*! Options for Content::decodedText().
    *  \since 24.12
-   *  \value NoTrim do not trim text content.
-   *  \value TrimNewlines trim trailing newlines
-   *  \value TrimSpaces trim any trailing whitespaces
+   *  \value NoTrim Do not trim text content
+   *  \value TrimNewlines Trim trailing newlines
+   *  \value TrimSpaces Trim any trailing whitespaces
    */
   enum DecodedTextTrimOption {
     NoTrim,
@@ -592,6 +597,7 @@ public:
   [[nodiscard]] Content *textContent();
   /*!
     Returns the first Content with MIME type text/.
+
     Const overload of the above, the returned Content cannot be modified.
     \since 24.08
   */
@@ -599,6 +605,7 @@ public:
 
   /*!
    * Returns all attachments below this node, recursively.
+   *
    * This does not include crypto parts, nodes of alternative or related
    * multipart nodes, or the primary body part (see textContent()).
    * \sa KMime::isAttachment(), KMime::hasAttachment()
@@ -610,7 +617,9 @@ public:
 
   /*!
    * For multipart contents, this will return a list of all multipart child
-   * contents. For contents that are of mimetype message/rfc822, this will
+   * contents.
+   *
+   * For contents that are of mimetype message/rfc822, this will
    * return a list with one entry, and that entry is the encapsulated message,
    * as it would be returned by bodyAsMessage().
    */
@@ -668,8 +677,10 @@ public:
 
   /*!
     Returns the Content specified by the given index.
-    If the index does not point to a Content, 0 is returned. If the index
-    is invalid (empty), this Content is returned.
+
+    If the index does not point to a Content, \nullptr is returned.
+
+    If the index is invalid (empty), this Content is returned.
 
     \a index The Content index.
   */
@@ -678,20 +689,26 @@ public:
   /*!
     Returns the ContentIndex for the given Content, or an invalid index
     if the Content is not found within the hierarchy.
+
     \a content the Content object to search.
   */
   [[nodiscard]] ContentIndex indexForContent(const Content *content) const;
 
   /*!
-    Returns true if this is the top-level node in the MIME tree. The top-level
-    node is always a Message or NewsArticle. However, a node can be a Message
+    Returns true if this is the top-level node in the MIME tree.
+
+    The top-level node is always a Message or NewsArticle.
+
+    However, a node can be a Message
     without being a top-level node when it is an encapsulated message.
   */
   [[nodiscard]] bool isTopLevel() const;
 
   /*!
-   * Sets a new parent to the Content and add to its contents list. If it
-   * already had a parent, it is removed from the old parents contents list.
+   * Sets a new parent to the Content and add to its contents list.
+   *
+   * If it already had a parent, it is removed from the old parents contents list.
+   *
    * \a parent the new parent
    * \since 4.3
    */
@@ -719,19 +736,21 @@ public:
    */
   [[nodiscard]] ContentIndex index() const;
 
+  // AK_REVIEW: move to MessageViewer/ObjectTreeParser
   /*!
    * Returns true if this content is an encapsulated message, i.e. if it has the
    * mimetype message/rfc822.
    *
    * \since 4.5
    */
-  // AK_REVIEW: move to MessageViewer/ObjectTreeParser
   [[nodiscard]] bool bodyIsMessage() const;
 
   /*!
    * If this content is an encapsulated message, in which case bodyIsMessage()
    * will return true, the message represented by the body of this content will
-   * be returned. The returned message is already fully parsed. Calling this
+   * be returned.
+   *
+   * The returned message is already fully parsed. Calling this
    * method is the aquivalent of calling contents().first() and casting the
    * result to a KMime::Message*. bodyAsMessage() has the advantage that it will
    * return a shared pointer that will not be destroyed when the container
@@ -757,6 +776,7 @@ public:
 
   /*!
    * Create a copy of this content object.
+   *
    * This is recursive, ie. all child content objects are also cloned.
    * Prefer this over serializing and deserializing conetent as this is
    * is more efficient due to making use of copy-on-write.

@@ -16,6 +16,11 @@
 #include <QList>
 #include <QString>
 
+/*!
+ * \namespace KMime
+ * \inmodule KMime
+ * \inheaderfile KMime/Util
+ */
 namespace KMime
 {
 
@@ -23,33 +28,33 @@ class Message;
 
 /*!
   Checks whether \a s contains any non-us-ascii characters.
-  \a s
 */
 [[nodiscard]] KMIME_EXPORT bool isUsAscii(QStringView s);
 
 /*!
   Returns a user-visible string for a contentEncoding, for example
   "quoted-printable" for CEquPr.
+
   \a enc the contentEncoding to return string for
-  @ since 4.4
+  \since 4.4
   TODO should they be i18n'ed?
 */
 [[nodiscard]] KMIME_EXPORT QString nameForEncoding(KMime::Headers::contentEncoding enc);
 
 /*!
   Returns a list of encodings that can correctly encode the \a data.
+
   \a data the data to check encodings for
-  @ since 4.4
+  \since 4.4
 */
 [[nodiscard]] KMIME_EXPORT QList<KMime::Headers::contentEncoding> encodingsForData(QByteArrayView data);
 
 /*!
   Constructs a random string (sans leading/trailing "--") that can
-  be used as a multipart delimiter (ie. as \a boundary parameter
+  be used as a multipart delimiter (ie. as boundary parameter
   to a multipart/... content-type).
 
   Returns the randomized string.
-  \sa uniqueString
 */
 [[nodiscard]] KMIME_EXPORT QByteArray multiPartBoundary();
 
@@ -84,14 +89,17 @@ class Message;
 
 /*!
  * Returns whether or not the given MIME node is an attachment part.
+ *
  * \a content the MIME node to parse
  * \sa hasAttachment()
  */
 [[nodiscard]] KMIME_EXPORT bool isAttachment(const Content *content);
 
 /*!
- * Returns whether or not the given MIME node contains an attachment part. This function will
+ * Returns whether or not the given MIME node contains an attachment part.
+ * This function will
  *  recursively parse the MIME tree looking for a suitable attachment and return true if one is found.
+ *
  * \a content the MIME node to parse
  * \sa isAttachment()
  */
@@ -100,6 +108,7 @@ class Message;
 /*!
  * Returns whether or not the given MIME node contains an invitation part. This function will
  *  recursively parse the MIME tree looking for a suitable invitation and return true if one is found.
+ *
  * \a content the MIME node to parse
  * \since 4.14.6
  */
@@ -123,6 +132,7 @@ class Message;
 
 /*!
  * Determines if the MIME part \a content is a crypto part.
+ *
  * This is, is either an encrypted part or a signature part.
  */
 [[nodiscard]] KMIME_EXPORT bool isCryptoPart(const Content *content);
