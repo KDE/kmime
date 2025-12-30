@@ -155,10 +155,10 @@ void HeaderTest::testAddressListHeader()
     {
         // a display name with non-latin1 content in both name components
         h = new Headers::Generics::AddressList();
-        const QString testAddress = QString::fromUtf8("\"Rüedi-Huser, Thomas\" <test@test.org>");
-        h->fromUnicodeString(testAddress);
+        const QString testAddress2 = QString::fromUtf8("\"Rüedi-Huser, Thomas\" <test@test.org>");
+        h->fromUnicodeString(testAddress2);
         QEXPECT_FAIL("", "AddressList::prettyAddresses() does not quote the mailbox correctly", Continue);
-        QCOMPARE(h->asUnicodeString(), testAddress);
+        QCOMPARE(h->asUnicodeString(), testAddress2);
         delete h;
     }
 

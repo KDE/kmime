@@ -709,10 +709,10 @@ Content *KMime::Content::content(const ContentIndex &index) const
 
 ContentIndex KMime::Content::indexForContent(const Content *content) const
 {
-    const auto i = d_ptr->contents().indexOf(content);
-    if (i >= 0) {
+    const auto idx = d_ptr->contents().indexOf(content);
+    if (idx >= 0) {
         ContentIndex ci;
-        ci.push(i + 1);   // zero-based -> one-based index
+        ci.push(idx + 1);   // zero-based -> one-based index
         return ci;
     }
     // not found, we need to search recursively
