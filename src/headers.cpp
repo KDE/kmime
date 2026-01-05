@@ -1437,12 +1437,13 @@ bool Newsgroups::isCrossposted() const {
 bool Newsgroups::parse(const char *&scursor, const char *const send, NewlineType newline) {
     Q_D(Newsgroups);
     d->groups.clear();
+    HeaderParsing::ParserState state;
     while (true) {
-        eatCFWS(scursor, send, newline);
+        eatCFWS(scursor, send, newline, state);
         if (scursor != send && *scursor == ',') {
             ++scursor;
+            eatCFWS(scursor, send, newline, state);
         }
-        eatCFWS(scursor, send, newline);
         if (scursor == send) {
             return true;
         }

@@ -93,6 +93,33 @@ Q_DECLARE_FLAGS(ParseTokenFlags, ParseTokenFlag)
 [[nodiscard]] bool parsePhrase(const char *&scursor, const char *const send,
                                QString &result, NewlineType newline = NewlineType::LF);
 
+struct ParserState {
+    bool brokenComment = false;
+};
+
+/*!
+  Eats comment-folding-white-space, skips whitespace, folding and comments
+  (even nested ones) and stops at the next non-CFWS character.  After
+  calling this function, you should check whether \a scursor == \a send
+  (end of header reached).
+
+  If a comment with unbalanced parentheses is encountered, \a scursor
+  is being positioned on the opening '(' of the outmost comment.
+
+  \a scursor pointer to the first character beyond the initial '=' of
+  the input string.
+
+  \a send pointer to end of input buffer.
+
+  \a newline whether the input string is terminated with CRLF or LF.
+
+  \a state Parser state between different calls on the same header.
+  Use when possible to prevent quadratic behavior on invalid nested
+  comments.
+*/
+KMIME_EXPORT void eatCFWS(const char *&scursor, const char *const send, NewlineType newline, ParserState &state);
+
+
 /**
  * Extract the charset embedded in the parameter list if there is one.
  *

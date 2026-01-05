@@ -42,6 +42,11 @@ enum class NewlineType {
     CRLF,
 };
 
+/*!
+  Low-level MIME header parsing functions.
+  These are only exported for KAlarm legacy code, use the header classes directly
+  whenever possible.
+*/
 namespace HeaderParsing
 {
 

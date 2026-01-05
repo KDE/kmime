@@ -726,7 +726,7 @@ bool parseDotAtom(const char *&scursor, const char *const send,
     return true;
 }
 
-void eatCFWS(const char *&scursor, const char *const send, NewlineType newline)
+void eatCFWS(const char *&scursor, const char *const send, NewlineType newline, ParserState &state)
 {
     QString dummy;
 
@@ -745,9 +745,14 @@ void eatCFWS(const char *&scursor, const char *const send, NewlineType newline)
             continue;
 
         case '(': // comment
+            if (state.brokenComment) { // don't bother diving into broken comments again, avoids quadratic cost
+                scursor = oldscursor;
+                return;
+            }
             if (parseComment(scursor, send, dummy, newline, false /*don't save*/)) {
                 continue;
             }
+            state.brokenComment = true;
             scursor = oldscursor;
             return;
 
@@ -756,6 +761,12 @@ void eatCFWS(const char *&scursor, const char *const send, NewlineType newline)
             return;
         }
     }
+}
+
+void eatCFWS(const char *&scursor, const char *const send, NewlineType newline)
+{
+    ParserState state;
+    eatCFWS(scursor, send, newline, state);
 }
 
 bool parseDomain(const char *&scursor, const char *const send,
