@@ -4,6 +4,9 @@
 # SPDX-License-Identifier: LGPL-2.0-or-later
 
 export PATH="$WORK/bin:$PATH"
+if [[ $FUZZING_ENGINE == "afl" ]]; then
+    export LDFLAGS="-fuse-ld=lld"
+fi
 
 cd $SRC/extra-cmake-modules
 cmake . -G Ninja \
