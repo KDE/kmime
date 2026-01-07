@@ -1116,13 +1116,14 @@ bool ReturnPath::parse(const char *&scursor, const char *const send,
 
 // NOTE: Do *not* register Generic with HeaderFactory, since its type() is changeable.
 
-Generic::Generic() : Generics::Unstructured(new GenericPrivate)
+Generic::Generic(const char *type, qsizetype len) : Generics::Unstructured(new GenericPrivate)
 {
-}
-
-Generic::Generic(const char *t, qsizetype len) : Generics::Unstructured(new GenericPrivate)
-{
-    setType(t, len);
+    Q_D(Generic);
+    if (type) {
+        const auto l = (len < 0 ? strlen(type) : len) + 1;
+        d->type = new char[l];
+        qstrncpy(d->type, type, l);
+    }
 }
 
 Generic::~Generic()
@@ -1140,21 +1141,6 @@ bool Generic::isEmpty() const
 const char *Generic::type() const
 {
     return d_func()->type;
-}
-
-void Generic::setType(const char *type, qsizetype len)
-{
-    Q_D(Generic);
-    if (d->type) {
-        delete[] d->type;
-    }
-    if (type) {
-        const auto l = (len < 0 ? strlen(type) : len) + 1;
-        d->type = new char[l];
-        qstrncpy(d->type, type, l);
-    } else {
-        d->type = nullptr;
-    }
 }
 
 //-----<Generic>-------------------------------

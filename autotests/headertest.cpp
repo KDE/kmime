@@ -990,7 +990,7 @@ void HeaderTest::noAbstractHeaders()
     auto h12 = new Supersedes(); delete h12;
     auto h13 = new InReplyTo(); delete h13;
     auto h14 = new References(); delete h14;
-    auto h15 = new Generic(); delete h15;
+    auto h15 = new Generic("X-My-Header"); delete h15;
     auto h16 = new Subject(); delete h16;
     auto h17 = new Organization(); delete h17;
     auto h18 = new ContentDescription(); delete h18;
