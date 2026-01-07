@@ -13,5 +13,6 @@ class HeaderFactoryTest : public QObject
     Q_OBJECT
 private Q_SLOTS:
     void testBuiltInHeaders();
+    void testGeneric();
 };
 

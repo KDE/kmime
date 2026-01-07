@@ -1557,8 +1557,10 @@ class KMIME_EXPORT UserAgent : public Generics::Unstructured
 /*!
  * Creates a header based on \a type.
  *
- * If \a type is a known header type,
- * the right object type will be created, otherwise a null pointer is returned.
+ * If \a type is a known header type, the right object type will be created,
+ * otherwise a KMime::Headers::Generic will be created.
+ *
+ * \note Prior to 26.04 this retuned a \c nullptr for unknown header types.
  */
 [[nodiscard]] KMIME_EXPORT std::unique_ptr<Base> createHeader(QByteArrayView type);
 

@@ -1980,8 +1980,10 @@ bool ContentDisposition::parse(const char  *&scursor, const char *const send,
 kmime_mk_trivial_ctor_with_name(Subject, Generics::Unstructured, Subject)
 //@endcond
 
-std::unique_ptr<Base> createHeader(QByteArrayView type) {
-    return HeaderFactory::createHeader(type);
+std::unique_ptr<Base> createHeader(QByteArrayView type)
+{
+    auto h = HeaderFactory::createHeader(type);
+    return h ? std::move(h) : std::make_unique<Headers::Generic>(type.constData(), type.size());
 }
 
 //@cond PRIVATE

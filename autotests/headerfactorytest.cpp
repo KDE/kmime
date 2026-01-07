@@ -77,4 +77,10 @@ void HeaderFactoryTest::testBuiltInHeaders()
     QVERIFY(isHeaderRegistered<UserAgent>());
 }
 
+void HeaderFactoryTest::testGeneric()
+{
+    QVERIFY(Headers::createHeader("X-My-Header"));
+    QVERIFY(dynamic_cast<Headers::Generic*>(Headers::createHeader("X-My-Header").get()));
+}
+
 #include "moc_headerfactorytest.cpp"
