@@ -255,7 +255,7 @@ void MessageTest::testBidiSpoofing()
     //const QString PDF( QChar( 0x202C ) );
 
     const QByteArray senderAndRLO =
-        encodeRFC2047String(QString(QLatin1StringView("Sender") + RLO +
+        KCodecs::encodeRFC2047String(QString(QLatin1StringView("Sender") + RLO +
                                     QLatin1StringView(" <sender@test.org>")),
                             "utf-8");
 

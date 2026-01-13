@@ -28,7 +28,6 @@ macro(ADD_KMIME_TEST)
 endmacro()
 
 add_kmime_test(
-  rfc2047test
   utiltest
   contentindextest
   charfreqtest
