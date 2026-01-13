@@ -19,122 +19,6 @@ namespace KMime {
 
 static const char reservedCharacters[] = "\"()<>@,.;:\\[]=";
 
-QByteArray encodeRFC2047String(QStringView src, const QByteArray &charset,
-                               bool addressHeader)
-{
-#if KCODECS_VERSION < QT_VERSION_CHECK(6, 20, 0)
-    QByteArray result;
-    int start = 0;
-    int end = 0;
-    bool nonAscii = false;
-    bool useQEncoding = false;
-
-    // fromLatin1() is safe here, codecForName() uses toLatin1() internally
-    QStringEncoder codec(charset.constData());
-
-    QByteArray usedCS;
-    if (!codec.isValid()) {
-        //no codec available => try local8Bit and hope the best ;-)
-        codec = QStringEncoder(QStringEncoder::System);
-        usedCS = codec.name();
-    } else {
-        if (charset.isEmpty()) {
-            usedCS = codec.name();
-        } else {
-            usedCS = charset;
-        }
-    }
-
-    QByteArray encoded8Bit = codec.encode(src);
-    if (codec.hasError()) {
-        usedCS = "utf-8";
-        codec = QStringEncoder(usedCS.constData());
-        encoded8Bit = codec.encode(src);
-    }
-
-    if (usedCS.contains("8859-")) {     // use "B"-Encoding for non iso-8859-x charsets
-        useQEncoding = true;
-    }
-
-    const auto encoded8BitLength = encoded8Bit.size();
-    for (int i = 0; i < encoded8BitLength; i++) {
-        if (encoded8Bit[i] == ' ') {   // encoding starts at word boundaries
-            start = i + 1;
-        }
-
-        // encode escape character, for japanese encodings...
-        if (((signed char)encoded8Bit[i] < 0) || (encoded8Bit[i] == '\033') ||
-                (addressHeader && (strchr("\"()<>@,.;:\\[]=", encoded8Bit[i]) != nullptr))) {
-            end = start;   // non us-ascii char found. Now we determine where to stop encoding
-            nonAscii = true;
-            break;
-        }
-    }
-
-    if (nonAscii) {
-        end = encoded8Bit.indexOf(' ', end);
-        if (end == -1) {
-            end = encoded8Bit.length();
-        }
-
-        for (int x = end; x < encoded8Bit.length(); x++) {
-            if (((signed char)encoded8Bit[x] < 0) || (encoded8Bit[x] == '\033') ||
-                    (addressHeader && (strchr(reservedCharacters, encoded8Bit[x]) != nullptr))) {
-                end = x;     // we found another non-ascii word
-
-                end = encoded8Bit.indexOf(' ', end);
-                if (end == -1) {
-                    end = encoded8Bit.length();
-                }
-            }
-        }
-
-        result = encoded8Bit.left(start) + "=?" + usedCS;
-
-        if (useQEncoding) {
-            result += "?Q?";
-
-            char hexcode; // "Q"-encoding implementation described in RFC 2047
-            for (int i = start; i < end; i++) {
-                char c = encoded8Bit[i];
-                if (c == ' ') {   // make the result readable with not MIME-capable readers
-                    result += '_';
-                } else {
-                    if (((c >= 'a') && (c <= 'z')) ||        // paranoid mode, encode *all* special chars to avoid problems
-                            ((c >= 'A') && (c <= 'Z')) ||        // with "From" & "To" headers
-                            ((c >= '0') && (c <= '9'))) {
-                        result += c;
-                    } else {
-                        result += '=';                 // "stolen" from KMail ;-)
-                        hexcode = ((c & 0xF0) >> 4) + 48;
-                        if (hexcode >= 58) {
-                            hexcode += 7;
-                        }
-                        result += hexcode;
-                        hexcode = (c & 0x0F) + 48;
-                        if (hexcode >= 58) {
-                            hexcode += 7;
-                        }
-                        result += hexcode;
-                    }
-                }
-            }
-        } else {
-            result += "?B?" + encoded8Bit.mid(start, end - start).toBase64();
-        }
-
-        result += "?=";
-        result += encoded8Bit.right(encoded8Bit.length() - end);
-    } else {
-        result = encoded8Bit;
-    }
-
-    return result;
-#else
-    return KCodecs::encodeRFC2047String(src, charset, addressHeader ? KCodecs::RFC2047EncodingOption::EncodeReservedCharcters : KCodecs::RFC2047EncodingOption::NoOption);
-#endif
-}
-
 QByteArray encodeRFC2047Sentence(QStringView src, const QByteArray &charset)
 {
     QByteArray result;
@@ -154,7 +38,7 @@ QByteArray encodeRFC2047Sentence(QStringView src, const QByteArray &charset)
             const auto wordSize = pos - wordStart;
             if (wordSize > 0) {
                 const auto word = src.mid(wordStart, wordSize);
-                result += encodeRFC2047String(word, charset);
+                result += KCodecs::encodeRFC2047String(word, charset);
             }
 
             result += ch->toLatin1();
@@ -168,7 +52,7 @@ QByteArray encodeRFC2047Sentence(QStringView src, const QByteArray &charset)
     const auto wordSize = pos - wordStart;
     if (wordSize > 0) {
         const auto word = src.mid(wordStart, pos - wordStart);
-        result += encodeRFC2047String(word, charset);
+        result += KCodecs::encodeRFC2047String(word, charset);
     }
 
     return result;

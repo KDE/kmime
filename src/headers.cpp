@@ -157,7 +157,7 @@ void Unstructured::from7BitString(QByteArrayView s)
 QByteArray Unstructured::as7BitString() const
 {
     const Q_D(Unstructured);
-    return encodeRFC2047String(d->decoded, rfc2047Charset()) ;
+    return KCodecs::encodeRFC2047String(d->decoded, rfc2047Charset()) ;
 }
 
 void Unstructured::fromUnicodeString(const QString &s)
@@ -645,7 +645,7 @@ QByteArray PhraseList::as7BitString() const
     QByteArray rv;
     for (int i = 0; i < d->phraseList.count(); ++i) {
         // FIXME: only encode when needed, quote when needed, etc.
-        rv += encodeRFC2047String(d->phraseList[i], rfc2047Charset(), false);
+        rv += KCodecs::encodeRFC2047String(d->phraseList[i], rfc2047Charset());
         if (i != d->phraseList.count() - 1) {
             rv += ", ";
         }

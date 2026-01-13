@@ -190,7 +190,7 @@ QByteArray Mailbox::as7BitString(const QByteArray &encCharset) const
         addQuotes(tmp, false);
         rv += tmp;
     } else {
-        rv += encodeRFC2047String(name(), encCharset, true);
+        rv += KCodecs::encodeRFC2047String(name(), encCharset, KCodecs::RFC2047EncodingOption::EncodeReservedCharcters);
     }
     if (hasAddress()) {
         rv += " <" + address() + '>';

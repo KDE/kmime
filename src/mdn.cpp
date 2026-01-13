@@ -20,9 +20,9 @@
 
 #include "mdn.h"
 #include "kmime_version.h"
-#include "util.h"
-#include "codecs_p.h"
 #include "kmime_debug.h"
+
+#include <KCodecs>
 
 #include <QByteArray>
 #include <QCoreApplication>
@@ -208,7 +208,7 @@ static QByteArray finalRecipient(const QString &recipient)
       return {};
     } else {
         return "Final-Recipient: rfc822; "
-               + encodeRFC2047String(recipient, "utf-8") + '\n';
+               + KCodecs::encodeRFC2047String(recipient, "utf-8") + '\n';
     }
 }
 
@@ -263,11 +263,11 @@ QByteArray dispositionNotificationBodyContent(
 
     // headers that are only present for certain disposition {types,modifiers}:
     if (d == Failed) {
-        result += "Failure: " + encodeRFC2047String(spec, "utf-8") + '\n';
+        result += "Failure: " + KCodecs::encodeRFC2047String(spec, "utf-8") + '\n';
     } else if (m.contains(Error)) {
-        result += "Error: " + encodeRFC2047String(spec, "utf-8") + '\n';
+        result += "Error: " + KCodecs::encodeRFC2047String(spec, "utf-8") + '\n';
     } else if (m.contains(Warning)) {
-        result += "Warning: " + encodeRFC2047String(spec, "utf-8") + '\n';
+        result += "Warning: " + KCodecs::encodeRFC2047String(spec, "utf-8") + '\n';
     }
 
     return result;
