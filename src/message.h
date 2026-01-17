@@ -31,37 +31,37 @@ class MessagePrivate;
  * Sample how to create a multipart message:
  * \code
  * // Set the multipart message.
- * Message *m = new Message;
- * Headers::ContentType *ct = m->contentType();
- * ct->setMimeType( "multipart/mixed" );
- * ct->setBoundary( multiPartBoundary() );
- * Headers::ContentTransferEncoding *cte = m->contentTransferEncoding();
- * cte->setEncoding(Headers::CE7Bit);
+ * auto m = std::make_shared<KMime::Message>();
+ * auto ct = m->contentType();
+ * ct->setMimeType("multipart/mixed");
+ * ct->setBoundary(KMime::multiPartBoundary());
+ * auto cte = m->contentTransferEncoding();
+ * cte->setEncoding(KMime::Headers::CE7Bit);
  *
  * // Set the headers.
  * m->from()->fromUnicodeString("some@mailaddy.com");
  * m->to()->fromUnicodeString("someother@mailaddy.com");
  * m->cc()->fromUnicodeString("some@mailaddy.com");
- * m->date()->setDateTime(QDateTime::currentLocalDateTime());
+ * m->date()->setDateTime(QDateTime::currentDateTime());
  * m->subject()->fromUnicodeString("My Subject");
  *
  * // Set the first multipart, the body message.
- * KMime::Content *b = new KMime::Content;
- * b->contentType()->setMimeType( "text/plain" );
- * b->setBody( "Some text..." );
+ * auto b = std::make_unique<KMime::Content>();
+ * b->contentType()->setMimeType("text/plain");
+ * b->setBody("Some text...");
  *
  * // Set the second multipart, the attachment.
- * KMime::Content *a = new KMime::Content;
- * KMime::Headers::ContentDisposition *d = new KMime::Headers::ContentDisposition( attachMessage );
- * d->setFilename( "cal.ics" );
- * d->setDisposition( KMime::Headers::CDattachment );
- * a->contentType()->setMimeType( "text/plain" );
- * a->setHeader( d );
- * a->setBody( "Some text in the attachment..." );
+ * auto a = std::make_unique<KMime::Content>();
+ * auto d = std::make_unique<KMime::Headers::ContentDisposition>();
+ * d->setFilename("cal.ics");
+ * d->setDisposition(KMime::Headers::CDattachment);
+ * a->contentType()->setMimeType("text/plain");
+ * a->setHeader(std::move(d));
+ * a->setBody("Some text in the attachment...");
  *
  * // Attach the both multiparts and assemble the message.
- * m->appendContent( b );
- * m->appendContent( a );
+ * m->appendContent(std::move(b));
+ * m->appendContent(std::move(a));
  * m->assemble();
  * \endcode
  */
