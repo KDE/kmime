@@ -231,8 +231,8 @@ bool UUEncoded::parse()
                 fileName = "";
             }
             m_filenames.append(fileName);
-            //everything between "begin" and "end" is uuencoded
-            m_bins.append(m_src.mid(uuStart, endPos - uuStart + 1));
+            // include the begin and end markers in the result as KCodecs expects thsoe for uuencode decoding
+            m_bins.append(m_src.mid(beginPos, endPos - beginPos + 1 + 4)); // "+4" is for the trailing "\nend"
             QMimeDatabase db;
             m_mimeTypes.append(db.mimeTypeForFile(QString::fromUtf8(fileName), QMimeDatabase::MatchExtension).name().toUtf8());
             firstIteration = false;

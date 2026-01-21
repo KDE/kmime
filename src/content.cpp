@@ -895,10 +895,8 @@ bool ContentPrivate::parseUuencoded(Content *q)
             c->contentType()->setName(QLatin1StringView(uup.filenames().at(i)));
             c->contentTransferEncoding()->setEncoding(Headers::CEuuenc);
             c->contentDisposition()->setDisposition(Headers::CDattachment);
-            c->contentDisposition()->setFilename(
-                QLatin1StringView(uup.filenames().at(i)));
-            // uup.binaryParts().at(i) does no longer have the uuencode header, which makes KCodecs fail since 5c66308c4786ef7fbf77b0e306e73f7d4ac3431b
-            c->setEncodedBody(prevBody);
+            c->contentDisposition()->setFilename(QLatin1StringView(uup.filenames().at(i)));
+            c->setEncodedBody(uup.binaryParts().at(i));
             c->changeEncoding(Headers::CEbase64);   // Convert to base64.
             multipartContents.append(c);
         }
