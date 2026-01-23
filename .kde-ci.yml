@@ -15,3 +15,4 @@ Options:
   - --suppress-xml=cppcheck-suppressions.xml
  cppcheck-ignore-files:
   - autotests
+ enable-lsan: True
