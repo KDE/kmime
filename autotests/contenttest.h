@@ -33,5 +33,6 @@ private Q_SLOTS:
     void testContentTypeMimetype_data();
     void testContentTypeMimetype();
     void testConstChildren();
+    void testChildDeletion();
 };
 

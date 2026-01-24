@@ -920,4 +920,16 @@ void ContentTest::testConstChildren()
     }
 }
 
+void ContentTest::testChildDeletion()
+{
+    Content parent;
+    QCOMPARE(parent.contents().size(), 0);
+    auto child = std::make_unique<Content>();
+    parent.appendContent(std::move(child));
+    QCOMPARE(parent.contents().size(), 1);
+    QCOMPARE(parent.contents()[0]->parent(), &parent);
+    delete parent.contents()[0];
+    QCOMPARE(parent.contents().size(), 0);
+}
+
 #include "moc_contenttest.cpp"

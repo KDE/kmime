@@ -45,9 +45,22 @@ Content::Content(Content *parent)
 
 Content::~Content()
 {
-    Q_D(Content);
-    qDeleteAll(d->headers);
-    d->headers.clear();
+    // remove us from the parent node, when deleting a sub-node explicitly
+    if (d_ptr->parent) {
+        d_ptr->parent->d_ptr->multipartContents.removeAll(this);
+    }
+
+    qDeleteAll(d_ptr->headers);
+
+    // delete child nodes
+    // but reset their parent pointer explicitly first, to not trigger the above
+    for (auto &c : d_ptr->multipartContents) {
+        c->d_ptr->parent = nullptr;
+        delete c;
+    }
+    if (d_ptr->bodyAsMessage) {
+        d_ptr->bodyAsMessage->d_ptr->parent = nullptr;
+    }
 }
 
 bool Content::hasContent() const
