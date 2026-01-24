@@ -23,11 +23,7 @@ class ContentPrivate
 {
 public:
     explicit ContentPrivate() = default;
-    ~ContentPrivate()
-    {
-        qDeleteAll(multipartContents);
-        multipartContents.clear();
-    }
+    ~ContentPrivate() = default;
 
     bool parseUuencoded(Content *q);
     bool parseYenc(Content *q);
