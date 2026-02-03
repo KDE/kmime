@@ -51,16 +51,7 @@ Content::~Content()
     }
 
     qDeleteAll(d_ptr->headers);
-
-    // delete child nodes
-    // but reset their parent pointer explicitly first, to not trigger the above
-    for (auto &c : d_ptr->multipartContents) {
-        c->d_ptr->parent = nullptr;
-        delete c;
-    }
-    if (d_ptr->bodyAsMessage) {
-        d_ptr->bodyAsMessage->d_ptr->parent = nullptr;
-    }
+    clearContents();
 }
 
 bool Content::hasContent() const
@@ -143,9 +134,7 @@ void Content::parse()
     }
 
     // Clean up old sub-Contents and parse them again.
-    qDeleteAll(d->multipartContents);
-    d->multipartContents.clear();
-    d->clearBodyMessage();
+    clearContents();
     Headers::ContentType *ct = contentType();
     if (ct->isEmpty()) { //Set default content-type as defined in https://tools.ietf.org/html/rfc2045#page-10 (5.2.  Content-Type Defaults)
         ct->setMimeType("text/plain");
@@ -235,8 +224,15 @@ void Content::clear()
 void Content::clearContents()
 {
     Q_D(Content);
-    qDeleteAll(d->multipartContents);
+
+    // delete child nodes
+    // but reset their parent pointer explicitly first, to not trigger the above
+    for (auto &c : d_ptr->multipartContents) {
+        c->d_ptr->parent = nullptr;
+        delete c;
+    }
     d->multipartContents.clear();
+
     d->clearBodyMessage();
 }
 
@@ -828,7 +824,11 @@ kmime_mk_header_accessor(ContentID, contentID)
 
 void ContentPrivate::clearBodyMessage()
 {
-    bodyAsMessage.reset();
+    if (bodyAsMessage) {
+        // reset parent pointer explicitly first, to not trigger the dtor code removing references from the parent
+        bodyAsMessage->d_ptr->parent = nullptr;
+        bodyAsMessage.reset();
+    }
 }
 
 QList<Content *> ContentPrivate::contents() const {
