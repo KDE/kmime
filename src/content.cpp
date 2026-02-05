@@ -934,12 +934,11 @@ bool ContentPrivate::parseYenc(Content *q)
         // Now add each of the binary parts as sub-Contents.
         for (int i = 0; i < yenc.binaryParts().count(); i++) {
             auto c = new Content(q);
-            c->contentType()->setMimeType(yenc.mimeTypes().at(i));
+            c->contentType()->setMimeType(yenc.mimeTypes().at(i) == "message/rfc822" ? "text/plain" : yenc.mimeTypes().at(i));
             c->contentType()->setName(QLatin1StringView(yenc.filenames().at(i)));
             c->contentTransferEncoding()->setEncoding(Headers::CEbinary);
             c->contentDisposition()->setDisposition(Headers::CDattachment);
-            c->contentDisposition()->setFilename(
-                QLatin1StringView(yenc.filenames().at(i)));
+            c->contentDisposition()->setFilename(QLatin1StringView(yenc.filenames().at(i)));
             c->setBody(yenc.binaryParts().at(i));     // Yenc bodies are binary.
             c->changeEncoding(Headers::CEbase64);   // Convert to base64.
             multipartContents.append(c);

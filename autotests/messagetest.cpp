@@ -724,6 +724,7 @@ void MessageTest::testGarbage_data()
     QTest::newRow("assert") << u"clusterfuzz-testcase-minimized-kmime_fuzzer-5617955779182592"_s;
     QTest::newRow("yenc-large-alloc") << u"clusterfuzz-testcase-minimized-kmime_fuzzer-4804196479336448"_s;
     QTest::newRow("yenc-corrupt-size") << u"yenc-single-part.yenc"_s;
+    QTest::newRow("yenc-mail-part") << u"yenc-mail-part.txt"_s;
     QTest::newRow("uuencode-no-filename") << u"clusterfuzz-testcase-minimized-kmime_fuzzer-6349101081100288"_s;
 }
 
