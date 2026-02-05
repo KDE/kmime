@@ -202,17 +202,6 @@ public:
   void clear();
 
   /*!
-    Removes all sub-Contents from this content.
-
-    sub-Contents will be deleted.
-
-    Calling clearContents() does NOT make this Content single-part.
-
-    \since 4.4
-  */
-  void clearContents();
-
-  /*!
     Returns the Content header raw data.
 
     \sa setHead().
