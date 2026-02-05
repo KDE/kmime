@@ -28,7 +28,7 @@ public:
     bool parseUuencoded(Content *q);
     bool parseYenc(Content *q);
     bool parseMultipart(Content *q);
-    void clearBodyMessage();
+    void clearContents();
 
     /**
       Returns whether the Content containing this header needs to be encoded
