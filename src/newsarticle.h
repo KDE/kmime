@@ -40,6 +40,9 @@ public:
     /*!
       Returns the Control header.
 
+      Ownership of the header remains with the NewsArticle object,
+      the created header is automatically added to that.
+
       \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Control *control(CreatePolicy create = Create);
@@ -53,6 +56,9 @@ public:
 
     /*!
       Returns the Supersedes header.
+
+      Ownership of the header remains with the NewsArticle object,
+      the created header is automatically added to that.
 
       \a create Whether to create the header if it doesn't exist yet.
     */
@@ -68,6 +74,9 @@ public:
     /*!
       Returns the Mail-Copies-To header.
 
+      Ownership of the header remains with the NewsArticle object,
+      the created header is automatically added to that.
+
       \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::MailCopiesTo *mailCopiesTo(CreatePolicy create = Create);
@@ -81,6 +90,9 @@ public:
 
     /*!
       Returns the Newsgroups header.
+
+      Ownership of the header remains with the NewsArticle object,
+      the created header is automatically added to that.
 
       \a create Whether to create the header if it doesn't exist yet.
     */
@@ -96,6 +108,9 @@ public:
     /*!
       Returns the Follow-Up-To header.
 
+      Ownership of the header remains with the NewsArticle object,
+      the created header is automatically added to that.
+
       \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::FollowUpTo *followUpTo(CreatePolicy create = Create);
@@ -109,6 +124,9 @@ public:
 
     /*!
       Returns the Lines header.
+
+      Ownership of the header remains with the NewsArticle object,
+      the created header is automatically added to that.
 
       \a create Whether to create the header if it doesn't exist yet.
     */

@@ -257,7 +257,8 @@ public:
     Returns the first header of type T, if it exists.
 
     If the header does not exist and \a create is \c Create, creates an empty header
-    and returns it. Otherwise returns \nullptr.
+    and returns it. Otherwise returns \nullptr. Ownership of the header remains with
+    the Content object, the created header is automatically added to that.
 
     Note that the returned header may be empty.
 
@@ -353,6 +354,9 @@ public:
   /*!
     Returns the Content-Transfer-Encoding header.
 
+    Ownership of the header remains with the Content object,
+    the created header is automatically added to that.
+
     \a create Whether to create the header if it doesn't exist yet.
   */
   Headers::ContentTransferEncoding *contentTransferEncoding(CreatePolicy create = Create);
@@ -366,6 +370,9 @@ public:
 
   /*!
     Returns the Content-Disposition header.
+
+    Ownership of the header remains with the Content object,
+    the created header is automatically added to that.
 
     \a create Whether to create the header if it doesn't exist yet.
   */
@@ -381,6 +388,9 @@ public:
   /*!
     Returns the Content-Description header.
 
+    Ownership of the header remains with the Content object,
+    the created header is automatically added to that.
+
     \a create Whether to create the header if it doesn't exist yet.
   */
   Headers::ContentDescription *contentDescription(CreatePolicy create = Create);
@@ -394,6 +404,9 @@ public:
 
   /*!
     Returns the Content-Location header.
+
+    Ownership of the header remains with the Content object,
+    the created header is automatically added to that.
 
     \a create Whether to create the header if it doesn't exist yet.
     \since 4.2
@@ -409,6 +422,10 @@ public:
 
   /*!
     Returns the Content-ID header.
+
+    Ownership of the header remains with the Content object,
+    the created header is automatically added to that.
+
     \a create Whether to create the header if it doesn't exist yet.
     \since 4.4
   */

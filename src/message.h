@@ -78,6 +78,9 @@ public:
     /*!
       Returns the Message-ID header.
 
+      Ownership of the header remains with the Message object,
+      the created header is automatically added to that.
+
       \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::MessageID *messageID(CreatePolicy create = Create);
@@ -91,6 +94,9 @@ public:
 
     /*!
       Returns the Subject header.
+
+      Ownership of the header remains with the Message object,
+      the created header is automatically added to that.
 
       \a create Whether to create the header if it doesn't exist yet.
     */
@@ -106,6 +112,9 @@ public:
     /*!
       Returns the Date header.
 
+      Ownership of the header remains with the Message object,
+      the created header is automatically added to that.
+
       \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Date *date(CreatePolicy create = Create);
@@ -119,6 +128,9 @@ public:
 
     /*!
       Returns the From header.
+
+      Ownership of the header remains with the Message object,
+      the created header is automatically added to that.
 
       \a create Whether to create the header if it doesn't exist yet.
     */
@@ -134,6 +146,9 @@ public:
     /*!
       Returns the Organization header.
 
+      Ownership of the header remains with the Message object,
+      the created header is automatically added to that.
+
       \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Organization *organization(CreatePolicy create = Create);
@@ -147,6 +162,9 @@ public:
 
     /*!
       Returns the Reply-To header.
+
+      Ownership of the header remains with the Message object,
+      the created header is automatically added to that.
 
       \a create Whether to create the header if it doesn't exist yet.
     */
@@ -162,6 +180,9 @@ public:
     /*!
       Returns the To header.
 
+      Ownership of the header remains with the Message object,
+      the created header is automatically added to that.
+
       \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::To *to(CreatePolicy create = Create);
@@ -175,6 +196,9 @@ public:
 
     /*!
       Returns the Cc header.
+
+      Ownership of the header remains with the Message object,
+      the created header is automatically added to that.
 
       \a create Whether to create the header if it doesn't exist yet.
     */
@@ -190,6 +214,9 @@ public:
     /*!
       Returns the Bcc header.
 
+      Ownership of the header remains with the Message object,
+      the created header is automatically added to that.
+
       \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::Bcc *bcc(CreatePolicy create = Create);
@@ -203,6 +230,9 @@ public:
 
     /*!
       Returns the References header.
+
+      Ownership of the header remains with the Message object,
+      the created header is automatically added to that.
 
       \a create Whether to create the header if it doesn't exist yet.
     */
@@ -218,6 +248,9 @@ public:
     /*!
       Returns the User-Agent header.
 
+      Ownership of the header remains with the Message object,
+      the created header is automatically added to that.
+
       \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::UserAgent *userAgent(CreatePolicy create = Create);
@@ -232,6 +265,9 @@ public:
     /*!
       Returns the In-Reply-To header.
 
+      Ownership of the header remains with the Message object,
+      the created header is automatically added to that.
+
       \a create Whether to create the header if it doesn't exist yet.
     */
     KMime::Headers::InReplyTo *inReplyTo(CreatePolicy create = Create);
@@ -245,6 +281,9 @@ public:
 
     /*!
       Returns the Sender header.
+
+      Ownership of the header remains with the Message object,
+      the created header is automatically added to that.
 
       \a create Whether to create the header if it doesn't exist yet.
     */
