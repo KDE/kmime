@@ -37,10 +37,9 @@ using namespace KMime;
 namespace KMime
 {
 
-Content::Content(Content *parent)
+Content::Content()
     : d_ptr(new ContentPrivate)
 {
-    d_ptr->parent = parent;
 }
 
 Content::~Content()
@@ -870,16 +869,16 @@ bool ContentPrivate::parseUuencoded(Content *q)
         // Add the plain text part first.
         Q_ASSERT(multipartContents.isEmpty());
         {
-            auto c = new Content(q);
+            auto c = std::make_unique<Content>();
             c->contentType()->setMimeType("text/plain");
             c->contentTransferEncoding()->setEncoding(Headers::CE7Bit);
             c->setBody(uup.textPart());
-            multipartContents.append(c);
+            q->appendContent(std::move(c));
         }
 
         // Now add each of the binary parts as sub-Contents.
         for (int i = 0; i < uup.binaryParts().count(); ++i) {
-            auto c = new Content(q);
+            auto c = std::make_unique<Content>();
             c->contentType()->setMimeType(uup.mimeTypes().at(i) == "message/rfc822" ? "text/plain" : uup.mimeTypes().at(i));
             c->contentType()->setName(QLatin1StringView(uup.filenames().at(i)));
             c->contentTransferEncoding()->setEncoding(Headers::CEuuenc);
@@ -887,7 +886,7 @@ bool ContentPrivate::parseUuencoded(Content *q)
             c->contentDisposition()->setFilename(QLatin1StringView(uup.filenames().at(i)));
             c->setEncodedBody(uup.binaryParts().at(i));
             c->changeEncoding(Headers::CEbase64);   // Convert to base64.
-            multipartContents.append(c);
+            q->appendContent(std::move(c));
         }
     }
 
@@ -924,16 +923,16 @@ bool ContentPrivate::parseYenc(Content *q)
         // Add the plain text part first.
         Q_ASSERT(multipartContents.isEmpty());
         {
-            auto c = new Content(q);
+            auto c = std::make_unique<Content>();
             c->contentType()->setMimeType("text/plain");
             c->contentTransferEncoding()->setEncoding(Headers::CE7Bit);
             c->setBody(yenc.textPart());
-            multipartContents.append(c);
+            q->appendContent(std::move(c));
         }
 
         // Now add each of the binary parts as sub-Contents.
         for (int i = 0; i < yenc.binaryParts().count(); i++) {
-            auto c = new Content(q);
+            auto c = std::make_unique<Content>();
             c->contentType()->setMimeType(yenc.mimeTypes().at(i) == "message/rfc822" ? "text/plain" : yenc.mimeTypes().at(i));
             c->contentType()->setName(QLatin1StringView(yenc.filenames().at(i)));
             c->contentTransferEncoding()->setEncoding(Headers::CEbinary);
@@ -941,7 +940,7 @@ bool ContentPrivate::parseYenc(Content *q)
             c->contentDisposition()->setFilename(QLatin1StringView(yenc.filenames().at(i)));
             c->setBody(yenc.binaryParts().at(i));     // Yenc bodies are binary.
             c->changeEncoding(Headers::CEbase64);   // Convert to base64.
-            multipartContents.append(c);
+            q->appendContent(std::move(c));
         }
     }
 
@@ -968,11 +967,11 @@ bool ContentPrivate::parseMultipart(Content *q)
     body.clear();
     const auto parts = mpp.parts();
     for (const QByteArray &part : parts) {
-        auto c = new Content(q);
+        auto c = std::make_unique<Content>();
         c->setContent(part);
         c->setFrozen(frozen);
         c->parse();
-        multipartContents.append(c);
+        q->appendContent(std::move(c));
     }
 
     return true; // Parsing successful.

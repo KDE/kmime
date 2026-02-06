@@ -104,11 +104,10 @@ class KMIME_EXPORT Content
 {
 public:
   /*!
-    Creates an empty Content object with a specified parent.
-    \a parent the parent Content object
+    Creates an empty Content object.
     \since 4.3
   */
-  explicit Content(Content *parent = nullptr);
+  explicit Content();
 
   virtual ~Content();
 
