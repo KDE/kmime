@@ -6,8 +6,6 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kdepim/libkmime.po\n"
-"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-20 01:59+0000\n"
 "PO-Revision-Date: 2025-12-24 11:41+0000\n"
 "Last-Translator: Charlotte <altronic25@protonmail.com>\n"
 "Language-Team: Irish\n"
@@ -79,17 +77,3 @@ msgstr ""
 "Níorbh fhéidir Fógairt Socraíochta Teachtaireachta a chruthú don "
 "teachtaireacht a seoladh ar ${date} chuig ${to} maidir le \"${subject}\".  "
 "Tugtar an fáth sa réimse Failure: thíos."
-
-#~ msgctxt "invalid time specified"
-#~ msgid "unknown"
-#~ msgstr "anaithnid"
-
-#~ msgid "Today %1"
-#~ msgstr "Inniu %1"
-
-#~ msgid "Yesterday %1"
-#~ msgstr "Inné %1"
-
-#~ msgctxt "1. weekday, 2. time"
-#~ msgid "%1 %2"
-#~ msgstr "%1 %2"
