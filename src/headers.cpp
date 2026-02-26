@@ -77,6 +77,7 @@
 #define kmime_mk_dptr_ctor( subclass, baseclass ) \
     subclass::subclass( subclass##Private *d ) : baseclass( d ) {}
 
+using namespace Qt::Literals;
 using namespace KMime;
 using namespace KMime::Headers;
 using namespace KMime::Types;
@@ -465,15 +466,19 @@ void AddressList::fromUnicodeString(const QString &s)
 QString AddressList::asUnicodeString() const
 {
     Q_D(const AddressList);
-    QStringList rv;
+
+    QString rv;
     for (const Types::Address &addr : std::as_const(d->addressList)) {
-        rv.reserve(rv.size() + addr.mailboxList.size());
         const auto mailboxList = addr.mailboxList;
         for (const Types::Mailbox &mbox : mailboxList) {
-            rv.append(mbox.prettyAddress());
+            if (rv.isEmpty()) {
+                rv = mbox.prettyAddress();
+            } else {
+                rv += ", "_L1 + mbox.prettyAddress();
+            }
         }
     }
-    return rv.join(QLatin1StringView(", "));
+    return rv;
 }
 
 bool AddressList::isEmpty() const
