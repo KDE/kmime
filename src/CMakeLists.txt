@@ -59,13 +59,14 @@ ecm_generate_export_header(KPim6Mime
     USE_VERSION_HEADER
     DEPRECATED_BASE_VERSION 0
     DEPRECATION_VERSIONS 6.7
-    EXCLUDE_DEPRECATED_BEFORE_AND_AT ${EXCLUDE_DEPRECATED_BEFORE_AND_AT}    
+    EXCLUDE_DEPRECATED_BEFORE_AND_AT ${EXCLUDE_DEPRECATED_BEFORE_AND_AT}
 )
 
 target_include_directories(KPim6Mime INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim6/KMime>")
 target_include_directories(KPim6Mime PUBLIC "$<BUILD_INTERFACE:${KMime_SOURCE_DIR}/src;${KMime_BINARY_DIR}/src;${KMime_BINARY_DIR}>")
 target_compile_features(KPim6Mime PUBLIC cxx_std_20)
 
+set(_kmime_extra_libs)
 if(WIN32)
     set(_kmime_extra_libs ws2_32)
 endif()
