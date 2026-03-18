@@ -736,6 +736,16 @@ void MessageTest::testGarbage()
     QVERIFY(msg);
 }
 
+void MessageTest::testUuencode()
+{
+    auto msg = readAndParseMail(u"uuencode-simple.mbox"_s);
+    QVERIFY(msg);
+
+    QCOMPARE(msg->contents().size(), 2);
+    QCOMPARE(msg->contents()[1]->contentDisposition()->filename(), "wikipedia-url.txt"_L1);
+    QCOMPARE(msg->contents()[1]->decodedBody().trimmed(), "http://www.wikipedia.org");
+}
+
 void MessageTest::testYenc()
 {
     auto msg = readAndParseMail(u"yenc-single-part.yenc"_s);

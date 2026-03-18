@@ -1,0 +1,9 @@
+From: null@kde.org
+Subject: uuencode test sample
+
+Example from https://en.wikipedia.org/wiki/Uuencoding
+
+begin 644 wikipedia-url.txt
+::'1T<#HO+W=W=RYW:6MI<&5D:6$N;W)G#0H`
+`
+end

@@ -44,6 +44,7 @@ private Q_SLOTS:
     void testGarbage_data();
     void testGarbage();
 
+    void testUuencode();
     void testYenc();
 private:
     std::unique_ptr<const KMime::Message> readAndParseMail(const QString &mailFile) const;
