@@ -226,6 +226,11 @@ bool UUEncoded::parse()
 
             if (containsBegin && (uuStart - beginPos) > 11) {
                 //everything between "begin ### " and the next LF is considered as the filename
+                if (m_src[beginPos+5] != ' ' || !std::isdigit(m_src[beginPos+6]) || !std::isdigit(m_src[beginPos+7])
+                    || !std::isdigit(m_src[beginPos+8]) || m_src[beginPos+9] != ' ') {
+                    success = false;
+                    break;
+                }
                 fileName = m_src.mid(beginPos + 10, uuStart - beginPos - 11);
             } else {
                 fileName = "";
