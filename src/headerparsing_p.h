@@ -20,6 +20,11 @@ class Base;
 }
 namespace HeaderParsing
 {
+
+struct ParserState {
+    bool brokenComment = false;
+};
+
 /**
   Parses the encoded word.
 
@@ -88,14 +93,13 @@ Q_DECLARE_FLAGS(ParseTokenFlags, ParseTokenFlag)
   @param send pointer to end of input buffer.
   @param result the parsed string.
 
+  @param state Parser state between different calls on the same header.
+  Use when possible to prevent quadratic behavior on invalid nested
+  comments.
+
   @return true if the input phrase was successfully parsed; false otherwise.
 */
-[[nodiscard]] bool parsePhrase(const char *&scursor, const char *const send,
-                               QString &result, NewlineType newline = NewlineType::LF);
-
-struct ParserState {
-    bool brokenComment = false;
-};
+[[nodiscard]] bool parsePhrase(const char *&scursor, const char *const send, QString &result, NewlineType newline, ParserState &state);
 
 /*!
   Eats comment-folding-white-space, skips whitespace, folding and comments
@@ -129,6 +133,9 @@ void eatCFWS(const char *&scursor, const char *const send, NewlineType newline, 
                               KMime::Headers::ParameterMap &result,
                               QByteArray &charset, NewlineType newline = NewlineType::LF);
 
+[[nodiscard]] bool parseMailbox(const char *&scursor, const char *const send, Types::Mailbox &result, NewlineType newline, ParserState &state);
+[[nodiscard]] bool parseGroup(const char *&scursor, const char *const send, Types::Address &result, NewlineType newline, ParserState &state);
+[[nodiscard]] bool parseAddress(const char *&scursor, const char *const send, Types::Address &result, NewlineType newline, ParserState &state);
 
 [[nodiscard]] bool parseDomain(const char *&scursor, const char *const send,
                                QString &result, NewlineType newline = NewlineType::LF);
@@ -136,11 +143,9 @@ void eatCFWS(const char *&scursor, const char *const send, NewlineType newline, 
 [[nodiscard]] bool parseObsRoute(const char *&scursor, const char *const send, QStringList &result,
                                  NewlineType newline = NewlineType::LF, bool save = false);
 
-[[nodiscard]] bool parseAddrSpec(const char *&scursor, const char *const send,
-                                 Types::AddrSpec &result, NewlineType newline = NewlineType::LF);
+[[nodiscard]] bool parseAddrSpec(const char *&scursor, const char *const send, Types::AddrSpec &result, NewlineType newline, ParserState &state);
 
-[[nodiscard]] bool parseAngleAddr(const char *&scursor, const char *const send,
-                                  Types::AddrSpec &result, NewlineType newline = NewlineType::LF);
+[[nodiscard]] bool parseAngleAddr(const char *&scursor, const char *const send, Types::AddrSpec &result, NewlineType newline, ParserState &state);
 
 /**
   Parses an integer number.

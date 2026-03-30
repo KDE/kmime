@@ -119,10 +119,9 @@ void Mailbox::setAddress(const AddrSpec &addr)
 void Mailbox::setAddress(const QByteArray &addr)
 {
     const char *cursor = addr.constData();
-    if (!HeaderParsing::parseAngleAddr(cursor,
-                                       cursor + addr.length(), mAddrSpec)) {
-        if (!HeaderParsing::parseAddrSpec(cursor, cursor + addr.length(),
-                                          mAddrSpec)) {
+    HeaderParsing::ParserState state;
+    if (!HeaderParsing::parseAngleAddr(cursor, cursor + addr.length(), mAddrSpec, NewlineType::LF, state)) {
+        if (!HeaderParsing::parseAddrSpec(cursor, cursor + addr.length(), mAddrSpec, NewlineType::LF, state)) {
             qCWarning(KMIME_LOG) << "Mailbox: Invalid address";
             return;
         }
