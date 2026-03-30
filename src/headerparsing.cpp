@@ -529,8 +529,7 @@ bool parseComment(const char *&scursor, const char *const send,
 
 // known issues: none.
 
-bool parsePhrase(const char *&scursor, const char *const send,
-                 QString &result, NewlineType newline)
+bool parsePhrase(const char *&scursor, const char *const send, QString &result, NewlineType newline, ParserState &state)
 {
     enum {
         None, Phrase, Atom, EncodedWord, QuotedString
@@ -600,8 +599,7 @@ bool parsePhrase(const char *&scursor, const char *const send,
         case '(': // comment
             // parse it, but ignore content:
             tmp.clear();
-            if (parseComment(scursor, send, tmp, newline,
-                             false /*don't bother with the content*/)) {
+            if (!state.brokenComment && parseComment(scursor, send, tmp, newline, false /*don't bother with the content*/)) {
                 successfullyParsed = scursor;
                 lastWasEncodedWord = false; // strictly interpreting rfc2047, 6.2
             } else {
@@ -886,8 +884,7 @@ bool parseObsRoute(const char *&scursor, const char *const send,
     return false;
 }
 
-bool parseAddrSpec(const char *&scursor, const char *const send,
-                   AddrSpec &result, NewlineType newline)
+bool parseAddrSpec(const char *&scursor, const char *const send, AddrSpec &result, NewlineType newline, ParserState &state)
 {
     //
     // STEP 1:
@@ -902,7 +899,7 @@ bool parseAddrSpec(const char *&scursor, const char *const send,
 
     while (scursor != send) {
         // first, eat any whitespace
-        eatCFWS(scursor, send, newline);
+        eatCFWS(scursor, send, newline, state);
 
         char ch = *scursor++;
         switch (ch) {
@@ -956,17 +953,16 @@ SAW_AT_SIGN:
     return true;
 }
 
-bool parseAngleAddr(const char *&scursor, const char *const send,
-                    AddrSpec &result, NewlineType newline)
+bool parseAngleAddr(const char *&scursor, const char *const send, AddrSpec &result, NewlineType newline, ParserState &state)
 {
     // first, we need an opening angle bracket:
-    eatCFWS(scursor, send, newline);
+    eatCFWS(scursor, send, newline, state);
     if (scursor == send || *scursor != '<') {
         return false;
     }
     scursor++; // eat '<'
 
-    eatCFWS(scursor, send, newline);
+    eatCFWS(scursor, send, newline, state);
     if (scursor == send) {
         return false;
     }
@@ -987,11 +983,11 @@ bool parseAngleAddr(const char *&scursor, const char *const send,
 
     // parse addr-spec:
     AddrSpec maybeAddrSpec;
-    if (!parseAddrSpec(scursor, send, maybeAddrSpec, newline)) {
+    if (!parseAddrSpec(scursor, send, maybeAddrSpec, newline, state)) {
         return false;
     }
 
-    eatCFWS(scursor, send, newline);
+    eatCFWS(scursor, send, newline, state);
     if (scursor == send || *scursor != '>') {
         return false;
     }
@@ -1013,10 +1009,15 @@ static QString stripQuotes(const QString &input)
     }
 }
 
-bool parseMailbox(const char *&scursor, const char *const send,
-                  Mailbox &result, NewlineType newline)
+bool parseMailbox(const char *&scursor, const char *const send, Mailbox &result, NewlineType newline)
 {
-    eatCFWS(scursor, send, newline);
+    ParserState state;
+    return parseMailbox(scursor, send, result, newline, state);
+}
+
+bool parseMailbox(const char *&scursor, const char *const send, Mailbox &result, NewlineType newline, ParserState &state)
+{
+    eatCFWS(scursor, send, newline, state);
     if (scursor == send) {
         return false;
     }
@@ -1026,7 +1027,7 @@ bool parseMailbox(const char *&scursor, const char *const send,
 
     // first, try if it's a vanilla addr-spec:
     const char *oldscursor = scursor;
-    if (parseAddrSpec(scursor, send, maybeAddrSpec, newline)) {
+    if (parseAddrSpec(scursor, send, maybeAddrSpec, newline, state)) {
         result.setAddress(maybeAddrSpec);
         // check for the obsolete form of display-name (as comment):
         eatWhiteSpace(scursor, send);
@@ -1042,20 +1043,20 @@ bool parseMailbox(const char *&scursor, const char *const send,
     scursor = oldscursor;
 
     // second, see if there's a display-name:
-    if (!parsePhrase(scursor, send, maybeDisplayName, newline)) {
+    if (!parsePhrase(scursor, send, maybeDisplayName, newline, state)) {
         // failed: reset cursor, note absent display-name
         maybeDisplayName.clear();
         scursor = oldscursor;
     } else {
         // succeeded: eat CFWS
-        eatCFWS(scursor, send, newline);
+        eatCFWS(scursor, send, newline, state);
         if (scursor == send) {
             return false;
         }
     }
 
     // third, parse the angle-addr:
-    if (!parseAngleAddr(scursor, send, maybeAddrSpec, newline)) {
+    if (!parseAngleAddr(scursor, send, maybeAddrSpec, newline, state)) {
         return false;
     }
 
@@ -1075,27 +1076,32 @@ bool parseMailbox(const char *&scursor, const char *const send,
     return true;
 }
 
-bool parseGroup(const char *&scursor, const char *const send,
-                Address &result, NewlineType newline)
+bool parseGroup(const char *&scursor, const char *const send, Address &result, NewlineType newline)
+{
+    ParserState state;
+    return parseGroup(scursor, send, result, newline, state);
+}
+
+bool parseGroup(const char *&scursor, const char *const send, Address &result, NewlineType newline, ParserState &state)
 {
     // group         := display-name ":" [ mailbox-list / CFWS ] ";" [CFWS]
     //
     // equivalent to:
     // group   := display-name ":" [ obs-mbox-list ] ";"
 
-    eatCFWS(scursor, send, newline);
+    eatCFWS(scursor, send, newline, state);
     if (scursor == send) {
         return false;
     }
 
     // get display-name:
     QString maybeDisplayName;
-    if (!parsePhrase(scursor, send, maybeDisplayName, newline)) {
+    if (!parsePhrase(scursor, send, maybeDisplayName, newline, state)) {
         return false;
     }
 
     // get ":":
-    eatCFWS(scursor, send, newline);
+    eatCFWS(scursor, send, newline, state);
     if (scursor == send || *scursor != ':') {
         return false;
     }
@@ -1105,7 +1111,7 @@ bool parseGroup(const char *&scursor, const char *const send,
     // get obs-mbox-list (may contain empty entries):
     scursor++;
     while (scursor != send) {
-        eatCFWS(scursor, send, newline);
+        eatCFWS(scursor, send, newline, state);
         if (scursor == send) {
             return false;
         }
@@ -1123,12 +1129,12 @@ bool parseGroup(const char *&scursor, const char *const send,
         }
 
         Mailbox maybeMailbox;
-        if (!parseMailbox(scursor, send, maybeMailbox, newline)) {
+        if (!parseMailbox(scursor, send, maybeMailbox, newline, state)) {
             return false;
         }
         result.mailboxList.append(maybeMailbox);
 
-        eatCFWS(scursor, send, newline);
+        eatCFWS(scursor, send, newline, state);
         // premature end:
         if (scursor == send) {
             return false;
@@ -1146,12 +1152,17 @@ bool parseGroup(const char *&scursor, const char *const send,
     return false;
 }
 
-bool parseAddress(const char *&scursor, const char *const send,
-                  Address &result, NewlineType newline)
+bool parseAddress(const char *&scursor, const char *const send, Address &result, NewlineType newline)
+{
+    ParserState state;
+    return parseAddress(scursor, send, result, newline, state);
+}
+
+bool parseAddress(const char *&scursor, const char *const send, Address &result, NewlineType newline, ParserState &state)
 {
     // address       := mailbox / group
 
-    eatCFWS(scursor, send, newline);
+    eatCFWS(scursor, send, newline, state);
     if (scursor == send) {
         return false;
     }
@@ -1159,7 +1170,7 @@ bool parseAddress(const char *&scursor, const char *const send,
     // first try if it's a single mailbox:
     Mailbox maybeMailbox;
     const char *oldscursor = scursor;
-    if (parseMailbox(scursor, send, maybeMailbox, newline)) {
+    if (parseMailbox(scursor, send, maybeMailbox, newline, state)) {
         // yes, it is:
         result.setDisplayName({});
         result.mailboxList.append(maybeMailbox);
@@ -1170,7 +1181,7 @@ bool parseAddress(const char *&scursor, const char *const send,
     Address maybeAddress;
 
     // no, it's not a single mailbox. Try if it's a group:
-    if (!parseGroup(scursor, send, maybeAddress, newline)) {
+    if (!parseGroup(scursor, send, maybeAddress, newline, state)) {
         return false;
     }
 
@@ -1181,8 +1192,9 @@ bool parseAddress(const char *&scursor, const char *const send,
 bool parseAddressList(const char *&scursor, const char *const send,
                       QList<Address> &result, NewlineType newline)
 {
+    ParserState state;
     while (scursor != send) {
-        eatCFWS(scursor, send, newline);
+        eatCFWS(scursor, send, newline, state);
         // end of header: this is OK.
         if (scursor == send) {
             return true;
@@ -1200,12 +1212,12 @@ bool parseAddressList(const char *&scursor, const char *const send,
 
         // parse one entry
         Address maybeAddress;
-        if (!parseAddress(scursor, send, maybeAddress, newline)) {
+        if (!parseAddress(scursor, send, maybeAddress, newline, state)) {
             return false;
         }
         result.append(maybeAddress);
 
-        eatCFWS(scursor, send, newline);
+        eatCFWS(scursor, send, newline, state);
         // end of header: this is OK.
         if (scursor == send) {
             return true;

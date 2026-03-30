@@ -225,8 +225,9 @@ static bool stringToMailbox(const QByteArray &address,
     Types::AddrSpec addrSpec;
     mbox.setName(displayName);
     const char *cursor = address.constData();
-    if (!parseAngleAddr(cursor, cursor + address.length(), addrSpec)) {
-        if (!parseAddrSpec(cursor, cursor + address.length(), addrSpec)) {
+    ParserState state;
+    if (!parseAngleAddr(cursor, cursor + address.length(), addrSpec, NewlineType::LF, state)) {
+        if (!parseAddrSpec(cursor, cursor + address.length(), addrSpec, NewlineType::LF, state)) {
             qCWarning(KMIME_LOG) << "stringToMailbox: Invalid address";
             return false;
         }
@@ -680,8 +681,9 @@ bool PhraseList::parse(const char *&scursor, const char *const send,
     Q_D(PhraseList);
     d->phraseList.clear();
 
+    ParserState state;
     while (scursor != send) {
-        eatCFWS(scursor, send, newline);
+        eatCFWS(scursor, send, newline, state);
         // empty entry ending the list: OK.
         if (scursor == send) {
             return true;
@@ -693,12 +695,12 @@ bool PhraseList::parse(const char *&scursor, const char *const send,
         }
 
         QString maybePhrase;
-        if (!parsePhrase(scursor, send, maybePhrase, newline)) {
+        if (!parsePhrase(scursor, send, maybePhrase, newline, state)) {
             return false;
         }
         d->phraseList.append(maybePhrase);
 
-        eatCFWS(scursor, send, newline);
+        eatCFWS(scursor, send, newline, state);
         // non-empty entry ending the list: OK.
         if (scursor == send) {
             return true;
@@ -881,8 +883,9 @@ bool Ident::parse(const char *&scursor, const char *const send, NewlineType newl
 
     d->msgIdList.clear();
 
+    ParserState state;
     while (scursor != send) {
-        eatCFWS(scursor, send, newline);
+        eatCFWS(scursor, send, newline, state);
         // empty entry ending the list: OK.
         if (scursor == send) {
             return true;
@@ -894,12 +897,12 @@ bool Ident::parse(const char *&scursor, const char *const send, NewlineType newl
         }
 
         AddrSpec maybeMsgId;
-        if (!parseAngleAddr(scursor, send, maybeMsgId, newline)) {
+        if (!parseAngleAddr(scursor, send, maybeMsgId, newline, state)) {
             return false;
         }
         d->msgIdList.append(maybeMsgId);
 
-        eatCFWS(scursor, send, newline);
+        eatCFWS(scursor, send, newline, state);
         // header end ending the list: OK.
         if (scursor == send) {
             return true;
@@ -944,7 +947,8 @@ void Ident::appendIdentifier(const QByteArray &id)
     }
     AddrSpec msgId;
     const char *cursor = tmp.constData();
-    if (parseAngleAddr(cursor, cursor + tmp.length(), msgId)) {
+    ParserState state;
+    if (parseAngleAddr(cursor, cursor + tmp.length(), msgId, NewlineType::LF, state)) {
         d->msgIdList.append(msgId);
     } else {
         qCWarning(KMIME_LOG) << "Unable to parse address spec!";
@@ -1014,7 +1018,8 @@ void SingleIdent::setIdentifier(const QByteArray &id)
     }
     AddrSpec msgId;
     const char *cursor = tmp.constData();
-    if (parseAngleAddr(cursor, cursor + tmp.length(), msgId)) {
+    ParserState state;
+    if (parseAngleAddr(cursor, cursor + tmp.length(), msgId, NewlineType::LF, state)) {
         d->msgId = msgId;
     } else {
         qCWarning(KMIME_LOG) << "Unable to parse address spec!";
@@ -1029,7 +1034,8 @@ bool SingleIdent::parse(const char *&scursor, const char *const send, NewlineTyp
     d->cachedIdentifier.clear();
 
     AddrSpec maybeMsgId;
-    if (!parseAngleAddr(scursor, send, maybeMsgId, newline)) {
+    ParserState state;
+    if (!parseAngleAddr(scursor, send, maybeMsgId, newline, state)) {
         return false;
     }
     eatCFWS(scursor, send, newline);
