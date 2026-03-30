@@ -117,7 +117,7 @@ struct ParserState {
   Use when possible to prevent quadratic behavior on invalid nested
   comments.
 */
-KMIME_EXPORT void eatCFWS(const char *&scursor, const char *const send, NewlineType newline, ParserState &state);
+void eatCFWS(const char *&scursor, const char *const send, NewlineType newline, ParserState &state);
 
 
 /**
