@@ -26,7 +26,8 @@ namespace KMime
  *  keeping strings in a common repository.
  *  @param name
  */
-extern QByteArray cachedCharset(const QByteArray &name);
+[[nodiscard]] QByteArray cachedCharset(const QByteArray &name);
+[[nodiscard]] QByteArray cachedCharset(QByteArrayView name);
 
 /**
   Finds the header end in @p src. Aligns the @p dataBegin if needed.

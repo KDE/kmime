@@ -29,13 +29,25 @@ QList<QByteArray> c_harsetCache;
 QByteArray cachedCharset(const QByteArray &name)
 {
     for (const QByteArray &charset : std::as_const(c_harsetCache)) {
-        if (qstricmp(name.data(), charset.data()) == 0) {
+        if (charset.compare(name, Qt::CaseInsensitive) == 0) {
             return charset;
         }
     }
 
     c_harsetCache.append(name.toUpper());
     //qCDebug(KMIME_LOG) << "KNMimeBase::cachedCharset() number of cs" << c_harsetCache.count();
+    return c_harsetCache.last();
+}
+
+QByteArray cachedCharset(QByteArrayView name)
+{
+    for (const QByteArray &charset : std::as_const(c_harsetCache)) {
+        if (charset.compare(name, Qt::CaseInsensitive) == 0) {
+            return charset;
+        }
+    }
+
+    c_harsetCache.append(name.toByteArray().toUpper());
     return c_harsetCache.last();
 }
 

@@ -1408,7 +1408,7 @@ QByteArray Newsgroups::as7BitString() const {
 void Newsgroups::fromUnicodeString(const QString & s) {
     Q_D(Newsgroups);
     from7BitString(s.toUtf8());
-    d->encCS = cachedCharset("UTF-8");
+    d->encCS = cachedCharset(QByteArrayView("UTF-8"));
 }
 
 QString Newsgroups::asUnicodeString() const
