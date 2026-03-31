@@ -32,7 +32,6 @@ struct ParserState {
   the input string.
   @param send pointer to end of input buffer.
   @param result the decoded string the encoded work represented.
-  @param language The language parameter according to RFC 2231, section 5.
   @param usedCS    the used charset is returned here
   @param defaultCS the charset to use in case the detected
                    one isn't known to us.
@@ -40,7 +39,7 @@ struct ParserState {
   @return true if the input string was successfully decode; false otherwise.
 */
 [[nodiscard]] bool parseEncodedWord(const char *&scursor, const char *const send, QString &result,
-                 QByteArray &language, QByteArray &usedCS, const QByteArray &defaultCS = QByteArray());
+                 QByteArray &usedCS, const QByteArray &defaultCS = QByteArray());
 
 [[nodiscard]] QList<KMime::Headers::Base *> parseHeaders(const QByteArray &head);
 

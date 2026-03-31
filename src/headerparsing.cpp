@@ -47,8 +47,7 @@ namespace HeaderParsing
 
 // parse the encoded-word (scursor points to after the initial '=')
 bool parseEncodedWord(const char *&scursor, const char *const send,
-                      QString &result, QByteArray &language,
-                      QByteArray &usedCS, const QByteArray &defaultCS)
+                      QString &result, QByteArray &usedCS, const QByteArray &defaultCS)
 {
     // make sure the caller already did a bit of the work.
     assert(*(scursor - 1) == '=');
@@ -90,11 +89,10 @@ bool parseEncodedWord(const char *&scursor, const char *const send,
 
     // extract the language information, if any (if languageStart is 0,
     // language will be null, too):
-    QByteArray maybeLanguage(languageStart, scursor - languageStart);
+    // QByteArrayView maybeLanguage(languageStart, scursor - languageStart);
     // extract charset information (keep in mind: the size given to the
     // ctor is one off due to the \0 terminator):
-    QByteArray maybeCharset(charsetStart,
-                            (languageStart ? languageStart - 1 : scursor) - charsetStart);
+    QByteArrayView maybeCharset(charsetStart, (languageStart ? languageStart - 1 : scursor) - charsetStart);
 
     //
     // STEP 2:
@@ -120,7 +118,7 @@ bool parseEncodedWord(const char *&scursor, const char *const send,
     }
 
     // extract the encoding information:
-    QByteArray maybeEncoding(encodingStart, scursor - encodingStart);
+    QByteArrayView maybeEncoding(encodingStart, scursor - encodingStart);
 
     // qCDebug(KMIME_LOG) << "parseEncodedWord: found charset == \"" << maybeCharset
     //         << "\"; language == \"" << maybeLanguage
@@ -181,13 +179,13 @@ bool parseEncodedWord(const char *&scursor, const char *const send,
     // try if there's a (text)codec for the charset found:
     QStringDecoder textCodec;
     if (maybeCharset.isEmpty()) {
-        textCodec = QStringDecoder(defaultCS.constData());
+        textCodec = QStringDecoder(defaultCS);
         if (!textCodec.isValid()) {
             textCodec = QStringDecoder(QStringDecoder::Latin1);
         }
         usedCS = cachedCharset(defaultCS);
     } else {
-        textCodec = QStringDecoder(maybeCharset.constData());
+        textCodec = QStringDecoder(maybeCharset);
         if (textCodec.isValid()) {    //no suitable codec found => use default charset
             usedCS = cachedCharset(defaultCS);
         } else {
@@ -226,7 +224,6 @@ bool parseEncodedWord(const char *&scursor, const char *const send,
     // qCDebug(KMIME_LOG) << "result now: \"" << result << "\"";
     // cleanup:
     delete dec;
-    language = maybeLanguage;
 
     return true;
 }
@@ -413,11 +410,10 @@ bool parseGenericQuotedString(const char *&scursor, const char *const send,
 
             const char *oldscursor = scursor;
             QString tmp;
-            QByteArray lang;
             QByteArray charset;
             if (*scursor++ == '?' && scursor != send && *(scursor+1) != '?') {
                 --scursor;
-                if (parseEncodedWord(scursor, send, tmp, lang, charset)) {
+                if (parseEncodedWord(scursor, send, tmp, charset)) {
                     if (fillResult) {
                         result += tmp;
                     }
@@ -536,7 +532,6 @@ bool parsePhrase(const char *&scursor, const char *const send, QString &result, 
     } found = None;
 
     QString tmp;
-    QByteArray lang;
     QByteArray charset;
     QByteArrayView tmpAtom;
     const char *successfullyParsed = nullptr;
@@ -614,9 +609,8 @@ bool parsePhrase(const char *&scursor, const char *const send, QString &result, 
         case '=': // encoded-word
             tmp.clear();
             oldscursor = scursor;
-            lang.clear();
             charset.clear();
-            if (parseEncodedWord(scursor, send, tmp, lang, charset)) {
+            if (parseEncodedWord(scursor, send, tmp, charset)) {
                 successfullyParsed = scursor;
                 switch (found) {
                 case None:
@@ -1444,7 +1438,7 @@ static void decodeRFC2231Value(KCodecs::Codec *&rfc2231Codec,
     }
 
     if (!textcodec.isValid()) {
-        value += QString::fromLatin1(decCursor, decEnd - decCursor);
+        value += QLatin1StringView(decCursor, decEnd - decCursor);
         return;
     }
 
