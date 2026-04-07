@@ -22,6 +22,7 @@ namespace HeaderParsing
 {
 
 struct ParserState {
+    const char *encodedWordRetryPoint = nullptr;
     bool brokenComment = false;
 };
 
@@ -39,7 +40,7 @@ struct ParserState {
   @return true if the input string was successfully decode; false otherwise.
 */
 [[nodiscard]] bool parseEncodedWord(const char *&scursor, const char *const send, QString &result,
-                 QByteArray &usedCS, const QByteArray &defaultCS = QByteArray());
+                 QByteArray &usedCS, const QByteArray &defaultCS, ParserState &state);
 
 [[nodiscard]] QList<KMime::Headers::Base *> parseHeaders(const QByteArray &head);
 
@@ -72,11 +73,11 @@ Q_DECLARE_FLAGS(ParseTokenFlags, ParseTokenFlag)
 
 /** @p scursor must be positioned after the opening openChar. */
 [[nodiscard]] bool parseGenericQuotedString(const char *&scursor, const char *const send,
-                         QString &result, NewlineType newline,
+                         QString &result, NewlineType newline, ParserState &state,
                          const char openChar = '"', const char closeChar = '"', bool fillResult = true);
 
 /** @p scursor must be positioned right after the opening '(' */
-[[nodiscard]] bool parseComment(const char *&scursor, const char *const send, QString &result,
+[[nodiscard]] bool parseComment(const char *&scursor, const char *const send, QString &result, ParserState &state,
              NewlineType newline = NewlineType::LF, bool reallySave = true);
 
 /**
@@ -130,16 +131,16 @@ void eatCFWS(const char *&scursor, const char *const send, NewlineType newline, 
  */
 [[nodiscard]] bool parseParameterListWithCharset(const char *&scursor, const char *const send,
                               KMime::Headers::ParameterMap &result,
-                              QByteArray &charset, NewlineType newline = NewlineType::LF);
+                              QByteArray &charset, ParserState &state, NewlineType newline = NewlineType::LF);
 
 [[nodiscard]] bool parseMailbox(const char *&scursor, const char *const send, Types::Mailbox &result, NewlineType newline, ParserState &state);
 [[nodiscard]] bool parseGroup(const char *&scursor, const char *const send, Types::Address &result, NewlineType newline, ParserState &state);
 [[nodiscard]] bool parseAddress(const char *&scursor, const char *const send, Types::Address &result, NewlineType newline, ParserState &state);
 
 [[nodiscard]] bool parseDomain(const char *&scursor, const char *const send,
-                               QString &result, NewlineType newline = NewlineType::LF);
+                               QString &result, ParserState &state, NewlineType newline = NewlineType::LF);
 
-[[nodiscard]] bool parseObsRoute(const char *&scursor, const char *const send, QStringList &result,
+[[nodiscard]] bool parseObsRoute(const char *&scursor, const char *const send, QStringList &result, ParserState &state,
                                  NewlineType newline = NewlineType::LF, bool save = false);
 
 [[nodiscard]] bool parseAddrSpec(const char *&scursor, const char *const send, Types::AddrSpec &result, NewlineType newline, ParserState &state);

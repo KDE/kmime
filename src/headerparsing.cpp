@@ -47,7 +47,7 @@ namespace HeaderParsing
 
 // parse the encoded-word (scursor points to after the initial '=')
 bool parseEncodedWord(const char *&scursor, const char *const send,
-                      QString &result, QByteArray &usedCS, const QByteArray &defaultCS)
+                      QString &result, QByteArray &usedCS, const QByteArray &defaultCS, ParserState &state)
 {
     // make sure the caller already did a bit of the work.
     assert(*(scursor - 1) == '=');
@@ -57,6 +57,7 @@ bool parseEncodedWord(const char *&scursor, const char *const send,
     // scan for the charset/language portion of the encoded-word
     //
 
+    state.encodedWordRetryPoint = nullptr;
     char ch = *scursor++;
 
     if (ch != '?') {
@@ -139,6 +140,9 @@ bool parseEncodedWord(const char *&scursor, const char *const send,
             if (scursor + 1 != send) {
                 if (*(scursor + 1) != '=') {     // We expect a '=' after the '?', but we got something else; ignore
                     KMIME_WARN << "Stray '?' in q-encoded word, ignoring this.";
+                    if (*(scursor - 1) == '=') {
+                        state.encodedWordRetryPoint = scursor - 1;
+                    }
                     continue;
                 } else { // yep, found a '?=' sequence
                     scursor += 2;
@@ -154,6 +158,9 @@ bool parseEncodedWord(const char *&scursor, const char *const send,
     if (*(scursor - 2) != '?' || *(scursor - 1) != '=' ||
             scursor < encodedTextStart + 2) {
         KMIME_WARN_PREMATURE_END_OF(EncodedWord);
+        if (!state.encodedWordRetryPoint) {
+            state.encodedWordRetryPoint = scursor;
+        }
         return false;
     }
 
@@ -305,7 +312,7 @@ bool parseToken(const char*&scursor, const char *const send,
 // - doesn't handle quoted CRLF
 
 bool parseGenericQuotedString(const char *&scursor, const char *const send,
-                              QString &result, NewlineType newline,
+                              QString &result, NewlineType newline, ParserState &state,
                               const char openChar, const char closeChar, bool fillResult)
 {
     // We are in a quoted-string or domain-literal or comment and the
@@ -411,9 +418,9 @@ bool parseGenericQuotedString(const char *&scursor, const char *const send,
             const char *oldscursor = scursor;
             QString tmp;
             QByteArray charset;
-            if (*scursor++ == '?' && scursor != send && *(scursor+1) != '?') {
+            if (*scursor++ == '?' && scursor != send && *(scursor+1) != '?' && (!state.encodedWordRetryPoint || state.encodedWordRetryPoint <= scursor)) {
                 --scursor;
-                if (parseEncodedWord(scursor, send, tmp, charset)) {
+                if (parseEncodedWord(scursor, send, tmp, charset, {}, state)) {
                     if (fillResult) {
                         result += tmp;
                     }
@@ -468,7 +475,7 @@ bool parseGenericQuotedString(const char *&scursor, const char *const send,
 // - doesn't handle encoded-word inside comments.
 
 bool parseComment(const char *&scursor, const char *const send,
-                  QString &result, NewlineType newline, bool reallySave)
+                  QString &result, ParserState &state, NewlineType newline, bool reallySave)
 {
     int commentNestingDepth = 1;
     const char *afterLastClosingParenPos = nullptr;
@@ -479,7 +486,7 @@ bool parseComment(const char *&scursor, const char *const send,
 
     while (commentNestingDepth) {
         QString cmntPart;
-        if (parseGenericQuotedString(scursor, send, cmntPart, newline, '(', ')', reallySave)) {
+        if (parseGenericQuotedString(scursor, send, cmntPart, newline, state, '(', ')', reallySave)) {
             assert(*(scursor - 1) == ')' || *(scursor - 1) == '(');
             // see the kdoc for the above function for the possible conditions
             // we have to check:
@@ -559,7 +566,7 @@ bool parsePhrase(const char *&scursor, const char *const send, QString &result, 
             break;
         case '"': // quoted-string
             tmp.clear();
-            if (parseGenericQuotedString(scursor, send, tmp, newline, '"', '"')) {
+            if (parseGenericQuotedString(scursor, send, tmp, newline, state, '"', '"')) {
                 successfullyParsed = scursor;
                 assert(*(scursor - 1) == '"');
                 switch (found) {
@@ -594,7 +601,7 @@ bool parsePhrase(const char *&scursor, const char *const send, QString &result, 
         case '(': // comment
             // parse it, but ignore content:
             tmp.clear();
-            if (!state.brokenComment && parseComment(scursor, send, tmp, newline, false /*don't bother with the content*/)) {
+            if (!state.brokenComment && parseComment(scursor, send, tmp, state, newline, false /*don't bother with the content*/)) {
                 successfullyParsed = scursor;
                 lastWasEncodedWord = false; // strictly interpreting rfc2047, 6.2
             } else {
@@ -610,7 +617,7 @@ bool parsePhrase(const char *&scursor, const char *const send, QString &result, 
             tmp.clear();
             oldscursor = scursor;
             charset.clear();
-            if (parseEncodedWord(scursor, send, tmp, charset)) {
+            if (parseEncodedWord(scursor, send, tmp, charset, {}, state)) {
                 successfullyParsed = scursor;
                 switch (found) {
                 case None:
@@ -741,7 +748,7 @@ void eatCFWS(const char *&scursor, const char *const send, NewlineType newline, 
                 scursor = oldscursor;
                 return;
             }
-            if (parseComment(scursor, send, dummy, newline, false /*don't save*/)) {
+            if (parseComment(scursor, send, dummy, state, newline, false /*don't save*/)) {
                 continue;
             }
             state.brokenComment = true;
@@ -762,9 +769,9 @@ void eatCFWS(const char *&scursor, const char *const send, NewlineType newline)
 }
 
 bool parseDomain(const char *&scursor, const char *const send,
-                 QString &result, NewlineType newline)
+                 QString &result, ParserState &state, NewlineType newline)
 {
-    eatCFWS(scursor, send, newline);
+    eatCFWS(scursor, send, newline, state);
     if (scursor == send) {
         return false;
     }
@@ -781,7 +788,7 @@ bool parseDomain(const char *&scursor, const char *const send,
         // eat '[':
         scursor++;
         while (parseGenericQuotedString(scursor, send, maybeDomainLiteral,
-                                        newline, '[', ']')) {
+                                        newline, state, '[', ']')) {
             if (scursor == send) {
                 // end of header: check for closing ']':
                 if (*(scursor - 1) == ']') {
@@ -820,10 +827,10 @@ bool parseDomain(const char *&scursor, const char *const send,
 }
 
 bool parseObsRoute(const char *&scursor, const char *const send,
-                   QStringList &result, NewlineType newline, bool save)
+                   QStringList &result, ParserState &state, NewlineType newline, bool save)
 {
     while (scursor != send) {
-        eatCFWS(scursor, send, newline);
+        eatCFWS(scursor, send, newline, state);
         if (scursor == send) {
             return false;
         }
@@ -854,7 +861,7 @@ bool parseObsRoute(const char *&scursor, const char *const send,
         }
 
         QString maybeDomain;
-        if (!parseDomain(scursor, send, maybeDomain, newline)) {
+        if (!parseDomain(scursor, send, maybeDomain, state, newline)) {
             return false;
         }
         if (save) {
@@ -862,7 +869,7 @@ bool parseObsRoute(const char *&scursor, const char *const send,
         }
 
         // eat the following (optional) comma:
-        eatCFWS(scursor, send, newline);
+        eatCFWS(scursor, send, newline, state);
         if (scursor == send) {
             return false;
         }
@@ -907,7 +914,7 @@ bool parseAddrSpec(const char *&scursor, const char *const send, AddrSpec &resul
 
         case '"': // quoted-string
             tmp.clear();
-            if (parseGenericQuotedString(scursor, send, tmp, newline, '"', '"')) {
+            if (parseGenericQuotedString(scursor, send, tmp, newline, state, '"', '"')) {
                 maybeLocalPart += tmp;
             } else {
                 return false;
@@ -937,7 +944,7 @@ SAW_AT_SIGN:
     assert(*(scursor - 1) == '@');
 
     QString maybeDomain;
-    if (!parseDomain(scursor, send, maybeDomain, newline)) {
+    if (!parseDomain(scursor, send, maybeDomain, state, newline)) {
         return false;
     }
 
@@ -965,7 +972,7 @@ bool parseAngleAddr(const char *&scursor, const char *const send, AddrSpec &resu
         // obs-route: parse, but ignore:
         KMIME_WARN << "obsolete source route found! ignoring.";
         QStringList dummy;
-        if (!parseObsRoute(scursor, send, dummy,
+        if (!parseObsRoute(scursor, send, dummy, state,
                            newline, false /* don't save */)) {
             return false;
         }
@@ -1027,7 +1034,7 @@ bool parseMailbox(const char *&scursor, const char *const send, Mailbox &result,
         eatWhiteSpace(scursor, send);
         if (scursor != send && *scursor == '(') {
             scursor++;
-            if (!parseComment(scursor, send, maybeDisplayName, newline, true /*keep*/)) {
+            if (!parseComment(scursor, send, maybeDisplayName, state, newline, true /*keep*/)) {
                 return false;
             }
         }
@@ -1059,7 +1066,7 @@ bool parseMailbox(const char *&scursor, const char *const send, Mailbox &result,
         eatWhiteSpace(scursor, send);
         if (scursor != send && *scursor == '(') {
             scursor++;
-            if (!parseComment(scursor, send, maybeDisplayName, newline, true /*keep*/)) {
+            if (!parseComment(scursor, send, maybeDisplayName, state, newline, true /*keep*/)) {
                 return false;
             }
         }
@@ -1225,7 +1232,7 @@ bool parseAddressList(const char *&scursor, const char *const send,
 }
 
 static bool parseParameter(const char *&scursor, const char *const send,
-                           QPair<QByteArray, QStringOrQPair> &result, NewlineType newline)
+                           QPair<QByteArray, QStringOrQPair> &result, NewlineType newline, ParserState &state)
 {
     // parameter = regular-parameter / extended-parameter
     // regular-parameter = regular-parameter-name "=" value
@@ -1237,7 +1244,7 @@ static bool parseParameter(const char *&scursor, const char *const send,
     // (start,length) tuple if we see that the value is encoded
     // (trailing asterisk), for parseParameterList to decode...
 
-    eatCFWS(scursor, send, newline);
+    eatCFWS(scursor, send, newline, state);
     if (scursor == send) {
         return false;
     }
@@ -1250,14 +1257,14 @@ static bool parseParameter(const char *&scursor, const char *const send,
         return false;
     }
 
-    eatCFWS(scursor, send, newline);
+    eatCFWS(scursor, send, newline, state);
     // premature end: not OK (haven't seen '=' yet).
     if (scursor == send || *scursor != '=') {
         return false;
     }
     scursor++; // eat '='
 
-    eatCFWS(scursor, send, newline);
+    eatCFWS(scursor, send, newline, state);
     if (scursor == send) {
         // don't choke on attribute=, meaning the value was omitted:
         if (maybeAttribute.endsWith('*')) {
@@ -1287,7 +1294,7 @@ static bool parseParameter(const char *&scursor, const char *const send,
             maybeAttribute.chop(1);
         }
 
-        if (!parseGenericQuotedString(scursor, send, maybeValue.qstring, newline)) {
+        if (!parseGenericQuotedString(scursor, send, maybeValue.qstring, newline, state)) {
             scursor = oldscursor;
             result = qMakePair(maybeAttribute.toByteArray().toLower(), QStringOrQPair());
             return false; // this case needs further processing by upper layers!!
@@ -1307,7 +1314,7 @@ static bool parseParameter(const char *&scursor, const char *const send,
 
 static bool parseRawParameterList(const char *&scursor, const char *const send,
                                   std::map<QByteArray, QStringOrQPair> &result,
-                                  NewlineType newline)
+                                  NewlineType newline, ParserState &state)
 {
     // we use parseParameter() consecutively to obtain a map of raw
     // attributes to raw values. "Raw" here means that we don't do
@@ -1330,7 +1337,7 @@ static bool parseRawParameterList(const char *&scursor, const char *const send,
             continue;
         }
         QPair<QByteArray, QStringOrQPair> maybeParameter;
-        if (!parseParameter(scursor, send, maybeParameter, newline)) {
+        if (!parseParameter(scursor, send, maybeParameter, newline, state)) {
             // we need to do a bit of work if the attribute is not
             // NULL. These are the cases marked with "needs further
             // processing" in parseParameter(). Specifically, parsing of the
@@ -1475,11 +1482,11 @@ static void decodeRFC2231Value(KCodecs::Codec *&rfc2231Codec,
 bool parseParameterListWithCharset(const char *&scursor,
                                    const char *const send,
                                    Headers::ParameterMap &result,
-                                   QByteArray &charset, NewlineType newline)
+                                   QByteArray &charset, ParserState &state, NewlineType newline)
 {
     // parse the list into raw attribute-value pairs:
     std::map<QByteArray, QStringOrQPair> rawParameterList;
-    if (!parseRawParameterList(scursor, send, rawParameterList, newline)) {
+    if (!parseRawParameterList(scursor, send, rawParameterList, newline, state)) {
         return false;
     }
 

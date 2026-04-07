@@ -826,7 +826,8 @@ bool Parametrized::parse(const char  *&scursor, const char *const send,
     Q_D(Parametrized);
     d->parameterHash.clear();
     QByteArray charset;
-    if (!parseParameterListWithCharset(scursor, send, d->parameterHash, charset, newline)) {
+    ParserState state;
+    if (!parseParameterListWithCharset(scursor, send, d->parameterHash, charset, state, newline)) {
         return false;
     }
     d->encCS = charset;
