@@ -6,12 +6,12 @@ configure_file(config-kmime.h.in ${KMime_BINARY_DIR}/src/config-kmime.h)
 kde_enable_exceptions()
 
 ########### next target ###############
-add_library(KPim6Mime)
-add_library(KPim6::Mime ALIAS KPim6Mime)
+add_library(KF6Mime)
+add_library(KF6::Mime ALIAS KF6Mime)
 
-ecm_create_qm_loader(KPim6Mime libkmime6_qt)
+ecm_create_qm_loader(KF6Mime libkmime6_qt)
 
-target_sources(KPim6Mime PRIVATE
+target_sources(KF6Mime PRIVATE
    charfreq.cpp
    util.cpp
    util_p.cpp
@@ -43,16 +43,13 @@ target_sources(KPim6Mime PRIVATE
    types.h
 )
 
-ecm_qt_declare_logging_category(KPim6Mime
+ecm_qt_declare_logging_category(KF6Mime
        HEADER kmime_debug.h
        IDENTIFIER KMIME_LOG
        CATEGORY_NAME org.kde.pim.kmime
         DESCRIPTION "kmime (pim lib)" EXPORT KMIME)
 
-if(COMPILE_WITH_UNITY_CMAKE_SUPPORT)
-    set_target_properties(KPim6Mime PROPERTIES UNITY_BUILD ON)
-endif()
-ecm_generate_export_header(KPim6Mime
+ecm_generate_export_header(KF6Mime
     BASE_NAME KMime
     VERSION ${KMIME_VERSION}
     DEPRECATED_BASE_VERSION 0
@@ -62,16 +59,16 @@ ecm_generate_export_header(KPim6Mime
     EXCLUDE_DEPRECATED_BEFORE_AND_AT ${EXCLUDE_DEPRECATED_BEFORE_AND_AT}
 )
 
-target_include_directories(KPim6Mime INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/KPim6/KMime>")
-target_include_directories(KPim6Mime PUBLIC "$<BUILD_INTERFACE:${KMime_SOURCE_DIR}/src;${KMime_BINARY_DIR}/src;${KMime_BINARY_DIR}>")
-target_compile_features(KPim6Mime PUBLIC cxx_std_20)
+target_include_directories(KF6Mime INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF}/KMime>")
+target_include_directories(KF6Mime PUBLIC "$<BUILD_INTERFACE:${KMime_SOURCE_DIR}/src;${KMime_BINARY_DIR}/src;${KMime_BINARY_DIR}>")
+target_compile_features(KF6Mime PUBLIC cxx_std_20)
 
 set(_kmime_extra_libs)
 if(WIN32)
     set(_kmime_extra_libs ws2_32)
 endif()
 
-target_link_libraries(KPim6Mime
+target_link_libraries(KF6Mime
 PUBLIC
     Qt::Core
 PRIVATE
@@ -79,13 +76,13 @@ PRIVATE
     ${_kmime_extra_libs}
 )
 
-set_target_properties(KPim6Mime PROPERTIES
+set_target_properties(KF6Mime PROPERTIES
     VERSION ${KMIME_VERSION}
     SOVERSION ${KMIME_SOVERSION}
     EXPORT_NAME Mime
 )
 
-install(TARGETS KPim6Mime EXPORT KPim6MimeTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS KF6Mime EXPORT KF6MimeTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ecm_generate_headers(KMime_CamelCase_HEADERS
   HEADER_NAMES
@@ -103,15 +100,15 @@ ecm_generate_headers(KMime_CamelCase_HEADERS
 
 install(FILES
     ${KMime_CamelCase_HEADERS}
-    DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim6/KMime/KMime
+    DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF}/KMime/KMime
 )
 
 install(FILES
      ${KMime_BINARY_DIR}/src/kmime_export.h
      ${KMime_HEADERS}
-     DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim6/KMime/kmime
+     DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF}/KMime/kmime
      COMPONENT Devel
 )
 
 ecm_qt_install_logging_categories(EXPORT KMIME FILE kmime.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
-ecm_generate_qdoc(KPim6Mime kmime.qdocconf)
+ecm_generate_qdoc(KF6Mime kmime.qdocconf)

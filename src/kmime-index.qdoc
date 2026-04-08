@@ -10,7 +10,7 @@
 
     \section2 Building with CMake
 
-    \include {module-use.qdocinc} {building with cmake} {KPim6} {Mime} {KPim6::Mime}
+    \include {module-use.qdocinc} {building with cmake} {KF6} {Mime} {KF6::Mime}
 
     \section1 API Reference
 

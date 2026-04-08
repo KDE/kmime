@@ -1,6 +1,6 @@
 maintainer: vkrause
 description: The KMime Library
-tier: 3
+tier: 2
 type: functional
 platforms:
     - name: Linux
@@ -12,8 +12,8 @@ portingAid: false
 deprecated: false
 release: false
 libraries:
-    - cmake: "KPim6::Mime"
-cmakename: KPim6Mime
+    - cmake: "KF6::Mime"
+cmakename: KF6Mime
 
 public_lib: true
-group: kdepim
+group: frameworks
