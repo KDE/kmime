@@ -13,7 +13,7 @@ endif()
 
 
 add_executable(kmime_fuzzer kmime_fuzzer.cc)
-target_link_libraries(kmime_fuzzer PRIVATE KPim6Mime ${fuzzing_engine})
+target_link_libraries(kmime_fuzzer PRIVATE KF6Mime ${fuzzing_engine})
 
 set_target_properties(kmime_fuzzer PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/fuzzers

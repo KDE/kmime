@@ -17,7 +17,7 @@ macro(ADD_KMIME_TEST)
     add_executable(${_testName} ${_testName}.cpp ${kmime_autotest_SRCS})
     add_test(NAME kmime-${_testName} COMMAND ${_testName})
     target_link_libraries(${_testName}
-      KPim6Mime
+      KF6Mime
       Qt::Test
       KF6::Codecs
     )

@@ -1,67 +1,53 @@
 cmake_minimum_required(VERSION 3.29)
-set(PIM_VERSION "6.7.40")
 
-project(KMime VERSION ${PIM_VERSION})
+set(KF_VERSION "6.26.0") # handled by release scripts
+set(KF_DEP_VERSION "6.25.0") # handled by release scripts
 
-# ECM setup
-set(KF_MIN_VERSION "6.22.0")
+project(KMime VERSION ${KF_VERSION})
 
-find_package(ECM ${KF_MIN_VERSION} CONFIG REQUIRED)
-set(CMAKE_MODULE_PATH ${KMime_SOURCE_DIR}/cmake ${ECM_MODULE_PATH})
+include(FeatureSummary)
+find_package(ECM 6.25.0 NO_MODULE)
+set_package_properties(ECM PROPERTIES TYPE REQUIRED DESCRIPTION "Extra CMake Modules." URL "https://commits.kde.org/extra-cmake-modules")
+feature_summary(WHAT REQUIRED_PACKAGES_NOT_FOUND FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
-set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
-set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 include(KDEInstallDirs)
 include(KDECMakeSettings)
-include(KDECompilerSettings NO_POLICY_SCOPE)
+include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 
 include(ECMGenerateExportHeader)
-
-include(ECMGenerateHeaders)
+include(CMakePackageConfigHelpers)
 include(ECMSetupVersion)
+include(ECMGenerateHeaders)
 include(ECMQtDeclareLoggingCategory)
 include(ECMDeprecationSettings)
-include(ECMFeatureSummary)
 include(ECMGenerateQDoc)
 include(ECMCheckOutboundLicense)
 include(ECMPoQmTools)
-
-set(QT_REQUIRED_VERSION "6.7.0")
-
-
-find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED Core)
+include(ECMFeatureSummary)
 
 set(EXCLUDE_DEPRECATED_BEFORE_AND_AT 0 CACHE STRING "Control the range of deprecated API excluded from the build [default=0].")
+
+find_package(KF6Codecs ${KF_DEP_VERSION} CONFIG REQUIRED)
+
+set(REQUIRED_QT_VERSION 6.9.0)
+find_package(Qt6 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Core)
+
 ecm_setup_version(PROJECT VARIABLE_PREFIX KMIME
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kmime_version.h"
-                        PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KPim6MimeConfigVersion.cmake"
+                        PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF6MimeConfigVersion.cmake"
                         SOVERSION 6
 )
 
 option(BUILD_FUZZERS "Build KMime fuzzers" OFF)
 
-########### Find packages ###########
-find_package(KF6Codecs ${KF_MIN_VERSION} CONFIG REQUIRED)
-add_definitions(-DQT_NO_CONTEXTLESS_CONNECT)
 ecm_set_disabled_deprecation_versions(QT 6.11.0  KF 6.25.0)
 
-option(USE_UNITY_CMAKE_SUPPORT "Use UNITY cmake support (speedup compile time)" OFF)
-
-set(COMPILE_WITH_UNITY_CMAKE_SUPPORT OFF)
-if(USE_UNITY_CMAKE_SUPPORT)
-    set(COMPILE_WITH_UNITY_CMAKE_SUPPORT ON)
-endif()
-
-if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    # Not setting for GNU due to too many warnings related to private members of base classes or around lambdas
-    # see e.g. https://gcc.gnu.org/bugzilla/show_bug.cgi?id=56556 or https://gcc.gnu.org/bugzilla/show_bug.cgi?id=79328
-    string(APPEND CMAKE_CXX_FLAGS " -Wshadow")
-endif()
-
-########### Targets ###########
 add_subdirectory(src)
-
+# TODO remove once the Gear master repos are ported
+add_subdirectory(compat)
 if(BUILD_TESTING)
     add_subdirectory(autotests)
     add_subdirectory(tests)
@@ -72,34 +58,37 @@ if(BUILD_FUZZERS)
 endif()
 
 ########### CMake Config Files ###########
-set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KPim6Mime")
+set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF6Mime")
 
 configure_package_config_file(
-    "${KMime_SOURCE_DIR}/KPimMimeConfig.cmake.in"
-    "${KMime_BINARY_DIR}/KPim6MimeConfig.cmake"
+    "${KMime_SOURCE_DIR}/KF6MimeConfig.cmake.in"
+    "${KMime_BINARY_DIR}/KF6MimeConfig.cmake"
     INSTALL_DESTINATION  ${CMAKECONFIG_INSTALL_DIR}
     )
 
 install(FILES
-    "${KMime_BINARY_DIR}/KPim6MimeConfig.cmake"
-    "${KMime_BINARY_DIR}/KPim6MimeConfigVersion.cmake"
+    "${KMime_BINARY_DIR}/KF6MimeConfig.cmake"
+    "${KMime_BINARY_DIR}/KF6MimeConfigVersion.cmake"
     DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
     COMPONENT Devel
     )
 
-install(EXPORT KPim6MimeTargets
+install(EXPORT KF6MimeTargets
     DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
-    FILE KPim6MimeTargets.cmake
-    NAMESPACE KPim6::
+    FILE KF6MimeTargets.cmake
+    NAMESPACE KF6::
     )
 
 install(FILES
     ${KMime_BINARY_DIR}/kmime_version.h
-    DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KPim6/KMime/
+    DESTINATION ${KDE_INSTALL_INCLUDEDIR}/KF6/KMime/
     COMPONENT Devel
     )
 
 ecm_install_po_files_as_qm(poqm)
+
+include(ECMFeatureSummary)
 ecm_feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
+
 file(GLOB_RECURSE ALL_SOURCE_FILES src/*.cpp src/*.h)
 ecm_check_outbound_license(LICENSES LGPL-2.0-only LGPL-3.0-only FILES ${ALL_SOURCE_FILES})
