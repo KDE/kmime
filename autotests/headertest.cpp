@@ -1004,6 +1004,10 @@ void HeaderTest::testInvalidButOkQEncoding()
     Subject subject;
     subject.from7BitString("=?us-ascii?q?Why?_Why_do_some_clients_violate_the_RFC?" "?=");
     QCOMPARE(subject.as7BitString(), QByteArray("Why? Why do some clients violate the RFC?"));
+
+    To to;
+    to.from7BitString(QByteArray("=?utf32\0?q?=", 12));
+    QCOMPARE(to.asUnicodeString(), QString());
 }
 
 void HeaderTest::testInvalidQEncoding_data()
