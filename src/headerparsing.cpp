@@ -118,8 +118,9 @@ bool parseEncodedWord(const char *&scursor, const char *const send,
         return false;
     }
 
-    // extract the encoding information:
-    QByteArrayView maybeEncoding(encodingStart, scursor - encodingStart);
+    // extract the encoding information
+    // harden this against null bytes in the input, Qt crashes on that
+    QByteArrayView maybeEncoding(encodingStart, std::min<qsizetype>(scursor - encodingStart, std::strlen(encodingStart)));
 
     // qCDebug(KMIME_LOG) << "parseEncodedWord: found charset == \"" << maybeCharset
     //         << "\"; language == \"" << maybeLanguage
