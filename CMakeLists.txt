@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.27)
-set(PIM_VERSION "6.7.0")
+set(PIM_VERSION "6.7.1")
 
 project(KMime VERSION ${PIM_VERSION})
 
