@@ -18,7 +18,7 @@
 #include <QDateTime>
 #include <QList>
 #include <QMetaType>
-#include <QString>
+
 #include <QStringList>
 
 namespace KMime

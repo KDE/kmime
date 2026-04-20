@@ -13,7 +13,7 @@
 #include "types.h"
 
 #include <QDateTime>
-#include <QString>
+
 #include <QStringList>
 
 namespace KMime
