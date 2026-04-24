@@ -1,0 +1,21 @@
+From: Jøran Øygårdvær <jøran@example.com>
+Cc: Jøran Øygårdvær <jøran@example.com>
+Signed-Off-By: Jøran Øygårdvær <jøran@example.com>
+To: Arnt Gulbrandsen <arnt@example.com>
+Date: Thu, 20 May 2004 14:28:51 +0200
+
+The From and Cc fields contain addresses. Signed-Off-By may appear to
+contain an address, but syntactically that's just a string.
+
+An EAI downgrader should either remove the Signed-Off-By or apply
+quoted-printable encoding. There are arguments in favour of both
+courses of action.
+
+Removing: Maybe it's syntax? Maybe it's a signature? Removing
+Signed-Off-By will at least prevent the end-user's software from
+seeing an invalid signature or crash on a syntactically invalid header
+field.
+
+Applying quoted-printable: There at least a hope that a human looking
+at the message will be able to guess what happened and recover whatever
+information was in signed-off-by.

@@ -22,6 +22,7 @@
 #include <KCodecs>
 
 #include <QStringDecoder>
+#include <QUtf8StringView>
 #include <QTimeZone>
 
 #include <cassert>
@@ -461,10 +462,24 @@ bool parseGenericQuotedString(const char *&scursor, const char *const send,
             [[fallthrough]];
         }
         default:
-            KMIME_WARN_IF_8BIT(ch);
-            if (fillResult) {
-                result += QLatin1Char(ch);
-            }
+	    if (fillResult) {
+		if ((unsigned char)ch >= 0x80) {
+		    // UTF-8 multi-byte sequence: locate lead byte and scan
+		    // past all continuation bytes without copying.
+		    const char *utf8Start = scursor - 1;
+		    while (scursor != send && (unsigned char)*scursor >= 0x80) {
+			++scursor;
+		    }
+		    result += QUtf8StringView(utf8Start, scursor - utf8Start);
+		} else {
+		    result += QLatin1Char(ch);
+		}
+	    } else if ((unsigned char)ch >= 0x80) {
+		// Skip UTF-8 continuation bytes even when not filling result
+		while (scursor != send && (unsigned char)*scursor >= 0x80) {
+		    scursor++;
+		}
+	    }
         }
     }
 
@@ -664,7 +679,7 @@ bool parsePhrase(const char *&scursor, const char *const send, QString &result, 
                     assert(0);
                 }
                 lastWasEncodedWord = false;
-                result += QLatin1StringView(tmpAtom);
+                result += QUtf8StringView(tmpAtom);
             } else {
                 if (found == None) {
                     return false;
@@ -689,8 +704,8 @@ bool parseDotAtom(const char *&scursor, const char *const send,
     const char *successfullyParsed;
 
     QByteArrayView maybeAtom;
-    if (!parseAtom(scursor, send, maybeAtom, ParsingPolicy::Allow7BitOnly)) {
-        return false;
+    if (!parseAtom(scursor, send, maybeAtom, ParsingPolicy::Allow8Bit)) {
+	return false;
     }
     result = maybeAtom;
     successfullyParsed = scursor;
@@ -703,19 +718,20 @@ bool parseDotAtom(const char *&scursor, const char *const send,
         }
         scursor++; // eat '.'
 
-        if (scursor == send || !isAText(*scursor)) {
-            // end of header or no AText, but this time following a '.'!:
-            // reset cursor to just after last successfully parsed char and
-            // return:
-            scursor = successfullyParsed;
-            return true;
+        if (scursor == send ||
+            (!isAText(*scursor) && (unsigned char)*scursor < 0x80)) {
+	    // end of header or no AText, but this time following a '.'!:
+	    // reset cursor to just after last successfully parsed char and
+	    // return:
+	    scursor = successfullyParsed;
+	    return true;
         }
 
         // try to parse the next atom:
         maybeAtom = {};
-        if (!parseAtom(scursor, send, maybeAtom, ParsingPolicy::Allow7BitOnly)) {
-            scursor = successfullyParsed;
-            return true;
+        if (!parseAtom(scursor, send, maybeAtom, ParsingPolicy::Allow8Bit)) {
+	    scursor = successfullyParsed;
+	    return true;
         }
 
         result = QByteArrayView(result.constData(), result.size() + 1 + maybeAtom.size());
@@ -820,7 +836,7 @@ bool parseDomain(const char *&scursor, const char *const send,
                 maybeDotAtom = QByteArrayView(maybeDotAtom.constData(), maybeDotAtom.size() + 1);
                 scursor++;
             }
-            result = QString::fromLatin1(maybeDotAtom);
+            result = QString::fromUtf8(maybeDotAtom);
             return true;
         }
     }
@@ -924,10 +940,11 @@ bool parseAddrSpec(const char *&scursor, const char *const send, AddrSpec &resul
 
         default: // atom
             scursor--; // re-set scursor to point to ch again
-            if (parseAtom(scursor, send, tmpAtom, ParsingPolicy::Allow7BitOnly)) {
-              maybeLocalPart += QLatin1StringView(tmpAtom);
+            if (parseAtom(scursor, send, tmpAtom, ParsingPolicy::Allow8Bit)) {
+                maybeLocalPart += QUtf8StringView(tmpAtom);
             } else {
-                return false; // parseAtom can only fail if the first char is non-atext.
+                return false; // parseAtom can only fail if the first char is
+                              // non-atext.
             }
             break;
         }

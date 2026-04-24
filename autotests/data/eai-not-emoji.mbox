@@ -1,0 +1,25 @@
+From: xn--ls8ha@outlook.com
+To: Arnt Gulbrandsen <arnt@example.com>
+Date: Thu, 20 May 2004 14:28:51 +0200
+
+The From address is valid, and is not an emoji. It is nine characters
+starting with an x.
+
+This surprises people sometimes. Why aren't localparts simply encoded in
+the same way as domains? For several reasons:
+
+- Traditionally the localpart is governed exclusively by the site in
+  question.
+
+  Sites like outlook.com were known to permit the general public to create
+  localaprts.  There's no ban on strings starting with xn.  The IETF
+  working group felt that introducing a ban was not realistically
+  possible.
+
+- Quite a few sites run software that generates localparts automatically,
+  e.g. using ticketing or helpdesk systems. Some of these systems were
+  thought to be incompatible with using the punycode encoding on
+  localparts.
+
+Anyway, there is is. When you show this message, show 'xn--ls8ha' instead
+of the emoji you might consider natural.

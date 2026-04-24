@@ -41,4 +41,5 @@ add_kmime_test(
   attachmenttest
   typestest
   messageparserbenchmark
+  eaitest
 )

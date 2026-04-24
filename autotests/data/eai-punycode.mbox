@@ -1,0 +1,12 @@
+From: Dømi <info@xn--dmi-0na.fo>
+Cc: Jøran Øygårdvær <jøran@example.com>
+To: Dømi <dømi@xn--dmi-0na.fo>
+Date: Thu, 20 May 2004 14:28:51 +0200
+
+The From address contains only ASCII localpart, and a punycode-encoded
+domain. This is similar to what e.g. Exchange and Mutt generate.
+
+The To address contains UTF8 in the localpart and again an encoded domain.
+This is also similar to what Exchange and Mutt generate.
+
+Parsers and readers should handle both forms in the same way.

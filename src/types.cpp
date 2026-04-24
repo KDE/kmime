@@ -52,14 +52,14 @@ static QString addr_spec_as_string(const AddrSpec &as, bool pretty)
     result.reserve(as.localPart.length() + as.domain.length() + 1);
     for (int i = 0 ; i < as.localPart.length() ; ++i) {
         const QChar ch = as.localPart.at(i);
-        if (ch == dotChar || isAText(ch.toLatin1())) {
-            result += ch;
+        if (ch == dotChar || isAText(ch.toLatin1()) || ch.unicode() > 0x7F) {
+          result += ch;
         } else {
-            needsQuotes = true;
-            if (ch == backslashChar || ch == quoteChar) {
-                result += backslashChar;
-            }
-            result += ch;
+          needsQuotes = true;
+          if (ch == backslashChar || ch == quoteChar) {
+            result += backslashChar;
+          }
+          result += ch;
         }
     }
     const QString dom = pretty ? QUrl_fromAce_wrapper(as.domain) : as.domain ;
@@ -95,7 +95,7 @@ QByteArray Mailbox::address() const
     QByteArray result;
     const QString asString = addr_spec_as_string(mAddrSpec, false);
     if (!asString.isEmpty()) {
-        result = asString.toLatin1();
+	result = asString.toUtf8();
     }
     return result;
     //return mAddrSpec.asString().toLatin1();
@@ -153,7 +153,7 @@ bool Mailbox::hasName() const
 QString Mailbox::prettyAddress(Quoting quoting) const
 {
     if (!hasName()) {
-      return QLatin1StringView(address());
+	return QString::fromUtf8(address());
     }
     QString s = name();
     if (quoting != QuoteNever) {
@@ -161,14 +161,48 @@ QString Mailbox::prettyAddress(Quoting quoting) const
     }
 
     if (hasAddress()) {
-      s +=
-          QLatin1StringView(" <") + QLatin1StringView(address()) + QLatin1Char('>');
+	s += QLatin1StringView(" <") + QString::fromUtf8(address()) +
+	     QLatin1Char('>');
     }
     return s;
 }
 
 void Mailbox::fromUnicodeString(QStringView s)
 {
+    // If there is an angle-bracketed addr-spec, only RFC2047-encode the display
+    // name before it; leave the addr-spec as raw UTF-8 so that EAI localparts
+    // (RFC 6531) are not incorrectly encoded as RFC 2047 encoded-words, which
+    // are forbidden inside addr-specs (RFC 5322 / RFC 2047 §5).
+    const qsizetype lt = s.lastIndexOf(u'<');
+    const qsizetype gt = (lt >= 0) ? s.indexOf(u'>', lt) : -1;
+    if (lt >= 0 && gt > lt) {
+	const QStringView displayName = s.left(lt).trimmed();
+	const QStringView addrSpec = s.mid(lt + 1, gt - lt - 1).trimmed();
+	QByteArray buf;
+	if (!displayName.isEmpty()) {
+	    buf += encodeRFC2047Sentence(displayName, "utf-8");
+	    buf += ' ';
+	}
+	buf += '<';
+	buf += addrSpec.toUtf8();
+	buf += '>';
+	from7BitString(buf);
+	return;
+    }
+
+    // No angle brackets. If the localpart (before '@') contains non-ASCII,
+    // this is an EAI bare addr-spec; store as raw UTF-8.
+    const qsizetype at = s.indexOf(u'@');
+    if (at > 0) {
+	const bool eaiLocalpart =
+	    std::any_of(s.constBegin(), s.constBegin() + at,
+			[](QChar c) { return c.unicode() > 127; });
+	if (eaiLocalpart) {
+	    from7BitString(s.toUtf8());
+	    return;
+	}
+    }
+
     from7BitString(encodeRFC2047Sentence(s, "utf-8"));
 }
 
