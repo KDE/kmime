@@ -27,7 +27,7 @@ include(ECMGenerateQDoc)
 include(ECMCheckOutboundLicense)
 include(ECMPoQmTools)
 
-set(QT_REQUIRED_VERSION "6.7.0")
+set(QT_REQUIRED_VERSION "6.7.1")
 
 
 find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED Core)
