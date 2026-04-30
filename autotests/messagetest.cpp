@@ -726,6 +726,21 @@ void MessageTest::testGarbage_data()
     QTest::newRow("yenc-corrupt-size") << u"yenc-single-part.yenc"_s;
     QTest::newRow("yenc-mail-part") << u"yenc-mail-part.txt"_s;
     QTest::newRow("uuencode-no-filename") << u"clusterfuzz-testcase-minimized-kmime_fuzzer-6349101081100288"_s;
+    QTest::newRow("bug519599") << u"bug519599.mbox"_s;
+}
+
+// same as ossfuzz/kmime_fuzzer.cc, so we also see the same memory accesss issues here
+static void traverseContent(const KMime::Content *content)
+{
+    for (const auto c : content->contents()) {
+        const auto decodedBody = c->decodedBody();
+        const auto decodedText = c->decodedText();
+        for (const auto header : c->headers()) {
+            const auto headerAs7BitString = header->as7BitString();
+            const auto headerAsUnicodeString = header->asUnicodeString();
+        }
+        traverseContent(c);
+    }
 }
 
 void MessageTest::testGarbage()
@@ -734,6 +749,7 @@ void MessageTest::testGarbage()
     QFETCH(QString, filename);
     auto msg = readAndParseMail(filename);
     QVERIFY(msg);
+    traverseContent(msg.get());
 }
 
 void MessageTest::testUuencode()
