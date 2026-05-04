@@ -63,7 +63,6 @@ ecm_generate_export_header(KF6Mime
 )
 
 target_include_directories(KF6Mime INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF}/KMime>")
-target_include_directories(KF6Mime PUBLIC "$<BUILD_INTERFACE:${KMime_BINARY_DIR}>")
 target_compile_features(KF6Mime PUBLIC cxx_std_20)
 
 set(_kmime_extra_libs)

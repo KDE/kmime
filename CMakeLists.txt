@@ -35,8 +35,9 @@ find_package(KF6Codecs ${KF_DEP_VERSION} CONFIG REQUIRED)
 set(REQUIRED_QT_VERSION 6.9.0)
 find_package(Qt6 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Core)
 
+set(kmime_version_header "${CMAKE_CURRENT_BINARY_DIR}/src/kmime_version.h")
 ecm_setup_version(PROJECT VARIABLE_PREFIX KMIME
-                        VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kmime_version.h"
+                        VERSION_HEADER "${kmime_version_header}"
                         PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF6MimeConfigVersion.cmake"
                         SOVERSION 6
 )
@@ -85,7 +86,7 @@ install(EXPORT KF6MimeTargets
     )
 
 install(FILES
-    ${KMime_BINARY_DIR}/kmime_version.h
+    "${kmime_version_header}"
     DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF}/KMime/
     COMPONENT Devel
     )
