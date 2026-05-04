@@ -9,7 +9,7 @@ set_target_properties(KPim6Mime PROPERTIES
 )
 target_link_libraries(KPim6Mime PUBLIC KF6Mime)
 
-install(TARGETS KPim6Mime EXPORT KPim6MimeTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS KPim6Mime EXPORT KPim6MimeTargets ${KF_INSTALL_TARGETS_DEFAULT_ARGS})
 
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KPim6Mime")
 

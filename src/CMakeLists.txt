@@ -84,7 +84,7 @@ set_target_properties(KF6Mime PROPERTIES
     EXPORT_NAME Mime
 )
 
-install(TARGETS KF6Mime EXPORT KF6MimeTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS KF6Mime EXPORT KF6MimeTargets ${KF_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ecm_generate_headers(KMime_CamelCase_HEADERS
   HEADER_NAMES
