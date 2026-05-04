@@ -44,10 +44,13 @@ target_sources(KF6Mime PRIVATE
 )
 
 ecm_qt_declare_logging_category(KF6Mime
-       HEADER kmime_debug.h
-       IDENTIFIER KMIME_LOG
-       CATEGORY_NAME org.kde.pim.kmime
-        DESCRIPTION "kmime (pim lib)" EXPORT KMIME)
+    HEADER kmime_debug.h
+    IDENTIFIER KMIME_LOG
+    CATEGORY_NAME kf.mime
+    OLD_CATEGORY_NAMES org.kde.pim.kmime
+    DESCRIPTION "KMime"
+    EXPORT KMIME
+)
 
 ecm_generate_export_header(KF6Mime
     BASE_NAME KMime

@@ -8,7 +8,7 @@ kde_enable_exceptions()
 ecm_qt_declare_logging_category(kmime_autotest_SRCS
    HEADER kmime_debug.h
    IDENTIFIER KMIME_LOG
-   CATEGORY_NAME org.kde.pim.kmime
+   CATEGORY_NAME kf.mime
 )
 
 
