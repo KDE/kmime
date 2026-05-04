@@ -1,6 +1,6 @@
 include(ECMMarkAsTest)
 
-find_package(Qt6Test ${QT_REQUIRED_VERSION} CONFIG REQUIRED)
+find_package(Qt6Test ${REQUIRED_QT_VERSION} CONFIG REQUIRED)
 
 # Turn exceptions on
 kde_enable_exceptions()
