@@ -141,3 +141,5 @@ void EaiTest::testAttachment() {
   QCOMPARE(attachment->contentDisposition()->filename(),
            QStringLiteral("blåbærsyltetøy"));
 }
+
+#include "moc_eaitest.cpp"
