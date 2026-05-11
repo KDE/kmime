@@ -43,6 +43,7 @@ private Q_SLOTS:
 
     void testGarbage_data();
     void testGarbage();
+    void testRecursionLimit();
 
     void testUuencode();
     void testYenc();

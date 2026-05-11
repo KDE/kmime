@@ -752,6 +752,37 @@ void MessageTest::testGarbage()
     traverseContent(msg.get());
 }
 
+void MessageTest::testRecursionLimit()
+{
+    {
+        auto msg = readAndParseMail(u"bug519598-encapsulated-message.mbox"_s);
+        QVERIFY(msg);
+        int depth = 0;
+        auto c = msg.get();
+        while (c->bodyIsMessage()) {
+            c = c->bodyAsMessage().get();
+            ++depth;
+        }
+        QCOMPARE(depth, 32);
+        QVERIFY(c->body().contains("Hello World!"));
+        QVERIFY(c->body().startsWith("Content-Type"_L1));
+    }
+
+    {
+        auto msg = readAndParseMail(u"bug519598-attachment.mbox"_s);
+        QVERIFY(msg);
+        int depth = 0;
+        const KMime::Content *c = msg.get();
+        while (!c->contents().empty()) {
+            c = c->contents()[0];
+            ++depth;
+        }
+        QCOMPARE(depth, 33);
+        QVERIFY(c->body().contains("Hello World!"));
+        QVERIFY(c->body().startsWith("--"_L1));
+    }
+}
+
 void MessageTest::testUuencode()
 {
     auto msg = readAndParseMail(u"uuencode-simple.mbox"_s);

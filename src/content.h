@@ -148,7 +148,11 @@ public:
    * \note Calling this will reset the message returned by bodyAsMessage(), as
    *       the message is re-parsed as well.
    *       Also, all old sub-contents will be deleted, so any old Content
-   * pointer will become invalid.
+   *       pointer will become invalid.
+   *
+   * \note To avoid unbound recursion, there is a safety depth limit, beyond that
+   *       parts or encapsulated messages will no longer be parsed but appear as
+   *       a Content object with unparsed content.
    */
   void parse();
 
@@ -738,10 +742,12 @@ public:
    */
   [[nodiscard]] ContentIndex index() const;
 
-  // AK_REVIEW: move to MessageViewer/ObjectTreeParser
   /*!
    * Returns true if this content is an encapsulated message, i.e. if it has the
    * mimetype message/rfc822.
+   *
+   * \note This will return \c false for encapsulated messages at or beyond the
+   * parsing depth limit, to avoid unbound recursion.
    *
    * \since 4.5
    */

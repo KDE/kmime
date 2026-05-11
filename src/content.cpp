@@ -20,6 +20,7 @@
 */
 #include "content.h"
 #include "content_p.h"
+#include "kmime_debug.h"
 #include "message.h"
 #include "headerfactory_p.h"
 #include "headerparsing.h"
@@ -36,6 +37,8 @@ using namespace KMime;
 
 namespace KMime
 {
+
+constexpr inline const auto PARSING_DEPTH_LIMIT = 32;
 
 Content::Content()
     : d_ptr(new ContentPrivate)
@@ -174,8 +177,8 @@ void Content::parse()
             // create synthetic inputs with hundreds of nested messages with quadratic memory growth.
             d->body.clear();
 
+            d->bodyAsMessage->d_ptr->parent = this; // set parent before the recursion, so the depth limit works
             d->bodyAsMessage->parse();
-            d->bodyAsMessage->d_ptr->parent = this;
         }
     }
 }
@@ -689,6 +692,15 @@ bool ContentPrivate::decodeText(const Content *q)
     return true;
 }
 
+int ContentPrivate::depth() const
+{
+    int d = 0;
+    for (auto p = parent; p && d < PARSING_DEPTH_LIMIT; ++d) {
+        p = p->parent();
+    }
+    return d;
+}
+
 Content *KMime::Content::content(const ContentIndex &index) const
 {
     if (!index.isValid()) {
@@ -794,8 +806,11 @@ std::shared_ptr<Message> Content::bodyAsMessage()
 
 bool Content::bodyIsMessage() const
 {
-    if (const auto ct = contentType(); ct) {
-        return ct->isMimeType("message/rfc822");
+    if (d_ptr->bodyAsMessage) {
+        return true;
+    }
+    if (const auto ct = contentType(); ct && ct->isMimeType("message/rfc822")) {
+        return d_ptr->depth() < PARSING_DEPTH_LIMIT;
     }
     return false;
 }
@@ -959,11 +974,17 @@ bool ContentPrivate::parseMultipart(Content *q)
     Q_ASSERT(multipartContents.isEmpty());
     body.clear();
     const auto parts = mpp.parts();
+    const auto dep = depth();
     for (const QByteArray &part : parts) {
         auto c = std::make_unique<Content>();
         c->setContent(part);
         c->setFrozen(frozen);
-        c->parse();
+        if (dep < PARSING_DEPTH_LIMIT) {
+            c->d_ptr->parent = q; // must be set before calling parse(), for the depth limit to work!
+            c->parse();
+        } else {
+            qCWarning(KMIME_LOG) << "Content parsing reached depth limit";
+        }
         q->appendContent(std::move(c));
     }
 

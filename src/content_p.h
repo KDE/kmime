@@ -52,6 +52,9 @@ public:
     }
     static void cloneInto(Content *content, const ContentPrivate *other);
 
+    // nesting depth of this Content
+    [[nodiscard]] int depth() const;
+
     QByteArray head;
     QByteArray body;
     QByteArray frozenBody;
