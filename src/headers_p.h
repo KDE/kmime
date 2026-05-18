@@ -30,7 +30,7 @@ struct CaseInsitiveByteArrayLess {
     template <typename T1, typename T2>
     bool operator()(T1 &&lhs, T2 &&rhs) const
     {
-        return qstricmp(lhs.data(), rhs.data()) < 0;
+        return QByteArrayView(lhs).compare(rhs, Qt::CaseInsensitive) < 0;
     }
 };
 
