@@ -48,10 +48,6 @@ add_definitions(-DQT_NO_CONTEXTLESS_CONNECT)
 ecm_set_disabled_deprecation_versions(QT 6.11.0  KF 6.26.0)
 
 add_subdirectory(src)
-# TODO remove once the Gear master repos are ported and before the first KF release!
-if (KF_DEP_VERSION VERSION_LESS 6.27)
-    add_subdirectory(compat)
-endif()
 if(BUILD_TESTING)
     add_subdirectory(autotests)
     add_subdirectory(tests)
