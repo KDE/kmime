@@ -2062,7 +2062,7 @@ std::unique_ptr<Headers::Base> extractHeader(QByteArrayView head, const qsizetyp
     std::unique_ptr<Headers::Base> header;
 
     auto startOfFieldBody = head.indexOf(':', headerStart);
-    if (startOfFieldBody < 0) {
+    if (startOfFieldBody <= 0) {
         return nullptr;
     }
 
