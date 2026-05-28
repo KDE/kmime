@@ -25,7 +25,6 @@ include(ECMQtDeclareLoggingCategory)
 include(ECMDeprecationSettings)
 include(ECMGenerateQDoc)
 include(ECMCheckOutboundLicense)
-include(ECMPoQmTools)
 include(ECMFeatureSummary)
 
 set(EXCLUDE_DEPRECATED_BEFORE_AND_AT 0 CACHE STRING "Control the range of deprecated API excluded from the build [default=0].")
@@ -84,8 +83,6 @@ install(FILES
     DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF}/KMime/
     COMPONENT Devel
     )
-
-ecm_install_po_files_as_qm(poqm)
 
 include(ECMFeatureSummary)
 ecm_feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

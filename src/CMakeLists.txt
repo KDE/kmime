@@ -9,13 +9,10 @@ kde_enable_exceptions()
 add_library(KF6Mime)
 add_library(KF6::Mime ALIAS KF6Mime)
 
-ecm_create_qm_loader(KF6Mime libkmime6_qt)
-
 target_sources(KF6Mime PRIVATE
    charfreq.cpp
    util.cpp
    util_p.cpp
-   mdn.cpp
    parsers.cpp
    headerparsing.cpp
    headerfactory.cpp
@@ -29,7 +26,6 @@ target_sources(KF6Mime PRIVATE
 
    charfreq_p.h
    util.h
-   mdn.h
    parsers_p.h
    headerparsing.h
    headerparsing_p.h
@@ -95,7 +91,6 @@ ecm_generate_headers(KMime_CamelCase_HEADERS
       Util
       HeaderParsing
       Types
-      MDN
   REQUIRED_HEADERS KMime_HEADERS
   PREFIX KMime
 )

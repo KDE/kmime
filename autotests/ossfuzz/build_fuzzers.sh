@@ -30,7 +30,6 @@ cmake . -G Ninja \
 ninja install -j$(nproc)
 
 cd $SRC/kmime
-rm -rf poqm
 cmake . -G Ninja \
     -DBUILD_SHARED_LIBS=OFF \
     -DBUILD_TESTING=OFF \
