@@ -45,7 +45,7 @@ option(BUILD_FUZZERS "Build KMime fuzzers" OFF)
 ########### Find packages ###########
 find_package(KF6Codecs ${KF_DEP_VERSION} CONFIG REQUIRED)
 add_definitions(-DQT_NO_CONTEXTLESS_CONNECT)
-ecm_set_disabled_deprecation_versions(QT 6.11.0  KF 6.26.0)
+ecm_set_disabled_deprecation_versions(QT 6.11.0  KF 6.27.0)
 
 add_subdirectory(src)
 if(BUILD_TESTING)
