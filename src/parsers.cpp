@@ -276,7 +276,7 @@ bool YENCEncoded::yencMeta(QByteArrayView src, QByteArrayView name, int *value)
 {
     for (qsizetype idx = 0; idx < src.size() - name.size() - 2;) {
         idx = src.indexOf(name, idx);
-        if (idx < 0 || idx >= src.size() - name.size() - 2) {
+        if (idx < 0 || idx >= src.size() - name.size() - 2 || (idx > 0 && src[idx-1] != ' ')) {
             return false;
         }
         idx += name.size();
@@ -330,7 +330,7 @@ bool YENCEncoded::parse()
             // Filenames can contain any embedded chars until end of line
             auto meta = QByteArrayView(m_src).mid(beginPos, yencStart - beginPos);
             qsizetype namePos = meta.indexOf("name=");
-            if (namePos == -1) {
+            if (namePos == -1 || (namePos > 0 && meta[namePos-1] != ' ')) {
                 success = false;
                 break;
             }
