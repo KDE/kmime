@@ -32,6 +32,7 @@ private Q_SLOTS:
     void testInvalidButOkQEncoding();
     void testInvalidQEncoding();
     void testInvalidQEncoding_data();
+    void testQuadraticQEncoding();
     void testBug271192();
     void testBug271192_data();
     void testMissingQuotes();

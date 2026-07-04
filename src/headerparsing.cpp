@@ -146,11 +146,10 @@ bool parseEncodedWord(const char *&scursor, const char *const send,
                     if (*(scursor - 1) == '=') {
                         state.encodedWordRetryPoint = scursor - 1;
                     }
-                    continue;
                 } else { // yep, found a '?=' sequence
                     scursor += 2;
-                    break;
                 }
+                break;
             } else { // The '?' is the last char, but we need a '=' after it!
                 KMIME_WARN_PREMATURE_END_OF(EncodedWord);
                 return false;

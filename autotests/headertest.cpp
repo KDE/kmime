@@ -1031,6 +1031,18 @@ void HeaderTest::testInvalidQEncoding()
     QCOMPARE(hdr.mailboxes().at(0).name(), encodedWord); // invalid name is not decoded and preserved as-is
 }
 
+void HeaderTest::testQuadraticQEncoding()
+{
+    QByteArray input("To:");
+    input.reserve(200'000);
+    for (auto i = 0; i < 25'000; ++i) {
+        input.push_back("=?q? =? ");
+    }
+    Headers::To to;
+    to.from7BitString(input);
+    // nothing to verify, when broken this timeouts the test
+}
+
 void HeaderTest::testMissingQuotes()
 {
     QByteArray str = "multipart/signed; boundary=nextPart22807781.u8zn2zYrSU; micalg=pgp-sha1; protocol=application/pgp-signature";
