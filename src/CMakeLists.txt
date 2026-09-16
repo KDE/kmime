@@ -114,3 +114,17 @@ install(FILES
 
 ecm_qt_install_logging_categories(EXPORT KMIME FILE kmime.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 ecm_generate_qdoc(KF6Mime kmime.qdocconf)
+
+ecm_add_installed_library_check(KF6Mime
+    PACKAGE_NAME "KF6Mime"
+    PACKAGE_TARGET_NAMESPACE "KF6::"
+)
+
+ecm_installed_library_check_include_strings(KF6Mime
+    HEADERS ${KMime_CamelCase_HEADERS}
+    PREFIX KMime
+)
+
+ecm_installed_library_check_version_preprocessor_macros(KF6Mime
+    PREFIX KMIME
+)

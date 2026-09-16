@@ -27,6 +27,7 @@ include(ECMGenerateQDoc)
 include(ECMCheckOutboundLicense)
 include(ECMPoQmTools)
 include(ECMFeatureSummary)
+include(ECMInstalledLibraryCheck)
 
 set(EXCLUDE_DEPRECATED_BEFORE_AND_AT 0 CACHE STRING "Control the range of deprecated API excluded from the build [default=0].")
 
