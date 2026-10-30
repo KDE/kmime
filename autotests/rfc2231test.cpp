@@ -8,7 +8,6 @@
 
 #include "rfc2231test.h"
 
-#include "util.h"
 #include <codecs.cpp>
 using namespace KMime;
 
