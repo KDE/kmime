@@ -10,7 +10,6 @@
 
 #include <QTest>
 
-#include "headerfactory_p.h"
 #include "headers.h"
 
 using namespace KMime;

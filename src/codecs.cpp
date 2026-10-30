@@ -9,7 +9,6 @@
 */
 
 #include "codecs_p.h"
-#include "kmime_debug.h"
 
 #include <KCodecs>
 

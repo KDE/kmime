@@ -13,10 +13,7 @@
 #include "headerfactory_p.h"
 #include "headers.h"
 #include "headers_p.h"
-#include "util.h"
 #include "util_p.h"
-#include "codecs_p.h"
-#include "kmime_debug.h"
 #include "warning_p.h"
 
 #include <KCodecs>

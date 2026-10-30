@@ -21,8 +21,6 @@
 #include "headerfactory_p.h"
 #include "headers.h"
 
-#include <algorithm>
-
 using namespace KMime;
 using namespace KMime::Headers;
 
