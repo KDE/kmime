@@ -37,7 +37,7 @@ namespace KMime
     namespace Types
     {
         // Optimization to avoid allocating QStrings when the value isn't encoded
-        struct KMIME_EXPORT QStringOrQPair {
+        struct KMIME_EXPORT QStringOrPair {
             QString qstring;
             QByteArrayView view;
         };
@@ -1252,7 +1252,7 @@ bool parseAddressList(const char *&scursor, const char *const send,
 }
 
 static bool parseParameter(const char *&scursor, const char *const send,
-                           QPair<QByteArray, QStringOrQPair> &result, NewlineType newline, ParserState &state)
+                           std::pair<QByteArray, QStringOrPair> &result, NewlineType newline, ParserState &state)
 {
     // parameter = regular-parameter / extended-parameter
     // regular-parameter = regular-parameter-name "=" value
@@ -1292,7 +1292,7 @@ static bool parseParameter(const char *&scursor, const char *const send,
                        "Chopping away \"*\".";
             maybeAttribute.chop(1);
         }
-        result = qMakePair(maybeAttribute.toByteArray().toLower(), QStringOrQPair());
+        result = std::make_pair(maybeAttribute.toByteArray().toLower(), QStringOrPair());
         return true;
     }
 
@@ -1301,7 +1301,7 @@ static bool parseParameter(const char *&scursor, const char *const send,
     //
     // parse the parameter value:
     //
-    QStringOrQPair maybeValue;
+    QStringOrPair maybeValue;
     if (*scursor == '"') {
         // value is a quoted-string:
         scursor++;
@@ -1316,24 +1316,24 @@ static bool parseParameter(const char *&scursor, const char *const send,
 
         if (!parseGenericQuotedString(scursor, send, maybeValue.qstring, newline, state)) {
             scursor = oldscursor;
-            result = qMakePair(maybeAttribute.toByteArray().toLower(), QStringOrQPair());
+            result = std::make_pair(maybeAttribute.toByteArray().toLower(), QStringOrPair());
             return false; // this case needs further processing by upper layers!!
         }
     } else {
         // value is a token:
         if (!parseToken(scursor, send, maybeValue.view, ParseTokenRelaxedTText)) {
             scursor = oldscursor;
-            result = qMakePair(maybeAttribute.toByteArray().toLower(), QStringOrQPair());
+            result = std::make_pair(maybeAttribute.toByteArray().toLower(), QStringOrPair());
             return false; // this case needs further processing by upper layers!!
         }
     }
 
-    result = qMakePair(maybeAttribute.toByteArray().toLower(), maybeValue);
+    result = std::make_pair(maybeAttribute.toByteArray().toLower(), maybeValue);
     return true;
 }
 
 static bool parseRawParameterList(const char *&scursor, const char *const send,
-                                  std::map<QByteArray, QStringOrQPair> &result,
+                                  std::map<QByteArray, QStringOrPair> &result,
                                   NewlineType newline, ParserState &state)
 {
     // we use parseParameter() consecutively to obtain a map of raw
@@ -1356,7 +1356,7 @@ static bool parseRawParameterList(const char *&scursor, const char *const send,
             scursor++;
             continue;
         }
-        QPair<QByteArray, QStringOrQPair> maybeParameter;
+        std::pair<QByteArray, QStringOrPair> maybeParameter;
         if (!parseParameter(scursor, send, maybeParameter, newline, state)) {
             // we need to do a bit of work if the attribute is not
             // NULL. These are the cases marked with "needs further
@@ -1505,7 +1505,7 @@ bool parseParameterListWithCharset(const char *&scursor,
                                    QByteArray &charset, ParserState &state, NewlineType newline)
 {
     // parse the list into raw attribute-value pairs:
-    std::map<QByteArray, QStringOrQPair> rawParameterList;
+    std::map<QByteArray, QStringOrPair> rawParameterList;
     if (!parseRawParameterList(scursor, send, rawParameterList, newline, state)) {
         return false;
     }
