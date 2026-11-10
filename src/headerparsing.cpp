@@ -37,7 +37,7 @@ namespace KMime
     namespace Types
     {
         // Optimization to avoid allocating QStrings when the value isn't encoded
-        struct KMIME_EXPORT QStringOrPair {
+        struct QStringOrPair {
             QString qstring;
             QByteArrayView view;
         };
